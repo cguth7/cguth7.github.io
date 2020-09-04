@@ -6,6 +6,7 @@ categories:
 sidebar:
   nav: "nav"
 toc: true
+toc_label: "TOC"
 tags:
   - Jekyll
   - update
