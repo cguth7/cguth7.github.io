@@ -5,6 +5,7 @@ categories:
   - blog
 sidebar:
   nav: "nav"
+toc: true
 tags:
   - Jekyll
   - update
