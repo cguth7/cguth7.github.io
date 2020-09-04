@@ -7,6 +7,7 @@ sidebar:
   nav: "nav"
 toc: true
 toc_label: "TOC"
+author_profile: false
 tags:
   - Jekyll
   - update
