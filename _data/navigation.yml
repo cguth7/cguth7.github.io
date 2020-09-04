@@ -10,57 +10,57 @@ main:
 nav:
   - title: Background
     children:
-      - title: "Poker Background"
+      - title: "-Poker Background"
         url: /poker_background
-      - title: "History of Solving Poker"
+      - title: "-History of Solving Poker"
         url: /history
 
   - title: Game Theory
     children:
-      - title: "Game Theory Foundation"
+      - title: "-Game Theory Foundation"
         url: /gametheory
-      - title: "Trees in Games"
+      - title: "-Trees in Games"
         url: /trees
 
   - title: Toy Poker Games
     children:
-      - title: "Solving Toy Poker Games"
+      - title: "-Solving Toy Poker Games"
         url: /toy_games
-      - title: "Implementing in Python"
+      - title: "-Implementing in Python"
         url: /toy_games_python
         
   - title: Counterfactual Regret Minimization (CFR)
     children:
-      - title: "The CFR Algorithm"
+      - title: "-The CFR Algorithm"
         url: /cfr
-      - title: "Implementing in Python"
+      - title: "-Implementing in Python"
         url: /cfr_python
-      - title: "Game Abstractions"
+      - title: "-Game Abstractions"
         url: /abstractions
-      - title: "Agent Evaluation"
+      - title: "-Agent Evaluation"
         url: /evaluation
-      - title: "CFR Advances"
+      - title: "-CFR Advances"
         url: /cfr_advances
         
   - title: Top Poker Agents
     children:
-      - title: "Solving Toy Poker Games"
+      - title: "-Solving Toy Poker Games"
         url: /agents
-      - title: "AI vs. Human Competitions"
+      - title: "-AI vs. Human Competitions"
         url: /ai_vs_human
 
   - title: Other Topics
     children:
-      - title: "Multiplayer Poker Games"
+      - title: "-Multiplayer Poker Games"
         url: /multplayer
-      - title: "Opponent Exploitation"
+      - title: "-Opponent Exploitation"
         url: /exploitation
-      - title: "Other Games"
+      - title: "-Other Games"
         url: /other_games
         
   - title: About
     children:
-      - title: "Written by Max Chiswick"
+      - title: "-Written by Max Chiswick"
         url: /about
-      - title: "Winning Poker Strategy for Kids"
+      - title: "-Winning Poker Strategy for Kids"
         url: https://www.winningpokerstrategyforkids.com
