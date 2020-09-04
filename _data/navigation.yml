@@ -7,3 +7,60 @@ main:
     url: /tags/
   - title: "About"
     url: /about/
+nav:
+  - title: Background
+    children:
+      - title: "Poker Background"
+        url: /poker_background
+      - title: "History of Solving Poker"
+        url: /history
+
+  - title: Game Theory
+    children:
+      - title: "Game Theory Foundation"
+        url: /gametheory
+      - title: "Trees in Games"
+        url: /trees
+
+  - title: Toy Poker Games
+    children:
+      - title: "Solving Toy Poker Games"
+        url: /toy_games
+      - title: "Implementing in Python"
+        url: /toy_games_python
+        
+  - title: Counterfactual Regret Minimization (CFR)
+    children:
+      - title: "The CFR Algorithm"
+        url: /cfr
+      - title: "Implementing in Python"
+        url: /cfr_python
+      - title: "Game Abstractions"
+        url: /abstractions
+      - title: "Agent Evaluation"
+        url: /evaluation
+      - title: "CFR Advances"
+        url: /cfr_advances
+        
+  - title: Top Poker Agents
+    children:
+      - title: "Solving Toy Poker Games"
+        url: /agents
+      - title: "AI vs. Human Competitions"
+        url: /ai_vs_human
+
+  - title: Other Topics
+    children:
+      - title: "Multiplayer Poker Games"
+        url: /multplayer
+      - title: "Opponent Exploitation"
+        url: /exploitation
+      - title: "Other Games"
+        url: /other_games
+        
+  - title: About
+    children:
+      - title: "Written by Max Chiswick"
+        url: /about
+      - title: "Winning Poker Strategy for Kids"
+        url: https://www.winningpokerstrategyforkids.com
