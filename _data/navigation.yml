@@ -59,10 +59,3 @@ nav:
         url: /other_games
       - title: "-Decision-making Lessons"
         url: /decision-making
-        
-  - title: About
-    children:
-      - title: "-Written by Max Chiswick"
-        url: /about
-      - title: "-Winning Poker Strategy for Kids"
-        url: https://www.winningpokerstrategyforkids.com
