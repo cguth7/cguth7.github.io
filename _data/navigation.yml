@@ -44,7 +44,7 @@ nav:
         
   - title: Top Poker Agents
     children:
-      - title: "-Solving Toy Poker Games"
+      - title: "-Top Agents and Research"
         url: /agents
       - title: "-AI vs. Human Competitions"
         url: /ai_vs_human
