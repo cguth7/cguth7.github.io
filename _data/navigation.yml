@@ -57,6 +57,8 @@ nav:
         url: /exploitation
       - title: "-Other Games"
         url: /other_games
+      - title: "-Decision-making Lessons"
+        url: /decision-making
         
   - title: About
     children:
