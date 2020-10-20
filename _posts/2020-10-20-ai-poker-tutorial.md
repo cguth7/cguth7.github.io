@@ -1,16 +1,11 @@
 ---
 title: "AI Poker Tutorial"
 date: 2020-10-20
-categories:
-  - blog
 sidebar:
   nav: "nav"
 toc: true
 toc_label: "TOC"
 author_profile: false
-tags:
-  - Jekyll
-  - update
 ---
 
 $$a + b = \epsilon$$
