@@ -1,9 +1,27 @@
+---
+title: "AIPT Section 2: Game Theory"
+date: 2020-10-20
+sidebar:
+  nav: "nav"
+toc: true
+toc_label: "TOC"
+author_profile: false
+---
+
 # Game Theory
 Let's look at some important game theory concepts before we get into actually solving for poker strategies. 
 
-What does it mean to "solve" a poker game? In the 2-player setting, this means to find a **Nash Equilibrium strategy** (aka GTO strategy) for the game. If both players are playing this strategy, then neither would want to change to a different strategy since neither could do better with any other strategy (assuming that the opponent's strategy stays fixed). 
+What does it mean to "solve" a poker game? In the 2-player setting, this means to find a **Nash Equilibrium strategy** (aka GTO strategy) for the game. By definition, if both players are playing this strategy, then neither would want to change to a different strategy since neither could do better with any other strategy (assuming that the opponent's strategy stays fixed). 
 
-Intuition for this in poker can be explained using a simple all-in game where one player must either fold or bet all his chips and the second player must either call or fold if the first player bets all the chips. In this scenario, the second player may begin the game with a strategy of calling a low percentage of hands. After seeing the first player go all-in very frequently, he may increase that percentage. This could lead the first player to reduce his all-in percentage. Once the all-in percentage and the call percentage stabilize such that neither player can unilaterally change his strategy to increase his profit, then the equilibrium strategies have been reached.
+Intuition for this in poker can be explained using a simple all-in game where one player must either fold or bet all his chips and the second player must either call or fold if the first player bets all the chips. There are three possible outcomes:
+
+| Scenarios  | Player 1 (SB)  | Player 2 (BB) | Result |
+|---|---|---|---|
+| Case 1 | Fold  | --  | P2 wins 0.5 BB
+| Case 2 | All-in  | Fold  | P1 wins 1 BB
+| Case 3 | All-in  | Call  | Winner of showdown wins 20 BB
+
+In this scenario, the second player may begin the game with a strategy of calling a low percentage of hands. After seeing the first player go all-in very frequently, he may increase that percentage. This could lead the first player to reduce his all-in percentage. Once the all-in percentage and the call percentage stabilize such that neither player can unilaterally change his strategy to increase his profit, then the equilibrium strategies have been reached.
 
 We can use the ICMIZER program to compute the game theory optimal strategies in a 1v1 setting where both players start the hand with 10 big blinds. In this case, the small blind goes allin 58% of the time and the big blind calls 37% of the time. If either player changed those percentages, then their EV would go down! 
 
@@ -26,7 +44,7 @@ Given this table, how can we determine the best actions for each player? P1 is r
 
 A dominated strategy is one that is strictly worse than an alternative strategy. We can see that Player 1's strategy of Action 1 dominates Actions 2 and 3 because all of the values are strictly higher for Action 1. Regardless of Player 2's action, Player 1's Action 1 always has better results than Action 2 or 3. 
 
-![Dominated strategies](./assets/aipokertutorial/gametheory/dominatedstrategies.png)
+![Dominated strategies](../assets/section2/gametheory/dominatedstrategies.png)
 
 When P2 chooses Action 1, P1 earns 10 with Action 1, 5 with Action 2, and 7 with Action 3
 When P2 chooses Action 2, P1 earns 8 with Action 1, 4 with Action 2, and 5 with Action 3
