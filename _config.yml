@@ -61,21 +61,21 @@ author:
   name   : "Max Chiswick"
   avatar : "/assets/images/bio-photo.jpg"
   bio    : "I played high-volume online poker professionally until 2013, including playing 3 million hands in 2009. 
-  Then I studied AI poker in my master's degree, with a thesis on abstracting large games to small games to make them solvable. 
+  Then I studied AI poker for my master's degree, with a thesis on abstracting large games to small games to make them solvable. 
   The purpose of this tutorial is to share what I learned from those two experiences."
   links:
-    - label: "Website"
+    - label: "Personal website"
       icon: "fas fa-fw fa-link"
-      url: "https://"
+      url: "https://www.maxchiswick.com"
     - label: "Twitter"
       icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/"
+      url: "https://twitter.com/chisness"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      url: "https://instagram.com/"
+      url: "https://github.com/chisness/aipokertutorial"
+#     - label: "Instagram"
+#       icon: "fab fa-fw fa-instagram"
+#       url: "https://instagram.com/"
 
 footer:
   links:
