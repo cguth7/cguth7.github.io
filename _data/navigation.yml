@@ -22,17 +22,14 @@ nav:
       - title: "-Trees in Games"
         url: /trees
 
-  - title: Toy Poker Games
-    children:
-      - title: "-Solving Toy Poker Games"
-        url: /toy_games
-      - title: "-Implementing in Python"
-        url: /toy_games_python
-        
-  - title: Solving Texas Hold'em
+  - title: Solving Poker
     children:
       - title: "-What is Solving?"
         url: /what_solving
+      - title: "-Toy Poker Games"
+        url: /toy_games
+      - title: "-Implementing in Python"
+        url: /toy_games_python
       - title: "-Solver Software"
         url: /solvers
       - title: "-Solver Examples"
