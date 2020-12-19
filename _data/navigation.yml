@@ -31,11 +31,11 @@ nav:
         
   - title: Solving Texas Hold'em
     children:
-      - title: "-What is solving?"
+      - title: "-What is Solving?"
         url: /what_solving
-      - title: "-Solver software"
+      - title: "-Solver Software"
         url: /solvers
-      - title: "-Solver examples"
+      - title: "-Solver Examples"
         url: /solver_examples
         
   - title: Counterfactual Regret Minimization (CFR)
