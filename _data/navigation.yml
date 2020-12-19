@@ -29,6 +29,15 @@ nav:
       - title: "-Implementing in Python"
         url: /toy_games_python
         
+  - title: Solving Texas Hold'em
+    children:
+      - title: "-What is solving?"
+        url: /what_solving
+      - title: "-Solver software"
+        url: /solvers
+      - title: "-Solver examples"
+        url: /solver_examples
+        
   - title: Counterfactual Regret Minimization (CFR)
     children:
       - title: "-The CFR Algorithm"
