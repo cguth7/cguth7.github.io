@@ -107,7 +107,7 @@ Given this table, how can we determine the best actions for each player? Again, 
 We can see that Player 1's strategy of Action 1 dominates Actions 2 and 3 because all of the values are strictly higher for Action 1. Regardless of Player 2's action, Player 1's Action 1 always has better results than Action 2 or 3. 
 
 **Fix image, maybe add more too** 
-![Dominated strategies](../assets/section2/gametheory/dominatedstrategies.png)
+![Dominated strategies](../section2/gametheory/dominatedstrategies.png)
 
 When P2 chooses Action 1, P1 earns 10 with Action 1, 5 with Action 2, and 7 with Action 3
 When P2 chooses Action 2, P1 earns 8 with Action 1, 4 with Action 2, and 5 with Action 3
@@ -322,9 +322,9 @@ Depending on the run and how the regrets accumulate, the regret matching can fig
 
 The plots show the current strategy and average strategy over time of each of rock (green), paper (purple), and scissors (blue). These are on a 0 to 1 scale on the left axis. The black line measures the profit (aka rewards) on the right axis. The top plot shows how the algorithm can sometimes "catch on" very fast and almost immediately switch to always playing paper, while the second shows it taking about 1,500 games to figure that out. 
 
-<img src="/assets/rps_fast1.png" width="500">
+<img src="./assets/rps_fast1.png" width="500">
 
-<img src="/assets/rps_slow1.png" width="500">
+<img src="./assets/rps_slow1.png" width="500">
 
 **Add automation/make clearer, other stuff from RPS**
 
