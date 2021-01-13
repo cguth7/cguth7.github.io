@@ -4,7 +4,7 @@ layout: splash
 permalink: /splash-page/
 
 feature_row2:
-  - image_path: /assets/images/bio-photo.jpg
+  - image_path: ../assets/images/bio-photo.jpg
     alt: "placeholder image 2"
     title: "Placeholder Image Left Aligned"
     excerpt: 'This is some sample content that goes here with **Markdown** formatting. Left aligned with `type="left"`'
