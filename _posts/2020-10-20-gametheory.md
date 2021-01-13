@@ -5,7 +5,7 @@ sidebar:
   nav: "nav"
 toc: true
 toc_label: "TOC"
-toc_sticky: false
+toc_sticky: true
 author_profile: false
 ---
 
