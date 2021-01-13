@@ -322,9 +322,9 @@ Depending on the run and how the regrets accumulate, the regret matching can fig
 
 The plots show the current strategy and average strategy over time of each of rock (green), paper (purple), and scissors (blue). These are on a 0 to 1 scale on the left axis. The black line measures the profit (aka rewards) on the right axis. The top plot shows how the algorithm can sometimes "catch on" very fast and almost immediately switch to always playing paper, while the second shows it taking about 1,500 games to figure that out. 
 
-<img src="../assets/gametheory/rps_fast1.png" width="500">
+<img src="../assets/section2/gametheory/rps_fast1.png" width="500">
 
-<img src="../assets/gametheory/rps_slow1.png" width="500">
+<img src="../assets/section2/gametheory/rps_slow1.png" width="500">
 
 **Add automation/make clearer, other stuff from RPS**
 
