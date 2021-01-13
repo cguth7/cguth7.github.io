@@ -335,7 +335,7 @@ A basic setting initializes each arm with $$ q_*(\text{arm}) = \mathcal{N}(0, 1)
 
 To clarify, this means each arm gets an initial value centered around 0 but with some variance, so each will be a bit different. Then from that point, the actual pull of an arm is centered around that new point as seen in this figure with a 10-armed bandit from Intro to Reinforcement Learning by Sutton and Barto:
 
-![Bandit setup](banditsetup.png)
+![Bandit setup](../assets/section2/gametheory/banditsetup.png)
 
 In simple terms, each machine has some set value that isn't completely fixed at that value, but rather varies slightly around it, so a machine with a value of 3 might range from 2.5 to 3.5. 
 
