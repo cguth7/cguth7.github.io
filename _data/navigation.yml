@@ -58,7 +58,7 @@ nav:
   - title: Other Topics
     children:
       - title: "-Multiplayer Poker Games"
-        url: /multplayer
+        url: /multiplayer
       - title: "-Opponent Exploitation"
         url: /exploitation
       - title: "-Other Games"
