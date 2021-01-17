@@ -3,6 +3,9 @@ title: "About"
 permalink: /about
 sidebar:
   nav: "nav"
+toc: true
+toc_label: "TOC"
+toc_sticky: true
 ---
 
 ![Me](./assets/images/bio-photo.jpg)
