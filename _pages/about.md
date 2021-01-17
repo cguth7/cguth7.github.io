@@ -4,7 +4,7 @@ permalink: /about
 ---
 
 ![Me](./assets/images/bio-photo.jpg)
-<center>*Grinding (and not shaving) in 2009*</center>
+*Grinding (and not shaving) in 2009*
 
 Welcome to the AI Poker Tutorial written by Max Chiswick!
 
