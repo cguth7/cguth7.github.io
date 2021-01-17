@@ -3,7 +3,7 @@ title: "About"
 permalink: /about
 ---
 
-![Me](/assets/images/bio-photo.jpg)
+![Me](./assets/images/bio-photo.jpg)
 *Grinding (and not shaving) in 2009*
 
 Welcome to the AI Poker Tutorial written by Max Chiswick!
