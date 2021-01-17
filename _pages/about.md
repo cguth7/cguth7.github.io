@@ -1,6 +1,8 @@
 ---
 title: "About"
 permalink: /about
+sidebar:
+  nav: "nav"
 ---
 
 ![Me](./assets/images/bio-photo.jpg)
