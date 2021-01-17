@@ -1,7 +1,6 @@
 ---
 title: "Welcome to the AIPT"
 permalink: /
-layout: splash
 sidebar:
   nav: "nav"
 toc: true
