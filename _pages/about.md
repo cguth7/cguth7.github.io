@@ -1,8 +1,6 @@
 ---
-layout: post
 title: "About"
-author: "Max"
-permalink: /about/
+permalink: /about
 ---
 
 ![Me](/assets/images/bio-photo.jpg)
