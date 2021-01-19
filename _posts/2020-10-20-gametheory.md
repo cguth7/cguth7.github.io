@@ -70,7 +70,7 @@ In a 1v1 poker game, the sum of the payouts in each box are 0 since whatever one
 | All-in  | EV of all-in, -EV of all-in  | 1, -1  |
 | Fold  | -0.5, 0.5  | -0.5, 0.5  | 
 
-If Player 1 has JT offsuit and Player 2 has AK offsuit, the numbers are as below. The all-in call scenario has -2.5 for Player 1 and 2.5 for Player 2 because the hand odds are about 37.5% for Player 1 and 62.5% for Player 2, meaning that Player 1's equity in a $20 pot is about $7.50 and Player 2's equity is about $12.50, so the net expected profit is -$2.50 and $2.50, respectively. 
+If Player 1 has JT offsuit and Player 2 has AK offsuit, the numbers are as below. The all-in call scenario has -2.5 for Player 1 and 2.5 for Player 2 because the hand odds are about 37.5% for Player 1 and 62.5% for Player 2, meaning that Player 1's equity in a \$20 pot is about \$7.50 and Player 2's equity is about $12.50, so the net expected profit is -$2.50 and $2.50, respectively. 
 
 | All-in Player/Call Player  | Call | Fold |
 |---|---|---|---|
@@ -140,6 +140,8 @@ To summarize, Player 1 always plays Action 1 because it dominates Actions 2 and 
 
 ### Tennis vs. Power Rangers 
 In this game, we have two people who are going to watch something together. P1 has a preference to watch tennis and P2 prefers Power Rangers. If they don't agree, then they won't watch anything and will have payouts of 0. If they do agree, then the person who gets to watch their preferred show has a higher reward than the other, but both are positive. 
+
+**pure strategy nash equilibrium 2 of them, also mixed strategy**
 
 | P1/2  | Tennis  | Power Rangers   |
 |---|---|---|
