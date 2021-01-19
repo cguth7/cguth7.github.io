@@ -389,4 +389,4 @@ The average regret plot is the inverse of the reward plot because it is the best
 **Upper Confidence Bound (UCB)** 
 There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). 
 
-$$ \A_t = \argmax_a [Q_t(a) + c\sqrt{frac{log{t}}{N_t(a)}] $$ 
+$$ A_t = argmax_a [Q_t(a) + c*sqrt{frac{log{t}}{N_t(a)}] $$ 
