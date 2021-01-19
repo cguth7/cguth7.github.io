@@ -70,7 +70,7 @@ In a 1v1 poker game, the sum of the payouts in each box are 0 since whatever one
 | All-in  | EV of all-in, -EV of all-in  | 1, -1  |
 | Fold  | -0.5, 0.5  | -0.5, 0.5  | 
 
-If Player 1 has JT offsuit and Player 2 has AK offsuit, the numbers are as below. The all-in call scenario has -2.5 for Player 1 and 2.5 for Player 2 because the hand odds are about 37.5% for Player 1 and 62.5% for Player 2, meaning that Player 1's equity in a \$20 pot is about \$7.50 and Player 2's equity is about $12.50, so the net expected profit is -$2.50 and $2.50, respectively. 
+If Player 1 has JT offsuit and Player 2 has AK offsuit, the numbers are as below. The all-in call scenario has -2.5 for Player 1 and 2.5 for Player 2 because the hand odds are about 37.5% for Player 1 and 62.5% for Player 2, meaning that Player 1's equity in a \\$20 pot is about \\$7.50 and Player 2's equity is about $12.50, so the net expected profit is -\\$2.50 and \\$2.50, respectively. 
 
 | All-in Player/Call Player  | Call | Fold |
 |---|---|---|---|
