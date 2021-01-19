@@ -141,8 +141,6 @@ To summarize, Player 1 always plays Action 1 because it dominates Actions 2 and 
 ### Tennis vs. Power Rangers 
 In this game, we have two people who are going to watch something together. P1 has a preference to watch tennis and P2 prefers Power Rangers. If they don't agree, then they won't watch anything and will have payouts of 0. If they do agree, then the person who gets to watch their preferred show has a higher reward than the other, but both are positive. 
 
-**pure strategy nash equilibrium 2 of them, also mixed strategy**
-
 | P1/2  | Tennis  | Power Rangers   |
 |---|---|---|
 | Tennis  | 3, 2  | 0, 0  |
@@ -150,7 +148,9 @@ In this game, we have two people who are going to watch something together. P1 h
 
 In this case, neither player can eliminate a strategy. For Player 1, if Player 2 chooses Tennis then he also prefers Tennis, but if Player 2 chooses Power Rangers, then he prefers Power Rangers as well (both of these are Nash Equilbrium). This is intuitive (if the people really like TV) because there is 0 value in watching nothing but at least some value if both agree to watch one thing. This also shows the Nash equilibrium principle of not being able to benefit from **unilaterally** changing strategies -- if both are watching tennis and P2 changes to Power Rangers, that change would reduce value from 2 to 0! 
 
-So what is the optimal strategy here? If each player simply picked their preference, then they'd always watch nothing and get 0! If they both always picked their non-preference, then the same thing would happen! We can calculate the optimal strategies like this: 
+So what is the optimal strategy here? If each player simply picked their preference, then they'd always watch nothing and get 0! If they both always picked their non-preference, then the same thing would happen! If they pre-agreed to either Tennis or Power Rangers, then utilties would increase, but this would never be "fair" to either person. 
+
+We can calculate the optimal strategies like this: 
 
 Let's call $$P(P1 Tennis) = p$$ and $$P(P1 Power Rangers) = 1 - p$$. These represent the probability that Player 1 would select each of these. 
 
@@ -170,6 +170,8 @@ $$ p = 3/5$$
 
 Therefore Player 1's strategy is to choose Tennis $$p = 3/5$$ and Power Rangers $$1 - p = 2/5$$. This is a mixed strategy equilibrium because there is a probability distribution over which strategy to play. 
 
+This result comes about because these are the probabilities for P1 that induce P2 to be indifferent between Tennis and Power Rangers. 
+
 By symmetry, P2's strategy is to choose Tennis $$2/5$$ and Power Rangers $$3/5$$.
 
 This means that each player is choosing his/her chosen program $$3/5$$ of the time, while choosing the other option $$2/5$$ of the time. Let's see how the final outcomes look. 
@@ -186,9 +188,9 @@ These probabilities are shown below (this is not a normal form matrix because we
 | Tennis  | 6/25  | 9/25  |
 | Power Rangers  | 4/25  | 6/25  |
 
-The average payouts to each player are $$6/25 * (3) + 6/25 * (2) = 30/25 = 1.2$$. This would have been higher if they had avoided the 0,0 payouts! Unfortunately $$9/25 + 4/25 = 13/25$$ of the time, the payouts were 0 to each player. 
+The average payouts to each player are $$6/25 * (3) + 6/25 * (2) = 30/25 = 1.2$$. This would have been higher if they had avoided the 0,0 payouts! Unfortunately $$9/25 + 4/25 = 13/25$$ of the time, the payouts were 0 to each player. Coordinating to watch *something* rather than so often watching nothing would be a much better solution! 
 
-What if Player 1 decided to be sneaky and change his strategy to choosing tennis always instead of 3/5 tennis and 2/5 Power Rangers? Remember that there should be no benefit to deviating from a Nash Equilibrium strategy by definition. If he tries this, then we have the following likelihoods since P1 is never choosing Power Rangers and so the probabilities are determined strictly by P2's strategy of 2/5 tennis and 3/5 Power Rangers: 
+What if Player 1 decided to be sneaky and change his strategy to choosing Tennis always instead of 3/5 tennis and 2/5 Power Rangers? Remember that there should be no benefit to deviating from a Nash Equilibrium strategy by definition. If he tries this, then we have the following likelihoods since P1 is never choosing Power Rangers and so the probabilities are determined strictly by P2's strategy of 2/5 tennis and 3/5 Power Rangers: 
 
 | P1/2  | Tennis  | Power Rangers   |
 |---|---|---|
@@ -304,11 +306,11 @@ The regret matching algorithm works like this:
 1. Initialize regret for each action to 0
 2. Set the strategy as: 
 $$
-\text{strategy\_action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 positive regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases}
+\text{strategy_{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases}
 $$
 3. Accumulate regrets after each game and update the strategy
 
-So let's consider Player 1 playing a fixed RPS strategy of Rock 40%, Paper 30%, Scissors 30% and Player 2 playing using regret matching. So Player 1 is playing almost the equilibrium strategy, but a little bit biased on favor of Rock. 
+Let's consider Player 1 playing a fixed RPS strategy of Rock 40%, Paper 30%, Scissors 30% and Player 2 playing using regret matching. So Player 1 is playing almost the equilibrium strategy, but a little bit biased on favor of Rock. 
 
 Let's look at a sequence of plays in this scenario that were generated randomly.
 
@@ -331,15 +333,15 @@ Depending on the run and how the regrets accumulate, the regret matching can fig
 
 The plots show the current strategy and average strategy over time of each of rock (green), paper (purple), and scissors (blue). These are on a 0 to 1 scale on the left axis. The black line measures the profit (aka rewards) on the right axis. The top plot shows how the algorithm can sometimes "catch on" very fast and almost immediately switch to always playing paper, while the second shows it taking about 1,500 games to figure that out. 
 
-<img src="../assets/section2/gametheory/rps_fast1.png" width="500">
+<img src="../assets/section2/gametheory/rps_fast1.png">
 
-<img src="../assets/section2/gametheory/rps_slow1.png" width="500">
+<img src="../assets/section2/gametheory/rps_slow1.png">
 
 ### Regret in Poker 
 The regret matching algorithm is at the core of selecting actions in the algorithms used to solve poker games. We will go into more detail in the CFR Algorithm section. 
 
 ### Bandits
-A common way to analyzing regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) 
+A common way to analyze regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) 
 
 A basic setting initializes each of 10 arms with $$ q_*(\text{arm}) = \mathcal{N}(0, 1) $$, so each is initialized with a center point found from the Gaussian distribution. Each pull of an arm then gets a reward of $$ R = \mathcal{N}(q_*(\text{arm}), 1) $$. 
 
