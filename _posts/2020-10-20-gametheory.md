@@ -190,7 +190,7 @@ These probabilities are shown below (this is not a normal form matrix because we
 
 The average payouts to each player are $$6/25 * (3) + 6/25 * (2) = 30/25 = 1.2$$. This would have been higher if they had avoided the 0,0 payouts! Unfortunately $$9/25 + 4/25 = 13/25$$ of the time, the payouts were 0 to each player. Coordinating to watch *something* rather than so often watching nothing would be a much better solution! 
 
-What if Player 1 decided to be sneaky and change his strategy to choosing Tennis always instead of 3/5 tennis and 2/5 Power Rangers? Remember that there should be no benefit to deviating from a Nash Equilibrium strategy by definition. If he tries this, then we have the following likelihoods since P1 is never choosing Power Rangers and so the probabilities are determined strictly by P2's strategy of 2/5 tennis and 3/5 Power Rangers: 
+What if Player 1 decided to be sneaky and change his strategy to choosing Tennis always instead of 3/5 tennis and 2/5 Power Rangers? Remember that there can be no benefit to deviating from a Nash Equilibrium strategy by definition. If he tries this, then we have the following likelihoods since P1 is never choosing Power Rangers and so the probabilities are determined strictly by P2's strategy of 2/5 tennis and 3/5 Power Rangers: 
 
 | P1/2  | Tennis  | Power Rangers   |
 |---|---|---|
@@ -366,22 +366,27 @@ The goal of the agent playing this game is to get the best reward. This is done 
 
 $$ \text{Regret}_t = \frac{1}{t} \sum_{\tau=1}^t (V^* - Q(a_\tau)) $$ 
 
-where $$ V^* $$ is the fixed reward from the best action, $$ Q(a_\tau)) $$ is the reward from selecting arm $$ a $$ at timestep $$ \tau $$, and $$ t $$ is the total number of timesteps. 
+where $$ V^* $$ is the fixed reward from the best action, $$ Q(a_\tau) $$ is the reward from selecting arm $$ a $$ at timestep $$ \tau $$, and $$ t $$ is the total number of timesteps. 
 
 In words, this is the average of how much worse we have done than the best possible action over the number of timesteps. 
 
 So if the best action would give a value of 5 and our rewards on our first 3 pulls were {3, 5, 1}, our regrets would be {5-3, 5-5, 5-1} = {2, 0, 4}, for an average of 2. So an equivalent to trying to maximize rewards is trying to minimize regret. 
 
+Note that above we said that the idea was to maximize regret and that we'd play actions in proportion to the regrets with regret matching. Now we're trying to minimize regret. This is confusing and regret can be interpreted in both ways depending on the situation. 
+
 For values of $$\epsilon = 0$$ (greedy), $$\epsilon = 0.01$$, $$\epsilon = 0.1$$, and $$\epsilon = 0.5$$ and using the setup described above, we have averaged 2,000 runs of 1,000 timesteps each. 
 
 ![Bandit average reward](../assets/section2/gametheory/bandits_avg_reward.png)
+*Average reward plot*
 
 For the average reward plot, we see that the optimal $$\epsilon$$ amongst those used is 0.1, next best is 0.01, then 0, and then 0.5. This shows that some exploration is valuable, but too much (0.5) or too little (0) is not optimal.  
 
 ![Bandit average regret](../assets/section2/gametheory/bandits_avg_regret.png)
+*Average regret plot*
 
 The average regret plot is the inverse of the reward plot because it is the best possible reward minus the actual rewards received and so the goal is to minimize the regret. 
 
 **Upper Confidence Bound (UCB)** 
-There are many algorithms for choosing bandit arms. The last one we'll touch on is the Upper Confidence Bound (UCB). 
+There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). 
 
+$$ \A_t = \argmax_a [Q_t(a) + c\sqrt{frac{log{t}}{N_t(a)}] $$ 
