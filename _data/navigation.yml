@@ -57,5 +57,5 @@ nav:
         url: /exploitation
       - title: "-Other Games"
         url: /other_games
-      - title: "-Decision Making Lessons"
-        url: /decision_making
+      # - title: "-Decision Making Lessons"
+      #   url: /decision_making
