@@ -30,10 +30,8 @@ nav:
         url: /toy_games
       - title: "-Implementing in Python"
         url: /toy_games_python
-      - title: "-Solver Software"
+      - title: "-Using Solvers"
         url: /solvers
-      - title: "-Solver Examples"
-        url: /solver_examples
         
   - title: Counterfactual Regret Minimization (CFR)
     children:

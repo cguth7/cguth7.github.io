@@ -197,7 +197,7 @@ What if Player 1 decided to be sneaky and change his strategy to choosing Tennis
 | Tennis  | 2/5  | 3/5  |
 | Power Rangers  | 0  | 0  |
 
-The Tennis and Power Rangers 3/5 has no payoffs and the Tennis Tennis has a payoff of of $$2/5 * 3 = 6/5 = 1.2$$ for P1. This is the same as the payout he was already getting. Note that deviating from the equilibrium *can* maintain the same payoff, but cannot improve the payoffs. 
+The Tennis and Power Rangers 3/5 has no payoffs and the Tennis Tennis has a payoff of of $$2/5 * 3 = 6/5 = 1.2$$ for P1. This is the same as the payout he was already getting. Note that deviating from the equilibrium *can* maintain the same payoff, but cannot improve the payoffs. In the zero-sum case, the opponent also can only do better or equal when a player deviates, but in this case Player 2 actually has a lowe rpayoff of $$2/5 * 2 = 0.8$$ instead of $$1.2$$. 
 
 However, P2 might catch on to this and then get revenge by pulling the same trick and changing strategy to always selecting Power Rangers, resulting in the following probabilities: 
 
