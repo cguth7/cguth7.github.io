@@ -8,54 +8,54 @@ main:
   - title: "About"
     url: /about
 nav:
-  - title: Background
+  - title: 1. Background
     children:
-      - title: "-Poker Background"
+      - title: "1.1: Poker Background"
         url: /poker-background
-      - title: "-History of Solving Poker"
+      - title: "1.2: History of Solving Poker"
         url: /history-of-solving-poker
 
-  - title: Game Theory
+  - title: 2. Game Theory
     children:
-      - title: "-Game Theory Foundation"
+      - title: "2.1: Game Theory Foundation"
         url: /game-theory-foundation
-      - title: "-Trees in Games"
+      - title: "2.2: Trees in Games"
         url: /trees-in-games
 
-  - title: Solving Poker
+  - title: 3. Solving Poker
     children:
-      - title: "-What is Solving?"
+      - title: "3.1: What is Solving?"
         url: /what-is-solving
-      - title: "-Toy Poker Games"
+      - title: "3.2: Toy Poker Games"
         url: /toy-poker-games
-      - title: "-Using Solvers"
+      - title: "3.3: Using Solvers"
         url: /using-solvers
         
-  - title: Counterfactual Regret Minimization (CFR)
+  - title: 4. Counterfactual Regret Minimization (CFR)
     children:
-      - title: "-The CFR Algorithm"
+      - title: "4.1: The CFR Algorithm"
         url: /the-cfr-algorithm
-      - title: "-Game Abstractions"
+      - title: "4.2: Game Abstractions"
         url: /game-abstractions
-      - title: "-Agent Evaluation"
+      - title: "4.3: Agent Evaluation"
         url: /agent-evaluation
-      - title: "-CFR Advances"
+      - title: "4.4: CFR Advances"
         url: /cfr-advances
         
-  - title: Top Poker Agents
+  - title: 5. Top Poker Agents
     children:
-      - title: "-Top Agents and Research"
+      - title: "5.1: Top Agents and Research"
         url: /top-agents-and-research
-      - title: "-AI vs. Human Competitions"
+      - title: "5.2: AI vs. Human Competitions"
         url: /ai-vs-human-competitions
 
-  - title: Other Topics
+  - title: 6. Other Topics
     children:
-      - title: "-Multiplayer Poker Games"
+      - title: "6.1: Multiplayer Poker Games"
         url: /multiplayer-poker-games
-      - title: "-Opponent Exploitation"
+      - title: "6.2: Opponent Exploitation"
         url: /opponent-exploitation
       # - title: "-Other Games"
       #   url: /other_games
-      - title: "-Decision Making Lessons"
+      - title: "6.3: Decision Making Lessons"
         url: /decision-making-lessons
