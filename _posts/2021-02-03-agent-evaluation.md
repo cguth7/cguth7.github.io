@@ -1,6 +1,6 @@
 ---
-title: "AIPT Section 2.2: Game Theory -- Trees in Games"
-date: 2021-02-03
+title: "AIPT Section 4.3: CFR -- Agent Evaluation"
+date: 2020-10-20
 sidebar:
   nav: "nav"
 toc: true

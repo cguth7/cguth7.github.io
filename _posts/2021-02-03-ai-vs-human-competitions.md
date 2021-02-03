@@ -1,5 +1,5 @@
 ---
-title: "AIPT Section 2.2: Game Theory -- Trees in Games"
+title: "AIPT Section 5.1: Top Poker Agents -- AI vs. Human Competitions"
 date: 2021-02-03
 sidebar:
   nav: "nav"

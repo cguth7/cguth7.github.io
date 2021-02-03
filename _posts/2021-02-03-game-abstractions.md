@@ -1,5 +1,5 @@
 ---
-title: "AIPT Section 2.2: Game Theory -- Trees in Games"
+title: "AIPT Section 4.2: CFR -- Game Abstractions"
 date: 2020-10-20
 sidebar:
   nav: "nav"

@@ -1,6 +1,6 @@
 ---
-title: "AIPT Section 3.1: Solving Poker -- Toy Poker Games"
-date: 2021-01-09
+title: "AIPT Section 3.2: Solving Poker -- Toy Poker Games"
+date: 2021-02-03
 sidebar:
   nav: "nav"
 toc: true

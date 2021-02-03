@@ -1,6 +1,6 @@
 ---
-title: "AIPT Section 2.2: Game Theory -- Trees in Games"
-date: 2020-10-20
+title: "AIPT Section 6.1: Other Topics -- Decision Making Lessons"
+date: 2021-02-03
 sidebar:
   nav: "nav"
 toc: true
