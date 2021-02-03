@@ -18,18 +18,18 @@ nav:
   - title: Game Theory
     children:
       - title: "-Game Theory Foundation"
-        url: /gametheory
+        url: /game-theory
       - title: "-Trees in Games"
-        url: /trees
+        url: /trees-in-games
 
   - title: Solving Poker
     children:
       - title: "-What is Solving?"
-        url: /what_solving
+        url: /what-is-solving
       - title: "-Toy Poker Games"
-        url: /toy_games
+        url: /toy-poker-games
       - title: "-Using Solvers"
-        url: /solvers
+        url: /using-solvers
         
   - title: Counterfactual Regret Minimization (CFR)
     children:
@@ -55,7 +55,7 @@ nav:
         url: /multiplayer
       - title: "-Opponent Exploitation"
         url: /exploitation
-      - title: "-Other Games"
-        url: /other_games
-      # - title: "-Decision Making Lessons"
-      #   url: /decision_making
+      # - title: "-Other Games"
+      #   url: /other_games
+      - title: "-Decision Making Lessons"
+        url: /decision_making
