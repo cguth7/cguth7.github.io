@@ -11,14 +11,14 @@ nav:
   - title: Background
     children:
       - title: "-Poker Background"
-        url: /poker_background
+        url: /poker-background
       - title: "-History of Solving Poker"
-        url: /history
+        url: /history-of-solving-poker
 
   - title: Game Theory
     children:
       - title: "-Game Theory Foundation"
-        url: /game-theory
+        url: /game-theory-foundation
       - title: "-Trees in Games"
         url: /trees-in-games
 
@@ -34,28 +34,28 @@ nav:
   - title: Counterfactual Regret Minimization (CFR)
     children:
       - title: "-The CFR Algorithm"
-        url: /cfr
+        url: /the-cfr-algorithm
       - title: "-Game Abstractions"
-        url: /abstractions
+        url: /game-abstractions
       - title: "-Agent Evaluation"
-        url: /evaluation
+        url: /agent-evaluation
       - title: "-CFR Advances"
-        url: /cfr_advances
+        url: /cfr-advances
         
   - title: Top Poker Agents
     children:
       - title: "-Top Agents and Research"
-        url: /agents
+        url: /top-agents-and-research
       - title: "-AI vs. Human Competitions"
-        url: /ai_vs_human
+        url: /ai-vs-human-competitions
 
   - title: Other Topics
     children:
       - title: "-Multiplayer Poker Games"
-        url: /multiplayer
+        url: /multiplayer-poker-games
       - title: "-Opponent Exploitation"
-        url: /exploitation
+        url: /opponent-exploitation
       # - title: "-Other Games"
       #   url: /other_games
       - title: "-Decision Making Lessons"
-        url: /decision_making
+        url: /decision-making-lessons

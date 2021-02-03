@@ -1,6 +1,6 @@
 ---
 title: "AIPT Section 2.1: Game Theory -- Game Theory Foundation"
-date: 2020-10-20
+date: 2021-03-02
 sidebar:
   nav: "nav"
 toc: true
