@@ -8,9 +8,3 @@ toc_sticky: true
 toc_label: "TOC"
 author_profile: false
 ---
-
-<!-- https://www.youtube.com/watch?v=mCldyXOYNok&feature=youtu.be
-ReBeL
-https://www.youtube.com/watch?v=BhUWvQmLzSk&feature=youtu.be
-Implementing algs like Deep CFR, DeepStack, variance reduction, etc.
-https://www.youtube.com/channel/UCBCGshUA86W61RL0eFySRPA/videos -->

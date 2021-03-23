@@ -8,19 +8,29 @@ toc_label: "TOC"
 author_profile: false
 ---
 
-## Kuhn Poker Rules
+<!-- 
+TODO: 
+1) Game tree for each decision point in analytical version and full one above
+2) Why make opponent indifferent? 
+3) Tables to show y and x and y and z relative to each other 
+-->
+
+## Kuhn Poker
 
 **Kuhn Poker** is the most basic poker game with interesting strategic implications. 
 
-The game in its standard form is played with 3 cards in {A, K, Q} and 2 players. Each player starts with $2 and places an ante (i.e., forced bet before the hand) of $1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
+The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with $\2 and places an ante (i.e., forced bet before the hand) of $\1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
 
-The rules with dots: 
-- 2 players, 3 card deck {A, K, Q}
+![The deputy likes dots](../assets/section3/toygames/deputydots.png)
+
+The rules in bullet form: 
+- 2 players
+- 3 card deck {A, K, Q}
 - Each starts the hand with $2
 - Each antes (i.e., makes forced bet of) $1 at the start of the hand
 - Each player is dealt 1 card
 - Each has $1 remaining for betting
-- There is one betting round and one bet size of $1
+- There is 1 betting round and 1 bet size of $1
 - The highest card is the best (i.e., A $>$ K $>$ Q)
 
 Action starts with P1, who can Bet $1 or Check
@@ -28,26 +38,28 @@ Action starts with P1, who can Bet $1 or Check
 - If P1 checks, P2 can either Bet or Check
 - If P2 bets after P1 checks, P1 can then Call or Fold
 
-- If a player folds to a bet, the other player wins the pot of 2 (profit of 1)
-- If both players check, the highest card player wins the pot of 2 (profit of 1)
-- If there is a bet and call, the highest card player wins the pot of 4 (profit of 2)
+- If a player folds to a bet, the other player wins the pot of $2 (profit of 1)
+- If both players check, the highest card player wins the pot of $2 (profit of $1)
+- If there is a bet and call, the highest card player wins the pot of $4 (profit of $2)
 
 The following sequences are possible. 
 
 The "History full" shows the exact betting history with "k" for check, "b" for bet, "c" for call, "f" for fold.
 
-The "History short" uses a condensed format that uses only "b" for betting/calling and "p" (pass) for checking/folding, meaning that "b" is used when putting $1 into the pot and "p" when putting no money into the pot. 
+The "History short" uses a condensed format that uses only "b" for betting/calling and "p" (pass) for checking/folding, meaning that "b" is used when putting $1 into the pot and "p" when putting no money into the pot. We reference this shorthand format since we'll use it when putting the game into code. 
 
 | P1  | P2  | P1  | Pot size  | Result  | History full | History short
 |---|---|---|---|---|---|---|
 | Check  | Check  | --   | $2  | High card wins $1  | kk  | pp  | 
-| Check  | Bet $1  | Call $1  | $4  | High card wins $2  | kbc  |pbb  | 
+| Check  | Bet $1  | Call $1  | $4  | High card wins $2  | kbc  | pbb  | 
 | Check  | Bet $1  | Fold  | $2  | P2 wins $1 | kbf  | pbp  | 
 | Bet $1  | Call $1  | --  | $4  | High card wins $2  | bc  | bb  | 
 | Bet $1  | Fold  | --  | $2  | P1 wins $1  | bf  | bp  | 
 
 ## Solving Kuhn Poker
 We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then we will introduce game trees, which allows for solving the game using the CFR counterfactual regret algorithm, that will be detailed more in the next section. 
+
+What's the point of solving such a simple game? We can learn some important poker principles even from this game, although they are most useful for beginner players. We can also see the limitations of these earlier solving methods and how new methods were needed to solve games of even moderate size. 
 
 ### Analytical Solution 
 There are 4 decision points in this game: P1's opening action, P2 after P1 bets, P2 after P1 checks, and P1 after checking and P2 betting. 
@@ -90,11 +102,13 @@ Therefore we assign P1's strategy after P1 check and P2 bet:
 - Call K: $$z$$
 - Call A: $$1$$
 
-So we now have 5 different variables $$x, y, z, a, b$$ to represent the unknown probabilities. 
+So we now have 5 different variables $$x, y, z$$ for P1 and $$a, b$$ for P2 to represent the unknown probabilities. 
 
 **Solving for $$x$$ and $$y$$**
 
-For P1 opening the acxtion, $$x$$ is his probability of betting with Q (bluffing) and $$y$$ is his probability of betting with A (value betting). A key game theory principle is that we want to make P2 indifferent between calling and folding with the K (since again, Q is always a fold and A is always a call for P2). 
+For P1 opening the action, $$x$$ is his probability of betting with Q (bluffing) and $$y$$ is his probability of betting with A (value betting). A key game theory principle is that we want to make P2 indifferent between calling and folding with the K (since again, Q is always a fold and A is always a call for P2). 
+
+Why do we want to make the opponent indifferent? This means that the opponent cannot exploit our strategy...
 
 When P2 has K, P1 has $$ \frac{1}{2} $$ of having a Q and A each. 
 
@@ -110,7 +124,7 @@ $$ 0 = (3) * \frac{1}{2} * x + (-1) * \frac{1}{2} * y $$
 
 $$ y = 3 * x $$
 
-That is, P1 should bet the A 3 times more than bluffing with the Q. This result is parametrized, meaning that there isn't a fixed number solution, but rather a ratio of how often P1 should value-bet compared to bluff. 
+That is, P1 should bet the A 3 times more than bluffing with the Q. This result is parametrized, meaning that there isn't a fixed number solution, but rather a ratio of how often P1 should value-bet compared to bluff. For example, if P1 bluffs with the Q 10% of the time, he should value bet with the A 30% of the time.  
 
 **Solving for $$a$$**
 
@@ -118,7 +132,7 @@ $$a$$ is how often P2 should call with a K facing a bet from P1.
 
 P2 should call $$a$$ to make P1 indifferent to bluffing (i.e., betting or checking) with card Q. 
 
-If P1 checks with card Q, P1 will always fold afterwards if P2 bets (because it is the worst card and can never win), so his EV is 0. 
+If P1 checks with card Q, P1 will always fold afterwards if P2 bets (because it is the worst card and can never win), so P1's EV is 0. 
 
 $$ \text{EV P1 check with Q} = 0 $$     
 
@@ -143,13 +157,17 @@ $$
 a = \frac{1}{3}
 $$
 
+Therefore P2 should call $$\frac{1}{3}$$ with a K when facing a bet from P1. 
+
 **Solving for $$b$$**
 
 Now to solve for $$b$$, how often P2 should bet with a Q after P1 checks. The indifference for P1 is only relevant when he has a K, since if he has a Q or A, he will always fold or call, respectively. 
 
-If P1 checks a K and then folds, then
+If P1 checks a K and then folds, then: 
 
 $$ \text{EV P1 check with K and then fold to bet} = 0 $$  
+
+If P1 checks and calls, we have: 
 
 $$ \text{EV P1 check with K and then call a bet} = (-1) * \text{P(P2 has A and always bets) + (3) * P(P2 has Q and bets)
 
@@ -164,12 +182,18 @@ $$ 3 * b = 1 $$
 
 $$ b = \frac{1}{3} $$
 
+Therefore P2 should bet $$\frac{1}{3}$$ with a Q after P1 checks.
+
 **Solving for $$z$$**
-The final case is when P1 checks a K, P2 bets, and P1 must call so that P2 is indifferent to checking vs. betting (bluffing) with a Q. 
+The final case is when P1 checks a K, P2 bets, and P1 must decide how frequently to call so that P2 is indifferent to checking vs. betting (bluffing) with a Q. 
+
+(Note that | denotes "given that" and we use the conditional probability formula of $$\P(A|B) = \frac{P(A \cup B)}{P(B)}$$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$A$$ and $$B$$ intersect)
+
+We start with finding the probability that P1 has an A given that P1 has checked and P2 has a Q, meaning that P1 has an A or K. 
 
 $$ \text{P(P1 has A | P1 checks A or K)} = \frac{\text{P(P1 has A and checks)}}{\text{P(P1 checks A or K)}} $$
 
-$$ = \frac{(1-y) * \frac{1}{2}{ {(1-y) * \{\frac{1}{2} + \frac{1}{2}} $$
+$$ = \frac{(1-y) * \frac{1}{2}}{(1-y) * \frac{1}{2} + \frac{1}{2}} $$
 
 $$ = \frac{1-y}{2-y} $$
 
@@ -203,6 +227,8 @@ $$ z = \frac{2}{3} - \frac{1-y}{3}
 
 $$ z = \frac{y+1}{3} $$
 
+So P1 should call with a K relative to the proportion of betting an A. This means if betting A 50% of the time ($$y=0.5$$), we would have $$z = \frac{1.5}{3} = 0.5$$ as well. 
+
 **Summary**
 
 We now have the following result:
@@ -211,7 +237,7 @@ P1 initial actions:
 
 Bet Q: $$x = \frac{y}{3} $$
 
-Bet A: $$ y = ?? $$
+Bet A: $$ y = 3*x $$
 
 P2 after P1 bet: 
 
@@ -227,64 +253,97 @@ Call K: $$ z = \frac{y+1}{3} $$
 
 P2 has fixed actions, but P1's are dependent on the $$ y $$ parameter. 
 
-We can look at every possible deal-out to evaluate the value for $$ y $$. 
+We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$\text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{$$ won}.
 
 **Case 1: P1 A, P2 K**
 
 1. Bet fold
-$$ y * \frac{2}{3} * 1 = \frac{2 * y}{3}
+$$ y * \frac{2}{3} * 2 = \frac{y}{3} $$
 
 2. Bet call
-$$ y * \frac{1}{3} * 2 = \frac{2 * y}{3}
+$$ y * \frac{1}{3} * 3 = 2 * y $$
 
 3. Check check
-$$ (1 - y) * (1) * (1) = 1 - y
+$$ (1 - y) * 1 * 2 = 2 * (1 - y) $$
 
-Total = $$ \frac{4 * y}{3} + 1 - y = \frac{y}{3} + 1
+Total = $$ \frac{y}{3} + 2 $$
 
 **Case 2: P1 A, P2 Q**
 1. Bet fold
-$$ y * 1 * 1 = y $$
+$$ y * 1 * 2 = 2 * y $$
 
 2. Check bet call
-$$ (1 - y) * \frac{1}{3} * 1 * 2 = \frac{2}{3} * (1 - y)
+$$ (1 - y) * \frac{1}{3} * 1 * 3 = 3 * \frac{1}{3} * (1 - y) $$
 
 3. Check check
-$$ (1 - y) * \frac{2}{3} * 1 = \frac{2}{3} * (1 - y)
-
-Total = $$ \frac{4}{3} * (1 - y) + y = \frac{4}{3} - \frac{1}{3} * y
+$$ (1 - y) * \frac{2}{3} * 2 = 2 * \frac{2}{3} * (1 - y) $$
+ 
+Total = $$ 2 * y + (1 - y) + \frac{4}{3} * (1-y) = \frac{1}{3} * (7 - y) $$
 
 **Case 3: P1 K, P2 A**
 1. Check bet call
-$$ (1) * (1) * \frac{y+1}{3} * (-2) = \frac{-2}{3} * (y + 1)
+$$ (1) * (1) * \frac{y+1}{3} * (-1) = -\frac{y+1}{3} $$
 
 2. Check bet fold
-$$ (1) * (1) * (1 - \frac{y+1}{3}) * (-1) = 
+$$ (1) * (1) * (1 - \frac{y+1}{3}) * (0) = 0 $$
+
+Total = -\frac{y+1}{3} $$
 
 **Case 4: P1 K, P2 Q**
 1. Check check
-$$ (1) * \frac{2}{
+$$ (1) * \frac{2}{3} * 2 = 2 * \frac{2}{3} $$
+
 2. Check bet call
+$$ (1) * \frac{1}{3} * \frac{y+1}{3} * 3 = \frac{y+1}{3} $$
+
 3. Check bet fold
+$$ (1) * \frac{1}{3} * (1 - \frac{y+1}{3}) * 0 = 0 $$
+
+Total = \frac{4}{3} + \frac{y+1}{3} = \frac{y+5}{3} $$
 
 **Case 5: P1 Q, P2 A**
-
 1. Bet call
+$$ \frac{y}{3} * 1 * (-1) = \frac{-*y}{3} $$
+
 2. Check bet fold
+$$ (1 - \frac{y}{3}) * 1 * 1 * (0) = 0 $$
 
-P1 bets $$ x $$ and P2 calls, EV = $$ -2 * x $$
+Total = \frac{-y}{3} $$
 
-P1 checks $$ 1 - x $$ and P2 bets and P1 folds. EV = $$ -1 * (1-x) = x - 1 
+**Case 6: P1 Q, P2 K**
+1. Bet call
+$$ \frac{y}{3} * \frac{1}{3} * (-1) = -\frac{y}{9} $$
 
-**Case 6: P1 A, P2 K**
+2. Bet fold
+$$ \frac{y}{3} * \frac{2}{3} * 2 = \frac{4*y}{9} $$
 
-1. Check check
-2. Bet call
-3. Bet fold
+3. Check check
+$$ (1-\frac{y}{3}) * 1 * (0) = 0 $$ 
+
+Total = -\frac{y}{9} + \frac{4*y}{9} = \frac{y}{3} $$
 
 **Summing up the cases**
+Since each case is equally likely based on the initial deal, we can multiply each by $$ \frac{1}{6} $$ and then sum them to find the EV of the game. Summing up all cases, we have:
 
-Since each case is equally likely based on the initial deal, we can multiply each by $$ \frac{1}{6} $$ and then sum them to find the EV of the game. 
+Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\frac{y+1}{3} + \frac{y+5}{3} + \frac{-y}{3} + \frac{y}{3}] = \frac{17}{18} $$
+
+**Main takeaways**
+What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other, that will be the outcome on average -- meaning P1 will lose $5.56 on average per 100 hands and P2 will gain that amount. 
+
+The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of $2 to start the hand, then it would be optimal for P1 to either always bet or always check the A, but we'll stick with the simple case of the pot always starting at $2 from the antes. 
+
+From a mathematical perspective, EV, difficult to compute
+
+Check midrange, sometimes bet/sometimes don't in many spots
+bluffing 
+
+deviations e.g. player who never bluffs 
+
+strong hands build pot
+medium strength hands keep pot medium 
+weak hands either give up or bluff 
+
+value of knowing these solutions 
 
 ### Kuhn Poker in Normal Form
 
