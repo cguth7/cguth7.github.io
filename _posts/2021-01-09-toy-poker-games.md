@@ -13,6 +13,10 @@ TODO:
 1) Game tree for each decision point in analytical version and full one above
 2) Why make opponent indifferent? 
 3) Tables to show y and x and y and z relative to each other 
+4) Deviations e.g. player who never bluffs 
+5) Compare to rule-based
+6) That is, there are $$ 2^64 $$ strategy combinations. (??)
+7) Lin alg example
 -->
 
 ## Kuhn Poker
@@ -330,108 +334,128 @@ Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\fr
 **Main takeaways**
 What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other, that will be the outcome on average -- meaning P1 will lose $5.56 on average per 100 hands and P2 will gain that amount. 
 
-The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of $2 to start the hand, then it would be optimal for P1 to either always bet or always check the A, but we'll stick with the simple case of the pot always starting at $2 from the antes. 
+The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of $2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at $2 from the antes. 
 
-From a mathematical perspective, EV, difficult to compute
+From a poker strategy perspective, the main takeaway is that we can essentially split our hands into:
+1. Strong hands
+2. Mid-strength hands
+3. Weak hands
 
-Check midrange, sometimes bet/sometimes don't in many spots
-bluffing 
+Mid-strength hands can win, but don't want to build the pot. Strong hands try to generally make the pot large with value bets. Weak hands want to either give up or be used as bluffs. 
 
-deviations e.g. player who never bluffs 
+Note that this mathematically optimal solution automatically uses bluffs. Bluffs are not -EV bets that are used as "bad plays" to get more credit for value bets later, they are in fact part of an overall optimal strategy. 
 
-strong hands build pot
-medium strength hands keep pot medium 
-weak hands either give up or bluff 
+A faster way to compute the strategy for this game is putting the game into normal form. 
 
-value of knowing these solutions 
+balancing bluffs
 
 ### Kuhn Poker in Normal Form
 
 **Information Sets**
 
-Given a deal of cards in Kuhn Poker, each player has 2 fixed decision points. Player 1 acts first and also acts if P1 checks and P2 bets. P2 acts second either facing a bet or facing a check from P1. This amounts to a total of 12 decision points per player. However, each player has 2 decision points that are equivalent in different states of the game. 
+There are 6 possible deals in Kuhn Poker: AK, AQ, KQ, KA, QK, QA. 
 
-For example, if Player 1 is dealt a K and Player 2 dealt a Q or P1 dealt K and P2 dealt A, P1 is facing the decision of having a K and not knowing what his opponent has. 
+Each player has 2 decision points in the game. Player 1 has the initial action and the action after the sequence of P1 checks --> P2 bets. Player 2 has the second action after Player 1 bets or Player 1 checks. 
+
+Therefore each player has 12 possible acting states. For player 1 these are: 
+1. AK acting first
+2. AQ acting first
+3. KQ acting first
+4. KA acting first
+5. QK acting first
+6. QA acting first
+7. AK check, P2 bets, P1 action
+8. AQ check, P2 bets, P1 action
+9. KQ check, P2 bets, P1 action
+10. KA check, P2 bets, P1 action
+11. QK check, P2 bets, P1 action
+12. QA check, P2 bets, P1 action
+
+However, the state of the game is not actually known to the players! Each player has 2 decision points that are equivalent from their point of view, even though the true game state is different. For player 1 these are:
+1. A acting first (combines AK and AQ)
+2. K acting first (combines KQ and KA)
+3. Q acting first (combines QK and QA)
+4. A check, P2 bets, P1 action (combines AK and AQ)
+5. K check, P2 bets, P1 action (combines KQ and KA)
+6. Q check, P2 bets, P1 action (combines QK and QA)
+
+From Player 1's perspective, she only knows her own private card and can only make decisions based on knowledge of this card.
+
+For example, if Player 1 is dealt a K and Player 2 dealt a Q or P1 dealt K and P2 dealt A, P1 is facing the decision of having a K and not knowing what the opponent has. 
 
 Likewise if Player 2 is dealt a K and is facing a bet, he must make the same action regardless of what the opponent has because from his perspective he only knows his own card. 
 
-We define an information set as the set of information used to make decisions at a particular point in the game. It is equivalent to the card of the acting player and the history of actions up to that point. 
+We define an information set as the set of information used to make decisions at a particular point in the game. In Kuhn Poker, it is equivalent to the card of the acting player and the history of actions up to that point. 
 
-So for Player 1 acting first with a K, the information set is "K". For Player 2 acting second with a K and facing a bet, the information set is "Kb". For Player 2 acting second with a K and facing a check, the information set is "Kk". For Player 1 with a K checking and facing a bet from Player 2, the information set is "Kkb". We use "k" to define check, "b" for bet", "f" for fold, and "c" for call. 
+When writing game history sequences, we use "k" to define check, "b" for bet", "f" for fold, and "c" for call. So for Player 1 acting first with a K, the information set is "K". For Player 2 acting second with an A and facing a bet, the information set is "Ab". For Player 2 acting second with a A and facing a check, the information set is "Ak". For Player 1 with a K checking and facing a bet from Player 2, the information set is "Kkb". 
+
+The shorthand version is to combine "k" and "f" into "p" for pass and to combine "b" and "c" into "b" for bet. Pass indicates putting no money into the pot and bet indicates putting $1 into the pot. 
 
 **Writing Kuhn Poker in Normal Form** 
 
 Now that we have defined information sets, we see that each player in fact has 2 information sets per card that he can be dealt, which is a total of 6 information sets per player since each can be dealt a card in {Q, K, A}. 
 
-Each information set has 2 actions possible, which are essentially "do not put money in the pot" (check when acting first/facing a check or fold when facing a bet) and "put in $1" (bet when acting first or call when facing a bet). 
+Each information set has 2 actions possible, which are essentially "do not put money in the pot" (check when acting first/facing a check or fold when facing a bet -- we call this pass) and "put in $1" (bet when acting first or call when facing a bet -- we call this bet). 
 
-The result is that each player has $$ 2^6 = 64 $$ total combinations of strategies. That is, there are $$ 2^64 $$ strategy combinations. 
+The result is that each player has $$ 2^6 = 64 $$ total combinations of strategies. Think of this as each player having a switch between pass/bet for each of the 6 information sets that can be on or off and deciding all of these in advance. 
 
-Here are a few examples for Player 1: 
+Here are a few examples of the 64 strategies for Player 1 (randomly selected): 
 
 1. A - bet, Apb - bet, K - bet, Kpb - bet, Q - bet, Qpb - bet 
 2. A - bet, Apb - bet, K - bet, Kpb - bet, Q - bet, Qpb - pass 
-3. A - bet, Apb - bet, K - bet, Kpb - bet, Q - bet, Qpb - bet 
-4. A - bet, Apb - bet, K - bet, Kpb - bet, Q - bet, Qpb - bet 
-5. A - bet, Apb - bet, K - bet, Kpb - bet, Q - bet, Qpb - bet 
-6. A - bet, Apb - bet, K - bet, Kpb - bet, Q - bet, Qpb - bet 
+3. A - bet, Apb - bet, K - pass, Kpb - bet, Q - bet, Qpb - bet 
+4. A - bet, Apb - pass, K - bet, Kpb - pass, Q - bet, Qpb - bet 
+5. A - bet, Apb - pass, K - bet, Kpb - bet, Q - bet, Qpb - bet 
+6. A - pass, Apb - bet, K - bet, Kpb - bet, Q - pass, Qpb - bet 
 
-Think of this as each player having a switch between pass/bet that can be on or off and showing every possible combination of these switches for each information set. 
-
-We can create a $$ 64 \text{x} 64 $$ payoff matrix with every possible strategy for each player on each axis and the payoffs inside and then 
-
-Put expected values in matrix form according to chance. 
-
-Minimax theorem
+We can create a $$ 64 \text{x} 64 $$ payoff matrix with every possible strategy for each player on each axis and the payoffs inside.
 
 | P1/P2  | P2 Strat 1  | P2 Strat 2 | ... | P2 Strat 64 |
 |---|---|---|---|---|
-| P1 Strat 1  | 0  | 0  | ...  |  |
-| P1 Strat 2  |   |  | ...  | |
+| P1 Strat 1  | EV(1,1)  | EV(1,2)  | ...  | EV(1,64)  |
+| P1 Strat 2  | EV(2,1)  | EV(2,2) | ...  | EV(2,64) |
 | ...  | ...  | ...  | ...  | ... |
-| P1 Strat 64 | 0  | 0  | ...  | 0 |
+| P1 Strat 64 | EV(64,1)  | EV(64,2)  | ...  | EV(64,64) |
+
+This matrix has 4096 entries and would be difficult to use for something like iterated elimination of dominated strategies. We turn to linear programming to find a solution.
+
+**Solving with Linear Programming**
+
+The general way to solve a game matrix of this size is with linear programming, which is essentially a way to optimize a linear objective, which we'll define below. This kind of setup could be used in a problem like minimizing the cost of food while still meeting objectives like a minimum number of calories and maximum number of carbohydrates and sugar. 
+
+We can define Player 1's strategy as $$ x $$, which is a vector of size 64 corresponding to the probability of playing each strategy. We do the same for Player 2 as $$ y $$. 
+
+We define the payoff matrix as $$ A $$ with the payoffs written with respect to Player 1. 
 
 $$ A = 
 \quad
 \begin{bmatrix} 
-0 & 0 & ... & 0 & \\
-0 & 0 & ... & 0 & \\
+EV(1,2) & EV(1,2) & ... & EV(1,64) & \\
+EV(2,1) & EV(2,2) & ... & EV(2,64) & \\
 ... & ... & ... & ... & \\
-0 & 0 & ... & 0 & \\
+EV(64,1) & EV(64,2) & ... & EV(64,64) & \\
 \end{bmatrix}
 $$
 
-**Solving with Linear Programming**
+We can also define payoff matrix $$ B $$ for payoffs written with respect to Player 2 -- in zero-sum games like poker, $$ A = -B$$.
 
-The general way to solve a game matrix of this size is with linear programming. 
-
-Define Player 1's strategy vector as $$ x $$ and Player 2's strategy vector as $$ y $$
-
-Define the payoff matrix as $$ A $$ (payoffs written with respect to Player 1) 
-
-We can also define payoff matrix $$ B $$ for payoffs written with respect to Player 2 
-
-In zero-sum games like poker, $$ A = -B$$
-
-We can also define a constraint matrix for each player
+We can also define a constraint matrix for each player:
 
 Let P1's constraint matrix = $$ E $$ such that $$ Ex = e $$ 
 
 Let P2's constraint matrix = $$ F $$ such that $$ Fy = f $$ 
 
-The only constraint we have at this time is that the sum of the strategies is 1 since they are a probability distribution, so E and F will just be matrices of 1's and e and f will $$ = 1 $$. 
+The only constraint we have at this time is that the sum of the strategies is 1 since they are a probability distribution, so E and F will just be vectors of 1's and e and f will $$ = 1 $$. In effect, this is just saying that each player has 64 strategies and should play each of those some % of the time and these %s have to add up to 1 since this is a probability distribution and probabilities always add up to 1. 
 
-A basic linear program is set up as follows:
+In the case of Kuhn Poker, for **step 1** we look at a best response for player 2 (strategy y) to a fixed Player 1 (strategy x) and have:
 
-$$ \text{Maximize: } S_1 * x_1 + S_2 * x_2 $$ 
+$$ \max_{y} (x^TB)y $$
 
-$$ \text{Subject to: } x_1 + x_2 \leq L $$
 
-$$ x_1 \geq 0, x_2 \geq 0 $$
 
-In the case of poker, for **step 1** we look at a best response for player 2 (strategy y) to a fixed Player 1 (strategy x) and have:
+$$ = \max_{y} (x^T(-A))y  $$
 
-$$ \max_{y} (x^TB)y = \max_{y} (x^T(-A))y  = \min_{y} (x^T(A))y $$
+$$ = \min_{y} (x^T(A))y $$
 $$ \text{Such that: } Fy = f, y \geq 0 $$ 
 
 In words, this is the expected value of the game from Player 2's perspective because the $$ x $$ and $$ y $$ matrices represent the probability of ending in each state of the payoff matrix and the $$ B == -A $$ value represents the payoff matrix itself. So Player 2 is trying to find a strategy $$ y $$ that maximizes the payoff of the game from his perspective against a fixed $$ x $$ player 1 strategy. 
@@ -453,7 +477,7 @@ We can solve this with linear programming, but there is a much nicer way to do t
 
 Kuhn Poker is the most basic poker game possible and requires solving a $$ 64 \text{x} 64 $$ matrix. While this is feasible, any reasonably sized poker game would blow up the matrix size! 
 
-We can improve on this form by considering the structure of the game tree, also known as writing the game in extensive form. Rather than just saying that the constraints on the $$ x $$ and $$ y $$ matrices are that they must sum to 1, we can redefine these conditions according to the structure of the game tree. 
+We can improve on this form by considering the structure of the game tree. Rather than just saying that the constraints on the $$ x $$ and $$ y $$ matrices are that they must sum to 1, we can redefine these conditions according to the structure of the game tree. 
 
 Previously we defined $$ E = F = \text{Vectors of } 1 $$. However, we know that some strategic decisions can only be made after certain other decisions have already been made. For example, Player 2's actions after a bet can only be made after Player 1 has first bet! 
 
