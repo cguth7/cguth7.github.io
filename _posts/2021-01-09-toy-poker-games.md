@@ -259,7 +259,7 @@ Call K: $$ z = \frac{y+1}{3} $$
 
 P2 has fixed actions, but P1's are dependent on the $$ y $$ parameter. 
 
-We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$ \text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{\\\$\\\$ EV} $$, all from the perspective of P1.
+We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$ \text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{EV} $$, all from the perspective of P1.
 
 **Case 1: P1 A, P2 K**
 
