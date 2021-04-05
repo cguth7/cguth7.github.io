@@ -193,7 +193,7 @@ Therefore P2 should bet $$\frac{1}{3}$$ with a Q after P1 checks.
 **Solving for $$z$$**
 The final case is when P1 checks a K, P2 bets, and P1 must decide how frequently to call so that P2 is indifferent to checking vs. betting (bluffing) with a Q. 
 
-(Note that | denotes "given that" and we use the conditional probability formula of $$\P(A|B) = \frac{P(A \cup B)}{P(B)}$$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$A$$ and $$B$$ intersect)
+(Note that \| denotes "given that" and we use the conditional probability formula of $$\P(A|B) = \frac{P(A \cup B)}{P(B)}$$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$A$$ and $$B$$ intersect)
 
 We start with finding the probability that P1 has an A given that P1 has checked and P2 has a Q, meaning that P1 has an A or K. 
 
@@ -229,7 +229,7 @@ $$ 0 = -\frac{1-y}{2-y} - z * \frac{3}{2-y} + \frac{2}{2-y} $$
 
 $$ z * \frac{3}{2-y} = \frac{2}{2-y} - \frac{1-y}{2-y} $$
 
-$$ z = \frac{2}{3} - \frac{1-y}{3}
+$$ z = \frac{2}{3} - \frac{1-y}{3} $$
 
 $$ z = \frac{y+1}{3} $$
 
@@ -259,71 +259,87 @@ Call K: $$ z = \frac{y+1}{3} $$
 
 P2 has fixed actions, but P1's are dependent on the $$ y $$ parameter. 
 
-We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$\text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{$$ won}.
+We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$ \text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{$$ won} $$.
 
 **Case 1: P1 A, P2 K**
 
-1. Bet fold
+1. Bet fold:
+
 $$ y * \frac{2}{3} * 2 = \frac{y}{3} $$
 
-2. Bet call
+2. Bet call:
+
 $$ y * \frac{1}{3} * 3 = 2 * y $$
 
-3. Check check
+3. Check check:
+
 $$ (1 - y) * 1 * 2 = 2 * (1 - y) $$
 
 Total = $$ \frac{y}{3} + 2 $$
 
 **Case 2: P1 A, P2 Q**
-1. Bet fold
+1. Bet fold:
+
 $$ y * 1 * 2 = 2 * y $$
 
-2. Check bet call
+2. Check bet call:
+
 $$ (1 - y) * \frac{1}{3} * 1 * 3 = 3 * \frac{1}{3} * (1 - y) $$
 
-3. Check check
+3. Check check:
+
 $$ (1 - y) * \frac{2}{3} * 2 = 2 * \frac{2}{3} * (1 - y) $$
  
 Total = $$ 2 * y + (1 - y) + \frac{4}{3} * (1-y) = \frac{1}{3} * (7 - y) $$
 
 **Case 3: P1 K, P2 A**
-1. Check bet call
+1. Check bet call:
+
 $$ (1) * (1) * \frac{y+1}{3} * (-1) = -\frac{y+1}{3} $$
 
-2. Check bet fold
+2. Check bet fold:
+
 $$ (1) * (1) * (1 - \frac{y+1}{3}) * (0) = 0 $$
 
 Total = -\frac{y+1}{3} $$
 
 **Case 4: P1 K, P2 Q**
-1. Check check
+1. Check check:
+
 $$ (1) * \frac{2}{3} * 2 = 2 * \frac{2}{3} $$
 
-2. Check bet call
+2. Check bet call:
+
 $$ (1) * \frac{1}{3} * \frac{y+1}{3} * 3 = \frac{y+1}{3} $$
 
-3. Check bet fold
+3. Check bet fold:
+
 $$ (1) * \frac{1}{3} * (1 - \frac{y+1}{3}) * 0 = 0 $$
 
 Total = \frac{4}{3} + \frac{y+1}{3} = \frac{y+5}{3} $$
 
 **Case 5: P1 Q, P2 A**
-1. Bet call
+1. Bet call:
+
 $$ \frac{y}{3} * 1 * (-1) = \frac{-*y}{3} $$
 
-2. Check bet fold
+2. Check bet fold:
+
 $$ (1 - \frac{y}{3}) * 1 * 1 * (0) = 0 $$
 
 Total = \frac{-y}{3} $$
 
 **Case 6: P1 Q, P2 K**
-1. Bet call
+1. Bet call:
+
 $$ \frac{y}{3} * \frac{1}{3} * (-1) = -\frac{y}{9} $$
 
-2. Bet fold
+2. Bet fold:
+
 $$ \frac{y}{3} * \frac{2}{3} * 2 = \frac{4*y}{9} $$
 
-3. Check check
+3. Check check:
+
 $$ (1-\frac{y}{3}) * 1 * (0) = 0 $$ 
 
 Total = -\frac{y}{9} + \frac{4*y}{9} = \frac{y}{3} $$
