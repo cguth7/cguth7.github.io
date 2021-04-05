@@ -5,6 +5,7 @@ sidebar:
   nav: "nav"
 toc: true
 toc_label: "TOC"
+toc_sticky: true
 author_profile: false
 ---
 
@@ -47,7 +48,7 @@ These outcomes are possible:
 - If both players check, the highest card player wins the pot of $2 (profit of $1)
 - If there is a bet and call, the highest card player wins the pot of $4 (profit of $2)
 
-The following sequences are possible. 
+The following are all of the possible full sequences. 
 
 The "History full" shows the exact betting history with "k" for check, "b" for bet, "c" for call, "f" for fold.
 
