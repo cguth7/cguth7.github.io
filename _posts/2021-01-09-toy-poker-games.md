@@ -24,7 +24,7 @@ TODO:
 
 **Kuhn Poker** is the most basic poker game with interesting strategic implications. 
 
-The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with $2 and places an ante (i.e., forced bet before the hand) of $1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
+The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \\\$2 and places an ante (i.e., forced bet before the hand) of $1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
 
 ![The deputy likes dots](../assets/section3/toygames/deputydots.png)
 
@@ -259,7 +259,7 @@ Call K: $$ z = \frac{y+1}{3} $$
 
 P2 has fixed actions, but P1's are dependent on the $$ y $$ parameter. 
 
-We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$ \text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{$$ won} $$.
+We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$ \text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{\\\$\\\$ EV} $$, all from the perspective of P1.
 
 **Case 1: P1 A, P2 K**
 
@@ -321,7 +321,7 @@ Total = \frac{4}{3} + \frac{y+1}{3} = \frac{y+5}{3} $$
 **Case 5: P1 Q, P2 A**
 1. Bet call:
 
-$$ \frac{y}{3} * 1 * (-1) = \frac{-*y}{3} $$
+$$ \frac{y}{3} * 1 * (-1) = \frac{-y}{3} $$
 
 2. Check bet fold:
 
