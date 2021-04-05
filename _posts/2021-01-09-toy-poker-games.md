@@ -23,7 +23,7 @@ TODO:
 
 **Kuhn Poker** is the most basic poker game with interesting strategic implications. 
 
-The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \$2 and places an ante (i.e., forced bet before the hand) of \$1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
+The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with $2 and places an ante (i.e., forced bet before the hand) of $1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
 
 ![The deputy likes dots](../assets/section3/toygames/deputydots.png)
 
@@ -42,6 +42,7 @@ Action starts with P1, who can Bet $1 or Check
 - If P1 checks, P2 can either Bet or Check
 - If P2 bets after P1 checks, P1 can then Call or Fold
 
+These outcomes are possible: 
 - If a player folds to a bet, the other player wins the pot of $2 (profit of 1)
 - If both players check, the highest card player wins the pot of $2 (profit of $1)
 - If there is a bet and call, the highest card player wins the pot of $4 (profit of $2)
