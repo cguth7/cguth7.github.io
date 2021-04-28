@@ -57,5 +57,5 @@ nav:
         url: /opponent-exploitation
       # - title: "-Other Games"
       #   url: /other_games
-      - title: "6.3: Decision Making Lessons"
-        url: /decision-making-lessons
+      - title: "6.3: Interpreting Agent Decisions"
+        url: /interpreting-agent-decisions

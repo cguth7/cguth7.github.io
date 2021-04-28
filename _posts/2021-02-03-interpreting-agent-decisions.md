@@ -1,5 +1,5 @@
 ---
-title: "AIPT Section 6.1: Other Topics -- Interpreting Agent Decisions"
+title: "AIPT Section 6.3: Other Topics -- Interpreting Agent Decisions"
 date: 2021-02-03
 sidebar:
   nav: "nav"

@@ -18,13 +18,17 @@ TODO:
 5) Compare to rule-based
 6) That is, there are $$ 2^64 $$ strategy combinations. (??)
 7) Lin alg example
+8) More on balancing bluffs 
 -->
+
+# Solving Poker - Toy Poker Games
+We will take a look at solving a very simple toy poker game called Kuhn Poker. 
 
 ## Kuhn Poker
 
 **Kuhn Poker** is the most basic poker game with interesting strategic implications. 
 
-The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \\\$2 and places an ante (i.e., forced bet before the hand) of $1. And therefore has $1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
+The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \\\$2 and places an ante (i.e., forced bet before the hand) of \$1. And therefore has \$1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
 
 ![The deputy likes dots](../assets/section3/toygames/deputydots.png)
 
@@ -67,10 +71,12 @@ We're going to solve for the GTO solution to this game using 3 methods, an analy
 
 What's the point of solving such a simple game? We can learn some important poker principles even from this game, although they are most useful for beginner players. We can also see the limitations of these earlier solving methods and how new methods were needed to solve games of even moderate size. 
 
-### Analytical Solution 
+## Analytical Solution 
 There are 4 decision points in this game: P1's opening action, P2 after P1 bets, P2 after P1 checks, and P1 after checking and P2 betting. 
 
 Let's first look at P1's opening action. P1 should never bet the K card here because if he bets the K, P2 with Q will always fold (since the lowest card can never win) and P2 with A will always call (since the best card will always win). By checking the K always, P1 can try to induce a bluff from P2 when P2 has the Q. 
+
+### Defining the variables
 
 **P1 initial action**
 
@@ -109,6 +115,8 @@ Therefore we assign P1's strategy after P1 check and P2 bet:
 - Call A: $$1$$
 
 So we now have 5 different variables $$x, y, z$$ for P1 and $$a, b$$ for P2 to represent the unknown probabilities. 
+
+### Solving for the variables 
 
 **Solving for $$x$$ and $$y$$**
 
@@ -235,7 +243,7 @@ $$ z = \frac{y+1}{3} $$
 
 So P1 should call with a K relative to the proportion of betting an A. This means if betting A 50% of the time ($$y=0.5$$), we would have $$z = \frac{1.5}{3} = 0.5$$ as well. 
 
-**Summary**
+### Solution summary
 
 We now have the following result:
 
@@ -258,6 +266,8 @@ P1 after P1 check and P2 bet:
 Call K: $$ z = \frac{y+1}{3} $$
 
 P2 has fixed actions, but P1's are dependent on the $$ y $$ parameter. 
+
+### Finding the game value
 
 We can look at the expected value of every possible deal-out to evaluate the value for $$ y $$. We format these EV calculations as $$ \text{P1 action} * \text{P2 action} * \text{P1 action if applicable} * \text{EV} $$, all from the perspective of P1.
 
@@ -349,10 +359,10 @@ Since each case is equally likely based on the initial deal, we can multiply eac
 
 Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\frac{y+1}{3} + \frac{y+5}{3} + \frac{-y}{3} + \frac{y}{3}] = \frac{17}{18} $$
 
-**Main takeaways**
-What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other, that will be the outcome on average -- meaning P1 will lose $5.56 on average per 100 hands and P2 will gain that amount. 
+### Main takeaways
+What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other, that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
 
-The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of $2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at $2 from the antes. 
+The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of \$ 2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at \$ 2 from the antes. 
 
 From a poker strategy perspective, the main takeaway is that we can essentially split our hands into:
 1. Strong hands
@@ -361,15 +371,14 @@ From a poker strategy perspective, the main takeaway is that we can essentially 
 
 Mid-strength hands can win, but don't want to build the pot. Strong hands try to generally make the pot large with value bets. Weak hands want to either give up or be used as bluffs. 
 
-Note that this mathematically optimal solution automatically uses bluffs. Bluffs are not -EV bets that are used as "bad plays" to get more credit for value bets later, they are in fact part of an overall optimal strategy. 
+Note that this mathematically optimal solution automatically uses bluffs. Bluffs are not -EV bets that are used as "bad plays" to get more credit for value bets later, they are part of an overall optimal strategy. 
 
-A faster way to compute the strategy for this game is putting the game into normal form. 
+We also see that a major component of poker strategy is "balancing" bluffs. We see that P1 value bets 3 times more than she bluffs. In a real poker setting, you might have a similar strategy, but will have many possible bluff hands in your range to choose from, which means that they can be strategically selected to match the ratio, for example by bluffing with hands that make it less likely that your opponent is strong, while giving up with other weak hands. 
 
-balancing bluffs
+## Kuhn Poker in Normal Form
+Analytically solving all but the smallest games is not very feasible -- a faster way to compute the strategy for this game is putting it into normal form. 
 
-### Kuhn Poker in Normal Form
-
-**Information Sets**
+### Information sets
 
 There are 6 possible deals in Kuhn Poker: AK, AQ, KQ, KA, QK, QA. 
 
@@ -409,7 +418,7 @@ When writing game history sequences, we use "k" to define check, "b" for bet", "
 
 The shorthand version is to combine "k" and "f" into "p" for pass and to combine "b" and "c" into "b" for bet. Pass indicates putting no money into the pot and bet indicates putting $1 into the pot. 
 
-**Writing Kuhn Poker in Normal Form** 
+### Writing Kuhn Poker in Normal Form
 
 Now that we have defined information sets, we see that each player in fact has 2 information sets per card that he can be dealt, which is a total of 6 information sets per player since each can be dealt a card in {Q, K, A}. 
 
@@ -437,7 +446,7 @@ We can create a $$ 64 \text{x} 64 $$ payoff matrix with every possible strategy 
 
 This matrix has 4096 entries and would be difficult to use for something like iterated elimination of dominated strategies. We turn to linear programming to find a solution.
 
-**Solving with Linear Programming**
+### Solving with Linear Programming
 
 The general way to solve a game matrix of this size is with linear programming, which is essentially a way to optimize a linear objective, which we'll define below. This kind of setup could be used in a problem like minimizing the cost of food while still meeting objectives like a minimum number of calories and maximum number of carbohydrates and sugar. 
 
@@ -491,7 +500,7 @@ $$ \text{Such that: } x^TE^T = e^T, x \geq 0, Fy = f, y \geq 0 $$
 
 We can solve this with linear programming, but there is a much nicer way to do this!
 
-**Simplifying the Matrix** 
+## Solving by Simplifying the Matrix 
 
 Kuhn Poker is the most basic poker game possible and requires solving a $$ 64 \text{x} 64 $$ matrix. While this is feasible, any reasonably sized poker game would blow up the matrix size! 
 
@@ -728,4 +737,3 @@ Resutls with other poker agents playing worse strategies exploitable
 Now we have shown a way to solve games more efficiently based on the structure/ordering of the decision nodes (which can be expressed in tree form).
 
 Mixed vs behavioral strategies
-
