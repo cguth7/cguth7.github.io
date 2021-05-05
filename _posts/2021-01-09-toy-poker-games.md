@@ -49,9 +49,9 @@ Action starts with P1, who can Bet $1 or Check
 - If P2 bets after P1 checks, P1 can then Call or Fold
 
 These outcomes are possible: 
-- If a player folds to a bet, the other player wins the pot of $2 (profit of 1)
-- If both players check, the highest card player wins the pot of $2 (profit of $1)
-- If there is a bet and call, the highest card player wins the pot of $4 (profit of $2)
+- If a player folds to a bet, the other player wins the pot of $2 (profit of \\\$1)
+- If both players check, the highest card player wins the pot of $2 (profit of \\\$1)
+- If there is a bet and call, the highest card player wins the pot of $4 (profit of \\\$2)
 
 The following are all of the possible full sequences. 
 
@@ -68,7 +68,7 @@ The "History short" uses a condensed format that uses only "b" for betting/calli
 | Bet $1  | Fold  | --  | $2  | P1 wins $1  | bf  | bp  | 
 
 ## Solving Kuhn Poker
-We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then we will introduce game trees, which allows for solving the game using the CFR counterfactual regret algorithm, that will be detailed more in a later section. 
+We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then a more efficient normal form solution. We will then briefly mention game trees and the CFR counterfactual regret algorithm, that will be detailed more in section 4.1.
 
 What's the point of solving such a simple game? We can learn some important poker principles even from this game, although they are most useful for beginner players. We can also see the limitations of these earlier solving methods and therefore why new methods were needed to solve games of even moderate size. 
 
@@ -79,7 +79,7 @@ There are 4 decision points in this game: P1's opening action, P2 after P1 bets,
 
 **P1 initial action**
 
-Let's first look at P1's opening action. P1 should never bet the K card here because if he bets the K, P2 with Q will always fold (since the lowest card can never win) and P2 with A will always call (since the best card will always win). By checking the K always, P1 can try to induce a bluff from P2 when P2 has the Q. 
+Let's first look at P1's opening action. P1 should never bet the K card here because if he bets the K, P2 with Q will always fold (since the lowest card can never win) and P2 with A will always call (since the best card will always win). By checking the K always, P1 can try to induce a bluff from P2 when P2 has the Q and may be able to fold to a bet when P2 has the A. 
 
 Therefore we assign P1's strategy:
 - Bet Q: $$x$$
@@ -129,9 +129,9 @@ For P1 opening the action, $$x$$ is his probability of betting with Q (bluffing)
 
 When P2 has K, P1 has $$ \frac{1}{2} $$ of having a Q and A each. 
 
-P2's EV of folding with a K to a bet is $$ 0 $$. Note that we are defining EV from the current decision point, meaning that money already put into the pot is sunk and not factored in. 
+P2's EV of folding with a K to a bet is $$ 0 $$. (Note that we are defining EV from the current decision point, meaning that money already put into the pot is sunk and not factored in.)
 
-P2's EV of calling with a K to a bet $$ = 3 * \text{P(P1 has Q and bets with Q)} + (-1) * \text{P(P1 has A and bets with A)} $$
+P2's EV of calling with a K to a bet $$ = 3 * \text{P(P1 has Q and bets with Q)} + \\(-1) * \text{P(P1 has A and bets with A)} $$
 
 $$ = (3) * \frac{1}{2} * x + (-1) * \frac{1}{2} * y $$
 
@@ -156,7 +156,7 @@ $$ \text{EV P1 check with Q} = 0 $$
 If P1 bets with card Q, 
 
 $$
-\text{EV P1 bet with Q} = (-1) * \text{P2 has A and always calls/wins} + (-1) * \text{P2 has K and calls/wins} + 2 * \text{P2 has K and folds}
+\text{EV P1 bet with Q} = (-1) * \text{P2 has A and always calls/wins} + \\(-1) * \text{P2 has K and calls/wins} + 2 * \text{P2 has K and folds}
 
 = \frac{1}{2} * (-1) + \frac{1}{2} * (a) * (-1) + \frac{1}{2} * (1 - a) * (2)
 
