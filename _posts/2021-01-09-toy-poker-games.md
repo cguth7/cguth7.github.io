@@ -761,8 +761,9 @@ $$ \text{Such that: } x^TE^T = e^T, x \geq 0, Fy = f, y \geq 0 $$
 
 MATLAB code is available to solve this linear program: [https://www.dropbox.com/s/na9rta8sqj0zlmb/matlabkuhn.m?dl=0](MATLAB LP code)
 
-
 ## Iterative Algorithms
 Now we have shown a way to solve games more efficiently based on the structure/ordering of the decision nodes (which can be expressed in tree form).
 
-Using behavioral strategies significantly reduces the size of the game, but newer methods can handle significantly larger games and specifically CFR (Counterfactual Regret Minimization) has become the foundation of imperfect information game solving algorithms. We will go into detail on this in section 4.1. 
+Using behavioral strategies significantly reduces the size of the game and solving is much more efficient by using the structure/ordering of the decision nodes. This can be expresessed in tree form and leads to algorithms that can use self-play to iterate through the game tree. 
+
+Specifically CFR (Counterfactual Regret Minimization) has become the foundation of imperfect information game solving algorithms. We will go into detail on this in section 4.1. 
