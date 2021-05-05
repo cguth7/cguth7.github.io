@@ -29,7 +29,7 @@ We will take a look at solving a very simple toy poker game called Kuhn Poker.
 
 **Kuhn Poker** is the most basic poker game with interesting strategic implications. 
 
-The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \\\$2 and places an ante (i.e., forced bet before the hand) of \$1. And therefore has \$1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
+The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \\\$2 and places an ante (i.e., forced bet before the hand) of \\\$1. And therefore has \\\$1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
 
 ![The deputy likes dots](../assets/section3/toygames/deputydots.png)
 
