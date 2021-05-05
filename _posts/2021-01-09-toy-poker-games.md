@@ -12,13 +12,14 @@ author_profile: false
 <!-- 
 TODO: 
 1) Game tree for each decision point in analytical version and full one above
-2) Why make opponent indifferent? 
 3) Tables to show y and x and y and z relative to each other 
 4) Deviations e.g. player who never bluffs 
 5) Compare to rule-based
 6) That is, there are $$ 2^64 $$ strategy combinations. (??)
 7) Lin alg example
 8) More on balancing bluffs 
+Rhode Island Hold'em 
+Resutls with other poker agents playing worse strategies exploitable
 -->
 
 # Solving Poker - Toy Poker Games
@@ -67,18 +68,18 @@ The "History short" uses a condensed format that uses only "b" for betting/calli
 | Bet $1  | Fold  | --  | $2  | P1 wins $1  | bf  | bp  | 
 
 ## Solving Kuhn Poker
-We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then we will introduce game trees, which allows for solving the game using the CFR counterfactual regret algorithm, that will be detailed more in the next section. 
+We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then we will introduce game trees, which allows for solving the game using the CFR counterfactual regret algorithm, that will be detailed more in a later section. 
 
-What's the point of solving such a simple game? We can learn some important poker principles even from this game, although they are most useful for beginner players. We can also see the limitations of these earlier solving methods and how new methods were needed to solve games of even moderate size. 
+What's the point of solving such a simple game? We can learn some important poker principles even from this game, although they are most useful for beginner players. We can also see the limitations of these earlier solving methods and therefore why new methods were needed to solve games of even moderate size. 
 
 ## Analytical Solution 
 There are 4 decision points in this game: P1's opening action, P2 after P1 bets, P2 after P1 checks, and P1 after checking and P2 betting. 
 
-Let's first look at P1's opening action. P1 should never bet the K card here because if he bets the K, P2 with Q will always fold (since the lowest card can never win) and P2 with A will always call (since the best card will always win). By checking the K always, P1 can try to induce a bluff from P2 when P2 has the Q. 
-
 ### Defining the variables
 
 **P1 initial action**
+
+Let's first look at P1's opening action. P1 should never bet the K card here because if he bets the K, P2 with Q will always fold (since the lowest card can never win) and P2 with A will always call (since the best card will always win). By checking the K always, P1 can try to induce a bluff from P2 when P2 has the Q. 
 
 Therefore we assign P1's strategy:
 - Bet Q: $$x$$
@@ -118,11 +119,13 @@ So we now have 5 different variables $$x, y, z$$ for P1 and $$a, b$$ for P2 to r
 
 ### Solving for the variables 
 
+**The Indifference Principle**
+
+When we solve for the analytical game theory optimal strategy, we want to make the opponent indifferent. This means that the opponent cannot exploit our strategy. If we deviated from this equilibrium then since poker is a 2-player zero-sum game, our opponent's EV could increase at the expense of our own EV. 
+
 **Solving for $$x$$ and $$y$$**
 
-For P1 opening the action, $$x$$ is his probability of betting with Q (bluffing) and $$y$$ is his probability of betting with A (value betting). A key game theory principle is that we want to make P2 indifferent between calling and folding with the K (since again, Q is always a fold and A is always a call for P2). 
-
-Why do we want to make the opponent indifferent? This means that the opponent cannot exploit our strategy...
+For P1 opening the action, $$x$$ is his probability of betting with Q (bluffing) and $$y$$ is his probability of betting with A (value betting). We want to make P2 indifferent between calling and folding with the K (since again, Q is always a fold and A is always a call for P2). 
 
 When P2 has K, P1 has $$ \frac{1}{2} $$ of having a Q and A each. 
 
@@ -132,7 +135,7 @@ P2's EV of calling with a K to a bet $$ = 3 * \text{P(P1 has Q and bets with Q)}
 
 $$ = (3) * \frac{1}{2} * x + (-1) * \frac{1}{2} * y $$
 
-Setting the calling and folding EVs equal, we have: 
+Setting the calling and folding EVs equal (because of the indifference principle), we have: 
 
 $$ 0 = (3) * \frac{1}{2} * x + (-1) * \frac{1}{2} * y $$
 
@@ -201,11 +204,13 @@ Therefore P2 should bet $$\frac{1}{3}$$ with a Q after P1 checks.
 **Solving for $$z$$**
 The final case is when P1 checks a K, P2 bets, and P1 must decide how frequently to call so that P2 is indifferent to checking vs. betting (bluffing) with a Q. 
 
-(Note that \| denotes "given that" and we use the conditional probability formula of $$\P(A|B) = \frac{P(A \cup B)}{P(B)}$$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$A$$ and $$B$$ intersect)
+(Note that \| denotes "given that" and we use the conditional probability formula of $$\P(A|B) = \frac{P(A \cup B)}{P(B)}$$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$A$$ and $$B$$ intersect -- by intersect we just mean that they are both true at the same time, like the middle part of a Venn diagram)
 
 We start with finding the probability that P1 has an A given that P1 has checked and P2 has a Q, meaning that P1 has an A or K. 
 
 $$ \text{P(P1 has A | P1 checks A or K)} = \frac{\text{P(P1 has A and checks)}}{\text{P(P1 checks A or K)}} $$
+
+We simplify the numerator to P1 having A and checking because there is no intersection between checking a K and having an A. 
 
 $$ = \frac{(1-y) * \frac{1}{2}}{(1-y) * \frac{1}{2} + \frac{1}{2}} $$
 
@@ -360,7 +365,9 @@ Since each case is equally likely based on the initial deal, we can multiply eac
 Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\frac{y+1}{3} + \frac{y+5}{3} + \frac{-y}{3} + \frac{y}{3}] = \frac{17}{18} $$
 
 ### Main takeaways
-What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other, that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
+What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other (assuming they play the equilibrium strategies), that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
+
+This indicates the advantage of acting last in poker -- seeing what the opponent has done first gives an information advantage. In this game, the players would rotate who acts first for each hand, but the principle of playing more hands with the positional advantage is very important in real poker games. 
 
 The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of \$ 2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at \$ 2 from the antes. 
 
@@ -420,7 +427,7 @@ The shorthand version is to combine "k" and "f" into "p" for pass and to combine
 
 ### Writing Kuhn Poker in Normal Form
 
-Now that we have defined information sets, we see that each player in fact has 2 information sets per card that he can be dealt, which is a total of 6 information sets per player since each can be dealt a card in {Q, K, A}. 
+Now that we have defined information sets, we see that each player in fact has 2 information sets per card that he can be dealt, which is a total of 6 information sets per player since each can be dealt a card in {Q, K, A}. (If the game was played with a larger deck size, then we would have $$ \text{N} * 2 $$ information sets, where N is the deck size.)
 
 Each information set has 2 actions possible, which are essentially "do not put money in the pot" (check when acting first/facing a check or fold when facing a bet -- we call this pass) and "put in $1" (bet when acting first or call when facing a bet -- we call this bet). 
 
@@ -464,7 +471,7 @@ EV(64,1) & EV(64,2) & ... & EV(64,64) & \\
 \end{bmatrix}
 $$
 
-We can also define payoff matrix $$ B $$ for payoffs written with respect to Player 2 -- in zero-sum games like poker, $$ A = -B$$.
+We can use payoff matrix $$ B $$ for payoffs written with respect to Player 2 -- in zero-sum games like poker, $$ A = -B$$, so it's easiest to just use $$A$$. 
 
 We can also define a constraint matrix for each player:
 
@@ -474,41 +481,52 @@ Let P2's constraint matrix = $$ F $$ such that $$ Fy = f $$
 
 The only constraint we have at this time is that the sum of the strategies is 1 since they are a probability distribution, so E and F will just be vectors of 1's and e and f will $$ = 1 $$. In effect, this is just saying that each player has 64 strategies and should play each of those some % of the time and these %s have to add up to 1 since this is a probability distribution and probabilities always add up to 1. 
 
-In the case of Kuhn Poker, for **step 1** we look at a best response for player 2 (strategy y) to a fixed Player 1 (strategy x) and have:
+In the case of Kuhn Poker, for **step 1** we look at a best response for Player 2 (strategy y) to a fixed Player 1 (strategy x) and have the following. Best response means best possible strategy for Player 2 given Player 1's fixed strategy. 
 
 $$ \max_{y} (x^TB)y $$
+$$ \text{Such that: } Fy = f, y \geq 0 $$ 
 
-
+We are looking for the strategy parameters $$y$$ that maximize the payoffs for Player 2. $$x^TB** is the transpose of $$x$$ multiplied by $$B$$, so the strategy of Player 1 multiplied by the payoffs to Player 2. Player 2 then can choose $$y$$ to maximize his payoffs.
 
 $$ = \max_{y} (x^T(-A))y  $$
 
+We substitute $$-A$$ for $$B$$ so we only have to work with the $$A$$ matrix. 
+
 $$ = \min_{y} (x^T(A))y $$
+
+We can substitute $$-A$$ with $$A$$ and change our optimization to minimizing instead of maximizing. 
+
 $$ \text{Such that: } Fy = f, y \geq 0 $$ 
 
 In words, this is the expected value of the game from Player 2's perspective because the $$ x $$ and $$ y $$ matrices represent the probability of ending in each state of the payoff matrix and the $$ B == -A $$ value represents the payoff matrix itself. So Player 2 is trying to find a strategy $$ y $$ that maximizes the payoff of the game from his perspective against a fixed $$ x $$ player 1 strategy. 
 
-For **step 2**, we look at a best response for player 1 (strategy x) to a fixed player 2 (strategy y) and have: 
+For **step 2**, we look at a best response for Player 1 (strategy x) to a fixed Player 2 (strategy y) and have: 
 
 $$ \max_{x} x^T(Ay) $$
 $$ \text{Such that: } x^TE^T = e^T, x \geq 0 $$
 
-For the final step, we can combine the above 2 parts and now allow for $$ x $$ and $$ y $$ to no longer be fixed. 
+Note that now Player 1 is trying to maximize this equation and Player 2 is trying to minimize this same thing. 
+
+For **step 3**, we can combine the above 2 parts and now allow for $$ x $$ and $$ y $$ to no longer be fixed, which leads to the below minimax equation. In 2-player zero-sum games, the minimax solution is the same as the Nash equilibrium solution. We call this minimax because each player minimizes the maximum payoff possible for the other -- since the game is zero-sum, they also minimize their own maximum loss (maximizing their minimum payoff). This is also why the Nash equilibrium strategy in poker can be thought of as a "defensive" strategy, since by minimizing the maximum loss, we aren't trying to maximally exploit.
 
 $$ \min_{y} \max_{x} [x^TAy] $$
 
 $$ \text{Such that: } x^TE^T = e^T, x \geq 0, Fy = f, y \geq 0 $$
 
-We can solve this with linear programming, but there is a much nicer way to do this!
+We can solve this with linear programming, but this would involve a huge payoff matrix $$A$$ and length 64 strategy vectors for each player. There is a much more efficient way! 
 
 ## Solving by Simplifying the Matrix 
 
-Kuhn Poker is the most basic poker game possible and requires solving a $$ 64 \text{x} 64 $$ matrix. While this is feasible, any reasonably sized poker game would blow up the matrix size! 
+Kuhn Poker is the most basic poker game possible and requires solving a $$ 64 \text{x} 64 $$ matrix. While this is feasible, any reasonably sized poker game would blow up the matrix size. 
 
 We can improve on this form by considering the structure of the game tree. Rather than just saying that the constraints on the $$ x $$ and $$ y $$ matrices are that they must sum to 1, we can redefine these conditions according to the structure of the game tree. 
 
-Previously we defined $$ E = F = \text{Vectors of } 1 $$. However, we know that some strategic decisions can only be made after certain other decisions have already been made. For example, Player 2's actions after a bet can only be made after Player 1 has first bet! 
+### Simplified Matrices for Player 1 with Behavioral Strategies
+Previously we defined $$ E = F = \text{Vectors of } 1 $$, the most basic constraint that all probabilities have to sum to 1. 
 
-Now we can redefine $$ E $$ as follows:
+However, we know that some strategic decisions can only be made after certain other decisions have already been made. For example, Player 2's actions after a Player 1 bet can only be made after Player 1 has first bet! 
+
+Now we can redefine the $$ E $$ constraint as follows for Player 1:
 
 | Infoset/Strategies | 0  | A_b | A_p  | A_pb  | A_pp  | K_b  | K_p  | K_pb  | K_pp  | Q_b  | Q_p  | Q_pb  | Q_pp  |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -520,7 +538,9 @@ Now we can redefine $$ E $$ as follows:
 | Q  | -1  |   |   |   |   |  |   |   |   | 1  | 1  |   |   |
 | Qpb  |   |   |   |   |   |   |   |   |   |   | -1  | 1  | 1  |
 
-We see that $$ E $$ is a $$ 7 \text{x} 13 $$ matrix. 
+We see that $$ E $$ is a $$ 7 \text{x} 13 $$ matrix, representing the root of the game and the 6 information sets vertically and the root of the game and the 12 possible strategies horizontally. The difference now is that we are using **behavioral strategies** instead of **mixed strategies**. Mixed strategies meant specifying a probability of how often to play each of 64 possible pure strategies. Behavior strategies assign probability distributions over strategies at each information set. Kuhn's theorem (the same Kuhn) states that in a game where players may remember all of their previous moves/states of the game available to them, for every mixed strategy there is a behavioral strategy that has an equivalent payoff (i.e. the strategies are equivalent). 
+
+Within the matrix, the [0,0] entry is a dummy and filled with a 1. Each row has a single $$-1$$, which indicates the strategy (or root) that must precede the infoset. The $$1$$ entries represent strategies that exist from a certain infoset. 
 
 $$ E = 
 \quad
@@ -571,7 +591,7 @@ $$ e =
 \end{bmatrix}
 $$
 
-So we have:
+So we have overall:
 
 $$
 \quad
@@ -616,7 +636,9 @@ Q_{pp} \\
 \end{bmatrix}
 $$
 
-To understand how the matrix multiplication works and why it makes sense, let's look at each of the 7 multiplications (i.e., each row of $$ E $$ multiplied by the column vector of $$ x $$ $$ = $$ the corresponding row in the $$ e $$ column vector. .
+### What do the matrices mean?
+
+To understand how the matrix multiplication works and why it makes sense, let's look at each of the 7 multiplications (i.e., each row of $$ E $$ multiplied by the column vector of $$ x $$ $$ = $$ the corresponding row in the $$ e $$ column vector.
 
 **Row 1**
 
@@ -627,7 +649,7 @@ We have $$ 1 \text{x} 1 $$ = 1. This is a "dummy"
 $$ -1 + A_b + A_p = 0 $$
 $$ A_b + A_p = 1 $$
 
-This is the simple constraint that the probability between the initial actions in the game must sum to 1. 
+This is the simple constraint that the probability between the initial actions in the game when dealt an A must sum to 1. 
 
 **Row 3**
 $$ -A_p + A_{pb} + A_{pp} = 1 $$
@@ -657,7 +679,9 @@ $$ Q_b + Q_p = 1 $$
 $$ -Q_p + Q_{pb} + Q_{pp} = 1 $$
 $$ Q_{pb} + Q_{pp} = Q_p $$
 
-And $$ F $$:
+### Simplified Matrices for Player 2
+
+And $$ F $$ works similarly for Player 2:
 
 | Infoset/Strategies | 0  | A_b(ab) | A_p(ab)  | A_b(ap)  | A_p(ap)  | K_b(ab)  | K_p(ab)  | K_b(ap)  | K_p(ap)  | Q_b(ab)  | Q_p(ab)  | Q_b(ap)  | Q_p(ap)  |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -671,7 +695,9 @@ And $$ F $$:
 
 From the equivalent analysis as we did above with $$ Fx = f$$, we will see that each pair of 1's in the $$ F $$ matrix will sum to $$ 1 $$ since they are the 2 options at the information set node. 
 
-Now instead of the $$ 64 \text{x} 64 $$ matrix we made before, we can represent the payoff matrix as only $$ 6 \text{x} 2 \text{ x } 6\text{x}2 = 12 \text{x} 12 $$.   
+### Simplified Payoff Matrix
+
+Now instead of the $$ 64 \text{x} 64 $$ matrix we made before, we can represent the payoff matrix as only $$ 6 \text{x} 2 \text{ x } 6\text{x}2 = 12 \text{x} 12 $$. (It's actually $$13 \text{x} 13$$ because we use a dummy row and column.) These payoffs are the actual results of the game when these strategies are played from the perspective of Player 1, where the results are in {-2, -1, 1, 2}. 
 
 | P1/P2 | 0  | A_b(ab) | A_p(ab)  | A_b(ap)  | A_p(ap)  | K_b(ab)  | K_p(ab)  | K_b(ap)  | K_p(ap)  | Q_b(ab)  | Q_p(ab)  | Q_b(ap)  | Q_p(ap)  |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -725,15 +751,18 @@ We could even further reduce this by eliminating dominated strategies:
 
 For simplicity, let's stick with the original $$ A $$ payoff matrix and see how we can solve for the strategies and value of the game. 
 
-Our linear program is as follows (the same as before, but now our $$ E $$ and $$ F $$ matrices have constraints based on the game tree and the payoff matrix $$ A $$ is smaller, evaluating when player strategies coincide and result in payoffs, rather than looking at every possible set of strategic options as we did before:
+### Simplified Linear Program
+
+Our linear program is now updated as follows. It is the same general form as before, but now our $$ E $$ and $$ F $$ matrices have constraints based on the game tree and the payoff matrix $$ A $$ is smaller, evaluating when player strategies coincide and result in payoffs, rather than looking at every possible set of strategic options as we did before:
 
 $$ \min_{y} \max_{x} [x^TAy] $$
 
 $$ \text{Such that: } x^TE^T = e^T, x \geq 0, Fy = f, y \geq 0 $$
 
-Rhode Island Hold'em 
-Resutls with other poker agents playing worse strategies exploitable
+MATLAB code is available to solve this linear program: [https://www.dropbox.com/s/na9rta8sqj0zlmb/matlabkuhn.m?dl=0](MATLAB LP code)
 
+
+## Iterative Algorithms
 Now we have shown a way to solve games more efficiently based on the structure/ordering of the decision nodes (which can be expressed in tree form).
 
-Mixed vs behavioral strategies
+Using behavioral strategies significantly reduces the size of the game, but newer methods can handle significantly larger games and specifically CFR (Counterfactual Regret Minimization) has become the foundation of imperfect information game solving algorithms. We will go into detail on this in section 4.1. 
