@@ -395,7 +395,7 @@ There are 6 possible deals in Kuhn Poker: AK, AQ, KQ, KA, QK, QA.
 
 Each player has 2 decision points in the game. Player 1 has the initial action and the action after the sequence of P1 checks --> P2 bets. Player 2 has the second action after Player 1 bets or Player 1 checks. 
 
-Therefore each player has 12 possible acting states. For player 1 these are: 
+Therefore each player has 12 possible acting states. For player 1 these are (where the first card belongs to Player 1 and the second card belongs to Player 2): 
 1. AK acting first
 2. AQ acting first
 3. KQ acting first
@@ -427,7 +427,7 @@ We define an information set as the set of information used to make decisions at
 
 When writing game history sequences, we use "k" to define check, "b" for bet", "f" for fold, and "c" for call. So for Player 1 acting first with a K, the information set is "K". For Player 2 acting second with an A and facing a bet, the information set is "Ab". For Player 2 acting second with a A and facing a check, the information set is "Ak". For Player 1 with a K checking and facing a bet from Player 2, the information set is "Kkb". 
 
-The shorthand version is to combine "k" and "f" into "p" for pass and to combine "b" and "c" into "b" for bet. Pass indicates putting no money into the pot and bet indicates putting $1 into the pot. 
+The shorthand version in the case of Kuhn Poker is to combine "k" and "f" into "p" for pass and to combine "b" and "c" into "b" for bet. Pass indicates putting no money into the pot and bet indicates putting $1 into the pot. 
 
 ### Writing Kuhn Poker in Normal Form
 
@@ -483,7 +483,7 @@ Let P1's constraint matrix = $$ E $$ such that $$ Ex = e $$
 
 Let P2's constraint matrix = $$ F $$ such that $$ Fy = f $$ 
 
-The only constraint we have at this time is that the sum of the strategies is 1 since they are a probability distribution, so E and F will just be vectors of 1's and e and f will $$ = 1 $$. In effect, this is just saying that each player has 64 strategies and should play each of those some % of the time and these %s have to add up to 1 since this is a probability distribution and probabilities always add up to 1. 
+The only constraint we have at this time is that the sum of the strategies is 1 since they are a probability distribution (all probability distributions must add up to 1, for example the probabilities of getting heads (0.5) and tails (0.5) sum to 1), so $$E$$ and $$F$$ will just be vectors of 1's and $$e$$ and $$f$$ will $$ = 1 $$. In effect, this is just saying that each player has 64 strategies and should play each of those some % of the time (some will be 0) and these %s have to add up to 1 since this is a probability distribution and probabilities always add up to 1. 
 
 In the case of Kuhn Poker, for **step 1** we look at a best response for Player 2 (strategy y) to a fixed Player 1 (strategy x) and have the following. Best response means best possible strategy for Player 2 given Player 1's fixed strategy. 
 
@@ -536,15 +536,15 @@ Now we can redefine the $$ E $$ constraint as follows for Player 1:
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | 0  | 1  |   |   |   |   |   |   |   |   |   |   |   |   |
 | A  | -1  | 1  | 1  |   |   |   |   |   |   |   |   |   |   |
-| Apb  |   |   | -1  | 1  | 1  |   |   |   |   |   |   |   |   |
+| Ap  |   |   | -1  | 1  | 1  |   |   |   |   |   |   |   |   |
 | K  | -1   |   |   |   |   | 1  | 1  |   |   |   |   |   |   |
-| Kpb  |   |   |   |   |   |   | -1  | 1  | 1  |   |   |   |   |
+| Kp  |   |   |   |   |   |   | -1  | 1  | 1  |   |   |   |   |
 | Q  | -1  |   |   |   |   |  |   |   |   | 1  | 1  |   |   |
-| Qpb  |   |   |   |   |   |   |   |   |   |   | -1  | 1  | 1  |
+| Qp  |   |   |   |   |   |   |   |   |   |   | -1  | 1  | 1  |
 
-We see that $$ E $$ is a $$ 7 \text{x} 13 $$ matrix, representing the root of the game and the 6 information sets vertically and the root of the game and the 12 possible strategies horizontally. The difference now is that we are using **behavioral strategies** instead of **mixed strategies**. Mixed strategies meant specifying a probability of how often to play each of 64 possible pure strategies. Behavior strategies assign probability distributions over strategies at each information set. Kuhn's theorem (the same Kuhn) states that in a game where players may remember all of their previous moves/states of the game available to them, for every mixed strategy there is a behavioral strategy that has an equivalent payoff (i.e. the strategies are equivalent). 
+We see that $$ E $$ is a $$ 7 \text{x} 13 $$ matrix, representing the root of the game and the 6 information sets vertically and the root of the game and the 12 possible strategies horizontally. The difference now is that we are using **behavioral strategies** instead of **mixed strategies**. Mixed strategies meant specifying a probability of how often to play each of 64 possible pure strategies. Behavioral strategies assign probability distributions over strategies at each information set. Kuhn's theorem (the same Kuhn) states that in a game where players may remember all of their previous moves/states of the game available to them, for every mixed strategy there is a behavioral strategy that has an equivalent payoff (i.e. the strategies are equivalent). 
 
-Within the matrix, the [0,0] entry is a dummy and filled with a 1. Each row has a single $$-1$$, which indicates the strategy (or root) that must precede the infoset. The $$1$$ entries represent strategies that exist from a certain infoset. 
+Within the matrix, the [0,0] entry is a dummy and filled with a 1. Each row has a single $$-1$$, which indicates the strategy (or root) that must precede the infoset. For example, the A has a -1 entry at the root (0) and 1 entries for A_b and A_p since the A must precede those strategies. The $$1$$ entries represent strategies that exist from a certain infoset. 
 
 $$ E = 
 \quad
@@ -764,6 +764,129 @@ $$ \min_{y} \max_{x} [x^TAy] $$
 $$ \text{Such that: } x^TE^T = e^T, x \geq 0, Fy = f, y \geq 0 $$
 
 MATLAB code is available to solve this linear program: [https://www.dropbox.com/s/na9rta8sqj0zlmb/matlabkuhn.m?dl=0](MATLAB LP code)
+
+```matlab
+%givens
+A=[0,0,0,0,0,0,0,0,0,0,0,0,0;
+    0,0,0,0,0,2,1,0,0,2,1,0,0;
+    0,0,0,0,0,0,0,0,1,0,0,0,1;
+    0,0,0,0,0,0,0,2,0,0,0,2,0;
+    0,0,0,0,0,0,0,-1,0,0,0,-1,0;
+    0,-2,1,0,0,0,0,0,0,2,1,0,0;
+    0,0,0,0,-1,0,0,0,0,0,0,0,1;
+    0,0,0,-2,0,0,0,0,0,0,0,2,0;
+    0,0,0,-1,0,0,0,0,0,0,0,-1,0;
+    0,-2,1,0,0,-2,1,0,0,0,0,0,0;
+    0,0,0,0,-1,0,0,0,-1,0,0,0,0;
+    0,0,0,-2,0,0,0,-2,0,0,0,0,0;
+    0,0,0,-1,0,0,0,-1,0,0,0,0,0]/6.;
+
+F=[1,0,0,0,0,0,0,0,0,0,0,0,0;
+    -1,1,1,0,0,0,0,0,0,0,0,0,0;
+    -1,0,0,1,1,0,0,0,0,0,0,0,0;
+    -1,0,0,0,0,1,1,0,0,0,0,0,0;
+    -1,0,0,0,0,0,0,1,1,0,0,0,0;
+    -1,0,0,0,0,0,0,0,0,1,1,0,0;
+    -1,0,0,0,0,0,0,0,0,0,0,1,1];
+f=[1;0;0;0;0;0;0];
+
+E=[1,0,0,0,0,0,0,0,0,0,0,0,0;
+    -1,1,1,0,0,0,0,0,0,0,0,0,0;
+    0,0,-1,1,1,0,0,0,0,0,0,0,0;
+    -1,0,0,0,0,1,1,0,0,0,0,0,0;
+    0,0,0,0,0,0,-1,1,1,0,0,0,0;
+    -1,0,0,0,0,0,0,0,0,1,1,0,0;
+    0,0,0,0,0,0,0,0,0,0,-1,1,1];
+e=[1;0;0;0;0;0;0];
+
+%get dimensions 
+dim_E = size(E)
+dim_F = size(F)
+
+%extend to cover both y and p
+e_new = [zeros(dim_F(2),1);e]
+
+%constraint changes for 2 variables
+H1=[-F,zeros(dim_F(1),dim_E(1))]
+H2=[A,-E']
+H3=zeros(dim_E(2),1)
+
+%bounds for both 
+lb = [zeros(dim_F(2), 1);-inf*ones(dim_E(1),1)]
+ub = [ones(dim_F(2), 1);inf*ones(dim_E(1),1)]
+
+%solve lp problem 
+[yp,fval,exitflag,output,lambda]=linprog(e_new,H2,H3,H1,-f,lb,ub);
+
+%get solutions {x, y, p, q} 
+x = lambda.ineqlin
+y = yp(1 : dim_F(2)) 
+p = yp(dim_F(2)+1 : dim_F(2)+dim_E(1)) 
+q = lambda.eqlin
+```
+
+The output is: 
+```matlab
+Optimal solution found.
+
+
+x =
+
+    1.0000
+    1.0000
+         0
+         0
+         0
+         0
+    1.0000
+    0.6667
+    0.3333
+    0.3333
+    0.6667
+         0
+    0.6667
+
+
+y =
+
+    1.0000
+    1.0000
+         0
+    1.0000
+         0
+    0.3333
+    0.6667
+   -0.0000
+    1.0000
+   -0.0000
+    1.0000
+    0.3333
+    0.6667
+
+
+p =
+
+   -0.0556
+    0.3889
+    0.1111
+   -0.1111
+   -0.2222
+   -0.3333
+   -0.1667
+
+
+q =
+
+    0.1111
+   -0.1111
+   -0.3889
+    0.2222
+   -0.1111
+    0.3333
+    0.1667
+```
+
+The $$x$$ and $$y$$ values are a Nash equilibrium strategy solution for each player (one of many equilibrium solutions). The first $$p$$ value shows the value of the game as we had calculated before in the analytical section. 
 
 ## Iterative Algorithms
 Now we have shown a way to solve games more efficiently based on the structure/ordering of the decision nodes (which can be expressed in tree form).
