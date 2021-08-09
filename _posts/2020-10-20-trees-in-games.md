@@ -15,6 +15,8 @@ Many games can be solved using the minimax algorithm for exploring a tree and de
 ## Basic Tree
 Take a look at the game tree below. The circular nodes represent player positions and the lines represent possible actions. The "root" of the tree is the initial state at the top. We have P1 acting first, P2 acting second, and the payoffs at the leaf nodes in the standard P1, P2 format. 
 
+<!--chance at top, card states, actions, terminal node with utility -->
+
 ![Minimax tree](../assets/section2/trees/minimax.png)
 
 The standard way to solve a tree like this is using **backward induction**, whereby we start with the leaves (i.e. the payoff nodes at the bottom) of the tree and see which decisions the last player, Player 2 in this case, will make at her decision nodes. 
