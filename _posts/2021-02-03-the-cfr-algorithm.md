@@ -75,6 +75,18 @@ Average strategy therefore would be around ⅓ each, but current strategy could 
 While the current strategy is bouncing around strategy space without stopping at equilibrium, the average strategy cycles in closer and closer, converging towards an equilibrium point.
 Although some research teams have used the final strategy with good results
 
+### Definitions
+Let A denote the set of all game actions. We refer to a strategy profile that excludes
+player i’s strategy as $$\sigma_{-i}$$. A history $$h$$ is a sequence of actions, including chance outcomes, starting from the root of the game. Let $$\pi^\sigma(h)$$ be the reach probability of game history $h$ with strategy profile $$\sigma$$ and $$\pi^\sigma(h,z)$$ be the reach probability that begins at $$h$$ and ends at $$z$$. 
+
+Let Z denote the set of all terminal game histories and then we have $$h \sqsubset z$$ for $$z \in Z$$ is a nonterminal game history. Let $$u_i(z)$$ denote the utility to player $$i$$ of terminal history $$z$$. 
+
+We can now define the counterfactual value at nonterminal history $$h$$ as follows: 
+
+$$ v_i(\sigma, h) \equiv \sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z) $$
+
+### Vanilla CFR
+
 
 ### Monte Carlo CFR (MCCFR)
 Use sampling to trade off between fast/narrow/noisy updates vs slow/broad/precise updates
