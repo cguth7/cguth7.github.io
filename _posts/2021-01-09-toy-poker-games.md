@@ -230,7 +230,7 @@ If P2 checks his Q, his EV $$ = 0 $$.
 
 If P2 bets (bluffs) with his Q, his EV is:
 
-$$ -1 * P(P1 check A then call A) - 1 * P(P1 check K then call K) + 2 * P(P1 check K then fold K) $$
+$$ -1 * \text{P(P1 check A then call A)} - 1 * \text{P(P1 check K then call K)} + 2 * \text{P(P1 check K then fold K)} $$
 
 $$ = -1 * \frac{1-y}{2-y} + -1 * z * \frac{1}{2-y} + 2 * (1-z) * \frac{1}{2-ya} $$
 
@@ -318,7 +318,7 @@ $$ (1) * (1) * \frac{y+1}{3} * (-1) = -\frac{y+1}{3} $$
 
 $$ (1) * (1) * (1 - \frac{y+1}{3}) * (0) = 0 $$
 
-Total = -\frac{y+1}{3} $$
+Total = $$ -\frac{y+1}{3} $$
 
 **Case 4: P1 K, P2 Q**
 1. Check check:
@@ -333,7 +333,7 @@ $$ (1) * \frac{1}{3} * \frac{y+1}{3} * 3 = \frac{y+1}{3} $$
 
 $$ (1) * \frac{1}{3} * (1 - \frac{y+1}{3}) * 0 = 0 $$
 
-Total = \frac{4}{3} + \frac{y+1}{3} = \frac{y+5}{3} $$
+Total = $$ \frac{4}{3} + \frac{y+1}{3} = \frac{y+5}{3} $$
 
 **Case 5: P1 Q, P2 A**
 1. Bet call:
@@ -344,7 +344,7 @@ $$ \frac{y}{3} * 1 * (-1) = \frac{-y}{3} $$
 
 $$ (1 - \frac{y}{3}) * 1 * 1 * (0) = 0 $$
 
-Total = \frac{-y}{3} $$
+Total = $$ \frac{-y}{3} $$
 
 **Case 6: P1 Q, P2 K**
 1. Bet call:
@@ -359,7 +359,7 @@ $$ \frac{y}{3} * \frac{2}{3} * 2 = \frac{4*y}{9} $$
 
 $$ (1-\frac{y}{3}) * 1 * (0) = 0 $$ 
 
-Total = -\frac{y}{9} + \frac{4*y}{9} = \frac{y}{3} $$
+Total = $$ -\frac{y}{9} + \frac{4*y}{9} = \frac{y}{3} $$
 
 **Summing up the cases**
 Since each case is equally likely based on the initial deal, we can multiply each by $$ \frac{1}{6} $$ and then sum them to find the EV of the game. Summing up all cases, we have:
@@ -367,11 +367,13 @@ Since each case is equally likely based on the initial deal, we can multiply eac
 Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\frac{y+1}{3} + \frac{y+5}{3} + \frac{-y}{3} + \frac{y}{3}] = \frac{17}{18} $$
 
 ### Main takeaways
-What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expectation of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. Therefore the value of the game for Player 2 is $$ +0.05555 $$. Every time that these players play a hand against each other (assuming they play the equilibrium strategies), that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
+What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expected gain from playing the game of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. This is because for each $1 put into the game, Player 1 is expected to get back $$ \frac{17}{18} and so is expected to lose. Therefore the value of the game for Player 2 is $$ +0.05555 $$. 
+
+Every time that these players play a hand against each other (assuming they play the equilibrium strategies), that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
 
 This indicates the advantage of acting last in poker -- seeing what the opponent has done first gives an information advantage. In this game, the players would rotate who acts first for each hand, but the principle of playing more hands with the positional advantage is very important in real poker games. 
 
-The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of \$ 2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at \$ 2 from the antes. 
+The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of \\$2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at \\$2 from the antes. 
 
 From a poker strategy perspective, the main takeaway is that we can essentially split our hands into:
 1. Strong hands
