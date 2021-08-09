@@ -19,7 +19,8 @@ TODO:
 7) Lin alg example
 8) More on balancing bluffs 
 Rhode Island Hold'em 
-Resutls with other poker agents playing worse strategies exploitable
+Results with other poker agents playing worse strategies exploitable
+More graphics
 -->
 
 # Solving Poker - Toy Poker Games
@@ -131,7 +132,9 @@ When P2 has K, P1 has $$ \frac{1}{2} $$ of having a Q and A each.
 
 P2's EV of folding with a K to a bet is $$ 0 $$. (Note that we are defining EV from the current decision point, meaning that money already put into the pot is sunk and not factored in.)
 
-P2's EV of calling with a K to a bet $$ = 3 * \text{P(P1 has Q and bets with Q)} + \\(-1) * \text{P(P1 has A and bets with A)} $$
+P2's EV of calling with a K to a bet 
+
+$$ = 3 * \text{P(P1 has Q and bets with Q)} + \\(-1) * \text{P(P1 has A and bets with A)} $$
 
 $$ = (3) * \frac{1}{2} * x + (-1) * \frac{1}{2} * y $$
 
@@ -156,14 +159,13 @@ $$ \text{EV P1 check with Q} = 0 $$
 If P1 bets with card Q, 
 
 $$
-\text{EV P1 bet with Q} = (-1) * \text{P2 has A and always calls/wins} + \\(-1) * \text{P2 has K and calls/wins} + 2 * \text{P2 has K and folds}
+\text{EV P1 bet with Q} = (-1) * \text{P2 has A and always calls/wins} + \\(-1) * \text{P2 has K and calls/wins} + 2 * \text{P2 has K and folds} $$
 
-= \frac{1}{2} * (-1) + \frac{1}{2} * (a) * (-1) + \frac{1}{2} * (1 - a) * (2)
+$$ = \frac{1}{2} * (-1) + \frac{1}{2} * (a) * (-1) + \frac{1}{2} * (1 - a) * (2) $$
 
-= -\frac{1}{2} - \frac{1}{2} * a + (1 - a)
+$$ = -\frac{1}{2} - \frac{1}{2} * a + (1 - a) $$
 
-= \frac{1}{2} - \frac{3}{2} * a
-$$
+$$ = \frac{1}{2} - \frac{3}{2} * a $$
 
 Setting the probabilities of betting with Q and checking with Q equal, we have:
 $$

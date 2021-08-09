@@ -17,7 +17,9 @@ Approximations exist even for these larger games and as AI continues to improve 
 
 ### Measuring Closeness to GTO
 There are two main ways to measure how good a strategy is: 
-1) We can look at a given strategy against the "best response" strategy, which is the strategy that maximally exploits the given strategy (i.e. how well can someone do against you if they know your exact strategy)
+
+1) We can look at a given strategy against the "best response" strategy, which is the strategy that maximally exploits the given strategy (i.e. how well can someone do against you if they know your exact strategy and hands)
+
 2) We can look at a given strategy against an actual game theory optimal strategy
 
 ## Why the GTO Strategy? 
