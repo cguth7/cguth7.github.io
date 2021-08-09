@@ -21,4 +21,4 @@ This tutorial is split into 6 sections:
 3. **Solving Poker:** What it means to solve poker and examples beginning with toy games
 4. **Counterfactual Regret Minimization (CFR):** The core algorithm behind most poker solving
 5. **Top Poker Agents:** Recent research and results with top poker agents
-6. **Other Topics:** Multiplayer games, other games, and decision making lessons
+<!-- 6. **Other Topics:** Multiplayer games, other games, and decision making lessons -->

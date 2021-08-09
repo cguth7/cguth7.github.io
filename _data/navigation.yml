@@ -49,13 +49,13 @@ nav:
       - title: "5.2: AI vs. Human Competitions"
         url: /ai-vs-human-competitions
 
-  - title: 6. Other Topics
-    children:
-      - title: "6.1: Multiplayer Poker Games"
-        url: /multiplayer-poker-games
-      - title: "6.2: Opponent Exploitation"
-        url: /opponent-exploitation
-      # - title: "-Other Games"
-      #   url: /other_games
-      - title: "6.3: Interpreting Agent Decisions"
-        url: /interpreting-agent-decisions
+  # - title: 6. Other Topics
+  #   children:
+  #     - title: "6.1: Multiplayer Poker Games"
+  #       url: /multiplayer-poker-games
+  #     - title: "6.2: Opponent Exploitation"
+  #       url: /opponent-exploitation
+  #     # - title: "-Other Games"
+  #     #   url: /other_games
+  #     - title: "6.3: Interpreting Agent Decisions"
+  #       url: /interpreting-agent-decisions
