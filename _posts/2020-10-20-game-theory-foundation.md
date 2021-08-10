@@ -292,24 +292,33 @@ Here we will look at a less sad version, the mathematical concept of regret. Reg
 
 $$ \text{Regret} = \text{u(Alternative Strategy)} - \text{u(Current Strategy)} $$ where $$u$$ represents utility
 
-If your current strategy for breakfast is cooking eggs at home, then maybe u(Current Home Egg Strategy) = 5. If you have an alternative of eating breakfast at a fancy buffet, then maybe u(Alternative Buffet Strategy) = 9, so the regret for not eating at the buffet is 9 - 5 = 4. If your alternative is getting a quick meal from McDonald's, then you might value u(Alternative McDonald's Strategy) = 2, so regret for not eating at McDonald's is 2 - 5 = -3. We prefer alternative actions with high regret. 
+If your current strategy for breakfast is cooking eggs at home, then maybe $$\text{u(Current Home Egg Strategy)} = 5$$. If you have an alternative of eating breakfast at a fancy buffet, then maybe $$\text{u(Alternative Buffet Strategy)} = 9$$, so the regret for not eating at the buffet is $$9 - 5 = 4$$. If your alternative is getting a quick meal from McDonald's, then you might value $$\text{u(Alternative McDonald's Strategy)} = 2$$, so regret for not eating at McDonald's is $$2 - 5 = -3$$. We prefer alternative actions with high regret. 
 
 We can give another example from Rock Paper Scissors: 
 
-We play rock and opponent plays paper ⇒ u(rock,paper) = -1
-Regret(scissors) = u(scissors,paper) - u(rock,paper) = 1-(-1) = 2
-Regret(paper) = u(paper,paper) - u(rock,paper) = 0-(-1) = 1
-Regret(rock) = u(rock,paper) - u(rock,paper) = -1-(-1) = 0
+We play rock and opponent plays paper $$\implies \text{u(rock,paper)} = -1$$
 
-We play scissors and opponent plays paper ⇒ u(scissors,paper) = 1
-Regret(scissors) = u(scissors,paper) - u(scissors,paper) = 1-1 = 0
-Regret(paper) = u(paper,paper) - u(scissors,paper) = 0-1 = -1
-Regret(rock) = u(rock,paper) - u(scissors,paper) = -1-1 = -2
+$$\text{Regret(scissors)} = \text{u(scissors,paper)} - \text{u(rock,paper)} = 1-(-1) = 2$$
 
-We play paper and opponent plays paper ⇒ u(paper,paper) = 0
-Regret(scissors) = u(scissors,paper) - u(paper,paper) = 1-0 = 1
-Regret(paper) = u(paper,paper) - u(paper,paper) = 0-0 = 0
-Regret(rock) = u(rock,paper) - u(paper,paper) = -1-0 = -1
+$$\text{Regret(paper)} = \text{u(paper,paper)} - \text{u(rock,paper)} = 0-(-1) = 1$$
+
+$$\text{Regret(rock)} = \text{u(rock,paper)} - \text{u(rock,paper)} = -1-(-1) = 0$$
+
+We play scissors and opponent plays paper $$\implies \text{u(scissors,paper)} = 1$$
+
+$$\text{Regret(scissors)} = $$\text{u(scissors,paper)} - $$\text{u(scissors,paper)} = 1-1 = 0$$
+
+$$\text{Regret(paper)} = $$\text{u(paper,paper)} - $$\text{u(scissors,paper)} = 0-1 = -1$$
+
+$$\text{Regret(rock)} = $$\text{u(rock,paper)} - $$\text{u(scissors,paper)} = -1-1 = -2$$
+
+We play paper and opponent plays paper $$\implies \text{u(paper,paper)} = 0$$
+
+$$\text{Regret(scissors)} = $$\text{u(scissors,paper)} - $$\text{u(paper,paper)} = 1-0 = 1$$
+
+$$\text{Regret(paper)} = $$\text{u(paper,paper)} - $$\text{u(paper,paper)} = 0-0 = 0$$
+
+$$\text{Regret(rock)} = $$\text{u(rock,paper)} - $$\text{u(paper,paper)} = -1-0 = -1$$
 
 Again, we prefer alternative actions with high regret. 
 
