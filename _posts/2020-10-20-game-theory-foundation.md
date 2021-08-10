@@ -328,6 +328,61 @@ To generalize for the Rock Paper Scissors case:
 - When we play a winning action, the alternative tying action gets a regret of -1 and the alternative losing action gets a regret of -2
 - When we play a losing action, the alternative winning action gets a regret of +2 and the alternative tying action gets a regret of +1
 
+### Bandits
+A common way to analyze regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) Each time the player pulls an arm, they get some reward, which could be positive or negative. 
+
+A basic setting initializes each of 10 arms with $$ q_*(\text{arm}) = \mathcal{N}(0, 1) $$, so each is initialized with a center point found from the Gaussian distribution. Each pull of an arm then gets a reward of $$ R = \mathcal{N}(q_*(\text{arm}), 1) $$. 
+
+To clarify, this means each arm is initialized with a value centered around 0 but with some variance, so each will be a bit different. Then from that point, the actual pull of an arm is centered around that new point with some variance as seen in this figure with a 10-armed bandit from Intro to Reinforcement Learning by Sutton and Barto:
+
+![Bandit setup](../assets/section2/gametheory/banditsetup.png)
+
+In simple terms, each machine has some set value that isn't completely fixed at that value, but rather varies slightly around it, so a machine with a value of 3 might range from 2.5 to 3.5. 
+
+Imagine that the goal is to play this game 2000 times with the intention to achieve the highest rewards. We can only learn about the rewards by pulling the arms -- we don't have any information about the distribution behind the scenes. We maintain an average reward per pull for each arm as a guide for which arm to pull in the future. 
+
+**Greedy** 
+The most basic algorithm to score well is to pull each arm once and then forever pull the arm that performed the best in the sampling stage. This could be modified by pulling each arm $$n$$ times and then pulling the best arm, while allowing "best arm" to be updated if the average reward for the current best arm becomes worse than another arm. 
+
+**Epsilon Greedy**
+$$\epsilon$$-Greedy works similarly to Greedy, but instead of **always** picking the best arm, we use an $$\epsilon$$ value that defines how often we should randomly pick a different arm. We keep track of which arm is the current best arm before each pull according to the average reward per pull, then play that arm $$1-\epsilon$$ of the time and play a random arm $$\epsilon$$ of the time. For example if $$\epsilon$$ was 0.1, then we'd pick the currently known best arm 90% of the time and a random arm 10% of the time. 
+
+The idea of usually picking the best arm and sometimes switching to a random one is the concept of **exploration vs. exploitation**. Think of this in the context of picking a travel destination or picking a restaurant. You are likely to get a very high "reward" by continuing to go to a favorite vacation spot or restaurant, but it's also useful to explore other options that you could end up preferring. (Note to self: Think about not eating the same exact meals every day.)
+
+**Bandit Regret**
+The goal of the agent playing this game is to get the best reward. This is done by pulling the best arm. We can define a very sensible definition of average regret as 
+
+$$ \text{Regret}_t = \frac{1}{t} \sum_{\tau=1}^t (V^* - Q(a_\tau)) $$ 
+
+where $$ V^* $$ is the fixed reward from the best action, $$ Q(a_\tau) $$ is the reward from selecting arm $$ a $$ at timestep $$ \tau $$, and $$ t $$ is the total number of timesteps. 
+
+So at each timestep, we are computing the difference between if we had picked the best possible action compared to the actual action that we pulled and taking the average. 
+
+In other words, this is the average of how much worse we have done than the best possible action over the number of timesteps. 
+
+So if the best action would give a value of 5 and our rewards on our first 3 pulls were {3, 5, 1}, our regrets would be {5-3, 5-5, 5-1} = {2, 0, 4}, for an average of $$(2+0+4)/3 = 2$$. So the equivalent to trying to maximize rewards is trying to minimize regret. 
+
+Note that above we said that the idea was to maximize regret and that we'd play actions in proportion to the regrets with regret matching. Now we're trying to minimize regret. This is confusing and regret can be interpreted in both ways depending on the situation. 
+
+For values of $$\epsilon = 0$$ (greedy), $$\epsilon = 0.01$$, $$\epsilon = 0.1$$, and $$\epsilon = 0.5$$ and using the setup described above, we did a simulation that averaged 2,000 runs of 1,000 timesteps each. 
+
+![Bandit average reward](../assets/section2/gametheory/bandits_avg_reward.png)
+*Average reward plot*
+
+For the average reward plot, we see that the optimal $$\epsilon$$ amongst those used is 0.1, next best is 0.01, then 0, and then 0.5. This shows that some exploration is valuable, but too much (0.5) or too little (0) is not optimal.  
+
+![Bandit average regret](../assets/section2/gametheory/bandits_avg_regret.png)
+*Average regret plot*
+
+The average regret plot is the inverse of the reward plot because it is the best possible reward minus the actual rewards received and so the goal is to minimize the regret. 
+
+**Upper Confidence Bound (UCB)** 
+There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). 
+
+$$ A_t = argmax_a{[Q_t(a) + c*sqrt{frac{log{t}}{N_t(a)}]} $$ 
+
+
+
 ### Regret Matching
 What is the point of these regret values and what can we do with them? 
 
@@ -370,56 +425,7 @@ The plots show the current strategy and average strategy over time of each of ro
 
 <img src="../assets/section2/gametheory/rps_slow1.png">
 
+<!-- CFR+ thing? -->
+
 ### Regret in Poker 
 The regret matching algorithm is at the core of selecting actions in the algorithms used to solve poker games. We will go into more detail in the CFR Algorithm section. 
-
-### Bandits
-A common way to analyze regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) 
-
-A basic setting initializes each of 10 arms with $$ q_*(\text{arm}) = \mathcal{N}(0, 1) $$, so each is initialized with a center point found from the Gaussian distribution. Each pull of an arm then gets a reward of $$ R = \mathcal{N}(q_*(\text{arm}), 1) $$. 
-
-To clarify, this means each arm gets an initial value centered around 0 but with some variance, so each will be a bit different. Then from that point, the actual pull of an arm is centered around that new point as seen in this figure with a 10-armed bandit from Intro to Reinforcement Learning by Sutton and Barto:
-
-![Bandit setup](../assets/section2/gametheory/banditsetup.png)
-
-In simple terms, each machine has some set value that isn't completely fixed at that value, but rather varies slightly around it, so a machine with a value of 3 might range from 2.5 to 3.5. 
-
-Imagine that the goal is to play this game 2000 times with the intention to achieve the highest rewards. We can only learn about the rewards by pulling the arms -- we don't have any information about the distribution behind the scenes. We maintain an average reward per pull for each arm as a guide for which arm to pull in the future. 
-
-**Greedy** 
-The most basic algorithm to score well is to pull each arm once and then forever pull the arm that performed the best in the sampling stage. 
-
-**Epsilon Greedy**
-$$\epsilon$$-Greedy works similarly to Greedy, but instead of **always** picking the best arm, we use an $$\epsilon$$ value that defines how often we should randomly pick a different arm. We keep track of which arm is the current best arm before each pull according to the average reward per pull, then play that arm $$1-\epsilon$$ of the time and play a random arm $$\epsilon$$ of the time. 
-
-The idea of usually picking the best arm and sometimes switching to a random one is the concept of **exploration vs. exploitation**. Think of this in the context of picking a travel destination or picking a restaurant. You are likely to get a very high "reward" by continuing to go to a favorite vacation spot or restaurant, but it's also useful to explore other options that you could end up preferring. 
-
-**Bandit Regret**
-The goal of the agent playing this game is to get the best reward. This is done by pulling the best arm. We can define a very sensible definition of average regret as 
-
-$$ \text{Regret}_t = \frac{1}{t} \sum_{\tau=1}^t (V^* - Q(a_\tau)) $$ 
-
-where $$ V^* $$ is the fixed reward from the best action, $$ Q(a_\tau) $$ is the reward from selecting arm $$ a $$ at timestep $$ \tau $$, and $$ t $$ is the total number of timesteps. 
-
-In words, this is the average of how much worse we have done than the best possible action over the number of timesteps. 
-
-So if the best action would give a value of 5 and our rewards on our first 3 pulls were {3, 5, 1}, our regrets would be {5-3, 5-5, 5-1} = {2, 0, 4}, for an average of 2. So an equivalent to trying to maximize rewards is trying to minimize regret. 
-
-Note that above we said that the idea was to maximize regret and that we'd play actions in proportion to the regrets with regret matching. Now we're trying to minimize regret. This is confusing and regret can be interpreted in both ways depending on the situation. 
-
-For values of $$\epsilon = 0$$ (greedy), $$\epsilon = 0.01$$, $$\epsilon = 0.1$$, and $$\epsilon = 0.5$$ and using the setup described above, we have averaged 2,000 runs of 1,000 timesteps each. 
-
-![Bandit average reward](../assets/section2/gametheory/bandits_avg_reward.png)
-*Average reward plot*
-
-For the average reward plot, we see that the optimal $$\epsilon$$ amongst those used is 0.1, next best is 0.01, then 0, and then 0.5. This shows that some exploration is valuable, but too much (0.5) or too little (0) is not optimal.  
-
-![Bandit average regret](../assets/section2/gametheory/bandits_avg_regret.png)
-*Average regret plot*
-
-The average regret plot is the inverse of the reward plot because it is the best possible reward minus the actual rewards received and so the goal is to minimize the regret. 
-
-**Upper Confidence Bound (UCB)** 
-There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). 
-
-$$ A_t = argmax_a{[Q_t(a) + c*sqrt{frac{log{t}}{N_t(a)}]} $$ 
