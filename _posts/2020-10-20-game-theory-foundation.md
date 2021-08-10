@@ -22,7 +22,7 @@ To break this down, if players A and B are both playing GTO, then both are doing
 
 With more than 2 players, there isn't an exact GTO strategy, but it is possible to approximate one. In practice, even in the 2-player setting, we have to approximate GTO strategies in full-sized poker games. We will go more into the details of what it means to solve a game in section 3.1 "What is Solving"? 
 
-Intuition for this in poker can be explained using a simple all-in game where one player must either fold or bet all his chips and the second player must either call or fold if the first player bets all the chips. We'll refer to these two players as the "all-in player" and the "calling player". We assume each player starts with 10 big blinds. There are three possible outcomes:
+Intuition for this in poker can be explained using a simple all-in game where one player must either fold or bet all his chips and the second player must either call or fold if the first player bets all the chips. We'll refer to these two players as the "all-in player" and the "calling player". We assume each player starts with 10 big blinds and P1 puts in a small blind of 0.5 units and P2 puts in a big blind of 1 unit. There are three possible outcomes:
 
 | Scenarios  | Player 1 (SB)  | Player 2 (BB) | Result |
 |---|---|---|---|
@@ -32,11 +32,11 @@ Intuition for this in poker can be explained using a simple all-in game where on
 
 In this situation, the calling player might begin the game with a default strategy of calling a low percentage of hands. An alert all-in player might exploit this by going all-in with a large range of hands. 
 
-**ICMIZER of this with EV** 
+<!-- **ICMIZER of this with EV**  -->
 
 After seeing the first player go all-in very frequently, the calling player might increase the calling range. 
 
-**ICMIZER of this with EV** 
+<!-- **ICMIZER of this with EV**  -->
 
 Once the all-in player observes this, it could lead him to reduce his all-in percentage. Once the all-in range of hands and the calling range stabilize such that neither player can unilaterally change his strategy to increase his profit, then the equilibrium strategies have been reached. 
 
@@ -44,22 +44,22 @@ A **strategy** in game theory is the set of actions one will take at every decis
 
 We can use the ICMIZER program to compute the game theory optimal strategies in a 1v1 setting where both players start the hand with 10 big blinds. In this case, the small blind all-in player goes all-in 58% of the time and the big blind calling player calls 37% of the time. 
 
-**ICMIZER of this with EV** 
+<!-- **ICMIZER of this with EV**  -->
 
 If either player changed those percentages, then their EV would go down! If the calling player called more hands (looser), those hands wouldn't be profitable. If the calling player called fewer hands (tighter), then he would be folding too much. If the all-in player went looser, those extra hands wouldn't be profitable, and if he went tighter, then he would be folding too much. 
 
 Why, intuitively, is the all-in player's range so much wider than the calling player's? David Sklansky coined the term "gap concept", which states that a player needs a better hand to call with than to go all-in with -- that difference is the gap. The main reasons for this are (a) the all-in player gets the initiative whereby he can force a fold, but the calling player can only call, (b) the all-in player is signaling the strength of his hand, and (c) when facing an all-in bet the pot odds are not especially appealing. 
 
 ## Exploitation
-What if the big blind calling player doesn't feel comfortable calling with weaker hands like K2s and Q9o and maximized his calling range tighter than the equilibrium range of 37%? The game theoretic solution would not fully take advantage of this opportunity. The **best response strategy** is the one that maximally exploits the opponent by always performing the highest expected value play against their fixed strategy. In general, an exploitative strategy is one that exploits an opponent's non-equilibrium play. In the above example, an exploitative play could be raising with all hands after seeing the opponent calling with a low percentage of hands. However, this strategy can itself be exploited. 
+What if the big blind calling player doesn't feel comfortable calling with weaker hands like K2s and Q9o and maximized his calling range tighter than the equilibrium range of 37%? The game theoretic solution strategy for the other player would not fully take advantage of this opportunity. The **best response strategy** is the one that maximally exploits the opponent by always performing the highest expected value play against their fixed strategy. In general, an exploitative strategy is one that exploits an opponent's non-equilibrium play. In the above example, an exploitative play could be raising with all hands after seeing the opponent calling with a low percentage of hands. However, this strategy can itself be exploited. 
 
-**table of EV vs. looser and tighter opponents compared to GTO and possible loss (pg 87 of Modern Poker Theory)**
+<!-- **table of EV vs. looser and tighter opponents compared to GTO and possible loss (pg 87 of Modern Poker Theory)** -->
 
 ## Normal Form
 Normal Form is writing the **strategies** and game **payouts** in matrix form. The Player 1 strategies are in the rows and Player 2 strategies are in the columns. The payouts are written in terms of P1, P2. 
 
 ### Zero-Sum All-in Poker Game
-We can model the all-in game in normal form as below. Assume that each player looks at his/her hand and settles on an action, then the below chart is the result of those actions with the first number being Player 1's **payout** and the second being Player 2's. In general, normal form matrices show **utilities** for each player in a game, which is what the situation is valued for each player, but in poker settings, these are the payouts from the hand. 
+We can model the all-in game in normal form as below. Assume that each player looks at his/her hand and settles on an action, then the below chart is the result of those actions with the first number being Player 1's **payout** and the second being Player 2's. In general, normal form matrices show **utilities** for each player in a game, which is what the situation is valued for each player, and in poker settings, these are the payouts from the hand. 
 
 Note that e.g. the call player cannot call when the all-in player folds, but we assume the actions are pre-selected and the payouts still remain the same.
 
@@ -81,7 +81,7 @@ Because in poker the hands are hidden, there would be no way to actually know th
 
 ### Simple 2-Action Game
 
-| P1/2  | Action 1  | Action 2  |
+| P1/P2  | Action 1  | Action 2  |
 |---|---|---|---|
 | Action 1  | 5, 3  | 4, 0  |
 | Action 2  | 3, 2  | 1, -1  | 
@@ -106,7 +106,7 @@ Therefore we have an **equilibrium** at (5,3) and no player would want to deviat
 ### 3-Action Game
 In the Player 1 Action 1 and Player 2 Action 1 slot, we have (10, 2), which represents P1 = 10 and P2 = 2. I.e. if these actions are taken, Player 1 wins 10 units and Player 2 wins 2 units. 
 
-| P1/2  | Action 1  | Action 2  | Action 3  |
+| P1/P2  | Action 1  | Action 2  | Action 3  |
 |---|---|---|---|
 | Action 1  | 10, 2  | 8, 1  | 3, -1  |
 | Action 2  | 5, 8  | 4, 0  | -1, 1  |
@@ -126,13 +126,13 @@ Action 1 **weakly** dominates Action 3 for Player 2. This means that Action 1 is
 
 We can eliminate strictly dominated strategies and then arrive at the reduced Normal Form game. Recall that Player 1 would never play Actions 2 or 3 because Action 1 is always better. Similarly, Player 2 would never play Action 2 because Action 1 is always better. 
 
-| P1/2  | Action 1  | Action 3  |
+| P1/P2  | Action 1  | Action 3  |
 |---|---|---|
 | Action 1  | 10, 2  | 3, -1  |
 
 In this case, Player 2 prefers to play Action 1 since 2 > -1, so we have a Nash Equilibrium with both players playing Action 1 100% of the time (also known as a **pure strategy**) and the payouts will be 10 to Player 1 and 2 to Player 2. The issue with Player 2's Action 1 having a tie with Action 3 when Player 1 played Action 3 was resolved because we now know that Player 1 will never actually play that action and when Player 1 plays Action 1, Player 2 will always prefer Action 1 to Action 3. 
 
-| P1/2  | Action 1  |
+| P1/P2  | Action 1  |
 |---|---|
 | Action 1  | 10, 2  |
 
@@ -141,24 +141,30 @@ To summarize, Player 1 always plays Action 1 because it dominates Actions 2 and 
 ### Tennis vs. Power Rangers 
 In this game, we have two people who are going to watch something together. P1 has a preference to watch tennis and P2 prefers Power Rangers. If they don't agree, then they won't watch anything and will have payouts of 0. If they do agree, then the person who gets to watch their preferred show has a higher reward than the other, but both are positive. 
 
-| P1/2  | Tennis  | Power Rangers   |
+| P1/P2  | Tennis  | Power Rangers   |
 |---|---|---|
 | Tennis  | 3, 2  | 0, 0  |
 | Power Rangers  | 0, 0  | 2, 3  |
 
-In this case, neither player can eliminate a strategy. For Player 1, if Player 2 chooses Tennis then he also prefers Tennis, but if Player 2 chooses Power Rangers, then he prefers Power Rangers as well (both of these are Nash Equilbrium). This is intuitive (if the people really like TV) because there is 0 value in watching nothing but at least some value if both agree to watch one thing. This also shows the Nash equilibrium principle of not being able to benefit from **unilaterally** changing strategies -- if both are watching tennis and P2 changes to Power Rangers, that change would reduce value from 2 to 0! 
+In this case, neither player can eliminate a strategy. For Player 1, if Player 2 chooses Tennis then he also prefers Tennis, but if Player 2 chooses Power Rangers, then he prefers Power Rangers as well (both of these are Nash Equilbrium). This is intuitive (assuming that the payouts are valid, i.e., that the people really like TV) because there is 0 value in watching nothing but at least some value if both agree to watch one thing. This also shows the Nash equilibrium principle of not being able to benefit from **unilaterally** changing strategies -- if both are watching tennis and P2 changes to Power Rangers, that change would reduce value from 2 to 0! 
 
 So what is the optimal strategy here? If each player simply picked their preference, then they'd always watch nothing and get 0! If they both always picked their non-preference, then the same thing would happen! If they pre-agreed to either Tennis or Power Rangers, then utilties would increase, but this would never be "fair" to either person. 
 
 We can calculate the optimal strategies like this: 
 
-Let's call $$P(P1 Tennis) = p$$ and $$P(P1 Power Rangers) = 1 - p$$. These represent the probability that Player 1 would select each of these. 
+Let's define:  
+
+$$\text{P(P1 Tennis)} = p$$ 
+
+$$\text{P(P1 Power Rangers)} = 1 - p$$ 
+
+These represent the probability that Player 1 would select each of these. 
 
 If Player 2 chooses Tennis, Player 2 earns $$ p*(2) + (1-p)*(0) = 2p $$. The EV is calculated as probabilities of Player 1 multiplied by payouts of Player 2 playing Tennis. 
 
 If Player 2 chooses Power Rangers, Player 2 earns $$ p*(0) + (1-p)*(3) = 3 - 3p $$
 
-We are trying to find a strategy that involves mixing between both options, a **mixed strategy**. A fundamental rule is that if you are going to play multiple strategies, then the value of each must be the same. Otherwise you would just pick one and stick with that. 
+We are trying to find a strategy that involves mixing between both options, a **mixed strategy**. A fundamental rule is that if you are going to play multiple strategies, then the utility value of each must be the same, because otherwise you would just pick one and stick with that. 
 
 Therefore we can set these values equal to each other, so 
 
@@ -176,32 +182,35 @@ By symmetry, P2's strategy is to choose Tennis $$2/5$$ and Power Rangers $$3/5$$
 
 This means that each player is choosing his/her chosen program $$3/5$$ of the time, while choosing the other option $$2/5$$ of the time. Let's see how the final outcomes look. 
 
-So we have Tennis, Tennis occurring $$3/5 * 2/5 = 6/25$$
-Power Rangers, Power Rangers $$2/5 * 3/5 = 6/25$$
-Tennis, Power Rangers $$3/5 * 3/5 = 9/25$$
-Power Rangers, Tennis $$2/5 * 2/5 = 4/25$$
+Tennis, Tennis occurs $$3/5 * 2/5 = 6/25$$
+
+Power Rangers, Power Rangers occurs $$2/5 * 3/5 = 6/25$$
+
+Tennis, Power Rangers occurs $$3/5 * 3/5 = 9/25$$
+
+Power Rangers, Tennis occurs $$2/5 * 2/5 = 4/25$$
 
 These probabilities are shown below (this is not a normal form matrix because we are showing probabilities and not payouts): 
 
-| P1/2  | Tennis  | Power Rangers   |
+| P1/P2  | Tennis  | Power Rangers   |
 |---|---|---|
 | Tennis  | 6/25  | 9/25  |
 | Power Rangers  | 4/25  | 6/25  |
 
 The average payouts to each player are $$6/25 * (3) + 6/25 * (2) = 30/25 = 1.2$$. This would have been higher if they had avoided the 0,0 payouts! Unfortunately $$9/25 + 4/25 = 13/25$$ of the time, the payouts were 0 to each player. Coordinating to watch *something* rather than so often watching nothing would be a much better solution! 
 
-What if Player 1 decided to be sneaky and change his strategy to choosing Tennis always instead of 3/5 tennis and 2/5 Power Rangers? Remember that there can be no benefit to deviating from a Nash Equilibrium strategy by definition. If he tries this, then we have the following likelihoods since P1 is never choosing Power Rangers and so the probabilities are determined strictly by P2's strategy of 2/5 tennis and 3/5 Power Rangers: 
+What if Player 1 decided to be sneaky and change his strategy to choosing Tennis always instead of $$3/5$$ tennis and $$2/5$$ Power Rangers? Remember that there can be no benefit to deviating from a Nash Equilibrium strategy by definition. If he tries this, then we have the following likelihoods since P1 is never choosing Power Rangers and so the probabilities are determined strictly by P2's strategy of $$2/5$$ tennis and $$3/5$$ Power Rangers: 
 
-| P1/2  | Tennis  | Power Rangers   |
+| P1/P2  | Tennis  | Power Rangers   |
 |---|---|---|
 | Tennis  | 2/5  | 3/5  |
 | Power Rangers  | 0  | 0  |
 
-The Tennis and Power Rangers 3/5 has no payoffs and the Tennis Tennis has a payoff of of $$2/5 * 3 = 6/5 = 1.2$$ for P1. This is the same as the payout he was already getting. Note that deviating from the equilibrium *can* maintain the same payoff, but cannot improve the payoffs. In the zero-sum case, the opponent also can only do better or equal when a player deviates, but in this case Player 2 actually has a lowe rpayoff of $$2/5 * 2 = 0.8$$ instead of $$1.2$$. 
+The Tennis and Power Rangers $$3/5$$ has no payoffs and the Tennis Tennis has a payoff of of $$2/5 * 3 = 6/5 = 1.2$$ for P1. This is the same as the payout he was already getting. Note that deviating from the equilibrium *can* maintain the same payoff, but cannot improve the payoffs. In the zero-sum case, the opponent also can only do better or equal when a player deviates, but in this case Player 2 actually has a lower payoff of $$2/5 * 2 = 0.8$$ instead of $$1.2$$. 
 
 However, P2 might catch on to this and then get revenge by pulling the same trick and changing strategy to always selecting Power Rangers, resulting in the following probabilities: 
 
-| P1/2  | Tennis  | Power Rangers   |
+| P1/P2  | Tennis  | Power Rangers   |
 |---|---|---|
 | Tennis  | 0  | 1  |
 | Power Rangers  | 0  | 0  |
@@ -211,7 +220,7 @@ Now the probability is fully on P1 picking Tennis and P2 picking Power Rangers, 
 ### Rock Paper Scissors
 Finally, can also think about this concept in Rock-Paper-Scissors. Let's define a win as +1, a tie as 0, and a loss as -1. The game matrix for the game is shown below in Normal Form:
 
-| P1/2  | Rock  | Paper  | Scissors  |
+| P1/P2  | Rock  | Paper  | Scissors  |
 |---|---|---|---|
 | Rock  | 0, 0  | -1, 1  | 1, -1  |
 | Paper  | 1, -1  | 0, 0  | -1, 1  |
@@ -219,7 +228,7 @@ Finally, can also think about this concept in Rock-Paper-Scissors. Let's define 
 
 As usual, Player 1 is the row player and Player 2 is the column player. The payouts are written in terms of P1, P2. So for example P1 Paper and P2 Rock corresponds to a reward of +1 for P1 and -1 for P2 since Paper beats Rock. 
 
-The equilibrium strategy is to play each action with 1/3 probability. We can see this intuitively because if any player played anything other than this distribution, then you could crush them by always playing the strategy that beats the strategy that they most favor. For example if someone played rock 50%, paper 25%, and scissors 25%, they are overplaying rock, so you could always play paper and then would win 50% of the time, tie 25% of the time, and lose 25% of the time for an average gain of $$1*0.5 + 0*0.25 + (-1)*0.25 = 0.25$$ each game. 
+The equilibrium strategy is to play each action with $$1/3$$ probability. We can see this intuitively because if any player played anything other than this distribution, then you could crush them by always playing the strategy that beats the strategy that they most favor. For example if someone played rock 50%, paper 25%, and scissors 25%, they are overplaying rock, so you could always play paper and then would win 50% of the time, tie 25% of the time, and lose 25% of the time for an average gain of $$1*0.5 + 0*0.25 + (-1)*0.25 = 0.25$$ each game. 
 
 | P1/P2  | Rock 50%  | Paper 25% | Scissors 25% |
 |---|---|---|---|
@@ -227,7 +236,7 @@ The equilibrium strategy is to play each action with 1/3 probability. We can see
 | Paper 100%  | 0.5*1 = 0.5  | 0.25*0 = 0  | 0.25*(-1) = -0.25  | 
 | Scissors 0%  | 0  | 0  | 0  |
 
-We can also work it out mathematically. Let P1 play Rock r%, Paper p%, and Scissors s%. The utility of P2 playing Rock is then $$0*(r) + -1 * (p) + 1 * (s)$$. The utility of P2 playing Paper is $$1 * (r) + 0 * (p) + -1 * (s)$$. The utility of P2 playing Scissors is $$-1 * (r) + 1 * (p) + 0 * (s)$$. 
+We can also work it out mathematically. Let P1 play Rock $$r%$$, Paper $$p%$$, and Scissors $$s%$$. The utility of P2 playing Rock is then $$0*(r) + -1 * (p) + 1 * (s)$$. The utility of P2 playing Paper is $$1 * (r) + 0 * (p) + -1 * (s)$$. The utility of P2 playing Scissors is $$-1 * (r) + 1 * (p) + 0 * (s)$$. 
 
 We can figure out the best strategy with this system of equations (the second equation below is because all probabilities must add up to 1):
 
@@ -235,13 +244,13 @@ $$
 \begin{cases} -p + s = r - s = -r + p \\ r + p + s = 1  \end{cases}
 $$
 
-$$-p + s = r - s ==> 2s = p + r$$
+$$-p + s = r - s \implies 2s = p + r$$
 
-$$r - s = - r + p ==> 2r = s + p$$
+$$r - s = - r + p \implies 2r = s + p$$
 
-$$-p + s = -r + p ==> s + r = 2p$$
+$$-p + s = -r + p \implies s + r = 2p$$
 
-$$r + s + p = 1 ==> r + s = 1 - p$$
+$$r + s + p = 1 \implies r + s = 1 - p$$
 
 $$1 - p = 2p 
 1 = 3p

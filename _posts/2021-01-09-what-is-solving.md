@@ -9,11 +9,15 @@ author_profile: false
 ---
 
 # Solving Poker - What is Solving? 
+What does it mean to solve a poker game? How can we "solve" a game that seemingly relies so much on psychology, reading opponents, and deception? 
 
 ## Definitions
-When we talk about a solution to a poker game, we mean playing the game theory optimal strategy. In small toy games, these strategies are relatively easy to find. In 1v1 Limit Texas Hold'em a very close approximation of this strategy [was computed in 2015 at the University of Alberta](https://science.sciencemag.org/content/347/6218/145). In commonly played games like 1v1 No Limit Texas Hold'em and multiplayer No Limit Texas Hold'em, no complete game theory optimal strategies exist...yet. 
+When we talk about a solution to a poker game, we mean playing the game theory optimal (GTO) Nash equilibrium strategy. As discussed in the Game Theory Foundations section, Nash equilibrium is defined as when there is a strategy profile such that no player can unilaterally alter his current strategy to increase his expected utility. The Nash strategies in two-player zero-sum games limit a player's exploitability at the expense of not exploiting weaker opponents, as each player is minimizing his worst-case expected payoff. This means that in expectation, no strategy can do better against a GTO strategy. 
 
-Approximations exist even for these larger games and as AI continues to improve and computing power increases and as humans study more, AI and humans will both get gradually closer to optimal, but for now 
+In small toy games, these strategies are relatively easy to find. In 1v1 Limit Texas Hold'em a very close approximation of this strategy [was computed in 2015 at the University of Alberta](https://science.sciencemag.org/content/347/6218/145). In commonly played games like 1v1 No Limit Texas Hold'em and multiplayer No Limit Texas Hold'em, no complete game theory optimal strategies exist...yet. In multiplayer games, the concept is less clear because of the interactions involved with other players. 
+
+Approximations exist even for larger games and as AI continues to improve and computing power increases and as humans study more, AI and humans will both get gradually closer to optimal, but for now, we rely on abstractions and approximations for larger games. 
+
 
 ### Measuring Closeness to GTO
 There are two main ways to measure how good a strategy is: 
@@ -23,23 +27,21 @@ There are two main ways to measure how good a strategy is:
 2) We can look at a given strategy against an actual game theory optimal strategy
 
 ## Why the GTO Strategy? 
+GTO makes sense as a formalized way to solve a game because it can't be beaten! But what if you are playing against a very bad player and a non-GTO strategy would be much stronger? In some sense the GTO strategy is not optimal in this situation, but we distinguish between a GTO strategy and an exploitative optimal strategy. By definition, solving a game makes sense to use the game theory optimal strategy because the exploitative optimal strategy is far less robust and while it may be more profitable against certain players, could be far less profitable against other players. 
 
 ## Solving Methods
 
-## Indifference
+<!-- ## Indifference -->
 
 ## Solving Programs
 Solver programs like [PioSOLVER](https://www.piosolver.com/) or [Monker Solver](https://monkerware.com/solver.html) let users set up a betting tree with user-defined betting abstractions and then solve for optimal solutions within this abstracted game. 
 
-Use to learn important lessons/strategies, but not full (couldn't remember anyway)
-can make simplifications like always doing something instead of 90% or trends for certain board types/situations
-makes more sense to compile approx strategies for different situations than expect to have some grand GTO strategy 
+The betting abstraction could be something like allowing only the minimum bet, 0.25 pot bet, 0.75 pot bet, and 1.25 pot bet. The self-play algorithm then simulates the game from the tree and finds an equilibrium strategy (i.e., strategies such that neither player can exploit the other). Solvers are very dependent on good user input because abstractions that make the game too large will take too long to solve and abstractions that make the game too small or that are not representative of true optimal strategy could result in poor results. For example, if the abstraction allows for tiny bet sizes and doesn't allow for large raises, then tiny bet sizes will seem appealing because they would not entail much risk to the bettor. 
 
-The betting abstraction could be something like allowing only the minimum bet, 0.25 pot bet, 0.75 pot bet, and 1.25 pot bet. The self-play algorithm then simulates the game from the tree and finds an equilibrium strategy, i.e. strategies such that neither player can exploit the other. Solvers are very dependent on good user input because abstractions that make the game too large will take too long to solve and abstractions that make the game too small or that are not representative of true optimal strategy could result in poor results. 
-
-### Monker Solver Example
+These programs are valuable for learning important lessons/strategies in poker. It's completely unrealistic to learn a full game theory optimal strategy, but one can study a lot of different situations and come away with important principles/trends that correspond to certain board types and situations. 
 
 ### "GTO" Strategies for Sale 
+There are many "GTO" strategies that are sold online, often in the form of preflop charts that tell you what to do given a position at the table and stack size. Running these GTO calculations on a standard computer with many players at the table can be very resource intensive and time consuming, so people who have access to high-powered computers have run these situations through solvers and compiled the results. The thing about these results is that solvers are very sensitive to their inputs and multiplayer GTO results are less well defined and playing strictly GTO is not always the best in real game situations. Therefore using these charts may be useful as a baseline, but you should use caution
 
 ### EV of going allin
 https://poker.stackexchange.com/q/78/88
