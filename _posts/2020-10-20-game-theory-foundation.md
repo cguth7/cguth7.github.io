@@ -379,7 +379,7 @@ The average regret plot is the inverse of the reward plot because it is the best
 **Upper Confidence Bound (UCB)** 
 There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). 
 
-$$A_t = \arg\max_(a)$$
+$$A_t = \arg\max_{a}(Q_t(a) + c*sqrt{frac{log{t}{N_t(a)}})$$
 
 ### Regret Matching
 Regret matching means playing a strategy in proportion to the accumulated regrets. As we play, we keep track of the accumulated regrets for each action and then play in proportion to those values. For example, if the total regret values for Rock are 5, Paper 10, Scissors 5, then we have total regrets of 20 and we would play Rock 5/20 = 1/4, Paper 10/20 = 1/2, and Scissors 5/20 = 1/4. 
