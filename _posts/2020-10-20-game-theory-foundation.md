@@ -252,16 +252,29 @@ $$-p + s = -r + p \implies s + r = 2p$$
 
 $$r + s + p = 1 \implies r + s = 1 - p$$
 
-$$1 - p = 2p 
-1 = 3p
-p = 1/3$$
+Setting the last two equations equal, we have: 
 
-$$r + s + p = 1
-s + p = 1 - r$$
+$$1 - p = 2p$$
 
-$$1 - r = 2r 
-1 = 3r
-1/3 = r$$
+$$1 = 3p$$
+
+$$p = 1/3$$
+
+Rewriting the final equation: 
+
+$$r + s + p = 1$$
+
+$$s + p = 1 - r$$
+
+Using the above combined with the 2nd equation: 
+
+$$1 - r = 2r$$
+
+$$1 = 3r$$
+
+$$1/3 = r$$
+
+Writing the probabability sums to 1 equation with the results for $$p$$ and $$r$$: 
 
 $$1/3 + 1/3 + s = 1
 s = 1/3$$
@@ -271,12 +284,13 @@ The equilibrium strategy is therefore to play each action with 1/3 probability.
 If your opponent plays the equilibrium strategy of Rock 1/3, Paper 1/3, Scissors 1/3, then he will have the following EV. EV = $$1*(1/3) + 0*(1/3) + (-1)*(1/3) = 0 $$. Note that in Rock Paper Scissors, if you play equilibrium then you can never show a profit because you will always breakeven, regardless of what your opponent does. In poker, this is not the case. 
 
 ## Regret
-<!-->https://vimeo.com/265401201  <-->
-When I think of regret related to poker, the first thing that comes to mind is often "Wow you should've played way more hands in 2010 when poker was so easy". Others may regret big folds or bluffs or calls that didn't work out well. 
+When I think of regret related to poker, the first thing that comes to mind is often "Wow you should've played way more hands in 2010 when poker was so easy". Often in poker we regret big folds or bluffs or calls that didn't work out well (even though poker players in general are good at not being very results oriented).
+
+<iframe src="https://player.vimeo.com/video/265401201?title=0&byline=0&portrait=0" width="640" height="468" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
 
 Here we will look at a less sad version, the mathematical concept of regret. Regret is a measure of how well you could have done compared to some alternative. Phrased differently, what you would have done in some situation instead.  
 
-$$ Regret = u(Alternative Strategy) - u(Current Strategy) $$ where $$u$$ represents utility
+$$ \text{Regret} = \text{u(Alternative Strategy)} - \text{u(Current Strategy)} $$ where $$u$$ represents utility
 
 If your current strategy for breakfast is cooking eggs at home, then maybe u(Current Home Egg Strategy) = 5. If you have an alternative of eating breakfast at a fancy buffet, then maybe u(Alternative Buffet Strategy) = 9, so the regret for not eating at the buffet is 9 - 5 = 4. If your alternative is getting a quick meal from McDonald's, then you might value u(Alternative McDonald's Strategy) = 2, so regret for not eating at McDonald's is 2 - 5 = -3. We prefer alternative actions with high regret. 
 
