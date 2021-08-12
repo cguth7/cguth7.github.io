@@ -19,7 +19,7 @@ Take a look at the game tree below. The circular nodes represent player position
 
 ![Minimax tree](../assets/section2/trees/minimax.png)
 
-The standard way to solve a tree like this is using **backward induction**, whereby we start with the leaves (i.e. the payoff nodes at the bottom) of the tree and see which decisions the last player, Player 2 in this case, will make at her decision nodes. 
+The standard way to solve a game tree like this is using **backward induction**, whereby we start with the leaves (i.e. the payoff nodes at the bottom) of the tree and see which decisions the last player, Player 2 in this case, will make at her decision nodes. 
 
 Player 2's goal is to minimize the maximum payoff of Player 1, which in the zero-sum setting is equivalent to minimizing her own maximum loss or maximizing her own minimum payoff. This is equivalent to a Nash equilibrium in the zero-sum setting. 
 
@@ -56,7 +56,7 @@ With perfect information, each player knows exactly what node/state he is in in 
 
 ## Poker Tree
 
-Below we show the game tree for 1-card poker. In brief, it's a 1v1 game where each player starts with $2 and antes $1, leaving a single $1 bet remaining. We'll go into more details about the game in the next section. 
+Below we show the game tree for 1-card poker. In brief, it's a 1v1 game where each player starts with $2 and antes \\$1, leaving a single \\$1 bet remaining. We'll go into more details about the game in the next section. 
 
 The top node is a chance node that "deals" the cards. To make it more readable, only 2 chance outcomes are shown, Player 1 dealt Q with Player 2 dealt J and Player 1 dealt Q with Player 2 dealt K. 
 
@@ -73,7 +73,7 @@ Therefore we can't simply propagate values up the tree as we can do in perfect i
 
 ## Tic Tac Toe Tree
 
-**Tree goes here**
+<!-- **Tree goes here** -->
 
 On the tic tac toe tree, from the initial state, there are up to 9 levels of moves. Each subsequent level has fewer possible actions since more spaces on the game board are taken as we go down the tree. The tree ends at points either where the game is over because one player wins or when all the spaces are filled and no one has won, resulting in a tie. 
 
@@ -216,11 +216,23 @@ class NegamaxAgent:
 		return self.memo[game_state]
 ```
 
-### Monte Carlo Tree Search (MCTS) Applied to Tic Tac Toe
-MCTS is a more advanced algorithm that finds the optimal move through simulation. This algorithm is used as part of some recent advances in AI poker agents. 
+### Monte Carlo Tree Search (MCTS)
+MCTS is a more advanced algorithm that finds the optimal move through simulation. This algorithm is used as part of some recent advances in AI poker agents. Monte Carlo methods in general use random sampling for problems that are difficult to solve using other approaches. 
 
-MCTS allows us to determine the best optimal move from a game state without having to expand the entire tree like we had to do in the minimax algorithm. 
+#### MCTS Background
+MCTS allows us to determine the best optimal move from a game state without having to expand the entire tree like we had to do in the minimax algorithm. Also the MCTS algorithm does not require any domain knowledge, making it very versatile and powerful. However, domain knowledge can be used to improve performance by applying known patterns to the simulation policy rather than using default moves. 
 
+MCTS is primarily effective in games of perfect information and provides no guarantees for imperfect information games. In imperfecti nformation games, MCTS must use determinization, which is the anlaysis of the game as if the true world states were known. However, this presents a number of large problems such as strategy fusion. Suppose that the true setting could be either "World 1" or "World 2" (the equivalent in Kuhn Poker is that we have card Q and our opponent has either card J or K). In computing the strategy, there could be a case such as where the maximizing player can guarantee a utility of 1 by, for example, always going right (valid in both World 1 and World 2), but if the player chose to go left, then they would have yet another decision to go right or left. If the true setting was "World 1", then going right would result in a utility of 1. If the true setting was "World 2", then going left would result in a utility of -1. We can see then that with perfect information (if we knew the actual World 1 or World 2 situation), then the player could always guarantee the payout of 1 regardless of the initial action, but with imperfect information, the player risks a utility of -1 by taking the non-guaranteed payout route. 
+
+Strategy fusion can be overcome by imposing proper information constraints during search, but the additional problem of non-locality, due to the assumption that subgames are well-defined and that hence search can be recursively applied by computing and comparing values of subgames, is a problem that prevents the usual minimax formulation of optimal payoffs defined strictly over children subtrees. 
+
+Still, there are methods to apply MCTS to imperfect information games like poker. Due to the asymmetry of information in imperfect information games, a separate search tree is used for each player. Information State UCT (IS-UCT) is a multi-player version of Partially Observable UCT, which searches trees over histories fo information states instead of histories of observations and actions of Partally Observable Markov Decision Processes (POMDP). IS-UCT has not been shown to converge in poker games, but an alternative called Smooth IS-UCT was shown to converge in Kuhn poker and showed robust results in Limit Hold''em, although regular IS-UCT also did. 
+
+Although MCTS does not have theoretical convergence guarantees for multiplayer games, it is well defined for such games, unlike CFR methods (although CFR methods have found strong results). In poker, MCTS have been found to work quickly, but it generally finds a suboptimal (although decent) strategy. 
+
+In most recent applications, the MCTS algorithm is used as part of poker algorithms to estimate state values, but not on its own to solve the game. 
+
+#### MCTS Applied to Tic Tac Toe
 Let's consider that we want to find the best tic tac toe move from some state of the game that we can pre-specify. Let's go through the algorithm step by step. 
 
 The MCTSAgent class and its select_move function contain the core of the algorithm. The function begins by setting the root of the game tree as an MCTSNode class. A node is a decision point in the game tree, so the root node is the beginning of the tree. If we wanted to find out the best move from the beginning of the game, this would represent an empty tic tac toe board. 
@@ -229,7 +241,7 @@ Each node is initialized with a game state, a parent node, a move, a set of chil
 
 For some fixed number of rounds, we go through the following steps: 
 
-1. Selection: 
+1. Selection: Start from the root (current game state) and select child nodes until a leaf node (node that has a potential child from which no simulation has yet been initiated) is reached. Child nodes are selected by modeling each selection problem as a multi armed bandit using the Upper Confidence Bound (UCB) applied to trees to balance between the exploitation of moves with high average wins and exploration of moves with few simulations. 
 
 2. Expansion: If we can add a child node, then we select a random move from the current game state and create a new node to represent the game with this new move, which becomes a child of the prior node. This is done through the add_random_child function in the MCTSNode class.
 
@@ -335,3 +347,5 @@ class MCTSAgent:
 		print('Select move %s with avg val %.3f' % (best_move, best_pct))
 		return best_move
 ```
+
+MCTS in general works very effectively to solve game trees and was famously combined with neural networks in AlphaGo by DeepMind to create a Go agent. 

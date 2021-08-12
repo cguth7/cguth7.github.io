@@ -10,7 +10,7 @@ author_profile: false
 ---
 
 # Background -- Poker Background
-A number of games have been used as artificial intelligence research domains including chess, checkers, Go, and poker, but poker is unique amongst these games because of its key element of imperfect information. In poker, this is the inability to see one’s opponent’s hole cards. 
+A number of games have been used as artificial intelligence research domains including chess, checkers, Go, and poker, but poker is unique amongst these games because of its key element of imperfect information. In poker, this is the to see one’s opponent’s hole cards. 
 
 Additionally, poker is an exciting domain because it has chance events, it has simple rules yet complex strategy, and it's frequently and competitively played around the world by human players with a variety of skill levels. 
 
@@ -19,9 +19,9 @@ Games can be scaled to different levels of complexity, which allows algorithms t
 Unlike perfect information games, imperfect information games tend to have more in common with real world decision making settings. Solving such games can be translated into solving real-world applications with similar properties, and applications can be found, for example, in security, including decisions about which stations to deploy officers to, and in medical decision support.
 
 ## Poker History
-Poker grew extensively in the early 2000s thanks to the beginnings of online poker, which lead to an accountant and amateur poker player named Chris Moneymaker investing $39 in an online satellite tournament that won him a $10,000 seat at the World Series of Poker Main Event in 2003, alongside 838 other entrants.
+Poker grew extensively in the early 2000s thanks to the beginnings of online poker, which lead to an accountant and amateur poker player named Chris Moneymaker investing \\$39 in an online satellite tournament that won him a \\$10,000 seat at the World Series of Poker Main Event in 2003, alongside 838 other entrants.
 
-Moneymaker went on to defeat professional poker player Sam Farha at the final table of the tournament and won $2.5 million. A poker boom was sparked. If Moneymaker could do it, “so could I”, was the feeling that pervaded throughout America, and led to massive player pools on the Internet and in subsequent World Series’ of Poker.
+Moneymaker went on to defeat professional poker player Sam Farha at the final table of the tournament and won \\$2.5 million. A poker boom was sparked. If Moneymaker could do it, “so could I”, was the feeling that pervaded throughout America, and led to massive player pools on the Internet and in subsequent World Series’ of Poker.
 
 After the human poker boom, computers also started getting in on the poker action. Researchers began to study solving Texas Hold’em games since 2003, and since 2006, there has been an Annual Computer Poker Competition (ACPC) at the AAAI Conference on Artificial Intelligence in which poker agents compete against each other in a variety of poker formats. Almost all competitions and research in the realm of poker is done on the most popular game, Texas Hold’em, which can be played with set bet sizing, “limit”, or as a “no limit” game where, as implied, one can bet any amount up to what one has in front of him on the table. In early 2017, for the first time, a NLHE poker agent defeated and is considered superior to top poker players in the world.
 
@@ -40,7 +40,7 @@ A dealer button rotates around the table indicating who is the “dealer”. Thi
 
 In this tutorial, we will mainly focus on two player games and ignore any fees (also known as rake) such that the games will be zero-sum. Further, to simplify the games, in many settings we will reset each player’s starting chips to the same amount before every hand. The two players play a match of independent games, also called hands, while alternating who is the dealer.
 
-Each hand starts with the dealer player posting the small blind and the non-dealer player posting the big blind. The blinds define the stakes of the game (for example, a $1-$2 stakes game has blinds of $1 and $2) and the big blind is generally double the small blind. They are called blinds because they are forced bets that must be posted
+Each hand starts with the dealer player posting the small blind and the non-dealer player posting the big blind. The blinds define the stakes of the game (for example, a \\$1-\\$2 stakes game has blinds of \\$1 and \\$2) and the big blind is generally double the small blind. They are called blinds because they are forced bets that must be posted
 “blindly”. The player to the left of the big blind, in this case the dealer player, begins the first betting round by folding, calling, or raising. (In some games antes are used instead of or in addition to blinds, which involves each player posting the same ante amount in the pot before the hand.)
 
 Each game goes through a series of betting rounds that result in either one player folding and the other winning the pot by default or both players going to “showdown” after the final round, in which both show their hands and the best hand wins the pot. The pot accumulates all bets throughout the hand. The goal is to win as many chips from the other player as possible.
@@ -87,7 +87,7 @@ the first three community cards (the flop) rather than all five as in the full v
 No Limit Texas Hold’em. This means there are only two betting rounds, the preflop
 round and the flop round.
 
-The standard version of Royal NLHE we will use is called 2-$20 $1-$2 No Limit Royal Hold’em. 2-$20 refers to there being 2 betting rounds and each player starting the match with $20 chip stacks, which also reset to $20 in all subsequent hands. The blinds are fixed at $1 small blind and $2 big blind for each hand. Since the starting 14 chip stacks are $20 and the blinds are $1 and $2, each player plays each hand with a 10 big blind stack.
+The standard version of Royal NLHE we will use is called 2-\\$20 \\$1-\\$2 No Limit Royal Hold’em. 2-\\$20 refers to there being 2 betting rounds and each player starting the match with \\$20 chip stacks, which also reset to \\$20 in all subsequent hands. The blinds are fixed at \\$1 small blind and \\$2 big blind for each hand. Since the starting 14 chip stacks are \\$20 and the blinds are \\$1 and \\$2, each player plays each hand with a 10 big blind stack.
 
 This game is strategically similar to standard No Limit Texas Hold’em, but does vary because certain odds are changed significantly such as at minimum having at least one pair after the flop. These simplifications allow for the game to be analyzed by standard computers in unabstracted form. 
 
@@ -137,8 +137,8 @@ Fold: To surrender the hand when facing a bet
 Heads-Up (HU): One vs. one
 
 Kuhn Poker: Very basic poker game in which each player starts with $2 and each
-antes $1 and is dealt one card, then there is one betting round in which the remaining
-$1 can be bet
+antes \\$1 and is dealt one card, then there is one betting round in which the remaining
+\\$1 can be bet
 
 Limit Hold’em (LHE): Texas Hold’em variation with fixed betting on each round,
 based on the stakes of the game

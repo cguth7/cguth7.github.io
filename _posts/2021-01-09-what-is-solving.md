@@ -14,7 +14,17 @@ What does it mean to solve a poker game? How can we "solve" a game that seemingl
 ## Definitions
 When we talk about a solution to a poker game, we mean playing the game theory optimal (GTO) Nash equilibrium strategy. As discussed in the Game Theory Foundations section, Nash equilibrium is defined as when there is a strategy profile such that no player can unilaterally alter his current strategy to increase his expected utility. The Nash strategies in two-player zero-sum games limit a player's exploitability at the expense of not exploiting weaker opponents, as each player is minimizing his worst-case expected payoff. This means that in expectation, no strategy can do better against a GTO strategy. 
 
+This means balancing one's playing and and thinking about the range of hands that you play in each situation and how you act with each of those hands. The result is play that in theory is minimizing the worst case outcome and in practice (i.e. in real life as a human who can't play a true GTO strategy) is minimizing chances of opponents exploiting or taking advantage of leaks and weaknesses. Humans can think about this as how to play if they had to announce their strategy in advance and give it to the opponent. This seems crazy, but emphasizes the balance of such a strategy where actions attempt to make the opponent indifferent, so even if they know your strategy (they of course don't know your actual cards), they can't take exploit you. 
+
 In small toy games, these strategies are relatively easy to find. In 1v1 Limit Texas Hold'em a very close approximation of this strategy [was computed in 2015 at the University of Alberta](https://science.sciencemag.org/content/347/6218/145). In commonly played games like 1v1 No Limit Texas Hold'em and multiplayer No Limit Texas Hold'em, no complete game theory optimal strategies exist...yet. In multiplayer games, the concept is less clear because of the interactions involved with other players. 
+
+Poker studying has evolved over the last decade or so from: 
+1. Using simple odds evaluation software that would literally just show the odds of two or more specific hands given a board (or no board for the preflop odds). I remember being especially surprised the first time I saw how close some odds were for hands that seemed so much better than other hands, like AK vs. AJ or AK vs. 98! 
+2. Software that could run expected value simulations with decision trees. You could provide rule-based strategies at each node in a decision tree and the software would compute which hands were profitable, like calculating which hands could be shoved all-in from the small blind against the big blind if the big blind were calling with a fixed set of hands. This is less valuable than 
+2. Applying lessons from toy poker games into full poker games. 
+3. Using "solver" software that can actually solve for the GTO play given a specfic situation and 
+
+Using Holdem Manager
 
 Approximations exist even for larger games and as AI continues to improve and computing power increases and as humans study more, AI and humans will both get gradually closer to optimal, but for now, we rely on abstractions and approximations for larger games. 
 
