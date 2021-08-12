@@ -329,7 +329,10 @@ To generalize for the Rock Paper Scissors case:
 - When we play a losing action, the alternative winning action gets a regret of +2 and the alternative tying action gets a regret of +1
 
 ### Bandits
-A common way to analyze regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) Each time the player pulls an arm, they get some reward, which could be positive or negative. 
+A common way to analyze regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) Each time the player pulls an arm, they get some reward, which could be positive or negative. Bandits are a set of problems with repeated decisions and a fixed number of actions possible. This is related to reinforcement learning because the agent player updates its strategy based on what it learns from the feedback from the environment. 
+
+Multi-armed bandit problems are a common representation of regret and an algorithm is called "no-regret" if its average overall regret grows sublinearly in time. In the adversarial setting, the opponent chooses the reward. This is the equivalent setting that we see in poker games, since the opponent’s actions influence our utility in the game. In the full information setting, the player can see the entire reward vector for each
+machine chosen and in the partial setting, sees only the reward that the machine has chosen for that particular play. Here we will focus on the partial setting. 
 
 A basic setting initializes each of 10 arms with $$ q_*(\text{arm}) = \mathcal{N}(0, 1) $$, so each is initialized with a center point found from the Gaussian distribution. Each pull of an arm then gets a reward of $$ R = \mathcal{N}(q_*(\text{arm}), 1) $$. 
 
@@ -342,21 +345,23 @@ In simple terms, each machine has some set value that isn't completely fixed at 
 Imagine that the goal is to play this game 2000 times with the intention to achieve the highest rewards. We can only learn about the rewards by pulling the arms -- we don't have any information about the distribution behind the scenes. We maintain an average reward per pull for each arm as a guide for which arm to pull in the future. 
 
 **Greedy** 
-The most basic algorithm to score well is to pull each arm once and then forever pull the arm that performed the best in the sampling stage. This could be modified by pulling each arm $$n$$ times and then pulling the best arm, while allowing "best arm" to be updated if the average reward for the current best arm becomes worse than another arm. 
+The most basic algorithm to score well is to pull each arm once and then forever pull the arm that performed the best in the sampling stage. This could be modified by pulling each arm $$n$$ times and then pulling the best arm, while allowing "best arm" to be updated if the average reward for the current best arm becomes worse than another arm. If multiple actions have the same value, then select either the lowest index or one of the ties at random. 
 
 **Epsilon Greedy**
 $$\epsilon$$-Greedy works similarly to Greedy, but instead of **always** picking the best arm, we use an $$\epsilon$$ value that defines how often we should randomly pick a different arm. We keep track of which arm is the current best arm before each pull according to the average reward per pull, then play that arm $$1-\epsilon$$ of the time and play a random arm $$\epsilon$$ of the time. For example if $$\epsilon$$ was 0.1, then we'd pick the currently known best arm 90% of the time and a random arm 10% of the time. 
 
 The idea of usually picking the best arm and sometimes switching to a random one is the concept of **exploration vs. exploitation**. Think of this in the context of picking a travel destination or picking a restaurant. You are likely to get a very high "reward" by continuing to go to a favorite vacation spot or restaurant, but it's also useful to explore other options that you could end up preferring. (Note to self: Think about not eating the same exact meals every day.)
 
+This idea is also seen in online advertising, where an advertiser might create a few ads for the same product, then show a random one for each user on the site. They could then monitor which ones get the most clicks and therefore which ones tend to work better than the others. Should they greedily "exploit" by using the best-ranked ad or continue accumulating data or use some kind of epsilon Greedy method that now mostly uses the best ad but also sometimes shows other ones to accumulate more data. 
+
 **Bandit Regret**
-The goal of the agent playing this game is to get the best reward. This is done by pulling the best arm. We can define a very sensible definition of average regret as 
+The goal of the agent playing this game is to get the best reward. This is done by pulling the best arm repeatedly, but this is of course not known to the agent in advance. We can define a very sensible definition of average regret as 
 
 $$ \text{Regret}_t = \frac{1}{t} \sum_{\tau=1}^t (V^* - Q(a_\tau)) $$ 
 
 where $$ V^* $$ is the fixed reward from the best action, $$ Q(a_\tau) $$ is the reward from selecting arm $$ a $$ at timestep $$ \tau $$, and $$ t $$ is the total number of timesteps. 
 
-So at each timestep, we are computing the difference between if we had picked the best possible action compared to the actual action that we pulled and taking the average. 
+So at each timestep, we are computing the difference between if we had picked the best possible action (for the sake of the calculation we assume that we are able to know this) compared to the actual action that we pulled and taking the average. 
 
 In other words, this is the average of how much worse we have done than the best possible action over the number of timesteps. 
 
@@ -377,14 +382,18 @@ For the average reward plot, we see that the optimal $$\epsilon$$ amongst those 
 The average regret plot is the inverse of the reward plot because it is the best possible reward minus the actual rewards received and so the goal is to minimize the regret. 
 
 **Upper Confidence Bound (UCB)** 
-There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). 
+There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). This bound represents that even though we have some data about the value of an arm, there is some uncertainty around it so we can take the upper bound of this uncertainty to determine which arm to pull next. 
 
 $$A_t = \arg\max_{a}(Q_t(a) + c*\sqrt{\frac{log{t}{N_t(a)}})$$
 
-### Regret Matching
-Regret matching means playing a strategy in proportion to the accumulated regrets. As we play, we keep track of the accumulated regrets for each action and then play in proportion to those values. For example, if the total regret values for Rock are 5, Paper 10, Scissors 5, then we have total regrets of 20 and we would play Rock 5/20 = 1/4, Paper 10/20 = 1/2, and Scissors 5/20 = 1/4. 
+The output of the formula is to choose the optimal action. The $$Q_{t(a)}$$ represents the exploitation -- it is the average value so far of the pulls from playing action $$a$$ at time $$t$$. The rest of the equation represents the exploration and $$c$$ is the exploration constant. The $$t$$ term in the numerator represents the number of pulls completed so far in total (not just for a particular action) and the denominator term represents the number of pulls for action $$a$$. This means that for actions that have been pulled less, the term will be higher (we are more uncertain about the true value of that action). 
 
-It makes sense intuitively to prefer actions with higher regrets because they provide higher utility, as shown in the prior section. So why not just play the highest regret action always? Because playing in proportion to the regrets allows us to keep testing all of the actions, while still more often playing the actions that have the higher chance of being best. It could be that at the beginning, the opponent happened to play Scissors 60% of the time even though their strategy in the long run is to play it much less. We wouldn't want to exclusively play Rock in this case, we'd want to keep our strategy more robust. 
+The Upper Confidence Bound formula effectively selects the action that has the highest estimated value (exploitation) plus the upper confidence bound exploration term. We can think of this sort of as a "maximum expectation" or "optimism in the face of uncertainty" term and therefore would choose to pull the next arm that has the highest upper confidence bound value, and the equation for that arm would be updated after each pull with the new $$Q_{t(a)}$$ estimate and new values of $$t$$ and $$N_{t(a)}$$. 
+
+### Regret Matching
+The concept of regret matching was developed in 2000 by Hart and Mas-Collel. Regret matching means playing a future strategy in proportion to the accumulated regrets from past actions. As we play, we keep track of the accumulated regrets for each action and then play in proportion to those values. For example, if the total regret values for Rock are 5, Paper 10, Scissors 5, then we have total regrets of 20 and we would play Rock 5/20 = 1/4, Paper 10/20 = 1/2, and Scissors 5/20 = 1/4. 
+
+It makes sense intuitively to prefer actions with higher regrets because they provide higher utility, as shown in the prior section. So why not just play the highest regret action always or with some epsilon? Because playing in proportion to the regrets allows us to keep testing all of the actions, while still more often playing the actions that have the higher chance of being best. It also means that we aren't as predictable. It could be that at the beginning, the opponent happened to play Scissors 60% of the time even though their strategy in the long run is to play it much less. We wouldn't want to exclusively play Rock in this case, we'd want to keep our strategy more robust. 
 
 The regret matching algorithm works like this:
 1. Initialize regret for each action to 0
@@ -394,7 +403,7 @@ $$
 $$
 3. Accumulate regrets after each game and update the strategy
 
-Let's consider Player 1 playing a fixed RPS strategy of Rock 40%, Paper 30%, Scissors 30% and Player 2 playing using regret matching. So Player 1 is playing almost the equilibrium strategy, but a little bit biased on favor of Rock. 
+Let's consider Player 1 playing a fixed rock paper scissors strategy of Rock 40%, Paper 30%, Scissors 30% and Player 2 playing using regret matching. So Player 1 is playing almost the equilibrium strategy, but a little bit biased on favor of Rock. 
 
 Let's look at a sequence of plays in this scenario that were generated randomly.
 
@@ -411,7 +420,7 @@ Let's look at a sequence of plays in this scenario that were generated randomly.
 | R  | R  | [0,1,-1]  | [5,6,4]  | [1/3, 2/5, 4/15]  | -3  |
 | R  | P  | [-1,0,-2]  | [4,6,2]  | [1/3,1/2,1/6]  | -2  |
 
-In the long-run we know that P2 can win a large amount by always playing Paper to exploit the over-play of Rock by P1. The EV of always playing Paper is $$1*0.4 + 0*0.3 + (-1)*0.3 = 0.1$$ per game and indeed after 10 games, the strategy with regret matching has already become biased in favor of playing Paper as we see in the final row where the Paper strategy is listed as 1/2 or 50%. 
+In the long-run we know that P2 can win a large amount by always playing Paper to exploit the over-play of Rock by P1. The expected value of always playing Paper is $$1*0.4 + 0*0.3 + (-1)*0.3 = 0.1$$ per game and indeed after 10 games, the strategy with regret matching has already become biased in favor of playing Paper as we see in the final row where the Paper strategy is listed as 1/2 or 50%. 
 
 Depending on the run and how the regrets accumulate, the regret matching can figure this out immediately or it can take some time. Here are 10,000 sample runs of this scenario. 
 
@@ -424,4 +433,4 @@ The plots show the current strategy and average strategy over time of each of ro
 <!-- CFR+ thing? -->
 
 ### Regret in Poker 
-The regret matching algorithm is at the core of selecting actions in the algorithms used to solve poker games. We will go into more detail in the CFR Algorithm section. 
+The regret matching method is at the core of selecting actions in the algorithms used to solve poker games. We will go into more detail in the CFR Algorithm section. In brief, each unique state of the game has a regret counter for each action and so the strategy is determined at each game state as the regrets get updated. 
