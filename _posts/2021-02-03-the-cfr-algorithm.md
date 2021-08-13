@@ -180,14 +180,14 @@ $$ v_i^\sigma{}(I,a) = \sum{\sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(
 
 
 ### Why average strategy?
-Initial exploitability drops very quickly → Removes dominated and iteratively dominated actions
-Strategy starts to cycle around space of “reasonable” strategies with small adjustments 
-RPS example: Opponent playing too much Rock, we should move towards 100% paper (moving towards best response to their strategy, i.e., the goal of regret minimization)
-Current strategy can be mixed (starts off random uniform), but gets updated to maximize exploiting opponents and tends to cycle between pure-ish strategies
-RPS example: We move to 100% paper, opponent moves to 100% scissors, we move to 100% rock, etc.
-Average strategy therefore would be around ⅓ each, but current strategy could be very different
-While the current strategy is bouncing around strategy space without stopping at equilibrium, the average strategy cycles in closer and closer, converging towards an equilibrium point.
-Although some research teams have used the final strategy with good results
+A good intuitive way to think about why at the end of running CFR, the average strategy is the Nash equilibrium rather than the final strategy being Nash equilibrium comes from looking at rock paper scissors. 
+
+Suppose that our opponent is playing Rock too much, then CFR moves us towards playing 100% paper (moving towards the best response to their strategy, i.e. the goal of regret minimization). The current strategy can be mixed (and it starts off uniform random), but it gets updated to maximize exploiting opponents and tends to cycle between pure-ish strategies (assuming that we are playing against a real opponent and not using self-play). 
+
+So the algorithm moves us to 100% paper and then the opponent might move to 100% scissors and then we move to 100% rock, and so on! While the current strategy is making sharp bounces around the strategy space without stopping at equilibrium, the average strategy cycles in closer and closer to converging at equilibrium, which in rock paper scissors is playing each action a third of the time. Intuitively it makes sense that the average strategy would be more robust than just taking the final strategy, which could be at a strange point that clearly wouldn't be an equilibrium. 
+
+That said, recent research teams have simply used the final strategy after many many iterations and have had good results, which saves a lot of memory and computation since all of the strategies throughout don't need to be stored. 
+ 
 <!-- 
 ### Definitions
 Let A denote the set of all game actions. We refer to a strategy profile that excludes
@@ -300,10 +300,86 @@ iterations can be used such that sampling CFR is still the preferred solution
 method.
 
 ## Going through an Iteration
-show how values change over many iterations
+Here we show two full iterations of Chance Sampled CFR where we assume that the chance node has selected P1 Queen and P2 King as the random draw and then iterates over the entire tree from there. 
+
+First we show the initialization of the algorithm which has four information sets (the card + the history of actions). At each information set the regret sum is stored where the first number represents the accumulated regret for passing and the second number represents the accumulated regret for betting. The strategy column is the behavioral strategy at that information set node, based on using regret matching with the accumulated regrets. Finally, the strategy sum is what we average at the end to find the Nash equilibrium strategy. 
+
+![Algorithm initialization](../assets/section4/cfr/init.png "Algorithm initialization")
+
+![Iteration 1](../assets/section4/cfr/iter1.png "Iteration 1")
+
+Here is the sequence of what the algorithm does in the first iteration: 
+
+Player 1 plays p = 0.5 at node Q. 
+
+Player 2 plays p = 0.5 at node Kp and gets utility of 1 for action p at node Kp. 
+
+Player 2 plays b = 0.5 at node Kp. 
+
+Player 1 plays p = 0.5 at node Qpb and gets utility of -1. Player 1 plays b = 0.5 at node Qpb and gets utility of -2. Node Qpb has overall utility of 0.5*-1 + 0.5*-2 = -1.5. Regret for playing p is -1 - (-1.5) = 0.5. Regret for playing b is -2 - (-1.5) = -0.5. 
+
+Regret_sum updates are regret*p(opponent playing to node) so here we have regret_sum[p] += 0.5*0.5 = 0.25 and regret_sum[b] += -0.5*0.5 = -0.25. 
+
+Node Qpb is valued at 1.5 for player 2 (opposite of what it was for player 1). Now from node Kp, player 2 had value 1 if playing p and value 1.5 if playing b, for a node_utility of 1.25. The regret for playing p is 1-1.25 = -0.25 and regret for playing b is 1.5-1.25 = 0.25. 
+
+Regret_sum updates are regret_sum[p] += -0.25*0.5 = -0.125 and regret_sum[b] += 0.25*0.5 = 0.125. 
+
+Node Kp is now valued at -1.25 for player 1 action p. Player 1 now takes action b = 0.5 from node Q. Then player 2 takes action p = 0.5 from node Kb and gets utility -1. Then player 2 takes action b = 0.5 from node Kb and gets utility 2. The node_util is 0.5. Regret for playing p is -1 - 0.5 = -1.5. Regret for playing b is 2 - 0.5 = 1.5. 
+
+Regret_sum updates are regret_sum[p] += -1.5*0.5= -0.75 and regret_sum[b] += 1.5*0.5 = 0.75. 
+
+Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5*-1.25 for action p and -0.5*0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375*
+
+Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5*0.5. 
+
+![Algorithm before iteration 2](../assets/section4/cfr/iter2begin.png "Algorithm before iteration 2")
+
+![Iteration 2](../assets/section4/cfr/iter2.png "Iteration 2")
+
+Player 1 plays p = 0 at node Q. 
+
+Player 2 plays p = 0 at node Kp and gets utility of 1.
+
+Player 2 plays b = 0.5 at node Kp. 
+
+Player 1 plays p = 0.5 at node Qpb and gets utility of -1. Player 1 plays b = 0.5 at node Qpb and gets utility of -2. Node Qpb has overall utility of 0.5*-1 + 0.5*-2 = -1.5. Regret for playing p is -1 - (-1.5) = 0.5. Regret for playing b is -2 - (-1.5) = -0.5. 
+
+Regret_sum updates are regret*p(opponent playing to node) so here we have regret_sum[p] += 0.5*0.5 = 0.25 and regret_sum[b] += -0.5*0.5 = -0.25. 
+
+Node Qpb is valued at 1.5 for player 2 (opposite of what it was for player 1). Now from node Kp, player 2 had value 1 if playing p and value 1.5 if playing b, for a node_utility of 1.25. The regret for playing p is 1-1.25 = -0.25 and regret for playing b is 1.5-1.25 = 0.25. 
+
+Regret_sum updates are regret_sum[p] += -0.25*0.5 = -0.125 and regret_sum[b] += 0.25*0.5 = 0.125. 
+
+Node Kp is now valued at -1.25 for player 1 action p. Player 1 now takes action b = 0.5 from node Q. Then player 2 takes action p = 0.5 from node Kb and gets utility -1. Then player 2 takes action b = 0.5 from node Kb and gets utility 2. The node_util is 0.5. Regret for playing p is -1 - 0.5 = -1.5. Regret for playing b is 2 - 0.5 = 1.5. 
+
+Regret_sum updates are regret_sum[p] += -1.5*0.5= -0.75 and regret_sum[b] += 1.5*0.5 = 0.75. 
+
+Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5*-1.25 for action p and -0.5*0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375*
+
+Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5*0.5. 
 
 ## CFR in Code
 
-### Vanilla CFR in Code
+### Chance CFR in Code
+Vanilla CFR has i iterations going through entire tree and Chance CFR has i iterations starting with a particular random deal of private cards. Each iteration updates nodes for both players. 
+
+Call CFR with a single vector of cards of both players, history of plays, and each player’s reach probabilities.
+
+CFR returns utility of game state (initially called at root) from player 1’s perspective. The average of these over all the iterations from the root is the “game value”. 
+
+Here are the steps for Chance Sampling: 
+1. Check to see if at a terminal node. If so, return the profit from the acting player's perspective. 
+2. If not terminal, create or access an information set that is the card of the node's acting player + the history up to this point. For example: qb. 
+- Information set node call is set up with vectors for regret_sum, strategy, and strategy_sum
+3. Get strategy vector of the acting player based on the normalized regret_sum at the node. We also pass int he reach probability of that player getting to this node so we can keep the strategy_sum vector (reach_prob * strategy[action])
+4. Iterate over the actions, update history, and make a recursive CFR call: 
+- util[a] = -cfr(cards, next_history, p0*strategy[a], p1) <-- Example for player 0
+- Negative because the next node value will be in terms of the other player
+5. Node utility is weighted sum of each strategy[a] * util[a]
+6. Again iterate over each action to update regrets
+- Regret = util[a] - node_util
+- Update the regret_sum at the infoset node for the acting player to be the regret * the reach probability of the opponent (the counterfactual part of the regrets)
+7. Return node_util
+
 
 ### External Sampling CFR in Code

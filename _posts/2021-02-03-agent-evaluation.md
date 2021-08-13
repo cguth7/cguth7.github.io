@@ -146,3 +146,34 @@ value payoff is computed as a multiplication between the payoff and the normaliz
 opponent distribution
 
 ![Best Response algorithm](../assets/section4/evaluation/bestresponse.png "Best Response algorithm")
+
+Here's how the algorithm works in practice in conjunction with CFR: 
+
+1. Pause CFR intermittently
+2. Call the best response function (BRF) for each player separately (this player is called the iterating player)
+3. Iterate over all cards and sum all to get overall best respones for each iterating player
+4. Pass to BRF: 
+- Player card of iterating player
+- Root starting history
+- Which player is iterating player
+- Vector of uniform reach probabilities of opponent hand possibilities
+- Example in 5 card Kuhn poker: Player card = 3. Opponent vector = [0.25, 0.25, 0.25, 0, 0.25]
+5. If at a terminal node, normalize the vector of the opponent reach probabilities and for each possible opponent hand, add the probability of that hand * the payoff from the iterating player’s perspective. Then return the expected payoff after going through all possible hands. 
+6. If not at a terminal node, create the following: 
+- D = [0, 0] to track the opponent's action distribution
+- V = -inf for the value of the node
+- New opponent reach probabiltiies that are initialized as a copy of the previous ones
+- Util = [0, 0] to track the utility of each action
+- W = [0, 0]
+7. Iterate over the actions: 
+- If the acting player is not the iterating player: 
+- - Iterate over all hands of this player
+- - Get the strategy of the actin gplayer for each hand based on what CFR has found up to now
+- - Update the acting player reach probabilities multiplied by the strategy
+- - W[action] += each of the new reach probabiltiies for this action
+- Set the utility of this action to a recursive BRF call with the new history and new opponent reach (only changed if the acting player is not the iterating player)
+- If the acting player is the iterating player and the utility of this action is higher than the current V, then set V = util[this action] since the iterating player will play the best pure strategy
+8. If the acting player is not the iterating player: 
+- D = the normalization of W over each action (i.e., D[0] = W[0]/(W[0] + W[1]))
+- V = D[0] * util[0] * D[1] * util[1]
+9. Return V

@@ -8,3 +8,14 @@ toc_sticky: true
 toc_label: "TOC"
 author_profile: false
 ---
+
+CFR+
+
+Single Deep CFR 
+https://arxiv.org/pdf/1901.07621.pdf
+
+Deep CFR
+https://arxiv.org/abs/1811.00164 
+
+AIVAT Variance Reduction
+https://arxiv.org/pdf/1612.06915.pdf 
