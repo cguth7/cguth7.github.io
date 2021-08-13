@@ -386,6 +386,10 @@ Note that this mathematically optimal solution automatically uses bluffs. Bluffs
 
 We also see that a major component of poker strategy is "balancing" bluffs. We see that P1 value bets 3 times more than she bluffs. In a real poker setting, you might have a similar strategy, but will have many possible bluff hands in your range to choose from, which means that they can be strategically selected to match the ratio, for example by bluffing with hands that make it less likely that your opponent is strong, while giving up with other weak hands. 
 
+Finally, there are many cases where the probabilities are 0 or 1. In many cases, they are obvious actions where the player is definitely winning or losing so has no incentive to do anything else. For example, the “Jack, bet (after bet" would not make sense because he can’t be winning and the “King, pass (after pass)” is the reverse, because he must be winning.
+
+One interesting case of 0 probability is “Queen, bet” because if the first acting player bets with a Queen, he will certainly be called and lose to a King and will certainly force the inferior Jack to fold, therefore this action should never be taken. This illustrates the poker concept of betting strong hands for value, weak hands as bluffs, and not betting middling hands, since there is a high probability that only better hands will call and you will force worse hands to fold. 
+
 ## Kuhn Poker in Normal Form
 Analytically solving all but the smallest games is not very feasible -- a faster way to compute the strategy for this game is putting it into normal form. 
 

@@ -18,7 +18,31 @@ Games can be scaled to different levels of complexity, which allows algorithms t
 
 Unlike perfect information games, imperfect information games tend to have more in common with real world decision making settings. Solving such games can be translated into solving real-world applications with similar properties, and applications can be found, for example, in security, including decisions about which stations to deploy officers to, and in medical decision support.
 
+## Why Play Poker? 
+If you like playing games in general and you like math and thinking about what other people are thinking, then poker is the perfect game for you. It doesn’t matter if you’re tall or fast or athletic -- your advantage comes from making good decisions that are based on understanding some math, knowing your opponents, and controlling your emotions. 
+
+To be good at poker, you have to think not only about your own hand, but also about your opponents and about the math of each situation.  
+
+While there is some luck involved, over time that evens out for everyone and your skill and decisions are what will make you a winning player in the long-run. 
+
+## Wait, isn't poker gambling?
+First, we should explain the difference between games like poker and casino games like Blackjack. In casino games, players play against the “house” -- the casino itself. The casino plays games that give it an advantage, so when playing against the casino, you are generally placing bets that will always lose in the long-run, although may result in short-term wins.
+
+Poker is completely different. In poker, you play against other people (and hopefully not bots!). Your only advantage or disadvantage is determined by how good you are compared to the others at the table. In the long-run, the more skilled players will win and the less-skilled ones will lose, although in the short-term, players can get lucky. 
+
+The casinos take a small portion of every pot as their “rake”, or fee, for hosting the game, so in order to win you have to have a skill advantage that also can “beat” the rake. (Note that in this tutorial we ignore rake and assume that any amount won by one player was lost by another.) Depending on the table, you could easily have a huge advantage and have a very high expected win-rate. 
+
+Poker is a skill game with a chance element. That means that it is mostly based on skill and better players have clear advantages over worse players based on their actions, but there is some random luck in the game, like which cards come out of the deck and which situations you find yourself in. 
+
+Think about it like this. If you have a coin that lands heads 70% and tails 30%, it wouldn’t be that surprising to get tails one time (it will happen 30% of the time), but if you flipped the coin 10 times, you’ll see more heads than tails about 85% of the time, a tie about 10% of the time, and more tails than heads about 5% of the time. Imagine that you are better than most people at the table and have a 70% chance of winning each time that you play. This means that only 5% of the time over 10 sessions will you have 6 or more losses, so in the long-run you are a big favorite, but there is a lot of randomness in the short-run. 
+
+This might sound frustrating. If you’re better than your opponents, it would be annoying to lose, even if it only happens 30% of the time. But actually this is fantastic! This means that players can easily overestimate their skill level! They can get lucky and think that is normal or they can have average luck and think they’re actually getting very unlucky. In pure skill games like chess, an amateur will virtually never beat a top player, but in poker they have a chance! This means that you may have to suffer through some unlucky streaks, but your advantage is in your long-run skill. 
+
+Poker can be played for free by using chips to count as “play” money. I prefer the idea of playing for tiny amounts of money (as low as a few cents) since people tend to care a lot more if there is at least *something* at risk, and this makes games a lot more fun when there’s some competitiveness and people care about the outcomes (otherwise why not just play every hand?). 
+
 ## Poker History
+Poker has been around for a long time, since the early 1800s. The World Series of Poker event in Las Vegas started in 1970 and now takes place every summer. 
+
 Poker grew extensively in the early 2000s thanks to the beginnings of online poker, which lead to an accountant and amateur poker player named Chris Moneymaker investing \\$39 in an online satellite tournament that won him a \\$10,000 seat at the World Series of Poker Main Event in 2003, alongside 838 other entrants.
 
 Moneymaker went on to defeat professional poker player Sam Farha at the final table of the tournament and won \\$2.5 million. A poker boom was sparked. If Moneymaker could do it, “so could I”, was the feeling that pervaded throughout America, and led to massive player pools on the Internet and in subsequent World Series’ of Poker.
