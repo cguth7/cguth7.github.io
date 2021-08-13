@@ -24,7 +24,7 @@ The Counterfactual Regret Minimization (CFR) algorithm was first published in a 
 ## TLDR Explanation
 CFR is a self-play algorithm that learns by playing against itself repeatedly. It starts play with a uniform random strategy (each action at each decision point is equally likely).  
 
-![Kuhn Poker Tree](../assets/section4/cfr/infoset.jpg "Kuhn Poker Tree")
+![Kuhn Poker Tree](../assets/section4/cfr/infoset2.png "Kuhn Poker Tree")
 
 At each information set in the game tree, the algorithm keeps a counter of regret values for each possible action. The regret means how much better the agent would have done if it had always played that action rather than the actual strategy that could be a mixture of actions. Positive regret means we should have taken that action more and negative regret means we would have done better by not taking that action. 
 
@@ -115,45 +115,51 @@ In recent years, researchers have redefined the counterfactual value in terms of
 information sets. This formulation shows the counterfactual value for a particular
 information set and action, given a player and his strategy:
 
-We see that this is similar to (2.13), but has some differences. Because we are now
+v^sigma_i(I,a) = sum h∈I sum z∈Z: h⊏z u_i(z)pi^sigma_(-i)(z)pi^sigma:I-->a _i(h,z)
+
+We see that this is similar to the first equation for the counterfactual value, but has some differences. Because we are now
 calculating the value for an information set, we must sum over all of the relevant
 histories. The inner summation adds all possible leaf nodes that can be reached from
-the current history (same as (2.13)) and the outer summation adds all histories that are
+the current history (same as the original one) and the outer summation adds all histories that are
 part of the current information set.
+
 From left to right, the three terms on the right hand side represent the main player’s
-utility at the leaf node �, the opponent and chance combined reach probability for the
-leaf node �, and the reach probability of the main player to go from the current history
-to the leaf node �, while always taking action �. The differences between this
-formulation and that of (2.13) will be reconciled with the next equation. 
-44
-The counterfactual regret of player � for action � at information set � can be written as
+utility at the leaf node z, the opponent and chance combined reach probability for the
+leaf node z, and the reach probability of the main player to go from the current history
+to the leaf node z, while always taking action a. The differences between this
+formulation and that of the original equation will be reconciled with the next equation. 
+
+The counterfactual regret of player i for action a at information set I can be written as
 follows:
 
-This formulation combines (2.16), (2.15), and (2.14), where (2.16) had introduced the
-cumulative summation, (2.15) added all histories in the information set, and (2.20)
+R^T_i(I,a) = sum t=1,T v^sigma^t _i(I,a) - sum t=1,T sum a'∈A v^sigma^T _i (I,a')sigma^t_i(a'|I)
+
+This formulation combines the three equations, where one had introduced the
+cumulative summation, one added all histories in the information set, and one
 defined the counterfactual regret difference equation. The first part of the difference
-in (2.18) computes this value for the given a value, while the second part computes
-the expected value of all other a value options at the information set (this was not
-written as explicitly in (2.14)).
-The inner summation of this part of (2.24) is over all non-a strategies and the outer
+in the counterfactual regret equation computes this value for the given a value, while the second part computes
+the expected value of all other a value options at the information set.
+
+The inner summation of this part of the equation is over all non-a strategies and the outer
 summation is over all times. The first term in the summations computes the
 counterfactual value for each non-a strategy and the second term multiplies the
 counterfactual value by the player’s probability of playing that particular strategy at
 the given information set.
-We can show the regret-matching algorithm by first defining the nonnegative
-counterfactual regret as �!
-!. 
 
-Now we can use the
-cumulative regrets to obtain the strategy decision for the next iteration using regret
-matching: 
+We can show the regret-matching algorithm by first defining the nonnegative
+counterfactual regret as R^T,+ _i (I,a) = max(R^T _i(I,a),0). Now we can use the cumulative regrets to obtain the strategy decision for the next iteration using reget matching: 
+
+Case 1 when sum a'∈A R^(t-1) _i (I,a'))^+ > 0 then sigma^t _i(a|I) = (R^(t-1) _i (i,a))^+ / (sum a'∈A R^(t-1) _i (I,a'))^+)
+
+Case 2 otherwise then sigma^t _i(a|I) = 1/|A|
+
 This regret matching formula calculates the action probabilities for each action at each
 information set in proportion to the positive cumulative regrets. First we check to see
 if the cumulative regrets at the previous time step are positive. If not, the strategy is
 set to be uniformly random, determined by the number of available actions. If it is,
 then the strategy is the ratio of the cumulative regret of the defined action over the
 sum of the cumulative regrets of all other actions. 
-45
+
 The CFR algorithm works by taking these action probabilities and then producing the
 next state in the game and computing the utilities of each action recursively. Regrets
 are computed from the returned values and the value of playing to the current node is
@@ -167,12 +173,33 @@ A regret-minimizing algorithm guarantees that its regret grows sub-linearly over
 
 By storing regrets for each information set and its actions instead of 
 
-Counterfactual value of player i taking action a at information set I: 
-$$ v_i^\sigma{}(I,a) = \sum{\sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z)} $$
+<!-- Counterfactual value of player i taking action a at information set I: 
+$$ v_i^\sigma{}(I,a) = \sum{\sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z)} $$ -->
 
-In words, this is the expected utility to player i of reaching information set I and taking action a, under the counterfactual assumption that player i takes actions to do so, but otherwise player i and all other players follow the strategy profile $$ \sigma{} $$
+<!-- In words, this is the expected utility to player i of reaching information set I and taking action a, under the counterfactual assumption that player i takes actions to do so, but otherwise player i and all other players follow the strategy profile $$ \sigma{} $$ -->
 
-Vanilla
+
+### Why average strategy?
+Initial exploitability drops very quickly → Removes dominated and iteratively dominated actions
+Strategy starts to cycle around space of “reasonable” strategies with small adjustments 
+RPS example: Opponent playing too much Rock, we should move towards 100% paper (moving towards best response to their strategy, i.e., the goal of regret minimization)
+Current strategy can be mixed (starts off random uniform), but gets updated to maximize exploiting opponents and tends to cycle between pure-ish strategies
+RPS example: We move to 100% paper, opponent moves to 100% scissors, we move to 100% rock, etc.
+Average strategy therefore would be around ⅓ each, but current strategy could be very different
+While the current strategy is bouncing around strategy space without stopping at equilibrium, the average strategy cycles in closer and closer, converging towards an equilibrium point.
+Although some research teams have used the final strategy with good results
+<!-- 
+### Definitions
+Let A denote the set of all game actions. We refer to a strategy profile that excludes
+player i’s strategy as $$\sigma_{-i}$$. A history $$h$$ is a sequence of actions, including chance outcomes, starting from the root of the game. Let $$\pi^\sigma(h)$$ be the reach probability of game history $h$ with strategy profile $$\sigma$$ and $$\pi^\sigma(h,z)$$ be the reach probability that begins at $$h$$ and ends at $$z$$. 
+
+Let Z denote the set of all terminal game histories and then we have $$h \sqsubset z$$ for $$z \in Z$$ is a nonterminal game history. Let $$u_i(z)$$ denote the utility to player $$i$$ of terminal history $$z$$. 
+
+We can now define the counterfactual value at nonterminal history $$h$$ as follows: 
+
+$$ v_i(\sigma, h) \equiv \sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z) $$ -->
+
+### Vanilla CFR
 .Pass forward probabilities and game states then pass back utility values
 Counterfactual regret (computed for each action at each info set):
 Counterfactual value:
@@ -182,46 +209,95 @@ Memory Cost: 2 doubles per Action-at-Decision-Point (16 bytes)
 Can solve up to 10^12
 Learn strategy offline and maintain fixed strategy
 
-
-Why average strategy?
-Initial exploitability drops very quickly → Removes dominated and iteratively dominated actions
-Strategy starts to cycle around space of “reasonable” strategies with small adjustments 
-RPS example: Opponent playing too much Rock, we should move towards 100% paper (moving towards best response to their strategy, i.e., the goal of regret minimization)
-Current strategy can be mixed (starts off random uniform), but gets updated to maximize exploiting opponents and tends to cycle between pure-ish strategies
-RPS example: We move to 100% paper, opponent moves to 100% scissors, we move to 100% rock, etc.
-Average strategy therefore would be around ⅓ each, but current strategy could be very different
-While the current strategy is bouncing around strategy space without stopping at equilibrium, the average strategy cycles in closer and closer, converging towards an equilibrium point.
-Although some research teams have used the final strategy with good results
-
-### Definitions
-Let A denote the set of all game actions. We refer to a strategy profile that excludes
-player i’s strategy as $$\sigma_{-i}$$. A history $$h$$ is a sequence of actions, including chance outcomes, starting from the root of the game. Let $$\pi^\sigma(h)$$ be the reach probability of game history $h$ with strategy profile $$\sigma$$ and $$\pi^\sigma(h,z)$$ be the reach probability that begins at $$h$$ and ends at $$z$$. 
-
-Let Z denote the set of all terminal game histories and then we have $$h \sqsubset z$$ for $$z \in Z$$ is a nonterminal game history. Let $$u_i(z)$$ denote the utility to player $$i$$ of terminal history $$z$$. 
-
-We can now define the counterfactual value at nonterminal history $$h$$ as follows: 
-
-$$ v_i(\sigma, h) \equiv \sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z) $$
-
-### Vanilla CFR
-
-
 ### Monte Carlo CFR (MCCFR)
 Use sampling to trade off between fast/narrow/noisy updates vs slow/broad/precise updates
 Outcome sampling single path through tree like RL
 Slower than e.g. chance (sample cards, explore whole)
 
 #### External Sampling
-Sample chance and the opponent's strategy
+External Sampling entails sampling the actions of the opponent and of chance only.
+This means that these samples are based on how likely the opponent’s plays are to
+occur, which is sensible, since then regret values corresponding to these plays are
+updated faster.
 
 #### Chance Sampling 
-Sample chance
+The Chance Sampling CFR variation selects a single chance node at the root of the
+tree. In poker, this is equivalent to selecting a specific dealing of the cards to both
+players. For example, in Kuhn poker where there are 3 cards and each player is dealt
+one of them, there are 6 combinations of possible dealings (KQ, KJ, QJ, QK, JK, JQ),
+each with equal probability. After this selection, CFR is run for all branches of the
+tree after this chance node. This is equivalent to using the non-sampled counterfactual
+values and ignoring chance in the counterfactual.
+
+Below we show a figure of the MCCFR algorithm for Chance Sampling, which samples only
+chance nodes. This effectively means that the algorithm recurses over the tree that
+includes a sample of private cards. The algorithm works by calling CFR for each
+player over T iterations (lines 32-37). If the history h is terminal, then a utility value
+can be returned (lines 6-7). If this is the beginning of the game tree and a chance
+node, then a single outcome is sampled and CFR is recursively called again (lines 8-
+10). If the node is neither a chance node or a terminal node, then for each action, CFR
+is recursively called with the new history and an updated reach probability (lines 15-
+20). The weighted utilities of the actions is summed to find the node utility (line 21).
+On the iteration of the i player, regret and strategy sum values are stored for each
+action by adding the counterfactual regret (line 25) and the weighted strategy (line 26)
+to the previous values. The strategy values will be averaged at the end to find the Nash equilibrium strategy and the regret values are used with regret matching to find
+the next strategy (line 26).
+
+The non-sampling Vanilla CFR would simply iterate over every chance outcome
+(every possible deal of the private cards) instead of sampling a single outcome on line
+9.
+
+![Chance Sampling Algorithm](../assets/section4/cfr/chancesampling.png "Chance Sampling Algorithm")
 
 ## Similarities with Reinforcement Learning
 In reinforcement learning, agents learn what actions to take in an environment based on the rewards they've seen in the past. 
 advantage function in RL, converges in adversarial games with average strategy (if only 1 player like inRK then strategyh would converge to optimal response to the environment)
 independent multiarm bandit at each decision poit, learning at the same time
 RL terminology, Q-learning
+
+## Regret Bounds and Convergence Rates
+CFR has been shown to eliminate all dominated strategies from its final average
+strategy solution.
+
+By following regret matching, the following bound, showing that the counterfactual
+regret at each information set grows sublinearly with the number of iterations, is
+guaranteed, given that delta = maximum difference in leaf node utilities (|u_i(z) −
+u_i(z')| ≤ delta for all i ∈ N and z,z' ∈ Z), A = number of actions, T = iteration number.
+
+R^T _i_infoset(I,a) <= delta*sqrt(|A|*T)
+
+With a specific set of strategy profiles, we can define a player’s overall regret as:
+R^T _i_overall = max sigma_i ∈ sum i (sum t=1 to T u_i(sigma_i, sigma^T _-i)) - sum t=1 to T u_i(sigma)
+
+This is the amount of extra utility that player i could have achieved in expectation if
+he had chosen the best fixed strategy in hindsight. Assuming perfect recall, this can be
+bounded by the per information set counterfactual regrets of CFR:
+
+R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= |I_i|*delta*sqrt(|A|*T)
+
+The fact that minimizing regret at each information set results in minimizing overall
+regret is a key insight for why CFR works and since CFR indeed achieves sublinear
+regret, this means that it is a regret minimizing algorithm.
+
+In a two-player zero-sum game with perfect recall, for R^t _i ≤ ε for all players, then
+the average strategy profile is known to be a 2ε Nash equilibrium. We can therefore
+use the regret minimizing properties of CFR to solve games like poker by computing
+average strategies as follows:
+
+
+sigmahat(a|I) = [sum t=1,T (sum h∈I pi^sigma^t _i (h))*sigma^t(a|I)] / [sum t=1,T (sum h∈I pi^sigma^t _i (h)))]
+
+where sum t=1,T (sum h∈I pi^sigma^t _i (h))) is each player's contribution to the probability of reaching a history in information set I, and is therefore the weighting term on sigma^T _i. The strategies are combined such that they select an action at an information set in proportion to that
+strategy’s probability of playing to reach that information set. We run the CFR
+algorithm for a sufficient number of iterations in order to reduce the � sufficiently.
+In the end, it is the average strategy profile that converges to Nash equilibrium.
+The best available guarantees for CFR require ~1/ε^2 iterations over the game tree to
+reach an ε-equilibrium, that is, strategies for the players such that no player can be
+exploited by more than ε by any strategy. The gradient-based algorithms, which
+match the optimal number of iterations needed, require only ~1/ε or ~log (1/ε)
+iterations. However, due to effective CFR sampling methods, quick approximate
+iterations can be used such that sampling CFR is still the preferred solution
+method.
 
 ## Going through an Iteration
 show how values change over many iterations
