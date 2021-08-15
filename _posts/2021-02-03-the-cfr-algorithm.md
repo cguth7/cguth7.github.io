@@ -22,7 +22,7 @@ TODO:
 The Counterfactual Regret Minimization (CFR) algorithm was first published in a 2007 paper from the University of Alberta by Martin Zinkevich et al. called "[Regret Minimization in Games with Incomplete Information](https://poker.cs.ualberta.ca/publications/NIPS07-cfr.pdf)". 
 
 ## TLDR Explanation
-CFR is a self-play algorithm that learns by playing against itself repeatedly. It starts play with a uniform random strategy (each action at each decision point is equally likely).  
+CFR is a self play algorithm that learns by playing against itself repeatedly. It starts play with a uniform random strategy (each action at each decision point is equally likely) and iterates on these strategies to nudge closer to the game theory optimal Nash equilibrium strategy as the self play continues. The Nash equilibrium strategy is a "defensive" strategy that can't be beaten, but also doesn't take advantage of opponents. 
 
 ![Kuhn Poker Tree from Alberta](../assets/section4/cfr/infoset2.png "Kuhn Poker Tree from Alberta")
 
@@ -34,7 +34,7 @@ For example, if the agent was playing a game in which it had 5 action options at
 
 The CFR algorithm updates the strategy after each iteration to play in proportion to the regrets, meaning that if an action did well in the past, the agent would be more likely to play it in the future. 
 
-The final Nash equilibrium strategy is the average strategy over each iteration. This strategy can do no worse than tie in expectation and is considered optimal since it's unbeatable in expectation. This is what we mean when we say "solve" a poker game. 
+The final Nash equilibrium strategy is the average strategy over each iteration. This strategy cannot lose in expectation and is considered optimal since it's unbeatable in expectation. This is what we mean when we say "solve" a poker game. 
 
 ## Detailed Intuitive Explanation
 Michael Johanson, one of the authors on the original paper, gave his intuitive explanation of CFR in a [post on Quora](https://www.quora.com/What-is-an-intuitive-explanation-of-counterfactual-regret-minimization). 
@@ -43,7 +43,7 @@ Michael Johanson, one of the authors on the original paper, gave his intuitive e
 ## The Algorithm
 Due to the constraints of solving imperfect information games with MCTS and the memory limits of solving games with linear programs, CFR was developed as a novel solution. CFR also benefits from being computationally cheap and doesn’t require parameter tuning. It is an iterative Nash equilibrium approximation method that works through the process of repeated self-play between two regret minimizing agents.
 
-CFR is an extension of regret minimization into sequential games, where players play a sequence of actions to reach a terminal game state. Instead of storing and minimizing regret for the exponential number of strategies, CFR stores and minimizes a regret for each information set and subsequent action, which can be used to form an upper bound on the regret for any deterministic strategy. This means that we must also consider the probabilities of reaching each information set given the players’ strategies, as well as passing forward game state information and probabilities of
+CFR is an extension of regret minimization into sequential games, where players play a sequence of actions to reach a terminal game state. Instead of storing and minimizing regret for the exponential number of strategies, CFR stores and minimizes a regret for each information set and its actions, which can be used to form an upper bound on the regret for any deterministic strategy. This means that we must also consider the probabilities of reaching each information set given the players’ strategies, as well as passing forward game state information and probabilities of
 player actions, and passing backward utility information through the game information states. The algorithm stores a strategy and regret value for each action at each node, such that the space requirement is on the order O(|I|), where |I| is the number of information sets in the game.
 
 CFR is an offline self-play algorithm, as it learns to play by repeatedly playing against itself. It begins with a strategy that is completely uniformly random and adjusts the strategy each iteration using regret matching such that the strategy at each node is proportional to the regrets for each action. The regrets are, as explained previously, measures of how the current strategy would have performed compared to a fixed strategy of always taking one particular action. Positive regret means that we would have done better by taking that action more often and negative regret means that we would have done better by not taking that action at all. The average strategy is then shown to approach a Nash equilibrium in the long run.
@@ -130,7 +130,7 @@ formulation and that of the original equation will be reconciled with the next e
 The counterfactual regret of player i for action a at information set I can be written as
 follows:
 
-R^T_i(I,a) = sum t=1,T v^sigma^t _i(I,a) - sum t=1,T sum a'∈A v^sigma^T _i (I,a')sigma^t_i(a'|I)
+R^T_i(I,a) = sum t=1,T v^sigma^t _i(I,a) - sum t=1,T sum a'∈A v^sigma^T _i (I,a')sigma^t_i(a'\\|I)
 
 This formulation combines the three equations, where one had introduced the
 cumulative summation, one added all histories in the information set, and one
@@ -147,9 +147,9 @@ the given information set.
 We can show the regret-matching algorithm by first defining the nonnegative
 counterfactual regret as R^T,+ _i (I,a) = max(R^T _i(I,a),0). Now we can use the cumulative regrets to obtain the strategy decision for the next iteration using reget matching: 
 
-Case 1 when sum a'∈A R^(t-1) _i (I,a'))^+ > 0 then sigma^t _i(a|I) = (R^(t-1) _i (i,a))^+ / (sum a'∈A R^(t-1) _i (I,a'))^+)
+Case 1 when sum a'∈A R^(t-1) _i (I,a'))^+ > 0 then sigma^t _i(a\\|I) = (R^(t-1) _i (i,a))^+ / (sum a'∈A R^(t-1) _i (I,a'))^+)
 
-Case 2 otherwise then sigma^t _i(a|I) = 1/|A|
+Case 2 otherwise then sigma^t _i(a\\|I) = 1/|A|
 
 This regret matching formula calculates the action probabilities for each action at each
 information set in proportion to the positive cumulative regrets. First we check to see
@@ -163,13 +163,60 @@ next state in the game and computing the utilities of each action recursively. R
 are computed from the returned values and the value of playing to the current node is
 then computed and returned. Regrets are updated at the end of each iteration. 
 
-CFR is an iterative algorithm that approximates a Nash equilibrium through repeated self-play between two regret-minimizing agents. 
+## Regret Bounds and Convergence Rates
+CFR has been shown to eliminate all dominated strategies from its final average
+strategy solution.
 
-Regret is the difference between the outcome of a specific action at a specific game state compared to the average value of that game state. 
+By following regret matching, the following bound, showing that the counterfactual
+regret at each information set grows sublinearly with the number of iterations, is
+guaranteed, given that delta = maximum difference in leaf node utilities (|u_i(z) −
+u_i(z')| ≤ delta for all i ∈ N and z,z' ∈ Z), A = number of actions, T = iteration number.
 
-A regret-minimizing algorithm guarantees that its regret grows sub-linearly over time and eventually reaches the same utility as the best deterministic strategy. 
+R^T _i_infoset(I,a) <= delta*sqrt(|A|*T)
 
-By storing regrets for each information set and its actions instead of 
+With a specific set of strategy profiles, we can define a player’s overall regret as:
+R^T _i_overall = max sigma_i ∈ sum i (sum t=1 to T u_i(sigma_i, sigma^T _-i)) - sum t=1 to T u_i(sigma)
+
+This is the amount of extra utility that player i could have achieved in expectation if
+he had chosen the best fixed strategy in hindsight. Assuming perfect recall, this can be
+bounded by the per information set counterfactual regrets of CFR:
+
+R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= |I_i|*delta*sqrt(|A|*T)
+
+The fact that minimizing regret at each information set results in minimizing overall
+regret is a key insight for why CFR works and since CFR indeed achieves sublinear
+regret, this means that it is a regret minimizing algorithm.
+
+In a two-player zero-sum game with perfect recall, for R^t _i ≤ ε for all players, then
+the average strategy profile is known to be a 2ε Nash equilibrium. We can therefore
+use the regret minimizing properties of CFR to solve games like poker by computing
+average strategies as follows:
+
+
+sigmahat(a|I) = [sum t=1,T (sum h∈I pi^sigma^t _i (h))*sigma^t(a|I)] / [sum t=1,T (sum h∈I pi^sigma^t _i (h)))]
+
+where sum t=1,T (sum h∈I pi^sigma^t _i (h))) is each player's contribution to the probability of reaching a history in information set I, and is therefore the weighting term on sigma^T _i. The strategies are combined such that they select an action at an information set in proportion to that
+strategy’s probability of playing to reach that information set. We run the CFR
+algorithm for a sufficient number of iterations in order to reduce the � sufficiently.
+In the end, it is the average strategy profile that converges to Nash equilibrium.
+The best available guarantees for CFR require ~1/ε^2 iterations over the game tree to
+reach an ε-equilibrium, that is, strategies for the players such that no player can be
+exploited by more than ε by any strategy. The gradient-based algorithms, which
+match the optimal number of iterations needed, require only ~1/ε or ~log (1/ε)
+iterations. However, due to effective CFR sampling methods, quick approximate
+iterations can be used such that sampling CFR is still the preferred solution
+method.
+
+A regret-minimizing algorithm guarantees that its regret grows sub-linearly over time and eventually reaches the same utility as the best deterministic strategy. The fact that minimizing regret at each information set results in minimizing overall
+regret is a key insight for why CFR works and since CFR indeed achieves sublinear
+regret.
+
+In a two-player zero-sum game where the regret <= epsilon for all players, then 
+the average strategy profile is known to be a 2-epsilon Nash equilibrium. We can therefore
+use the regret minimizing properties of CFR to solve games like poker by computing
+average strategies as follows: 
+
+sigma(a\\|I) = 
 
 <!-- Counterfactual value of player i taking action a at information set I: 
 $$ v_i^\sigma{}(I,a) = \sum{\sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z)} $$ -->
@@ -216,7 +263,390 @@ Slower than e.g. chance (sample cards, explore whole)
 External Sampling entails sampling the actions of the opponent and of chance only.
 This means that these samples are based on how likely the opponent’s plays are to
 occur, which is sensible, since then regret values corresponding to these plays are
-updated faster.
+updated faster. We go into this in more detail in Section 4.4 regarding Deep CFR, but provide code here in Python for Kuhn Poker and Leduc Poker. 
+
+Kuhn External CFR code: 
+
+```python
+import numpy as np
+import random
+
+class Node:
+	def __init__(self, num_actions):
+		self.regret_sum = np.zeros(num_actions)
+		self.strategy = np.zeros(num_actions)
+		self.strategy_sum = np.zeros(num_actions)
+		self.num_actions = num_actions
+
+	def get_strategy(self):
+		normalizing_sum = 0
+		for a in range(self.num_actions):
+			if self.regret_sum[a] > 0:
+				self.strategy[a] = self.regret_sum[a]
+			else:
+				self.strategy[a] = 0
+			normalizing_sum += self.strategy[a]
+
+		for a in range(self.num_actions):
+			if normalizing_sum > 0:
+				self.strategy[a] /= normalizing_sum
+			else:
+				self.strategy[a] = 1.0/self.num_actions
+
+		return self.strategy
+
+	def get_average_strategy(self):
+		avg_strategy = np.zeros(self.num_actions)
+		normalizing_sum = 0
+		
+		for a in range(self.num_actions):
+			normalizing_sum += self.strategy_sum[a]
+		for a in range(self.num_actions):
+			if normalizing_sum > 0:
+				avg_strategy[a] = self.strategy_sum[a] / normalizing_sum
+			else:
+				avg_strategy[a] = 1.0 / self.num_actions
+		
+		return avg_strategy
+
+class KuhnCFR:
+	def __init__(self, iterations, decksize):
+		self.nbets = 2
+		self.iterations = iterations
+		self.decksize = decksize
+		self.cards = np.arange(decksize)
+		self.bet_options = 2
+		self.nodes = {}
+
+	def cfr_iterations_external(self):
+		util = np.zeros(2)
+		for t in range(1, self.iterations + 1): 
+			for i in range(2):
+				random.shuffle(self.cards)
+				util[i] += self.external_cfr(self.cards[:2], [], 2, 0, i, t)
+				print(i, util[i])
+		print('Average game value: {}'.format(util[0]/(self.iterations)))
+		for i in sorted(self.nodes):
+			print(i, self.nodes[i].get_average_strategy())
+
+	def external_cfr(self, cards, history, pot, nodes_touched, traversing_player, t):
+		print('THIS IS ITERATION', t)
+		print(cards, history, pot)
+		plays = len(history)
+		acting_player = plays % 2
+		opponent_player = 1 - acting_player
+		if plays >= 2:
+			if history[-1] == 0 and history[-2] == 1: #bet fold
+				if acting_player == traversing_player:
+					return 1
+				else:
+					return -1
+			if (history[-1] == 0 and history[-2] == 0) or (history[-1] == 1 and history[-2] == 1): #check check or bet call, go to showdown
+				if acting_player == traversing_player:
+					if cards[acting_player] > cards[opponent_player]:
+						return pot/2 #profit
+					else:
+						return -pot/2
+				else:
+					if cards[acting_player] > cards[opponent_player]:
+						return -pot/2
+					else:
+						return pot/2
+
+		infoset = str(cards[acting_player]) + str(history)
+		if infoset not in self.nodes:
+			self.nodes[infoset] = Node(self.bet_options)
+
+		nodes_touched += 1
+
+		if acting_player == traversing_player:
+			util = np.zeros(self.bet_options) #2 actions
+			node_util = 0
+			strategy = self.nodes[infoset].get_strategy()
+			for a in range(self.bet_options):
+				next_history = history + [a]
+				pot += a
+				util[a] = self.external_cfr(cards, next_history, pot, nodes_touched, traversing_player, t)
+				node_util += strategy[a] * util[a]
+
+			action_advantages = np.zeros(self.bet_options)
+			stone = np.zeros(self.bet_options)
+			for a in range(self.bet_options):
+				regret = util[a] - node_util
+				self.nodes[infoset].regret_sum[a] += regret
+			return node_util
+
+		else: #acting_player != traversing_player
+			strategy = self.nodes[infoset].get_strategy()
+			util = 0
+			if random.random() < strategy[0]:
+				next_history = history + [0]
+			else: 
+				next_history = history + [1]
+				pot += 1
+			util = self.external_cfr(cards, next_history, pot, nodes_touched, traversing_player, t)
+			for a in range(self.bet_options):
+				self.nodes[infoset].strategy_sum[a] += strategy[a]
+			return util
+
+if __name__ == "__main__":
+	k = KuhnCFR(100000, 10)
+	k.cfr_iterations_external()
+```
+
+The Kuhn Poker External Sampling CFR code uses two main classes, the Node class to track information sets of the game and the KuhnCFR class to run the actual CFR function. The Node class stores the relevant variables (regret_sum, strategy, strategy_sum, and num_actions). The get_strategy function is called throughout CFR to compute the strategy using regret matching, while the get_average_strategy function is called only at the end of all of the iterations to produce the final Nash equilibrium strategy. 
+
+In the main KuhnCFR class, the cfr_iterations_external function runs the main parts of the algorithm, with a loop for the number of iterations and a loop for each player, after which the cfr function is called and the output is summed in a utility value for each player to compute the game value by the end of the game. 
+
+Leduc External CFR code: 
+
+```python
+import numpy as np
+import random
+from collections import defaultdict
+
+class Node:
+	def __init__(self, bet_options):
+		self.num_actions = len(bet_options)
+		self.regret_sum = defaultdict(int)
+		self.strategy = defaultdict(int)
+		self.strategy_sum = defaultdict(int)
+		self.bet_options = bet_options
+
+	def get_strategy(self):
+		normalizing_sum = 0
+		for a in self.bet_options:
+			if self.regret_sum[a] > 0:
+				self.strategy[a] = self.regret_sum[a]
+			else:
+				self.strategy[a] = 0
+			normalizing_sum += self.strategy[a]
+
+		for a in self.bet_options:
+			if normalizing_sum > 0:
+				self.strategy[a] /= normalizing_sum
+			else:
+				self.strategy[a] = 1.0/self.num_actions
+
+		return self.strategy
+
+	def get_average_strategy(self):
+		avg_strategy = defaultdict(int)
+		normalizing_sum = 0
+		
+		for a in self.bet_options:
+			normalizing_sum += self.strategy_sum[a]
+		for a in self.bet_options:
+			if normalizing_sum > 0:
+				avg_strategy[a] = self.strategy_sum[a] / normalizing_sum
+			else:
+				avg_strategy[a] = 1.0 / self.num_actions
+		
+		return avg_strategy
+
+class LeducCFR:
+	def __init__(self, iterations, decksize, starting_stack):
+		#self.nbets = 2
+		self.iterations = iterations
+		self.decksize = decksize
+		self.bet_options = starting_stack
+		self.cards = sorted(np.concatenate((np.arange(decksize),np.arange(decksize))))
+		self.nodes = {}
+
+	def cfr_iterations_external(self):
+		util = np.zeros(2)
+		for t in range(1, self.iterations + 1): 
+			for i in range(2):
+					random.shuffle(self.cards)
+					util[i] += self.external_cfr(self.cards[:3], [[], []], 0, 2, 0, i, t)
+		print('Average game value: {}'.format(util[0]/(self.iterations)))
+		
+		with open('leducnlstrat.txt', 'w+') as f:
+			for i in sorted(self.nodes):
+				f.write('{}, {}\n'.format(i, self.nodes[i].get_average_strategy()))
+				print(i, self.nodes[i].get_average_strategy())
+
+	def winning_hand(self, cards):
+		if cards[0] == cards[2]:
+			return 0
+		elif cards[1] == cards[2]:
+			return 1
+		elif cards[0] > cards[1]:
+			return 0
+		elif cards[1] > cards[0]:
+			return 1
+		elif cards[1] == cards[0]:
+			return -1
+
+	def valid_bets(self, history, rd, acting_player):
+		if acting_player == 0:
+			acting_stack = int(19 - (np.sum(history[0][0::2]) + np.sum(history[1][0::2])))
+		elif acting_player == 1:
+			acting_stack = int(19 - (np.sum(history[0][1::2]) + np.sum(history[1][1::2])))
+
+
+		# print('VALID BETS CHECK HISTORY', history)
+		# print('VALID BETS CHECK ROUND', rd)
+		# print('VALID BETS CHECK ACTING STACK', acting_stack)
+		curr_history = history[rd]
+
+
+		if len(history[rd]) == 0:
+			# print('CASE LEN 0', [*np.arange(acting_stack+1)])
+			return [*np.arange(acting_stack+1)]
+
+		elif len(history[rd]) == 1:
+			min_raise = curr_history[0]*2
+			call_amount = curr_history[0]
+			if min_raise > acting_stack:
+				if history[rd] == [acting_stack]:
+					# print('CASE LEN 1', [0, acting_stack])
+					return [0, acting_stack]
+				else:
+					# print('CASE LEN 1', [0, call_amount, acting_stack])
+					return [0, call_amount, acting_stack]
+			else:
+				if history[rd] == [0]:
+					# print('CASE LEN 1', [*np.arange(min_raise, acting_stack+1)])
+					return [*np.arange(min_raise, acting_stack+1)]
+				else:
+					# print('CASE LEN 1', [0, call_amount, *np.arange(min_raise, acting_stack+1)])
+					return [0, call_amount, *np.arange(min_raise, acting_stack+1)]
+
+		elif len(history[rd]) == 2:
+			min_raise = 2*(curr_history[1] - curr_history[0])
+			call_amount = curr_history[1] - curr_history[0]
+			if min_raise > acting_stack:
+				if call_amount == acting_stack:
+					# print('CASE LEN 2', [0, acting_stack])
+					return [0, acting_stack]
+				else:
+					# print('CASE LEN 2', [0, call_amount, acting_stack])
+					return [0, call_amount, acting_stack]
+			else:
+				# print('CASE LEN 2', [0, call_amount, *np.arange(min_raise, acting_stack+1)])
+				return [0, call_amount, *np.arange(min_raise, acting_stack+1)]
+
+		elif len(history[rd]) == 3:
+			call_amount = np.abs(curr_history[1] - curr_history[2] - curr_history[0])
+			# print('CASE LEN 3', [0, call_amount])
+			return [0, call_amount] #final bet (4 maximum per rd)
+
+	def external_cfr(self, cards, history, rd, pot, nodes_touched, traversing_player, t):
+		if t % 1000 == 0 and t>0:
+			print('THIS IS ITERATION', t)
+		plays = len(history[rd])
+		acting_player = plays % 2
+		# print('*************')
+		# print('HISTORY RD', history[rd])
+		# print('PLAYS', plays)
+
+		if plays >= 2:
+			p0total = np.sum(history[rd][0::2])
+			p1total = np.sum(history[rd][1::2])
+			# print('P0 TOTAL', p0total)
+			# print('P1 TOTAL', p1total)
+			# print('ROUND BEG', rd)
+				
+			if p0total == p1total:
+				if rd == 0 and p0total != 19:
+					rd = 1
+					# print('ROUND TO 1')
+				else:
+					# print('SHOWDOWN RETURN')
+					winner = self.winning_hand(cards)
+					if winner == -1:
+						return 0
+					elif traversing_player == winner:
+						return pot/2
+					elif traversing_player != winner:
+						return -pot/2
+
+			elif history[rd][-1] == 0: #previous player folded
+				# print('FOLD RETURN')
+				if acting_player == 0 and acting_player == traversing_player:
+					return p1total+1
+				elif acting_player == 0 and acting_player != traversing_player:
+					return -(p1total +1)
+				elif acting_player == 1 and acting_player == traversing_player:
+					return p0total+1
+				elif acting_player == 1 and acting_player != traversing_player:
+					return -(p0total +1)
+		# print('ROUND AFTER', rd)
+		if rd == 0:
+			infoset = str(cards[acting_player]) + str(history)
+		elif rd == 1:
+			infoset = str(cards[acting_player]) + str(cards[2]) + str(history)
+
+		if acting_player == 0:
+			infoset_bets = self.valid_bets(history, rd, 0)
+		elif acting_player == 1:
+			infoset_bets = self.valid_bets(history, rd, 1)
+		# print('ROUND', rd)
+		# print('INFOSET BETS', infoset_bets)
+		if infoset not in self.nodes:
+			self.nodes[infoset] = Node(infoset_bets)
+
+		# print(self.nodes[infoset])
+		# print(infoset)
+
+		nodes_touched += 1
+
+		if acting_player == traversing_player:
+			util = defaultdict(int)
+			node_util = 0
+			strategy = self.nodes[infoset].get_strategy()
+			for a in infoset_bets:
+				if rd == 0:
+					next_history = [history[0] + [a], history[1]]
+				elif rd == 1:
+					next_history = [history[0], history[1] + [a]]
+				pot += a
+				util[a] = self.external_cfr(cards, next_history, rd, pot, nodes_touched, traversing_player, t)
+				node_util += strategy[a] * util[a]
+
+			for a in infoset_bets:
+				regret = util[a] - node_util
+				self.nodes[infoset].regret_sum[a] += regret
+			return node_util
+
+		else: #acting_player != traversing_player
+			strategy = self.nodes[infoset].get_strategy()
+			# print('STRATEGY', strategy)
+			dart = random.random()
+			# print('DART', dart)
+			strat_sum = 0
+			for a in strategy:
+				strat_sum += strategy[a]
+				if dart < strat_sum:
+					action = a
+					break
+			# print('ACTION', action)
+			if rd == 0:
+				next_history = [history[0] + [action], history[1]]
+			elif rd == 1:
+				next_history = [history[0], history[1] + [action]]
+			pot += action
+			# if acting_player == 0:
+			# 	p0stack -= action
+			# elif acting_player == 1:
+			# 	p1stack -= action
+			# print('NEXT HISTORY2', next_history)
+			util = self.external_cfr(cards, next_history, rd, pot, nodes_touched, traversing_player, t)
+			for a in infoset_bets:
+				self.nodes[infoset].strategy_sum[a] += strategy[a]
+			return util
+
+if __name__ == "__main__":
+	k = LeducCFR(1000, 3, 20)
+	k.cfr_iterations_external()
+	# for i in range(20):
+	# 	print(k.valid_bets([[i],[]], 0, 19))
+	#a = k.valid_bets([[4, 18],[]], 0, 15)
+	#print(a)
+  ```
+
+The External Sampling Leduc Poker CFR code works similarly to the Kuhn Poker, but has some additional complications resulting from Leduc Poker having a second betting round and in general having a slightly more complex hand structure whereby there are six cards in the deck and the first round is each player getting dealt a single card followed by a limit hold'em betting round capped at four bets, then potentially a second flop round where another community card is revealed and hand strengths can improve if the card is paired with the card on the board. 
 
 #### Chance Sampling 
 The Chance Sampling CFR variation selects a single chance node at the root of the
@@ -246,56 +676,6 @@ The non-sampling Vanilla CFR would simply iterate over every chance outcome
 9.
 
 ![Chance Sampling Algorithm](../assets/section4/cfr/chancesampling.png "Chance Sampling Algorithm")
-
-## Similarities with Reinforcement Learning
-In reinforcement learning, agents learn what actions to take in an environment based on the rewards they've seen in the past. 
-advantage function in RL, converges in adversarial games with average strategy (if only 1 player like inRK then strategyh would converge to optimal response to the environment)
-independent multiarm bandit at each decision poit, learning at the same time
-RL terminology, Q-learning
-
-## Regret Bounds and Convergence Rates
-CFR has been shown to eliminate all dominated strategies from its final average
-strategy solution.
-
-By following regret matching, the following bound, showing that the counterfactual
-regret at each information set grows sublinearly with the number of iterations, is
-guaranteed, given that delta = maximum difference in leaf node utilities (|u_i(z) −
-u_i(z')| ≤ delta for all i ∈ N and z,z' ∈ Z), A = number of actions, T = iteration number.
-
-R^T _i_infoset(I,a) <= delta*sqrt(|A|*T)
-
-With a specific set of strategy profiles, we can define a player’s overall regret as:
-R^T _i_overall = max sigma_i ∈ sum i (sum t=1 to T u_i(sigma_i, sigma^T _-i)) - sum t=1 to T u_i(sigma)
-
-This is the amount of extra utility that player i could have achieved in expectation if
-he had chosen the best fixed strategy in hindsight. Assuming perfect recall, this can be
-bounded by the per information set counterfactual regrets of CFR:
-
-R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= |I_i|*delta*sqrt(|A|*T)
-
-The fact that minimizing regret at each information set results in minimizing overall
-regret is a key insight for why CFR works and since CFR indeed achieves sublinear
-regret, this means that it is a regret minimizing algorithm.
-
-In a two-player zero-sum game with perfect recall, for R^t _i ≤ ε for all players, then
-the average strategy profile is known to be a 2ε Nash equilibrium. We can therefore
-use the regret minimizing properties of CFR to solve games like poker by computing
-average strategies as follows:
-
-
-sigmahat(a|I) = [sum t=1,T (sum h∈I pi^sigma^t _i (h))*sigma^t(a|I)] / [sum t=1,T (sum h∈I pi^sigma^t _i (h)))]
-
-where sum t=1,T (sum h∈I pi^sigma^t _i (h))) is each player's contribution to the probability of reaching a history in information set I, and is therefore the weighting term on sigma^T _i. The strategies are combined such that they select an action at an information set in proportion to that
-strategy’s probability of playing to reach that information set. We run the CFR
-algorithm for a sufficient number of iterations in order to reduce the � sufficiently.
-In the end, it is the average strategy profile that converges to Nash equilibrium.
-The best available guarantees for CFR require ~1/ε^2 iterations over the game tree to
-reach an ε-equilibrium, that is, strategies for the players such that no player can be
-exploited by more than ε by any strategy. The gradient-based algorithms, which
-match the optimal number of iterations needed, require only ~1/ε or ~log (1/ε)
-iterations. However, due to effective CFR sampling methods, quick approximate
-iterations can be used such that sampling CFR is still the preferred solution
-method.
 
 ## Going through an Iteration
 Here we show two full iterations of Chance Sampled CFR where we assume that the chance node has selected P1 Queen and P2 King as the random draw and then iterates over the entire tree from there. 
@@ -357,8 +737,9 @@ Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is
 Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5*0.5. 
 
 ## CFR in Code
+Code of the Vanilla version written in Java is available [here](https://www.dropbox.com/sh/82yxtuceybmf5tm/AADVmM2oWmbaebpk7X9Iyxtba?).
 
-### Chance CFR in Code
+### Chance CFR Algorithm
 Vanilla CFR has i iterations going through entire tree and Chance CFR has i iterations starting with a particular random deal of private cards. Each iteration updates nodes for both players. 
 
 Call CFR with a single vector of cards of both players, history of plays, and each player’s reach probabilities.
@@ -379,8 +760,7 @@ Here are the steps for Chance Sampling:
 - Update the regret_sum at the infoset node for the acting player to be the regret * the reach probability of the opponent (the counterfactual part of the regrets)
 7. Return node_util
 
-
-### External Sampling CFR in Code
+Code including a best response function is available [here](https://www.dropbox.com/sh/82yxtuceybmf5tm/AADVmM2oWmbaebpk7X9Iyxtba?) in Java.
 
 ### Comparing Algorithms
 We compared four CFR algorithms (Chance Sampling, External Sampling, Vanilla, and CFR+) in terms of
@@ -428,3 +808,6 @@ This graph shows that CFR+ takes significantly more time to complete its 100,000
 iterations and yet is still at a higher exploitability. Since the only difference in the
 algorithms is that CFR+ does not allow regrets to become negative, this must be the
 cause of the additional calculation time needed.
+
+## Similarities with Reinforcement Learning
+In reinforcement learning, agents learn what actions to take in an environment based on the rewards they've seen in the past. This is very similar to how regret updates work in CFR -- we can think of the regrets as advantage functions, which is the value of a certain action compared to the value of a state, and in fact this terminology has been seen in recent papers like the Deep CFR paper. We can also compare this to having independent multiarm bandits at each decision point, learning from all of them simultaneously. 
