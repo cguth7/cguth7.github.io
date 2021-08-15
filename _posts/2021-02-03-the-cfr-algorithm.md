@@ -383,3 +383,39 @@ Here are the steps for Chance Sampling:
 
 
 ### External Sampling CFR in Code
+
+### Comparing Algorithms
+We compared four CFR algorithms (Chance Sampling, External Sampling, Vanilla, and CFR+) in terms of
+exploitability vs. nodes touched (a measure of how long the algorithm has been running for) and then also look at two of those algorithms which
+are very similar, CFR and its recent update, CFR+, in terms of exploitability vs. time.
+Finally, we produce strategy charts that show a Nash equilibrium strategy for each
+player at all four stages of the game. CFR+ is explained more in the CFR Advances section, but in short resets regrets that have gone negative to 0 so they are more likely to have a chance to "rebound" in case they were actually good strategies that, for example, just got unlucky. 
+
+The simulations run for a set number of iterations and the regrets for all algorithms
+are updated after each iteration. 
+
+As the algorithms run, a best response function is called periodically, which iterates
+once through the game tree once for each player. The average of the best response 
+values from each player is taken as the exploitability of the game at that point. All
+graphs show exploitability on the vertical axis on a log scale. CFR and CFR+ were
+run for 100,000 iterations and Chance and External Sampling were run for 10^9
+iterations. Since the non-sampling algorithms require entire tree traversals for each
+iteration, they require far fewer iterations to reach the same number of nodes. The
+game value for all variants is -0.0566, as we have found in previous sections.
+
+We examine nodes touched vs. exploitability for all four of our CFR algorithm types
+(Vanilla CFR vs. CFR+ vs. Chance Sampling vs. External Sampling) up to 4*10^9
+nodes touched for each. Monte Carlo sampling methods require many more iterations
+than Vanilla CFR, while each iteration is relatively fast. Therefore, a nodes touched
+metric makes sense as a way of comparison.
+
+![CFR Algs Compared](../assets/section4/cfr/compare4.png "CFR Algs Compared")
+
+We can see that the sampled versions show a lower exploitability much faster than the
+Vanilla and CFR+ versions, although they are more erratic due to the sampling. While
+Chance Sampling is generally superior to External Sampling, they are quite close at
+the end of the experiment. Chance Sampling is the simplest algorithm, which may
+work in its favor since Kuhn Poker is also a very simple game. Vanilla CFR shows 
+consistently lower exploitability than CFR+. Perhaps this is because CFR+ doesn’t
+allow regrets to become negative, it may then waste time on actions that would have
+gone negative. 

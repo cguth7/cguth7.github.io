@@ -24,11 +24,11 @@ More graphics
 -->
 
 # Solving Poker - Toy Poker Games
-We will take a look at solving a very simple toy poker game called Kuhn Poker. 
+We will take a look at solving a very simple toy poker game called Kuhn Poker using multiple techniques that are increasingly efficient. Starting with Section 4, we will go into the Counterfactual Regret Minimization (CFR) algorithm that has been the standard in solving imperfect information games since 2007. 
 
 ## Kuhn Poker
 
-**Kuhn Poker** is the most basic poker game with interesting strategic implications. 
+**Kuhn Poker** is the most basic poker game with interesting strategic implications. We mentioned it in the Poker Background section and will summarize the rules here as well. 
 
 The game in its standard form is played with 3 cards {A, K, Q} and 2 players. Each player starts with \\\$2 and places an ante (i.e., forced bet before the hand) of \\\$1. And therefore has \\\$1 left to bet with. Each player is then dealt 1 card and 1 round of betting ensues. 
 
@@ -69,7 +69,7 @@ The "History short" uses a condensed format that uses only "b" for betting/calli
 | Bet $1  | Fold  | --  | $2  | P1 wins $1  | bf  | bp  | 
 
 ## Solving Kuhn Poker
-We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then a more efficient normal form solution. We will then briefly mention game trees and the CFR counterfactual regret algorithm, that will be detailed more in section 4.1.
+We're going to solve for the GTO solution to this game using 3 methods, an analytical solution, a normal form solution, and then a more efficient extensive form solution. We will then briefly mention game trees and the CFR counterfactual regret algorithm, that will be detailed more in section 4.1.
 
 What's the point of solving such a simple game? We can learn some important poker principles even from this game, although they are most useful for beginner players. We can also see the limitations of these earlier solving methods and therefore why new methods were needed to solve games of even moderate size. 
 
@@ -192,6 +192,7 @@ $$ \text{EV P1 check with K and then call a bet} = (-1) * \text{P(P2 has A and a
 $$ = \frac{1}{2} * (-1) + \frac{1}{2} * b * (3) $$
 
 Setting these probabilities equal, we have:
+
 $$ 0 = \frac{1}{2} * (-1) + \frac{1}{2} * b * (3) $$
 
 $$ \frac{1}{2} = \frac{1}{2} * b * (3) $$
@@ -206,7 +207,7 @@ Therefore P2 should bet $$\frac{1}{3}$$ with a Q after P1 checks.
 
 The final case is when P1 checks a K, P2 bets, and P1 must decide how frequently to call so that P2 is indifferent to checking vs. betting (bluffing) with a Q. 
 
-(Note that \| denotes "given that" and we use the conditional probability formula of $$\text{P(A|B)} = \frac{P(A \cup B)}{P(B)}$$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$A$$ and $$B$$ intersect -- by intersect we just mean that they are both true at the same time, like the middle part of a Venn diagram)
+(Note that \\| denotes "given that" and we use the conditional probability formula of $$ \text{P(A|B)} = \frac{P(A \cup B)}{P(B)} $$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$ A $$ and $$ B $$ intersect -- by intersect we just mean that they are both true at the same time, like the middle part of a Venn diagram)
 
 We start with finding the probability that P1 has an A given that P1 has checked and P2 has a Q, meaning that P1 has an A or K. 
 
@@ -367,11 +368,11 @@ Since each case is equally likely based on the initial deal, we can multiply eac
 Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\frac{y+1}{3} + \frac{y+5}{3} + \frac{-y}{3} + \frac{y}{3}] = \frac{17}{18} $$
 
 ### Main takeaways
-What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expected gain from playing the game of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. This is because for each $1 put into the game, Player 1 is expected to get back $$ \frac{17}{18} and so is expected to lose. Therefore the value of the game for Player 2 is $$ +0.05555 $$. 
+What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expected gain from playing the game of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. This is because for each $1 put into the game, Player 1 is expected to get back $$ \frac{17}{18} $$ and so is expected to lose. Therefore the value of the game for Player 2 is $$ +0.05555 $$. 
 
 Every time that these players play a hand against each other (assuming they play the equilibrium strategies), that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
 
-This indicates the advantage of acting last in poker -- seeing what the opponent has done first gives an information advantage. In this game, the players would rotate who acts first for each hand, but the principle of playing more hands with the positional advantage is very important in real poker games. 
+This indicates the advantage of acting last in poker -- seeing what the opponent has done first gives an information advantage. In this game, the players would rotate who acts first for each hand, but the principle of playing more hands with the positional advantage is very important in real poker games and is why good players are much looser in later positions at the table. 
 
 The expected value is not at all dependent on the $$ y $$ variable which defines how often Player 1 bets his A hands. If we assumed that the pot was not a fixed size of \\$2 to start the hand, then it would be optimal for P1 to either always bet or always check the A (the math above would change and the result would depend on $$y$$), but we'll stick with the simple case of the pot always starting at \\$2 from the antes. 
 
@@ -380,21 +381,20 @@ From a poker strategy perspective, the main takeaway is that we can essentially 
 2. Mid-strength hands
 3. Weak hands
 
-Mid-strength hands can win, but don't want to build the pot. Strong hands try to generally make the pot large with value bets. Weak hands want to either give up or be used as bluffs. 
+Mid-strength hands can win, but don't want to build the pot. Strong hands try to generally make the pot large with value bets (though can also be used deceptively). Weak hands want to either give up or be used as bluffs. There is a major polarization effect where strong and weak hands have similarities and mid-strength hands are played passively. 
 
 Note that this mathematically optimal solution automatically uses bluffs. Bluffs are not -EV bets that are used as "bad plays" to get more credit for value bets later, they are part of an overall optimal strategy. 
 
 We also see that a major component of poker strategy is "balancing" bluffs. We see that P1 value bets 3 times more than she bluffs. In a real poker setting, you might have a similar strategy, but will have many possible bluff hands in your range to choose from, which means that they can be strategically selected to match the ratio, for example by bluffing with hands that make it less likely that your opponent is strong, while giving up with other weak hands. 
 
-Finally, there are many cases where the probabilities are 0 or 1. In many cases, they are obvious actions where the player is definitely winning or losing so has no incentive to do anything else. For example, the “Jack, bet (after bet" would not make sense because he can’t be winning and the “King, pass (after pass)” is the reverse, because he must be winning.
+Finally, there are many cases where the probabilities are 0 or 1. Often, these represent obvious actions where the player is definitely winning or losing so has no incentive to do anything else. For example, the “Jack, bet (after bet)" (i.e. calling a bet with the worst hand) would not make sense because he can’t be winning and the “King, pass (after pass)” (i.e. not betting with the best hand when there's no action to go) is the reverse, because he must be winning.
 
-One interesting case of 0 probability is “Queen, bet” because if the first acting player bets with a Queen, he will certainly be called and lose to a King and will certainly force the inferior Jack to fold, therefore this action should never be taken. This illustrates the poker concept of betting strong hands for value, weak hands as bluffs, and not betting middling hands, since there is a high probability that only better hands will call and you will force worse hands to fold. 
+One interesting case of 0 probability is “Queen, bet” because if the first acting player bets with a Queen, he will certainly be called and lose to a King and will certainly force the inferior Jack to fold, therefore this action should never be taken. This illustrates the poker concept of not betting middling hands, since there is a high probability that only better hands will call and you will force worse hands to fold. 
 
 ## Kuhn Poker in Normal Form
 Analytically solving all but the smallest games is not very feasible -- a faster way to compute the strategy for this game is putting it into normal form. 
 
 ### Information sets
-
 There are 6 possible deals in Kuhn Poker: AK, AQ, KQ, KA, QK, QA. 
 
 Each player has 2 decision points in the game. Player 1 has the initial action and the action after the sequence of P1 checks --> P2 bets. Player 2 has the second action after Player 1 bets or Player 1 checks. 
@@ -413,7 +413,7 @@ Therefore each player has 12 possible acting states. For player 1 these are (whe
 11. QK check, P2 bets, P1 action
 12. QA check, P2 bets, P1 action
 
-However, the state of the game is not actually known to the players! Each player has 2 decision points that are equivalent from their point of view, even though the true game state is different. For player 1 these are:
+However, the state of the game (or world of the game) is not actually known to the players! Each player has 2 decision points that are equivalent from their point of view, even though the true game state is different. For player 1 these are:
 1. A acting first (combines AK and AQ)
 2. K acting first (combines KQ and KA)
 3. Q acting first (combines QK and QA)
@@ -423,9 +423,9 @@ However, the state of the game is not actually known to the players! Each player
 
 From Player 1's perspective, she only knows her own private card and can only make decisions based on knowledge of this card.
 
-For example, if Player 1 is dealt a K and Player 2 dealt a Q or P1 dealt K and P2 dealt A, P1 is facing the decision of having a K and not knowing what the opponent has. 
+For example, if Player 1 is dealt a K and Player 2 dealt a Q or P1 dealt K and P2 dealt A, P1 is facing the decision of having a K and starting the betting not knowing what the opponent has. 
 
-Likewise if Player 2 is dealt a K and is facing a bet, he must make the same action regardless of what the opponent has because from his perspective he only knows his own card. 
+Likewise if Player 2 is dealt a K and is facing a bet, he must make the same action regardless of what the opponent has because from his perspective he only knows his own card and the action history. 
 
 We define an information set as the set of information used to make decisions at a particular point in the game. In Kuhn Poker, it is equivalent to the card of the acting player and the history of actions up to that point. 
 
@@ -437,9 +437,9 @@ The shorthand version in the case of Kuhn Poker is to combine "k" and "f" into "
 
 Now that we have defined information sets, we see that each player in fact has 2 information sets per card that he can be dealt, which is a total of 6 information sets per player since each can be dealt a card in {Q, K, A}. (If the game was played with a larger deck size, then we would have $$ \text{N} * 2 $$ information sets, where N is the deck size.)
 
-Each information set has 2 actions possible, which are essentially "do not put money in the pot" (check when acting first/facing a check or fold when facing a bet -- we call this pass) and "put in $1" (bet when acting first or call when facing a bet -- we call this bet). 
+Each information set has two actions possible, which are essentially "do not put money in the pot" (check when acting first/facing a check or fold when facing a bet -- we call this pass) and "put in $1" (bet when acting first or call when facing a bet -- we call this bet). 
 
-The result is that each player has $$ 2^6 = 64 $$ total combinations of strategies. Think of this as each player having a switch between pass/bet for each of the 6 information sets that can be on or off and deciding all of these in advance. 
+The result is that each player has $$ 2^6 = 64 $$ total combinations of pure strategies. Think of this as each player having a switch between pass/bet for each of the 6 information sets that can be on or off and deciding all of these in advance. 
 
 Here are a few examples of the 64 strategies for Player 1 (randomly selected): 
 
@@ -492,17 +492,18 @@ The only constraint we have at this time is that the sum of the strategies is 1 
 In the case of Kuhn Poker, for **step 1** we look at a best response for Player 2 (strategy y) to a fixed Player 1 (strategy x) and have the following. Best response means best possible strategy for Player 2 given Player 1's fixed strategy. 
 
 $$ \max_{y} (x^TB)y $$
+
 $$ \text{Such that: } Fy = f, y \geq 0 $$ 
 
-We are looking for the strategy parameters $$y$$ that maximize the payoffs for Player 2. $$x^TB** is the transpose of $$x$$ multiplied by $$B$$, so the strategy of Player 1 multiplied by the payoffs to Player 2. Player 2 then can choose $$y$$ to maximize his payoffs.
-
-$$ = \max_{y} (x^T(-A))y  $$
+We are looking for the strategy parameters $$y$$ that maximize the payoffs for Player 2. $$x^TB$$ is the transpose of $$x$$ multiplied by $$B$$, so the strategy of Player 1 multiplied by the payoffs to Player 2. Player 2 then can choose $$y$$ to maximize his payoffs.
 
 We substitute $$-A$$ for $$B$$ so we only have to work with the $$A$$ matrix. 
 
-$$ = \min_{y} (x^T(A))y $$
+$$ = \max_{y} (x^T(-A))y  $$
 
 We can substitute $$-A$$ with $$A$$ and change our optimization to minimizing instead of maximizing. 
+
+$$ = \min_{y} (x^T(A))y $$
 
 $$ \text{Such that: } Fy = f, y \geq 0 $$ 
 
@@ -511,6 +512,7 @@ In words, this is the expected value of the game from Player 2's perspective bec
 For **step 2**, we look at a best response for Player 1 (strategy x) to a fixed Player 2 (strategy y) and have: 
 
 $$ \max_{x} x^T(Ay) $$
+
 $$ \text{Such that: } x^TE^T = e^T, x \geq 0 $$
 
 Note that now Player 1 is trying to maximize this equation and Player 2 is trying to minimize this same thing. 
@@ -527,10 +529,10 @@ We can solve this with linear programming, but this would involve a huge payoff 
 
 Kuhn Poker is the most basic poker game possible and requires solving a $$ 64 \text{x} 64 $$ matrix. While this is feasible, any reasonably sized poker game would blow up the matrix size. 
 
-We can improve on this form by considering the structure of the game tree. Rather than just saying that the constraints on the $$ x $$ and $$ y $$ matrices are that they must sum to 1, we can redefine these conditions according to the structure of the game tree. 
+We can improve on this form by considering the structure of the game tree. Rather than just saying that the constraints on the $$ x $$ and $$ y $$ matrices are that they must sum to 1 as we did above, we can redefine these conditions according to the structure of the game tree. 
 
 ### Simplified Matrices for Player 1 with Behavioral Strategies
-Previously we defined $$ E = F = \text{Vectors of } 1 $$, the most basic constraint that all probabilities have to sum to 1. 
+Previously we defined $$ E = F = \text{Vectors of } 1 $$, which is the most basic constraint that all probabilities have to sum to 1. 
 
 However, we know that some strategic decisions can only be made after certain other decisions have already been made. For example, Player 2's actions after a Player 1 bet can only be made after Player 1 has first bet! 
 
@@ -546,9 +548,9 @@ Now we can redefine the $$ E $$ constraint as follows for Player 1:
 | Q  | -1  |   |   |   |   |  |   |   |   | 1  | 1  |   |   |
 | Qp  |   |   |   |   |   |   |   |   |   |   | -1  | 1  | 1  |
 
-We see that $$ E $$ is a $$ 7 \text{x} 13 $$ matrix, representing the root of the game and the 6 information sets vertically and the root of the game and the 12 possible strategies horizontally. The difference now is that we are using **behavioral strategies** instead of **mixed strategies**. Mixed strategies meant specifying a probability of how often to play each of 64 possible pure strategies. Behavioral strategies assign probability distributions over strategies at each information set. Kuhn's theorem (the same Kuhn) states that in a game where players may remember all of their previous moves/states of the game available to them, for every mixed strategy there is a behavioral strategy that has an equivalent payoff (i.e. the strategies are equivalent). 
+We see that $$ E $$ is a $$ 7 \text{x} 13 $$ matrix, representing the root of the game and the 6 information sets vertically and the root of the game and the 12 possible strategies horizontally. The difference now is that we are using **behavioral strategies** instead of **mixed strategies**. Mixed strategies meant specifying a probability of how often to play each of 64 possible pure strategies. Behavioral strategies assign probability distributions over strategies at each information set. Kuhn's Theorem (the same Kuhn) states that in a game where players may remember all of their previous moves/states of the game available to them, for every mixed strategy there is a behavioral strategy that has an equivalent payoff (i.e. the strategies are equivalent). 
 
-Within the matrix, the [0,0] entry is a dummy and filled with a 1. Each row has a single $$-1$$, which indicates the strategy (or root) that must precede the infoset. For example, the A has a -1 entry at the root (0) and 1 entries for A_b and A_p since the A must precede those strategies. The $$1$$ entries represent strategies that exist from a certain infoset. 
+Within the matrix, the [0,0] entry is a dummy and filled with a 1. Each row has a single -1, which indicates the strategy (or root) that must precede the infoset. For example, the A has a -1 entry at the root (0) and 1 entries for A_b and A_p since the A must precede those strategies. The $$1$$ entries represent strategies that exist from a certain infoset. In matrix form we have $$ E $$ as below: 
 
 $$ E = 
 \quad
@@ -650,7 +652,7 @@ To understand how the matrix multiplication works and why it makes sense, let's 
 
 **Row 1**
 
-We have $$ 1 \text{x} 1 $$ = 1. This is a "dummy" 
+We have $$ 1 \text{x} 1 $$ = 1. This is a "dummy".
 
 **Row 2**
 
@@ -670,22 +672,34 @@ The following are just repeats of Rows 2 and 3 with the other cards.
 **Row 4**
  
 $$ -1 + K_b + K_p = 0 $$
+
 $$ K_b + K_p = 1 $$
+
+The probabilities of Player 1's initial actions with a K must sum to 1. 
 
 **Row 5**
  
 $$ -K_p + K_{pb} + K_{pp} = 1 $$
+
 $$ K_{pb} + K_{pp} = K_p $$
+
+The probabilities of Player 1 taking a bet or pass option with a K after initially passing must sum up to the probability of that initial pass $$ K_p$$. 
 
 **Row 6**
  
 $$ -1 + Q_b + Q_p = 0 $$
+
 $$ Q_b + Q_p = 1 $$
+
+The probabilities of Player 1's initial actions with a Q must sum to 1. 
 
 **Row 7**
  
 $$ -Q_p + Q_{pb} + Q_{pp} = 1 $$
+
 $$ Q_{pb} + Q_{pp} = Q_p $$
+
+The probabilities of Player 1 taking a bet or pass option with a Q after initially passing must sum up to the probability of that initial pass $$ Q_p$$. 
 
 ### Simplified Matrices for Player 2
 
@@ -722,6 +736,8 @@ Now instead of the $$ 64 \text{x} 64 $$ matrix we made before, we can represent 
 | Q_p  |   |   |   |   | -1  |   |   |   | -1  |   |   |   |   |
 | Q_pb  |   |   |   | -2  |   |   |   | -2  |   |   |   |   |   |
 | Q_pp  |   |   |   | -1  |   |   |   | -1  |   |   |   |   |   |
+
+And written in matrix form: 
 
 $$ A = 
 \quad
@@ -761,13 +777,13 @@ For simplicity, let's stick with the original $$ A $$ payoff matrix and see how 
 
 ### Simplified Linear Program
 
-Our linear program is now updated as follows. It is the same general form as before, but now our $$ E $$ and $$ F $$ matrices have constraints based on the game tree and the payoff matrix $$ A $$ is smaller, evaluating when player strategies coincide and result in payoffs, rather than looking at every possible set of strategic options as we did before:
+Our linear program is now updated as follows. It is the same general form as before, but now our $$ E $$ and $$ F $$ matrices have constraints based on the game tree and the payoff matrix $$ A $$ is smaller, evaluating when player strategies coincide and result in payoffs, rather than looking at every possible set of pure strategic options as we did before:
 
 $$ \min_{y} \max_{x} [x^TAy] $$
 
 $$ \text{Such that: } x^TE^T = e^T, x \geq 0, Fy = f, y \geq 0 $$
 
-MATLAB code is available to solve this linear program: [https://www.dropbox.com/s/na9rta8sqj0zlmb/matlabkuhn.m?dl=0](MATLAB LP code)
+MATLAB code is available to solve this linear program where A, E, e, F, and f are givens and we are trying to solve for x and y. The code also includes variables p and q, which we don't go into here except for the first value of the p vector, which is the game value. 
 
 ```matlab
 %givens
@@ -890,11 +906,11 @@ q =
     0.1667
 ```
 
-The $$x$$ and $$y$$ values are a Nash equilibrium strategy solution for each player (one of many equilibrium solutions). The first $$p$$ value shows the value of the game as we had calculated before in the analytical section. 
+The $$x$$ and $$y$$ values are a Nash equilibrium strategy solution for each player (one of many equilibrium solutions), whereby the values after the first in the vector describe the betting strategy for each of the actions for each player as shown in the vectors above. The first $$p$$ value shows the value of the game as we had calculated before in the analytical section: -0.0556. 
 
 ## Iterative Algorithms
-Now we have shown a way to solve games more efficiently based on the structure/ordering of the decision nodes (which can be expressed in tree form).
+Now we have shown a way to solve games more efficiently based on the structure/ordering of the decision nodes.
 
 Using behavioral strategies significantly reduces the size of the game and solving is much more efficient by using the structure/ordering of the decision nodes. This can be expresessed in tree form and leads to algorithms that can use self-play to iterate through the game tree. 
 
-Specifically CFR (Counterfactual Regret Minimization) has become the foundation of imperfect information game solving algorithms. We will go into detail on this in section 4.1. 
+Specifically CFR (Counterfactual Regret Minimization) has become the foundation of imperfect information game solving algorithms. We will go into detail on this in Section 4.1. 

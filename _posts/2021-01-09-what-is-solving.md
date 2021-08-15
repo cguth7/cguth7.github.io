@@ -18,6 +18,21 @@ This means balancing one's playing and and thinking about the range of hands tha
 
 In small toy games, these strategies are relatively easy to find. In 1v1 Limit Texas Hold'em a very close approximation of this strategy [was computed in 2015 at the University of Alberta](https://science.sciencemag.org/content/347/6218/145). In commonly played games like 1v1 No Limit Texas Hold'em and multiplayer No Limit Texas Hold'em, no complete game theory optimal strategies exist...yet. In multiplayer games, the concept is less clear because of the interactions involved with other players and so the solution approach has been to develop agents that perform well, but aren't necessarily playing some theoretical optimal strategy. 
 
+### Measuring Agent Quality
+We are often working with only approximately optimal strategies when solving games. While small toy games can be small enough to find completely game theory optimal solutions, it's important to be able to evaluate approximately GTO agents. We go into this further in Section 4.3: Agent Evaluation, but will mention the three main ways of measuring agent quality here as well: 
+
+1.  We can look at a given strategy against the "best response" strategy, which is the strategy that maximally exploits the given strategy (i.e. how well can someone do against you if they know your exact strategy). This shows the maximum that your strategy would lose in expectation against such an opponent, which is defined as the exploitability of an agent. Note that a game is in Nash equilibrium if and only if all players are playing best responses to what the other players are doing.
+
+2. We can look at a strategy against a different computer agent, including other approximate equilibrium agents that were somehow computed differently.  
+
+3. We can play the agent against humans, though this will require a lot of human time since many hands are needed to properly assess agent quality given the variance inherent in poker. 
+
+## Why the GTO Strategy? 
+GTO makes sense as a formalized way to solve a game because it can't be beaten! But what if you are playing against a very bad player and a non-GTO strategy would be much stronger? In some sense the GTO strategy is not optimal in this situation, but we distinguish between a GTO strategy and an exploitative optimal strategy. By definition, when solving a game it makes sense to use the game theory optimal strategy because the exploitative optimal strategy is far less robust and while it may be more profitable against certain players, could be far less profitable against other players. So while a best response is the actual optimal strategy for a certain situation, it can't be generalized in the way that GTO can be. 
+
+## Solving Methods
+Generally algorithms and commercial programs are built around Counterfactual Regret Minimization (CFR), which is described in Section 4.1. In short, it works by playing the game against itself repeatedly and eventually coming to an equilibrium strategy, similarly to how two humans might play each other repeatedly and start off with some default strategy in mind, but then may reach some sort of equilibrium as they re-optimize based on the opponent strategy. 
+
 ## The Evolution of Poker Studying
 Poker studying has evolved over the last decade or so from: 
 1. Using simple odds evaluation software that would literally just show the odds of two or more specific hands given a board (or no board for the preflop odds). I remember being especially surprised the first time I saw how close some odds were for hands that seemed so much better than other hands, like AK vs. AJ or AK vs. 98! 
@@ -29,20 +44,7 @@ For this entire time, statistical software that players can use to analyze their
 
 As AI continues to improve and computing power increases and as humans study more, AI and humans will both get gradually closer to optimal, but for now, we rely on abstractions and approximations for larger games. 
 
-### Measuring Agent Quality
-There are three main ways to measure how good an agent (strategy) is:  
 
-1) We can look at a given strategy against the "best response" strategy, which is the strategy that maximally exploits the given strategy (i.e. how well can someone do against you if they know your exact strategy). This shows the maximum that your strategy would lose in expectation against such an opponent, which is defined as the exploitability of an agent. Note that a game is in Nash equilibrium if and only if all players are playing best responses to what the other players are doing. 
-
-2) We can look at a given strategy against an actual game theory optimal strategy and then evaluate based on how well it performs against the true GTO agent. 
-
-3) We can play the agent against humans or other computer agents over a large number of hands
-
-## Why the GTO Strategy? 
-GTO makes sense as a formalized way to solve a game because it can't be beaten! But what if you are playing against a very bad player and a non-GTO strategy would be much stronger? In some sense the GTO strategy is not optimal in this situation, but we distinguish between a GTO strategy and an exploitative optimal strategy. By definition, when solving a game it makes sense to use the game theory optimal strategy because the exploitative optimal strategy is far less robust and while it may be more profitable against certain players, could be far less profitable against other players. So while a best response is the actual optimal strategy for a certain situation, it can't be generalized in the way that GTO can be. 
-
-## Solving Methods
-Generally algorithms and commercial programs are built around Counterfactual Regret Minimization (CFR), which is described in Section 4.1. In short, it works by playing the game against itself repeatedly and eventually coming to an equilibrium strategy, similarly to how two humans might play each other repeatedly and start off with some default strategy in mind, but then may reach some sort of equilibrium as they re-optimize based on the opponent strategy. 
 
 <!-- ## Indifference -->
 
