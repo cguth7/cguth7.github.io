@@ -20,7 +20,7 @@ The biggest breakthroughs in AI poker primarily came from research groups at Car
 ## DeepStack
 http://www.depthfirstlearning.com/2018/DeepStack 
 
-In early 2017, a new paper called DeepStack [82] was released and showed a
+In early 2017, a new paper called DeepStack was released and showed a
 completely new framework for solving poker games. Although they claimed that it
 was the first NLHE agent to defeat human players, the selected players are mostly
 unknown and at most played 3,000 hands against DeepStack (for a total of 44,000
@@ -63,9 +63,11 @@ https://www.twitch.tv/libratus_vs_jasonles
 https://www.pokernews.com/news/2017/01/how-to-watch-the-brains-vs-ai-poker-rematch-26767.htm
 https://www.theverge.com/2017/1/11/14243170/ai-poker-tournament-live-stream-time-cmu-computer-vs-humans
 https://www.technologyreview.com/s/603342/poker-is-the-latest-game-to-fold-against-artificial-intelligence/
+The DeepStack paper claims that the AI spends ~3 seconds per move, much less than Libratus
 
 ## Pluribus
 https://www.wired.com/story/new-poker-bot-beat-multiple-pros/amp 
+https://ai.facebook.com/blog/pluribus-first-ai-to-beat-pros-in-6-player-poker/ 
 https://www.wired.com/story/poker-playing-robot-goes-to-pentagon/ 
 https://www.wsj.com/articles/computers-can-now-bluff-like-a-poker-champ-better-actually-11562873541
 https://www.npr.org/2019/07/11/740661470/bet-on-the-bot-ai-beats-the-professionals-at-6-player-texas-hold-em?utm_campaign=npr&utm_term=nprnews&utm_medium=social&utm_source=twitter.com 
@@ -100,3 +102,6 @@ https://arxiv.org/pdf/2007.10442.pdf
 https://arxiv.org/pdf/2007.13544.pdf 
 https://www.youtube.com/watch?v=BhUWvQmLzSk 
 https://ai.facebook.com/blog/rebel-a-general-game-playing-ai-bot-that-excels-at-poker-and-more/
+
+## What's next? 
+I'm excited to see agents that might work more on opponent exploitation rather than optimal play. For example, updating strategies according to opponents or testing small changes to strategies to see if they perform better. 

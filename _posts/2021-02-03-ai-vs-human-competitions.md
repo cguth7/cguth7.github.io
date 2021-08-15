@@ -33,14 +33,14 @@ Rivers Casino in Pittsburgh in April-May 2015 and included major sponsorship fro
 Microsoft Research. Tuomas Sandholm, a professor at CMU, led the team that
 created the bot named Claudico, which means “limp” in Latin, named such because
 the bot “limps”, or calls instead of raising preflop, a strategy very uncommon with
-expert players.
+expert players. 
 
 Sandholm’s goal is to create the greatest no-limit Texas Hold’em player in the world,
 which could potentially be used as the ultimate poker training tool. Along with PhD
-student Noam Brown, they created, Tartanian7, which won both categories of the
+student Noam Brown, they created, Tartanian7 (Claudico's predecessor), which won both categories of the
 ACPC in 2014, and Baby Tartanian8, which won the total bankroll and took 3rd in the
 instant run-off competition in 2016. Sandholm’s previous agents were named
-Hyperborean.
+Hyperborean. These agents use the standard abstraction paradigm for solving poker games. 
 
 Sandholm first noted that it has a far more varied approach to bet sizing, one of the
 most important and skillful aspects of the game. “I think by using one or two bet sizes
@@ -95,8 +95,8 @@ which could be beneficial when playing against humans since they may be less
 familiar with its strategy compared to what they are used to seeing. Additionally,
 Libratus used an end-game solver in match and took card-removal effects, also known
 as blockers, into account (when opponent hands are less likely because of cards that
-you are holding), and finally, the Libratus team updated the betting translations every
-night to avoid them being exploited. 
+you are holding -- which was not in the previous version), and finally, the Libratus team updated the betting translations every
+night to avoid them being exploited (which happened in the previous version). 
 
 The human team had been successful in the
 2015 match by exploiting bet sizing by betting in between known sizes to “confuse”
@@ -151,19 +151,6 @@ that bots are gradually improving in this area also.
 
 ## 2019 Pluribus
 
-<!-- ## AIVAT Variance Reduction
-
-AIVAT Variance Reduction
-https://arxiv.org/pdf/1612.06915.pdf  -->
-
-
-
-https://medium.com/@Moscow25/does-the-poker-bot-ever-bluff-7548df0a3458
-https://medium.com/@Moscow25/professional-grade-ai-for-poker-thoughts-and-background-df3dff954c33
-https://medium.com/@Moscow25/cmus-libratus-bluffs-its-way-to-victory-in-brainsvsai-poker-match-99abd31b9cd4
-https://medium.com/@Moscow25/when-will-an-ai-win-the-world-series-of-poker-7dba41afd704
-https://medium.com/@Moscow25/explaining-state-of-art-poker-ai-non-academically-7e2124cb3d1c
-
 ## Human Biases
 Why can computer agents be superior to expert players? They can certainly store more information and do calculations faster and act faster, but even on a more even playing field, there are human emotional biases that make things difficult relative to the objectivity of a computer program. Daniel Kahneman, a well known behavioral economist, has written about how decision makers often react to different frames
 (how information is presented) in different ways, and suggests that these people
@@ -188,3 +175,9 @@ human players. Some specific issues mentioned are:
 “fundamentals”
 - Humans are inconsistent in making summary judgments of complex
 information
+
+
+<!-- ## AIVAT Variance Reduction
+
+AIVAT Variance Reduction
+https://arxiv.org/pdf/1612.06915.pdf  -->
