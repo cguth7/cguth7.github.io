@@ -132,13 +132,25 @@ https://science.sciencemag.org/content/suppl/2019/07/10/science.aay2400.DC1 
 https://science.sciencemag.org/content/early/2019/07/10/science.aay2400 
 https://www.sciencenews.org/article/artificial-intelligence-has-now-pretty-much-conquered-poker
 
-## Supremus
-https://arxiv.org/pdf/2007.10442.pdf 
+## [Supremus](https://arxiv.org/pdf/2007.10442.pdf )
+This paper -- Unlocking the Potential of Deep Counterfactual Value Networks -- was a collaboration by the Minimal AI group and Noam Brown. This agent essentially first implements the DeepStack algorithm and then improves on it by using a modified CFR method called DCFR+ that solves the "sparse lookahead tree with continual resolving", "custom hyper optimized kernals in CUDA", and neural networks on all lookahead trees instead of a standard abstraction. 
 
-## ReBeL
+DCFR stands for Discounted Counterfactual Regret Minimization from the 2019 paper [Solving Imperfect-Information Games via Discounted Regret Minimization](https://arxiv.org/pdf/1809.04040.pdf) and involves discounting regrets in earlier iterations of CFR and counting them as less useful than more recent regrets in order to speed up convergence. 
+
+DCFR+, introduced in the Supremus paper, has the key insight that it "delays the starting point at which the average policy is tracked" and by "using a linear weighting scheme for the average policy rather than quadratic". In their case, they used a constant of 100 to assign weight of 0 to the first 100 iteration weights and then linearly begin at 0 for future weights. 
+
+### Compared to DeepStack
+The reimplementation of DeepStack resulted in lower error rates for the turn (.016 compared to 0.026) and flop (0.028 compared to 0.034) networks. This resulted in a reimplemented agent that won 536 +/- 68 mbb per hand compared to the original DeepStack winning 428 +/- 87 mbb/g against a local best response function that plays only fold and call. The Supremus agent did significantly better, winning 951 +/- 96 mbb/g. 
+
+The algorithm is able to complete 1000 tree iterations in 0.8 seconds, about 6x faster than DeepStack, thanks to the more efficient GPU implementation. 
+
+### Compared to Slumbot
+The 2018 ACPC winner was the Slumbot agent, a strong abstraction-based agent. The DeepStack reimplementation lost to Slumbot by 63 mbb/g +/- 40 with all-in expected value variance reduction. Supremus thoroughly beat Slumbot a rate of 176 mbb per hand +/- 44 in the same 150,000 hand sample. 
+
+<!-- ## ReBeL
 https://arxiv.org/pdf/2007.13544.pdf 
 https://www.youtube.com/watch?v=BhUWvQmLzSk 
-https://ai.facebook.com/blog/rebel-a-general-game-playing-ai-bot-that-excels-at-poker-and-more/
+https://ai.facebook.com/blog/rebel-a-general-game-playing-ai-bot-that-excels-at-poker-and-more/ -->
 
 ## What's next? 
-I'm excited to see agents that might work more on opponent exploitation rather than optimal play. For example, updating strategies according to opponents or testing small changes to strategies to see if they perform better. 
+I'm excited to see agents that might work more on opponent exploitation rather than optimal play. For example, updating strategies according to opponents or testing small changes to strategies to see if they perform better. While both multiplayer games and opponent exploitation have seen relatively little research compared to one on one games, it might be especially interesting to see them combined. In a sense, this might come automatically in multiplayer games since it makes less sense to solve them from a game theoretically optimal perspective. 

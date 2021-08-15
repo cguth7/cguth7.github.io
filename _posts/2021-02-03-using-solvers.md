@@ -31,4 +31,12 @@ Solver outputs often have very complex strategies that might look like, for exam
 
 Of course just because a play is game theory optimal according to a solver doesn't mean it's the best play in game, but having this foundation is very useful. Solvers also allow you to lock opponent nodes to fix their hand range, which is useful to compare to the GTO solution to see how the exploitative strategy differs. 
 
+A valuable way to use solvers is if you have access to the approximate strategy of a population of players from your database. When you encounter a certain situation, you can lock their play to match that range of hands and then see what the maximally exploitative play is according to the solver output. 
+
+For example, you could analyze a situation where the flop has three cards to a flush, look up all of these situations in your database, and see what percentage of hands people are folding on average. This is an oversimplification because three flush boards can very considerably (789 might get fewer folds than T52 since it's more connected) and also it's of course considering a population tendency and not an individual player exploitation. But this can work as an approximation and you can study this situation in terms of GTO tendencies to see how frequently players should call or fold this flop and then also how the population plays by node locking this percentage of hands. If they are folding too much, then you can see how many more hands you should be betting in this spot. 
+
+Another example is if you call a raise preflop from the blinds against a button player, you can look at your database for how often the button player bets the flop on a certain type of board. If the average player in your database is betting here more than the GTO strategy, then you can learn how to modify your own strategy away from GTO to exploit these players, probably by calling or check raising more. 
+
+As I've warned in earlier sections, the risk in exploiting opponents is that you are no longer playing the GTO strategy and put yourself at risk, but by capitalizing on these kinds of slight deviations from GTO play, you might be able to see a significant boost in win rate.
+
 <!-- imbalanced strategy to get to point -->

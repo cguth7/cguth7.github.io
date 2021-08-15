@@ -29,7 +29,110 @@ details, or when the game may not be composed of discrete actions/states in its
 original form.
 
 Strategies for abstract games are defined in the same way as strategies in the main
-game, but restricted strategies must be given zero probability, meaning if there was a betting abstraction to use only check, bet 1/2 pot, and bet full pot, in a situation where the pot is $100, only checking, betting $50, and betting $100 would be possible, while all other options would be given zero probability. 
+game, but restricted strategies must be given zero probability, meaning if there was a betting abstraction to use only check, bet 1/2 pot, and bet full pot, in a situation where the pot is $100, only checking, betting $50, and betting $100 would be possible, while all other options would be given zero probability.
+
+## Game Size
+The size of a game is generally computed from two components: 
+1. The number of game states, which is generally counted as information sets in poker to account for situations that are equivalent given one player's information, and therefore which the player uses the same strategy for each information set
+2. The number of actions at each of these information sets
+
+The composite multiplication of these two components is referred to as infoset actions, which is related to the amount of memory needed to store a strategy, like in the CFR algorithm. This is the standard game size measurement in poker. 
+
+The size of a game is valuable because it lets us relate complexity of different games and determines which algorithms might be usable and what level of abstraction might be needed to get a game complexity to a tractable level. 
+
+Michael Johanson wrote a paper [Measuring the Size of Large No-Limit Poker Games](https://arxiv.org/pdf/1302.7008.pdf) in 2013 that explains these methods in detail. 
+
+This can be extended by considering the game states from multiple perspectives. The two-player view is in terms of an external players view of the number of infoset-actions (they cannot see private cards). The one-sided view is as described above, with one player's infoset-actions. The canonical one-player view further reduces the size by including lossless abstractions (states that are strategically identical).
+
+CFR stores regrets and strategies at each information set, so CFR is known to run in proportion to the size of the game. 
+
+### Limit Hold'em Size
+In limit hold’em, the task of computing the number of infoset-actions is relatively
+easy because there is only one betting option allowed for each betting round, which
+can only occur a maximum of four times, and the betting actions and information sets
+within each round are independent of the betting history and stack sizes (assuming
+large enough stack sizes to be able to complete all bets). From a one-player perspective
+(assuming the 2nd player’s cards are unknown), the number of ways to deal the cards
+is calculated as:
+
+52c2 for the 1st round and then 52c2 * 50c3 for the 2nd round, and so on
+
+These calculations would be reduced if we considered lossless abstraction of card
+combinations.
+
+We can calculate the number of information sets by looking at each round and
+multiplying the card combinations in that round by the possible betting sequences
+based on a chart of betting sequences. 
+
+### No Limit Hold'em Size
+No-limit poker is more of a computational challenge because each betting round
+depends on prior rounds, since each player’s stack size varies as the hand progresses.
+Each game depends on two variables: the stack size to start the game and the value of
+the big blind. 
+
+Per the game rules, players have the following two betting restrictions:
+Minimum bet: max(big blind, current bet size)
+Maximum bet: Stack size
+
+The legal actions possible depend on three factors: "amount of money remaining,
+size of bet faced, and if it’s possible to check (if it’s the first action in a round)". 
+
+Each
+of these factors strictly increases or decreases in a round.
+The method used to compute the number of infoset-actions in no limit hold’em poker
+is to "incrementally compute the number of action histories that reach each of these
+configurations by using dynamic programming". 
+
+Michael Johanson’s paper performs these calculations for the standard No Limit Texas
+Hold’em game used in the ACPC, which uses \\$20,000 (200-blind) stacks with \\$50-
+\\$100 blinds. Although 200 blinds is fairly normal in poker (although most online
+games start with 100 blinds), the large stack size in absolute dollar terms means that a
+much larger number of actions are possible than, for example, 200 blinds in a \\$1-\\$2
+blind setting. The initial raise in the latter setting is any amount from \\$4 to \\$400,
+whereas in the former it is \\$200 to \\$20,000. 
+
+### Comparing Limit and No Limit Hold'em
+Whereas limit hold’em has a 1-sided canonical game size of 1.4x10^13 infoset actions, no limit $1-2 with $1000 starting stacks (500 blinds) is 3.12x10^71, $1-2
+with $400 (200 blind) starting stacks is 6.0x10^46, and $50-100 with $20,000 (200
+blind) starting stacks is 2.8x10^160. Not including transpositions, chess has 10^47
+game states, checkers has 10^20 game states, and Go has 10^170 states.
+
+Although one vs. one limit hold’em has now been solved over a long computation
+period with a very specialized parallel machine setup, no limit is substantially larger
+and requires abstraction to make the game small enough to be solved. 
+
+Johanson
+recommends finding a game that is able to be analyzed in unabstracted form but that is still valuable as a research test experiment. He suggests that the game should be compatible with three properties: 
+
+1. "Unabstracted best response computations are tractable and convenient, so
+worst case performance of strategies with abstracted betting can be evaluated.
+One can then evaluate abstraction and translation techniques in isolation from
+other factors."
+
+2. "Unabstracted equilibrium computations are tractable and convenient. So we
+can compute an optimal strategy for the game and measure its performance
+against agents that use betting abstraction."
+
+3. "Strategic elements similar to those of NLHE" (in terms of rounds, deck size, 5-
+card poker hands, and large stack sizes)
+
+Properties (1) and (2) allow for us to compare agents in the full game and in terms of
+(1) best response and (2) against the full game equilibrium. For condition (3), in order
+to provide the flexibility of solving this game on standard personal computers, we are
+limited in the size of the game that we can possibly use, but essentially meeting the first two properties and making the game as large as possible would be most valuable to be as strategically close to NLHE as possible. 
+
+### Royal No Limit Hold'em 
+Johanson suggests a potential testbed game as 2-\\$20 \\$1-\\$2 No Limit Royal Hold’em,
+a game which uses 2 betting rounds, \\$20 stack sizes, and \\$1-\\$2 blinds. The game size
+is 1.55x10^8 and CFR requires 7GB of RAM for the computation.
+
+While the size of full poker games that are commonly played in casinos require more
+memory than is feasible for today’s modern computers, Royal No Limit Hold’em is
+accessible to all, which could make a game of this sort a more even playing field in a
+competition. Later on this page, we show an experiment with this game to evaluate different betting abstractions and show that unfortunately the game may be too small to work effectively. 
+
+With more advanced CFR versions that use deep learning rather than only tabular data like the original CFR, it's likely that a much larger testbed game could be explored now in 2021. 
+
 
 ## Types of Abstractions
 The two main ways to create a smaller game from a larger one in poker are to merge
@@ -111,6 +214,40 @@ lead to some buckets being very small and others very large. Hands also must
 transition between buckets during play. Buckets could be created automatically such
 as in the manner just described or manually, which requires expert input, but would be
 quite difficult to create policies for.
+
+Three common ways of bucketing are:
+**Expectation-based:** Developed by Gilpin and Sandholm in 2007. Buckets are created
+based on the potential to improve given future cards, potentially by putting the same amount of hands into some fixed number of buckets according to hand strength. A problem is that buckets can be
+unevenly distributed and that there are often strategic differences in playing draw
+hands compared to made hands, which would not be differentiated here (for example the expectation of the value of JT on 983 may be similar to A8, but the A8 is a mid strength hand that probably should be playing passively and the JT is a good semi bluffing hand that has overcards and a straight draw). The standard
+technique is to make each bucket on each round to have the same percentage of cards
+based on a hand strength measure, which could be based on the expectation of hand
+strength E[HS] or E[HS^2] (gives more value to hands with higher potential to
+improve in the future) or some similar metric, which are measured against winning at
+showdown against a random hand.
+
+**Potential-aware:** Automated abstraction technique that was created in 2007 by Gilpin
+and Sandholm that uses multi-dimensional histograms, where the maximum number
+of buckets in each round is determined based on the size of the final linear program to
+solve. This starts in the final round by bucketing hands into sets with k-means clustering and then buckets on prior rounds are derived from the final round based on how often they turn into the final round clusters. So if there are five clusters on the
+final round, then there would be a distribution of five transition probabilities on the
+prior round, which are then grouped together using some similarity function such as
+Euclidean distance for each value in the histogram. This continues backwards until
+the first round.
+
+**Phase-based:** This method solves earlier parts of the game separately from later parts
+of the game, which allows for finer abstraction in each segment than would be
+possible in the game as a whole.
+
+Additionally, most poker algorithms depend on perfect recall in terms of theory to arrive at a Nash equilibrium. This is the assumption that an agent doesn't forget anything and can rely on prior knowledge. An additional way to abstract, then, is to use **imperfect recall abstractions** (which remove theoretical CFR guarantees), which are when the player “forgets” previous observations and
+uses information based only on specific parts of the history, or even on no history at
+all. This assumption is therefore not very applicable to real life, although in real life
+the true human memory does not remember all of the historical observations and actions like
+in perfect recall abstractions. 
+
+Imperfect recall therefore places more emphasis on
+recent information, which can be done by using an abstraction with fewer buckets on earlier rounds or by
+forgetting all prior rounds except for the current. This is similar to endgame solving -- a way to focus resources on the most important betting rounds and decisions, particularly in no limit hold'em.
 
 There are three main methods to compare abstraction solutions to poker games: one on one (against either another agent or a human), versus equilibrium, and versus best
 response. Respectively, the possible problems possible are intransitivities, infeasible
@@ -340,138 +477,6 @@ game.
 
 While these results show evidence of FCPA being the best abstraction amongst these
 choices -- it may be necessary to run this experiment on a larger testbed game that may not be solvable
-on personal computers, but also does not require very specialized equipment. 
+on personal computers, but also does not require very specialized equipment. For example, even doubling the blinds so that each player starts with 20 big blinds instead of 10 would possibly significantly increase the complexity, although in doing so would significantly increase the game size since already on the flop there would be 38 initial actions (fold or raise to any amount between 4 and 40) instead of 18 initial actions (fold or raise to any amount between 4 and 20). 
 
-## Game Size
-The size of a game is a simple heuristic that can be used to describe its complexity
-and to compare it to other games. One way to measure a game size is to count the
-number of game states, the number of possible sequences of actions by the players or
-by chance, as viewed by a third party that observes all of the players’ actions. In
-poker, this is all of the ways that the players’ private and public cards can be dealt and
-all of the possible betting sequences.
-
-Infoset-actions is the standard game size measurement in poker, which is the number
-of legal actions summed over each information set, also known as the total number of
-behavioral strategies. An spectator’s (who cannot see private cards) view of the
-number of infoset-actions is considered the two-sided perspective. The one-sided
-perspective is the number of infoset-actions from the perspective of one player. This
-can be further reduced to the one-sided canonical perspective, which is the same as
-the one-sided, but also includes losslessly merging isomorphic card combinations that
-are strategically identical.
-
-CFR converges linearly with the number of canonical information sets. The algorithm
-requires two double-precision floating point variables per infoset-action, one to
-accumulate regret, and the other to accumulate the average strategy.
-Michael Johanson of the University of Alberta showed that the sizes of games can generally be compared by means of
-evaluating the number of game states, or the number of possible sequences of actions
-by the players or by chances. In poker, this includes all the ways that the public and
-private cards can be dealt and all possible betting sequences. 
-
-### Limit Hold'em Size
-In limit hold’em, the task of computing the number of infoset-actions is relatively
-easy because there is only one betting option allowed for each betting round, which
-can only occur a maximum of four times, and the betting actions and information sets
-within each round are independent of the betting history and stack sizes (assuming
-large enough stack sizes to be able to complete all bets). From a 1-player perspective
-(assuming the 2nd player’s cards are unknown), the number of ways to deal the cards
-is calculated as:
-
-52c2 for the 1st round and then 52c2 * 50c3 for the 2nd round, and so on
-
-These calculations would be reduced if we considered lossless abstraction of card
-combinations.
-
-We can calculate the number of information sets by looking at each round and
-multiplying the card combinations in that round by the possible betting sequences
-based on a chart of betting sequences. 
-
-### No Limit Hold'em Size
-No-limit poker is more of a computational challenge because each betting round
-depends on prior rounds, since each player’s stack size varies as the hand progresses.
-Each game depends on two variables: the stack size to start the game and the value of
-the big blind. 
-
-Per the game rules, players have the following two betting restrictions:
-Minimum bet: max(big blind, current bet size)
-Maximum bet: Stack size
-
-The legal actions possible depend on three factors: amount of money remaining,
-size of bet facing, and if it’s possible to check (if it’s the first action in a round). 
-
-Each
-of these factors strictly increases or decreases in a round.
-The method used to compute the number of infoset-actions in no limit hold’em poker
-is to incrementally compute the number of action histories that reach each of these
-configurations by using dynamic programming. The base case is the start of the
-game and the inductive step is n action sequences reach a given configuration, then
-for each legal action at that configuration, we can add another n ways to reach
-subsequent configurations. We look at each round in increasing order, visit all  configurations where checking is allowed, and then where a call ends the round. We
-update each configuration in order from largest stacks remaining to smallest and
-within each subset from smallest bets faced to largest. 
-
-This requires only a single
-traversal since all actions taken from a configuration only update the number of ways
-to reach configurations later in the ordering. Counters are used for each round that
-track the number of action sequences that lead to a decision by a player and the total
-number of infoset-actions. The algorithm traverses configurations over all rounds,
-then multiplies by the branching factors due to chance events.
-
-The implementation involves one variable for each configuration of stack size and bet
-faced, which can be done with a 2-dimensional array, which can be reused each round
-with the addition of a vector indexed by stack size to track possible ways to reach the
-next round.
-
-Michael Johanson’s paper performs these calculations for the standard No Limit Texas
-Hold’em game used in the ACPC, which uses \\$20,000 (200-blind) stacks with \\$50-
-\\$100 blinds. Although 200 blinds is fairly normal in poker (although most online
-games start with 100 blinds), the large stack size in absolute dollar terms means that a
-much larger number of actions are possible than, for example, 200 blinds in a \\$1-\\$2
-blind setting. The initial raise in the latter setting is any amount from \\$4 to \\$400,
-whereas in the former it is \\$200 to \\$20,000. 
-
-### Comparing Limit and No Limit Hold'em
-Whereas limit hold’em has a 1-sided canonical game size of 1.4x10^13 infosetactions, no limit $1-2 with $1000 starting stacks (500 blinds) is 3.12x10^71, $1-2
-with $400 (200 blind) starting stacks is 6.0x10^46, and $50-100 with $20,000 (200
-blind) starting stacks is 2.8x10^160. Not including transpositions, chess has 10^47
-game states, checkers has 10^20 game states, and Go has 10^170 states.
-
-Although one vs. one limit hold’em has now been solved over a long computation
-period with a very specialized parallel machine setup, no limit is substantially larger
-and requires abstraction to make the game small enough to be solved. Johanson
-recommends analyzing the suboptimality in unabstracted games by finding a game
-with these 3 properties: 
-
-1. Unabstracted best response computations are tractable and convenient, so
-worst case performance of strategies with abstracted betting can be evaluated.
-One can then evaluate abstraction and translation techniques in isolation from
-other factors.
-
-2. Unabstracted equilibrium computations are tractable and convenient. So we
-can compute an optimal strategy for the game and measure its performance
-against agents that use betting abstraction.
-
-3. Strategic elements similar to those of NLHE (in terms of rounds, deck size, 5-
-card poker hands, and large stack sizes)
-
-Properties (1) and (2) allow for us to compare agents in the full game and in terms of
-(1) best response and (2) against the full game equilibrium. For condition (3), in order
-to provide the flexibility of solving this game on standard personal computers, we are
-limited in the size of the game that we can possibly use. 
-
-### Royal No Limit Hold'em 
-Johanson suggests a potential testbed game as 2-\\$20 \\$1-\\$2 No Limit Royal Hold’em,
-a game which uses 2 betting rounds, \\$20 stack sizes, and \\$1-\\$2 blinds. The game size
-is 1.55x10! and CFR requires 7GB of RAM for the computation.
-
-While the size of full poker games that are commonly played in casinos require more
-memory than is feasible for today’s modern computers, Royal No Limit Hold’em is
-accessible to all, which could make a game of this sort a more even playing field in a
-competition.
-
-We analyzed betting abstractions in Royal Hold'em to determine whether basic abstractions like FCPA (fold, call,
-pot, allin) are exploitable and can be improved by more sophisticated abstractions. We
-also wanted to test whether the weaker the abstraction, the more exploitable it will be and the
-higher the losses against the unabstracted agent. 
-
-With more advanced CFR versions that use deep learning rather than only tabular data like the original CFR, it's likely that a much larger testbed game could be explored. 
 

@@ -58,9 +58,11 @@ For example, if the board is A562 and one player has AK and one player has 87, t
 
 We've seen 4 + 2 + 2 = 8 total cards so far (four community cards on the board and two hole cards for each player), which means there are 52-8 = 44 cards left in the deck. The player with the straight draw has 8 outs of the 44 cards so 8/44 = 18% chance of winning. This math assumes that the 9 and 4 cards are still in the deck, even though the opponent could have them -- we compute this way to simplify the situation and since we have no way of knowing the opponent's cards. 
 
-The equity is computed as chance of winning * size of pot, so if the pot was $X, the straight draw player would have 0.18*x equity and the other player would have (1-0.18)*x = 0.82*x equity. So with a $100 pot, the players would have $18 and $82 equity. 
+The equity is computed as chance of winning * size of pot, so if the pot was $X, the straight draw player would have 0.18*x equity and the other player would have (1-0.18) * x = 0.82 * x equity. So with a \\$100 pot, the players would have \\$18 and \\$82 equity. 
 
 In this case the player could be certain that completing the straight would result in a win, but sometimes this isn't the case so you have to be cautious! For example, a player with a 3 on the A562 board could hit a 4 for a straight, but would then still be losing to a player with 87! Equities can be clearly computed when all cards are known, but in a real game situation, each player has to approximate which cards (outs) are helpful. In the straight example above this is pretty clear, but for example if the board was 456Q and you held A7, you could be somewhat confident that a 3, 8, or A would give you the best hand (9 total outs), but in each case you could still be losing! Someone could have 87 and beat you if the 3 comes, someone could have 79 and beat you if the 8 comes, and someone could have a huge number of things that would beat a single pair of Aces. 
+
+Briefly, there is also a concept called equity realization, which is the amount of equity a hand is expected to actually realize. An example of this is that in a one on one situation if I have 44 and my opponent has JT offsuit, we are right at about 50% equity each. However, 44 is very difficult to play postflop because unless I hit a 4, there aren't many good flops for my hand, while JT will frequently have a straight draw (or straight) or at least a pair or might make me fold when high cards come as a bluff. 
 
 ## Computing the Expected Value of an Allin
 A valuable exercise in understanding poker math is to compute the expected value of going allin in a one versus one setting. Let's once again take a look at the situation of small blind vs. big blind. We'll use \\$1 and \\$2 blinds for simplicity. So the small blind posts $1 and the big blind posts $2 and now the small blind can either go allin or fold. Let's assume that both players start the hand with \\$40, again for simplicity. Note that if one player started with more than the other, only the smaller stack matters (e.g. if the big blind had more money, they would only have to call \\$40 to match the bet, so any additional money over the minimum player's stack size is disregarded). 
@@ -81,6 +83,8 @@ Case 3: When the small blind is allin and the big blind calls and the small blin
 Putting this all together, we have EV = (opponent fold %)*3 + (1- opponent fold %) * ((win %)*(80) + (lose %)*39)
 
 Written more generally, we have EV = (opponent fold %)*(pot size before allin) * (1 - opponent fold %)*((win %)*(total pot size after allin) + (lose %)*(allin bet size put at risk))
+
+Note that fold equity is the name of the equity that you get from the pot when your opponent folds. 
 
 ## Pot Odds
 Pot odds means the ratio between the size of the pot and the size of a bet. Continuing with the above example, if the small blind goes allin then the big blind sees a pot of \\$42 (the small blind's \\$40 + his \\$2 big blind) and has to call \\$38 more, so their odds are 42:38. This can be converted to a percentage by taking 38/(38+42) = 38/80 = 47.5%. Note that this is the size of the call divided by the size of the pot if we were to make the call. We can interpret this as the odds needed to win -- the big blind needs to have at least 47.5% equity to make a profitable call. (Note that if this was a regular (non all-in) bet then there would be additional action on the hand, which we will discuss in the below Implied Odds section.)
@@ -139,7 +143,6 @@ Finally, there are 4c2 = 4!/(2! * 2!) = 4 * 3/2 = 6 combinations of paired cards
 
 We can use hand combinations to assist in approximating our equity in a hand, which can be used in conjunction with pot odds to make informed decisions, especially on the final betting round. 
 
-As opponent hands are more narrowly defined towards the end of a hand, it becomes more possible to count the combinations of possible hands that they might have and in turn compute your own equity.  
-
+As opponent hands are more narrowly defined towards the end of a hand, it becomes more possible to count the combinations of possible hands that they might have and in turn compute your own equity. 
 
 <!-- ## ICM -->
