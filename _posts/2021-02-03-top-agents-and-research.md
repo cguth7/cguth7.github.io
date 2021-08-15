@@ -8,27 +8,19 @@ toc_sticky: true
 toc_label: "TOC"
 author_profile: false
 ---
+# Top Poker Agents - Top Agents and Research
+The biggest breakthroughs in AI poker primarily came from research groups at Carnegie Mellon University (CMU) and the University of Alberta's Computer Poker Research Group (CPRG). We previously discussed the "Heads-up Limit Hold'em Poker is Solved" paper by the CPRG that came out in 2015 and solved Limit Hold'em Poker with an agent called Cepheus. This was a big result, but most human players play No Limit Hold'em poker, so we focus this section on the most recent important results in no limit: 
 
-DeepStack
+1. 2017 DeepStack: Expert-Level Artificial Intelligence in No-Limit Poker by the CPRG (DeepStack)
+2. 2018 Superhuman AI for heads-up no-limit poker by CMU (Libratus)
+3. 2019 Superhuman AI for multiplayer poker by CMU and Facebook (Pluribus)
+4. 2020 Unlocking the Potential of Deep Counterfactual Networks by Minimal AI (Supremus)
+5. 2020 Combining Deep Reinforcement Learning and Search for Imperfect-Information Games by Facebook (ReBeL)
+
+## DeepStack
 http://www.depthfirstlearning.com/2018/DeepStack 
 
-Libratus
-
-Pluribus
-
-Supremus
-https://arxiv.org/pdf/2007.10442.pdf 
-
-ReBeL
-https://arxiv.org/pdf/2007.13544.pdf 
-https://www.youtube.com/watch?v=BhUWvQmLzSk 
-https://ai.facebook.com/blog/rebel-a-general-game-playing-ai-bot-that-excels-at-poker-and-more/
-
-
-DeepStack
-http://www.depthfirstlearning.com/2018/DeepStack
-Some code examples on Colab and send to DFL
-Libratus
+## Libratus
 https://www.youtube.com/watch?v=xrWulRY_t1o
 https://upswingpoker.com/brains-vs-ai-challenge-libratus-analysis/
 https://www.twitch.tv/libratus_vs_jasonles
@@ -36,8 +28,7 @@ https://www.pokernews.com/news/2017/01/how-to-watch-the-brains-vs-ai-poker-remat
 https://www.theverge.com/2017/1/11/14243170/ai-poker-tournament-live-stream-time-cmu-computer-vs-humans
 https://www.technologyreview.com/s/603342/poker-is-the-latest-game-to-fold-against-artificial-intelligence/
 
-
-Pluribus
+## Pluribus
 https://www.wired.com/story/new-poker-bot-beat-multiple-pros/amp 
 https://www.wired.com/story/poker-playing-robot-goes-to-pentagon/ 
 https://www.wsj.com/articles/computers-can-now-bluff-like-a-poker-champ-better-actually-11562873541
@@ -65,3 +56,11 @@ https://fivethirtyeight.com/features/robots-are-beating-humans-at-poker/
 https://science.sciencemag.org/content/suppl/2019/07/10/science.aay2400.DC1 
 https://science.sciencemag.org/content/early/2019/07/10/science.aay2400 
 https://www.sciencenews.org/article/artificial-intelligence-has-now-pretty-much-conquered-poker
+
+## Supremus
+https://arxiv.org/pdf/2007.10442.pdf 
+
+## ReBeL
+https://arxiv.org/pdf/2007.13544.pdf 
+https://www.youtube.com/watch?v=BhUWvQmLzSk 
+https://ai.facebook.com/blog/rebel-a-general-game-playing-ai-bot-that-excels-at-poker-and-more/

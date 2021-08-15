@@ -8,20 +8,155 @@ toc_sticky: true
 toc_label: "TOC"
 author_profile: false
 ---
+# Top Poker Agents - AI vs. Human Competitions
+Ever since Gary Kasparov faced off against the Deep Blue IBM supercomputer in 1996, the idea of AI defeating humans has held a special significance. There have been a number of AI vs. human competitions in poker and we will highlight some of the most important ones here. 
 
+1. 2007 CPRG's Polaris Limit Hold'em
+2. 2008 CPRG's Polaris 2 Limit Hold'em
+3. 2015 CMU's Claudico No Limit Hold'em
+4. 2017 CMU's Libratus No Limit Hold'em
+5. 2019 Facebook's Pluribus Multiplayer No Limit Hold'em
 
-## AIVAT Variance Reduction
+## 2007 Polaris
+The first Man vs. Machine poker match took place in 2007 and there was hope that this would get publicity like the Deep Blue match, but it resulted in human players
+beating CPRG's Polaris agent, though statistically the skills of the humans and computer were similar.  The match was limit hold’em with two professionals playing against Polaris in
+a duplicate-match, where they played a total of 4,000 hands and won $395, or 39.5 
+small bets. Although variance in limit hold'em variants is relatively low, this seems like a low number of hands. This version of Polaris was found to have an exploitability of 275.9 mbb/g.
+
+## 2008 Polaris 2
+In the 2008 match against five poker pros in Las Vegas, Polaris came out ahead overall and in two of the four matches, while one was tied and the humans won the other, with
+a version of the agent that is now known to be exploitable for 235.3 mbb/g. This version of Polaris was updated to add "an element of learning", whereby it selected a strategy according to how the opponent was playing instead of using one default strategy. This agent also made use of CFR and was an important victory for the AI side.
+
+## 2015 Claudico
+After a significant break in the action, Man vs. Machine was again played at the
+Rivers Casino in Pittsburgh in April-May 2015 and included major sponsorship from
+Microsoft Research. Tuomas Sandholm, a professor at CMU, led the team that
+created the bot named Claudico, which means “limp” in Latin, named such because
+the bot “limps”, or calls instead of raising preflop, a strategy very uncommon with
+expert players.
+
+Sandholm’s goal is to create the greatest no-limit Texas Hold’em player in the world,
+which could potentially be used as the ultimate poker training tool. Along with PhD
+student Noam Brown, they created, Tartanian7, which won both categories of the
+ACPC in 2014, and Baby Tartanian8, which won the total bankroll and took 3rd in the
+instant run-off competition in 2016. Sandholm’s previous agents were named
+Hyperborean.
+
+Sandholm first noted that it has a far more varied approach to bet sizing, one of the
+most important and skillful aspects of the game. “I think by using one or two bet sizes
+humans can avoid signaling too much about the strength of their hand,“ Sandholm
+continued. “But the computer can use a larger number of bet sizes because it knows it
+isn’t giving away too much because it balances its bets. Another example is limping, 
+by the way. Limping in on the button heads-up no-limit is often considered by
+humans as a novice thing to do, but the bot will do that”.
+
+“It plays poker very differently from how humans play poker. Humans learn from
+each other how humans play the game, not how it is optimally played. This bot, in
+contrast, has never seen a human play poker. Instead, it has reasoned from first
+principles how poker should be played and the conclusions are different from what
+humans have reached”, said Sandholm. He attributes the power of the agent to his
+team’s knowledge of computational game theory and optimization algorithms.
+
+The bot played 20,000 hands each against four top poker professionals and the
+humans ended up winning over $700,000 in the 80,000 No Limit Hold'em hands, which were played at
+$50-$100 blinds (the players won at about 9.16 big blinds per 100 hands) with each
+player starting each hand with $20,000 in chips. Players won a share of a $100,000
+prize pool depending on their individual results. Despite the loss, Sandholm claims
+that this was a statistical tie because he could not say with 95% or higher certainty
+that the players were statistically better players (although the win was significant
+at the 90% level).
+
+Doug Polk, perhaps the most well known of the human players, noted that he felt that
+Claudico was very aggressive and he recalled that it one time made a huge bet into a
+small pot, that would essentially never happen in a human game. He felt that Claudico
+was very strong overall, mostly because of how well balanced it played, meaning that
+it would take similar actions with a balance of hands. He also noted that there are
+already problems with bots playing in real money online (despite being against the
+rules), so this is an ongoing concern as bots continue to improve.
+
+## 2017 Libratus
+On January 11, 2017, the latest Poker AI vs. Human match began, a rematch of the
+2015 match, again featuring Professor Tuomas Sandholm’s and Noam Brown’s agent,
+now named Libratus (Latin for “balance”), facing off against four top poker players.
+The event lasted 20 days with a prize purse of $200,000 and 120,000 hands to be
+played (more than in the first match in order to provide more statistical significance).
+Hands are again mirrored so that between two human players, their cards are reversed,
+to reduce variance, and also the computer plays the mirrored hand from both
+perspectives. Each hand resets with 200 big blinds per player and players have access
+to a history of each day’s hands to review at the end of each day. Sandholm declared 
+that he thinks of poker as the “last frontier within the visible horizon” of solvable
+games where computers can defeat humans.
+
+Libratus is based on CFR+ with a sampled form of regret-based pruning to speed up
+computation. It was run for “trillions” of iterations for months over 200 nodes on a
+Carnegie Mellon University supercomputer called Bridges. Unlike when Go was
+solved, Libratus did not analyze any human hands, but rather learned from scratch,
+which could be beneficial when playing against humans since they may be less
+familiar with its strategy compared to what they are used to seeing. Additionally,
+Libratus used an end-game solver in match and took card-removal effects, also known
+as blockers, into account (when opponent hands are less likely because of cards that
+you are holding), and finally, the Libratus team updated the betting translations every
+night to avoid them being exploited. 
+
+The human team had been successful in the
+2015 match by exploiting bet sizing by betting in between known sizes to “confuse”
+the bot, and they tried that tactic again in the 2017 competition, but this time even if
+they did find an exploit, it would be fixed within a few days. Significantly, while the
+previous version, Claudico, used card abstraction, this version does not. This is
+thought to be a significant reason for Libratus’s improvements over Claudico, since
+merging hands together and missing the subtleties between closely related hands
+could be a strong disadvantage against top players.
+
+Libratus ended up winning a massive $1,766,250 in tournament chips over the 20
+days and 120,000 hands, or 14.7 big blinds per 100 hands, an excellent winrate.
+The players, two of whom are the same that played in the first match against
+Sandholm’s bot, agreed that it has substantially improved in this iteration. They
+especially noted that the overbets (large bets that are larger, sometimes significantly
+larger, than the pot) have been surprising and challenging to combat. They also made
+the point that it is mentally difficult to play poker for so many hours (about 10 per
+day) with only limited breaks possible and limited time to study hands at night.
+
+What other advantages might poker agents have over humans? A major one is
+randomization. Computers are much better at humans at playing mixed strategies in
+terms of both actions and bet sizes, so most humans stick to only a few bet sizes and
+very approximate randomization.
+
+After the match, Sandholm declared that “This is the first time that AI has been able
+to beat the best humans at Heads-Up No-Limit Texas Hold’em” and “More generally,
+this shows that the best AI’s ability to do strategic reasoning under imperfect
+information has surpassed the best humans.” Andrew Ng, a computer scientist at
+Stanford University said that this is a “major milestone for AI”, comparable to AI
+achievements in chess and Go. While this is certainly true, poker is most often played
+with six to ten players at a table, situations in which humanity still had the upper hand.
+
+What does this mean for the future of poker and online games? If an agent is this
+strong against four of the best 15 players in the world, then it could certainly be
+extremely successful against typical opponents encountered online. One caveat is that
+decisions tend to take a large amount of time and online sites allow only a specified
+number of seconds per action, (along with a regenerating time bank for more difficult
+decisions) so this strongest version of the agent would probably not quite be ready to
+play online now. 
+
+Also, reputable poker sites have strong anti-bot detection and while
+this can be circumvented by manually inputting commands given by bot software, this
+makes it more challenging to scale. Finally, most poker games take places at six or
+nine player tables (including the even more complex tournament style of poker),
+which means more players and more complexity, and research has not yet focused on
+this problem, although even agents like Libratus may succeed with only minor
+tweaks.
+
+Noam Brown, who was the lead on creating Libratus, said that despite the bot’s skill at playing unexploitable poker, he
+believes that humans are still superior when it comes to exploiting weaker players, but
+that bots are gradually improving in this area also.
+
+## 2019 Pluribus
+
+<!-- ## AIVAT Variance Reduction
 
 AIVAT Variance Reduction
-https://arxiv.org/pdf/1612.06915.pdf 
-
-stuff from thesis 
+https://arxiv.org/pdf/1612.06915.pdf  -->
 
 
-AI vs. Humans – What Can Humans Learn? (Real events, themes in small games, simple strategies from toy games that can translate to full games, paper with Sam) - 14
-Add random AI, ABC player, more advanced player (MDF, bluffing, slowplaying), RL with MDF or thing with Sam, etc. and play against
-Some hand histories from big human vs. AI competitions, other AI hands how it would have played in interesting spots, preflop hand ranges/limping, bet sizing overbets/non-standardized bet sizing, when to bet continuation bets donk bets thin value bets, other topics raising the river perfect balance
-Detailed statistics, distributions, hand histories, and “why”/when the AI agent does these things. Need hand histories from database (standard 1v1 games) and access to distribution of policy of AI agent. Potentially look at how play differs before fully trained and some situations % of each action and expectation after action and % of node searches, etc. through gradual tree expansion and how things change. 
 http://nebula.wsimg.com/22ee0bc72c732728ba7ecf4c0792dedd?AccessKeyId=4F0E80116E133E66881C&disposition=0&alloworigin=1 
 https://en.chessbase.com/post/vladimir-kramnik-on-man-vs-machine?utm_campaign=The%20Batch&utm_medium=email&_hsmi=95403802&_hsenc=p2ANqtz--nXbMoKEEcKkWN5LBGM5ZIq0qav-JdAKc8y3E0Ko9fWUwsVAgbHTCMFk4sLcPo-UQCLgxlTNI8k8BMc5JDdbln43JsPQ&utm_content=95403802&utm_source=hs_email 
 https://hackernoon.com/ai-vs-poker-pros-advantage-c4e66a4baead
@@ -33,3 +168,77 @@ https://medium.com/@Moscow25/cmus-libratus-bluffs-its-way-to-victory-in-brainsvs
 https://medium.com/@Moscow25/when-will-an-ai-win-the-world-series-of-poker-7dba41afd704
 https://medium.com/@Moscow25/explaining-state-of-art-poker-ai-non-academically-7e2124cb3d1c
 https://www.youtube.com/watch?v=rn-2imkqnEk
+
+
+
+
+
+
+
+
+
+
+104
+
+
+
+Why can computer agents be superior to expert players? A few reasons given are in
+the Meehl study from Kahneman’s “Thinking Fast and Slow” that also may be valid
+in poker [81]:
+105
+• Experts try to be clever and to think outside of the box instead of sticking to
+“fundamentals”
+• Humans are inconsistent in making summary judgments of complex
+information
+Kahneman [81] also mentions how decision makers often react to different frames
+(how information is presented) in different ways, and suggests that these people
+would be better off using a risk policy that they apply as a standard broad frame.
+Computer agents are essentially already doing this and have no framing or emotional
+biases or loss aversion that trouble most human decision makers and poker players.
+In Daniel Kahneman’s 2011 book “Thinking Fast and Slow” [81], a study by Paul
+Meehl is cited that shows clearly that statistical predictions made by combining a few
+scores or ratings according to a rule tend to be much superior to predictions based on
+subjective impressions of trained professionals. Looking at about 200 comparisons,
+the algorithms are significantly better in about 60% of cases and the rest are
+considered ties (although algorithms are generally much cheaper). Examples of
+studies include credit risk evaluation by banks and the odds of recidivism amongst
+juvenile offenders. Although poker involves much more than just statistical
+predictions, this study suggests that despite poker having a reputation as being an
+emotional game where self control and having a good poker face are important, the
+reality is that already computer poker agents are better than all but the very best
+human players.
+In early 2017, a new paper called DeepStack [82] was released and showed a
+completely new framework for solving poker games. Although they claimed that it
+was the first NLHE agent to defeat human players, the selected players are mostly
+unknown and at most played 3,000 hands against DeepStack (for a total of 44,000
+hands, although variance reduction measures were taken), making this less impressive
+than the Libratus victory.
+The agent effectively solves for actions as the situations arise, rather than solving the
+entire tree offline. It is made up of three components: A local strategy computation for
+the current public state, depth-limited lookahead using a learned value function, and a
+restricted set of lookahead actions. The strategy is computed during play and is static
+and stochastic.
+106
+To re-solve at any public state, DeepStack keeps track of its own range a vector of
+opponent counterfactual values. It does use recursion like CFR, but does not store a
+complete strategy prior to play. Therefore it can eschew the standard abstraction
+techniques and instead uses a neural network to “guess” where each play will end up,
+which was trained using thousands of random poker hands. It effectively uses a fast
+approximation estimate, rather than computing all possibilities beyond a certain depth,
+which the paper refers to as what a poker player would call a “gut feeling”. They
+showed that this agent is significantly less exploitable than the abstraction-based
+techniques.
+On the preflop and flop, it solves until the end of the round and then consults a deep
+neural net for an estimated value of playing the turn and river. On the turn and river, it
+solves from the current decision until the end of the game and resolves after every
+opponent action. By considering a small local subgame to pick actions given only the
+public state and summary information from earlier in the hand, powerful local search
+techniques have been reintroduced to the imperfect information setting, thus
+eliminating abstraction, which was able to be exploited by humans and tended to miss
+fine card details, which are particularly important in large pots.
+Although humans are generally appreciative of improved algorithms that help in daily
+life, like music recommendations, improved medical predictions, and which baseball
+player to draft for the team, the progressively stronger poker agents are scary for the
+poker community as they can be launched (illicitly) in the real world and even if they
+can’t quite yet beat the strongest experts, they are still capable of taking a lot of
+money out of the economy from weaker players.
