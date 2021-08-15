@@ -75,7 +75,7 @@ already problems with bots playing in real money online (despite being against t
 rules), so this is an ongoing concern as bots continue to improve.
 
 ## 2017 Libratus
-On January 11, 2017, the latest Poker AI vs. Human match began, a rematch of the
+On January 11, 2017, another Poker AI vs. Human match began, a rematch of the
 2015 match, again featuring Professor Tuomas Sandholm’s and Noam Brown’s agent,
 now named Libratus (Latin for “balance”), facing off against four top poker players.
 The event lasted 20 days with a prize purse of $200,000 and 120,000 hands to be
@@ -112,7 +112,7 @@ days and 120,000 hands, or 14.7 big blinds per 100 hands, an excellent winrate.
 The players, two of whom are the same that played in the first match against
 Sandholm’s bot, agreed that it has substantially improved in this iteration. They
 especially noted that the overbets (large bets that are larger, sometimes significantly
-larger, than the pot) have been surprising and challenging to combat. They also made
+larger, than the pot) have been surprising and challenging to combat and that the agent's ability to balance and confuse the humans about which bets were value bets and which bets for bluffs was especially impressive and is a skill that is beyond the capabilities of most humans. They also made
 the point that it is mentally difficult to play poker for so many hours (about 10 per
 day) with only limited breaks possible and limited time to study hands at night.
 
@@ -157,45 +157,21 @@ AIVAT Variance Reduction
 https://arxiv.org/pdf/1612.06915.pdf  -->
 
 
-http://nebula.wsimg.com/22ee0bc72c732728ba7ecf4c0792dedd?AccessKeyId=4F0E80116E133E66881C&disposition=0&alloworigin=1 
-https://en.chessbase.com/post/vladimir-kramnik-on-man-vs-machine?utm_campaign=The%20Batch&utm_medium=email&_hsmi=95403802&_hsenc=p2ANqtz--nXbMoKEEcKkWN5LBGM5ZIq0qav-JdAKc8y3E0Ko9fWUwsVAgbHTCMFk4sLcPo-UQCLgxlTNI8k8BMc5JDdbln43JsPQ&utm_content=95403802&utm_source=hs_email 
-https://hackernoon.com/ai-vs-poker-pros-advantage-c4e66a4baead
-https://mobile.twitter.com/thinkingpoker/status/1172236526723522562?s=09
-https://upswingpoker.com/poker-artificial-intelligence-ai/
+
 https://medium.com/@Moscow25/does-the-poker-bot-ever-bluff-7548df0a3458
 https://medium.com/@Moscow25/professional-grade-ai-for-poker-thoughts-and-background-df3dff954c33
 https://medium.com/@Moscow25/cmus-libratus-bluffs-its-way-to-victory-in-brainsvsai-poker-match-99abd31b9cd4
 https://medium.com/@Moscow25/when-will-an-ai-win-the-world-series-of-poker-7dba41afd704
 https://medium.com/@Moscow25/explaining-state-of-art-poker-ai-non-academically-7e2124cb3d1c
-https://www.youtube.com/watch?v=rn-2imkqnEk
 
-
-
-
-
-
-
-
-
-
-104
-
-
-
-Why can computer agents be superior to expert players? A few reasons given are in
-the Meehl study from Kahneman’s “Thinking Fast and Slow” that also may be valid
-in poker [81]:
-105
-• Experts try to be clever and to think outside of the box instead of sticking to
-“fundamentals”
-• Humans are inconsistent in making summary judgments of complex
-information
-Kahneman [81] also mentions how decision makers often react to different frames
+## Human Biases
+Why can computer agents be superior to expert players? They can certainly store more information and do calculations faster and act faster, but even on a more even playing field, there are human emotional biases that make things difficult relative to the objectivity of a computer program. Daniel Kahneman, a well known behavioral economist, has written about how decision makers often react to different frames
 (how information is presented) in different ways, and suggests that these people
 would be better off using a risk policy that they apply as a standard broad frame.
 Computer agents are essentially already doing this and have no framing or emotional
 biases or loss aversion that trouble most human decision makers and poker players.
-In Daniel Kahneman’s 2011 book “Thinking Fast and Slow” [81], a study by Paul
+
+In Daniel Kahneman’s 2011 book “Thinking Fast and Slow”, a study by Paul
 Meehl is cited that shows clearly that statistical predictions made by combining a few
 scores or ratings according to a rule tend to be much superior to predictions based on
 subjective impressions of trained professionals. Looking at about 200 comparisons,
@@ -204,41 +180,11 @@ considered ties (although algorithms are generally much cheaper). Examples of
 studies include credit risk evaluation by banks and the odds of recidivism amongst
 juvenile offenders. Although poker involves much more than just statistical
 predictions, this study suggests that despite poker having a reputation as being an
-emotional game where self control and having a good poker face are important, the
+emotional game where reading others and having a good poker face are important, the
 reality is that already computer poker agents are better than all but the very best
-human players.
-In early 2017, a new paper called DeepStack [82] was released and showed a
-completely new framework for solving poker games. Although they claimed that it
-was the first NLHE agent to defeat human players, the selected players are mostly
-unknown and at most played 3,000 hands against DeepStack (for a total of 44,000
-hands, although variance reduction measures were taken), making this less impressive
-than the Libratus victory.
-The agent effectively solves for actions as the situations arise, rather than solving the
-entire tree offline. It is made up of three components: A local strategy computation for
-the current public state, depth-limited lookahead using a learned value function, and a
-restricted set of lookahead actions. The strategy is computed during play and is static
-and stochastic.
-106
-To re-solve at any public state, DeepStack keeps track of its own range a vector of
-opponent counterfactual values. It does use recursion like CFR, but does not store a
-complete strategy prior to play. Therefore it can eschew the standard abstraction
-techniques and instead uses a neural network to “guess” where each play will end up,
-which was trained using thousands of random poker hands. It effectively uses a fast
-approximation estimate, rather than computing all possibilities beyond a certain depth,
-which the paper refers to as what a poker player would call a “gut feeling”. They
-showed that this agent is significantly less exploitable than the abstraction-based
-techniques.
-On the preflop and flop, it solves until the end of the round and then consults a deep
-neural net for an estimated value of playing the turn and river. On the turn and river, it
-solves from the current decision until the end of the game and resolves after every
-opponent action. By considering a small local subgame to pick actions given only the
-public state and summary information from earlier in the hand, powerful local search
-techniques have been reintroduced to the imperfect information setting, thus
-eliminating abstraction, which was able to be exploited by humans and tended to miss
-fine card details, which are particularly important in large pots.
-Although humans are generally appreciative of improved algorithms that help in daily
-life, like music recommendations, improved medical predictions, and which baseball
-player to draft for the team, the progressively stronger poker agents are scary for the
-poker community as they can be launched (illicitly) in the real world and even if they
-can’t quite yet beat the strongest experts, they are still capable of taking a lot of
-money out of the economy from weaker players.
+human players. Some specific issues mentioned are: 
+
+- Experts try to be clever and to think outside of the box instead of sticking to
+“fundamentals”
+- Humans are inconsistent in making summary judgments of complex
+information
