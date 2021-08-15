@@ -113,6 +113,20 @@ So if you fold more often than the MDF then your opponent can exploit you by ove
 
 Pot odds, on the other hand, especially on the river (or final bet like an allin) are strictly applicable to the situation and if you determine that your equity is higher than the pot odds then you should call! 
 
+I co-authored a 2020 paper with Sam Ganzfried called Most Important Fundamental Rule of Poker Strategy, that extrapolates a minimum defense frequency rule from game theoretic strategies in a way that can be interpreted by humans. The rule does simulations combines minimum defense frequency with a concept called rane advantage, which is how much stronger the range of one player's hand is compared to the others'. While this can't be known with certainty, using this approximation in conjunction with MDF can provide a better result than MDF alone. 
+
+We generated 100,000 one on one simplified poker games and solved them for Nash equilibrium, while computing the optimal defense frequency for each. We then used machine learning regression to find an equation to optimize getting as close as possible to the optimal defense frequency in terms of the minimum defense frequency and range advantage. We found that in a simplified game with only one pot sized bet possible (meaning MDF was fixed, at 0.5 in this case), using range advantage in addition to MDF instead of just MDF leads to a significant reduction in mean squared error, about a 56% reduction. 
+
+In a 100,000 game dataset with three bet sizes, 0.5 pot, 0.75 pot, and pot, we uncover a rule that would extend to different bet sizes. Again, we find that using MDF and RA both as features reduces the mean squared error loss by about 56% compared to using MDF only. We found that the best result was using the strategy to call at least 0.904 * MDF - 0.495 * RA + 0.261. Since we wanted to make this formula human interpretable and since we see that the formula is close to MDF - 0.5 * RA + 0.25, we simplify our suggested result with these easier to remember coefficients. Finally, we noticed that the optimal defense frequency only rarely exceeds the MDF, so we found that using min(MDF, MDF - 0.5 * RA + 0.25) improves about 33% from the models without the truncation. The mean squared error of this approach is 0.0032, about 50% better than linear MDF. 
+
+This led to the Fundamental Rule of Poker Strategy: Given minimum defense frequency value MDF when facing a
+certain bet size, and assuming a range advantage of RA, then you should call the bet with a fraction of the
+hands in your range equal to min(MDF, MDF - 0.5*RA + 0.25), and fold otherwise. When neither player has a range advantage, then RA = 0.5, and the equation simplifies to min(MDF,MDF) = MDF, which makes sense! 
+
+The rule can make using MDF easier because it can provide more theoretical justification to fold given more information about your opponent and your hand ranges. We give an example in the paper: 
+
+Suppose we are in a setting where the opponent bets the pot (so MDF = pot/(pot+pot) = 0.5) and we think that the opponent has a range advantage of 0.8, then we would want to call at least min(MDF, MDF - 0.5 * RA + 0.25) = min(MDF, MDF - 0.15) = MDF - 0.15 = 0.5 - 0.15 = 0.35. Suggesting that we should call a minimum of 35% rather than 50%. The only downside here is that this removes the theoretical property of the MDF and relies on an estimate of the range advantage. 
+
 ## Hand Combinations
 Hand combinations are the math behind how likely hands are in poker. As we know, there are 52 cards in a deck with 13 cards of each suit and 4 cards of each type (rank). We can compute 52c2 as 52!/(50! * 2!) = 52 * 51/2 = 1326 combinations of 2-card starting hands. 
 

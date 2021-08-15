@@ -140,13 +140,25 @@ number of seconds per action, (along with a regenerating time bank for more diff
 decisions) so this strongest version of the agent would probably not quite be ready to
 play online now. 
 
-Also, reputable poker sites have strong anti-bot detection and while
+Reputable poker sites have strong anti-bot detection and while
 this can be circumvented by manually inputting commands given by bot software, this
 makes it more challenging to scale. Finally, most poker games take places at six or
 nine player tables (including the even more complex tournament style of poker),
 which means more players and more complexity, and research has not yet focused on
 this problem, although even agents like Libratus may succeed with only minor
 tweaks.
+
+There were a number of super interesting hands from this match -- here we discuss two that were especially weird! 
+
+In the first hand the computer had 53 of clubs and Daniel McAualay had two hearts (his exact hand was not given). Preflop there was a raise by Daniel, a reraise by Libratus, and a 4bet by Daniel. Normally in this situation an opponent would expect Daniel to have a very, very strong hand and would almost always throw away a hand as weak as 53 of clubs unless perhaps the stack sizes were huge. 
+
+The flop was K of hearts, Q of hearts, J of clubs, giving Daniel a flush draw and Libratus almost no chance of winning. Both players checked, Libratus probably to give up and Daniel probably to take a "free" card since the flop was "messy" and could result in getting raised, while he would rather see the next card and hopefully hit his flush. 
+
+Indeed the next card was a heart (exact card not given), which means that Libratus has nothing and cannot win and Daniel has a very strong hand with a flush. Again both players checked, this time again probably for Libratus to give up, and this time for Daniel to slow play his very strong hand to try to get Libratus to bluff or hit something. 
+
+The river card was a 5 of spades, giving Libratus a pair, but being very unlikely that it would win given the rest of the board. Even if it were the best hand, it would be extremely unlikely that an opponent would call a bet with a worse hand. Still, Libratus bet, defying conventional poker wisdom, and Daniel made a small raise that he wanted Libratus to read as being a likely bluff. Then Libratus went allin as a complete bluff, knowing that it would lose if called. Daniel quickly called and won. 
+
+What do we make of this hand? If we saw a human do this, we'd think that he was absolutely crazy and quite likely a very poor player, but Libratus is actually one of the best agents ever created. Is it possible that this action was actually a very very tiny probability action that we got to see? This shows that a top poker player is very unpredictable and AI is even better at being unpredictable and randomizing and doing this low probability plays than humans ever will be. 
 
 Noam Brown, who was the lead on creating Libratus, said that despite the bot’s skill at playing unexploitable poker, he
 believes that humans are still superior when it comes to exploiting weaker players, but
