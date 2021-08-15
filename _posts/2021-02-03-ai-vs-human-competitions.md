@@ -33,7 +33,7 @@ Rivers Casino in Pittsburgh in April-May 2015 and included major sponsorship fro
 Microsoft Research. Tuomas Sandholm, a professor at CMU, led the team that
 created the bot named Claudico, which means “limp” in Latin, named such because
 the bot “limps”, or calls instead of raising preflop, a strategy very uncommon with
-expert players. 
+expert players. The humans were some of the top in the world -- Doug Polk, Dong Kim, Jason Les, and Bjorn Li. 
 
 Sandholm’s goal is to create the greatest no-limit Texas Hold’em player in the world,
 which could potentially be used as the ultimate poker training tool. Along with PhD
@@ -64,7 +64,7 @@ player starting each hand with $20,000 in chips. Players won a share of a $100,0
 prize pool depending on their individual results. Despite the loss, Sandholm claims
 that this was a statistical tie because he could not say with 95% or higher certainty
 that the players were statistically better players (although the win was significant
-at the 90% level).
+at the 90% level). There was a $100,000 prize pool to incentivize high performance. 
 
 Doug Polk, perhaps the most well known of the human players, noted that he felt that
 Claudico was very aggressive and he recalled that it one time made a huge bet into a
@@ -74,7 +74,10 @@ it would take similar actions with a balance of hands. He also noted that there 
 already problems with bots playing in real money online (despite being against the
 rules), so this is an ongoing concern as bots continue to improve.
 
+Some of the unconventional plays included limping around 10% of hands, which it seemed to do profitably, and often betting very small like 10% of pot or very large like 40 times the pot. These strategies have gotten more prevalent in human games because they can be super effective and tend to make opponents uncomfortable since they aren't used to playing against them! 
+
 ## 2017 Libratus
+Libratus from CMU overwhelmingly beats top humans in the world
 On January 11, 2017, another Poker AI vs. Human match began, a rematch of the
 2015 match, again featuring Professor Tuomas Sandholm’s and Noam Brown’s agent,
 now named Libratus (Latin for “balance”), facing off against four top poker players.
@@ -175,9 +178,3 @@ human players. Some specific issues mentioned are:
 “fundamentals”
 - Humans are inconsistent in making summary judgments of complex
 information
-
-
-<!-- ## AIVAT Variance Reduction
-
-AIVAT Variance Reduction
-https://arxiv.org/pdf/1612.06915.pdf  -->

@@ -150,8 +150,7 @@ not affect the action mapping
 changes that could result in exploitability
 5. Boundary Robustness:  Such that f changes smoothly with A and B
 
-Sandholm proposes the following mapping to meet the above properties and with
-theoretical justification based on a small toy game called the clairvoyance game,
+There are also properties that are justified based on a small toy game called the clairvoyance game,
 found in the book The Mathematics of Poker. The game works as follows:
 
 - Player P2 is given no private cards
@@ -168,11 +167,11 @@ The solution of this game was found to be:
 probability 1/(1+n))
 - P2 calls a bet of size x ∈ [0, n] with probability 1/(1+x)
 
-This motivates the proposed action translation mapping of:
+This motivates the proposed action translation mapping of, which meets the above desiderata and that is consistent with the results of the clairvoyance game:
 
 f_{A,B}(x) * 1/(1+A) + (1-f_{A,B}(x))*1/(1+B) = 1/(1+x)
 
-Which can be solved to find the mapping:
+Which can be solved to find the mapping, called the pseudo harmonic mapping:
 
 f_{A,B}(x) = (B-x)(1+A)/((B-A)(1+x))
 
@@ -311,6 +310,8 @@ The following table lists the results from the perspective of the row abstractio
 terms of big blinds per 100 hands (i.e., the number of $2 amounts won per 100
 hands):
 
+![Bet Abstraction Royal Hold'em](../assets/section4/abstractions/royalabs.png "Bet Abstraction Royal Hold'em")
+
 We see that the full agent dominates all abstracted agents, as expected. FCPA is
 slightly superior to the other agents against the full agent. FCPA also beats all of the
 other abstracted agents, which may be due to the more sophisticated ones becoming
@@ -338,7 +339,7 @@ that is more exploitable by actions that become available to the opponent in the
 game.
 
 While these results show evidence of FCPA being the best abstraction amongst these
-choices, it may be necessary to run this experiment on a larger testbed game that may not be solvable
+choices -- it may be necessary to run this experiment on a larger testbed game that may not be solvable
 on personal computers, but also does not require very specialized equipment. 
 
 ## Game Size

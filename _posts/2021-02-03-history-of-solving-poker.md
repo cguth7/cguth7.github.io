@@ -10,11 +10,26 @@ author_profile: false
 ---
 
 # Background -- History of Solving Poker 
-There has been a rich literature of research and algorithms involving games and game theory, with poker specific research starting to grow in the late 1990s and early 2000s, especially after the creation of the Computer Poker Research Group (CPRG) at the University of Alberta in 1995. Real life decision making settings almost always involve imperfect information and uncertainty, so algorithmic advances in poker are exciting with regards to the possible applications in the real world.
+There has been a rich literature of research and algorithms involving games and game theory, with poker specific research starting to grow in the late 1990s and early 2000s, especially after the creation of the Computer Poker Research Group (CPRG) at the University of Alberta in the early 1990s. Real life decision making settings almost always involve imperfect information and uncertainty, so algorithmic advances in poker are exciting with regards to the possible applications in the real world.
 
 Research accelerated, partially thanks to the founding of the Annual Computer Poker Competition (ACPC) in 2006, which has led to people from around the world competing to build the best poker agents, which has in turn led to significant research in algorithm development, abstraction, and game solving techniques. In recent years, we have also seen multiple “man vs. machine” contests to test the latest poker agents against some of the best poker players in the world. 
 
 After some major results from around 2015-2018, some researchers have moved on to even more complex imperfect information games like Hanabi. 
+
+Some of the most important highlights from poker research have been: 
+
+1. 1998: Opponent Modelling: Univ Alberta Computer Poker Research Group creates agent Poki -- output (f,c,r) based on effective hand strength (Billings et al)
+2. 2000: Abstraction Methods: Bucketing hands together (also bet sizes) (Shi, Littman)
+3. 2003: Approximating Game Theoretic Optimal Strategies for full scale poker: Using abstraction on HULHE (Billings et al)
+4. 2005: Optimal Rhode Island Poker (1 private card, 2 public cards, 3 betting rounds): Sequence Form Linear Programming to produce equilibrium player with only lossless card abstraction (Gilpin, Sandholm)
+5. 2006: Beginning of the Annual Computer Poker Competition, which became a yearly part of the AAAI conference
+6. 2007: The iterative Counterfactual Regret Minimization (CFR) algorithm was developed at the University of Alberta which allowed for solving games up to size 10^12 and solving for inexact solutions (Zinkevich et al)
+7. 2015: Heads-up Limit Hold'em Poker is Solved, the first major poker game solved without abstractions (Bowling et al)
+8. 2015: Brains vs. AI competition, the first major Heads Up No Limit poker competition where top humans defeated CMU's poker agent
+9. 2017: DeepStack Expert-Level Artificial Intelligence in No-Limit Poker, likely the first agent that was superior to humans in No Limit Hold'em (DeepMind)
+10. 2017: Superhuman AI for heads-up no-limit poker with the Libratus agent that overwhelmingly defeated top humans in a large scale competition (CMU)
+11. 2019: Deep CFR, the first algorithm to use deep neural networks to implement CFR without the need for abstractions (Facebook)
+12. 2019: Superhuman AI for multiplayer poker, the first algorithm to defeat top humans in multiplayer poker (Facebook)
 
 ## Early Poker Research and Theories
 The earliest signs of poker research began over 70 years ago. In the Theory of Games and Economic Behavior from 1944, John von Neumann and Oskar Morgenstern used mathematical models to analyze simplified games of poker and showed that bluffing is an essential component of a sound poker strategy, but the games analyzed were very basic.
@@ -171,7 +186,13 @@ Finally, there is frequentist best response, which takes an offline model for an
 
 One major problem with this technique in poker is that most hand data does not include private hole cards unless they are shown at the end of a hand, which means hands that are seen tend to be stronger, since, for example, bluffs would not be seen as frequently. Counter-strategies such as building up a best response model offline against a particular opponent are possible, but may require up to a 1 million hand sample on the opponent. This strategy is also risky because it could lead to significant exploitation against other opponents or an opponent who changes his strategy, as most do. Finally, on-the-fly opponent modelling is difficult because sample sizes tend to be quite low, so only very few information sets would be seen even over thousands of hands.
 
-Ganzfried and Sun explored the idea of opponent exploitation in an early 2017 paper. They note that opponent exploitation is crucial in imperfect information games and has much wider use than Nash equilibrium, which is only valid in two-player zero sum games. They propose a robust opponent modelling system based on a Bayesian model that is valid in general-sum games, where the prior and posterior are full distributions over mixed strategies of the opponent ((which can be problematic when an opponent’s private information is not observed after play). They show that the opponent model can be fixed to play a strategy that responds to the mean of the distribution of the opponent’s strategy. The strategy then involves starting with an equilibrium approach and then adjusting to the opponent as more information about his play is revealed by modelling the opponent after a pre-computed equilibrium strategy and playing an approximate best response to that strategy. Problems involve partial observability of the opponent’s hands and even when hands are observed, very large amounts of hands would be needed to get a good sample, but they have seen excellent results with this method against weak ACPC agents and trivial opponents and note that this could be turned off against opponents perceived to be very strong.
+Ganzfried and Sun explored the idea of opponent exploitation in an early 2017 paper. They note that opponent exploitation is crucial in imperfect information games and has much wider use than Nash equilibrium, which is only valid in two-player zero sum games. 
+
+They propose opponent modelling based on a Bayesian model. The model involves starting with an equilibrium approach and then adjusting to the opponent's weaknesses (deviations from equilibrium) as more information about his play is revealed by modelling the opponent assuming that he begins play with an equilibrium strategy and then playing an approximate best response to that strategy, which is updated as more information about the opponent is revealed. 
+
+They had strong results with this method against weak ACPC agents and trivial opponents that always call or play randomly.
+
+The problem with opponent modelling is that it requires a very large amount of hands against a particular opponent before it can effectively learn and that even within the hands that are played, there are only a few where you actually see your opponent's cards, since this generally only happens at a showdown and the opponent sometimes doesn't even have to reveal their cards at showdown if they have the losing hand. The advantage is that an agent could rotate between playing a game theory optimal strategy and opponent exploitation, where the exploitation would be used only against perceived weaker opponents with a sufficient amount of data on their play. 
 
 From the same period, Li and Miikkulainen developed a genetic algorithm to evolve adaptive Long-Term Short-Term (LSTM) based neural network poker players. They showed good results against They showed results with it competing against simple opponents (e.g., opponents who never bluff or always call), and showed improvement over standard agents under such circumstances. 
 
@@ -360,9 +381,11 @@ probability. This is useful because it compensates for the failure of equilibriu
 finding algorithms to fully converge in the abstract game.
 
 Thresholding is a more relaxed approach, which simply eliminates certain actions
-with probabilities below a threshold value $$\epsilon$$ , and then renormalizes the action probabilities. Logic given is that these strategies may either be due to noise or are
+with probabilities below a threshold value $$\epsilon$$, and then renormalizes the action probabilities. Logic given is that these strategies may either be due to noise or are
 played primarily to protect a player from being exploited, which may be an overstated
-issue about realistic opponents. A study was done using the game Leduc Hold’em and
+issue about realistic opponents. Humans in practice generally use thresholding when implementing a poker strategy because it isn't practical for humans to properly randomize with so many probabilities, and so it makes sense to remove the very lowest ones to simplify. 
+
+A study was done using the game Leduc Hold’em and
 for almost all abstractions, purification was shown to bring a significant improvement
 in exploitability. Thresholding was also beneficial, but purification always performed
 better in the cases that it improved exploitability.
@@ -370,7 +393,7 @@ better in the cases that it improved exploitability.
 Identical agents except for using either thresholding or purification were submitted to
 the ACPC and the purification agent performed better against all opponents, including
 the thresholding agent. In terms of worst case exploitability, the least exploitable was
-the one that used a thresholding level of 0.15, perhaps because too much thresholding
+the one that used a thresholding level of 0.15 (meaning all actions below 15% were removed), perhaps because too much thresholding
 results in too little randomness and no thresholding at all results in overfitting to the
 abstraction.
 
@@ -402,11 +425,13 @@ precomputed strategies from the initial part of the game. Another benefit of thi
 method is that “off-tree” problems are solved – that is, cases in which the opponent’s
 action is not allowed in the abstraction will actually be solved exactly in the endgame.
 
+The problem with endgame solving is that the Nash equilibrium guarantees are no longer valid. Combining an equilibrium from the early part of the game and end of the game could lead to mismatched equilibrium since games tend to have multiple different ones. 
+
 Although endgame solving can lead to highly exploitable strategies in some games,
 it’s shown to have significant benefits in large imperfect information games,
 especially games where a significant strategic portion of the game is in the endgame.
 This technique showed improved performance against the strongest agents from the
-2013 ACPC.
+2013 ACPC. Having better abstractions at the endgame seems intuitively very valuable since this tends to be where it's possible to narrow down opponent hand ranges and where the largest bets tend to be made, since the pot gradually builds up over the betting rounds. 
 
 In 2017, Brown and Sandholm advanced the previous methods by using nested
 endgame solving in place of action translation in response to off-tree opponent
