@@ -10,10 +10,12 @@ author_profile: false
 ---
 
 # Game Theory -- Trees in Games
-Many games can be solved using the minimax algorithm for exploring a tree and determining the best move from each position. 
+Many games can be solved using the minimax algorithm for exploring a tree and determining the best move from each position. Unfortunately, poker is not one of those games. 
 
 ## Basic Tree
 Take a look at the game tree below. The circular nodes represent player positions and the lines represent possible actions. The "root" of the tree is the initial state at the top. We have P1 acting first, P2 acting second, and the payoffs at the leaf nodes in the standard P1, P2 format. 
+
+In a poker game, there might be a chance node at the top that deals cards, followed by player nodes, and then terminal nodes at the bottom according to the amounts won in the hand. 
 
 <!--chance at top, card states, actions, terminal node with utility -->
 
@@ -42,11 +44,11 @@ By working backwards from the end of a game, we can evaluate each possible seque
 
 **Subgame perfect equilibrium** means that each subgame, which is a decision state in the above game tree, is a Nash equilibrium. The strategy of P1 choosing Left and P2 choosing Right after Left and Left after Right is a subgame perfect equilibrium. 
 
- Two main problems arise with minimax and backward induction. 
+Two main problems arise with minimax and backward induction. 
 
-### Problem 1: The Game is too Damn Large
+### Problem 1: The Game is Too Damn Large
 
-In theory, we could use the minimax algorithm to solve games like chess. The problem is that the game and the space of possible actions is HUGE. It's not feasible to evaluate all possibilities. The first level of the tree would need to have every possible action and then the next level would have every possible action from each of those actions, and so on. Even checkers is very large, though smaller games like tic tac toe can be solved with minimax. More sophisticated methods and approximation techniques are used in practice for large games. One simple method is to only go down the tree to a depth of "X" and then approximate the value of the states there. 
+In theory, we could use the minimax algorithm to solve games like chess. The problem is that the game and the space of possible actions is HUGE. It's not feasible to evaluate all possibilities. The first level of the tree would need to have every possible action and then the next level would have every possible action from each of those actions, and so on. Even checkers is very large, though smaller games like tic tac toe can be solved with minimax. More sophisticated methods and approximation techniques are used in practice for large games. One simple method is to only go down the tree to a depth of "X" and then approximate the value of the states there by using some sort of heuristic. 
 
 ### Problem 2: Perfect Information vs. Imperfect Information
 
@@ -61,15 +63,15 @@ Below we show the game tree for 1-card poker. In brief, it's a 1v1 game where ea
 The top node is a chance node that "deals" the cards. To make it more readable, only 2 chance outcomes are shown, Player 1 dealt Q with Player 2 dealt J and Player 1 dealt Q with Player 2 dealt K. 
 
 ![1-card poker game tree](../assets/section2/trees/infoset2.png)
-*1-card poker game tree from University of Alberta*
+*1-card poker game tree from University of Alberta 2015 paper HULHE is Solved*
 
 Player 1's initial action is to either bet or pass. If Player 1 bets, Player 2 can call or fold. If Player 1 passes, Player 2 can bet or pass. If Player 1 passed and Player 2 bet, then Player 1 can call or fold. 
 
-Note the nodes that are circled and connected by a line. This means that they are in the same **information set**. An information set consists of equivalent states based on information known to that player. For example, in the top information set, Player 1 has a Q in both of the shown states, so his actions will be the same in both even though Player 2 could have either a K or J. The information known to Player 1 is "Card Q, starting action". At the later information set, the information known is "Card Q, I pass, opponent bets". All decisions must be made based only on information known to each player! However, these are actually different true game states.
+Note the nodes that are circled and connected by a line. This means that they are in the same **information set**. An information set consists of equivalent game states based on information known to that player. For example, in the top information set, Player 1 has a Q in both of the shown states, so his actions will be the same in both even though Player 2 could have either a K or J. The information known to Player 1 is "Card Q, starting action". At the later information set, the information known is "Card Q, I pass, opponent bets". All decisions must be made based only on information known to each player! However, these are actually different true game states.
 
-Looking at the information set at the bottom where Player 1 passes and Player 2 bets, Player 1 has the same information in both cases, but calling when Player 2 has a J means winning 2 and calling when Player 2 has a K means losing 2. The payoffs are completely different! 
+Looking at the information set at the bottom after Player 1 passes and Player 2 bets, Player 1 has the same information in both cases, but calling when Player 2 has a J means winning 2 and calling when Player 2 has a K means losing 2. The payoffs are completely different! We can refer to these as different "worlds". Player 2 would also have equivalent states if the additional chance branches were shown where Player 2 also had the J or K cards. 
 
-Therefore we can't simply propagate values up the tree as we can do in perfect information games. Later in the tutorial, we will discuss CFR (counterfactual regret minimization), which is a way to solve games like poker that can't be solved using minimax. 
+Because of this problem we can't simply propagate values up the tree as we can do in perfect information games. Later in the tutorial, we will discuss CFR (counterfactual regret minimization), which is a way to solve games like poker that can't be solved using minimax. 
 
 ## Tic Tac Toe Tree
 
@@ -216,23 +218,23 @@ class NegamaxAgent:
 		return self.memo[game_state]
 ```
 
-### Monte Carlo Tree Search (MCTS)
-MCTS is a more advanced algorithm that finds the optimal move through simulation. This algorithm is used as part of some recent advances in AI poker agents. Monte Carlo methods in general use random sampling for problems that are difficult to solve using other approaches. 
+## Monte Carlo Tree Search (MCTS)
+MCTS is a more advanced algorithm that finds the optimal move through simulation. This algorithm is used as part of some recent advances in AI poker agents as well as in agents in perfect information games like Go and chess. Monte Carlo methods in general use random sampling for problems that are difficult to solve using other approaches. 
 
-#### MCTS Background
+### MCTS Background
 MCTS allows us to determine the best optimal move from a game state without having to expand the entire tree like we had to do in the minimax algorithm. Also the MCTS algorithm does not require any domain knowledge, making it very versatile and powerful. However, domain knowledge can be used to improve performance by applying known patterns to the simulation policy rather than using default moves. 
 
-MCTS is primarily effective in games of perfect information and provides no guarantees for imperfect information games. In imperfecti nformation games, MCTS must use determinization, which is the anlaysis of the game as if the true world states were known. However, this presents a number of large problems such as strategy fusion. Suppose that the true setting could be either "World 1" or "World 2" (the equivalent in Kuhn Poker is that we have card Q and our opponent has either card J or K). In computing the strategy, there could be a case such as where the maximizing player can guarantee a utility of 1 by, for example, always going right (valid in both World 1 and World 2), but if the player chose to go left, then they would have yet another decision to go right or left. If the true setting was "World 1", then going right would result in a utility of 1. If the true setting was "World 2", then going left would result in a utility of -1. We can see then that with perfect information (if we knew the actual World 1 or World 2 situation), then the player could always guarantee the payout of 1 regardless of the initial action, but with imperfect information, the player risks a utility of -1 by taking the non-guaranteed payout route. 
+MCTS is primarily effective in games of perfect information and provides no guarantees for imperfect information games. In imperfect information games, MCTS must use determinization, which is the analysis of the game as if the true world states were known. However, this presents a number of large problems such as strategy fusion. Suppose that the true setting could be either "World 1" or "World 2" (the equivalent in Kuhn Poker is that we have card Q and our opponent has either card J or K). In computing the strategy, there could be a case such as where the maximizing player can guarantee a utility of 1 by, for example, always going right (valid in both World 1 and World 2), but if the player chose to go left, then they would have yet another decision to go right or left after Play 2 acted. If the true setting was "World 1", then going right from this node would result in a utility of 1 and left would be -1. If the true setting was "World 2", then going right would result in a utility of -1 and left would be 1. We can see then that with perfect information (if we knew the actual World 1 or World 2 situation), then the player could always guarantee the payout of 1 regardless of the initial action, but with imperfect information, the player risks a utility of -1 by taking the non-guaranteed payout route. 
 
-Strategy fusion can be overcome by imposing proper information constraints during search, but the additional problem of non-locality, due to the assumption that subgames are well-defined and that hence search can be recursively applied by computing and comparing values of subgames, is a problem that prevents the usual minimax formulation of optimal payoffs defined strictly over children subtrees. 
+This is a problem that prevents the usual minimax formulation from working properly.
 
-Still, there are methods to apply MCTS to imperfect information games like poker. Due to the asymmetry of information in imperfect information games, a separate search tree is used for each player. Information State UCT (IS-UCT) is a multi-player version of Partially Observable UCT, which searches trees over histories fo information states instead of histories of observations and actions of Partally Observable Markov Decision Processes (POMDP). IS-UCT has not been shown to converge in poker games, but an alternative called Smooth IS-UCT was shown to converge in Kuhn poker and showed robust results in Limit Hold''em, although regular IS-UCT also did. 
+Still, there are methods to apply MCTS to imperfect information games like poker. Due to the asymmetry of information in imperfect information games, a separate search tree is used for each player. Information State UCT (IS-UCT) is a multi-player version of Partially Observable UCT, which searches trees over histories of information states instead of histories of observations and actions of Partally Observable Markov Decision Processes (POMDP). IS-UCT has not been shown to converge in poker games, but an alternative called Smooth IS-UCT was shown to converge in Kuhn poker and showed robust results in Limit Hold'em, although regular IS-UCT also did. 
 
-Although MCTS does not have theoretical convergence guarantees for multiplayer games, it is well defined for such games, unlike CFR methods (although CFR methods have found strong results). In poker, MCTS have been found to work quickly, but it generally finds a suboptimal (although decent) strategy. 
+Although MCTS does not have theoretical convergence guarantees for multiplayer games, it is well defined for such games, unlike CFR methods (although CFR methods have found strong results). In poker, MCTS has been found to work quickly, but it generally finds a suboptimal (although decent) strategy. 
 
 In most recent applications, the MCTS algorithm is used as part of poker algorithms to estimate state values, but not on its own to solve the game. 
 
-#### MCTS Applied to Tic Tac Toe
+### MCTS Applied to Tic Tac Toe
 Let's consider that we want to find the best tic tac toe move from some state of the game that we can pre-specify. Let's go through the algorithm step by step. 
 
 The MCTSAgent class and its select_move function contain the core of the algorithm. The function begins by setting the root of the game tree as an MCTSNode class. A node is a decision point in the game tree, so the root node is the beginning of the tree. If we wanted to find out the best move from the beginning of the game, this would represent an empty tic tac toe board. 
@@ -348,4 +350,4 @@ class MCTSAgent:
 		return best_move
 ```
 
-MCTS in general works very effectively to solve game trees and was famously combined with neural networks in AlphaGo by DeepMind to create a Go agent. 
+MCTS in general works very effectively to simulate play in game trees and was famously combined with neural networks in AlphaGo by DeepMind to create a Go agent that defeated top human players. 

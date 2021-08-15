@@ -10,7 +10,11 @@ author_profile: false
 ---
 
 # Background -- History of Solving Poker 
-There has been a rich literature of research and algorithms involving games and game theory, with poker specific research starting to grow in the late 1990s and early 2000s, especially after the creation of the Computer Poker Research Group (CPRG) at the University of Alberta in 1995. Research has accelerated in recent years, partially thanks to the founding of the Annual Computer Poker Competition (ACPC) in 2006, which has led to people from around the world competing to build the best poker agents, which has in turn led to significant research in algorithm development, abstraction, and game solving techniques. In recent years, we have also seen multiple “man vs. machine” contests to test the latest poker agents against some of the best poker players in the world. Real life decision making settings almost always involve missing information and uncertainty, so algorithmic advances are crucial in these areas.
+There has been a rich literature of research and algorithms involving games and game theory, with poker specific research starting to grow in the late 1990s and early 2000s, especially after the creation of the Computer Poker Research Group (CPRG) at the University of Alberta in 1995. Real life decision making settings almost always involve imperfect information and uncertainty, so algorithmic advances in poker are exciting with regards to the possible applications in the real world.
+
+Research accelerated, partially thanks to the founding of the Annual Computer Poker Competition (ACPC) in 2006, which has led to people from around the world competing to build the best poker agents, which has in turn led to significant research in algorithm development, abstraction, and game solving techniques. In recent years, we have also seen multiple “man vs. machine” contests to test the latest poker agents against some of the best poker players in the world. 
+
+After some major results from around 2015-2018, some researchers have moved on to even more complex imperfect information games like Hanabi. 
 
 ## Early Poker Research and Theories
 The earliest signs of poker research began over 70 years ago. In the Theory of Games and Economic Behavior from 1944, John von Neumann and Oskar Morgenstern used mathematical models to analyze simplified games of poker and showed that bluffing is an essential component of a sound poker strategy, but the games analyzed were very basic.

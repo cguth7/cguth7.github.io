@@ -20,9 +20,11 @@ What does it mean to "solve" a poker game? In the 2-player setting, this means t
 
 To break this down, if players A and B are both playing GTO, then both are doing as well as possible. If player A changes strategy, then player A is doing worse and player B is doing better. Player B could do *even better* by changing strategy to exploit player A's new strategy, but then player A could take advantage of this change. If Player B stays put with GTO, then EV is not maximized, but there is no risk of being exploited. In this sense, GTO is an unexploitable strategy that gets a guaranteed minimum EV.
 
-With more than 2 players, there isn't an exact GTO strategy, but it is possible to approximate one. In practice, even in the 2-player setting, we have to approximate GTO strategies in full-sized poker games. We will go more into the details of what it means to solve a game in section 3.1 "What is Solving"? 
+With more than 2 players, Nash equilibria are still guaranteed to exist, but algorithms that work to solve 2 player games are not guaranteed to converge to the equilibrium strategy, though the strategies still tend to be strong. Even if you did know a Nash equilibrium strategy for your own position in a multiplayer game, other players could either (a) play strategies that weaken your expected value or (b) play their own Nash equilibrium strategies but the resulting combination of strategies is not guaranteed to be a Nash equilibrium. 
 
-Intuition for this in poker can be explained using a simple all-in game where one player must either fold or bet all his chips and the second player must either call or fold if the first player bets all the chips. We'll refer to these two players as the "all-in player" and the "calling player". We assume each player starts with 10 big blinds and P1 puts in a small blind of 0.5 units and P2 puts in a big blind of 1 unit. There are three possible outcomes:
+In practice, even in the 2-player setting, we have to approximate GTO strategies in full-sized poker games. We will go more into the details of what it means to solve a game in section 3.1 "What is Solving"? 
+
+Intuition for equilibrium in poker can be explained using a simple all-in game where one player must either fold or bet all his chips and the second player must either call or fold if the first player bets all the chips. We'll refer to these two players as the "all-in player" and the "calling player". We assume each player starts with 10 big blinds and P1 puts in a small blind of 0.5 units and P2 puts in a big blind of 1 unit. There are three possible outcomes:
 
 | Scenarios  | Player 1 (SB)  | Player 2 (BB) | Result |
 |---|---|---|---|
@@ -51,7 +53,7 @@ If either player changed those percentages, then their EV would go down! If the 
 Why, intuitively, is the all-in player's range so much wider than the calling player's? David Sklansky coined the term "gap concept", which states that a player needs a better hand to call with than to go all-in with -- that difference is the gap. The main reasons for this are (a) the all-in player gets the initiative whereby he can force a fold, but the calling player can only call, (b) the all-in player is signaling the strength of his hand, and (c) when facing an all-in bet the pot odds are not especially appealing. 
 
 ## Exploitation
-What if the big blind calling player doesn't feel comfortable calling with weaker hands like K2s and Q9o and maximized his calling range tighter than the equilibrium range of 37%? The game theoretic solution strategy for the other player would not fully take advantage of this opportunity. The **best response strategy** is the one that maximally exploits the opponent by always performing the highest expected value play against their fixed strategy. In general, an exploitative strategy is one that exploits an opponent's non-equilibrium play. In the above example, an exploitative play could be raising with all hands after seeing the opponent calling with a low percentage of hands. However, this strategy can itself be exploited. 
+What if the big blind calling player doesn't feel comfortable calling with weaker hands like K2s and Q9o and maximized his calling range tighter than the equilibrium range of 37%? The game theoretic solution strategy for the other player would not fully take advantage of this opportunity. The **best response strategy** is the one that maximally exploits the opponent by always performing the highest expected value play against their fixed strategy. In general, an exploitative strategy is one that exploits an opponent's non-equilibrium play. In the above example, an exploitative play could be raising with all hands after seeing the opponent calling with a low percentage of hands. However, this strategy can itself be exploited. When both players are playing a Nash equililbrium then they are playing best response strategies against each other. 
 
 <!-- **table of EV vs. looser and tighter opponents compared to GTO and possible loss (pg 87 of Modern Poker Theory)** -->
 
@@ -63,7 +65,7 @@ We can model the all-in game in normal form as below. Assume that each player lo
 
 Note that e.g. the call player cannot call when the all-in player folds, but we assume the actions are pre-selected and the payouts still remain the same.
 
-In a 1v1 poker game, the sum of the payouts in each box are 0 since whatever one player wins, the other loses, which is called a **zero-sum game** (not including the house commission, aka rake). 
+In a one on one poker game, the sum of the payouts in each box are 0 since whatever one player wins, the other loses, which is called a **zero-sum game** (not including the house commission, aka rake). 
 
 | All-in Player/Call Player  | Call | Fold |
 |---|---|---|---|
@@ -331,7 +333,9 @@ To generalize for the Rock Paper Scissors case:
 ### Bandits
 A common way to analyze regret is the multi-armed bandit problem. The setup is a player sitting in front of a multi-armed "bandit" with some number of arms. (Think of this as sitting in front of a bunch of slot machines.) Each time the player pulls an arm, they get some reward, which could be positive or negative. Bandits are a set of problems with repeated decisions and a fixed number of actions possible. This is related to reinforcement learning because the agent player updates its strategy based on what it learns from the feedback from the environment. 
 
-Multi-armed bandit problems are a common representation of regret and an algorithm is called "no-regret" if its average overall regret grows sublinearly in time. In the adversarial setting, the opponent chooses the reward. This is the equivalent setting that we see in poker games, since the opponent’s actions influence our utility in the game. In the full information setting, the player can see the entire reward vector for each
+Multi-armed bandit problems are a common representation of regret and an algorithm is called "no-regret" if its average overall regret grows sublinearly in time. In the adversarial setting, the opponent chooses the reward. This is the equivalent setting that we see in poker games, since the opponent’s actions influence our utility in the game. 
+
+In the full information setting, the player can see the entire reward vector for each
 machine chosen and in the partial setting, sees only the reward that the machine has chosen for that particular play. Here we will focus on the partial setting. 
 
 A basic setting initializes each of 10 arms with $$ q_*(\text{arm}) = \mathcal{N}(0, 1) $$, so each is initialized with a center point found from the Gaussian distribution. Each pull of an arm then gets a reward of $$ R = \mathcal{N}(q_*(\text{arm}), 1) $$. 
@@ -352,7 +356,7 @@ $$\epsilon$$-Greedy works similarly to Greedy, but instead of **always** picking
 
 The idea of usually picking the best arm and sometimes switching to a random one is the concept of **exploration vs. exploitation**. Think of this in the context of picking a travel destination or picking a restaurant. You are likely to get a very high "reward" by continuing to go to a favorite vacation spot or restaurant, but it's also useful to explore other options that you could end up preferring. (Note to self: Think about not eating the same exact meals every day.)
 
-This idea is also seen in online advertising, where an advertiser might create a few ads for the same product, then show a random one for each user on the site. They could then monitor which ones get the most clicks and therefore which ones tend to work better than the others. Should they greedily "exploit" by using the best-ranked ad or continue accumulating data or use some kind of epsilon Greedy method that now mostly uses the best ad but also sometimes shows other ones to accumulate more data. 
+This idea is also seen in online advertising, where an advertiser might create a few ads for the same product, then show a random one for each user on the site. They could then monitor which ones get the most clicks and therefore which ones tend to work better than the others. Should they greedily "exploit" by using the best-ranked ad or continue accumulating data or use some kind of epsilon Greedy method that now mostly uses the best ad but also sometimes shows other ones to accumulate more data?
 
 **Bandit Regret**
 The goal of the agent playing this game is to get the best reward. This is done by pulling the best arm repeatedly, but this is of course not known to the agent in advance. We can define a very sensible definition of average regret as 
@@ -384,7 +388,7 @@ The average regret plot is the inverse of the reward plot because it is the best
 **Upper Confidence Bound (UCB)** 
 There are many algorithms for choosing bandit arms. The last one we'll touch on is called Upper Confidence Bound (UCB). This bound represents that even though we have some data about the value of an arm, there is some uncertainty around it so we can take the upper bound of this uncertainty to determine which arm to pull next. 
 
-$$A_t = \arg\max_{a}(Q_t(a) + c*\sqrt{\frac{log{t}{N_t(a)}})$$
+$$ A_t = \arg\max_{a}(Q_t(a) + c*\sqrt{\frac{log{t}{N_t(a)}}) $$
 
 The output of the formula is to choose the optimal action. The $$Q_{t(a)}$$ represents the exploitation -- it is the average value so far of the pulls from playing action $$a$$ at time $$t$$. The rest of the equation represents the exploration and $$c$$ is the exploration constant. The $$t$$ term in the numerator represents the number of pulls completed so far in total (not just for a particular action) and the denominator term represents the number of pulls for action $$a$$. This means that for actions that have been pulled less, the term will be higher (we are more uncertain about the true value of that action). 
 
@@ -393,13 +397,14 @@ The Upper Confidence Bound formula effectively selects the action that has the h
 ### Regret Matching
 The concept of regret matching was developed in 2000 by Hart and Mas-Collel. Regret matching means playing a future strategy in proportion to the accumulated regrets from past actions. As we play, we keep track of the accumulated regrets for each action and then play in proportion to those values. For example, if the total regret values for Rock are 5, Paper 10, Scissors 5, then we have total regrets of 20 and we would play Rock 5/20 = 1/4, Paper 10/20 = 1/2, and Scissors 5/20 = 1/4. 
 
-It makes sense intuitively to prefer actions with higher regrets because they provide higher utility, as shown in the prior section. So why not just play the highest regret action always or with some epsilon? Because playing in proportion to the regrets allows us to keep testing all of the actions, while still more often playing the actions that have the higher chance of being best. It also means that we aren't as predictable. It could be that at the beginning, the opponent happened to play Scissors 60% of the time even though their strategy in the long run is to play it much less. We wouldn't want to exclusively play Rock in this case, we'd want to keep our strategy more robust. 
+It makes sense intuitively to prefer actions with higher regrets because they provide higher utility, as shown in the prior section. So why not just play the highest regret action always or with some epsilon? Because playing in proportion to the regrets allows us to keep testing all of the actions, while still more often playing the actions that have the higher chance of being best. It could be that at the beginning, the opponent happened to play Scissors 60% of the time even though their strategy in the long run is to play it much less. We wouldn't want to exclusively play Rock in this case, we'd want to keep our strategy more robust. It also means that we aren't as predictable. 
+
 
 The regret matching algorithm works like this:
 1. Initialize regret for each action to 0
 2. Set the strategy as: 
 $$
-\text{strategy_{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases}
+\text{strategy}_{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases}
 $$
 3. Accumulate regrets after each game and update the strategy
 
@@ -424,7 +429,7 @@ In the long-run we know that P2 can win a large amount by always playing Paper t
 
 Depending on the run and how the regrets accumulate, the regret matching can figure this out immediately or it can take some time. Here are 10,000 sample runs of this scenario. 
 
-The plots show the current strategy and average strategy over time of each of rock (green), paper (purple), and scissors (blue). These are on a 0 to 1 scale on the left axis. The black line measures the profit (aka rewards) on the right axis. The top plot shows how the algorithm can sometimes "catch on" very fast and almost immediately switch to always playing paper, while the second shows it taking about 1,500 games to figure that out. 
+The plots show the current strategy and average strategy over time of each of rock (green), paper (purple), and scissors (blue). These are on a 0 to 1 scale on the left axis. The black line measures the profit (aka rewards) on the right axis. The horizontal axis is the number of sample runs. The top plot shows how the algorithm can sometimes "catch on" very fast and almost immediately switch to always playing paper, while the second shows it taking about 1,500 games to figure that out. 
 
 <img src="../assets/section2/gametheory/rps_fast1.png">
 
@@ -433,4 +438,4 @@ The plots show the current strategy and average strategy over time of each of ro
 <!-- CFR+ thing? -->
 
 ### Regret in Poker 
-The regret matching method is at the core of selecting actions in the algorithms used to solve poker games. We will go into more detail in the CFR Algorithm section. In brief, each unique state of the game has a regret counter for each action and so the strategy is determined at each game state as the regrets get updated. 
+The regret matching method is at the core of selecting actions in the algorithms used to solve poker games. We will go into more detail in the CFR Algorithm section. In brief, each unique state of the game has a regret counter for each action and so the strategy is determined at each game state by using regret matching as the regrets get updated. 

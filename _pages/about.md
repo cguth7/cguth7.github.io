@@ -17,6 +17,6 @@ I played high-volume online poker professionally until 2013, including playing 3
 
 Then I studied AI poker for my master's degree, with a thesis on abstracting large games to small games to make them solvable. 
 
-The purpose of this tutorial is to share what I learned from those two experiences.
+It's exciting for me to combine those two experiences into this tutorial where I hope to make AI Poker more accessible.
 
-My personal website is here: [https://www.maxchiswick.com](https://www.maxchiswick.com)
+My personal website is here: [https://www.maxchiswick.com](https://www.maxchiswick.com).
