@@ -58,13 +58,13 @@ humans have reached”, said Sandholm. He attributes the power of the agent to h
 team’s knowledge of computational game theory and optimization algorithms.
 
 The bot played 20,000 hands each against four top poker professionals and the
-humans ended up winning over $700,000 in the 80,000 No Limit Hold'em hands, which were played at
-$50-$100 blinds (the players won at about 9.16 big blinds per 100 hands) with each
-player starting each hand with $20,000 in chips. Players won a share of a $100,000
+humans ended up winning over \\$700,000 in the 80,000 No Limit Hold'em hands, which were played at
+\\$50-\\$100 blinds (the players won at about 9.16 big blinds per 100 hands) with each
+player starting each hand with \\$20,000 in chips. Players won a share of a \\$100,000
 prize pool depending on their individual results. Despite the loss, Sandholm claims
 that this was a statistical tie because he could not say with 95% or higher certainty
 that the players were statistically better players (although the win was significant
-at the 90% level). There was a $100,000 prize pool to incentivize high performance. 
+at the 90% level). There was a \\$100,000 prize pool to incentivize high performance. 
 
 Doug Polk, perhaps the most well known of the human players, noted that he felt that
 Claudico was very aggressive and he recalled that it one time made a huge bet into a
@@ -110,7 +110,7 @@ thought to be a significant reason for Libratus’s improvements over Claudico, 
 merging hands together and missing the subtleties between closely related hands
 could be a strong disadvantage against top players.
 
-Libratus ended up winning a massive $1,766,250 in tournament chips over the 20
+Libratus ended up winning a massive \\$1,766,250 in tournament chips over the 20
 days and 120,000 hands, or 14.7 big blinds per 100 hands, an excellent winrate.
 The players, two of whom are the same that played in the first match against
 Sandholm’s bot, agreed that it has substantially improved in this iteration. They

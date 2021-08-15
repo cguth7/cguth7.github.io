@@ -90,13 +90,17 @@ the expected value before the choice. These terms have expected value of zero an
 Using an abstracted form of Heads Up No Limit Hold'em with 1 and 2 chip blinds and 200 chip starting stacks for experiments over 1 million hands, AIVAT resulted in about a 68% reduction in standard deviation. This was superior in DeepStack because in this experiment, the abstracted game was quite small (8 million information set states), it does a poor job of distinguishing the value of cards since the abstraction is very coarse. 
 
 ## Libratus
-https://www.youtube.com/watch?v=xrWulRY_t1o
-https://upswingpoker.com/brains-vs-ai-challenge-libratus-analysis/
-https://www.twitch.tv/libratus_vs_jasonles
-https://www.pokernews.com/news/2017/01/how-to-watch-the-brains-vs-ai-poker-rematch-26767.htm
-https://www.theverge.com/2017/1/11/14243170/ai-poker-tournament-live-stream-time-cmu-computer-vs-humans
-https://www.technologyreview.com/s/603342/poker-is-the-latest-game-to-fold-against-artificial-intelligence/
-The DeepStack paper claims that the AI spends ~3 seconds per move, much less than Libratus
+Libratus was CMU's agent from 2017 that beat four of the best poker players in the world in a 120,000 hand match. It was created by Noam Brown and Tuomas Sandholm. 
+
+The agent, like DeepStack, has three main components, where the latter two are the real keys to success for Libratus:
+
+1. Game abstraction. This part follows the standard solving paradigm of solving an abstracted game and translating the play back into the full game. Their abstraction is what they call the "blueprint strategy", which gets less sophisticated deeper into the game tree (recall that preflop only has 169 independent game states). In practice, this involved abstracting both bet sizes and hand possibilities, both of which were performed algorithmically. Given the abstraction, the agent ran Monte Carlo CFR, which was sped up by a factor of three by pruning actions that seemed very unlikely to be useful. 
+
+2. Real-time solver. Since the abstractions are not as sharp later in the game, a real-time solver is called, which works in conjunction with the blueprint strategy from the first component. Additionally, actions outside of the main blueprint are solved specifically with that action included (called "nested subgame solving"), eliminating the need for what can be a messy translation process to interpret off-abstraction bets in the full game. 
+
+3. Self-improver. Since the real-time solver is periodically working to solve subgames that were not included in the initial abstraction, this component inserts those into the blueprint to strengthen the blueprint. This is valuable because rather than randomly filling in parts of the tree, specifically parts of the tree that are actually seen in practice are filled in, which makes sense because on average these situations or situations similar to these are going to happen more frequently (which is why for poker players, many hands are so routine because they've seen the similar situation so frequently in the past). 
+
+Libratus was tested against 2016 agent Baby Tartanian8, the winner of the most recent ACPC tournament. Using only the game abstraction, Libratus lost to this agent, but after adding in the real-time solver, Libratus soundly won. It also won soundly against four of the best human players in the world in a 2017 "Brains vs. Artificial Intelligence" three week competition that is detailed in the section on AI vs. Human competitions. 
 
 ## Pluribus
 https://www.wired.com/story/new-poker-bot-beat-multiple-pros/amp 
