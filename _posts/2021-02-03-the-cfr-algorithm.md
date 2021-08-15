@@ -41,16 +41,14 @@ Michael Johanson, one of the authors on the original paper, gave his intuitive e
 
 
 ## The Algorithm
-Due to the constraints of solving imperfect information games with MCTS and the memory limits and zero-sum/perfect recall requirements of solving games with linear programs, CFR was developed as a novel solution. CFR also benefits from being computationally cheap, doesn’t require parameter tuning, and pruning can be used. It is an iterative Nash equilibrium approximation method that works through the process of repeated self-play between two regret minimizing algorithms.
+Due to the constraints of solving imperfect information games with MCTS and the memory limits of solving games with linear programs, CFR was developed as a novel solution. CFR also benefits from being computationally cheap and doesn’t require parameter tuning. It is an iterative Nash equilibrium approximation method that works through the process of repeated self-play between two regret minimizing agents.
 
 CFR is an extension of regret minimization into sequential games, where players play a sequence of actions to reach a terminal game state. Instead of storing and minimizing regret for the exponential number of strategies, CFR stores and minimizes a regret for each information set and subsequent action, which can be used to form an upper bound on the regret for any deterministic strategy. This means that we must also consider the probabilities of reaching each information set given the players’ strategies, as well as passing forward game state information and probabilities of
-player actions, and passing backward utility information through the game information states. The algorithm is required only to store a strategy and regret value for each node and each action at each node, such that the space requirement is on the order O(|I|), where |I| is the number of information sets in the game.
+player actions, and passing backward utility information through the game information states. The algorithm stores a strategy and regret value for each action at each node, such that the space requirement is on the order O(|I|), where |I| is the number of information sets in the game.
 
 CFR is an offline self-play algorithm, as it learns to play by repeatedly playing against itself. It begins with a strategy that is completely uniformly random and adjusts the strategy each iteration using regret matching such that the strategy at each node is proportional to the regrets for each action. The regrets are, as explained previously, measures of how the current strategy would have performed compared to a fixed strategy of always taking one particular action. Positive regret means that we would have done better by taking that action more often and negative regret means that we would have done better by not taking that action at all. The average strategy is then shown to approach a Nash equilibrium in the long run.
 
-In the vanilla CFR algorithm, each iteration involves passing through every node in the extensive form of the game. Each pass evaluates strategies for both players by using regret matching, based on the prior cumulative regrets at each player’s information sets. Before looking at the CFR equations, we will provide some definitions.
-
-We will refresh some definitions that were given in previous sections here when they
+In the vanilla CFR algorithm, each iteration involves passing through every node in the extensive form of the game. Each pass evaluates strategies for both players by using regret matching, based on the prior cumulative regrets at each player’s information sets. Before looking at the CFR equations, we will provide some refresh some definitions that were given in previous sections here when they
 are relevant to the forthcoming equations.
 
 Let A denote the set of all game actions. We refer to a strategy profile that excludes
@@ -71,12 +69,12 @@ action a under the counterfactual assumption that player i takes actions to do s
 otherwise player i and all other players follow the strategy profile sigma.
 
 The counterfactual value takes a player’s strategy and history and returns a value that
-is the product of the reach probability of the opponent to arrive to that history and the
+is the product of the reach probability of the opponent (and chance) to arrive to that history and the
 expected value of the player for all possible terminal histories from that point. This is
 counterfactual because we ignore the probabilities that factually came into player i’s
 play to reach position h, which means that he is not biasing his future strategy with his
 current strategy. This weights the regrets by how often nature (factors outside the
-player’s control, including chance and opponents) reach this information state.
+player’s control, including chance and opponents) reach this information state. This is intuitive because states that are more frequently played to by opponents are more important to play profitably. 
 
 An information set is a group of histories that a player cannot distinguish between.
 Let I denote an information set and let A(I) denote the set of legal actions for

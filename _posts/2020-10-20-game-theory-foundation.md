@@ -308,19 +308,19 @@ $$\text{Regret(rock)} = \text{u(rock,paper)} - \text{u(rock,paper)} = -1-(-1) = 
 
 We play scissors and opponent plays paper $$\implies \text{u(scissors,paper)} = 1$$
 
-$$\text{Regret(scissors)} = $$\text{u(scissors,paper)} - $$\text{u(scissors,paper)} = 1-1 = 0$$
+$$\text{Regret(scissors)} = \text{u(scissors,paper)} - \text{u(scissors,paper)} = 1-1 = 0$$
 
-$$\text{Regret(paper)} = $$\text{u(paper,paper)} - $$\text{u(scissors,paper)} = 0-1 = -1$$
+$$\text{Regret(paper)} = \text{u(paper,paper)} - \text{u(scissors,paper)} = 0-1 = -1$$
 
-$$\text{Regret(rock)} = $$\text{u(rock,paper)} - $$\text{u(scissors,paper)} = -1-1 = -2$$
+$$\text{Regret(rock)} = \text{u(rock,paper)} - \text{u(scissors,paper)} = -1-1 = -2$$
 
 We play paper and opponent plays paper $$\implies \text{u(paper,paper)} = 0$$
 
-$$\text{Regret(scissors)} = $$\text{u(scissors,paper)} - $$\text{u(paper,paper)} = 1-0 = 1$$
+$$\text{Regret(scissors)} = \text{u(scissors,paper)} - \text{u(paper,paper)} = 1-0 = 1$$
 
-$$\text{Regret(paper)} = $$\text{u(paper,paper)} - $$\text{u(paper,paper)} = 0-0 = 0$$
+$$\text{Regret(paper)} = \text{u(paper,paper)} - \text{u(paper,paper)} = 0-0 = 0$$
 
-$$\text{Regret(rock)} = $$\text{u(rock,paper)} - $$\text{u(paper,paper)} = -1-0 = -1$$
+$$\text{Regret(rock)} = \text{u(rock,paper)} - \text{u(paper,paper)} = -1-0 = -1$$
 
 Again, we prefer alternative actions with high regret. 
 
@@ -403,9 +403,7 @@ It makes sense intuitively to prefer actions with higher regrets because they pr
 The regret matching algorithm works like this:
 1. Initialize regret for each action to 0
 2. Set the strategy as: 
-$$
-\text{strategy}_{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases}
-$$
+$$ \text{strategy}_{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases} $$
 3. Accumulate regrets after each game and update the strategy
 
 Let's consider Player 1 playing a fixed rock paper scissors strategy of Rock 40%, Paper 30%, Scissors 30% and Player 2 playing using regret matching. So Player 1 is playing almost the equilibrium strategy, but a little bit biased on favor of Rock. 
