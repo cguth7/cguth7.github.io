@@ -23,62 +23,32 @@ opponent, against other poker agents, and against human opponents. Evaluation ca
 be difficult due to the inherent variance in poker, but this can be minimized by
 playing a very large number of hands and also by playing in a “duplicate” format,
 where, for example, two agents would play a set of hands and then clear their
-memories and play the same hands with the cards reversed. Further, an agent that
+memories and play the same hands with the cards reversed (only possible when humans are not involved). Further, an agent that
 performs well in one evaluation metric is not guaranteed to perform well in others.
-
-### Agent vs. Agent
-Agent against agent is a common way to test the abilities of poker programs. This is
-an empirical method for researchers to evaluate agents with different characteristics,
-such as different abstractions. If a game theory optimal agent exists for a game then another agent could play against the GTO agent as a measure of quality. 
-
-Researchers from around the world competed annually at the Annual Computer
-Poker Competition that began in 2006 and is now part of the Poker
-Workshop at the annual AAAI Conference on Artificial Intelligence. It has
-competitions in limit, no-limit, and later 3 player Kuhn poker (most recently only nolimit competitions were played). This uses duplicate matches and two winner
-determination methods – instant run-off eliminates the worst agent in each round and
-bankroll gives the win to the agent with the highest bankroll in that event.
-Researchers can also use testbed bots to evaluate performance.
-
-### Human Opponents
-The main issue with playing against human opponents is that win-rates can take
-approximately one million hands to converge. The 2015 Man vs. Machine
-competition involved 80,000 hands total against four opponents, which led to disputes
-over statistical significance of the results.
-
-Despite the difficulty of achieving very large hand samples against human opponents,
-there is still value in these test games, as human experts are capable of quickly
-analyzing a strategy and the playing statistics of that strategy, so a computer program
-can be sanity checked and evaluated for unique tendencies by such human experts.
-Computer programs could also be made available on the Internet to play against many
-opponents to obtain significant levels of data. 
 
 ### Best Response
 We can find the best response to a poker agent’s strategy analytically by having its
 opponent always choose the action that maximizes expected value against the agent’s
-strategy in all game states, given the agent’s strategy. We can then compute the � in
+strategy in all game states, given the agent’s strategy. We can then compute the e in
 the e-Nash equilibria as a measure of exploitability that gives the lower bound on the
 exploitability of the agent.
 
 The purpose of calculating a best response is to choose actions to maximize our
 expected value given an opponent’s entire strategy. The expectimax algorithm
 involves a simple recursive tree walk where the probability of the opponent’s hand is
-passed forward and the expected value for our states I returned, involving just one
+passed forward and the expected value for our states (I -- information sets) returned, involving just one
 pass over the entire game tree. 
 
-To evaluate an extensive game strategy, the standard techniques have been to set up a
-tournament between different agents or to evaluate worst case performance.
-Best response is used to analytically evaluate performance in the worst case, often by
-graphing exploitability against nodes touched or against time. Best response usually
+Best response usually
 requires a full tree traversal, but Johansen et al. showed a general technique that can
-avoid this, since full tree traversal is often infeasible in very large games.
+avoid this in their paper "[Accelerating Best Response Calculation in Large Extensive Trees](http://www.cs.cmu.edu/~waugh/publications/johanson11.pdf)", since full tree traversal is often infeasible in very large games.
 
 Best response has advantages over comparing strategies by competing them against
-each other, due to the problems that come up with the latter such as intransitivities,
-noise, and when there are multiple evaluation criteria.
+each other since it is a more theoretical measure and because problems can arise when doing agent vs. agent evaluations, like intransitivities (e.g. Agent A beats Agent B and Agent B beats Agent C but Agent C beats Agent A) and variance. 
 
-The standard best response method involves examining each state once to compute
+The standard best response method involved "examining each state once to compute
 the value of every outcome, followed by a pass over the strategy space to determine
-the optimal counter-strategy. 
+the optimal counter-strategy". 
 
 ![Kuhn Poker Tree from different perspectives](../assets/section4/evaluation/kuhndiff.png "Kuhn Poker Tree from different perspectives")
 
@@ -89,7 +59,7 @@ private only to them. In the two rightmost trees (P1 and P2 Information Set Tree
 opponent chance nodes have only one child each since their chance information is
 unknown to the other player.
 
-Instead of walking the full game tree or even the information set trees, we can
+Instead of walking the full game tree or even the information set trees, it was shown that we can
 improve the algorithm by walking only the public tree and visiting each state only
 once. When we reach a terminal node such as “A,B,X,Y”, this means that player 1
 could be in nodes A or B as viewed by player 2 and that player 2 could be in nodes X
@@ -101,27 +71,7 @@ response to the opponent’s strategy.
 Michael Johanson's paper describes techniques for accelerating best response calculations using
 the structure of information and utilities to avoid a full game tree traversal, allowing
 the algorithm to compute the worst case performance of non-trivial strategies in large
-games. This can be done by traversing a different kind of tree, that allows more
-opportunities for caching and reusing information, using properties of the game’s
-utilities to efficiently evaluate terminal nodes of the public tree, using game specific
-isomorphisms to reduce the size of the expanded tree, and solving independent
-sections of this new tree in parallel.
-
-The accelerated best response uses four ways to accelerate the computation. In our
-Kuhn Poker best response algorithm, we will only be using the first method.
-1. Taking advantage of what the opponent doesn’t know
-- Walking only the public game tree
-- Provides about a ~110x speedup in Texas Hold’em
-2. Doing O(n^2) work in O(n) time
-- Can use two for loops instead of two nested for loops by not iterating
-over every possible hand combination
-- Only need to know probability of opponent being in weaker or stronger
-state
-- 7.7x speedup in Texas Hold’em
-3. Avoiding isomorphic game states
-- Suits are all equivalent (meaning that AJ of spades is equivalent in strategy and strength to AJ of hearts, etc.)
-- 21.5x reduction in game size
-4. Parallel computation
+games. 
 
 The best response algorithm in the below figure takes as inputs the history of the actions,
 the current player (the algorithm must be run for each player), and a distribution of the
@@ -150,7 +100,7 @@ opponent distribution
 Here's how the algorithm works in practice in conjunction with CFR: 
 
 1. Pause CFR intermittently
-2. Call the best response function (BRF) for each player separately (this player is called the iterating player)
+2. Call the best response function (BRF) for each player separately (this player is called the iterating or traversing player)
 3. Iterate over all cards and sum all to get overall best respones for each iterating player
 4. Pass to BRF: 
 - Player card of iterating player
@@ -177,3 +127,126 @@ Here's how the algorithm works in practice in conjunction with CFR:
 - D = the normalization of W over each action (i.e., D[0] = W[0]/(W[0] + W[1]))
 - V = D[0] * util[0] * D[1] * util[1]
 9. Return V
+
+Here is an implementation of the best response function in Python for Kuhn Poker: 
+
+```python
+import numpy as np
+
+def brf(self, player_card, history, player_iteration, opp_reach):
+	plays = len(history)
+	acting_player = plays % 3
+	expected_payoff = 0
+
+	if plays >= 3: #can be terminal
+		opponent_dist = np.zeros(len(opp_reach))
+		opponent_dist_total = 0
+		#print('opp reach', opp_reach)
+		if history[-1] == 'f' or history[-1] == 'c' or (history[-1] == history[-2] == 'k'):
+			for i in range(len(opp_reach)):
+				opponent_dist_total += opp_reach[i] #compute sum of dist. for normalizing
+			for i in range(len(opp_reach)):
+				opponent_dist[i] = opp_reach[i] / opponent_dist_total
+				payoff = 0
+				is_player_card_higher = player_card > i
+				if history[-1] == 'f': #bet fold
+					if acting_player == player_iteration:
+						payoff = 1
+					else:
+						payoff = -1
+				elif history[-1] == 'c': #bet call
+					if is_player_card_higher:
+						payoff = 2
+					else:
+						payoff = -2
+				elif (history[-1] == history[-2] == 'k'): #check check
+					if is_player_card_higher:
+						payoff = 1
+					else:
+						payoff = -1
+				expected_payoff += opponent_dist[i] * payoff
+			return expected_payoff
+
+	d = np.zeros(2) #opponent action distribution
+	d = [0, 0]
+
+	new_opp_reach = np.zeros(len(opp_reach))
+	for i in range(len(opp_reach)):
+		new_opp_reach[i] = opp_reach[i]
+
+	v = -100000
+	util = np.zeros(2)
+	util = [0, 0]
+	w = np.zeros(2)
+	w = [0, 0]
+
+	#infoset = history
+
+	for a in range(2):
+		if acting_player != player_iteration:
+			for i in range(len(opp_reach)):
+				infoset = str(i) + history 
+				if infoset not in self.nodes:
+					self.nodes[infoset] = Node(2)
+				strategy = self.nodes[infoset].get_average_strategy()#get_strategy_br()
+				new_opp_reach[i] = opp_reach[i] * strategy[a] #update reach prob
+				w[a] += new_opp_reach[i] #sum weights over all poss. of new reach
+
+		if a == 0:
+			if len(history) != 0:
+				if history[-1] == 'b':
+					next_history = history + 'f'
+				elif history[-1] == 'k':
+					next_history = history + 'k'
+			else:
+				next_history = history + 'k'
+		elif a == 1:
+			if len(history) != 0:
+				if history[-1] == 'b':
+					next_history = history + 'c'
+				elif history[-1] == 'k':
+					next_history = history + 'b'
+			else:
+				next_history = history + 'b'
+		#print('w', w)
+		#print('history', history)
+		#print('next history', next_history)
+		util[a] = self.brf(player_card, next_history, player_iteration, new_opp_reach)
+		#print('util a', util[a])
+		if (acting_player == player_iteration and util[a] > v):
+			v = util[a] #this action better than previously best action
+	
+	if acting_player != player_iteration:
+		#D_(-i) = Normalize(w) , d is action distribution that = normalized w
+		d[0] = w[0] / (w[0] + w[1])
+		d[1] = w[1] / (w[0] + w[1])
+		v = d[0] * util[0] + d[1] * util[1]
+
+	return v
+```
+
+### Agent vs. Agent
+Agent against agent is a common way to test the abilities of poker programs. This is
+an empirical method for researchers to evaluate agents with different characteristics,
+such as different abstractions. If a game theory optimal agent exists for a game then another agent could play against the GTO agent as a measure of quality. 
+
+Researchers from around the world competed annually at the Annual Computer
+Poker Competition that began in 2006 and is now part of the Poker
+Workshop at the annual AAAI Conference on Artificial Intelligence. It has
+competitions in limit, no-limit, and later 3 player Kuhn poker (most recently only no limit competitions were played). This uses duplicate matches and two winner
+determination methods – instant run-off, which eliminates the worst agent in each round and
+bankroll, which gives the win to the agent with the highest bankroll in that event. This means that there are different incentives for agents that play a more defensive vs. more aggressive strategy. 
+
+### Human Opponents
+The main issue with playing against human opponents is that win-rates can take
+approximately one million hands to converge. The 2015 Man vs. Machine
+competition involved 80,000 hands total against four opponents, which led to disputes
+over statistical significance of the results.
+
+Despite the difficulty of achieving very large hand samples against human opponents,
+there is still value in these test games, as human experts are capable of quickly
+analyzing a strategy and the playing statistics of that strategy, so a computer program
+can be sanity checked and evaluated for unique tendencies by such human experts.
+Computer programs could also be made available on the Internet to play against many
+opponents to obtain significant levels of data. In practice, most of the breakthrough agents have only been released to play against select top players since this is considered more significant than playing against random players and perhaps to keep the agents strategies more private. 
+

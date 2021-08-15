@@ -24,13 +24,13 @@ The Counterfactual Regret Minimization (CFR) algorithm was first published in a 
 ## TLDR Explanation
 CFR is a self-play algorithm that learns by playing against itself repeatedly. It starts play with a uniform random strategy (each action at each decision point is equally likely).  
 
-![Kuhn Poker Tree](../assets/section4/cfr/infoset2.png "Kuhn Poker Tree")
+![Kuhn Poker Tree from Alberta](../assets/section4/cfr/infoset2.png "Kuhn Poker Tree from Alberta")
 
 At each information set in the game tree, the algorithm keeps a counter of regret values for each possible action. The regret means how much better the agent would have done if it had always played that action rather than the actual strategy that could be a mixture of actions. Positive regret means we should have taken that action more and negative regret means we would have done better by not taking that action. 
 
-For example, if the agent was playing a game in which it had 5 action options at a certain game state and Action 1 had a value of 3 while the game state average over all 5 actions was 1, then the regret would be 3-1 = 2. This means that Action 1 was better than average and we should favor taking that action more. 
+The values computed with the regret are called counterfactual values, which are the value of playing an action at a certain game state weighted by the probability (counterfactual assumption) of the other agent playing to that game state. 
 
-*Regret updates are weighted by the other agent probability of taking you to a decision point
+For example, if the agent was playing a game in which it had 5 action options at a certain game state and Action 1 had a value of 3 while the game state average over all 5 actions was 1, then the regret would be 3-1 = 2. This means that Action 1 was better than average and we should favor taking that action more. 
 
 The CFR algorithm updates the strategy after each iteration to play in proportion to the regrets, meaning that if an action did well in the past, the agent would be more likely to play it in the future. 
 
@@ -419,3 +419,14 @@ work in its favor since Kuhn Poker is also a very simple game. Vanilla CFR shows
 consistently lower exploitability than CFR+. Perhaps this is because CFR+ doesn’t
 allow regrets to become negative, it may then waste time on actions that would have
 gone negative. 
+
+We also experimented with time vs. exploitability. The algorithms and code for CFR+ and CFR are exactly the same except for how the
+regret is calculated and since this eliminates other sources of variability, we are able
+to reasonably compare CFR and CFR+ exploitability against time. 
+
+![CFR CFR+ Time vs. Exploitability](../assets/section4/cfr/timecompare.png "CFR CFR+ Time vs. Exploitability")
+
+This graph shows that CFR+ takes significantly more time to complete its 100,000
+iterations and yet is still at a higher exploitability. Since the only difference in the
+algorithms is that CFR+ does not allow regrets to become negative, this must be the
+cause of the additional calculation time needed.

@@ -914,3 +914,34 @@ Now we have shown a way to solve games more efficiently based on the structure/o
 Using behavioral strategies significantly reduces the size of the game and solving is much more efficient by using the structure/ordering of the decision nodes. This can be expresessed in tree form and leads to algorithms that can use self-play to iterate through the game tree. 
 
 Specifically CFR (Counterfactual Regret Minimization) has become the foundation of imperfect information game solving algorithms. We will go into detail on this in Section 4.1. 
+
+We can see a visualization of the optimal strategy that was solved in 100-card Kuhn Poker using the CFR algorithm. The strategy for the following charts was computed using 10^9 iterations
+of External Sampling CFR (see Section 4.1). The Player 1 Opening Actions represent the general
+strategy of mostly betting good and bad hands, while passing on medium-strength
+hands, and also passing on the very best hands. The Player 2 Action After Pass chart
+uses the same logic, although with no passing on the best hands or worst hands
+because this is the final action, so a pass would simply end the hand, which would
+generally mean no chance of winning with poor hands and no chance of earning value
+with good hands. 
+
+The Player 2 Action After Bet and Player 1 Action After Pass and Opponent Bet are
+quite similar as both represent the situation of facing a bet with no additional money
+behind (i.e., no bluffs are possible), so the only decision is to call the bet or fold, so
+naturally we call with our better hands. 
+
+The horizontal axis represents the hands in order given the situation and the bars above each represent the probability of betting, with fully blue meaning always Pass, fully red meaning always Bet, and some of each meaning the mixture of the two. 
+
+![Kuhn 100-card solution](../assets/section3/toygames/kuhn100.png "Kuhn 100-card solution")
+
+We see that this is similar to what we'd expect from learning the 3-card game, but with some additional complexity. 
+
+The bottom two graphs are not very informative because they only show that when
+facing the final bet, you should call with better hands and fold worse hands. However,
+from the Player 1 Opening Actions graph (and with similar principles applied to the
+Player 2 Action After Pass graph), the idea is that the good hands that we bet are
+value-bets meant to get called by worse hands. The passing with the very best hands is
+called slow-playing and the betting with the worst hands is called bluffing. Both
+deceptive moves give the strategy a balance and the bluff gives a chance to win with
+hands that otherwise would have no chance of winning. Not betting with middling
+hands is effective because betting would generally cause worse hands to fold and keep
+better hands in. The principles are the same as in the 3 card version, but more cards allows for a sharper understanding of the general strategy.  

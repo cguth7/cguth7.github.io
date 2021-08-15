@@ -205,40 +205,141 @@ We compared these versions of CFR:
 3. Vanilla (regular)
 4. CFR+ (regular CFR with a modified regret metric that resets regrets to 0 if they become negative)
 
-We compared four CFR algorithms (Chance Sampling, External Sampling, Vanilla, and CFR+) in terms of
-exploitability vs. nodes touched (a measure of how long the algorithm has been running for) and then also look at two of those algorithms which
-are very similar, CFR and its recent update, CFR+, in terms of exploitability vs. time.
-Finally, we produce strategy charts that show a Nash equilibrium strategy for each
-player at all four stages of the game.
+For the External and Chance Sampling CFR versions, we tested simple bucketing that
+splits the cards into three, 10, and 25 buckets. This means that with 3-bucket
+abstraction, each group of hands {0-32, 33-65, 66-99} will share a single strategy.
+Essentially each player’s card is hidden to himself and he only knows which bucket
+his card is in, although at showdown, each player’s true card would be shown to
+determine the winner of the hand. 
 
-The simulations run for a set number of iterations and the regrets for all algorithms
-are updated after each iteration. 
+The results are shown below. Again, the game values for all
+abstractions are -0.0566 except for the 3-bucket abstraction, which is -0.0264,
+meaning that the Player 2 advantage is decreased due to the weakness of the
+abstraction. Note that ES and CS refer to External Sampling and Chance Sampling
+and 3B/10B/25B refer to 3 buckets, 10 buckets, and 25 buckets. 
 
-As the algorithms run, a best response function is called periodically, which iterates
-once through the game tree once for each player. The average of the best response 
-values from each player is taken as the exploitability of the game at that point. All
-graphs show exploitability on the vertical axis on a log scale. CFR and CFR+ were
-run for 100,000 iterations and Chance and External Sampling were run for 10^9
-iterations. Since the non-sampling algorithms require entire tree traversals for each
-iteration, they require far fewer iterations to reach the same number of nodes. The
-game value for all variants is -0.0566, as we have found in previous sections.
+![Card Abstraction Chance Sampling](../assets/section4/abstractions/kuhnabscs.png "Card Abstraction Chance Sampling")
 
-We examine nodes touched vs. exploitability for all four of our CFR algorithm types
-(Vanilla CFR vs. CFR+ vs. Chance Sampling vs. External Sampling) up to 4*10^9
-nodes touched for each. Monte Carlo sampling methods require many more iterations
-than Vanilla CFR, while each iteration is relatively fast. Therefore, a nodes touched
-metric makes sense as a way of comparison.
+![Card Abstraction External Sampling](../assets/section4/abstractions/kuhnabses.png "Card Abstraction External Sampling")
 
-We can see that the sampled versions show a lower exploitability much faster than the
-Vanilla and CFR+ versions, although they are more erratic due to the sampling. While
-Chance Sampling is generally superior to External Sampling, they are quite close at
-the end of the experiment. Chance Sampling is the simplest algorithm, which may
-work in its favor since Kuhn Poker is also a very simple game. Vanilla CFR shows 
-consistently lower exploitability than CFR+. Perhaps this is because CFR+ doesn’t
-allow regrets to become negative, it may then waste time on actions that would have
-gone negative. 
+The figures are quite similar for both algorithms and show that the lower bucket
+abstractions converge slightly faster than the 25-bucket abstraction, which is also
+faster than the unabstracted exploitability. However, the unabstracted exploitability is
+almost immediately less exploitable than the alternatives, rendering them not very
+useful, probably because the game is not complex enough. We also see here that the
+exploitability values are significantly better as the number of buckets increases,
+because with fewer buckets, more hands share the same strategy. 
 
 #### Bet Abstraction in No Limit Royal Hold'em
+We look a variation of No Limit Hold'em called Royal No Limit
+Hold’em that requires only 7GB of RAM to solve (assuming one byte per info-set to
+store the behavioral strategy and two 8-byte doubles per info-set to solve the game
+precisely), which means that it can be used as a testbed for anyone to work on,
+without requiring access to supercomputers. This game and its use as a testbed was
+given as an idea by Michael Johansen in his 2013 paper, “[Measuring the Size of Large No-Limit Poker Games](https://arxiv.org/abs/1302.7008)”. This testbed concept was important because at the time, during the ACPC, a major factor correlating to the quality of the poker agents was
+access to powerful supercomputers capable of solving larger game abstractions, which
+gives an advantage to those with access to such machines. 
+
+Royal No Limit Hold’em is a simplified version of No Limit Texas Hold’em. We will
+study the game with 2 players, blinds of \\$1 (small blind) and \\$2 (big blind), and
+starting stacks of \\$20 per player, which reset after each hand. Instead of a standard 52
+card deck, the Royal game means that we discard cards 2 through 9 and use only the
+Ten, Jack, Queen, King, and Ace, hence the name Royal. Royal Hold’em has only
+two betting rounds, not four as in standard Texas Hold’em. There is the preflop round
+and then after the flop (the first three community cards) betting round, the Royal
+Hold’em game ends. No limit betting is the same as in Texas Hold’em – no maximum
+number of bets per round and the minimum bet is the big blind or the prior bet/raise
+size, whichever is larger. The maximum bet size is the amount of chips in front of
+each player.
+
+The strength of hands in Royal Hold'em is, in order from best to worst: Royal flush (the only flush possible), Four of a kind, Full house, Straight, Three of a kind, Two pair, One pair (worse hands are not possible). In normal poker, a hand without pairs would be possible and also other flushes would be possible. 
+
+Royal No Limit Hold'em has on the order of 10^8 information sets, compared to the full No Limit Hold'em game on the order of 10^161 information sets. 
+
+The purpose of experimenting with action abstractions in Royal No Limit Hold’em is
+to understand which abstractions are most efficient, and since Royal Hold’em has
+many features in common with Texas Hold’em, it is hoped that these abstraction
+features could be transferred to researchers studying Texas Hold’em or other incomplete
+information games.
+
+The experiment was run using the ACPC standard protocol and a version of CFR called Pure CFR created by Richard Gibson of the University of Alberta and Kevin Waugh's card isomorphism open source code. Pure CFR is a version of CFR that samples pure strategy profiles (exactly one action
+assigned probability 1 at each state) for each iteration, using no sampling. Pure CFR
+has been shown to work faster than Vanilla CFR and also is memory efficient by
+using only integer values and not doubles, which is made possible by the pure strategy
+profiles and the fact that pot sizes and bets in poker are all integer valued. 
+
+We tested solving the full game and also the game with these action abstractions: 
+
+1. Fold, call, pot, allin (FCPA)
+2. Fold, call, half pot, allin (FCHA)
+3. Fold, call, minimum, half pot, pot, allin (FCMHPA)
+4. Fold, call, minimum, half pot, three-quarters pot, pot, allin (FCMHQTPA)
+
+Since the full game can be solved completely, this enables us to compare our
+abstracted solutions against the full game solution, otherwise not possible in standard
+poker games due to the size of the full game.
+
+Each abstraction and the main game were run for 12 hours over four threads on a 2.6
+GHz Intel Core i7 computer with 16 GB of RAM. Since there was not a best response
+algorithm used in this experiment, the abstractions were run for shorter periods and
+then tested and then continued for longer periods until it seemed that the strategies
+had converged, based on the match result changes. The sizes of the strategies of the
+abstractions from smallest to largest were 5.5 MB, 10.2 MB, 160 MB, and 471 MB.
+The full game solution is 3.58 GB. 
+
+We compare our abstractions in two ways:
+
+1. Against main game equilibrium: Each of the four abstracted solutions plays
+against the main game solution in the main game
+2. Against each other: Each of the four abstracted solutions plays against each
+other in the main game
+
+After solving the game in the abstracted action space, we must allow for the
+abstracted player solution to play in the original game, where all actions are allowed. 
+
+This requires the use of action translation. As described above, the following
+translation has been shown to be less exploitable than other options:
+
+f_{A,B}(x) = (B-x)(1+A)/((B-A)(1+x))
+
+Matches between all combinations of the four abstractions and the full game were
+played over 10,000,000 hands each in duplicate, so 5,000,000 were played once and
+then the same 5,000,000 were played again with the hands swapped to reduce
+variance. 
+
+The following table lists the results from the perspective of the row abstraction in
+terms of big blinds per 100 hands (i.e., the number of $2 amounts won per 100
+hands):
+
+We see that the full agent dominates all abstracted agents, as expected. FCPA is
+slightly superior to the other agents against the full agent. FCPA also beats all of the
+other abstracted agents, which may be due to the more sophisticated ones becoming
+overfit to their abstracted games. FCHA loses to all abstractions, possibly because the
+half pot and all-in bets results in too wide of a range between the two actions.
+
+Unfortunately, the relatively small size of the game, intended to provide access to
+individuals without access to supercomputers, results in the abstracted agents for the
+first player strategy in the preflop round to virtually always only call the big blind or
+to go allin. While the full game agent plays a more mixed strategy that involves
+raising to a variety of sizes, a large amount of these raises are near-all-in amounts,
+that are strategically essentially equivalent to an all-in bet (e.g., raising to 18 out of 20
+chips on the first action). 
+
+Waugh et al’s [work on abstraction pathologies](https://poker.cs.ualberta.ca/publications/AAMAS09-abstraction.pdf) shows
+that despite finer abstractions tending to perform better and better each year in the
+ACPC, these abstractions do not guarantee better results. However, they do show that
+if the opponent is playing the full game, that the opponents should be monotonically
+improving as their abstractions grow larger, which we did not see in these results,
+although the winrates are within only about 2% between the different abstractions.
+They showed that in abstraction vs. abstraction matches, monotonicity often does not
+hold, and agents could even become more exploitable. A theory is that providing additional strategies to a player can encourage the
+player to exploit the limitations of the opponent’s abstraction, resulting in a strategy
+that is more exploitable by actions that become available to the opponent in the full
+game.
+
+While these results show evidence of FCPA being the best abstraction amongst these
+choices, it may be necessary to run this experiment on a larger testbed game that may not be solvable
+on personal computers, but also does not require very specialized equipment. 
 
 ## Game Size
 The size of a game is a simple heuristic that can be used to describe its complexity
