@@ -29,7 +29,7 @@ details, or when the game may not be composed of discrete actions/states in its
 original form.
 
 Strategies for abstract games are defined in the same way as strategies in the main
-game, but restricted strategies must be given zero probability, meaning if there was a betting abstraction to use only check, bet 1/2 pot, and bet full pot, in a situation where the pot is $100, only checking, betting $50, and betting $100 would be possible, while all other options would be given zero probability.
+game, but restricted strategies must be given zero probability, meaning if there was a betting abstraction to use only check, bet 1/2 pot, and bet full pot, in a situation where the pot is \\$100, only checking, betting \\$50, and betting \\$100 would be possible, while all other options would be given zero probability.
 
 ## Game Size
 The size of a game is generally computed from two components: 
@@ -92,8 +92,8 @@ blind setting. The initial raise in the latter setting is any amount from \\$4 t
 whereas in the former it is \\$200 to \\$20,000. 
 
 ### Comparing Limit and No Limit Hold'em
-Whereas limit hold’em has a 1-sided canonical game size of 1.4x10^13 infoset actions, no limit \\$1-2 with $1000 starting stacks (500 blinds) is 3.12x10^71, \\$1-2
-with $400 (200 blind) starting stacks is 6.0x10^46, and \\$50-100 with \\$20,000 (200
+Whereas limit hold’em has a 1-sided canonical game size of 1.4x10^13 infoset actions, no limit \\$1-2 with \\$1000 starting stacks (500 blinds) is 3.12x10^71, \\$1-2
+with \\$400 (\\200 blind) starting stacks is 6.0x10^46, and \\$50-100 with \\$20,000 (200
 blind) starting stacks is 2.8x10^160. Not including transpositions, chess has 10^47
 game states, checkers has 10^20 game states, and Go has 10^170 states.
 
