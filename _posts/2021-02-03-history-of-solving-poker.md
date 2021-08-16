@@ -233,19 +233,21 @@ f_{A,B}(x) = (B-x)(1+A)/((B-A)(1+x))
 The new mapping was tested by “rematching” the agents from the 2012 ACPC and keeping the Tartanian5 agent the same, except for revising its mapping. The mapping performed well, but interestingly performed worse than the simple deterministic arithmetic mapping that simply maps the bet to the closest abstraction. However, this leaves agents open to exploitation that perhaps was not acted upon in prior years, but could be in the future.
 
 ### Asymmetric Abstractions
-The standard approach when abstracting is to use symmetric abstraction, assuming that all agents distinguish states in the same way. Agents in Texas Hold’em have been shown to perform better in head-to-head competitions and to be less exploitable when using finer-grained abstractions, although there are no theoretical guarantees of this. Until Bard et al’s 2014 paper, all research was done by examining only symmetric abstractions.
+The standard approach when abstracting is to use symmetric abstraction, assuming that all agents distinguish states in the same way. Agents in Texas Hold’em have been shown to perform better in head-to-head competitions and to be less exploitable when using finer-grained abstractions, although there are no theoretical guarantees of this. Until Bard et al’s [2014 paper](https://webdocs.cs.ualberta.ca/~games/poker/publications/2014-aamas-asymmetric-abstractions.pdf), all research was done by examining only symmetric abstractions.
 
-The choice of using asymmetric abstractions may affect both one on one performance against other agents and exploitability in the unabstracted game. By examining a number of different abstraction combinations in Texas Hold’em, a few main conclusions were drawn:
-- Withsymmetric	abstractions, increasing the	abstraction	size results in	improved	utility	against	other	agents and improved	exploitability
+The choice of using asymmetric abstractions could affect both "one on one performance against other agents and exploitability in the unabstracted game". By examining a number of different abstraction combinations in Texas Hold’em, a few main conclusions were drawn:
 
-- Smaller	abstractions for	ourselves, while	our	opponent	uses larger	
-abstractions,	tended	to result	in improved	exploitability,	but	decreased	one on one	mean utility
-- Larger	abstractions for ourselves,	while	our	opponent uses	smaller	abstractions,	tends	towards	our	exploitability worsening and	our	one on one utility	improving,	leading	to	the	conclusion to	want to increase abstractions	when	creating	an	agent	for	a	one on one competition
+- "With symmetric	abstractions, increasing the	abstraction	size results in	improved	utility	against	other	agents and improved	exploitability"
+
+- "Smaller	abstractions for	ourselves, while	our	opponent	uses larger	
+abstractions,	tended	to result	in improved	exploitability,	but	decreased	one on one	mean utility"
+
+- "Larger	abstractions for ourselves,	while	our	opponent uses	smaller	abstractions,	tends	towards	our	exploitability worsening and	our	one on one utility	improving,	leading	to	the	conclusion to	want to increase abstractions	when	creating	an	agent	for	a	one on one competition"
 
 We see that the goals of minimizing exploitability and increasing one on one utility can be at odds with each other, so the agent designer must make abstraction decisions based on his goals and beliefs about other agents. A non poker example given is that if worst case outcomes resulted in people being injured or killed, the only goal may be to increase worst case performance.
 
 ### Abstractions are Not Necessarily Monotonically Improving
-Although logic would suggest that finer abstractions result in superior agents, this was shown to not be true in general by Waugh et al. in 2009. As the annual poker competitions have advanced, the winning strategies have generally been the teams that have solved the largest abstracted games. Despite there being more strategies available in finer abstractions, solving games involves finding a pair of equilibrium strategies, not finding the best strategies from an available set. However, they did show that if one player is using abstraction while the other is playing in the null abstraction, then the abstracted player’s strategies do monotonically improve as the abstractions get finer. 
+Although logic would suggest that finer abstractions result in superior agents, this was shown to not be true in general by Waugh et al. in 2009. As the annual poker competitions have advanced, the winning strategies have generally been the teams that have solved the largest abstracted games. Despite there being more strategies available in finer abstractions, solving games involves finding a pair of equilibrium strategies, not finding the best strategies from an available set. However, they did show that if one player is using abstraction while the other is playing in the unabstracted game, then the abstracted player’s strategies do monotonically improve as the abstractions get finer. 
 
 An example with Leduc Hold’em is shown, in which a finer card abstraction can result in a more exploitable strategy. They also tested betting abstraction and again found instances in which exploitability increased as the abstraction became finer. One theory presented is that providing additional strategies to a player can encourage the player to exploit the limitations of the opponent’s abstraction, resulting in a strategy that is more exploitable by actions that become available to the opponent in the full game.
 
@@ -270,7 +272,7 @@ distance and place them into different histograms on the turn. This could be esp
 useful in games like Pot Limit Omaha, in which hands are made up of four cards
 instead of two and can change drastically from round to round.
 
-### Simultaneous Abstraction and Equilibrium Finding
+### [Simultaneous Abstraction and Equilibrium Finding](https://www.cs.cmu.edu/~sandholm/simultaneous.ijcai15.pdf)
 In a 2015 paper, Brown and Sandholm show a method to combine action
 abstraction and equilibrium finding together. An agent can start learning with a coarse
 abstraction and then can add abstracted actions that seem like they would be useful,
@@ -291,7 +293,7 @@ The primary game that Lanctot focuses on is called Bluff, where each player has 
 He shows that in these games and in poker, vanilla CFR is essentially always less efficient than Monte Carlo CFR methods. A method called external sampling also tends to dominate chance sampling in his experiments.
 
 ### CFR+
-In early 2015, the Computer Poker Research Group from the University of Alberta announced that “Heads-up limit hold’em poker is solved”, a huge achievement in the poker research community and poker community at large since this is the first significant imperfect-information game played competitively by humans that has been solved. Their article was published in the January 9, 2015 issue of Science. The team used a new version of CFR called CFR+, which can solve games much larger than with prior CFR algorithms and is also capable of converging faster than CFR in both poker games and matrix games.
+In early 2015, the Computer Poker Research Group from the University of Alberta announced that “Heads-up limit hold’em poker is solved”, a huge achievement in the poker research community and poker community at large since this is the first significant imperfect-information game played competitively by humans that has been solved. Their article was published in the January 9, 2015 issue of Science and is discussed in detail in Section 4.4 CFR Advances. The team used a new version of CFR called CFR+, which can solve games much larger than with prior CFR algorithms and is also capable of converging faster than CFR in both poker games and matrix games.
 
 The algorithm was originally developed by Oskar Tammelin, an independent researcher from Finland. This major achievement was noticed in the research community, the poker community, and was featured in many mainstream publications. Despite LHE’s popularity being in decline recently in favor of NLHE games, this was a very exciting announcement. 
 
@@ -299,7 +301,9 @@ The main change in CFR+ from CFR and prior research is that the regrets are calc
 
 Previously only perfect information games of this size, like checkers, have been solved and despite this game being smaller than checkers, it was much more challenging due to the incomplete information. HULHE has 3.16x10^17 game states, which places it as larger than Connect 4 and smaller than checkers. There are 3.19x10^14 decision points, or information sets, where the state is indistinguishable based on the player’s information in the hand (this is reduced to 1.38x10^13 after removing game symmetries). The main considerations when solving a game of this size come in the form of memory and computation power.
 
-CFR+ was implemented on 200 computation nodes, each with 24 2.1-GHz AMD cores, 32 GB of RAM, and a 1TB local hard disk. The game was divided into 110,565 subgames. The solution came after 1,579 iterations in 69 days, using 900 core years of computation and 10.9 TB of disk space (the game without compression would have required 262 TB of space!), reaching an exploitability of .986 mbb/g, which required full traversal of the game tree to determine. Exploitability is defined as the amount less than the game value that the strategy achieves against the worst-case opponent strategy in expectation and it was determined that a 1 mbb/g was a good threshold for the game being considered essentially solved. This is based on assuming a player playing a worst case strategy for a lifetime and that he would be playing 200 games/hour, 12 hours/day, for 70 years, with a standard deviation of 5 bb/g, and with a 95% confidence interval (1.64 standard deviations). This results in the following threshold computation: $$1.64 * 5 * 200 * 12 * 365 * 70 = .00105$$
+CFR+ was implemented on 200 computation nodes, each with 24 2.1-GHz AMD cores, 32 GB of RAM, and a 1TB local hard disk. The solution came after 1,579 iterations in 69 days, using 900 core years of computation and 10.9 TB of disk space (the game without compression would have required 262 TB of space!), reaching an exploitability of .986 mbb/g, which required full traversal of the game tree to determine. 
+
+Exploitability is defined as the amount less than the game value that the strategy achieves against the worst-case opponent strategy in expectation and it was determined that a 1 mbb/g was a good threshold for the game being considered essentially solved. This is based on assuming a player playing a worst case strategy for a lifetime and that he would be playing 200 games/hour, 12 hours/day, for 70 years, with a standard deviation of 5 bb/g, and with a 95% confidence interval (1.64 standard deviations). This results in the following threshold computation: $$1.64 * 5 * 200 * 12 * 365 * 70 = .00105$$
 
 Bowling et al. describe their solution as weakly solved, which means that the strategy finds a game theoretic value in reasonable time for initial conditions (whereas ultraweakly is finding a game theoretic value for initial positions and strongly is strategy determined for all positions to find the game theoretic value).
 
@@ -307,7 +311,7 @@ The main findings from the solution are that, as expected, the dealer has a subs
 
 Other interesting characteristics of the strategy are: that it is considered rarely (.06%) good to only call preflop, meaning that it is almost always best to raise or fold. The program also rarely folds preflop as the non dealer who has already put in the big blind. Finally, as dealer, who is acting last in rounds after preflop, the program rarely puts in the capped (4th) bet preflop, perhaps because it will have an advantage from acting last in later rounds and so keeping the pot smaller while less information is known may make sense. While other Nash equilibria could play differently, they would always achieve the same game value.
 
-Despite the significant growth in capabilities of solving computer poker games, NLHE games are generally still much too large to be solved unabstracted. NLHE usually has about 10^71 states, depending on the rules. The Royal NLHE game has about 10^9 game states, solvable by most standard computers.
+Despite the significant growth in capabilities of solving computer poker games, NLHE games are generally still much too large to be solved unabstracted. NLHE usually has about 10^71 states, depending on the rules. The Royal NLHE simplified game has about 10^9 game states, solvable by most standard computers.
 
 ### Compact CFR and Pure CFR
 Although most CFR research had been tilted towards sampling optimization after 2009, Oskari Tammelin also developed the Pure CFR algorithm that uses pure strategy profiles on the vanilla version of CFR.
@@ -315,16 +319,16 @@ Although most CFR research had been tilted towards sampling optimization after 2
 Pure CFR was described in Richard Gibson’s 2014 thesis. Since all of the utilities of in poker are integers, all computations in Pure CFR can be done with integer arithmetic, which is both faster than floating-point arithmetic and allows for the cumulative regret and cumulative strategy profile as integers, which reduces memory costs by 50%.
 
 Another CFR version was published in early 2016 by Eric Jackson in a paper called
-Compact CFR. This version uses follow-the-leader instead of regret matching, which assigns the entire probability mass to the action with highest regret. Compact CFR is not a no-regret algorithm (i.e. it loses theoretical guarantees), but the average strategy does converge to Nash equilibrium. 
+Compact CFR. This version uses follow-the-leader instead of regret matching, which assigns the entire strategy probability at a node to the action with highest regret. Compact CFR is not a no-regret algorithm (i.e. it loses theoretical guarantees), but the average strategy does converge to Nash equilibrium. 
 
 Since all we need to know in Compact CFR is the action with the highest regret at each information set, the regrets can be represented with offsets from 0, where the highest regret is 0 and others are positive values. These can be represented by bucketed unsigned data types, a form of compression that is only slightly worse than uncompressed regret storage. By also only taking the final strategy rather than the average strategy, every action at every information set can be represented by only one byte, whereas vanilla CFR requires 16 bytes and pure external CFR requires 8 bytes, a significant reduction in memory requirements.
 
-### Strategy Purification and Thresholding
-In 2012, Ganzfried et al proposed that instead of solving abstract games for an equilibrium’s strategy and using this strategy in the full game, we can first modify the abstract equilibrium using procedures called purification and thresholding. The overall idea is that these approaches provide a robustness to the solutions against overfitting one’s strategy to one’s lossy abstraction, and the results do not always come at the expense of worst-case exploitability. 
+### [Strategy Purification and Thresholding](https://www.cs.cmu.edu/~sandholm/StrategyPurification_AAMAS2012_camera_ready_2.pdf)
+In 2012, Ganzfried et al proposed that instead of solving abstract games for an equilibrium’s strategy and using this strategy translated into the full game, we can first modify the abstract game equilibrium using procedures called purification and thresholding. The main idea is that these approaches provide a "robustness to the solutions against overfitting one’s strategy to one’s lossy abstraction", and the results "do not always come at the expense of worst-case exploitability". 
 
 Purification means that the player will always play his best strategy at each
 information set with probability 1 (rather than play an action based on his behavioral
-strategy distribution). In the case of ties, both strategies are played with uniform
+strategy distribution). This has similarities to Compact CFR from above. In the case of ties, both strategies are played with uniform
 probability. This is useful because it compensates for the failure of equilibrium
 finding algorithms to fully converge in the abstract game.
 
@@ -345,31 +349,36 @@ the one that used a thresholding level of 0.15 (meaning all actions below 15% we
 results in too little randomness and no thresholding at all results in overfitting to the
 abstraction.
 
-### Decomposition
+### [Decomposition](https://arxiv.org/abs/1303.4441)
 Decomposition, analyzing different subgames independently, has been a well known
 principle in perfect information games, but has been problematic in imperfect
 information games and when used has abandoned theoretical guarantees. In 2014,
-Burch, Johanson, and Bowling proposed a technique that does retain optimality
-guarantees on the full game. In perfect information games, subgames can be solved
+Burch, Johanson, and Bowling proposed a technique that does "retain optimality
+guarantees on the full game". In perfect information games, "subgames can be solved
 independently and the strategy fragments created can be combined to form an optimal
-strategy for the entire game.
+strategy for the entire game".
 
 Decomposition can allow large savings in the memory required to solve a game and
 also allows for not storing the complete strategy, which may be too large, but rather to
-store and recomputed subgame strategies as needed. Burch et al present a method of
-using summary information about a subgame strategy to generate a new strategy that is no more exploitable than the original strategy. An algorithm called CFR-D, for
-decomposition, is shown to achieve sub-linear space costs at the cost of increased
-computation time.
+store and recomputed subgame strategies as needed. 
 
-### Endgame Solving
-Earlier approaches tended to divide games into sequential phases, but now the focus
-has tended towards solving the endgame specifically with a finer-grained abstraction. In 2015, Ganzfried and Sandholm modified the standard CFR abstraction
+The authors show a method of
+using summary information about a subgame strategy to generate a new strategy that is no more exploitable than the original strategy. An algorithm called CFR-D, for
+decomposition, is shown to achieve "sub-linear space costs at the cost of increased
+computation time".
+
+### [Endgame Solving in Large Imperfect-Information Games](https://www.cs.cmu.edu/~sandholm/Endgame_AAAI15_workshop_cr_1.pdf)
+While the naive approach simply abstracts a game and uses translation to go back to the full game, more recent approaches tended to divide games into sequential phases, and now Ganzfried and Sandholm show how to solve the endgame specifically with a finer abstraction. 
+
+In 2015, Ganzfried and Sandholm modified the standard CFR abstraction
 solution method by keeping the initial portion of the game tree and discarding the
 strategies for the final portion, the endgames. Then in real time, they solve the
 relevant endgame that has been reached using a linear program, with a greater degree
 of accuracy than the initial abstract strategy. Bayes’ rule is used to compute the
-distribution of player’ private information leading into the endgames from the
-precomputed strategies from the initial part of the game. Another benefit of this
+distribution of player private information leading into the endgames from the
+precomputed strategies from the initial part of the game. 
+
+Another benefit of this
 method is that “off-tree” problems are solved – that is, cases in which the opponent’s
 action is not allowed in the abstraction will actually be solved exactly in the endgame.
 
@@ -377,17 +386,18 @@ The problem with endgame solving is that the Nash equilibrium guarantees are no 
 
 Although endgame solving can lead to highly exploitable strategies in some games,
 it’s shown to have significant benefits in large imperfect information games,
-especially games where a significant strategic portion of the game is in the endgame.
+especially games where the endgame has is important, which is the case in all poker games, and especially no limit hold'em. 
+
 This technique showed improved performance against the strongest agents from the
 2013 ACPC. Having better abstractions at the endgame seems intuitively very valuable since this tends to be where it's possible to narrow down opponent hand ranges and where the largest bets tend to be made, since the pot gradually builds up over the betting rounds. 
 
 In 2017, Brown and Sandholm advanced the previous methods by using nested
-endgame solving in place of action translation in response to off-tree opponent
+endgame solving in their Libratus agent in place of action translation in response to off-tree opponent
 actions. This may have made the difference in defeating world class human
 opponents.
 
 ### Warm Starting and Regret Pruning
-Also in 2015, Brown and Sandholm found that it is possible to warm start in CFR
+Also in 2015, Brown and Sandholm found in [Strategy-Based Warm Starting for Regret Minimization Games](https://www.cs.cmu.edu/~noamb/papers/16-AAAI-Strategy-Based.pdf) that it is possible to warm start in CFR
 by using a predetermined strategy and that with a single full traversal of the game
 tree, CFR is effectively warm started to as many iterations as it would have taken to
 reach a strategy profile of the same quality as the input strategies, and the
@@ -397,22 +407,15 @@ that would be pruned.
 
 Brown and Sandholm developed a regret-based pruning (RBP) method in 2015 to
 prune actions with negative regret temporarily (for the minimum number of iterations
-that it would take for the regret to become positive in CFR). The idea is that strategies
-at information sets that we don’t reach don’t impact our opponent’s regret. The
-skipped iterations are then “made up” after pruning ends. This process was shown to
+that it would take for the regret to become positive in CFR) in the paper [Regret-Based Pruning in Extensive-Form Games](https://www.cs.cmu.edu/~noamb/papers/15-NIPS-Regret-Based.pdf). 
+
+This process was shown to
 speed up CFR and then in 2016, they improved this with a new RBP version that can
 even reduce the space requirements of CFR over time by completely discarding
-pruned branches. Space for certain pruned branches is never needed, which was
-proven by showing that this new version of RBP needs to only asymptotically store
-actions that have positive probability in a best response to a Nash equilibrium, which
-is a significant space requirement reduction in large imperfect information games like
-poker. Finally, they showed that early iterations can be skipped by solving an
-abstraction of the game and then warm starting CFR with these results in the full
-game. Some suboptimal actions will only need to be traversed O(ln(T)) times over T
-iterations.
+pruned branches. 
 
 ### Deep Learning
-Beginning in 2017 with the University of Alberta's DeepStack, poker algorithms have been relying on deep neural networks as an alternative or complement to game abstractions. Noam Brown et al published "Deep CFR" in 2018 that was was the first algorithm to successfully implement CFR with deep neural networks rather than the standard tabular format. It takes as input the exact cards and betting sequences to a neural network and outputs a fold, call, raise tuple, which effectively leaves the neural network to do the abstracting rather than requiring fixed abstractions built into the algorithm. We discuss this result in detail in the CFR Advances section. As computer processing capabilities have improved, using large neural networks becomes an increasingly valuable method for approximately solving poker games.
+Beginning in 2017 with the University of Alberta's DeepStack, poker algorithms have been relying on deep neural networks as an alternative or complement to game abstractions. Noam Brown et al published [Deep Counterfactual Regret Minimization](https://arxiv.org/abs/1811.00164) in 2018 that was was the first algorithm to successfully implement CFR with deep neural networks rather than the standard tabular format. It takes as input the exact cards and betting sequences to a neural network and outputs values in proportion to the regrets that would be found in tabular CFR. The technique effectively leaves the neural network to do the abstracting rather than requiring fixed abstractions built into the algorithm. We discuss this result in detail in the CFR Advances section. As computer processing capabilities have improved, using large neural networks becomes an increasingly valuable method for approximately solving poker games.
 
 ### Superhuman AI for multiplayer poker
 In 2019, Noam Brown and Tuomas Sandholm of Carnegie Mellon University released this paper with an agent called Pluribus that beat strong human players in six-handed poker. The agent was able to outperform the humans in two settings: (1) five agents at the table with one human and (2) 5 humans at the table with one agent. 
@@ -426,7 +429,8 @@ In 2006, the University of Alberta and Carnegie Mellon University jointly founde
 the Annual Computer Poker Competition (ACPC), which is now held at the Poker
 Workshop of the annual Advancement of Artificial Intelligence (AAAI) conference
 during the Poker Workshop part of the conference, which began in 2012.
-The competition attracts both hobbyists and academics from around the world each
+
+The competition has attracted both hobbyists and academics from around the world each
 year, although a complaint is that supercomputer access that is possible for academics
 may not be feasible for hobbyists. Each match is played in either HUNL or HULHE
 consists of 3000 hands where each player starts with 200 big blinds, using blind sizes
@@ -438,7 +442,8 @@ There are two primary competition types. The first is instant-run off, where age
 earn or lose 1 point for each match’s win and loss, which favors small wins and
 equilibrium solutions. The total bankroll competition type counts the total winnings of
 each agent over all of its contests. This favors agents that are more exploitative.
-Around 60 research groups and 120 programs have entered the ACPC so far. The
+
+The
 general strategy in recent years has been for teams to develop algorithms that allow
 for larger and larger games to be solved, meaning that finer grained abstractions can
 be used, which have generally correlated to stronger performance, though such a
@@ -450,25 +455,28 @@ tournament. The contest receives heavy sponsorship from trading companies due to
 the similarities in dealing with imperfect information and decisions based on
 probabilities and statistics.
 
-CFR is now the most common approach used in the ACPC. It was first seen in 2007
+CFR and its variants are have been the most common approach used in the ACPC recently. It was first seen in 2007
 with Zinkevich and the University of Alberta CPRG, using imperfect recall
 abstraction. CFR was used in 2/11 agents in 2012, 5/12 in 2013, 10/12 in 2014 (there
 was no competition in 2015 and the details of the competitors for the 2016
-competition have not been released as of early 2017, except for the winners). In 2013,
+competition have not been released, except for the winners). In 2013,
 2014, and 2016, the top three agents in the bankroll and instant run-off competitions
 all used some form of CFR.
 
 Alberta’s Hyperborean won every limit hold’em run-off competition from 2006 to
 2008 using an imperfect recall abstraction in CFR. In 2009 it was defeated by
 GGValuta from the University of Bucharest, which also used CFR with a k-means
-clustering algorithm to bucket postflop hands based on hand strength and potential.
-Hyperborean again won in 2009 by solving independent portions of the game and
-combining them. Hyperborean also won the 2010 no limit run-off event.
+clustering algorithm to do card abstraction.
+
+Hyperborean again won in 2009 by fusing independent separate solutions from independent pieces of the game tree. Hyperborean also won the 2010 no limit run-off event.
+
 Hyperborean, Slumbot by Eric Jackson, and Tartanian from Carnegie Mellon have
 consistently had excellent results since this time.
 
 We will now briefly go over some of the winners and their techniques from the most
-recent competitions. The 2014 winner was the Tartanian7 team from Carnegie Mellon. The program plays approximately a Nash equilibrium strategy that was
+recent competitions. 
+
+The 2014 winner was the Tartanian7 team from Carnegie Mellon. The program plays approximately a Nash equilibrium strategy that was
 computed on a supercomputer. They developed a new abstraction algorithm that
 clusters public flop boards based on how often their previous program grouped private
 hands together on the flop with different sets of public cards. Within each of the
@@ -490,6 +498,7 @@ are given more granularity in both bucketing and bet sizes possible.
 
 Prelude, by Tim Reiff, uses an equilibrium strategy based on Pure CFR and card
 abstraction based on k-means clustering over hand strength distributions.
+
 Hyperborean (for the auto run-off competition), made by the Computer Poker Games
 Research Group from the University of Alberta, also uses Pure CFR, imperfect recall,
 and k-means card bucketing abstraction. They interestingly use the final strategy of
@@ -498,7 +507,7 @@ equilibrium. They use an asymmetric betting system in which the opponent can hav
 more options than the agent, including such actions as minimum-betting.
 
 For the total bankroll competition, the program uses three distinct strategies and
-chooses one based on an Exp4-like algorithm. Two of the strategies are data-biased
+chooses one according to an algorithm. Two of the strategies are data-biased
 responses to aggregate data of competitors from the years 2011/12 and 2013, and the
 other strategy is similar to the auto run-off competition strategy, but also separates
 betting sequences into an “important” and “unimportant” part and creates more 
@@ -524,12 +533,12 @@ Finally, Carnegie Mellon University’s Baby Tartanian 8 won the total bankroll
 competition and took 3rd place in the instant run-off event. Baby Tartanian 8’s main
 new feature was to add pruning to cut down actions worth considering. They also took
 feedback from the 2015 man vs. machine competition in which Tartanian 7 suffered a
-loss. Noam Brown, the PhD student who designed Baby Tartanian 8, says he hopes
-that it will be capable of beating humans within 2-3 years and he has since put
-his agent to the test.
+loss. 
 
 Going forward, the event will feature six player games, which will accelerate research
 towards games that are commonly played by humans and present a new set of
 complexities, including whether the optimal approach is to aim for opponent
 exploitation or to continue on the unexploitable path, despite multiplayer games
 invalidating theoretical results that would be valid in zero-sum games.
+
+The last workshop with the ACPC competition took place in 2018 with heads up no limit Texas Hold'em and six player no limit Texas Hold'em. Teams now have a maximum submission size, which is a way to even the field between teams that might have more resources. Although there have been breakthroughs in recent years with Pluribus and other top agents, it could be interesting to see even better multiplayer agents. However, it does seem that many academic groups have moved on from poker and hobbyists may prefer to use their algorithms commercially or privately, so the future of the ACPC remains to be seen. 
