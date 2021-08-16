@@ -207,7 +207,7 @@ Therefore P2 should bet $$\frac{1}{3}$$ with a Q after P1 checks.
 
 The final case is when P1 checks a K, P2 bets, and P1 must decide how frequently to call so that P2 is indifferent to checking vs. betting (bluffing) with a Q. 
 
-(Note that \\| denotes "given that" and we use the conditional probability formula of $$ \text{P(A|B)} = \frac{P(A \cup B)}{P(B)} $$ where $$\cup$$ denotes the intersection of the sets, so in this case is where $$ A $$ and $$ B $$ intersect -- by intersect we just mean that they are both true at the same time, like the middle part of a Venn diagram)
+(Note that \\| denotes "given that" and we use the conditional probability formula of $$ \text{P(A\\|B)} = \frac{P(A \cup B)}{P(B)} $$ where $$ \cup $$ denotes the intersection of the sets, so in this case is where $$ A $$ and $$ B $$ intersect -- by intersect we just mean that they are both true at the same time, like the middle part of a Venn diagram)
 
 We start with finding the probability that P1 has an A given that P1 has checked and P2 has a Q, meaning that P1 has an A or K. 
 
