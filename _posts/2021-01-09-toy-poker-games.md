@@ -370,7 +370,7 @@ Overall total = $$ \frac{1}{6} * [\frac{y}{3} + 2 + \frac{1}{3} * (7 - y) + -\fr
 ### Main takeaways
 What does this number $$ \frac{17}{18} $$ mean? It says that the expectation of the game from the perspective of Player 1 is $$ \frac{17}{18} $$. Since this is $$ <1 $$, we see that the expected gain from playing the game of Player 1 is $$ 1 - \frac{17}{18} = -0.05555 $$. This is because for each $1 put into the game, Player 1 is expected to get back $$ \frac{17}{18} $$ and so is expected to lose. Therefore the value of the game for Player 2 is $$ +0.05555 $$. 
 
-Every time that these players play a hand against each other (assuming they play the equilibrium strategies), that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. 
+Every time that these players play a hand against each other (assuming they play the equilibrium strategies), that will be the outcome on average -- meaning P1 will lose $$ \$5.56 $$ on average per 100 hands and P2 will gain that amount. However, since in practice players rotate between being Player 1 and Player 2, both players will be guaranteed to breakeven if playing the Nash equilibrium. 
 
 This indicates the advantage of acting last in poker -- seeing what the opponent has done first gives an information advantage. In this game, the players would rotate who acts first for each hand, but the principle of playing more hands with the positional advantage is very important in real poker games and is why good players are much looser in later positions at the table. 
 

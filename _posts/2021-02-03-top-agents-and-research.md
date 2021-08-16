@@ -40,37 +40,17 @@ restricted set of lookahead actions", which together describe heuristic search, 
 
 DeepStack uses re-solving to locally solve for strategies as they come up in play. With this technique, the agent is able to avoid abstracting the game because it doesn't need to compute a full strategy in advance, as is standard in CFR implementations, which compute a fixed strategy offline. 
 
-To re-solve at any public state, DeepStack keeps track of its own range and a vector of
+Re-solving is essentially solving locally with a strategy going forward in the game, not taking into account the previous parts of the gam. To re-solve at any public state, DeepStack keeps track of its own range and a vector of
 opponent counterfactual values. It does use recursion like CFR, but does not store a
 complete strategy prior to play. Instead of abstraction, it uses a neural network to “guess” where each play will end up,
 which was trained using a very large amount of random poker hands. This is an interesting technique, but would seem to make the algorithm less generalizable than if it was able to learn completely from scratch as standard CFR methods do. 
 
- It effectively uses a fast
+It effectively uses a fast
 approximation estimate, rather than computing all possibilities beyond a certain depth,
-which the paper refers to as what a poker player would call a “gut feeling” or intuition. 
+which the paper refers to as what a poker player would call a “gut feeling” or intuition. It also uses action abstraction with only fold, call, 2-3 bet actions, and all-in. The restricted set of lookahead actions are used so that DeepStack can act very fast (normally within about 5 seconds). 
 
-The restricted set of lookahead actions are used so that DeepStack can act very fast (normally within about 5 seconds). The actions include fold, call, 2-3 bet actions, and all-in. 
-
-They
-showed that this agent is significantly less exploitable than the abstraction-based
+They showed that this agent is significantly less exploitable than the abstraction-based
 techniques, which makes sense given how much abstraction is required to reduce No Limit Hold'em to a tractable size. 
-
-
-
-On the preflop and flop, it solves until the end of the round and then consults a deep
-neural net for an estimated value of playing the turn and river. On the turn and river, it
-solves from the current decision until the end of the game and does re-solving after every
-opponent action. By considering a small local subgame to pick actions given only the
-public state and summary information from earlier in the hand, powerful local search
-techniques have been reintroduced to the imperfect information setting, thus
-eliminating abstraction, which was able to be exploited by humans and tended to miss
-fine card details, which are particularly important in large pots.
-Although humans are generally appreciative of improved algorithms that help in daily
-life, like music recommendations, improved medical predictions, and which baseball
-player to draft for the team, the progressively stronger poker agents are scary for the
-poker community as they can be launched (illicitly) in the real world and even if they
-can’t quite yet beat the strongest experts, they are still capable of taking a lot of
-money out of the economy from weaker players.
 
 ### AIVAT Variance Reduction
 DeepStack was measured against opponents using [AIVAT (A New Variance Reduction Technique for Agent Evaluation in Imperfect

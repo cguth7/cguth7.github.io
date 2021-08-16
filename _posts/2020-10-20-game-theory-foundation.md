@@ -42,7 +42,7 @@ After seeing the first player go all-in very frequently, the calling player migh
 
 Once the all-in player observes this, it could lead him to reduce his all-in percentage. Once the all-in range of hands and the calling range stabilize such that neither player can unilaterally change his strategy to increase his profit, then the equilibrium strategies have been reached. 
 
-A **strategy** in game theory is the set of actions one will take at every decision point. In the all-in game, there is only one decision for each player, so the entire strategy is the number of hands to go all-in with for Player 1 and the number of hands to call with for Player 2.
+A **strategy** in game theory is the set of actions one will take at every decision point. In the all-in game, there is only one decision for each player, so the entire strategy is the number of hands to go all-in with for Player 1 and the number of hands to call with for Player 2. A real strategy in poker would say what to do with every possible hand in every situation. For example, it might say that when you have 98 suited on the button and it's folded to you, you should raise 2.5x the pot 90% of the time and go allin 10% of the time. 
 
 We can use the ICMIZER program to compute the game theory optimal strategies in a 1v1 setting where both players start the hand with 10 big blinds. In this case, the small blind all-in player goes all-in 58% of the time and the big blind calling player calls 37% of the time. 
 
@@ -65,7 +65,7 @@ We can model the all-in game in normal form as below. Assume that each player lo
 
 Note that e.g. the call player cannot call when the all-in player folds, but we assume the actions are pre-selected and the payouts still remain the same.
 
-In a one on one poker game, the sum of the payouts in each box are 0 since whatever one player wins, the other loses, which is called a **zero-sum game** (not including the house commission, aka rake). 
+In a one on one poker game, the sum of the payouts in each box are 0 since whatever one player wins, the other loses, which is called a **zero-sum game** (not including the house commission, aka rake).
 
 | All-in Player/Call Player  | Call | Fold |
 |---|---|---|---|

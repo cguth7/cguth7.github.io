@@ -19,10 +19,10 @@ TODO:
 -->
 
 # CFR - The CFR Algorithm 
-The Counterfactual Regret Minimization (CFR) algorithm was first published in a 2007 paper from the University of Alberta by Martin Zinkevich et al. called "[Regret Minimization in Games with Incomplete Information](https://poker.cs.ualberta.ca/publications/NIPS07-cfr.pdf)". 
+The Counterfactual Regret Minimization (CFR) algorithm was first published in a 2007 paper from the University of Alberta by Martin Zinkevich et al. called "[Regret Minimization in Games with Incomplete Information](https://poker.cs.ualberta.ca/publications/NIPS07-cfr.pdf)". Counterfactual means "relating to or expressing what has not happened or is not the case".
 
 ## TLDR Explanation
-CFR is a self play algorithm that learns by playing against itself repeatedly. It starts play with a uniform random strategy (each action at each decision point is equally likely) and iterates on these strategies to nudge closer to the game theory optimal Nash equilibrium strategy as the self play continues. The Nash equilibrium strategy is a "defensive" strategy that can't be beaten, but also doesn't take advantage of opponents. 
+CFR is a self play algorithm that learns by playing against itself repeatedly. It starts play with a uniform random strategy (each action at each decision point is equally likely) and iterates on these strategies to nudge closer to the game theory optimal Nash equilibrium strategy as the self play continues. The Nash equilibrium strategy is a "defensive" strategy that can't be beaten, but also doesn't take advantage of opponents. The counterfactual part comes from computing values based on assuming that our opponent plays to certain game states.
 
 ![Kuhn Poker Tree from Alberta](../assets/section4/cfr/infoset2.png "Kuhn Poker Tree from Alberta")
 
@@ -369,8 +369,6 @@ class KuhnCFR:
 				util[a] = self.external_cfr(cards, next_history, pot, nodes_touched, traversing_player, t)
 				node_util += strategy[a] * util[a]
 
-			action_advantages = np.zeros(self.bet_options)
-			stone = np.zeros(self.bet_options)
 			for a in range(self.bet_options):
 				regret = util[a] - node_util
 				self.nodes[infoset].regret_sum[a] += regret
@@ -396,7 +394,13 @@ if __name__ == "__main__":
 
 The Kuhn Poker External Sampling CFR code uses two main classes, the Node class to track information sets of the game and the KuhnCFR class to run the actual CFR function. The Node class stores the relevant variables (regret_sum, strategy, strategy_sum, and num_actions). The get_strategy function is called throughout CFR to compute the strategy using regret matching, while the get_average_strategy function is called only at the end of all of the iterations to produce the final Nash equilibrium strategy. 
 
-In the main KuhnCFR class, the cfr_iterations_external function runs the main parts of the algorithm, with a loop for the number of iterations and a loop for each player, after which the cfr function is called and the output is summed in a utility value for each player to compute the game value by the end of the game. 
+In the main KuhnCFR class, the cfr_iterations_external function runs the main parts of the algorithm, with a loop for the number of iterations and a loop for each player, after which the CFR function is called and the output is summed in a utility value for each player to compute the game value by the end of the game. The CFR function itself first determines who the acting player is, then does various checks to see whether the game state is terminal, and the value with respect to the traversing player is returned (passed up). The game is terminal either after bet fold (no showdown) or check check (showdown) or bet call (showdown). 
+
+In the case where the state was not terminal, we set the information set, which is defined as the acting player's cards concatenated with the history. A new Node is created if the information set was not seen before. 
+
+The rest of the algorithm is split into two parts, depending on if the acting player is the traversing player or not. If it is the traversing player, then we compute the strategy using the get_strategy() function based on regret matching with the accumulated regrets at the node, then cycle through every possible bet option and recursively call the cfr function using the updated history and pot size based on the bet option taking place. This is then added to the accumulating node_util variable that computes the average value of the node (each action's utility weighted by how often that action is played). Once again, we iterate through all of the bet options and now compute the regrets, which are derived as the utility of the action minus the node utility. These regrets are then added to the regret_sum of the node for that particular action. Finally, the node utility is returned. 
+
+If the acting player is not the traversing player, then we once again find the strategy using the get_strategy() function and now we sample a single action from that strategy. In Kuhn Poker this is simple because there are only two possible actions, so we just generate a random number from 0 to 1 and if it's less than the probability of passing, then we take the pass action, otherwise we take the bet action and add 1 to the pot. We recursively call the CFR function using the updated next_history and pot and then update the strategy_sum for each strategy at this information set. Finally, we return the utility of the sampled action. 
 
 Leduc External CFR code: 
 

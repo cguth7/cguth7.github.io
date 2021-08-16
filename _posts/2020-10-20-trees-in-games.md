@@ -15,7 +15,7 @@ Many games can be solved using the minimax algorithm for exploring a tree and de
 ## Basic Tree
 Take a look at the game tree below. The circular nodes represent player positions and the lines represent possible actions. The "root" of the tree is the initial state at the top. We have P1 acting first, P2 acting second, and the payoffs at the leaf nodes in the standard P1, P2 format. 
 
-In a poker game, there might be a chance node at the top that deals cards, followed by player nodes, and then terminal nodes at the bottom according to the amounts won in the hand. 
+In a poker game, there might be a chance node at the top that deals cards, followed by player decision nodes, and then terminal nodes at the bottom according to the amounts won in the hand. 
 
 <!--chance at top, card states, actions, terminal node with utility -->
 
