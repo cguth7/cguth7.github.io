@@ -92,8 +92,8 @@ blind setting. The initial raise in the latter setting is any amount from \\$4 t
 whereas in the former it is \\$200 to \\$20,000. 
 
 ### Comparing Limit and No Limit Hold'em
-Whereas limit hold’em has a 1-sided canonical game size of 1.4x10^13 infoset actions, no limit $1-2 with $1000 starting stacks (500 blinds) is 3.12x10^71, $1-2
-with $400 (200 blind) starting stacks is 6.0x10^46, and $50-100 with $20,000 (200
+Whereas limit hold’em has a 1-sided canonical game size of 1.4x10^13 infoset actions, no limit \\$1-2 with $1000 starting stacks (500 blinds) is 3.12x10^71, \\$1-2
+with $400 (200 blind) starting stacks is 6.0x10^46, and \\$50-100 with \\$20,000 (200
 blind) starting stacks is 2.8x10^160. Not including transpositions, chess has 10^47
 game states, checkers has 10^20 game states, and Go has 10^170 states.
 
@@ -199,9 +199,9 @@ Action abstraction is when players are given fewer actions available than in the
 original game, that is, a restriction on the players’ strategy space. This is especially
 useful for games with large numbers of possible actions available, such as NLHE. In
 no limit poker, the most standard action abstraction is allowing only {fold, call, pot
-bet, allin bet}. This restricts the first action in a no limit hold’em game with $20
-starting stacks and a $2 big blind to either {fold, call $2, raise to $4, raise to $20}
-instead of {fold, call, raise to any amount between and including $4-$20}, which
+bet, allin bet}. This restricts the first action in a no limit hold’em game with \\$20
+starting stacks and a \\$2 big blind to either {fold, call \\$2, raise to \\$4, raise to \\$20}
+instead of {fold, call, raise to any amount between and including \\$4-\\$20}, which
 results in four total actions possible instead of 19. These types of abstractions are often used when running solver simulations. 
 
 Card, or information, abstraction occurs by grouping categories of hands into
@@ -216,6 +216,7 @@ as in the manner just described or manually, which requires expert input, but wo
 quite difficult to create policies for.
 
 Three common ways of bucketing are:
+
 **Expectation-based:** Developed by Gilpin and Sandholm in 2007. Buckets are created
 based on the potential to improve given future cards, potentially by putting the same amount of hands into some fixed number of buckets according to hand strength. A problem is that buckets can be
 unevenly distributed and that there are often strategic differences in playing draw
@@ -239,7 +240,7 @@ the first round.
 of the game, which allows for finer abstraction in each segment than would be
 possible in the game as a whole.
 
-Additionally, most poker algorithms depend on perfect recall in terms of theory to arrive at a Nash equilibrium. This is the assumption that an agent doesn't forget anything and can rely on prior knowledge. An additional way to abstract, then, is to use **imperfect recall abstractions** (which remove theoretical CFR guarantees), which are when the player “forgets” previous observations and
+Additionally, most poker algorithms depend on **perfect recall** in terms of theory to arrive at a Nash equilibrium. This is the assumption that an agent doesn't forget anything and can rely on prior knowledge. An additional way to abstract, then, is to use **imperfect recall abstractions** (which remove theoretical CFR guarantees), which are when the player “forgets” previous observations and
 uses information based only on specific parts of the history, or even on no history at
 all. This assumption is therefore not very applicable to real life, although in real life
 the true human memory does not remember all of the historical observations and actions like
@@ -293,7 +294,7 @@ found in the book The Mathematics of Poker. The game works as follows:
 - Player P2 is given no private cards
 - Player P1 is given a single card drawn from a distribution of half winning and half losing hands
 - Both players start with n chips
-- Both players ante $0.50, so the starting pot is $1
+- Both players ante \\$0.50, so the starting pot is \\$1
 - P1 acts first and can bet any amount from 0 to n
 - P2 responds by calling or folding (no raising is allowed and a bet of 0 simply
 results in a showdown)
@@ -329,7 +330,7 @@ actions that are used by opponents and are necessary to reduce exploitability. I
 be even better to use game specific information in determining abstraction or to use
 different mappings at different information sets.
 
-#### Card Abstraction in Kuhn Poker
+### Card Abstraction in Kuhn Poker
 For this coding project, we use a verison of Kuhn Poker with deck size of 100 cards, so the game still has the same rules, but the complexity increases as players do not have such simplistic decisions as they would
 with a very small deck. Kuhn Poker has only four information sets per card, so it has 12 information sets in
 standard form (using 3 distinct cards) and 400 information sets in the 100-card
@@ -366,13 +367,13 @@ useful, probably because the game is not complex enough. We also see here that t
 exploitability values are significantly better as the number of buckets increases,
 because with fewer buckets, more hands share the same strategy. 
 
-#### Bet Abstraction in No Limit Royal Hold'em
+### Bet Abstraction in No Limit Royal Hold'em
 We look a variation of No Limit Hold'em called Royal No Limit
-Hold’em that requires only 7GB of RAM to solve (assuming one byte per info-set to
-store the behavioral strategy and two 8-byte doubles per info-set to solve the game
+Hold’em that requires only 7GB of RAM to solve (assuming one byte per infoset to
+store the behavioral strategy and two 8-byte doubles per infoset to solve the game
 precisely), which means that it can be used as a testbed for anyone to work on,
 without requiring access to supercomputers. This game and its use as a testbed was
-given as an idea by Michael Johansen in his 2013 paper, “[Measuring the Size of Large No-Limit Poker Games](https://arxiv.org/abs/1302.7008)”. This testbed concept was important because at the time, during the ACPC, a major factor correlating to the quality of the poker agents was
+given as an idea by Michael Johansen in his 2013 paper, “[Measuring the Size of Large No-Limit Poker Games](https://arxiv.org/abs/1302.7008)”and was described above in the Royal No Limit Hold'em section. This testbed concept was important because at the time, during the ACPC, a major factor correlating to the quality of the poker agents was
 access to powerful supercomputers capable of solving larger game abstractions, which
 gives an advantage to those with access to such machines. 
 
