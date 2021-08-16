@@ -220,7 +220,7 @@ However, P2 might catch on to this and then get revenge by pulling the same tric
 Now the probability is fully on P1 picking Tennis and P2 picking Power Rangers, and nobody gets anything! 
 
 ### Rock Paper Scissors
-Finally, can also think about this concept in Rock-Paper-Scissors. Let's define a win as +1, a tie as 0, and a loss as -1. The game matrix for the game is shown below in Normal Form:
+Finally, we can also think about this concept in Rock-Paper-Scissors. Let's define a win as +1, a tie as 0, and a loss as -1. The game matrix for the game is shown below in Normal Form:
 
 | P1/P2  | Rock  | Paper  | Scissors  |
 |---|---|---|---|
@@ -403,7 +403,7 @@ It makes sense intuitively to prefer actions with higher regrets because they pr
 The regret matching algorithm works like this:
 1. Initialize regret for each action to 0
 2. Set the strategy as: 
-$$ \text{strategy}_{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases} $$
+$$ \text{strategy} _{action}_{i} = \begin{cases} \frac{R_{i}^{+}}{\sum_{k=1}^nR_{k}^{+}}, & \mbox{if at least 1 pos regret} \\ \frac{1}{n}, & \mbox{if all regrets negative} \end{cases} $$
 3. Accumulate regrets after each game and update the strategy
 
 Let's consider Player 1 playing a fixed rock paper scissors strategy of Rock 40%, Paper 30%, Scissors 30% and Player 2 playing using regret matching. So Player 1 is playing almost the equilibrium strategy, but a little bit biased on favor of Rock. 
