@@ -248,5 +248,5 @@ there is still value in these test games, as human experts are capable of quickl
 analyzing a strategy and the playing statistics of that strategy, so a computer program
 can be sanity checked and evaluated for unique tendencies by such human experts.
 Computer programs could also be made available on the Internet to play against many
-opponents to obtain significant levels of data. In practice, most of the breakthrough agents have only been released to play against select top players since this is considered more significant than playing against random players and perhaps to keep the agents strategies more private. 
+opponents to obtain significant levels of data. In practice, most of the breakthrough agents have only been released to play against select top players since this is considered more significant than playing against random players and perhaps to keep the agents' strategies more private. 
 
