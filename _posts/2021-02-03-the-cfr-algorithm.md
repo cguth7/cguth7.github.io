@@ -172,7 +172,7 @@ regret at each information set grows sublinearly with the number of iterations, 
 guaranteed, given that delta = maximum difference in leaf node utilities (|u_i(z) −
 u_i(z')| ≤ delta for all i ∈ N and z,z' ∈ Z), A = number of actions, T = iteration number.
 
-R^T _i_infoset(I,a) <= delta * sqrt(\\| A \\|*T)
+R^T _i_infoset(I,a) <= delta * sqrt(\\| A \\| * T)
 
 With a specific set of strategy profiles, we can define a player’s overall regret as:
 R^T _i_overall = max sigma_i ∈ sum i (sum t=1 to T u_i(sigma_i, sigma^T _-i)) - sum t=1 to T u_i(sigma)
@@ -181,7 +181,7 @@ This is the amount of extra utility that player i could have achieved in expecta
 he had chosen the best fixed strategy in hindsight. Assuming perfect recall, this can be
 bounded by the per information set counterfactual regrets of CFR:
 
-R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= \\|I_i\\|*delta*sqrt(\\|A\\|*T)
+R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= \\|I_i\\| * delta * sqrt(\\|A\\|*T)
 
 The fact that minimizing regret at each information set results in minimizing overall
 regret is a key insight for why CFR works and since CFR indeed achieves sublinear
@@ -193,7 +193,7 @@ use the regret minimizing properties of CFR to solve games like poker by computi
 average strategies as follows:
 
 
-sigmahat(a|I) = [sum t=1,T (sum h∈I pi^sigma^t _i (h))*sigma^t(a|I)] / [sum t=1,T (sum h∈I pi^sigma^t _i (h)))]
+sigmahat(a|I) = [sum t=1,T (sum h∈I pi^sigma^t _i (h)) * sigma^t(a|I)] / [sum t=1,T (sum h∈I pi^sigma^t _i (h)))]
 
 where sum t=1,T (sum h∈I pi^sigma^t _i (h))) is each player's contribution to the probability of reaching a history in information set I, and is therefore the weighting term on sigma^T _i. 
 
@@ -670,7 +670,7 @@ Here are the steps for Chance Sampling:
 - Information set node call is set up with vectors for regret_sum, strategy, and strategy_sum
 3. Get strategy vector of the acting player based on the normalized regret_sum at the node. We also pass int he reach probability of that player getting to this node so we can keep the strategy_sum vector (reach_prob * strategy[action])
 4. Iterate over the actions, update history, and make a recursive CFR call: 
-- util[a] = -cfr(cards, next_history, p0*strategy[a], p1) <-- Example for player 0
+- util[a] = -cfr(cards, next_history, p0 * strategy[a], p1) <-- Example for player 0
 - Negative because the next node value will be in terms of the other player
 5. Node utility is weighted sum of each strategy[a] * util[a]
 6. Again iterate over each action to update regrets
@@ -721,21 +721,21 @@ Player 2 plays p = 0.5 at node Kp and gets utility of 1 for action p at node Kp.
 
 Player 2 plays b = 0.5 at node Kp. 
 
-Player 1 plays p = 0.5 at node Qpb and gets utility of -1. Player 1 plays b = 0.5 at node Qpb and gets utility of -2. Node Qpb has overall utility of 0.5*-1 + 0.5*-2 = -1.5. Regret for playing p is -1 - (-1.5) = 0.5. Regret for playing b is -2 - (-1.5) = -0.5. 
+Player 1 plays p = 0.5 at node Qpb and gets utility of -1. Player 1 plays b = 0.5 at node Qpb and gets utility of -2. Node Qpb has overall utility of 0.5 * -1 + 0.5 * -2 = -1.5. Regret for playing p is -1 - (-1.5) = 0.5. Regret for playing b is -2 - (-1.5) = -0.5. 
 
-Regret_sum updates are regret*p(opponent playing to node) so here we have regret_sum[p] += 0.5*0.5 = 0.25 and regret_sum[b] += -0.5*0.5 = -0.25. 
+Regret_sum updates are regret * p(opponent playing to node) so here we have regret_sum[p] += 0.5 * 0.5 = 0.25 and regret_sum[b] += -0.5 * 0.5 = -0.25. 
 
 Node Qpb is valued at 1.5 for player 2 (opposite of what it was for player 1). Now from node Kp, player 2 had value 1 if playing p and value 1.5 if playing b, for a node_utility of 1.25. The regret for playing p is 1-1.25 = -0.25 and regret for playing b is 1.5-1.25 = 0.25. 
 
-Regret_sum updates are regret_sum[p] += -0.25*0.5 = -0.125 and regret_sum[b] += 0.25*0.5 = 0.125. 
+Regret_sum updates are regret_sum[p] += -0.25 * 0.5 = -0.125 and regret_sum[b] += 0.25 * 0.5 = 0.125. 
 
 Node Kp is now valued at -1.25 for player 1 action p. Player 1 now takes action b = 0.5 from node Q. Then player 2 takes action p = 0.5 from node Kb and gets utility -1. Then player 2 takes action b = 0.5 from node Kb and gets utility 2. The node_util is 0.5. Regret for playing p is -1 - 0.5 = -1.5. Regret for playing b is 2 - 0.5 = 1.5. 
 
-Regret_sum updates are regret_sum[p] += -1.5*0.5= -0.75 and regret_sum[b] += 1.5*0.5 = 0.75. 
+Regret_sum updates are regret_sum[p] += -1.5 * 0.5= -0.75 and regret_sum[b] += 1.5 * 0.5 = 0.75. 
 
-Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5*-1.25 for action p and -0.5*0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375*
+Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5 * -1.25 for action p and -0.5 * 0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375
 
-Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5*0.5. 
+Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5 * 0.5. 
 
 ![Algorithm before iteration 2](../assets/section4/cfr/iter2begin.png "Algorithm before iteration 2")
 
@@ -747,21 +747,21 @@ Player 2 plays p = 0 at node Kp and gets utility of 1.
 
 Player 2 plays b = 0.5 at node Kp. 
 
-Player 1 plays p = 0.5 at node Qpb and gets utility of -1. Player 1 plays b = 0.5 at node Qpb and gets utility of -2. Node Qpb has overall utility of 0.5*-1 + 0.5*-2 = -1.5. Regret for playing p is -1 - (-1.5) = 0.5. Regret for playing b is -2 - (-1.5) = -0.5. 
+Player 1 plays p = 0.5 at node Qpb and gets utility of -1. Player 1 plays b = 0.5 at node Qpb and gets utility of -2. Node Qpb has overall utility of 0.5 * -1 + 0.5 * -2 = -1.5. Regret for playing p is -1 - (-1.5) = 0.5. Regret for playing b is -2 - (-1.5) = -0.5. 
 
-Regret_sum updates are regret*p(opponent playing to node) so here we have regret_sum[p] += 0.5*0.5 = 0.25 and regret_sum[b] += -0.5*0.5 = -0.25. 
+Regret_sum updates are regret * p(opponent playing to node) so here we have regret_sum[p] += 0.5 * 0.5 = 0.25 and regret_sum[b] += -0.5 * 0.5 = -0.25. 
 
 Node Qpb is valued at 1.5 for player 2 (opposite of what it was for player 1). Now from node Kp, player 2 had value 1 if playing p and value 1.5 if playing b, for a node_utility of 1.25. The regret for playing p is 1-1.25 = -0.25 and regret for playing b is 1.5-1.25 = 0.25. 
 
-Regret_sum updates are regret_sum[p] += -0.25*0.5 = -0.125 and regret_sum[b] += 0.25*0.5 = 0.125. 
+Regret_sum updates are regret_sum[p] += -0.25 * 0.5 = -0.125 and regret_sum[b] += 0.25 * 0.5 = 0.125. 
 
 Node Kp is now valued at -1.25 for player 1 action p. Player 1 now takes action b = 0.5 from node Q. Then player 2 takes action p = 0.5 from node Kb and gets utility -1. Then player 2 takes action b = 0.5 from node Kb and gets utility 2. The node_util is 0.5. Regret for playing p is -1 - 0.5 = -1.5. Regret for playing b is 2 - 0.5 = 1.5. 
 
-Regret_sum updates are regret_sum[p] += -1.5*0.5= -0.75 and regret_sum[b] += 1.5*0.5 = 0.75. 
+Regret_sum updates are regret_sum[p] += -1.5 * 0.5= -0.75 and regret_sum[b] += 1.5 * 0.5 = 0.75. 
 
-Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5*-1.25 for action p and -0.5*0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375*
+Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5 * -1.25 for action p and -0.5 * 0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375
 
-Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5*0.5. 
+Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5 * 0.5. 
 
 ### Comparing Algorithms
 We compared four CFR algorithms (Chance Sampling, External Sampling, Vanilla, and CFR+) in terms of
@@ -783,7 +783,7 @@ iteration, they require far fewer iterations to reach the same number of nodes. 
 game value for all variants is -0.0566, as we have found in previous sections.
 
 We examine nodes touched vs. exploitability for all four of our CFR algorithm types
-(Vanilla CFR vs. CFR+ vs. Chance Sampling vs. External Sampling) up to 4*10^9
+(Vanilla CFR vs. CFR+ vs. Chance Sampling vs. External Sampling) up to 4 * 10^9
 nodes touched for each. Monte Carlo sampling methods require many more iterations
 than Vanilla CFR, while each iteration is relatively fast. Therefore, a nodes touched
 metric makes sense as a way of comparison.
