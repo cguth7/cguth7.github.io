@@ -247,30 +247,25 @@ abstractions,	tended	to result	in improved	exploitability,	but	decreased	one on 
 We see that the goals of minimizing exploitability and increasing one on one utility can be at odds with each other, so the agent designer must make abstraction decisions based on his goals and beliefs about other agents. A non poker example given is that if worst case outcomes resulted in people being injured or killed, the only goal may be to increase worst case performance.
 
 ### Abstractions are Not Necessarily Monotonically Improving
-Although logic would suggest that finer abstractions result in superior agents, this was shown to not be true in general by Waugh et al. in 2009. As the annual poker competitions have advanced, the winning strategies have generally been the teams that have solved the largest abstracted games. Despite there being more strategies available in finer abstractions, solving games involves finding a pair of equilibrium strategies, not finding the best strategies from an available set. However, they did show that if one player is using abstraction while the other is playing in the unabstracted game, then the abstracted player’s strategies do monotonically improve as the abstractions get finer. 
+Although logic would suggest that finer abstractions result in superior agents, this was shown to not be true necessarily by Waugh et al. in 2009. However, they did show that if one player is using abstraction while the other is playing in the unabstracted game, then the abstracted player’s strategies do monotonically improve as the abstractions get finer. As the annual poker competitions have advanced, empirically the winning strategies have generally been the teams that have solved the largest abstracted games. 
 
-An example with Leduc Hold’em is shown, in which a finer card abstraction can result in a more exploitable strategy. They also tested betting abstraction and again found instances in which exploitability increased as the abstraction became finer. One theory presented is that providing additional strategies to a player can encourage the player to exploit the limitations of the opponent’s abstraction, resulting in a strategy that is more exploitable by actions that become available to the opponent in the full game.
+An example with Leduc Hold’em is shown, in which a finer card abstraction can result in a more exploitable strategy. They also tested betting abstraction and again found instances in which exploitability increased as the abstraction became finer. One theory presented is that providing additional strategies to a player can encourage the player to "exploit the limitations of the opponent’s abstraction", resulting in a strategy that is more exploitable by actions that become available to the opponent in the full game.
 
 ### Earth Mover’s Distance Metric in Abstraction
 In 2014, Ganzfried and Sandholm developed the leading abstraction algorithm
-for imperfect information games, which generates abstractions that have imperfect
-recall and are distribution aware, using k-means with the earth mover’s distance metric to cluster similar states together.
+for imperfect information games using k-means with the earth mover’s distance metric to cluster similar states together in [Potential-Aware Imperfect-Recall Abstraction with Earth Mover's Distance in Imperfect-Information Games](https://www.cs.cmu.edu/~sandholm/potential-aware_imperfect-recall.aaai14.pdf). 
 
-Many abstraction algorithms work by coarsening the moves of chance, merging several information sets of the original game into single information sets of the abstracted game. Information sets are grouped together by clustering based on strength, but strength can be defined in many ways. For example, equity (or expected hand strength) is hand strength against a uniform random opponent hand.
+Standard clustering techniques merge information sets together in the abstracted game according to hand strength. A common metric is equity against a random uniform hand, but this is problematic when the uniform hands have very different distributions against those given hands. The example given is that KQ suited is very strong against some hands and weak against some hands, while a pair of 66 has most of its weight in the middle, meaning it's roughly 50% against most hands. 
 
-However, hands can have very similar expected hand strengths, but very divergent distributions of hand strength. For example, some hands may generally have middling equities around 0.5, while some may more frequently be either strong or weak. Distribution aware abstractions group states together at a given round if their full distributions over future strength are similar, instead of just basing this on the expectation of their strength. Instead of only looking at the future strength of the final round, we want to look at trajectories of strength over all future rounds. This has been proven to be empirically superior to equity abstractions.
+Distribution aware abstractions group states together at a given round if their full distributions over future strength are similar, instead of just basing this on the expectation of their strength. The goal of the earth mover's algorithm is to build on this by not only looking at the future strength of the final round, but instead at trajectories of strength over all future rounds. 
 
-The recommended method for computing distances between histograms of hand strength distributions is the earth mover’s distance, which is the minimum cost of turning one pile into the other where cost is assumed to be the amount of dirt moved times the distance by which it moved. Unlike the L2 metric, the earth mover’s distance metric accounts for both the amount and distance moved, not just the amount. 
+The recommended method for computing distances between histograms of hand strength distributions is the earth mover’s distance, which is the "minimum cost of turning one pile into the other where cost is assumed to be the amount of dirt moved times the distance by which it moved". This metric accounts for both the amount and distance moved, not just the amount. 
 
-Imperfect recall abstractions have been shown to lead to significantly stronger performance than perfect recall for an abstraction of a given size, because they allow the player to have a more refined view of the present since he can forget details about the past. Potential aware abstractions consider the distribution of strength in all future rounds, not just the final round.
-
-The new algorithm incorporates imperfect recall and potential aware abstractions
+The algorithm incorporates imperfect recall and potential aware abstractions (where the maximum number of buckets in each round is determined based on the size of the final linear program to solve)
 using earth mover’s distance. We can find a case where two very different hands have
 similar equity distributions on the river, but are extremely different on the turn. The
 potential aware abstraction will observe this difference based on the earth mover’s
-distance and place them into different histograms on the turn. This could be especially
-useful in games like Pot Limit Omaha, in which hands are made up of four cards
-instead of two and can change drastically from round to round.
+distance and place them into different histograms on the turn. This is especially valuable when hand strengths can change significantly between rounds -- the paper notes that Omaha Hold'em could be a good fit. 
 
 ### [Simultaneous Abstraction and Equilibrium Finding](https://www.cs.cmu.edu/~sandholm/simultaneous.ijcai15.pdf)
 In a 2015 paper, Brown and Sandholm show a method to combine action
@@ -458,7 +453,7 @@ probabilities and statistics.
 CFR and its variants are have been the most common approach used in the ACPC recently. It was first seen in 2007
 with Zinkevich and the University of Alberta CPRG, using imperfect recall
 abstraction. CFR was used in 2/11 agents in 2012, 5/12 in 2013, 10/12 in 2014 (there
-was no competition in 2015 and the details of the competitors for the 2016
+was no competition in 2015 and the details of the competitors for more recent
 competition have not been released, except for the winners). In 2013,
 2014, and 2016, the top three agents in the bankroll and instant run-off competitions
 all used some form of CFR.
@@ -483,7 +478,7 @@ hands together on the flop with different sets of public cards. Within each of t
 public flop clusters, the algorithm then buckets the flop, turn, and river hands that are
 possible given one of the public flops in the cluster, using imperfect-recall abstraction. They did not do any abstraction for the preflop round.
 
-They based their equilibrium finding algorithm on external-sampling MCCFR by
+They based their equilibrium finding algorithm on external sampling MCCFR by
 sampling one pair of preflop hands per iteration. Postflop, they sample community
 cards from their public clusters and MCCFR in parallel, and add weights to the
 samples to remove bias. They also used thresholding and purification and made
@@ -495,9 +490,6 @@ Slumbot, by Eric Jackson, uses Pure External CFR for equilibrium computation. He
 breaks the game tree into pieces to be solved separately and uses differing abstraction
 levels depending on how often the game states are reached. Those more common ones
 are given more granularity in both bucketing and bet sizes possible.
-
-Prelude, by Tim Reiff, uses an equilibrium strategy based on Pure CFR and card
-abstraction based on k-means clustering over hand strength distributions.
 
 Hyperborean (for the auto run-off competition), made by the Computer Poker Games
 Research Group from the University of Alberta, also uses Pure CFR, imperfect recall,
@@ -517,28 +509,27 @@ sequences are seen in self-play.
 In 2016, only the no-limit hold’em total-bankroll and instant run-off competitions
 took place. The same three teams took the top three places in both competitions.
 
-Unfold Poker was trained by an experimental distributed implementation of the Pure
+Unfold Poker was trained by a distributed implementation of the Pure
 CFR algorithm and uses a heuristic to sometimes avoid certain game tree paths.
-Certain bet sizes were omitted due to requiring an excessive amount of resources to
-train and store and to compensate for imperfect recall, a distance metric that considers
+Certain bet sizes were omitted and a distance metric that considers
 features from all postflop betting streets was used to construct the card abstraction on
 the river. Unfold Poker took 2nd place in the instant run-off event and 3rd in the
 total bankroll event.
 
 Slumbot took 1st in the instant run-off and 2nd in the total bankroll by using a new
-memory-efficient CFR technique called Compact CFR, which was detailed in the
+memory efficient CFR technique called Compact CFR, which was detailed in the
 section on CFR above.
 
 Finally, Carnegie Mellon University’s Baby Tartanian 8 won the total bankroll
 competition and took 3rd place in the instant run-off event. Baby Tartanian 8’s main
 new feature was to add pruning to cut down actions worth considering. They also took
 feedback from the 2015 man vs. machine competition in which Tartanian 7 suffered a
-loss. 
+loss to improve translations and do better endgame solving. 
 
 Going forward, the event will feature six player games, which will accelerate research
 towards games that are commonly played by humans and present a new set of
 complexities, including whether the optimal approach is to aim for opponent
 exploitation or to continue on the unexploitable path, despite multiplayer games
-invalidating theoretical results that would be valid in zero-sum games.
+invalidating theoretical results that would be valid in zero-sum games. Based on the recent results from Pluribus, it would seem that the former works well. 
 
 The last workshop with the ACPC competition took place in 2018 with heads up no limit Texas Hold'em and six player no limit Texas Hold'em. Teams now have a maximum submission size, which is a way to even the field between teams that might have more resources. Although there have been breakthroughs in recent years with Pluribus and other top agents, it could be interesting to see even better multiplayer agents. However, it does seem that many academic groups have moved on from poker and hobbyists may prefer to use their algorithms commercially or privately, so the future of the ACPC remains to be seen. 
