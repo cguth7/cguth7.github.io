@@ -78,11 +78,11 @@ Case 1: Small blind folds and the EV is 0. This is because we compute the EV fro
 
 Case 2: Small blind allin and gains the entire \\$3 pot when the big blind folds, so the EV is +\\$3. 
 
-Case 3: When the small blind is allin and the big blind calls and the small blind wins the pot, the win is all of the \\$80 chips. When the small blind is allin and loses the pot, the loss is the additional $39 bet for the allin. Combining these, the EV = (win %)*(80) + (lose %)*(39). Note that the win is the amount you get back from the pot when you go allin and win and loss is the amount that goes in with the allin action. 
+Case 3: When the small blind is allin and the big blind calls and the small blind wins the pot, the win is all of the \\$80 chips. When the small blind is allin and loses the pot, the loss is the additional $39 bet for the allin. Combining these, the EV = (win %) * (80) + (lose %) * (39). Note that the win is the amount you get back from the pot when you go allin and win and loss is the amount that goes in with the allin action. 
 
-Putting this all together, we have EV = (opponent fold %)*3 + (1- opponent fold %) * ((win %)*(80) + (lose %)*39)
+Putting this all together, we have EV = (opponent fold %) * 3 + (1- opponent fold %) * ((win %) * (80) + (lose %) * 39)
 
-Written more generally, we have EV = (opponent fold %)*(pot size before allin) * (1 - opponent fold %)*((win %)*(total pot size after allin) + (lose %)*(allin bet size put at risk))
+Written more generally, we have EV = (opponent fold %) * (pot size before allin) * (1 - opponent fold %)*((win %)*(total pot size after allin) + (lose %) * (allin bet size put at risk))
 
 Note that fold equity is the name of the equity that you get from the pot when your opponent folds. 
 
