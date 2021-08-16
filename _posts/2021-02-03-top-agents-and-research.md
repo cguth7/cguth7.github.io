@@ -15,7 +15,7 @@ The biggest breakthroughs in AI poker primarily came from research groups at Car
 2. 2018 Superhuman AI for heads-up no-limit poker by CMU (Libratus)
 3. 2019 Superhuman AI for multiplayer poker by CMU and Facebook (Pluribus)
 4. 2020 Unlocking the Potential of Deep Counterfactual Networks by Minimal AI (Supremus)
-5. 2020 Combining Deep Reinforcement Learning and Search for Imperfect-Information Games by Facebook (ReBeL)
+5. 2020 Combining Deep Reinforcement Learning and Search for Imperfect-Information Games by Facebook (ReBeL)  -- not yet included 
 
 As agents get stronger and stronger, it will be exciting to see what comes next. 
 

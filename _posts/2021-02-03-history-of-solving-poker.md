@@ -14,7 +14,9 @@ There has been a rich literature of research and algorithms involving games and 
 
 Research accelerated, partially thanks to the founding of the Annual Computer Poker Competition (ACPC) in 2006, which has led to people from around the world competing to build the best poker agents, which has in turn led to significant research in algorithm development, abstraction, and game solving techniques. In recent years, we have also seen multiple “man vs. machine” contests to test the latest poker agents against some of the best poker players in the world. 
 
-After some major results from around 2015-2018, some researchers have moved on to even more complex imperfect information games like Hanabi. 
+After some major results from around 2015-2018, some researchers have moved on to even more complex imperfect information games like Hanabi.
+
+Note that it may make sense to read highlights from this section and come back to learn more about the history of certain algorithms when they are mentioned later in the tutorial. 
 
 Some of the most important highlights from poker research have been: 
 
@@ -44,7 +46,7 @@ Darse Billings, in his master’s thesis from 1995, adeptly noted that despite p
 
 Given this insight, how have “feel” players who rarely consider advanced mathematical principles thrived in poker for decades? Doyle Brunson’s famous book, Super/System: A Course in Power Poker from 1978 mainly prescribes a style of aggression, notably in cases where most players would be more passive. Billings notes that this advice was based off of experience and not mathematical soundness, but is valid from a mathematical perspective, because opponents are far more likely to make mistakes when faced with a bet or raise than when facing a check or call.
 
-The implication here is that despite many players not considering sophisticated mathematical and game theoretical principles, they can develop to use plays that make sense mathematically learned over time from trial and error and recognizing patterns that work. However, nowawdays, many of the world’s best players do indeed use sophisticated statistical software to analyze their hands and their opponent’s hands, as well as simulation software to run mathematical simulations on common hand situations.
+The implication here is that despite many players not considering sophisticated mathematical and game theoretical principles, they can develop to use plays that make sense mathematically learned over time from trial and error and recognizing patterns that work. However, nowadays, many of the world’s best players do indeed use sophisticated statistical software to analyze their hands and their opponent’s hands, as well as simulation software to run mathematical simulations on common hand situations.
 
 ## History of Poker Agents
 The main types of poker agents have been **knowledge based** (using rules or formulas),
@@ -57,9 +59,9 @@ An excellent (though now outdated) paper explaining the state of computer poker,
 ### Knowledge Based Agents
 Domain knowledge systems can be rule-based, which means that they use if-then logic, incorporating variables such as number of opponents, hand strength, position, and bets to call. Or they can be formula-based, which requires a numeric representation of hand strength  and pot odds. The domain knowledge system then ranks the agent’s hand over all possible hands (ignoring the opponent’s hand likelihoods) and can be modified to also include hand potential (i.e., not only the current hand value, but the probabilistic hand value by the end of the hand).
 
-These exploitive agents focus on isolating weaknesses in the agent’s opponents. They must have an opponent model that is generally set up as (fold, call, raise) probability triples and generally set up histograms of hands into buckets based on actions.
+These exploitative agents focus on isolating weaknesses in the agent’s opponents. They must have an opponent model that is generally set up as (fold, call, raise) probability triples and generally set up histograms of hands into buckets based on actions.
 
-David Sklansky and Mason Malmuth’s well regarded 1994 book Hold’em Poker for Advanced Players recommended a basic rule-based system for Limit Texas Hold’em, with variations according to betting position and game conditions. Most human players probably operate under some sort of rule-based system whether they are thinking about it or not. This is more obvious late in poker tournaments when most players are either going allin or folding and so players generally have a rule-based system for which hands they'd go allin with in which position and with knowledge of opponent actions. 
+David Sklansky and Mason Malmuth’s well regarded 1994 book Hold’em Poker for Advanced Players recommended a basic rule-based system for Limit Texas Hold’em, with variations according to betting position and game conditions. Most human players probably operate under some sort of rule-based system whether they are thinking about it or not. This is more obvious late in poker tournaments when most players are either going allin or folding and so players generally have a rule-based system for which hands they'd go allin with in which position and with knowledge of opponent actions. For example, with 10 big blinds or lower, a good strategy might be to go allin with over 50% of hands from the small blind as a rule, but the rule could also include other factors like the opponent in the big blind. 
 
 In David Sklansky’s 1999 text, The Theory of Poker, Sklansky states his Fundamental Theorem of Poker: “Every time you play a hand differently from the way you would have played it if you could see all your opponents’ cards, they gain; and every time you play your hand the same way you would have played it if you would call all their cards, they lose. Conversely, every time opponents play their hands differently from the way they would have if they could see all your cards, you gain; and every time they play their hands the same way they would have played if they could see all your cards, you lose.”
 
@@ -69,7 +71,7 @@ Quantitative Poker, a web blog, expanded on this and added the levels of range v
 distribution, which allows for the idea that opponent strategies will be employing a
 strategy from a range of strategies.
 
-In 2001, Furnkranz identified opponent modeling as a neglected area of research within game playing domains and mentions its importance in a game like poker. The risk with opponent modeling techniques that seek to exploit opponents (exploitive strategies) is that the agent then subjects itself to exploitation, especially if the model of the opponent is invalid or incorrect. Such a model is required for exploitive agents, which can be either static, based on predefined opponent characteristics, or adaptable, based additionally on opponent’s actions during the match. While opponent modeling has shown some promise in poker research, the most successful solutions now tend to use a more game theoretic approach, which limit their exploitability at the expense of maximizing value against weaker opponents. Although perhaps after the game theoretic approach is exhausted, improving opponent modelling will be the next frontier. 
+In 2001, Furnkranz identified opponent modeling as a neglected area of research within game playing domains and mentions its importance in a game like poker. The risk with opponent modeling techniques that seek to exploit opponents (exploitative strategies) is that the agent then subjects itself to exploitation, especially if the model of the opponent is invalid or incorrect. Such a model is required for exploitative agents, which can be either static, based on predefined opponent characteristics, or adaptable, based additionally on opponent’s actions during the match. While opponent modeling has shown some promise in poker research, the most successful solutions now tend to use a more game theoretic approach, which limit their exploitability at the expense of maximizing value against weaker opponents. Although perhaps after the game theoretic approach is exhausted, improving opponent modelling will be the next frontier. 
 
 Rule-based systems generally show up preflop, where fixed rules make more sense given the limited possibilities of hand combinations. The University of Alberta Computer Poker Research Group created one of the first poker agents in 1999, called Poki, which took an effective hand strength as input and outputted a (fold, call, raise) probability triple, using a form of basic opponent modelling.
 
@@ -82,14 +84,14 @@ Simulation agents can use a simulation like Monte Carlo Tree Search (MCTS -- see
 
 After the Alberta Computer Poker Research Group's formula based Loki-1 agent, they created Loki-2, which added a simulation function to "better determine the expected value of check call and bet/raise decisions". They called this selective-sampling simulation since there is a selective bias when choosing a random sample at a choice node. Opponent hands were based on a weight table, instead of randomly. This means that each possible hand the opponent could have would be assigned a weight (e.g. 55 0.03, 88 0.05, JT 0.08, etc.), which would allow for the Loki-2 agent to make decisions accordingly. In the late 1990s, Alberta recommended this as a general framework for solving games with imperfect information. These changes made the second iteration of this agent earn 0.05 small blinds per hand more on average than the first version.
 
-The next version of this agent was called Poki, which was split into a formula based model and a simulation based model. The simulation based model was the more advanced one, using more recent research techniques, but did not really outperform the formula model. The simulation model strangely seemed to play overly tight in one on one situations and overly loose in full table situations (strong poker players are usually exceptionally loose in one on one situations, playing almost all hands, and quite tight at full tables). The Alberta team realized that decision making based on the expected holdings of the opponent may not be the best technique. 
+The next version of this agent was called Poki, which was split into a formula based model and a simulation based model. The simulation based model was the more advanced one, using more recent research techniques, but did not really outperform the formula based model. The simulation model strangely seemed to play overly tight in one on one situations and overly loose in full table situations (strong poker players are usually exceptionally loose in one on one situations, playing almost all hands, and quite tight at full tables). The Alberta team realized that decision making based on the expected holdings of the opponent may not be the best technique. 
 
 In 2008, a simulation-based agent called AKI Realbot participated in the Annual Computer Poker Competition (ACPC) and took second place. It used an exploitative strategy to play more against weak players, which it defined as players who had lost money overall in the prior 500 hands. Most of its gains came from exploiting these weak opponents, which is also a strategy commonly seen in real life poker where expert players target weak opponents and try to play as many hands as possible with them. 
 
 In 2009, Van den Broeck created an agent using MCTS for a NLHE game, using "an offline non-player specific opponent model by learning a regression tree from online poker data, which were used to predict actions and hand rank probabilities for opponents". The agent worked in no limit poker games and seemed to perform well against basic rule-based opponents. 
 
 ### Game Theoretic Equilibrium Solutions
-We have continued to see interesting applications with games and AI succeeding in the real world, including Deep Blue famously beating Kasporov in chess in 1997, Watson defeating Jennings in Jeopardy in 2011, and most recently AlphaGo defeating Lee Se-dol in Go in 2016. These major results, however, differ from the trends in poker solving, since most work in poker is now involving equilibrium strategies that are unexploitable, rather than building AI whose goal is to defeat or exploit individual opponents. In recent years we have seen major results using game theoretic approaches, which are now almost exclusively used in poker solving. 
+We have continued to see interesting applications with games and AI succeeding in the real world, including Deep Blue famously beating Kasporov in chess in 1997, Watson defeating Jennings in Jeopardy in 2011, and most recently AlphaGo defeating Lee Se-dol in Go in 2016. These major results, however, differ from the trends in poker solving, since most work in poker is now involving equilibrium strategies that are unexploitable, rather than building AI whose goal is to defeat or exploit individual opponents (although AlphaGo was a robust agent that did not target a specific oppoonent) and also because poker has imperfect information. In recent years we have seen major results using game theoretic approaches, which are now almost exclusively used in poker solving. 
 
 In this section, we look at the history of linear programming game theoretic solution techniques, while saving the more recent CFR game theoretic techniques for the next section.
 
@@ -115,7 +117,7 @@ In 2006, Gilpin and Sandholm created the GS1 agent to find game theoretic soluti
 
 The game tree in NLHE can have up to around 10^161 nodes (depending on the stack sizes), significantly larger than in LHE, where it has only about 10^18 nodes. Aggrobot was created in 2006 and is similar to PsOpti, but was made to solve NLHE and adds the use of betting abstractions, which meant that the agent could bet only half pot, full pot, double pot, and all-in. While the abstraction itself is relatively straightforward, the issue of translating opponent bets to match the best estimate within the abstract game was a challenge because it can lead to easy exploitation (e.g. by betting between the abstracted sizes). 
 
-Miltersen and Sorenson, in 2007, solved for Nash equilibrium solutions for two players at the end of a tournament with 8000 chips each and 300-600 blinds where actions were restricted to be allin or fold only. They showed that this simple allin or fold strategy approximated Nash equilibrium for the full tournament setting (probably because with only about 13 big blinds, going allin or folding is generally the best play). Because of special considerations with tournaments that require hands to be looked at in the context of the stage of the tournament in addition to the expected value of winning chips on a particular hand, most poker research has avoided these complicating factors by focusing on cash games, in which each hand is independent from the next.
+Miltersen and Sorenson, in 2007, solved for Nash equilibrium solutions for two players at the end of a tournament with 8000 chips each and 300-600 blinds where actions were restricted to be allin or fold only. They showed that this simple allin or fold strategy approximated Nash equilibrium for the full tournament setting (probably because with only about 13 big blinds, going allin or folding is generally the best play). Because of special considerations with tournaments that require hands to be looked at in the context of the stage of the tournament in addition to the expected value of winning chips on a particular hand, most poker research has avoided these complicating factors by focusing on cash games, in which each hand is independent from the next, and generally simplify things even further by starting stack sizes at the same amount for each hand rather than proceeding with having the effective stack size be smaller than the default size (which would entail using a more complex agent). 
 
 In 2006, Gilpin, Hoda, Pena, and Sandholm developed Scalable EGT (Excessive Gap Technique), which was improved in 2007, by Gilpin, Sandholm, and Sorensen. EGT works to solve optimization problems like linear programming, but allows for suboptimality and therefore faster solving. This was used to solve Rhode Island Hold’em with 3x10^9 histories.
 
@@ -127,7 +129,7 @@ with the development of EGT. Since 2007, both EGT and CFR have been able to solv
 #### Iterative Algorithms
 Ficticious play involves two players who "continually play against each other and adapt and improve over time". Each player starts with an arbitrary strategy and trains with random situations, while knowing the correct moves since he knows the opponent strategy, and then keeps updating the strategy, which results in approaching a Nash equilibrium as iterations increase.
 
-In 2006, Dudziak used fictitious play to develop an agent called Adam for HULHE with abstractions. In 2010, Fellows developed other fictitious play agents called INOT and Fell Omen 2, which respectively took 2nd/15 and 2nd/9 in the HULHE instant run off competition in 2007 and 2008 in the ACPC.
+In 2006, Dudziak used fictitious play to develop an agent called Adam for HULHE with abstractions. In 2010, Fellows developed other fictitious play agents called INOT and Fell Omen 2, which respectively took 2nd of 15 and 2nd of 9 in the HULHE instant run off competition in 2007 and 2008 in the ACPC.
 
 In 2007, the Range of Skill algorithm was developed at Alberta by Zinkevich. This is an iterative procedure that creates a "sequence of agents where each next agent employs a strategy that can beat the strategy of the prior agent by at least some epsilon amount". The agents would then eventually approach a Nash equilibrium. This technique led to the creation of SmallBot (uses three bets per round) and BigBot (uses four bets per round), which performed well compared to prior agents in HULHE. 
 
@@ -137,15 +139,15 @@ Case based reasoning effectively stores "cases" of knowledge of previous hands a
 Bayesian agents were attempted, but achieved poor results in the ACPC in 2006 and
 2007.
 
-Major challenges with agents in general are the creation of "accurate opponent models in real time with limited data, dealing with multiple opponents, and dealing with tournaments that have a variable structure", including changing blinds as the tournament progresses. Only very recently in around 2019 have we started to see solutions for multiple opponents, while tournaments and variable structrue has not yet been studied in academia. Accurate opponent models may be an interesting future research domain, but most recently research has been very focused on game theoretic solutions. 
+Major challenges with agents in general are the creation of "accurate opponent models in real time with limited data, dealing with multiple opponents, and dealing with tournaments that have a variable structure", including changing blinds as the tournament progresses. Only very recently in around 2019 have we started to see solutions for multiple opponents, while tournaments and variable structure has not yet been studied in academia. Accurate opponent models may be an interesting future research domain, but most recently research has been very focused on game theoretic solutions. 
 
 ### Exploitative Strategies
 As we have discussed, a Nash equilibrium strategy is "static, robust, and limits its own exploitability by maximizing a minimum outcome against a perfect opponent". A true Nash equilibrium cannot be outplayed and also will not exploit weaknesses in opponents. To exploit weaknesses requires opponent modelling, which means deciding actions based on some opponent characteristic, which opens up the agent itself to exploitability as a consequence.
 
-In 2004 the CPRG created HULHE agents Vexbot and BRPlayer in 2004, which use game trees as a way to create opponent models through hands that are observed and generalizing these observations to other similar situations, where there are various levels of similarity, and if the closest similarity level is not possible then the agent attempts to find a similarity at the next level. The difference between the two agents is simply that BRPlayer uses five similarity levels and Vexbot uses only three. 
+In 2004 the CPRG created HULHE agents Vexbot and BRPlayer, which use game trees as a way to create opponent models through hands that are observed and generalizing these observations to other similar situations, where there are various levels of similarity, and if the closest similarity level is not possible then the agent attempts to find a similarity at the next level. The difference between the two agents is simply that BRPlayer uses five similarity levels and Vexbot uses only three. 
 
 Robust counter-strategies offer a compromise between exploiting an opponent and minimizing
-one’s own exploitability. For example, an $$\epsilon$$-safe best response is a strategy from the set of strategies exploitable for no more than $$\epsilon$$, that maximizes utility against a particular opponent. The Restricted Nash Response (RNR) algorithm takes a target opponent’s strategy and a parameter $$p \in [0, 1]$$ which trades off between minimizing exploitability and exploiting the opponent. CFR is then used to solve the game, fixing the player’s strategy at the input strategy for $$p$$ and for $$(1 − p)$$, and allowing the player to choose their own actions. When p = 0, the agent uses equilibrium strategies and when p = 1, it attempts to use a fully exploitative strategy. The RNR generates the Pareto optimal set of tradeoffs between exploitation and unexploitability.
+one’s own exploitability. For example, an $$\epsilon$$-safe best response is a strategy from the set of strategies exploitable for no more than $$\epsilon$$, that maximizes utility against a particular opponent. The Restricted Nash Response (RNR) algorithm takes a target opponent’s strategy and a parameter $$p \in [0, 1]$$ which trades off between minimizing exploitability and exploiting the opponent. CFR is then used to solve the game, fixing the player’s strategy at the input strategy for $$p$$ and for $$(1 − p)$$, and allowing the player to choose their own actions. When p = 0, the agent uses equilibrium strategies and when p = 1, it attempts to use a fully exploitative strategy. 
 
 Since Restricted Nash Response can only be implemented if given the opponent’s strategy, Data Biased Response (DBR) is an option to create robust counter-strategies, which works by choosing an abstraction for an opponent model, mapping the real game observations of the opponent into the abstract game, and determining frequency counts of the observed actions. Then, like with the RNR algorithm, a modified game is solved in which one player is playing based on the opponent model with probability determined at each information set (not at the root), and the other player converges to a robust counter-strategy. The Hyperborean agent got 2nd in the two player limit bankroll competition in 2009 using DBR.
 
@@ -153,22 +155,20 @@ Another strategy is using Teams of Agents, in which the agent selects which stra
 
 Finally, there is frequentist best response, which takes an offline model for an opponent by observing training games and assuming that his strategy is fixed, which requires having a default policy for gaps in the observed data, and then plays based on a best response to this strategy.
 
-One major problem with this technique in poker is that most hand data does not include private hole cards unless they are shown at the end of a hand, which means hands that are seen tend to be stronger, since, for example, bluffs would not be seen as frequently. Counter-strategies such as building up a best response model offline against a particular opponent are possible, but may require up to a one million hand sample on the opponent. This strategy is also risky because it could lead to significant exploitation against other opponents or an opponent who changes his strategy, as most do. Finally, on the fly opponent modelling is difficult because sample sizes tend to be quite low, so only very few information sets would be seen even over thousands of hands.
-
 Ganzfried and Sun explored the idea of opponent exploitation in an early 2017 paper. They note that opponent exploitation is crucial in imperfect information games and has much wider use than Nash equilibrium, which is only valid in two-player zero sum games. 
 
 They propose opponent modelling based on a Bayesian model. The model involves starting with an equilibrium approach and then adjusting to the opponent's weaknesses (deviations from equilibrium) as more information about his play is revealed by modelling the opponent assuming that he begins play with an equilibrium strategy and then playing an approximate best response to that strategy, which is updated as more information about the opponent is learned. 
 
 They had strong results with this method against weak ACPC agents and trivial opponents that always call or play randomly.
 
-The problem with opponent modelling is that it requires a very large amount of hands against a particular opponent before it can effectively learn and that even within the hands that are played, there are only a few where you actually see your opponent's cards, as mentioned above, since this generally only happens at a showdown and the opponent sometimes doesn't even have to reveal their cards at showdown if they have the losing hand. The advantage is that an agent could rotate between playing a game theory optimal strategy and opponent exploitation, where the exploitation would be used only against perceived weaker opponents with a sufficient amount of data on their play. 
+One major problem with opponent modelling in poker is that most hand data does not include private hole cards unless they are shown at the end of a hand, which means hands that are seen tend to be stronger, since, for example, bluffs would not be seen as frequently (players only have to reveal their hole cards if they bet first or called a bet and are winning, otherwise they can throw them into the "muck"). Counter-strategies such as building up a best response model offline against a particular opponent are possible, but may require a very large hand sample on the opponent before having enough data to effectively learn their strategy. This strategy is also risky because it could lead to significant exploitation against other opponents or an opponent who changes his strategy, as most do. Finally, on the fly opponent modelling is difficult because sample sizes tend to be quite low, so only very few information sets would be seen even over thousands of hands.
 
-From the same period, Li and Miikkulainen developed a genetic algorithm to evolve adaptive Long-Term Short-Term (LSTM) based neural network poker players. They showed good results against it competing against simple opponents (e.g., opponents who never bluff or always call), and showed improvement over standard agents under such circumstances. 
+The advantage with opponent modelling is that an agent could rotate between playing a game theory optimal strategy and using opponent exploitation, where the exploitation would be used only against perceived weaker opponents with a sufficient amount of data on their play. In fact this is how many professional human players attempt to play currently.  
 
 ### Counterfactual Regret Minimization (CFR)
 CFR grew out of the Annual Computer Poker Competition that began in 2006 as a way to build a more competitive agent. Counterfactual regret was introduced in the 2007 paper by Zinkevich et al. called Regret Minimization in Games with Incomplete Information and has continued to this day to be the primary computer poker research focus and the basis of the majority of the best poker agents and algorithms that exist. 
 
-The CPRG developed two successful agents based on CFR: Hyperborean to compete in the ACPC and Polaris to compete in Man vs. Machine poker events. Both agents will be described in detail later in the tutorial. 
+The CPRG developed two successful agents based on CFR: Hyperborean to compete in the ACPC and Polaris to compete in Man vs. Machine poker events. The Man vs. Machine events are covered in the AI vs. Human Competitions Section 5.2.
 
 In CFR, memory needed is linear in the number of info sets (whereas linear program memory needed is quadratic). An approximate Nash equilibrium is reached by averaging player strategies over all iterations, which improves as the number of iterations increases. Solving games is usually bounded by memory constraints, so CFR has resulted in a similar improvement as compared to the sequence form linear programming as sequence form did with normal form linear programming. CFR is guaranteed to converge and has experimentally worked well even with non two player non zero sum games. It has been used to solve games with as many as 3.8x10^10 information sets in 2012.
 
@@ -178,7 +178,7 @@ The main ways to measure the quality of a poker agent are (1) against other poke
 ### Measuring Best Response
 2-player Limit Texas Hold’em Poker has about 10^18 game states, so in 2011, computing a best response was thought to be intractable because a full game tree traversal would take 10 years to compute at 3 billion states per second. Strategies could still be computed by using abstract games, but a true best response was out of reach.
 
-In 2011, Michael Johansen et al. developed an accelerated best response computation that made it possible to measure a Heads Up Limit Hold’em strategy’s approximation quality by efficiently computing its exploitability. This shows that exploitability has dropped drastically from 2006, when it stood at about 330 micro big blinds per hand using a Range of Skill program, to the high 235 in 2008 to 135 in 2010, and continued to drop until achieving CFR+ in 2014, which solves HULHE directly without abstraction, with an exploitability of less than 1 mbb/h.
+In 2011, Michael Johansen et al. developed an [accelerated best response](http://www.cs.cmu.edu/~waugh/publications/johanson11.pdf) computation that made it possible to measure a Heads Up Limit Hold’em strategy’s approximation quality by efficiently computing its exploitability. This was able to show that exploitability has dropped drastically from 2006, when it stood at about 330 micro big blinds per hand using a Range of Skill program, to the high 235 in 2008 to 135 in 2010, and continued to drop until achieving CFR+ in 2014, which solves HULHE directly without abstraction, with an exploitability of less than 1 mbb/h.
 
 The paper was important because it was able to evaluate agents that had been used in competitions in terms of their exploitability. They showed that the 2010 competition winner was significantly more exploitable than agents that it defeated slightly.
 
@@ -188,7 +188,7 @@ Finally, an experiment was done to show that the technique of minimizing exploit
 
 The paper concludes that finer abstractions do produce better equilibrium approximations, but better worst-case performance does not always result in better performance in a tournament.
 
-In 2013, Johanson et al. created CFR-BR, which computes the best Nash approximation strategy that can be represented in a given abstraction. This additional evaluation method compares the representation power of an abstraction by how well it can approximate an unabstracted Nash equilibrium. Using CFR-BR, Johanson showed that distribution aware (for relatively large games) and imperfect recall abstractions tend to perform better than their expectation-based and perfect recall competitors.
+In 2013, Johanson et al. created CFR-BR, which computes the best Nash approximation strategy that can be represented in a given abstraction. This additional evaluation method compares the representation power of an abstraction by how well it can approximate an unabstracted Nash equilibrium. Using CFR-BR, Johanson showed that imperfect recall abstractions tend to perform better than their perfect recall abstractions, despite the theoretical issues.
 
 In 2014, Sandholm and Kroer introduced a framework to give bounds on solution quality for any perfect-recall extensive-form game. It uses a newly created method for mapping abstract strategies to the original game and uses new equilibrium refinement for analysis. This resulted in developing the first general lossy extensive-form game  abstraction with bounds. It finds a lossless abstraction when one is available and a lossy abstraction when smaller abstractions are desired, and has now been extended to
 imperfect-recall.
@@ -208,39 +208,27 @@ main ideas are:
 
 3) Imperfect recall abstraction, such that a player forgets some details that he knew earlier in the game
 
-Most abstractions now use numbers 2 and 3 above and divide the game disjointly across multiple blades of a supercomputer for equilibrium finding computation. 
+Most abstractions now use numbers 2 and 3 above and divide the game across a supercomputer for equilibrium finding computation. 
 
 Sandholm states that abstractions tend to be most successful when starting with a game theoretical strategy and modifying it based on the opponent.
 
 ### Abstraction Translations
 Abstraction translations are mappings from an opponent action to an action within the abstracted framework of the game. The goal of these reverse mappings, or translations, is to minimize the player’s exploitability, while also wanting one’s own abstraction to exploit other player abstraction choices.
 
-Early abstractions included:
-- Deterministic arithmetic: Map to � or � that is closest to �. This is highly
-exploitable, for example, by strong hands that bet slightly closer to � and
+Early abstraction translation methods included:
+- Deterministic arithmetic: Map to A or B that is closest to x. This is highly
+exploitable, for example, by strong hands that bet slightly closer to A and
 therefore can be responded to as if they were much weaker. This was used in
 the 2007 ACPC by Tartanian1 and lost to an agent that didn’t even look at its
 cards!
-- Randomized arithmetic: �!,! � = !!!
-!!!
-. This is still exploitable when facing
-bets close to 1/2 of the pot. This was used by AggroBot in 2006 in the ACPC.
-• Deterministic geometric: Map to � if !
-! > !
-!
-and � otherwise. This was used
-by Tartanian2 in the 2008 ACPC.
-• Randomized geometric 1: �!,! � = !(!!!)
-! !!! !!(!!!)
- was used by Sartre and
-Hyperborean in the ACPC
-• Randomized geometric 2: �!,! � = ! !!! !!!
-!!! !!!!" was used by Tartanian4 in
-the 2010 competition
-In 2013, Ganzfried and Sandholm developed the following translation, as previously
-described in the Scientific Review section [54].
-�!,! � = � − � 1 + �
-� − � 1 + � (3.1)
+- Randomized arithmetic: f_{A,B}(x) = (B-x)/(B-A). This is exploitable when facing bets close to 1/2 of the pot. This was used by AggroBot in 2006 in the ACPC. 
+- Deterministic geometric: Map to A if A/x > x/B and B otherwise. This was used by Tartanian2 in the 2008 ACPC. 
+- Randomized geometric 1: f_{A,B}(x) = A(B-x)/(A(B-x) + x(x-A)). This was used by Sartre and Hyperborean in the ACPC. 
+- Randomized geometric 2: f_{A,B}(x) = A(B+x)(B-x)/((B-A)(x^2+AB)) was used by Tartanian4 in the 2010 ACPC. 
+
+In 2013, Ganzfried and Sandholm developed the following translation, as explained in the section on Abstractions. 
+
+f_{A,B}(x) = (B-x)(1+A)/((B-A)(1+x))
 
 The new mapping was tested by “rematching” the agents from the 2012 ACPC and keeping the Tartanian5 agent the same, except for revising its mapping. The mapping performed well, but interestingly performed worse than the simple deterministic arithmetic mapping that simply maps the bet to the closest abstraction. However, this leaves agents open to exploitation that perhaps was not acted upon in prior years, but could be in the future.
 
@@ -449,7 +437,7 @@ match is played again with cards being dealt to the opposite player.
 There are two primary competition types. The first is instant-run off, where agents
 earn or lose 1 point for each match’s win and loss, which favors small wins and
 equilibrium solutions. The total bankroll competition type counts the total winnings of
-each agent over all of its contests. This favors agents that are more exploitive.
+each agent over all of its contests. This favors agents that are more exploitative.
 Around 60 research groups and 120 programs have entered the ACPC so far. The
 general strategy in recent years has been for teams to develop algorithms that allow
 for larger and larger games to be solved, meaning that finer grained abstractions can
