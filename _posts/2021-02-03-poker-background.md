@@ -27,6 +27,8 @@ To be good at poker, you have to think not only about your own hand, but also ab
 
 In recent years poker at the highest levels has become increasingly mathematical, with top players spending significant time running game simulations and having an understanding of game theory optimal play, even though it's impractical to play optimally all the time, and in many settings it makes much more sense to go after individual opponents' weaknesses. 
 
+Poker also teaches interesting life lessons like pattern recognition and quick decision making with whatever information is given. 
+
 ## Wait, isn't poker gambling?
 First, we should explain the difference between games like poker and casino games like Blackjack. In casino games, players play against the “house” -- the casino itself. The casino plays games that give it an advantage, so when playing against the casino, you are generally placing bets that will always lose in the long-run, although may result in short-term wins.
 
