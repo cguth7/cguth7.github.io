@@ -664,10 +664,24 @@ each with equal probability. After this selection, CFR is run for all branches o
 tree after this chance node. This is equivalent to using the non-sampled counterfactual
 values and ignoring chance in the counterfactual.
 
-Below we show a figure of the MCCFR algorithm for Chance Sampling, which samples only
-chance nodes. This effectively means that the algorithm recurses over the tree that
-includes a sample of private cards. The algorithm works by calling CFR for each
-player over T iterations (lines 32-37). If the history h is terminal, then a utility value
+Here are the steps for Chance Sampling: 
+1. Check to see if at a terminal node. If so, return the profit from the acting player's perspective. 
+2. If not terminal, create or access an information set that is the card of the node's acting player + the history up to this point. For example: qb. 
+- Information set node call is set up with vectors for regret_sum, strategy, and strategy_sum
+3. Get strategy vector of the acting player based on the normalized regret_sum at the node. We also pass int he reach probability of that player getting to this node so we can keep the strategy_sum vector (reach_prob * strategy[action])
+4. Iterate over the actions, update history, and make a recursive CFR call: 
+- util[a] = -cfr(cards, next_history, p0*strategy[a], p1) <-- Example for player 0
+- Negative because the next node value will be in terms of the other player
+5. Node utility is weighted sum of each strategy[a] * util[a]
+6. Again iterate over each action to update regrets
+- Regret = util[a] - node_util
+- Update the regret_sum at the infoset node for the acting player to be the regret * the reach probability of the opponent (the counterfactual part of the regrets)
+7. Return node_util
+
+Now we relate the steps to the algorithm below: 
+
+Below we show a figure of the MCCFR algorithm for Chance Sampling. The algorithm works by calling CFR for each
+player over T iterations (lines 32-37) given a single vector of cards of both players, history of plays, and each player’s reach probabilities. If the history h is terminal, then a utility value
 can be returned (lines 6-7). If this is the beginning of the game tree and a chance
 node, then a single outcome is sampled and CFR is recursively called again (lines 8-
 10). If the node is neither a chance node or a terminal node, then for each action, CFR
@@ -682,7 +696,13 @@ The non-sampling Vanilla CFR would simply iterate over every chance outcome
 (every possible deal of the private cards) instead of sampling a single outcome on line
 9.
 
+Vanilla CFR has i iterations going through entire tree and Chance CFR has i iterations starting with a particular random deal of private cards. Each iteration updates nodes for both players. CFR returns utility of game state (initially called at root) from player 1’s perspective. The average of these over all the iterations from the root is the “game value”. 
+
 ![Chance Sampling Algorithm](../assets/section4/cfr/chancesampling.png "Chance Sampling Algorithm")
+
+Code of the Vanilla version written in Java is available [here](https://www.dropbox.com/sh/82yxtuceybmf5tm/AADVmM2oWmbaebpk7X9Iyxtba?).
+
+Code including a best response function for the Chance Sampling algorithm is available [here](https://www.dropbox.com/sh/82yxtuceybmf5tm/AADVmM2oWmbaebpk7X9Iyxtba?) in Java.
 
 ## Going through an Iteration
 Here we show two full iterations of Chance Sampled CFR where we assume that the chance node has selected P1 Queen and P2 King as the random draw and then iterates over the entire tree from there. 
@@ -742,32 +762,6 @@ Regret_sum updates are regret_sum[p] += -1.5*0.5= -0.75 and regret_sum[b] += 1.5
 Node Kb is now valued at -0.5 for player 1 action b. The node_util for node Q is 0.5*-1.25 for action p and -0.5*0.5 for action b = -0.875. Regret for playing p is -1.25 - (-0.875) = -0.375 and regret for playing b is -0.5 - (-0.875) = 0.375. Regret_sum updates are regret_sum[p] += -0.375*
 
 Strategy_sum updates are probabilities of the node player not including the opponent playing to that action. So after this iteration each node was updated to [0.5, 0.5] except for the bottom node Qpb, which is [0.25, 0.25] since reaching that node comes after playing p = 0.5 in node Q, so both are 0.5*0.5. 
-
-## CFR in Code
-Code of the Vanilla version written in Java is available [here](https://www.dropbox.com/sh/82yxtuceybmf5tm/AADVmM2oWmbaebpk7X9Iyxtba?).
-
-### Chance CFR Algorithm
-Vanilla CFR has i iterations going through entire tree and Chance CFR has i iterations starting with a particular random deal of private cards. Each iteration updates nodes for both players. 
-
-Call CFR with a single vector of cards of both players, history of plays, and each player’s reach probabilities.
-
-CFR returns utility of game state (initially called at root) from player 1’s perspective. The average of these over all the iterations from the root is the “game value”. 
-
-Here are the steps for Chance Sampling: 
-1. Check to see if at a terminal node. If so, return the profit from the acting player's perspective. 
-2. If not terminal, create or access an information set that is the card of the node's acting player + the history up to this point. For example: qb. 
-- Information set node call is set up with vectors for regret_sum, strategy, and strategy_sum
-3. Get strategy vector of the acting player based on the normalized regret_sum at the node. We also pass int he reach probability of that player getting to this node so we can keep the strategy_sum vector (reach_prob * strategy[action])
-4. Iterate over the actions, update history, and make a recursive CFR call: 
-- util[a] = -cfr(cards, next_history, p0*strategy[a], p1) <-- Example for player 0
-- Negative because the next node value will be in terms of the other player
-5. Node utility is weighted sum of each strategy[a] * util[a]
-6. Again iterate over each action to update regrets
-- Regret = util[a] - node_util
-- Update the regret_sum at the infoset node for the acting player to be the regret * the reach probability of the opponent (the counterfactual part of the regrets)
-7. Return node_util
-
-Code including a best response function is available [here](https://www.dropbox.com/sh/82yxtuceybmf5tm/AADVmM2oWmbaebpk7X9Iyxtba?) in Java.
 
 ### Comparing Algorithms
 We compared four CFR algorithms (Chance Sampling, External Sampling, Vanilla, and CFR+) in terms of
