@@ -82,35 +82,21 @@ The agent, like DeepStack, has three main components, where the latter two are t
 
 Libratus was tested against 2016 agent Baby Tartanian8, the winner of the most recent ACPC tournament. Using only the game abstraction, Libratus lost to this agent, but after adding in the real-time solver, Libratus soundly won. It also won soundly against four of the best human players in the world in a 2017 "Brains vs. Artificial Intelligence" three week competition that is detailed in the section on AI vs. Human competitions. 
 
-## Pluribus
-https://www.wired.com/story/new-poker-bot-beat-multiple-pros/amp 
-https://ai.facebook.com/blog/pluribus-first-ai-to-beat-pros-in-6-player-poker/ 
-https://www.wired.com/story/poker-playing-robot-goes-to-pentagon/ 
-https://www.wsj.com/articles/computers-can-now-bluff-like-a-poker-champ-better-actually-11562873541
-https://www.npr.org/2019/07/11/740661470/bet-on-the-bot-ai-beats-the-professionals-at-6-player-texas-hold-em?utm_campaign=npr&utm_term=nprnews&utm_medium=social&utm_source=twitter.com 
-https://ai.facebook.com/blog/pluribus-first-ai-to-beat-pros-in-6-player-poker/
-https://arstechnica.com/science/2019/07/facebook-ai-pluribus-defeats-top-poker-professionals-in-6-player-texas-holdem/
-https://gizmodo-com.cdn.ampproject.org/v/s/gizmodo.com/superhuman-ai-crushes-poker-pros-at-six-player-texas-1836257695
-https://www.cnet.com/news/facebook-ai-forces-poker-pros-to-fold-in-texas-holdem-tourney/
-https://qz.com/1664382/a-poker-ai-that-beats-world-class-players-funded-by-facebook/amp/
-https://www.lesswrong.com/posts/6qtq6KDvj86DXqfp6/let-s-read-superhuman-ai-for-multiplayer-poker 
-https://www.businessinsider.com/pluribus-facebook-wont-release-code-superhuman-ai-poker-bot-2019-7 
-https://edition.cnn.com/2019/07/11/tech/facebook-carnegie-mellon-ai-texas-hold-em-poker/index.html
-https://www.technologyreview.com/s/613943/facebooks-new-poker-playing-ai-could-wreck-the-online-poker-industryso-its-not-being/
-https://www.nytimes.com/2019/07/11/science/poker-robot-ai-artificial-intelligence.html
-https://techcrunch.com/2019/07/11/ai-smokes-5-poker-champs-at-a-time-in-no-limit-holdem-with-ruthless-consistency/
-https://www.reddit.com/r/MachineLearning/comments/ceece3/ama_we_are_noam_brown_and_tuomas_sandholm/
-https://www.bbc.com/news/technology-48959931
-https://onezero.medium.com/facebooks-poker-bot-shows-how-a-i-can-adapt-to-liars-d10d5b75fac5 
-https://www.washingtonpost.com/science/2019/07/11/ruthless-superhuman-poker-playing-computer-program-makes-elite-players-fold/?utm_term=.bb3b84dc89f4
-https://news.ycombinator.com/item?id=20414905
-https://www.nature.com/articles/d41586-019-02156-9?utm_source=twt_nnc&utm_medium=social&utm_campaign=naturenews&sf215655190=1
-https://docs.google.com/document/d/1ZLm5GX_sbmiqlxFlZMWPidI7ttVe7n32YlLkZcRiExw/edit#heading=h.352hdg40tsq8
-https://www.theverge.com/2019/7/11/20690078/ai-poker-pluribus-facebook-cmu-texas-hold-em-six-player-no-limit 
-https://fivethirtyeight.com/features/robots-are-beating-humans-at-poker/
-https://science.sciencemag.org/content/suppl/2019/07/10/science.aay2400.DC1 
-https://science.sciencemag.org/content/early/2019/07/10/science.aay2400 
-https://www.sciencenews.org/article/artificial-intelligence-has-now-pretty-much-conquered-poker
+## [Pluribus](https://science.sciencemag.org/content/365/6456/885)
+Pluribus made major headlines in 2019 when it showed that it could compete with top human players in multiplayer No Limit Hold'em poker, which was not only a landmark result for poker, but also for multiplayer games in general. Details about the matches against the human opponents are in the AI vs. Human Competitions section. 
+
+The first problem when creating a system for multiplayer poker is that it's unclear what the ideal model is for how the system should work. Players independently playing Nash equilibrium strategies in a multiplayer game does not necessarily result in an overall equilibrium and players could have incentive to deviate. They give an example of the Lemonade Stand Game, where the equilibrium is for all players to be equally spaced out in a circle and there are infinite placements that would result in equilibrium, but if each player picked their own equilibrium independently, then the result would not be equilibrium. They conclude that the goal should essentially just to be to create a strong agent and suggest that the best way to test this is against humans, given the lack of AI agents that existed that could play multiplayer. 
+
+Pluribus's development is very similar to previous poker agents. They use the following main pieces: 
+1. Bet and card abstractions, which include up to 14 different bet options and card abstractions only for future rounds such that the current round can understand exactly what the hand strengths are. 
+
+2. Monte Carlo CFR. Like with Libratus, the initial abstracted solution is referred to as the "blueprint strategy" and is computed using Monte Carlo CFR for 8 days and 12,400 CPU core hours. Surprisingly, this cost only about \\$150 in cloud computing fees. Pluribus uses mostly standard CFR techniques, but does use "Linear CFR", which assigns more weight to later iterations in proportion to their iteration timestep, but only for early iterations since there is more value in discounting there. They also do epsilon pruning to remove very unlikely actions in 95% of iterations (i.e. an action with negative regret beyond some threshold only would be sampled 5% of the time). 
+
+3. Depth-limited search. As in Libratus, the agent only plays based on the blueprint in the preflop betting round and in later rounds uses "real-time search". The search uses a method that assumes that each player chooses between four different strategies for the remainder of the game, which are all related to the blueprint strategy. There is the default one and the other three that have biases towards folding, calling, and raising. 
+
+Pluribus tracks the probability of reaching the current situation with each possible hand in its strategy. This is the equivalent of being awards of its range of hands, an important principle in human poker. By doing so, we can play a balanced strategy that carefully weights bets and bluffs and is not predictable. 
+
+The paper says that Pluribus plays at about 20 seconds per hand at a table full of Pluribii, which is actually quite fast, but I am curious to know its average thinking time to see how that aligns with time that humans are allowed at a poker table. 
 
 ## [Supremus](https://arxiv.org/pdf/2007.10442.pdf )
 This paper -- Unlocking the Potential of Deep Counterfactual Value Networks -- was a collaboration by the Minimal AI group and Noam Brown. This agent essentially first implements the DeepStack algorithm and then improves on it by using a modified CFR method called DCFR+ that solves the "sparse lookahead tree with continual resolving", "custom hyper optimized kernals in CUDA", and neural networks on all lookahead trees instead of a standard abstraction. 

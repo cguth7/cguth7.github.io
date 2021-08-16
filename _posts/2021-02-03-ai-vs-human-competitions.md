@@ -165,6 +165,15 @@ believes that humans are still superior when it comes to exploiting weaker playe
 that bots are gradually improving in this area also.
 
 ## 2019 Pluribus
+Pluribus was released in 2019 by Noam Brown and Tuomas Sandholm. As the first agent to play multiplayer poker at a high level, they recruited strong opponents (they claim that each has won more than \\$1 million professionally in poker and provided a $50,000 incentive to get players to play seriously) to prove that the agent was indeed very powerful. They used two evaluation methods, both at six player tables: 
+1. Five humans with one copy of Pluribus
+2. Five copies of Pluribus with one human
+
+The five humans experiment played 10,000 hands of poker over 12 days, where each day a different combination of five of the 13 players involved would play. After using the AIVAT variance reduction technique, Pluribus won 48 mbb per game +/- 25. The issue here is that each human only had on average about 770 hands and far fewer that actually involved the Pluribus agent, meaning that they would have very little opportunity to adjust to its tendencies. 
+
+The single human experiment used only two humans who are perhaps less profitable in recent real money poker games. Each of them played 5000 hands against five copies of Pluribus and each human got $2000 for participating and an extra $2000 would go to the one who performed better. Pluribs won 32 mbb per game +/- 15. It would have been more interesting to have some of the best players play in this format as well, and perhaps even in different formats like with only three players. 
+
+The paper notes that one strategy that Pluribus uses that humans rarely do is "donk betting", which means betting out into an opponent who was the one who bet on the previous round. This may be an example of a play that does make sense when playing optimally, but doesn't make sense when attempting to play "mostly optimally" and use a far more simplified strategy. Pluribus did confirm that limping is not a valuable strategy except from the small blind. 
 
 ## Human Biases
 Why can computer agents be superior to expert players? They can certainly store more information and do calculations faster and act faster, but even on a more even playing field, there are human emotional biases that make things difficult relative to the objectivity of a computer program. Daniel Kahneman, a well known behavioral economist, has written about how decision makers often react to different frames

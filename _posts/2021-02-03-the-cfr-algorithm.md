@@ -34,7 +34,7 @@ For example, if the agent was playing a game in which it had 5 action options at
 
 The CFR algorithm updates the strategy after each iteration to play in proportion to the regrets, meaning that if an action did well in the past, the agent would be more likely to play it in the future. 
 
-The final Nash equilibrium strategy is the average strategy over each iteration. This strategy cannot lose in expectation and is considered optimal since it's unbeatable in expectation. This is what we mean when we say "solve" a poker game. 
+The final Nash equilibrium strategy is the average strategy over each iteration. This strategy cannot lose in expectation and is considered optimal since it's theoretically robust and neither player would have incentive to change strategies if both playing an equilibrium. This is what we mean when we say "solve" a poker game. 
 
 ## Detailed Intuitive Explanation
 Michael Johanson, one of the authors on the original paper, gave his intuitive explanation of CFR in a [post on Quora](https://www.quora.com/What-is-an-intuitive-explanation-of-counterfactual-regret-minimization). 
@@ -48,7 +48,7 @@ player actions, and passing backward utility information through the game inform
 
 CFR is an offline self-play algorithm, as it learns to play by repeatedly playing against itself. It begins with a strategy that is completely uniformly random and adjusts the strategy each iteration using regret matching such that the strategy at each node is proportional to the regrets for each action. The regrets are, as explained previously, measures of how the current strategy would have performed compared to a fixed strategy of always taking one particular action. Positive regret means that we would have done better by taking that action more often and negative regret means that we would have done better by not taking that action at all. The average strategy is then shown to approach a Nash equilibrium in the long run.
 
-In the vanilla CFR algorithm, each iteration involves passing through every node in the extensive form of the game. Each pass evaluates strategies for both players by using regret matching, based on the prior cumulative regrets at each player’s information sets. Before looking at the CFR equations, we will provide some refresh some definitions that were given in previous sections here when they
+In the vanilla CFR algorithm, each iteration involves passing through every node in the extensive form of the game. Each pass evaluates strategies for both players by using regret matching, based on the prior cumulative regrets at each player’s information sets. Before looking at the CFR equations, we will refresh some definitions that were given in previous sections here when they
 are relevant to the forthcoming equations.
 
 Let A denote the set of all game actions. We refer to a strategy profile that excludes
@@ -62,7 +62,7 @@ a nonterminal game history. Let u_i(z) denote the utility to player i of termina
 z.
 
 We can now define the counterfactual value at nonterminal history h as follows:
-v_i(sigma, h) = sum (z in Z),h ⊏ z of pi^sigma_(-i)*pi^sigma(h,z)*u_i(z)
+v_i(sigma, h) = sum (z in Z),h ⊏ z of pi^sigma_(-i) * pi^sigma(h,z) * u_i(z)
 
 This is the expected utility to player i of reaching nonterminal history h and taking
 action a under the counterfactual assumption that player i takes actions to do so, but
@@ -149,7 +149,7 @@ counterfactual regret as R^T,+ _i (I,a) = max(R^T _i(I,a),0). Now we can use the
 
 Case 1 when sum a'∈A R^(t-1) _i (I,a'))^+ > 0 then sigma^t _i(a\\|I) = (R^(t-1) _i (i,a))^+ / (sum a'∈A R^(t-1) _i (I,a'))^+)
 
-Case 2 otherwise then sigma^t _i(a\\|I) = 1/|A|
+Case 2 otherwise then sigma^t _i(a\\|I) = 1/\\| A \\|
 
 This regret matching formula calculates the action probabilities for each action at each
 information set in proportion to the positive cumulative regrets. First we check to see
@@ -172,7 +172,7 @@ regret at each information set grows sublinearly with the number of iterations, 
 guaranteed, given that delta = maximum difference in leaf node utilities (|u_i(z) −
 u_i(z')| ≤ delta for all i ∈ N and z,z' ∈ Z), A = number of actions, T = iteration number.
 
-R^T _i_infoset(I,a) <= delta*sqrt(|A|*T)
+R^T _i_infoset(I,a) <= delta * sqrt(\\| A \\|*T)
 
 With a specific set of strategy profiles, we can define a player’s overall regret as:
 R^T _i_overall = max sigma_i ∈ sum i (sum t=1 to T u_i(sigma_i, sigma^T _-i)) - sum t=1 to T u_i(sigma)
@@ -181,7 +181,7 @@ This is the amount of extra utility that player i could have achieved in expecta
 he had chosen the best fixed strategy in hindsight. Assuming perfect recall, this can be
 bounded by the per information set counterfactual regrets of CFR:
 
-R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= |I_i|*delta*sqrt(|A|*T)
+R^T _i_overall <= sum I∈I_i max a∈A R^T _i_infoset(I,a) <= \\|I_i\\|*delta*sqrt(\\|A\\|*T)
 
 The fact that minimizing regret at each information set results in minimizing overall
 regret is a key insight for why CFR works and since CFR indeed achieves sublinear
@@ -195,28 +195,20 @@ average strategies as follows:
 
 sigmahat(a|I) = [sum t=1,T (sum h∈I pi^sigma^t _i (h))*sigma^t(a|I)] / [sum t=1,T (sum h∈I pi^sigma^t _i (h)))]
 
-where sum t=1,T (sum h∈I pi^sigma^t _i (h))) is each player's contribution to the probability of reaching a history in information set I, and is therefore the weighting term on sigma^T _i. The strategies are combined such that they select an action at an information set in proportion to that
+where sum t=1,T (sum h∈I pi^sigma^t _i (h))) is each player's contribution to the probability of reaching a history in information set I, and is therefore the weighting term on sigma^T _i. 
+
+The strategies are combined such that they select an action at an information set in proportion to that
 strategy’s probability of playing to reach that information set. We run the CFR
-algorithm for a sufficient number of iterations in order to reduce the � sufficiently.
+algorithm for a sufficient number of iterations in order to reduce the ε sufficiently.
+
 In the end, it is the average strategy profile that converges to Nash equilibrium.
-The best available guarantees for CFR require ~1/ε^2 iterations over the game tree to
-reach an ε-equilibrium, that is, strategies for the players such that no player can be
-exploited by more than ε by any strategy. The gradient-based algorithms, which
+The best available guarantees for CFR require ~1/ε^2 iterations over the game tree to reach an ε-equilibrium, that is, strategies for players such that no player can be exploited by more than ε by any strategy. 
+
+The gradient-based algorithms, which
 match the optimal number of iterations needed, require only ~1/ε or ~log (1/ε)
 iterations. However, due to effective CFR sampling methods, quick approximate
 iterations can be used such that sampling CFR is still the preferred solution
 method.
-
-A regret-minimizing algorithm guarantees that its regret grows sub-linearly over time and eventually reaches the same utility as the best deterministic strategy. The fact that minimizing regret at each information set results in minimizing overall
-regret is a key insight for why CFR works and since CFR indeed achieves sublinear
-regret.
-
-In a two-player zero-sum game where the regret <= epsilon for all players, then 
-the average strategy profile is known to be a 2-epsilon Nash equilibrium. We can therefore
-use the regret minimizing properties of CFR to solve games like poker by computing
-average strategies as follows: 
-
-sigma(a\\|I) = 
 
 <!-- Counterfactual value of player i taking action a at information set I: 
 $$ v_i^\sigma{}(I,a) = \sum{\sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z)} $$ -->
@@ -231,7 +223,7 @@ Suppose that our opponent is playing Rock too much, then CFR moves us towards pl
 
 So the algorithm moves us to 100% paper and then the opponent might move to 100% scissors and then we move to 100% rock, and so on! While the current strategy is making sharp bounces around the strategy space without stopping at equilibrium, the average strategy cycles in closer and closer to converging at equilibrium, which in rock paper scissors is playing each action a third of the time. Intuitively it makes sense that the average strategy would be more robust than just taking the final strategy, which could be at a strange point that clearly wouldn't be an equilibrium. 
 
-That said, recent research teams have simply used the final strategy after many many iterations and have had good results, which saves a lot of memory and computation since all of the strategies throughout don't need to be stored. 
+That said, recent research teams have simply used the final strategy after many many iterations and have had good results, which saves a lot of memory and computation since all of the strategies throughout don't need to be stored and averaged. 
  
 <!-- 
 ### Definitions
@@ -245,19 +237,30 @@ We can now define the counterfactual value at nonterminal history $$h$$ as follo
 $$ v_i(\sigma, h) \equiv \sum{u_i(z)\pi_{-i}^\sigma{}(z)pi_i^{\sigma{}:I->a}(h,z) $$ -->
 
 ### Vanilla CFR
-.Pass forward probabilities and game states then pass back utility values
-Counterfactual regret (computed for each action at each info set):
-Counterfactual value:
-full tree traversal for each iteration 
-Minimize regret at each information set over time → overall regret also minimized (Zinkevich, 2007)
-Memory Cost: 2 doubles per Action-at-Decision-Point (16 bytes)
-Can solve up to 10^12
-Learn strategy offline and maintain fixed strategy
+Vanilla CFR is the default CFR method where each pass is a full iteration of the game tree. This has been used less ever since the Monte Carlo sampling CFR methods began from Marc Lanctot's research. Although sampling means a larger number of iterations are needed to
+reach near equilibrium levels, each iteration is generally much faster and overall
+calculation time is generally significantly reduced since regrets are updated very
+quickly, instead of only after every long iteration as is the case with vanilla CFR. Vanilla CFR works by passing forward probabilities and game states and passing back utility values and can solve games as large as about 10^12 game states. 
 
 ### Monte Carlo CFR (MCCFR)
-Use sampling to trade off between fast/narrow/noisy updates vs slow/broad/precise updates
-Outcome sampling single path through tree like RL
-Slower than e.g. chance (sample cards, explore whole)
+In Monte Carlo CFR, some sampling method is used to sample to terminal state(s) of the game and then updates are applied only to the sample and not the full tree. Other than that, the updates occur the same way as they do in the standard algorithm. 
+
+The benefit of Monte Carlo CFR is that it uses sampling to make quicker updates to the game tree, even though these updates may be noisy, in practice they are much faster than the precise and slow updates of the vanilla implementation. Memory requirements remain the same as in vanilla CFR since the same information is being stored. 
+
+In practice, this means updating the counterfactual value equation with a 1/q(z) factor to define the probability of sampling a particular terminal history z. Also the summation is defined only for the information set when z is in the sample and passes through the information set I on the way to z. It can be shown that the sampled counterfactual values are equivalent in expectation to the vanilla version, meaning that MCCFR also will be guaranteed to converge to a Nash equilibrium. 
+
+An issue arises with sampling that when taking the average strategy, all nodes may
+not have been sampled equal times. This can be addressed in two ways, each of which
+has its own disadvantages:
+1. Optimistic	averaging:	A	counter	is	placed	at	each	node	and	updates	are	
+weighted	by	the	last	time	they	were seen	at	this	node,	which	requires	
+extra	memory,	is	only	an	approximation,	and	requires	a	final	iteration	
+since	some	counters	will	be	outdated.	
+2. Stochastically	weighted	averaging:	Increase	the	magnitude	of	each	
+strategy	by	sampling	the	strategy profile	probability.	This	is	unbiased,	but	
+results	in	large	variance.	
+
+We touch on two of the most common sampling methods below, called external sampling and chance sampling. Outcome sampling is another method that is the most extreme possible sampling -- it samples one action down the whole tree. 
 
 #### External Sampling
 External Sampling entails sampling the actions of the opponent and of chance only.
