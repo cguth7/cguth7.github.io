@@ -20,3 +20,9 @@ toc_sticky: true
 | 4  | 1/6  | 4/6 | 
 | 5 | 1/6  | 5/6  | 
 | 6  | 1/6  | 6/6 | 
+
+What is the average number that will appear if you roll a die?
+
+We sum up the products to get the expected value 
+
+Answer: 3.5
