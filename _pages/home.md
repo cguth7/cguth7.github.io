@@ -8,6 +8,10 @@ toc_label: "TOC"
 toc_sticky: true
 ---
 
+
+![dice](/Users/charlesguthmann/Downloads/githubEV/dierolling.jpeg)
+
+
 | Side  | probability | product  | 
 | ------------- | ------------- | ------------- |
 | 1 | 1/6  | 1/6  | 
