@@ -12,8 +12,8 @@ nav:
     children:
       - title: "1.1: Poker Background"
         url: /poker-background
-      - title: "1.2: History of Solving Poker"
-        url: /history-of-solving-poker
+#       - title: "1.2: History of Solving Poker"
+#         url: /history-of-solving-poker
 
   - title: 2. Game Theory
     children:
