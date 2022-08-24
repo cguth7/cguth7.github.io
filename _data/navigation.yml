@@ -8,46 +8,46 @@ main:
   - title: "About"
     url: /about
 nav:
-#   - title: 1. Background
+  - title: 1. Background
+    children:
+      - title: "1.1: Poker Background"
+        url: /poker-background
+      - title: "1.2: History of Solving Poker"
+        url: /history-of-solving-poker
+
+#   - title: 2. Game Theory
 #     children:
-#       - title: "1.1: Poker Background"
-#         url: /poker-background
-#       - title: "1.2: History of Solving Poker"
-#         url: /history-of-solving-poker
+#       - title: "2.1: Game Theory Foundation"
+#         url: /game-theory-foundation
+#       - title: "2.2: Trees in Games"
+#         url: /trees-in-games
 
-  - title: 2. Game Theory
-    children:
-      - title: "2.1: Game Theory Foundation"
-        url: /game-theory-foundation
-      - title: "2.2: Trees in Games"
-        url: /trees-in-games
-
-  - title: 3. Solving Poker
-    children:
-      - title: "3.1: What is Solving?"
-        url: /what-is-solving
-      - title: "3.2: Toy Poker Games"
-        url: /toy-poker-games
-      - title: "3.3: Using Solvers"
-        url: /using-solvers
+#   - title: 3. Solving Poker
+#     children:
+#       - title: "3.1: What is Solving?"
+#         url: /what-is-solving
+#       - title: "3.2: Toy Poker Games"
+#         url: /toy-poker-games
+#       - title: "3.3: Using Solvers"
+#         url: /using-solvers
         
-  - title: 4. Counterfactual Regret Minimization (CFR)
-    children:
-      - title: "4.1: The CFR Algorithm"
-        url: /the-cfr-algorithm
-      - title: "4.2: Game Abstractions"
-        url: /game-abstractions
-      - title: "4.3: Agent Evaluation"
-        url: /agent-evaluation
-      - title: "4.4: CFR Advances"
-        url: /cfr-advances
+#   - title: 4. Counterfactual Regret Minimization (CFR)
+#     children:
+#       - title: "4.1: The CFR Algorithm"
+#         url: /the-cfr-algorithm
+#       - title: "4.2: Game Abstractions"
+#         url: /game-abstractions
+#       - title: "4.3: Agent Evaluation"
+#         url: /agent-evaluation
+#       - title: "4.4: CFR Advances"
+#         url: /cfr-advances
         
-  - title: 5. Top Poker Agents
-    children:
-      - title: "5.1: Top Agents and Research"
-        url: /top-agents-and-research
-      - title: "5.2: AI vs. Human Competitions"
-        url: /ai-vs-human-competitions
+#   - title: 5. Top Poker Agents
+#     children:
+#       - title: "5.1: Top Agents and Research"
+#         url: /top-agents-and-research
+#       - title: "5.2: AI vs. Human Competitions"
+#         url: /ai-vs-human-competitions
 
   # - title: 6. Other Topics
   #   children:
