@@ -8,11 +8,11 @@ toc_label: "TOC"
 toc_sticky: true
 ---
 
+![dice](../assets/images/dierolling.jpeg)
 
 
 
-
-| Side  | probability | product  | ![dice](../assets/images/dierolling.jpeg)
+| Side  | probability | product  | 
 | ------------- | ------------- | ------------- |
 | 1 | 1/6  | 1/6  | 
 | 2  | 1/6  | 2/6 | 
