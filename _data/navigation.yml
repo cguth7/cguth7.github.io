@@ -7,13 +7,13 @@ main:
 #     url: /tags/
   - title: "About"
     url: /about
-nav:
-  - title: 1. Background
-    children:
-      - title: "1.1: Poker Background"
-        url: /poker-background
-      - title: "1.2: History of Solving Poker"
-        url: /history-of-solving-poker
+# nav:
+#   - title: 1. Background
+#     children:
+#       - title: "1.1: Poker Background"
+#         url: /poker-background
+#       - title: "1.2: History of Solving Poker"
+#         url: /history-of-solving-poker
 
 #   - title: 2. Game Theory
 #     children:
