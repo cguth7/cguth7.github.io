@@ -9,7 +9,7 @@ toc_sticky: true
 ---
 
 
-![dice](/Users/charlesguthmann/Downloads/githubEV/dierolling.jpeg)
+![dice](./assets/images/dierolling.jpeg)
 
 
 | Side  | probability | product  | 
