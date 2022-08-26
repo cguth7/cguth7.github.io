@@ -11,6 +11,17 @@ toc_sticky: true
 ![dice](../assets/images/dierolling.jpeg)
 
 
+## An imp approaches out of thin air...
+
+He offers to play a game with you. 
+
+In the game, the imp gives you a die to roll. He will give you a dollar if you roll a 1, 2 dollars if you roll a two, etc. 
+
+He tells you that the game costs three dollars to play. You are indifferent between losing a dollar and gaining a dollar. 
+
+Should you play the game?
+
+
 
 | Side  | probability | product  | 
 | ------------- | ------------- | ------------- |
