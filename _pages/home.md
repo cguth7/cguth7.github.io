@@ -22,10 +22,36 @@ Should you play the game?
 
 If you aren't sure, how could you figure out?
 
+![dice](../assets/images/dierolling.jpeg)
+
+Assuming you know what an average, you might be thinking, well, I can take the average of all of the values of the die, and if that is higher, 
+
+
+
+If you had that thought, congratulations! you are correct. 
+
+
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+
+# Hi!
+
+The reason is that an average is a *specific* type of expected value. 
+
+When we have a bunch of outcomes that are equally likely to occur, we don't have to individually weight each outcome. 
+Rather we can do the more familiar (in the case of die) (1+2+3+4+5+6)/6. 
+And if you are confused, remember that 1x1/6 + .... + 6x1/6 = (1+2+3+4+5+6)/6
+
+# But what if the dice weren't fair?
 # Hello expected value!
 
 When we roll a die, we know there are 6 possible outcomes. 
-![dice](../assets/images/dierolling.jpeg)
 
 | Side  |
 | ------------- |
@@ -55,32 +81,6 @@ When we weight every outcome by its chance of occuring, we have found the *expec
 We sum up the products to get the expected value.
 
 Answer: 3.5
-
-
-Assuming you know what an average, or mean is, you might be wondering, isn't 3.5 the average value of a side of die? What was so special about what we did?
-
-If you had that thought, congratulations! you are correct. In the case of die, the expected value and Average are the same. Try to think about why this is the case.
-
-
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-<br/><br/>
-
-# Hi!
-
-The reason is that an average is a *specific* type of expected value. 
-
-When we have a bunch of outcomes that are equally likely to occur, we don't have to individually weight each outcome. 
-Rather we can do the more familiar (in the case of die) (1+2+3+4+5+6)/6. 
-And if you are confused, remember that 1x1/6 + .... + 6x1/6 = (1+2+3+4+5+6)/6
-
-# But what if the dice weren't fair?
-
 
 
 
