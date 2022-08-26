@@ -36,7 +36,7 @@ When we roll a die, we know there are 6 possible outcomes.
 
 But that isn't all we know...
 
-We also know that each outcome ha
+We also know that each outcome has an equal chance of occuring
 
 
 ![dice](../assets/images/dierolling.jpeg)
