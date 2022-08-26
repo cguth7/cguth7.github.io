@@ -56,3 +56,5 @@ Answer: 3.5
 
 
 Assuming you know what an average, or mean is, you might be wondering, isn't 3.5 the average value of a side of die? What was so special about what we did?
+
+If you had that thought, congradulations! you are correct. In the case of die, the expected value and Average are the same. 
