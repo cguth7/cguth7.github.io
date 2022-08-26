@@ -79,4 +79,6 @@ When we have a bunch of outcomes that are equally likely to occur, we don't have
 
 Rather we can do the more familiar (in the case of die) (1+2+3+4+5+6)/6. 
 
+And if you are confused, remember that 1*1/6 + .... + 6*1/6 = (1+2+3+4+5+6)/6
+
 
