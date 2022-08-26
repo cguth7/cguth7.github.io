@@ -40,7 +40,7 @@ But that isn't all we know...
 
 We also know that each outcome has an equal chance of occuring. 
 
-When we wait every outcome by its chance of occuring, we have found the *expected value* of the action.
+When we weight every outcome by its chance of occuring, we have found the *expected value* of the action.
 
 
 | Side  | probability | product  | 
