@@ -20,6 +20,8 @@ He tells you that the game costs three dollars to play. You are indifferent betw
 
 Should you play the game?
 
+If you aren't sure, how could you figure out?
+
 
 ![dice](../assets/images/dierolling.jpeg)
 
