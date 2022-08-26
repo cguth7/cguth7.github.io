@@ -63,12 +63,18 @@ If you had that thought, congradulations! you are correct. In the case of die, t
 
 
 <br/><br/>
-
 <br/><br/>
 <br/><br/>
 <br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
+<br/><br/>
 
-hi
+The reason is that an average is a *specific* type of expected value. 
 
+When we have a bunch of outcomes that are equally likely to occur, we don't have to individually weight each outcome. 
+
+Rather we can do the more familiar (in the case of die) (1+2+3+4+5+6)/2
 
 
