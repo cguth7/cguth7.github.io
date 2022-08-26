@@ -50,8 +50,9 @@ We also know that each outcome has an equal chance of occuring
 | 5 | 1/6  | 5/6  | 
 | 6  | 1/6  | 6/6 | 
 
-What is the average number that will appear if you roll a die?
-
-We sum up the products to get the expected value 
+We sum up the products to get the expected value.
 
 Answer: 3.5
+
+
+Assuming you know what an average, or mean is, you might be wondering, isn't 3.5 the average value of a side of die? What was so special about what we did?
