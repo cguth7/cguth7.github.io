@@ -25,6 +25,8 @@ If you aren't sure, how could you figure out?
 #Hello expected value!
 
 When we roll a die, we know there are 6 possible outcomes. 
+![dice](../assets/images/dierolling.jpeg)
+
 | Side  |
 | ------------- |
 | 1 |
@@ -38,8 +40,6 @@ But that isn't all we know...
 
 We also know that each outcome has an equal chance of occuring
 
-
-![dice](../assets/images/dierolling.jpeg)
 
 | Side  | probability | product  | 
 | ------------- | ------------- | ------------- |
