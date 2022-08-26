@@ -7,8 +7,7 @@ toc: true
 toc_label: "TOC"
 toc_sticky: true
 ---
-
-![dice](../assets/images/dierolling.jpeg) ![imp](../assets/images/imp.jpeg =250x) 
+![imp](../assets/images/imp.jpeg) 
 
 
 ## An imp approaches out of thin air...
@@ -22,6 +21,7 @@ He tells you that the game costs three dollars to play. You are indifferent betw
 Should you play the game?
 
 
+![dice](../assets/images/dierolling.jpeg)
 
 | Side  | probability | product  | 
 | ------------- | ------------- | ------------- |
