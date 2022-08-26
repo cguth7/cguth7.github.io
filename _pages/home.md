@@ -22,6 +22,22 @@ Should you play the game?
 
 If you aren't sure, how could you figure out?
 
+#Hello expected value!
+
+When we roll a die, we know there are 6 possible outcomes. 
+| Side  |
+| ------------- |
+| 1 |
+| 2 |
+| 3 |
+| 4 |
+| 5 |
+| 6 |
+
+But that isn't all we know...
+
+We also know that each outcome ha
+
 
 ![dice](../assets/images/dierolling.jpeg)
 
