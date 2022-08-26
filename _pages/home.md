@@ -8,7 +8,7 @@ toc_label: "TOC"
 toc_sticky: true
 ---
 
-![dice](../assets/images/dierolling.jpeg) ![imp](../assets/images/imp.jpeg) 
+![dice](../assets/images/dierolling.jpeg) ![imp](../assets/images/imp.jpeg =100x20) 
 
 
 ## An imp approaches out of thin air...
