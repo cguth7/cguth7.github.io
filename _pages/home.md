@@ -59,18 +59,6 @@ So you should take the two. If we took the average of both possible outcomes for
 
 
 
-<br>
-
-<br>
-
-<br>
-
-<br>
-
-
-
-
-
 
 
 
