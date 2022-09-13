@@ -16,7 +16,12 @@ toc_sticky: true
 
 
 
-You are a basketball player. In basketball there are two types of shots. Three point shots are further away, and correspondingly harder than two point shots. You are about to shoot the ball, and are deciding whether to take a two pointer or a three pointer. In your career, you have shot 35% on 3s and 50% on 2s. Which shot should you take?
+You are a basketball player. In basketball there are two types of shots. Three point shots are further away, and correspondingly harder than two point shots. 
+
+basketballcourt.jpeg 
+
+
+You are about to shoot the ball, and are deciding whether to take a two pointer or a three pointer. In your career, you have shot 35% on 3s and 50% on 2s. Which shot should you take?
 
 Enter expected value. 
 
