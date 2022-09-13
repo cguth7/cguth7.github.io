@@ -23,7 +23,7 @@ You are a basketball player. In basketball there are two types of shots. Three p
 
 You are about to shoot the ball, and are deciding whether to take a two pointer or a three pointer. In your career, you have shot 35% on 3s and 50% on 2s. Which shot should you take?
 
-![hmmm](../assets/images/basketballcourt.jpeg)
+![hmmm](../assets/images/thinking.webp)
 
 Enter expected value. 
 
