@@ -41,7 +41,7 @@ The average of the 3 grades is
 
 So is the student failing? 
 
-![rodgerthat](../assets/images/gradecalculator.webp)
+![rodgerthat](../assets/images/gradecalculator.png)
 
 No. The student is not failing because their final grade is not the average of the final, homework, and participation grades. 
 It is the *Weighted Average* of those three grades. Unlike regular average, a weigthed average does not assume all data points are equally important. 
