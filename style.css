@@ -161,21 +161,22 @@ footer {
 }
 
 .chicago-flag {
-    color: #b00;
-    font-size: 0.6em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.7em;
     vertical-align: middle;
-    display: inline-block;
-    padding: 8px 6px;
-    background: linear-gradient(
-        to bottom,
-        #75AADB 0%,
-        #75AADB 25%,
-        white 25%,
-        white 75%,
-        #75AADB 75%,
-        #75AADB 100%
-    );
-    line-height: 1;
+}
+
+.chicago-flag img {
+    height: 1.2em;
+    vertical-align: middle;
+    border: 1px solid #1a1a1a;
+}
+
+.chicago-flag .arrow {
+    color: #666;
+    font-size: 0.9em;
 }
 
 @media (max-width: 600px) {
