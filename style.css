@@ -20,24 +20,32 @@ body::before {
     width: 100%;
     height: 100%;
     z-index: -1;
-    opacity: 0.08;
+    opacity: 0.2;
     background-image:
-        /* Red Line - vertical through center */
-        linear-gradient(90deg, transparent calc(50% - 1px), #c60c30 calc(50% - 1px), #c60c30 calc(50% + 1px), transparent calc(50% + 1px)),
-        /* Blue Line - diagonal from NW */
-        linear-gradient(135deg, transparent calc(50% - 1px), #00a1de calc(50% - 1px), #00a1de calc(50% + 1px), transparent calc(50% + 1px)),
-        /* Brown Line - diagonal from NE */
-        linear-gradient(45deg, transparent calc(50% - 1px), #62361b calc(50% - 1px), #62361b calc(50% + 1px), transparent calc(50% + 1px)),
-        /* Orange Line - diagonal from SW */
-        linear-gradient(225deg, transparent calc(50% - 1px), #f9461c calc(50% - 1px), #f9461c calc(50% + 1px), transparent calc(50% + 1px)),
-        /* Green Line - horizontal through center */
-        linear-gradient(0deg, transparent calc(50% - 1px), #009b3a calc(50% - 1px), #009b3a calc(50% + 1px), transparent calc(50% + 1px)),
-        /* Purple Line - diagonal from SE */
-        linear-gradient(315deg, transparent calc(50% - 1px), #522398 calc(50% - 1px), #522398 calc(50% + 1px), transparent calc(50% + 1px)),
+        /* Lake Michigan - right side */
+        linear-gradient(90deg, transparent 75%, #0077be 75%),
+        /* Red Line - North-South through center-left, continuing south */
+        linear-gradient(90deg, transparent calc(45% - 2px), #c60c30 calc(45% - 2px), #c60c30 calc(45% + 2px), transparent calc(45% + 2px)),
+        /* Blue Line - diagonal from NW (O'Hare) to center, then west */
+        linear-gradient(135deg, transparent 0%, transparent calc(40% - 1px), #00a1de calc(40% - 1px), #00a1de calc(40% + 1px), transparent calc(40% + 1px), transparent 100%),
+        linear-gradient(90deg, transparent 0%, transparent calc(10% - 1px), #00a1de calc(10% - 1px), #00a1de calc(10% + 1px), transparent calc(10% + 1px), transparent 100%),
+        /* Brown Line - from NW to Loop */
+        linear-gradient(130deg, transparent 0%, transparent calc(35% - 1px), #62361b calc(35% - 1px), #62361b calc(35% + 1px), transparent calc(35% + 1px), transparent 100%),
+        /* Green Line - East-West through lower center */
+        linear-gradient(0deg, transparent calc(60% - 1px), #009b3a calc(60% - 1px), #009b3a calc(60% + 1px), transparent calc(60% + 1px)),
+        /* Orange Line - from SW (Midway) to Loop */
+        linear-gradient(45deg, transparent 0%, transparent calc(50% - 1px), #f9461c calc(50% - 1px), #f9461c calc(50% + 1px), transparent calc(50% + 1px), transparent 100%),
+        /* Purple Line - North from top */
+        linear-gradient(90deg, transparent calc(48% - 1px), #522398 calc(48% - 1px), #522398 calc(48% + 1px), transparent calc(48% + 1px)),
+        /* Pink Line - from west to Loop */
+        linear-gradient(0deg, transparent calc(55% - 1px), #e27ea6 calc(55% - 1px), #e27ea6 calc(55% + 1px), transparent calc(55% + 1px)),
         /* Grid pattern */
-        repeating-linear-gradient(90deg, #1a1a1a 0px, #1a1a1a 1px, transparent 1px, transparent 80px),
-        repeating-linear-gradient(0deg, #1a1a1a 0px, #1a1a1a 1px, transparent 1px, transparent 80px);
+        repeating-linear-gradient(90deg, #1a1a1a 0px, #1a1a1a 0.5px, transparent 0.5px, transparent 100px),
+        repeating-linear-gradient(0deg, #1a1a1a 0px, #1a1a1a 0.5px, transparent 0.5px, transparent 100px);
     background-size:
+        100% 100%,
+        100% 100%,
+        100% 100%,
         100% 100%,
         100% 100%,
         100% 100%,
