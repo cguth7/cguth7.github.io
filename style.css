@@ -169,14 +169,10 @@ footer {
     background: linear-gradient(
         to bottom,
         #75AADB 0%,
-        #75AADB 20%,
-        white 20%,
-        white 40%,
-        #b00 40%,
-        #b00 60%,
-        white 60%,
-        white 80%,
-        #75AADB 80%,
+        #75AADB 25%,
+        white 25%,
+        white 75%,
+        #75AADB 75%,
         #75AADB 100%
     );
     line-height: 1;
