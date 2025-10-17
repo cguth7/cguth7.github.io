@@ -1,0 +1,171 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Courier New', monospace;
+    background-color: #f5f5f5;
+    color: #1a1a1a;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+}
+
+header {
+    border-bottom: 4px solid #1a1a1a;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: -1px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #666;
+    font-weight: normal;
+}
+
+.about {
+    margin-bottom: 60px;
+    padding: 30px;
+    background-color: #fff;
+    border: 3px solid #1a1a1a;
+}
+
+.about p {
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.quote {
+    font-style: italic;
+    color: #666;
+    margin-top: 20px;
+    border-left: 4px solid #1a1a1a;
+    padding-left: 20px;
+}
+
+.projects h2 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 60px;
+}
+
+.project-box {
+    background-color: #fff;
+    border: 3px solid #1a1a1a;
+    padding: 30px;
+    transition: all 0.2s ease;
+    position: relative;
+    text-decoration: none;
+    color: #1a1a1a;
+    display: block;
+    min-height: 200px;
+}
+
+.project-box:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 8px 8px 0 #1a1a1a;
+}
+
+.project-box.coming-soon {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.project-box.coming-soon:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.project-box h3 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.project-box p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.status {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    font-size: 0.75rem;
+    padding: 5px 10px;
+    border: 2px solid #1a1a1a;
+    background-color: #f5f5f5;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.project-box.coming-soon .status {
+    background-color: #fff;
+    color: #999;
+    border-color: #999;
+}
+
+footer {
+    border-top: 4px solid #1a1a1a;
+    padding-top: 30px;
+    text-align: center;
+}
+
+.links {
+    margin-bottom: 20px;
+}
+
+.links a {
+    color: #1a1a1a;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.links a:hover {
+    border-bottom: 2px solid #1a1a1a;
+}
+
+.email {
+    font-size: 0.9rem;
+    color: #666;
+    font-family: 'Courier New', monospace;
+}
+
+@media (max-width: 600px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about {
+        padding: 20px;
+    }
+}
