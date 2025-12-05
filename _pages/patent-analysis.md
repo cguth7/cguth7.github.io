@@ -9,30 +9,27 @@ toc_sticky: true
 # Patent Analysis: Pipeline Data Quality
 *Generated: December 5, 2025*
 
-This analysis tracks patent data through the GWAS spillover pipeline, showing how filtering affects the dataset at each stage.
+This analysis tracks patent data through the GWAS spillover pipeline, showing how filtering affects the dataset.
 
 ---
 
 ## Pipeline Stages
 
-The patent data flows through three stages:
+The patent data flows through two key stages:
 
 1. **Raw Patents** - BioBERT extractions from Full_Patent.parquet (~140M rows)
-2. **With GWAS** - After merging patent grant dates and GWAS discovery years
-3. **Filtered (99%)** - After applying year filters (2000-2020) and 99% probability threshold
+2. **Filtered (99%)** - After applying year filters (2000-2020) and 99% probability threshold
 
 ---
 
 ## Summary Comparison Table
 
-| Metric | Raw Patents | With GWAS | Filtered (99%) |
-|--------|-------------|-----------|----------------|
-| **Total Rows (mentions)** | 140,520,525 | 140,520,525 | 49,724,209 |
-| **Unique Patents** | 163,928 | 163,928 | 92,611 |
-| **Unique Genes** | 17,421 | 17,421 | 14,368 |
-| **Unique Diseases** | 2,435 | 2,435 | 2,435 |
-| **% Rows Retained** | 100% | 100% | 35.4% |
-| **% Patents Retained** | 100% | 100% | 56.5% |
+| Metric | Raw Patents | Filtered (99%) | Change |
+|--------|-------------|----------------|--------|
+| **Total Rows (mentions)** | 140,520,525 | 49,724,209 | -64.6% |
+| **Unique Patents** | 163,928 | 92,611 | -43.5% |
+| **Unique Genes** | 17,421 | 14,368 | -17.5% |
+| **Unique Diseases** | 2,435 | 2,435 | 0% |
 
 ---
 
@@ -43,7 +40,6 @@ Each row in the data represents a "mention" - a gene-disease pair extracted from
 | Stage | Mean | Median | Std | Min | Max |
 |-------|------|--------|-----|-----|-----|
 | Raw | 857.2 | 116 | 5,731 | 1 | 629,608 |
-| With GWAS | 857.2 | 116 | 5,731 | 1 | 629,608 |
 | Filtered (99%) | 536.9 | 108 | 5,731 | 1 | 629,608 |
 
 **Key insight**: The distribution is highly right-skewed. The median patent has ~110 mentions, but outliers have 600K+.
@@ -55,7 +51,6 @@ Each row in the data represents a "mention" - a gene-disease pair extracted from
 | Stage | Mean | Median | Min | Max |
 |-------|------|--------|-----|-----|
 | Raw | 6.44 | 3 | 1 | 1,801 |
-| With GWAS | 6.44 | 3 | 1 | 1,801 |
 | Filtered (99%) | 4.06 | 2 | 1 | 1,801 |
 
 **Key insight**: Most patents mention few genes (median = 2-3), but some mention over 1,800 genes.
@@ -67,7 +62,6 @@ Each row in the data represents a "mention" - a gene-disease pair extracted from
 | Stage | Mean | Median | Min | Max |
 |-------|------|--------|-----|-----|
 | Raw | 104.8 | 37 | 1 | 1,383 |
-| With GWAS | 104.8 | 37 | 1 | 1,383 |
 | Filtered (99%) | 111.0 | 51 | 1 | 1,383 |
 
 **Key insight**: The median diseases per patent *increases* after filtering (37 to 51), suggesting high-confidence extractions are concentrated in disease-heavy patents.
@@ -78,7 +72,7 @@ Each row in the data represents a "mention" - a gene-disease pair extracted from
 
 ### 1. Comparison Across Pipeline Stages
 
-Side-by-side comparison of key metrics at each stage.
+Side-by-side comparison of key metrics before and after filtering.
 
 ![Patent Analysis Comparison](/assets/images/patents/patent_analysis_comparison.png)
 
@@ -110,15 +104,7 @@ Detailed distributions for the raw patent data (before any filtering).
 
 ---
 
-### 4. Patents with GWAS Distribution
-
-Distributions after merging with GWAS discovery information.
-
-![Patents with GWAS Distribution](/assets/images/patents/patent_distributions_patents_with_gwas.png)
-
----
-
-### 5. Filtered Patents (99% Probability) Distribution
+### 4. Filtered Patents (99% Probability) Distribution
 
 Distributions after applying the 99% probability threshold and year filters.
 
