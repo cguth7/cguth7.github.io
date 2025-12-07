@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarrin Chethik - Policy Analyst & Economist</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Market shaping & economic policy design */
+        :root {
+            --primary-teal: #0a7ea4;
+            --accent-green: #2d6a4f;
+            --data-blue: #457b9d;
+            --earth-brown: #8b7355;
+            --chart-gray: #52525b;
+            --background-cream: #fafaf9;
+        }
+
+        .policy-header {
+            background: linear-gradient(135deg, var(--primary-teal) 0%, var(--accent-green) 100%);
+            color: white;
+            padding: 40px 30px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .policy-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px),
+                linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        .policy-header .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .institution-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            font-size: 0.75em;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border: 2px solid rgba(255,255,255,0.4);
+            font-weight: bold;
+        }
+
+        .chicago-badge {
+            display: inline-block;
+            background: var(--earth-brown);
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.7em;
+            margin-left: 10px;
+            letter-spacing: 1.5px;
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .role-title {
+            font-size: 1.1em;
+            margin-top: 10px;
+            opacity: 0.95;
+            letter-spacing: 1px;
+        }
+
+        .data-card {
+            background: white;
+            border-left: 6px solid var(--primary-teal);
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+        }
+
+        .data-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+        }
+
+        .metric-box {
+            background: white;
+            border: 3px solid var(--data-blue);
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .metric-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-teal), var(--accent-green));
+        }
+
+        .metric-box:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 6px 6px 0 var(--chart-gray);
+            border-color: var(--accent-green);
+        }
+
+        .metric-label {
+            font-size: 0.75em;
+            color: var(--chart-gray);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .metric-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-bottom: 12px;
+            color: var(--primary-teal);
+        }
+
+        .impact-banner {
+            background: linear-gradient(to right, var(--accent-green), var(--primary-teal));
+            color: white;
+            padding: 20px 30px;
+            margin: 30px 0;
+            font-size: 1.05em;
+            line-height: 1.7;
+            border-radius: 2px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .impact-banner strong {
+            display: block;
+            font-size: 0.85em;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+        }
+
+        .research-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .graph-decoration {
+            display: inline-block;
+            width: 30px;
+            height: 20px;
+            background: linear-gradient(to top, var(--primary-teal) 0%, var(--primary-teal) 40%, transparent 40%, transparent 50%, var(--accent-green) 50%, var(--accent-green) 70%, transparent 70%);
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        .focus-tag {
+            display: inline-block;
+            background: var(--background-cream);
+            border: 2px solid var(--primary-teal);
+            color: var(--primary-teal);
+            padding: 6px 14px;
+            margin: 5px 5px 5px 0;
+            font-size: 0.8em;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .education-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 15px 0;
+            padding: 15px;
+            background: var(--background-cream);
+            border-left: 4px solid var(--data-blue);
+        }
+
+        .education-row .degree {
+            font-weight: bold;
+            color: var(--primary-teal);
+        }
+
+        .education-row .school {
+            color: var(--chart-gray);
+        }
+
+        .link-section a {
+            color: var(--primary-teal);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .link-section a:hover {
+            border-bottom: 2px solid var(--primary-teal);
+            color: var(--accent-green);
+        }
+
+        /* Bar chart aesthetic for section headers */
+        h2 {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary-teal), var(--accent-green));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="policy-header">
+            <div class="content">
+                <div class="institution-tag">UCHICAGO MARKET SHAPING ACCELERATOR</div>
+                <h1>SARRIN CHETHIK</h1>
+                <p class="role-title">Senior Policy Analyst • Economist<span class="chicago-badge">CHICAGO</span></p>
+            </div>
+        </div>
+
+        <section class="about">
+            <div class="data-card">
+                <p style="font-size: 1.15em; line-height: 1.8; margin-bottom: 15px;">
+                    An economist and policy analyst driving innovative market mechanisms to address global challenges.
+                    From Chicago roots to the forefront of climate resilience and pandemic preparedness, Sarrin Chethik
+                    translates rigorous economic analysis into actionable policy solutions.
+                </p>
+                <p style="line-height: 1.7;">
+                    At the University of Chicago's Market Shaping Accelerator, Sarrin designs and evaluates market-based
+                    interventions that accelerate innovation where traditional markets fail. His work spans climate-resilient
+                    agriculture, vaccine infrastructure, and pharmaceutical repurposing—projects that reshape markets to
+                    serve global public health and environmental sustainability.
+                </p>
+            </div>
+
+            <div class="impact-banner">
+                <strong>IMPACT FOCUS</strong>
+                Designing advance market commitments and pull mechanisms that mobilize private sector innovation
+                to solve critical challenges in climate adaptation and pandemic preparedness.
+            </div>
+        </section>
+
+        <section class="projects">
+            <h2>RESEARCH & POLICY AREAS</h2>
+
+            <div class="research-grid">
+                <div class="metric-box">
+                    <div class="metric-label">🌾 CLIMATE RESILIENCE</div>
+                    <div class="metric-title">Climate-Resilient Crops</div>
+                    <p>
+                        Economic analysis of investments in agricultural innovation for climate adaptation.
+                        Co-authored research on returns to climate-resilient crop development, evaluating
+                        market failures and designing incentive mechanisms to accelerate R&D.
+                    </p>
+                </div>
+
+                <div class="metric-box">
+                    <div class="metric-label">💉 PANDEMIC PREPAREDNESS</div>
+                    <div class="metric-title">Vaccine Infrastructure</div>
+                    <p>
+                        Policy design for vaccine manufacturing capacity and distribution systems.
+                        Analyzing advanced market commitments (AMCs) and other pull mechanisms to
+                        ensure readiness for future pandemics.
+                    </p>
+                </div>
+
+                <div class="metric-box">
+                    <div class="metric-label">💊 PHARMACEUTICAL INNOVATION</div>
+                    <div class="metric-title">Generic Drug Repurposing</div>
+                    <p>
+                        Creating incentive structures to encourage repurposing of generic drugs for
+                        new therapeutic applications—addressing market failures in pharmaceutical innovation
+                        for off-patent compounds.
+                    </p>
+                </div>
+
+                <div class="metric-box">
+                    <div class="metric-label">📊 MARKET MECHANISMS</div>
+                    <div class="metric-title">Advance Market Commitments</div>
+                    <p>
+                        Designing and evaluating AMCs and other market-shaping tools. Building on the
+                        legacy of successful mechanisms like the Pneumococcal AMC and frontier climate
+                        initiatives led by Stripe Climate.
+                    </p>
+                </div>
+
+                <div class="metric-box">
+                    <div class="metric-label">⚡ ENERGY SYSTEMS</div>
+                    <div class="metric-title">Energy Sector Analysis</div>
+                    <p>
+                        Former energy sector consultant at Guidehouse. Experience in energy market
+                        analysis, regulatory policy, and the economics of energy transition and
+                        infrastructure investment.
+                    </p>
+                </div>
+
+                <div class="metric-box">
+                    <div class="metric-label">🎯 POLICY TRANSLATION</div>
+                    <div class="metric-title">Evidence-Based Policy</div>
+                    <p>
+                        Bridging rigorous economic research and practical policy implementation.
+                        Translating academic insights into mechanisms that mobilize billions in
+                        private sector investment toward public goods.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin: 50px 0;">
+            <h2>BACKGROUND & EXPERTISE</h2>
+
+            <div class="education-row">
+                <span class="degree">B.A. Economics</span>
+                <span style="color: #999;">•</span>
+                <span class="school">Northwestern University</span>
+            </div>
+
+            <div class="education-row">
+                <span class="degree">Energy Sector Consultant</span>
+                <span style="color: #999;">•</span>
+                <span class="school">Guidehouse (formerly)</span>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <p style="margin-bottom: 15px;"><strong>Core Competencies:</strong></p>
+                <div>
+                    <span class="focus-tag">Economic Analysis</span>
+                    <span class="focus-tag">Market Design</span>
+                    <span class="focus-tag">Climate Policy</span>
+                    <span class="focus-tag">Public Health Economics</span>
+                    <span class="focus-tag">Innovation Incentives</span>
+                    <span class="focus-tag">Agricultural Economics</span>
+                    <span class="focus-tag">Energy Markets</span>
+                    <span class="focus-tag">Policy Translation</span>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin: 50px 0;">
+            <h2>ABOUT THE MARKET SHAPING ACCELERATOR</h2>
+            <div class="data-card">
+                <p style="line-height: 1.7;">
+                    The University of Chicago's Market Shaping Accelerator designs market mechanisms to spur innovation
+                    for global challenges. The team has contributed to foundational research and prominent policy successes,
+                    including the <strong>Pneumococcal Advance Market Commitment (AMC)</strong>—which accelerated vaccine
+                    development for pneumococcal disease in developing countries—and <strong>Frontier</strong>, the advance
+                    market commitment for carbon removal led by Stripe Climate.
+                </p>
+                <p style="margin-top: 15px; line-height: 1.7;">
+                    Market shaping combines rigorous economics with creative policy design to solve problems where traditional
+                    markets underinvest in socially valuable innovation.
+                </p>
+            </div>
+        </section>
+
+        <footer style="margin-top: 60px; padding-top: 30px; border-top: 4px solid var(--primary-teal);">
+            <div class="link-section">
+                <p style="margin-bottom: 20px;">
+                    <strong style="color: var(--chart-gray); letter-spacing: 1px;">LINKS & PROFILES</strong>
+                </p>
+                <p>
+                    <a href="https://marketshaping.uchicago.edu/" target="_blank">Market Shaping Accelerator</a> •
+                    <a href="https://bfi.uchicago.edu/scholar/sarrin-chethik/" target="_blank">Becker Friedman Institute</a> •
+                    <a href="https://dec.uchicago.edu/people/sarrin-chethik/" target="_blank">Development Economics Center</a> •
+                    <a href="https://www.linkedin.com/in/s-chethik/" target="_blank">LinkedIn</a> •
+                    <a href="https://x.com/schethik" target="_blank">X (Twitter)</a>
+                </p>
+            </div>
+            <p style="margin-top: 25px; font-size: 0.85em; color: #666;">
+                <span class="graph-decoration"></span>
+                University of Chicago • Market Shaping Accelerator
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
