@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Charity Ranker v3</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0a0a0a;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            line-height: 1.6;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hud {
+            border: 2px solid #00ff00;
+            padding: 15px;
+            margin-bottom: 30px;
+            background: #0f0f0f;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hud-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .game-box {
+            border: 3px double #00ff00;
+            padding: 40px;
+            background: #0a0a0a;
+            margin: 20px 0;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .title-screen {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .title-screen h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            letter-spacing: 8px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00; }
+            to { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #00ff00;
+            display: inline-block;
+        }
+
+        .tagline {
+            font-style: italic;
+            margin: 30px 0;
+            opacity: 0.8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 2px solid #00ff00;
+            background: transparent;
+            color: #00ff00;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 10px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .btn:hover {
+            background: #00ff00;
+            color: #0a0a0a;
+            transform: scale(1.05);
+            box-shadow: 0 0 20px #00ff00;
+        }
+
+        .scene-text {
+            font-size: 1.1em;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .choices {
+            margin-top: 40px;
+        }
+
+        .choice {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            margin: 10px 0;
+            border: 2px solid #00ff00;
+            background: transparent;
+            color: #00ff00;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            text-align: left;
+            transition: all 0.3s;
+        }
+
+        .choice:hover {
+            background: #00ff00;
+            color: #0a0a0a;
+            padding-left: 30px;
+        }
+
+        .graph {
+            border: 1px solid #00ff00;
+            padding: 30px;
+            margin: 30px 0;
+            background: #0f0f0f;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            font-size: 0.85em;
+        }
+
+        .question-added {
+            color: #ffaa00;
+            font-weight: bold;
+            margin-top: 20px;
+            animation: flash 0.5s;
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .info-box {
+            border-left: 4px solid #00ff00;
+            padding: 15px 20px;
+            margin: 20px 0;
+            background: #0f0f0f;
+        }
+
+        .warning {
+            border-color: #ffaa00;
+            color: #ffaa00;
+        }
+
+        .achievement {
+            text-align: center;
+            padding: 30px;
+            border: 3px solid #ffaa00;
+            color: #ffaa00;
+            margin: 20px 0;
+            font-size: 1.2em;
+            animation: glow-gold 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-gold {
+            from { text-shadow: 0 0 5px #ffaa00; }
+            to { text-shadow: 0 0 10px #ffaa00, 0 0 20px #ffaa00; }
+        }
+
+        .slider-container {
+            margin: 30px 0;
+        }
+
+        .slider {
+            width: 100%;
+            height: 5px;
+            background: #333;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #00ff00;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .slider-value {
+            text-align: center;
+            font-size: 1.3em;
+            margin: 15px 0;
+            color: #00ff00;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            list-style: none;
+            margin-left: 20px;
+        }
+
+        ul li:before {
+            content: "├─ ";
+            color: #00ff00;
+        }
+
+        ul li:last-child:before {
+            content: "└─ ";
+        }
+
+        .flicker {
+            animation: flicker 0.5s steps(2, start) 3;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .shrimp {
+            font-size: 3em;
+            display: block;
+            text-align: center;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="hud" class="hud hidden">
+            <div class="hud-item">
+                <span>QUESTIONS ANSWERED:</span>
+                <span id="questions-answered">0</span>
+            </div>
+            <div class="hud-item">
+                <span>QUESTIONS REMAINING:</span>
+                <span id="questions-remaining">47</span>
+            </div>
+            <div class="hud-item">
+                <span>CONFIDENCE:</span>
+                <span id="confidence">100</span>%
+            </div>
+        </div>
+
+        <div id="game-content" class="game-box">
+            <!-- Game content will be inserted here -->
+        </div>
+    </div>
+
+    <script>
+        // Game State Management
+        const gameState = {
+            currentScene: 'title',
+            questionsAnswered: 0,
+            questionsAdded: 0,
+            confidence: 100,
+            restartCount: 0,
+            choices: {},
+            flags: {
+                spatial_discount_revealed: false,
+                ghost_utilitarian: false,
+                cluelessness_detected: false,
+                pascals_mugged: false,
+                longtermist: false,
+                animals_matter: false,
+                temporal_discount: 0,
+                utility_type: null,
+                moral_circle: null,
+                being_weights: null
+            }
+        };
+
+        // Scene Definitions
+        const scenes = {
+            title: {
+                render: () => `
+                    <div class="title-screen">
+                        <h1>THE CHARITY RANKER</h1>
+                        <div class="subtitle">$ → ? → GOOD</div>
+                        <p class="tagline">"Just a few questions first"</p>
+                        <button class="btn" onclick="startGame()">START</button>
+                    </div>
+                `
+            },
+
+            welcome: {
+                text: `
+                    You have $100,000,000.
+
+                    You want to do the most good.
+
+                    We just need to figure out what "good" means.
+
+                    Should be quick.
+                `,
+                choices: [
+                    { text: 'CONTINUE', next: 'utility_type' }
+                ],
+                onEnter: () => {
+                    setTimeout(() => {
+                        const remaining = document.getElementById('questions-remaining');
+                        remaining.textContent = '∞';
+                        remaining.classList.add('flicker');
+                    }, 1000);
+                }
+            },
+
+            utility_type: {
+                text: `What are we maximizing?`,
+                choices: [
+                    {
+                        text: '[A] Pleasure / absence of pain',
+                        next: 'can_life_be_negative',
+                        effect: () => {
+                            gameState.flags.utility_type = 'hedonic';
+                            addInfo('Clean. Measurable-ish.');
+                        }
+                    },
+                    {
+                        text: '[B] Preference satisfaction',
+                        next: 'can_life_be_negative',
+                        effect: () => {
+                            gameState.flags.utility_type = 'preference';
+                            addQuestions(4);
+                            showQuestionSpawn([
+                                'Whose preferences?',
+                                'Current preferences?',
+                                'Idealized preferences?',
+                                'Preferences they\'d have with full information?',
+                                'What about preferences formed under duress?'
+                            ]);
+                        }
+                    },
+                    {
+                        text: '[C] Objective goods (health, knowledge, etc.)',
+                        next: 'can_life_be_negative',
+                        effect: () => {
+                            gameState.flags.utility_type = 'objective_list';
+                            addQuestions(5);
+                            showQuestionSpawn([
+                                'Who decides the list?',
+                                'How do you weight health vs knowledge?',
+                                'Is friendship on the list?',
+                                'What about meaning? Purpose?',
+                                'Are these culturally relative?'
+                            ]);
+                        }
+                    }
+                ]
+            },
+
+            can_life_be_negative: {
+                text: `
+                    Can a life be net negative?
+
+                    Suffering > Pleasure = Bad to exist?
+                `,
+                choices: [
+                    {
+                        text: '[A] Yes',
+                        next: 'pleasure_vs_pain',
+                        effect: () => {
+                            addQuestions(4);
+                            showQuestionSpawn([
+                                'Should we prevent net-negative lives?',
+                                'How do we identify them?',
+                                'What about lives that are negative NOW but might improve?',
+                                'Is non-existence actually "better" or just "not worse"?'
+                            ]);
+                        }
+                    },
+                    {
+                        text: '[B] No',
+                        next: 'torture_check',
+                    },
+                    {
+                        text: '[C] It\'s complicated',
+                        next: 'pleasure_vs_pain',
+                        effect: () => {
+                            addQuestions(3);
+                            addInfo('+3 QUESTIONS ADDED (to figure out when it\'s complicated)');
+                        }
+                    }
+                ]
+            },
+
+            torture_check: {
+                text: `Even constant torture with no relief?`,
+                choices: [
+                    {
+                        text: '[A] ...okay fine, some lives are negative',
+                        next: 'pleasure_vs_pain',
+                        effect: () => {
+                            addInfo('Thought so.');
+                        }
+                    },
+                    {
+                        text: '[B] Still better than nothing',
+                        next: 'pleasure_vs_pain',
+                        effect: () => {
+                            addInfo('You have bitten a philosophical bullet. Noted.');
+                            gameState.confidence -= 15;
+                        }
+                    }
+                ]
+            },
+
+            pleasure_vs_pain: {
+                text: `
+                    Is preventing 10 units of pain equal to
+                    creating 10 units of pleasure?
+                `,
+                choices: [
+                    {
+                        text: '[A] Yes, symmetric',
+                        next: 'torture_ecstasy_check'
+                    },
+                    {
+                        text: '[B] Pain is worse',
+                        next: 'pain_multiplier'
+                    },
+                    {
+                        text: '[C] Pleasure is better',
+                        next: 'diminishing_returns',
+                        effect: () => {
+                            addInfo('Interesting. Most people go the other way.');
+                        }
+                    }
+                ]
+            },
+
+            torture_ecstasy_check: {
+                text: `Would you accept 10 minutes of the worst torture for 10 minutes of the best ecstasy?`,
+                choices: [
+                    {
+                        text: '[A] Yes',
+                        next: 'diminishing_returns',
+                        effect: () => addInfo('Bold.')
+                    },
+                    {
+                        text: '[B] No',
+                        next: 'diminishing_returns',
+                        effect: () => {
+                            addInfo('Then they\'re not symmetric.');
+                            gameState.confidence -= 5;
+                        }
+                    }
+                ]
+            },
+
+            pain_multiplier: {
+                text: `
+                    How much worse is pain?
+                    <div class="slider-container">
+                        <input type="range" min="1.5" max="100" value="5" step="0.5" class="slider" id="pain-slider">
+                        <div class="slider-value"><span id="pain-value">5</span>x worse</div>
+                    </div>
+
+                    Why that number?
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'diminishing_returns',
+                        effect: () => {
+                            const value = document.getElementById('pain-slider').value;
+                            addInfo(`Pain multiplier: ${value}x. This will matter later.`);
+                            addQuestions(1);
+                        }
+                    }
+                ],
+                onEnter: () => {
+                    setTimeout(() => {
+                        const slider = document.getElementById('pain-slider');
+                        const output = document.getElementById('pain-value');
+                        slider.oninput = function() {
+                            output.textContent = this.value;
+                        };
+                    }, 100);
+                }
+            },
+
+            diminishing_returns: {
+                text: `
+                    <div class="graph">
+         VALUE
+           │    ╭───────────────
+           │   ╱
+           │  ╱
+           │ ╱
+           │╱
+           └─────────────────────
+              BASELINE WELFARE
+                    </div>
+
+                    Does helping the worst-off matter more?
+                `,
+                choices: [
+                    {
+                        text: '[A] Yes, diminishing returns',
+                        next: 'spatial_distance'
+                    },
+                    {
+                        text: '[B] No, a util is a util',
+                        next: 'billionaire_check'
+                    }
+                ]
+            },
+
+            billionaire_check: {
+                text: `
+                    So these are equally good?
+
+                    Option 1: Give $1000 to a starving person
+                    Option 2: Give $1000 to a billionaire for a nice dinner
+                `,
+                choices: [
+                    {
+                        text: '[A] Yes, equal',
+                        next: 'spatial_distance',
+                        effect: () => {
+                            addInfo('Another philosophical bullet bitten.');
+                            gameState.confidence -= 10;
+                        }
+                    },
+                    {
+                        text: '[B] No wait, that\'s absurd',
+                        next: 'spatial_distance',
+                        effect: () => {
+                            addInfo('Then diminishing returns exist.');
+                            gameState.confidence -= 5;
+                        }
+                    }
+                ]
+            },
+
+            spatial_distance: {
+                text: `
+                    Does distance matter?
+
+                    Should you care more about someone in your city
+                    than someone across the world?
+                `,
+                choices: [
+                    {
+                        text: '[A] No, equal weight',
+                        next: 'light_beam'
+                    },
+                    {
+                        text: '[B] Yes, closer = more weight',
+                        next: 'temporal_distance',
+                        effect: () => {
+                            gameState.flags.spatial_discount_revealed = true;
+                            addQuestions(1);
+                            addInfo('At what distance does weight drop to 50%? Why that distance? +1 QUESTION ADDED');
+                        }
+                    }
+                ]
+            },
+
+            light_beam: {
+                text: `
+                    Year 2847.
+
+                    Message received from edge of observable universe.
+
+                    10²⁴ beings face extinction. (That's a trillion trillion.)
+
+                    You can save them.
+
+                    Cost: Convert Earth's mass to energy.
+                    Everyone on Earth dies. All 12 billion.
+
+                    You save 1,000,000,000,000,000,000,000,000 aliens.
+
+                    The math is clear.
+                `,
+                choices: [
+                    {
+                        text: '[A] Fire the beam',
+                        next: 'ghost_ending'
+                    },
+                    {
+                        text: '[B] Don\'t fire',
+                        next: 'temporal_distance',
+                        effect: () => {
+                            addInfo('Interesting. Distance suddenly matters.');
+                            gameState.flags.spatial_discount_revealed = true;
+                        }
+                    },
+                    {
+                        text: '[C] This is absurd',
+                        next: 'temporal_distance',
+                        effect: () => {
+                            addInfo('So is ranking charities from first principles. And yet.');
+                        }
+                    }
+                ]
+            },
+
+            ghost_ending: {
+                text: `
+                    <div class="achievement">
+                        🌍 → 💥 → ~~~~~~~~>
+
+                        EARTH STATUS: Vaporized
+                        ALIENS SAVED: 10²⁴
+                        YOUR STATUS: Dead
+                        CONSISTENCY: Intact
+
+                        Congratulations?
+                    </div>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE AS GHOST',
+                        next: 'temporal_distance',
+                        effect: () => {
+                            gameState.flags.ghost_utilitarian = true;
+                            addInfo('You are now a ghost utilitarian. This will be remembered.');
+                        }
+                    }
+                ]
+            },
+
+            temporal_distance: {
+                text: `
+                    Do future people count equally?
+
+                    Child born 2025 vs child born 2125.
+                    Same capacity for joy.
+                    One exists. One might exist.
+                `,
+                choices: [
+                    {
+                        text: '[A] Equal weight (0% discount)',
+                        next: 'longtermism_welcome'
+                    },
+                    {
+                        text: '[B] Some discount (1-3% per year)',
+                        next: 'moral_circle',
+                        effect: () => {
+                            gameState.flags.temporal_discount = 0.03;
+                            addInfo('At 3% discount: Someone in 100 years = 0.05× weight. Someone in 200 years = 0.002× weight. The future fades fast.');
+                        }
+                    },
+                    {
+                        text: '[C] Heavy discount (>5% per year)',
+                        next: 'moral_circle',
+                        effect: () => {
+                            gameState.flags.temporal_discount = 0.05;
+                            addInfo('At 5% discount: Someone in 50 years = 0.07× weight. You\'ve basically decided to focus on the present.');
+                        }
+                    }
+                ]
+            },
+
+            longtermism_welcome: {
+                text: `
+                    <div class="achievement">
+                        WELCOME TO LONGTERMISM
+
+                        Potential future humans: ~10⁵²
+                        Current humans: 8 × 10⁹
+
+                        Ratio: 10⁴³ to 1
+
+                        Current humans are now a rounding error.
+                    </div>
+
+                    New questions unlocked:
+                    <ul>
+                        <li>What's P(human extinction this century)?</li>
+                        <li>What's P(we colonize the stars)?</li>
+                        <li>What's P(aliens exist in our light cone)?</li>
+                        <li>If we go extinct, will aliens fill the void?</li>
+                        <li>Will successor civilizations share our values?</li>
+                    </ul>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'xrisk_probability',
+                        effect: () => {
+                            gameState.flags.longtermist = true;
+                            addQuestions(5);
+                        }
+                    }
+                ]
+            },
+
+            xrisk_probability: {
+                text: `
+                    You care about the long-term future.
+
+                    Question: What's the probability of human extinction
+                    this century?
+
+                    <div class="slider-container">
+                        <input type="range" min="0" max="100" value="10" step="1" class="slider" id="xrisk-slider">
+                        <div class="slider-value"><span id="xrisk-value">10</span>%</div>
+                    </div>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'aliens_in_light_cone',
+                        effect: () => {
+                            addQuestions(6);
+                            showQuestionSpawn([
+                                'From AI?',
+                                'From bioweapons?',
+                                'From nukes?',
+                                'From something we haven\'t imagined?',
+                                'How do these correlate?',
+                                'What\'s our uncertainty about our uncertainty?'
+                            ]);
+                        }
+                    }
+                ],
+                onEnter: () => {
+                    setTimeout(() => {
+                        const slider = document.getElementById('xrisk-slider');
+                        const output = document.getElementById('xrisk-value');
+                        slider.oninput = function() {
+                            output.textContent = this.value;
+                        };
+                    }, 100);
+                }
+            },
+
+            aliens_in_light_cone: {
+                text: `
+                    If humanity goes extinct, does it matter?
+
+                    Maybe aliens will fill the universe with value instead.
+
+                    What's P(aliens exist in our light cone)?
+                `,
+                choices: [
+                    {
+                        text: '[A] Very low (<1%)',
+                        next: 'moral_circle',
+                        effect: () => addQuestions(5)
+                    },
+                    {
+                        text: '[B] Moderate (1-50%)',
+                        next: 'moral_circle',
+                        effect: () => addQuestions(5)
+                    },
+                    {
+                        text: '[C] High (>50%)',
+                        next: 'moral_circle',
+                        effect: () => addQuestions(5)
+                    },
+                    {
+                        text: '[D] I don\'t know',
+                        next: 'moral_circle',
+                        effect: () => {
+                            addQuestions(12);
+                            showQuestionSpawn([
+                                'Drake equation parameters (7 unknowns)',
+                                'Great Filter location (before or ahead?)',
+                                'Grabby aliens model parameters',
+                                'What counts as "our light cone"',
+                                'Definition of "alien civilization"'
+                            ]);
+                            addInfo('Finally, some honesty.');
+                        }
+                    }
+                ]
+            },
+
+            moral_circle: {
+                text: `Whose utility counts?`,
+                choices: [
+                    {
+                        text: '[A] Only humans',
+                        next: 'species_justification'
+                    },
+                    {
+                        text: '[B] All sentient beings',
+                        next: 'weighting_beings',
+                        effect: () => {
+                            gameState.flags.moral_circle = 'all_sentient';
+                            gameState.flags.animals_matter = true;
+                            addQuestions(5);
+                            showQuestionSpawn([
+                                'What counts as sentient?',
+                                'How do you weight different beings?',
+                                'Do insects count?',
+                                'Do future AIs count?',
+                                'What about beings we haven\'t discovered?'
+                            ]);
+                        }
+                    },
+                    {
+                        text: '[C] Only beings above some threshold',
+                        next: 'threshold_definition',
+                        effect: () => {
+                            gameState.flags.moral_circle = 'threshold';
+                            addQuestions(4);
+                        }
+                    }
+                ]
+            },
+
+            species_justification: {
+                text: `
+                    Why?
+
+                    What property do ALL humans have that NO animals have?
+                `,
+                choices: [
+                    {
+                        text: '[A] Souls',
+                        next: 'cluelessness',
+                        effect: () => addInfo('That\'s not utilitarianism.')
+                    },
+                    {
+                        text: '[B] Intelligence',
+                        next: 'cluelessness',
+                        effect: () => addInfo('Some animals > some humans in intelligence.')
+                    },
+                    {
+                        text: '[C] Species membership',
+                        next: 'cluelessness',
+                        effect: () => addInfo('That\'s... just a category.')
+                    },
+                    {
+                        text: '[D] I can\'t justify it',
+                        next: 'cluelessness',
+                        effect: () => addInfo('Honest.')
+                    }
+                ]
+            },
+
+            threshold_definition: {
+                text: `
+                    What's the threshold?
+                    <ul>
+                        <li>Neurons? (How many?)</li>
+                        <li>Self-awareness? (How do you test?)</li>
+                        <li>Language? (Some humans lack this)</li>
+                        <li>Something else?</li>
+                    </ul>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'cluelessness',
+                        effect: () => addQuestions(4)
+                    }
+                ]
+            },
+
+            weighting_beings: {
+                text: `
+                    1 human = ? animals
+
+                    Options:
+                `,
+                choices: [
+                    {
+                        text: '[A] 1 human = 1 chicken (equal)',
+                        next: 'chicken_priority',
+                    },
+                    {
+                        text: '[B] 1 human = 1000 chickens (linear neurons)',
+                        next: 'cluelessness',
+                        effect: () => {
+                            gameState.flags.being_weights = 1000;
+                            addInfo('Noted. Chickens might still matter at scale.');
+                        }
+                    },
+                    {
+                        text: '[C] 1 human = 1,000,000 chickens (quadratic)',
+                        next: 'cluelessness',
+                        effect: () => {
+                            gameState.flags.being_weights = 1000000;
+                        }
+                    },
+                    {
+                        text: '[D] Let me think about this',
+                        next: 'weighting_complexity',
+                    }
+                ]
+            },
+
+            chicken_priority: {
+                text: `
+                    There are 70 billion chickens alive right now.
+                    There are 8 billion humans.
+
+                    You have just decided chickens are the priority.
+
+                    Update:
+                    <ul>
+                        <li>What about fish? (trillions)</li>
+                        <li>What about insects? (quintillions)</li>
+                        <li>What about [REDACTED]?</li>
+                    </ul>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'cluelessness',
+                        effect: () => {
+                            gameState.flags.being_weights = 1;
+                            addQuestions(3);
+                        }
+                    }
+                ]
+            },
+
+            weighting_complexity: {
+                text: `
+                    To figure out the weighting, you need:
+                    <ul>
+                        <li>Theory of consciousness</li>
+                        <li>Way to measure suffering intensity</li>
+                        <li>Way to compare across species</li>
+                        <li>Handling of uncertainty</li>
+                        <li>Decision theory for moral uncertainty</li>
+                    </ul>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'cluelessness',
+                        effect: () => addQuestions(5)
+                    }
+                ]
+            },
+
+            cluelessness: {
+                text: `
+                    Here's a fun one.
+
+                    Your donation saves a child.
+                    That child has descendants.
+                    One descendant does something very bad.
+
+                    Did you do good?
+                `,
+                choices: [
+                    {
+                        text: '[A] Yes, expected value was positive',
+                        next: 'pascals_mugging'
+                    },
+                    {
+                        text: '[B] I can\'t know the long-term effects',
+                        next: 'cluelessness_detected'
+                    },
+                    {
+                        text: '[C] Only short-term effects matter',
+                        next: 'pascals_mugging',
+                        effect: () => {
+                            if (gameState.flags.longtermist) {
+                                addInfo('Wait... you said you were a longtermist?');
+                                gameState.confidence -= 10;
+                            }
+                        }
+                    }
+                ]
+            },
+
+            cluelessness_detected: {
+                text: `
+                    <div class="achievement">CLUELESSNESS DETECTED</div>
+
+                    If you can't predict consequences...
+                    And you're a consequentialist...
+
+                    How do you decide anything?
+
+                    New questions:
+                    <ul>
+                        <li>How far into the future can we predict?</li>
+                        <li>Do long-term effects cancel out?</li>
+                        <li>Should we use decision rules instead?</li>
+                        <li>Is consequentialism even viable?</li>
+                    </ul>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'pascals_mugging',
+                        effect: () => {
+                            gameState.flags.cluelessness_detected = true;
+                            addQuestions(4);
+                        }
+                    }
+                ]
+            },
+
+            pascals_mugging: {
+                text: `
+                    A stranger approaches.
+
+                    "Give me $5. In exchange, I will use my
+                    cosmic powers to save 10⁵⁰ beings."
+
+                    Expected value: 10⁵⁰ × P(stranger is legit)
+
+                    Even if P = 0.0000001%, EV is astronomical.
+                `,
+                choices: [
+                    {
+                        text: '[A] Give the $5',
+                        next: 'mugged_ending'
+                    },
+                    {
+                        text: '[B] Refuse',
+                        next: 'final_screen',
+                        effect: () => {
+                            addInfo('The stranger leaves. 10⁵⁰ beings may or may not be doomed. You\'ll never know.');
+                        }
+                    },
+                    {
+                        text: '[C] This is why expected value has limits',
+                        next: 'final_screen',
+                        effect: () => {
+                            addQuestions(4);
+                            showQuestionSpawn([
+                                'At what probability do you ignore payoffs?',
+                                'At what payoff do you require higher evidence?',
+                                'Is there a principled answer?',
+                                'Or just vibes?'
+                            ]);
+                        }
+                    }
+                ]
+            },
+
+            mugged_ending: {
+                text: `
+                    You give the stranger $5.
+
+                    The stranger takes your money and leaves.
+
+                    <div class="achievement">
+                        ACHIEVEMENT UNLOCKED: PASCAL'S MUGGED
+                    </div>
+                `,
+                choices: [
+                    {
+                        text: 'CONTINUE',
+                        next: 'final_screen',
+                        effect: () => {
+                            gameState.flags.pascals_mugged = true;
+                        }
+                    }
+                ]
+            },
+
+            final_screen: {
+                render: () => {
+                    const total = gameState.questionsAnswered + gameState.questionsAdded;
+                    return `
+                        <div class="scene-text">
+                            <div style="text-align: center; margin-bottom: 30px;">
+                                QUESTIONS ANSWERED: ${gameState.questionsAnswered}<br>
+                                QUESTIONS REMAINING: ∞<br><br>
+                                STATUS: Inconclusive
+                            </div>
+
+                            You have discovered that ranking charities requires solving:
+                            <ul>
+                                <li>Metaethics</li>
+                                <li>Population ethics</li>
+                                <li>Philosophy of mind</li>
+                                <li>Decision theory</li>
+                                <li>Astrobiology</li>
+                                <li>The nature of consciousness</li>
+                                <li>Whether distance matters (in space AND time)</li>
+                            </ul>
+
+                            None of these are solved.
+
+                            Would you like to:
+                        </div>
+                        <div class="choices">
+                            <button class="choice" onclick="goToScene('keep_going')">[A] Keep going (there are more questions)</button>
+                            <button class="choice" onclick="goToScene('recommendation')">[B] Just give me a recommendation</button>
+                            <button class="choice" onclick="goToScene('give_up')">[C] Give up</button>
+                        </div>
+                    `;
+                }
+            },
+
+            keep_going: {
+                text: `
+                    Additional questions available:
+                    <ul>
+                        <li>Moral uncertainty (how to act when unsure between frameworks)</li>
+                        <li>Population ethics (is creating happy people good?)</li>
+                        <li>Personal identity (are you the same person over time?)</li>
+                        <li>Infinite ethics (what if the universe is infinite?)</li>
+                        <li>Simulation theory (does anything matter if we're simulated?)</li>
+                        <li>Decision theory (EDT vs CDT vs FDT)</li>
+                        <li>Measurement (QALYs vs DALYs vs SWB vs revealed preference)</li>
+                    </ul>
+
+                    +∞ QUESTIONS ADDED
+                `,
+                choices: [
+                    { text: 'Go back', next: 'final_screen' }
+                ],
+                onEnter: () => {
+                    document.getElementById('questions-remaining').textContent = '∞∞∞';
+                }
+            },
+
+            recommendation: {
+                render: () => {
+                    let recommendation = '';
+
+                    // Check for shrimp ending
+                    if (gameState.flags.animals_matter &&
+                        gameState.flags.temporal_discount < 0.04 &&
+                        (gameState.flags.being_weights === 1 || gameState.flags.being_weights === 1000)) {
+                        recommendation = `
+                            <div style="text-align: center;">
+                                <h2 style="margin-bottom: 30px;">RECOMMENDATION COMPLETE</h2>
+
+                                <p>Given your framework, the highest expected value intervention is:</p>
+
+                                <div class="shrimp">🦐</div>
+
+                                <h2 style="color: #00ff00; margin: 30px 0;">Shrimp welfare.</h2>
+
+                                <div class="info-box" style="margin: 30px 0; text-align: left;">
+                                    Wait, what?<br><br>
+
+                                    There are 300 billion shrimp in factory farms.<br>
+                                    The cost per shrimp affected is very low.<br>
+                                    You said sentience matters.<br>
+                                    You said scale matters.<br>
+                                    You said cost-effectiveness matters.<br><br>
+
+                                    The math is the math.<br><br>
+
+                                    Get in the car. We're doing shrimp welfare.
+                                </div>
+                            </div>
+                            <div class="choices">
+                                <button class="choice" onclick="goToScene('shrimp_accept')">ACCEPT</button>
+                                <button class="choice" onclick="goToScene('shrimp_refuse')">REFUSE</button>
+                                <button class="choice" onclick="restart()">RESTART</button>
+                            </div>
+                        `;
+                    } else if (gameState.flags.longtermist) {
+                        recommendation = `
+                            <div style="text-align: center;">
+                                <h2>RECOMMENDATION COMPLETE</h2>
+
+                                <p>Given your framework:</p>
+
+                                <div class="info-box" style="margin: 30px 0; text-align: left;">
+                                    1. AI safety<br>
+                                    2. Biosecurity<br>
+                                    3. Whatever reduces x-risk<br><br>
+
+                                    Confidence: ████░░░░░░░░░░░░░░░░ 19%<br><br>
+
+                                    Because you'd also need to answer:
+                                    <ul>
+                                        <li>P(AI x-risk) vs P(bio x-risk)</li>
+                                        <li>Tractability of interventions</li>
+                                        <li>Whether we'd be replaced by aliens anyway</li>
+                                        <li>Whether successor AI has good values</li>
+                                        <li>Dozens of other things</li>
+                                    </ul>
+
+                                    But hey, you're trying.
+                                </div>
+                            </div>
+                            <div class="choices">
+                                <button class="choice" onclick="restart()">RESTART</button>
+                            </div>
+                        `;
+                    } else {
+                        recommendation = `
+                            <div style="text-align: center;">
+                                <h2>RECOMMENDATION COMPLETE</h2>
+
+                                <p>Given your framework:</p>
+
+                                <div class="info-box" style="margin: 30px 0; text-align: left;">
+                                    1. GiveWell top charities<br>
+                                    2. GiveDirectly<br>
+                                    3. Global health stuff<br><br>
+
+                                    (This required 7 arbitrary assumptions marked with *)<br><br>
+
+                                    * Why humans only?<br>
+                                    * Why that discount rate?<br>
+                                    * Why that distance weighting?<br>
+                                    * Why that threshold for moral status?<br>
+                                    * etc.<br><br>
+
+                                    A different person with different intuitions got: AI safety<br>
+                                    Another person got: Shrimp welfare<br>
+                                    Another person got: Give up and buy a boat<br><br>
+
+                                    They are all internally consistent.<br><br>
+
+                                    Welcome to ethics.
+                                </div>
+                            </div>
+                            <div class="choices">
+                                <button class="choice" onclick="restart()">RESTART</button>
+                            </div>
+                        `;
+                    }
+
+                    return recommendation;
+                }
+            },
+
+            shrimp_accept: {
+                text: `
+                    <div class="achievement">
+                        🦐 ACHIEVEMENT UNLOCKED: CONSISTENT 🦐
+
+                        You followed the logic.
+                        It led to shrimp.
+                        You accepted it.
+
+                        ${gameState.flags.ghost_utilitarian ? 'You also vaporized Earth earlier.' : ''}
+                        ${gameState.flags.ghost_utilitarian ? 'Peak consistency.' : ''}
+                    </div>
+
+                    Welcome to the world of actually following utilitarian logic to its conclusions.
+
+                    It's weird here.
+                `,
+                choices: [
+                    { text: 'RESTART', next: 'title', effect: () => restart() }
+                ]
+            },
+
+            shrimp_refuse: {
+                text: `
+                    But... the math?
+
+                    Your choices led here.
+
+                    This is what consistency looks like.
+                `,
+                choices: [
+                    { text: 'RESTART', next: 'title', effect: () => restart() }
+                ]
+            },
+
+            give_up: {
+                text: `
+                    <div style="text-align: center;">
+                        <h2>GAME OVER</h2>
+
+                        <div class="info-box" style="margin: 30px 0;">
+                            Questions answered: ${gameState.questionsAnswered}<br>
+                            Questions generated: ${gameState.questionsAdded}<br>
+                            Questions remaining: ∞<br><br>
+
+                            You have decided to:
+                            <ul>
+                                <li>Do whatever feels right</li>
+                                <li>Not think about it too hard</li>
+                                <li>Trust someone else's judgment</li>
+                            </ul>
+
+                            This is what most people do.<br><br>
+
+                            It's probably fine.<br><br>
+
+                            Maybe give to GiveWell?
+                        </div>
+                    </div>
+                `,
+                choices: [
+                    { text: 'RESTART', next: 'title', effect: () => restart() }
+                ]
+            }
+        };
+
+        // Helper Functions
+        function startGame() {
+            document.getElementById('hud').classList.remove('hidden');
+            goToScene('welcome');
+        }
+
+        function goToScene(sceneId) {
+            gameState.currentScene = sceneId;
+            const scene = scenes[sceneId];
+
+            if (scene.onEnter) {
+                scene.onEnter();
+            }
+
+            if (scene.render) {
+                document.getElementById('game-content').innerHTML = scene.render();
+            } else {
+                renderScene(scene);
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function renderScene(scene) {
+            let html = `<div class="scene-text">${scene.text}</div>`;
+
+            if (scene.choices && scene.choices.length > 0) {
+                html += '<div class="choices">';
+                scene.choices.forEach((choice, index) => {
+                    html += `<button class="choice" onclick="makeChoice(${index})">${choice.text}</button>`;
+                });
+                html += '</div>';
+            }
+
+            document.getElementById('game-content').innerHTML = html;
+        }
+
+        function makeChoice(choiceIndex) {
+            const scene = scenes[gameState.currentScene];
+            const choice = scene.choices[choiceIndex];
+
+            gameState.questionsAnswered++;
+            updateHUD();
+
+            if (choice.effect) {
+                choice.effect();
+            }
+
+            if (choice.next) {
+                setTimeout(() => goToScene(choice.next), 100);
+            }
+        }
+
+        function addQuestions(count) {
+            gameState.questionsAdded += count;
+            gameState.confidence = Math.max(0, gameState.confidence - count * 2);
+            updateHUD();
+        }
+
+        function showQuestionSpawn(questions) {
+            const content = document.getElementById('game-content');
+            const questionDiv = document.createElement('div');
+            questionDiv.className = 'question-added';
+            questionDiv.innerHTML = '<ul>' + questions.map(q => `<li>${q}</li>`).join('') + '</ul>';
+            content.appendChild(questionDiv);
+        }
+
+        function addInfo(text) {
+            const content = document.getElementById('game-content');
+            const infoDiv = document.createElement('div');
+            infoDiv.className = 'info-box';
+            infoDiv.textContent = text;
+            content.appendChild(infoDiv);
+        }
+
+        function updateHUD() {
+            document.getElementById('questions-answered').textContent = gameState.questionsAnswered;
+            document.getElementById('confidence').textContent = gameState.confidence;
+        }
+
+        function restart() {
+            gameState.currentScene = 'title';
+            gameState.questionsAnswered = 0;
+            gameState.questionsAdded = 0;
+            gameState.confidence = 100;
+            gameState.restartCount++;
+            gameState.choices = {};
+            gameState.flags = {
+                spatial_discount_revealed: false,
+                ghost_utilitarian: false,
+                cluelessness_detected: false,
+                pascals_mugged: false,
+                longtermist: false,
+                animals_matter: false,
+                temporal_discount: 0,
+                utility_type: null,
+                moral_circle: null,
+                being_weights: null
+            };
+
+            document.getElementById('questions-remaining').textContent = '47';
+            document.getElementById('hud').classList.add('hidden');
+
+            // Easter egg for multiple restarts
+            if (gameState.restartCount >= 3) {
+                const content = document.getElementById('game-content');
+                content.innerHTML = `
+                    <div class="achievement">
+                        You've tried ${gameState.restartCount} times to be consistent without caring about shrimp.
+
+                        The math keeps leading here.
+
+                        Maybe... the shrimp were the friends we made along the way?
+
+                        🦐
+                    </div>
+                    <button class="btn" onclick="actualRestart()">TRY AGAIN ANYWAY</button>
+                `;
+            } else {
+                goToScene('title');
+            }
+        }
+
+        function actualRestart() {
+            goToScene('title');
+        }
+
+        // Initialize
+        goToScene('title');
+    </script>
+</body>
+</html>
