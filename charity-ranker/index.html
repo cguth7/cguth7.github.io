@@ -12,8 +12,8 @@
         }
 
         body {
-            background: #0a0a0a;
-            color: #00ff00;
+            background: #F5F5F0;
+            color: #2D2D2D;
             font-family: 'Courier New', monospace;
             line-height: 1.6;
             padding: 20px;
@@ -26,30 +26,34 @@
         }
 
         .hud {
-            border: 2px solid #00ff00;
+            border: 2px solid #9B6B4B;
             padding: 15px;
             margin-bottom: 30px;
-            background: #0f0f0f;
+            background: #FFFFFF;
             font-size: 0.9em;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             gap: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .hud-item {
             display: flex;
             align-items: center;
             gap: 5px;
+            color: #6B46C1;
+            font-weight: bold;
         }
 
         .game-box {
-            border: 3px double #00ff00;
+            border: 3px solid #9B6B4B;
             padding: 40px;
-            background: #0a0a0a;
+            background: #FFFFFF;
             margin: 20px 0;
             min-height: 400px;
             position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .title-screen {
@@ -61,34 +65,38 @@
             font-size: 2.5em;
             margin-bottom: 30px;
             letter-spacing: 8px;
+            color: #6B46C1;
             animation: glow 2s ease-in-out infinite alternate;
         }
 
         @keyframes glow {
-            from { text-shadow: 0 0 5px #00ff00, 0 0 10px #00ff00; }
-            to { text-shadow: 0 0 10px #00ff00, 0 0 20px #00ff00, 0 0 30px #00ff00; }
+            from { text-shadow: 0 0 5px rgba(107, 70, 193, 0.3), 0 0 10px rgba(107, 70, 193, 0.2); }
+            to { text-shadow: 0 0 10px rgba(107, 70, 193, 0.5), 0 0 20px rgba(107, 70, 193, 0.3), 0 0 30px rgba(107, 70, 193, 0.2); }
         }
 
         .subtitle {
             font-size: 1.2em;
             margin: 20px 0;
             padding: 15px;
-            border: 1px solid #00ff00;
+            border: 2px solid #C17D11;
             display: inline-block;
+            background: #FFF9E6;
+            color: #9B6B4B;
         }
 
         .tagline {
             font-style: italic;
             margin: 30px 0;
-            opacity: 0.8;
+            opacity: 0.7;
+            color: #6B46C1;
         }
 
         .btn {
             display: inline-block;
             padding: 15px 40px;
-            border: 2px solid #00ff00;
-            background: transparent;
-            color: #00ff00;
+            border: 2px solid #6B46C1;
+            background: #6B46C1;
+            color: #FFFFFF;
             cursor: pointer;
             font-family: 'Courier New', monospace;
             font-size: 1.1em;
@@ -99,10 +107,10 @@
         }
 
         .btn:hover {
-            background: #00ff00;
-            color: #0a0a0a;
+            background: #8B5FD8;
+            border-color: #8B5FD8;
             transform: scale(1.05);
-            box-shadow: 0 0 20px #00ff00;
+            box-shadow: 0 4px 20px rgba(107, 70, 193, 0.3);
         }
 
         .scene-text {
@@ -120,9 +128,9 @@
             width: 100%;
             padding: 15px 20px;
             margin: 10px 0;
-            border: 2px solid #00ff00;
-            background: transparent;
-            color: #00ff00;
+            border: 2px solid #9B6B4B;
+            background: #FFFFFF;
+            color: #2D2D2D;
             cursor: pointer;
             font-family: 'Courier New', monospace;
             font-size: 1em;
@@ -131,24 +139,32 @@
         }
 
         .choice:hover {
-            background: #00ff00;
-            color: #0a0a0a;
+            background: #6B46C1;
+            color: #FFFFFF;
+            border-color: #6B46C1;
             padding-left: 30px;
         }
 
+        .choice.selected {
+            background: #C17D11;
+            color: #FFFFFF;
+            border-color: #C17D11;
+        }
+
         .graph {
-            border: 1px solid #00ff00;
+            border: 2px solid #9B6B4B;
             padding: 30px;
             margin: 30px 0;
-            background: #0f0f0f;
+            background: #FFF9E6;
             font-family: monospace;
             white-space: pre;
             overflow-x: auto;
             font-size: 0.85em;
+            color: #6B46C1;
         }
 
         .question-added {
-            color: #ffaa00;
+            color: #C17D11;
             font-weight: bold;
             margin-top: 20px;
             animation: flash 0.5s;
@@ -160,30 +176,32 @@
         }
 
         .info-box {
-            border-left: 4px solid #00ff00;
+            border-left: 4px solid #6B46C1;
             padding: 15px 20px;
             margin: 20px 0;
-            background: #0f0f0f;
+            background: #F0EBFF;
         }
 
         .warning {
-            border-color: #ffaa00;
-            color: #ffaa00;
+            border-color: #C17D11;
+            color: #9B6B4B;
+            background: #FFF9E6;
         }
 
         .achievement {
             text-align: center;
             padding: 30px;
-            border: 3px solid #ffaa00;
-            color: #ffaa00;
+            border: 3px solid #C17D11;
+            color: #9B6B4B;
+            background: #FFF9E6;
             margin: 20px 0;
             font-size: 1.2em;
             animation: glow-gold 2s ease-in-out infinite alternate;
         }
 
         @keyframes glow-gold {
-            from { text-shadow: 0 0 5px #ffaa00; }
-            to { text-shadow: 0 0 10px #ffaa00, 0 0 20px #ffaa00; }
+            from { box-shadow: 0 0 10px rgba(193, 125, 17, 0.3); }
+            to { box-shadow: 0 0 20px rgba(193, 125, 17, 0.5); }
         }
 
         .slider-container {
@@ -193,7 +211,7 @@
         .slider {
             width: 100%;
             height: 5px;
-            background: #333;
+            background: #E0D5C7;
             outline: none;
             -webkit-appearance: none;
         }
@@ -203,7 +221,7 @@
             appearance: none;
             width: 20px;
             height: 20px;
-            background: #00ff00;
+            background: #6B46C1;
             cursor: pointer;
             border-radius: 50%;
         }
@@ -212,7 +230,7 @@
             text-align: center;
             font-size: 1.3em;
             margin: 15px 0;
-            color: #00ff00;
+            color: #6B46C1;
         }
 
         .hidden {
@@ -226,7 +244,7 @@
 
         ul li:before {
             content: "├─ ";
-            color: #00ff00;
+            color: #9B6B4B;
         }
 
         ul li:last-child:before {
@@ -247,6 +265,42 @@
             display: block;
             text-align: center;
             margin: 30px 0;
+        }
+
+        .ascii-art {
+            font-family: monospace;
+            white-space: pre;
+            text-align: center;
+            margin: 20px 0;
+            color: #6B46C1;
+            font-size: 0.8em;
+            line-height: 1;
+        }
+
+        .next-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            border: 2px solid #C17D11;
+            background: #C17D11;
+            color: #FFFFFF;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            margin: 20px auto;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .next-btn:hover {
+            background: #D89B33;
+            border-color: #D89B33;
+            transform: scale(1.05);
+        }
+
+        .feedback-area {
+            margin-top: 30px;
+            min-height: 100px;
         }
     </style>
 </head>
@@ -300,8 +354,20 @@
             title: {
                 render: () => `
                     <div class="title-screen">
-                        <h1>THE CHARITY RANKER</h1>
+                        <div class="ascii-art">
+    _____ _                _ _            ____             _
+   / ____| |              (_) |          |  _ \\           | |
+  | |    | |__   __ _ _ __ _| |_ _   _   | |_) | __ _ _ __| | _____ _ __
+  | |    | '_ \\ / _\` | '__| | __| | | |  |  _ < / _\` | '_ \\ |/ / _ \\ '__|
+  | |____| | | | (_| | |  | | |_| |_| |  | |_) | (_| | | | |   <  __/ |
+   \\_____|_| |_|\\__,_|_|  |_|\\__|\\__, |  |____/ \\__,_|_| |_|_|\\_\\___|_|
+                                  __/ |
+                                 |___/
+                        </div>
                         <div class="subtitle">$ → ? → GOOD</div>
+                        <div class="ascii-art">
+        💰 → 🤔 → 😇
+                        </div>
                         <p class="tagline">"Just a few questions first"</p>
                         <button class="btn" onclick="startGame()">START</button>
                     </div>
@@ -310,13 +376,21 @@
 
             welcome: {
                 text: `
+                    <div class="ascii-art">
+        💰💰💰💰💰💰💰💰💰💰
+        💵 $100,000,000 💵
+        💰💰💰💰💰💰💰💰💰💰
+                    </div>
+
                     You have $100,000,000.
 
                     You want to do the most good.
 
                     We just need to figure out what "good" means.
 
-                    Should be quick.
+                    <div class="ascii-art">
+    ⏰ Should be quick ⏰
+                    </div>
                 `,
                 choices: [
                     { text: 'CONTINUE', next: 'utility_type' }
@@ -625,20 +699,33 @@
 
             ghost_ending: {
                 text: `
+                    <div class="ascii-art">
+         .　　　　　　　　　　 ✦ 　　　　   　 　　　˚　　　　　　　　　　　　　　*　　　　　　   　　　　　　　　　　　　　　　.　　　　　　　　　　　　　　. 　　 　　　　　　　 ✦ 　　　　　　　　　　 　 ‍ ‍ ‍ ‍ 　　　　 　　　　　　　　　　　　,
+
+.　　　　　　　　　　　　　.　　　ﾟ　  　　　.　　　　　　　　　　　　　.
+
+　　　　　　,　　　　　　　.　　　　　　    　　　　 　　　　　　　　　　　　　　　　　　 ☀️ 　　　　　　　　　　　　　　　　　　    　      　　　　　        　　　　　　　　　　　　　. 　　　　　　　　　　.　　　　　　　　　　　　　. 　　　　　　　　　　　　　　　　       　   　　　　 　　　　　　　　　　　　　　　　       　   　　　　　　　　　　　　　　　　       　    ✦ 　   　　　,　　　　　　　　　　　    🚀 　　　　 　　,　　　 ‍ ‍ ‍ ‍ 　 　　　　　　　　　　　　.　　　　　 　　 　　　.　　　　　　　　　　　　　 　           　　　　　　　　　　　　　　　　　　　˚　　　 　   　　　　,　　　　　　　　　　　       　    　　　　　　　　　　　　　　　　.　　　  　　    　　　　　 　　　　　.　　　　　　　　　　　　　.　　　　　　　　　　　　　　　* 　　   　　　　　 ✦ 　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　.　　　　　　　　　　 ✦ 　　　　   　 　　　˚　　　　　　　　　　　　　　　　　　　　*　　　　　　   　　　　　　　　　　　　　　　.　　　　　　　　　　　　　　.
+                    </div>
                     <div class="achievement">
-                        🌍 → 💥 → ~~~~~~~~>
+                        <div class="ascii-art">
+    🌍 💥
+         ~~~~~~~~>
+              ~~~~~~~~>
+                   ~~~~~~~~>
+                        👻
+                        </div>
 
                         EARTH STATUS: Vaporized
                         ALIENS SAVED: 10²⁴
-                        YOUR STATUS: Dead
-                        CONSISTENCY: Intact
+                        YOUR STATUS: Dead (but consistent!)
+                        CONSISTENCY: 💯 Intact
 
                         Congratulations?
                     </div>
                 `,
                 choices: [
                     {
-                        text: 'CONTINUE AS GHOST',
+                        text: 'CONTINUE AS GHOST 👻',
                         next: 'temporal_distance',
                         effect: () => {
                             gameState.flags.ghost_utilitarian = true;
@@ -682,15 +769,27 @@
 
             longtermism_welcome: {
                 text: `
+                    <div class="ascii-art">
+    🚀✨🌟⭐✨🚀
+    ∞ WELCOME TO ∞
+    LONGTERMISM
+    🚀✨🌟⭐✨🚀
+                    </div>
                     <div class="achievement">
-                        WELCOME TO LONGTERMISM
+                        <div class="ascii-art">
+    📊 THE MATH 📊
 
-                        Potential future humans: ~10⁵²
-                        Current humans: 8 × 10⁹
+    Future humans:  10⁵² ██████████████████████████████
+    Current humans: 8×10⁹ █
 
-                        Ratio: 10⁴³ to 1
+    Ratio: 10,000,000,000,000,000,000,000,000,000,000,000,000,000,000 : 1
+                        </div>
 
                         Current humans are now a rounding error.
+
+                        <div class="ascii-art">
+    (Oops) 👥 → 🔬
+                        </div>
                     </div>
 
                     New questions unlocked:
@@ -914,21 +1013,34 @@
 
             chicken_priority: {
                 text: `
-                    There are 70 billion chickens alive right now.
-                    There are 8 billion humans.
+                    <div class="ascii-art">
+    🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔
+    🐔 70 BILLION CHICKENS 🐔
+    🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔🐔
+
+    vs
+
+    👤👤👤
+    8 billion humans
+    👤👤👤
+                    </div>
 
                     You have just decided chickens are the priority.
 
-                    Update:
+                    <div class="ascii-art">
+    🐔 > 👤
+                    </div>
+
+                    Update - MORE NEWS:
                     <ul>
-                        <li>What about fish? (trillions)</li>
-                        <li>What about insects? (quintillions)</li>
-                        <li>What about [REDACTED]?</li>
+                        <li>What about fish? 🐟 (trillions)</li>
+                        <li>What about insects? 🐛 (quintillions)</li>
+                        <li>What about [REDACTED]? 👽</li>
                     </ul>
                 `,
                 choices: [
                     {
-                        text: 'CONTINUE',
+                        text: 'CONTINUE (nervously)',
                         next: 'cluelessness',
                         effect: () => {
                             gameState.flags.being_weights = 1;
@@ -992,10 +1104,25 @@
 
             cluelessness_detected: {
                 text: `
-                    <div class="achievement">CLUELESSNESS DETECTED</div>
+                    <div class="achievement">
+                        <div class="ascii-art">
+    ⚠️ STATUS ALERT ⚠️
 
-                    If you can't predict consequences...
-                    And you're a consequentialist...
+    ┌─────────────────────┐
+    │  CLUELESSNESS       │
+    │    DETECTED         │
+    │                     │
+    │     🤷 ¯\\_(ツ)_/¯    │
+    └─────────────────────┘
+                        </div>
+                    </div>
+
+                    <div class="ascii-art">
+    🔮 ❌ Can't predict consequences
+    ⚖️ ✅ Consequentialist philosophy
+
+    ERROR: PARADOX DETECTED
+                    </div>
 
                     How do you decide anything?
 
@@ -1009,7 +1136,7 @@
                 `,
                 choices: [
                     {
-                        text: 'CONTINUE',
+                        text: 'CONTINUE (existentially)',
                         next: 'pascals_mugging',
                         effect: () => {
                             gameState.flags.cluelessness_detected = true;
@@ -1021,29 +1148,46 @@
 
             pascals_mugging: {
                 text: `
-                    A stranger approaches.
+                    <div class="ascii-art">
+    👤🕶️ A stranger approaches...
+
+      👤
+     /|\\    "Psst... hey kid..."
+     / \\
+                    </div>
 
                     "Give me $5. In exchange, I will use my
                     cosmic powers to save 10⁵⁰ beings."
 
-                    Expected value: 10⁵⁰ × P(stranger is legit)
+                    <div class="ascii-art">
+    📊 THE MATH:
 
-                    Even if P = 0.0000001%, EV is astronomical.
+    EV = 10⁵⁰ × P(legit)
+
+    Even if P = 0.0000001%...
+    EV = 10,000,000,000,000,000,000,000,000,000,000,000,000 😇
+
+    vs
+
+    Cost = $5 💵
+                    </div>
+
+                    The math says give the money.
                 `,
                 choices: [
                     {
-                        text: '[A] Give the $5',
+                        text: '[A] Give the $5 💵',
                         next: 'mugged_ending'
                     },
                     {
-                        text: '[B] Refuse',
+                        text: '[B] Refuse 🚫',
                         next: 'final_screen',
                         effect: () => {
                             addInfo('The stranger leaves. 10⁵⁰ beings may or may not be doomed. You\'ll never know.');
                         }
                     },
                     {
-                        text: '[C] This is why expected value has limits',
+                        text: '[C] This is why expected value has limits 🤔',
                         next: 'final_screen',
                         effect: () => {
                             addQuestions(4);
@@ -1060,17 +1204,49 @@
 
             mugged_ending: {
                 text: `
+                    <div class="ascii-art">
+    💵 → 👤
+
+         👤
+        /|\\   "Thanks!"
+        / \\
+
+            👤
+           /|\\
+           / \\
+
+               👤
+              /|\\
+              / \\
+
+    ...
+
+    (They're gone)
+                    </div>
+
                     You give the stranger $5.
 
                     The stranger takes your money and leaves.
 
                     <div class="achievement">
-                        ACHIEVEMENT UNLOCKED: PASCAL'S MUGGED
+                        <div class="ascii-art">
+    🏆 ACHIEVEMENT UNLOCKED 🏆
+
+    ┌─────────────────────────────┐
+    │                             │
+    │   PASCAL'S MUGGED           │
+    │                             │
+    │   You followed the math     │
+    │   The math was wrong        │
+    │   (Or was it?)              │
+    │                             │
+    └─────────────────────────────┘
+                        </div>
                     </div>
                 `,
                 choices: [
                     {
-                        text: 'CONTINUE',
+                        text: 'CONTINUE (poorer, but consistent)',
                         next: 'final_screen',
                         effect: () => {
                             gameState.flags.pascals_mugged = true;
@@ -1084,31 +1260,43 @@
                     const total = gameState.questionsAnswered + gameState.questionsAdded;
                     return `
                         <div class="scene-text">
-                            <div style="text-align: center; margin-bottom: 30px;">
-                                QUESTIONS ANSWERED: ${gameState.questionsAnswered}<br>
-                                QUESTIONS REMAINING: ∞<br><br>
-                                STATUS: Inconclusive
+                            <div class="ascii-art">
+    ┌──────────────────────────────┐
+    │     📊 PROGRESS REPORT 📊    │
+    ├──────────────────────────────┤
+    │ Questions Answered: ${gameState.questionsAnswered}       │
+    │ Questions Remaining: ∞       │
+    │ Status: Inconclusive 🤷      │
+    └──────────────────────────────┘
+                            </div>
+
+                            <div style="text-align: center; margin: 30px 0;">
+                                <div class="ascii-art">
+    🎓🧠🤔❓❓❓❓
+                                </div>
                             </div>
 
                             You have discovered that ranking charities requires solving:
                             <ul>
-                                <li>Metaethics</li>
-                                <li>Population ethics</li>
-                                <li>Philosophy of mind</li>
-                                <li>Decision theory</li>
-                                <li>Astrobiology</li>
-                                <li>The nature of consciousness</li>
-                                <li>Whether distance matters (in space AND time)</li>
+                                <li>Metaethics 📚</li>
+                                <li>Population ethics 👥</li>
+                                <li>Philosophy of mind 🧠</li>
+                                <li>Decision theory 🎲</li>
+                                <li>Astrobiology 👽</li>
+                                <li>The nature of consciousness 💭</li>
+                                <li>Whether distance matters (in space 🌌 AND time ⏳)</li>
                             </ul>
 
-                            None of these are solved.
+                            <div class="info-box warning">
+                                None of these are solved.
+                            </div>
 
                             Would you like to:
                         </div>
                         <div class="choices">
-                            <button class="choice" onclick="goToScene('keep_going')">[A] Keep going (there are more questions)</button>
-                            <button class="choice" onclick="goToScene('recommendation')">[B] Just give me a recommendation</button>
-                            <button class="choice" onclick="goToScene('give_up')">[C] Give up</button>
+                            <button class="choice" onclick="goToScene('keep_going')">[A] Keep going (there are more questions) ♾️</button>
+                            <button class="choice" onclick="goToScene('recommendation')">[B] Just give me a recommendation 🎯</button>
+                            <button class="choice" onclick="goToScene('give_up')">[C] Give up 🏳️</button>
                         </div>
                     `;
                 }
@@ -1147,32 +1335,50 @@
                         (gameState.flags.being_weights === 1 || gameState.flags.being_weights === 1000)) {
                         recommendation = `
                             <div style="text-align: center;">
-                                <h2 style="margin-bottom: 30px;">RECOMMENDATION COMPLETE</h2>
+                                <div class="ascii-art">
+    ┌────────────────────────────────┐
+    │  🎯 RECOMMENDATION COMPLETE 🎯 │
+    └────────────────────────────────┘
+                                </div>
 
                                 <p>Given your framework, the highest expected value intervention is:</p>
 
-                                <div class="shrimp">🦐</div>
+                                <div class="ascii-art">
+    🦐🦐🦐🦐🦐🦐🦐🦐🦐🦐
+    🦐  SHRIMP WELFARE  🦐
+    🦐🦐🦐🦐🦐🦐🦐🦐🦐🦐
+                                </div>
 
-                                <h2 style="color: #00ff00; margin: 30px 0;">Shrimp welfare.</h2>
+                                <h2 style="color: #6B46C1; margin: 30px 0;">Shrimp welfare.</h2>
+
+                                <div class="ascii-art">
+    "Wait... WHAT?" - You, probably
+                                </div>
 
                                 <div class="info-box" style="margin: 30px 0; text-align: left;">
-                                    Wait, what?<br><br>
+                                    <div class="ascii-art">
+    📊 THE EVIDENCE:
 
-                                    There are 300 billion shrimp in factory farms.<br>
-                                    The cost per shrimp affected is very low.<br>
-                                    You said sentience matters.<br>
-                                    You said scale matters.<br>
-                                    You said cost-effectiveness matters.<br><br>
+    🦐 Factory farmed shrimp: 300 billion
+    💵 Cost per shrimp affected: Very low
+    </div>
 
-                                    The math is the math.<br><br>
+                                    You said sentience matters. ✓<br>
+                                    You said scale matters. ✓<br>
+                                    You said cost-effectiveness matters. ✓<br><br>
 
-                                    Get in the car. We're doing shrimp welfare.
+                                    The math is the math. 🧮<br><br>
+
+                                    <div class="ascii-art">
+    🚗 Get in loser
+       We're doing shrimp welfare
+                                    </div>
                                 </div>
                             </div>
                             <div class="choices">
-                                <button class="choice" onclick="goToScene('shrimp_accept')">ACCEPT</button>
-                                <button class="choice" onclick="goToScene('shrimp_refuse')">REFUSE</button>
-                                <button class="choice" onclick="restart()">RESTART</button>
+                                <button class="choice" onclick="goToScene('shrimp_accept')">ACCEPT 🦐</button>
+                                <button class="choice" onclick="goToScene('shrimp_refuse')">REFUSE ❌</button>
+                                <button class="choice" onclick="restart()">RESTART 🔄</button>
                             </div>
                         `;
                     } else if (gameState.flags.longtermist) {
@@ -1247,22 +1453,42 @@
             shrimp_accept: {
                 text: `
                     <div class="achievement">
-                        🦐 ACHIEVEMENT UNLOCKED: CONSISTENT 🦐
+                        <div class="ascii-art">
+    🏆✨ ACHIEVEMENT UNLOCKED ✨🏆
 
-                        You followed the logic.
-                        It led to shrimp.
-                        You accepted it.
+    ╔═════════════════════════╗
+    ║  🦐  CONSISTENT  🦐     ║
+    ╚═════════════════════════╝
+                        </div>
 
-                        ${gameState.flags.ghost_utilitarian ? 'You also vaporized Earth earlier.' : ''}
-                        ${gameState.flags.ghost_utilitarian ? 'Peak consistency.' : ''}
+                        <div class="ascii-art">
+    Step 1: Follow the logic ✓
+    Step 2: Logic leads to shrimp 🦐
+    Step 3: Accept shrimp ✓
+
+    ${gameState.flags.ghost_utilitarian ? '    Bonus: Vaporized Earth earlier 💥' : ''}
+    ${gameState.flags.ghost_utilitarian ? '    Status: Peak consistency 💯' : ''}
+                        </div>
                     </div>
 
-                    Welcome to the world of actually following utilitarian logic to its conclusions.
+                    <div class="ascii-art">
+    ┌─────────────────────────────────┐
+    │ Welcome to the world of         │
+    │ actually following utilitarian  │
+    │ logic to its conclusions        │
+    │                                 │
+    │         🦐🤝👤                  │
+    │                                 │
+    │   It's weird here.              │
+    └─────────────────────────────────┘
+                    </div>
 
-                    It's weird here.
+                    <div class="info-box">
+                        But hey, at least you're consistent.
+                    </div>
                 `,
                 choices: [
-                    { text: 'RESTART', next: 'title', effect: () => restart() }
+                    { text: 'RESTART 🔄', next: 'title', effect: () => restart() }
                 ]
             },
 
@@ -1351,15 +1577,41 @@
             const scene = scenes[gameState.currentScene];
             const choice = scene.choices[choiceIndex];
 
+            // Mark choice as selected
+            const choiceButtons = document.querySelectorAll('.choice');
+            choiceButtons.forEach((btn, idx) => {
+                if (idx === choiceIndex) {
+                    btn.classList.add('selected');
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = true;
+                }
+            });
+
             gameState.questionsAnswered++;
             updateHUD();
 
+            // Create feedback area if it doesn't exist
+            let feedbackArea = document.getElementById('feedback-area');
+            if (!feedbackArea) {
+                feedbackArea = document.createElement('div');
+                feedbackArea.id = 'feedback-area';
+                feedbackArea.className = 'feedback-area';
+                document.getElementById('game-content').appendChild(feedbackArea);
+            }
+
+            // Run effect (will add info boxes to feedback area)
             if (choice.effect) {
                 choice.effect();
             }
 
+            // Add next button
             if (choice.next) {
-                setTimeout(() => goToScene(choice.next), 100);
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'next-btn';
+                nextBtn.textContent = 'NEXT →';
+                nextBtn.onclick = () => goToScene(choice.next);
+                feedbackArea.appendChild(nextBtn);
             }
         }
 
@@ -1370,19 +1622,19 @@
         }
 
         function showQuestionSpawn(questions) {
-            const content = document.getElementById('game-content');
+            const feedbackArea = document.getElementById('feedback-area') || document.getElementById('game-content');
             const questionDiv = document.createElement('div');
             questionDiv.className = 'question-added';
-            questionDiv.innerHTML = '<ul>' + questions.map(q => `<li>${q}</li>`).join('') + '</ul>';
-            content.appendChild(questionDiv);
+            questionDiv.innerHTML = '<div class="ascii-art">⚠️ NEW QUESTIONS SPAWNED ⚠️</div><ul>' + questions.map(q => `<li>${q}</li>`).join('') + '</ul>';
+            feedbackArea.appendChild(questionDiv);
         }
 
         function addInfo(text) {
-            const content = document.getElementById('game-content');
+            const feedbackArea = document.getElementById('feedback-area') || document.getElementById('game-content');
             const infoDiv = document.createElement('div');
             infoDiv.className = 'info-box';
             infoDiv.textContent = text;
-            content.appendChild(infoDiv);
+            feedbackArea.appendChild(infoDiv);
         }
 
         function updateHUD() {
