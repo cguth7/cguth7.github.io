@@ -322,11 +322,9 @@
                     { text: 'CONTINUE', next: 'utility_type' }
                 ],
                 onEnter: () => {
-                    setTimeout(() => {
-                        const remaining = document.getElementById('questions-remaining');
-                        remaining.textContent = '∞';
-                        remaining.classList.add('flicker');
-                    }, 1000);
+                    const remaining = document.getElementById('questions-remaining');
+                    remaining.textContent = '∞';
+                    remaining.classList.add('flicker');
                 }
             },
 
@@ -1354,12 +1352,20 @@
             gameState.questionsAnswered++;
             updateHUD();
 
+            // Store the next scene for the continue button
+            let nextScene = choice.next;
+
+            // Execute effects first
             if (choice.effect) {
                 choice.effect();
             }
 
-            if (choice.next) {
-                setTimeout(() => goToScene(choice.next), 100);
+            // If there's a next scene, hide choices and show continue button
+            if (nextScene) {
+                const choicesDiv = document.querySelector('.choices');
+                if (choicesDiv) {
+                    choicesDiv.innerHTML = `<button class="btn" onclick="goToScene('${nextScene}')">CONTINUE</button>`;
+                }
             }
         }
 
