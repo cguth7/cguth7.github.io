@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regression Analysis: AlphaFold 2 Effect</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 { color: #2c3e50; border-bottom: 3px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #34495e; margin-top: 40px; border-left: 4px solid #3498db; padding-left: 15px; }
+        .model-spec {
+            background: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            margin: 20px 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ecf0f1; }
+        th { background: #3498db; color: white; }
+        tr:hover { background: #f8f9fa; }
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .note { color: #7f8c8d; font-size: 0.9em; font-style: italic; }
+        .key-finding {
+            background: #e8f6f3;
+            border-left: 4px solid #1abc9c;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Regression Analysis: Effect of AlphaFold 2 Release</h1>
+    <p><strong>Treatment:</strong> AlphaFold 2 public release (July 2021)</p>
+    <p><strong>Panel:</strong> Gene-month level, Jan 2020 - Dec 2023</p>
+
+    <h2>Model Specification</h2>
+    <div class="model-spec">
+        Y<sub>it</sub> = β × Post<sub>t</sub> + α<sub>i</sub> + γ<sub>t</sub> + ε<sub>it</sub>
+        <br><br>
+        where:<br>
+        • Y<sub>it</sub> = outcome for gene i in month t<br>
+        • Post<sub>t</sub> = 1 if t ≥ July 2021<br>
+        • α<sub>i</sub> = gene fixed effects<br>
+        • γ<sub>t</sub> = year-month fixed effects<br>
+        • Standard errors clustered at gene level
+    </div>
+
+    <h2>1. Fixed Effects DiD Results</h2>
+    <table>
+        <tr>
+            <th>Outcome</th>
+            <th>β (Post)</th>
+            <th>SE</th>
+            <th>95% CI</th>
+            <th>N</th>
+            <th>R² (within)</th>
+        </tr>
+
+        <tr>
+            <td>n_papers</td>
+            <td>2.0620</td>
+            <td>(1172948480069.1499)</td>
+            <td>[-2298979020933.472, 2298979020937.596]</td>
+            <td>949,824</td>
+            <td>0.0016</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_newcomer</td>
+            <td>1.3965</td>
+            <td>(989998539874.2324)</td>
+            <td>[-1940397138152.099, 1940397138154.892]</td>
+            <td>949,824</td>
+            <td>0.0007</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_veteran</td>
+            <td>0.7021</td>
+            <td>(468392797057.0117)</td>
+            <td>[-918049882231.041, 918049882232.445]</td>
+            <td>949,824</td>
+            <td>0.0019</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_healthcare</td>
+            <td>0.9580</td>
+            <td>(624428699138.7983)</td>
+            <td>[-1223880250311.087, 1223880250313.003]</td>
+            <td>949,824</td>
+            <td>0.0038</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_education</td>
+            <td>1.0790</td>
+            <td>(850644814431.4664)</td>
+            <td>[-1667263836284.595, 1667263836286.753]</td>
+            <td>949,824</td>
+            <td>0.0003</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_company</td>
+            <td>0.0326</td>
+            <td>(90049604062.4330)</td>
+            <td>[-176497223962.336, 176497223962.401]</td>
+            <td>949,824</td>
+            <td>-0.0009</td>
+        </tr>
+    
+        <tr>
+            <td>n_top10_q</td>
+            <td>0.4925</td>
+            <td>(396983730191.3441)</td>
+            <td>[-778088111174.542, 778088111175.527]</td>
+            <td>949,824</td>
+            <td>0.0023</td>
+        </tr>
+    
+        <tr>
+            <td>n_unique_diseases</td>
+            <td>12.3252</td>
+            <td>(8355436477366.5693)</td>
+            <td>[-16376655495626.152, 16376655495650.801]</td>
+            <td>949,824</td>
+            <td>0.0062</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_openalex</td>
+            <td>3.6255</td>
+            <td>(1076344105056.0890)</td>
+            <td>[-2109634445906.309, 2109634445913.560]</td>
+            <td>949,824</td>
+            <td>-0.0039</td>
+        </tr>
+    
+        <tr>
+            <td>n_papers_openalex_newcomer</td>
+            <td>2.5010</td>
+            <td>(892808087378.8148)</td>
+            <td>[-1749903851259.976, 1749903851264.978]</td>
+            <td>949,824</td>
+            <td>-0.0055</td>
+        </tr>
+    
+    </table>
+    <p class="note">*** p<0.01, ** p<0.05, * p<0.1</p>
+
+    <img src="fe_coefficients.png" alt="FE Coefficients">
+
+    <h2>2. Event Study Results</h2>
+    <p>Event study specification with leads and lags around the treatment date (t = -1 as reference):</p>
+
+    <img src="event_studies_combined.png" alt="Event Studies Combined">
+
+    <div class="key-finding">
+        <strong>Interpretation:</strong> The event study plots show the dynamic treatment effects.
+        Coefficients before July 2021 (t < 0) test the parallel trends assumption - they should be
+        close to zero if pre-treatment trends were similar. Coefficients after (t ≥ 0) show the
+        treatment effect evolution.
+    </div>
+
+    <h2>Individual Event Studies</h2>
+
+    <h3>n_papers</h3>
+    <img src="event_study_n_papers.png" alt="Event Study: n_papers">
+    
+    <h3>n_papers_newcomer</h3>
+    <img src="event_study_n_papers_newcomer.png" alt="Event Study: n_papers_newcomer">
+    
+    <h3>n_papers_veteran</h3>
+    <img src="event_study_n_papers_veteran.png" alt="Event Study: n_papers_veteran">
+    
+    <h3>n_top10_q</h3>
+    <img src="event_study_n_top10_q.png" alt="Event Study: n_top10_q">
+    
+    <h3>n_unique_diseases</h3>
+    <img src="event_study_n_unique_diseases.png" alt="Event Study: n_unique_diseases">
+    
+    <h3>n_papers_openalex</h3>
+    <img src="event_study_n_papers_openalex.png" alt="Event Study: n_papers_openalex">
+    
+    <h2>3. Log Specifications (Intensive Margin)</h2>
+    <table>
+        <tr>
+            <th>Outcome</th>
+            <th>β</th>
+            <th>% Effect</th>
+            <th>p-value</th>
+        </tr>
+
+        <tr>
+            <td>log(n_papers+1)</td>
+            <td>0.0474</td>
+            <td>4.9%</td>
+            <td>1.0000</td>
+        </tr>
+    
+        <tr>
+            <td>log(n_papers_newcomer+1)</td>
+            <td>0.0426</td>
+            <td>4.4%</td>
+            <td>1.0000</td>
+        </tr>
+    
+        <tr>
+            <td>log(n_papers_openalex+1)</td>
+            <td>0.1545</td>
+            <td>16.7%</td>
+            <td>1.0000</td>
+        </tr>
+    
+    </table>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; color: #7f8c8d;">
+        <p>Analysis using two-way fixed effects with clustered standard errors.</p>
+    </footer>
+</body>
+</html>
