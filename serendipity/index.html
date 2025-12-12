@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gene Research Panel Data Analysis</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fafafa;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+            border-left: 4px solid #3498db;
+            padding-left: 15px;
+        }
+        .summary-box {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #3498db;
+        }
+        .stat-label {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .figure-caption {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            margin-top: -10px;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        th {
+            background: #3498db;
+            color: white;
+        }
+        tr:hover {
+            background: #f8f9fa;
+        }
+        .key-finding {
+            background: #e8f6f3;
+            border-left: 4px solid #1abc9c;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gene Research Panel Data Analysis</h1>
+    <p><strong>Dataset:</strong> full_serialized_final_panel_with_openalex_counts.dta</p>
+    <p><strong>Generated:</strong> 2025-12-12 16:20</p>
+
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div class="stat-value">949,824</div>
+            <div class="stat-label">Total Observations</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">19,690</div>
+            <div class="stat-label">Unique Genes</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">48</div>
+            <div class="stat-label">Months (2020-2023)</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">13,684,585</div>
+            <div class="stat-label">Total Papers</div>
+        </div>
+    </div>
+
+    <h2>1. Variable Distributions</h2>
+    <img src="distributions.png" alt="Distributions">
+    <p class="figure-caption">Figure 1: Distributions of key variables (log-transformed where skewness > 2)</p>
+
+    <div class="key-finding">
+        <strong>Key Finding:</strong> Most variables are highly right-skewed. The median gene-month has only 2 papers,
+        while the mean is 14.4, indicating a small number of genes receive disproportionate attention.
+    </div>
+
+    <h2>2. Time Series Analysis</h2>
+    <img src="time_series.png" alt="Time Series">
+    <p class="figure-caption">Figure 2: Research activity over time with AlphaFold 2 release marked (July 2021)</p>
+
+    <h2>3. Pre vs Post AlphaFold Comparison</h2>
+    <img src="pre_post_comparison.png" alt="Pre/Post Comparison">
+    <p class="figure-caption">Figure 3: Box plots comparing key metrics before and after AlphaFold 2 release</p>
+
+    <h2>4. Correlation Analysis</h2>
+    <img src="correlation_matrix.png" alt="Correlation Matrix">
+    <p class="figure-caption">Figure 4: Correlation matrix of key numeric variables</p>
+
+    <div class="key-finding">
+        <strong>Key Finding:</strong> Strong correlations exist between total papers and papers by newcomers (r=0.98),
+        suggesting newcomers drive most research activity. Disease associations correlate moderately with paper counts.
+    </div>
+
+    <h2>5. Protein Existence Analysis</h2>
+    <img src="protein_existence.png" alt="Protein Existence">
+    <p class="figure-caption">Figure 5: Research activity and structure quality by protein evidence level</p>
+
+    <h2>6. Outlier Analysis</h2>
+    <img src="outlier_analysis.png" alt="Outlier Analysis">
+    <p class="figure-caption">Figure 6: Distribution analysis with outliers and key genes identified</p>
+
+    <h2>7. Newcomer vs Veteran Analysis</h2>
+    <img src="newcomer_veteran.png" alt="Newcomer vs Veteran">
+    <p class="figure-caption">Figure 7: Comparison of research output by author experience level</p>
+
+    <div class="key-finding">
+        <strong>Key Finding:</strong> Newcomers consistently produce ~75% of papers across the time period.
+        The newcomer fraction increased slightly after AlphaFold 2 release.
+    </div>
+
+    <h2>8. Gene Group Analysis</h2>
+    <img src="gene_groups.png" alt="Gene Groups">
+    <p class="figure-caption">Figure 8: Analysis of gene functional groups</p>
+
+    <h2>9. Bucket Analysis</h2>
+    <img src="bucket_analysis.png" alt="Bucket Analysis">
+    <p class="figure-caption">Figure 9: Distribution of observations across meaningful buckets</p>
+
+    <h2>10. Institution Type Analysis</h2>
+    <img src="institution_analysis.png" alt="Institution Analysis">
+    <p class="figure-caption">Figure 10: Research output by institution type (Healthcare, Education, Company)</p>
+
+    <h2>11. Inequality Analysis</h2>
+    <img src="percentile_analysis.png" alt="Percentile Analysis">
+    <p class="figure-caption">Figure 11: Cumulative distribution and Lorenz curve showing research inequality</p>
+
+    <div class="key-finding">
+        <strong>Key Finding:</strong> The Gini coefficient of 0.848 indicates high inequality in research attention.
+        The top 1% of gene-months account for a disproportionate share of all publications.
+    </div>
+
+    <h2>Summary Statistics</h2>
+    <p>See <a href="summary_statistics.html">full summary statistics table</a>.</p>
+
+    <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; color: #7f8c8d; text-align: center;">
+        <p>Analysis following principles from Tufte's "The Visual Display of Quantitative Information"</p>
+    </footer>
+</body>
+</html>
