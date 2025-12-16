@@ -347,7 +347,7 @@
         <section>
             <div class="stats-row">
                 <div class="stat">
-                    <div class="stat-num">26</div>
+                    <div class="stat-num">27</div>
                     <div class="stat-label">Cycles</div>
                 </div>
                 <div class="stat">
@@ -359,7 +359,7 @@
                     <div class="stat-label">Lemmas Proved</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">4</div>
+                    <div class="stat-num">7</div>
                     <div class="stat-label">Active Sorries</div>
                 </div>
             </div>
@@ -471,6 +471,11 @@
                         <td><span class="status done">Proved</span></td>
                     </tr>
                     <tr>
+                        <td><code>partialResidueMap</code></td>
+                        <td>K-element (v(g) &le; 1) to residue field</td>
+                        <td><span class="status done">Defined</span></td>
+                    </tr>
+                    <tr>
                         <td><code>riemann_inequality_real</code></td>
                         <td>l(D) &le; deg(D) + 1</td>
                         <td><span class="status done">Proved</span></td>
@@ -514,33 +519,51 @@
                         <td>Superseded by <code>riemann_inequality_real</code></td>
                     </tr>
                     <tr>
-                        <td>1001</td>
+                        <td>989</td>
                         <td><code>shifted_element_valuation_le_one</code></td>
                         <td><span class="status wip">Active</span></td>
                         <td>WithZero.exp arithmetic (proof path clear)</td>
                     </tr>
                     <tr>
-                        <td>1030</td>
+                        <td>1029</td>
                         <td><code>evaluationMapAt</code></td>
                         <td><span class="status blocked">Blocker</span></td>
                         <td>Needs residue field bridge</td>
                     </tr>
                     <tr>
-                        <td>1042</td>
+                        <td>1040</td>
                         <td><code>kernel_evaluationMapAt</code></td>
                         <td><span class="status blocked">Blocked</span></td>
                         <td>Depends on evaluationMapAt</td>
                     </tr>
                     <tr>
-                        <td>1061</td>
+                        <td>1049</td>
                         <td><code>instLocalGapBound</code></td>
                         <td><span class="status blocked">Blocked</span></td>
                         <td>Depends on kernel proof</td>
                     </tr>
+                    <tr>
+                        <td>1191</td>
+                        <td><code>partialResidueMap_zero</code></td>
+                        <td><span class="status wip">Active</span></td>
+                        <td>Subtype coercion (NEW Cycle 27)</td>
+                    </tr>
+                    <tr>
+                        <td>1200</td>
+                        <td><code>partialResidueMap_add</code></td>
+                        <td><span class="status wip">Active</span></td>
+                        <td>Subtype addition (NEW Cycle 27)</td>
+                    </tr>
+                    <tr>
+                        <td>1211</td>
+                        <td><code>partialResidueMap_smul</code></td>
+                        <td><span class="status wip">Active</span></td>
+                        <td>Scalar multiplication (NEW Cycle 27)</td>
+                    </tr>
                 </tbody>
             </table>
             <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
-                <strong>6 total sorries</strong>: 2 deprecated (placeholder code), 4 active (on critical path to LocalGapBound instance)
+                <strong>9 total sorries</strong>: 2 deprecated (placeholder code), 7 active (4 on critical path, 3 new linearity proofs)
             </p>
         </section>
 
@@ -558,6 +581,12 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <tr>
+                        <td><code>partialResidueMap</code> linearity</td>
+                        <td>Prove zero, add, smul for partial residue map</td>
+                        <td><span class="difficulty easy">Easy</span></td>
+                        <td>Subtype coercion pattern (NEW Cycle 27)</td>
+                    </tr>
                     <tr>
                         <td>Residue field bridge</td>
                         <td>Show valuationRingAt.residueField = residueFieldAtPrime</td>
@@ -598,7 +627,7 @@
             </table>
 
             <div class="note info">
-                <strong>Cycle 26 Progress:</strong> Introduced valuation ring infrastructure. The key insight is that shifted elements land in <code>valuationRingAt v</code> (local condition at single prime) even though they may have poles elsewhere. Now need to bridge the two residue field constructions.
+                <strong>Cycle 27 Progress:</strong> Defined <code>partialResidueMap</code> to map K-elements (with v(g) &le; 1) to the valuation ring's residue field. Found key mathlib lemma <code>HeightOneSpectrum.mem_integers_of_valuation_le_one</code> confirming why local approach is needed. Three linearity proofs (zero, add, smul) have sorry due to subtype coercion issues.
             </div>
         </section>
 
@@ -741,17 +770,24 @@
                         <td><code>valuationRingAt</code>, local ring infrastructure</td>
                         <td><span class="status done">8 proved</span></td>
                     </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>Partial residue map</td>
+                        <td><code>partialResidueMap</code>, WithZero.exp helpers</td>
+                        <td><span class="status wip">5 OK, 3 sorry</span></td>
+                    </tr>
                 </tbody>
             </table>
         </section>
 
         <!-- What's Next -->
         <section>
-            <h2>What's Next (Cycle 27)</h2>
+            <h2>What's Next (Cycle 28)</h2>
             <h3>Immediate Goals</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li><strong>Fix partialResidueMap linearity</strong> &mdash; Resolve subtype coercion issues in zero/add/smul proofs</li>
                 <li><strong>Bridge residue fields</strong> &mdash; Show <code>valuationRingAt.residueField v</code> is isomorphic to <code>residueFieldAtPrime R v</code></li>
-                <li><strong>Complete shifted valuation lemma</strong> &mdash; Use <code>withzero_exp_mul</code> and <code>withzero_exp_neg</code> helpers</li>
+                <li><strong>Complete shifted valuation lemma</strong> &mdash; Use <code>withzero_exp_mul_le_one</code> helper</li>
                 <li><strong>Construct evaluation map</strong> &mdash; Map shifted element through valuation ring residue to kappa(v)</li>
                 <li><strong>Instantiate LocalGapBound</strong> &mdash; Apply <code>local_gap_bound_of_exists_map</code></li>
             </ul>
@@ -839,6 +875,11 @@
                         <td>Shifted element may have poles at other primes (not in R)</td>
                         <td>Introduced valuationRingAt (local condition at single prime)</td>
                     </tr>
+                    <tr>
+                        <td>27</td>
+                        <td>partialResidueMap linearity blocked on subtype coercions</td>
+                        <td>Identified Subtype.ext pattern needed; mathlib confirms local approach</td>
+                    </tr>
                 </tbody>
             </table>
 
@@ -865,7 +906,7 @@
             <p>
                 Lean 4 + mathlib &bull;
                 <a href="https://github.com/cguth7/roch-riemann">GitHub</a> &bull;
-                Cycle 26 &bull;
+                Cycle 27 &bull;
                 Last updated: Dec 16, 2024
             </p>
         </footer>
