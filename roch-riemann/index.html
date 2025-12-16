@@ -266,15 +266,15 @@
             <h2>Project Statistics</h2>
             <div class="stats-grid">
                 <div class="stat-box">
-                    <div class="num">23</div>
+                    <div class="num">24</div>
                     <div class="label">Cycles</div>
                 </div>
                 <div class="stat-box">
-                    <div class="num">70+</div>
+                    <div class="num">75+</div>
                     <div class="label">Lemmas Proved</div>
                 </div>
                 <div class="stat-box">
-                    <div class="num">8</div>
+                    <div class="num">7</div>
                     <div class="label">Sorries</div>
                 </div>
                 <div class="stat-box">
@@ -374,6 +374,11 @@
                     <td><code>ellV2_real_mono</code></td>
                     <td>D <= E => l(D) <= l(E)</td>
                     <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>local_gap_bound_of_exists_map</code></td>
+                    <td>IF phi exists with ker=L(D), THEN l(D+v) <= l(D)+1</td>
+                    <td><span class="status proved">Proved (C24)</span></td>
                 </tr>
                 <tr>
                     <td><code>riemann_inequality_real</code></td>
@@ -524,21 +529,38 @@ FunctionFieldDataWithMul alpha k
             </ol>
         </section>
 
+        <!-- Cycle 24 -->
+        <section>
+            <h2>Latest: Cycle 24 - Linear Algebra Bridge</h2>
+            <div class="theorem-box proved">
+                <div class="label">Proved: Linear Algebra Bridge (Cycle 24 Phase 1)</div>
+                <div class="equation">ker(phi) = L(D) => l(D+v) <= l(D) + 1</div>
+                <div class="gloss">Conditional bound via exact sequence and Module.length additivity</div>
+            </div>
+            <p>The "Linear Algebra Bridge" lemma establishes that IF an evaluation map phi : L(D+v) -> kappa(v) exists with the right kernel, THEN the dimension bound follows. This uses:</p>
+            <ul>
+                <li><code>Module.length_eq_add_of_exact</code> for exact sequence additivity</li>
+                <li><code>residueFieldAtPrime.length_eq_one</code> since kappa(v) is a simple R-module</li>
+                <li><code>Module.length_le_of_injective</code> for the range bound</li>
+            </ul>
+            <p><strong>Phase 2</strong> (next cycle): Construct the actual evaluation map using uniformizers.</p>
+        </section>
+
         <!-- Next Steps -->
         <section>
             <h2>Possible Future Directions</h2>
             <ul>
-                <li><strong>Prove LocalGapBound instance</strong> via evaluation map to residue field (Cycle 24 planned)</li>
+                <li><strong>Construct evaluation map</strong> using uniformizers (Cycle 24 Phase 2)</li>
+                <li><strong>Prove LocalGapBound instance</strong> making riemann_inequality_affine unconditional</li>
                 <li><strong>Add compactification</strong> to get SinglePointBound for projective models</li>
                 <li><strong>Weierstrass points</strong> using the special divisor characterization</li>
-                <li><strong>Hyperelliptic curves</strong> and genus 2+ special cases</li>
             </ul>
         </section>
 
         <footer>
             <p>
                 <strong>Lean 4 + mathlib</strong> &bull;
-                Cycle 23 &bull;
+                Cycle 24 &bull;
                 Last updated: December 2024 &bull;
                 <a href="https://github.com/cguth7/roch-riemann">Source on GitHub</a>
             </p>
