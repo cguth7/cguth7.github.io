@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riemann-Roch Formalization in Lean 4</title>
+    <style>
+        :root {
+            --bg: #fafafa;
+            --text: #1a1a1a;
+            --muted: #666;
+            --border: #ddd;
+            --accent: #2563eb;
+            --green: #16a34a;
+            --yellow: #ca8a04;
+            --red: #dc2626;
+            --code-bg: #f3f4f6;
+            --math-bg: #f8fafc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+        header h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        header .subtitle {
+            color: var(--muted);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+        header .links a {
+            color: var(--accent);
+            text-decoration: none;
+            margin-right: 1.5rem;
+        }
+        header .links a:hover {
+            text-decoration: underline;
+        }
+        section {
+            margin-bottom: 3rem;
+        }
+        h2 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.75rem 0;
+        }
+        p {
+            margin-bottom: 1rem;
+        }
+        .theorem-box {
+            background: var(--math-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem 2rem;
+            margin: 1.5rem 0;
+            border-radius: 4px;
+        }
+        .theorem-box.proved {
+            border-left-color: var(--green);
+        }
+        .theorem-box.axiom {
+            border-left-color: var(--yellow);
+        }
+        .theorem-box .label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .theorem-box.proved .label { color: var(--green); }
+        .theorem-box.axiom .label { color: var(--yellow); }
+        .theorem-box .equation {
+            font-family: 'Times New Roman', Georgia, serif;
+            font-size: 1.4rem;
+            font-style: italic;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .theorem-box .gloss {
+            font-size: 0.9rem;
+            color: var(--muted);
+            text-align: center;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .stat-box .num {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        .stat-box .label {
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            text-align: left;
+        }
+        th {
+            background: var(--code-bg);
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.9em;
+            background: var(--code-bg);
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+        }
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+        .status {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+        .status.proved { background: #dcfce7; color: var(--green); }
+        .status.axiom { background: #fef3c7; color: var(--yellow); }
+        .status.blocked { background: #fee2e2; color: var(--red); }
+        .note {
+            background: #eff6ff;
+            border: 1px solid #93c5fd;
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+        }
+        .note.warning {
+            background: #fef3c7;
+            border-color: #fcd34d;
+        }
+        .note strong {
+            color: var(--accent);
+        }
+        .note.warning strong {
+            color: var(--yellow);
+        }
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        li {
+            margin-bottom: 0.5rem;
+        }
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+        .col-box {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+        .col-box h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        footer a {
+            color: var(--accent);
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .two-col { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Riemann-Roch Formalization in Lean 4</h1>
+            <p class="subtitle">A work-in-progress formalization exploring two approaches: axiom-based and constructive</p>
+            <div class="links">
+                <a href="https://github.com/cguth7/roch-riemann">GitHub Repository</a>
+                <a href="https://leanprover-community.github.io/mathlib4_docs/">Mathlib Docs</a>
+            </div>
+        </header>
+
+        <!-- Target Theorem -->
+        <section>
+            <h2>Target Theorem</h2>
+            <div class="theorem-box">
+                <div class="label">Riemann-Roch Theorem</div>
+                <div class="equation">l(D) - l(K - D) = deg(D) + 1 - g</div>
+                <div class="gloss">
+                    For a divisor D on a smooth projective curve of genus g, with canonical divisor K
+                </div>
+            </div>
+            <p>The Riemann-Roch theorem is a cornerstone of algebraic geometry, relating the dimension of spaces of meromorphic functions to topological invariants of curves. Our formalization explores what can be proved in Lean 4 with current mathlib infrastructure.</p>
+        </section>
+
+        <!-- Current Statistics -->
+        <section>
+            <h2>Project Statistics</h2>
+            <div class="stats-grid">
+                <div class="stat-box">
+                    <div class="num">23</div>
+                    <div class="label">Cycles</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num">70+</div>
+                    <div class="label">Lemmas Proved</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num">8</div>
+                    <div class="label">Sorries</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num">2</div>
+                    <div class="label">Approaches</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Two Approaches -->
+        <section>
+            <h2>Two Approaches</h2>
+            <div class="two-col">
+                <div class="col-box">
+                    <h4>RR.lean: Axiom-Based</h4>
+                    <p><strong>Strategy:</strong> Axiomatize function fields and derive consequences</p>
+                    <ul>
+                        <li>Divisors as <code>Finsupp alpha Z</code></li>
+                        <li>L(D) defined via abstract <code>div : K -> Divisor</code></li>
+                        <li>RR equation as structure axiom</li>
+                        <li>Full theorem structure with genus 0/1 results</li>
+                    </ul>
+                    <p><span class="status proved">5 sorries</span></p>
+                </div>
+                <div class="col-box">
+                    <h4>RR_v2.lean: Constructive</h4>
+                    <p><strong>Strategy:</strong> Use Dedekind domain valuations</p>
+                    <ul>
+                        <li>Points as <code>HeightOneSpectrum R</code></li>
+                        <li>L(D) via v-adic valuation bounds</li>
+                        <li>Module.length for dimension</li>
+                        <li>Riemann inequality proved from valuations</li>
+                    </ul>
+                    <p><span class="status proved">3 sorries</span></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- What's Proved -->
+        <section>
+            <h2>Key Results Proved</h2>
+
+            <h3>Riemann Inequality (Both Approaches)</h3>
+            <div class="theorem-box proved">
+                <div class="label">Proved</div>
+                <div class="equation">l(D) <= deg(D) + 1</div>
+                <div class="gloss">For effective divisors D on a complete curve</div>
+            </div>
+
+            <h3>Genus-Specific Results (RR.lean)</h3>
+            <table>
+                <tr>
+                    <th>Result</th>
+                    <th>Statement</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td><code>ell_K</code></td>
+                    <td>l(K) = g</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>ell_K_sub_D_eq_zero_of_deg_gt</code></td>
+                    <td>deg(D) > 2g-2 => l(K-D) = 0</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>ell_eq_deg_succ_of_genus_zero</code></td>
+                    <td>g=0, deg(D)>-2 => l(D) = deg(D)+1</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>ell_eq_deg_of_genus_one</code></td>
+                    <td>g=1, deg(D)>=1 => l(D) = deg(D)</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>clifford_bound'</code></td>
+                    <td>2l(D) <= deg(D)+2 (special divisors)</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+            </table>
+
+            <h3>Constructive Results (RR_v2.lean)</h3>
+            <table>
+                <tr>
+                    <th>Result</th>
+                    <th>Statement</th>
+                    <th>Status</th>
+                </tr>
+                <tr>
+                    <td><code>RRModuleV2_real</code></td>
+                    <td>L(D) as R-submodule via valuations</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>ellV2_real_mono</code></td>
+                    <td>D <= E => l(D) <= l(E)</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>riemann_inequality_real</code></td>
+                    <td>l(D) <= deg(D) + 1</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+                <tr>
+                    <td><code>riemann_inequality_affine</code></td>
+                    <td>l(D) <= deg(D) + basedim</td>
+                    <td><span class="status proved">Proved</span></td>
+                </tr>
+            </table>
+        </section>
+
+        <!-- Axioms Required -->
+        <section>
+            <h2>Axioms & Assumptions</h2>
+            <div class="note warning">
+                <strong>Important:</strong> These results are NOT proved from first principles. They rely on axiomatized structure fields that encode geometric facts mathlib cannot yet express.
+            </div>
+
+            <h3>Core Axioms (RR.lean)</h3>
+            <table>
+                <tr>
+                    <th>Axiom</th>
+                    <th>Mathematical Meaning</th>
+                    <th>Type</th>
+                </tr>
+                <tr>
+                    <td><code>single_point_bound</code></td>
+                    <td>l(D+p) <= l(D) + 1</td>
+                    <td><span class="status axiom">Geometric</span></td>
+                </tr>
+                <tr>
+                    <td><code>ell_zero_eq_one</code></td>
+                    <td>l(0) = 1 (only constants)</td>
+                    <td><span class="status axiom">Global</span></td>
+                </tr>
+                <tr>
+                    <td><code>rr_axiom</code></td>
+                    <td>l(D) - l(K-D) = deg(D) + 1 - g</td>
+                    <td><span class="status axiom">RR itself</span></td>
+                </tr>
+                <tr>
+                    <td><code>deg_K</code></td>
+                    <td>deg(K) = 2g - 2</td>
+                    <td><span class="status axiom">Riemann-Hurwitz</span></td>
+                </tr>
+                <tr>
+                    <td><code>mul_image_dim_bound</code></td>
+                    <td>l(D) + l(K-D) <= g + 1</td>
+                    <td><span class="status axiom">Cup product</span></td>
+                </tr>
+            </table>
+
+            <h3>Typeclass Hierarchy (RR_v2.lean)</h3>
+            <pre>LocalGapBound R K          -- PROVABLE (gap <= 1 via evaluation)
+    |
+    v extends
+SinglePointBound R K       -- REQUIRES compactification (l(0) = 1)
+
+BaseDim R K                -- SEPARATE (explicit base dimension)</pre>
+        </section>
+
+        <!-- Critical Discovery -->
+        <section>
+            <h2>Critical Architectural Discovery</h2>
+            <div class="note warning">
+                <strong>Cycle 22 Discovery:</strong> The affine model (HeightOneSpectrum R) captures only finite places. For function fields, L(0) = R (all integral functions), not k (constants). This means l(0) = infinity, not 1!
+            </div>
+
+            <div class="two-col">
+                <div class="col-box">
+                    <h4>Affine Model (Current)</h4>
+                    <ul>
+                        <li>Points = finite places only</li>
+                        <li>L(0) = R (integral functions)</li>
+                        <li>l(0) = infinity for Dedekind domains</li>
+                        <li>Proves: l(D) <= deg(D) + basedim</li>
+                    </ul>
+                </div>
+                <div class="col-box">
+                    <h4>Projective Model (Required)</h4>
+                    <ul>
+                        <li>Points = finite + infinite places</li>
+                        <li>L(0) = k (only constants)</li>
+                        <li>l(0) = 1</li>
+                        <li>Proves: l(D) <= deg(D) + 1</li>
+                    </ul>
+                </div>
+            </div>
+            <p>This discovery explains why <code>SinglePointBound.ell_zero_eq_one</code> cannot be instantiated for affine models. The solution is the <code>LocalGapBound</code> / <code>BaseDim</code> typeclass separation introduced in Cycle 23.</p>
+        </section>
+
+        <!-- Structure Hierarchy -->
+        <section>
+            <h2>Type Hierarchy (RR.lean)</h2>
+            <pre>FunctionFieldData alpha k
+    |  K : Field, div : K -> Divisor alpha
+    |  div_mul, div_one, div_inv, deg_div, div_add, div_algebraMap
+    |
+    v extends
+FunctionFieldDataWithBound alpha k
+    |  + single_point_bound : l(D+p) <= l(D) + 1
+    |  + ell_zero_eq_one : l(0) = 1
+    |
+    v extends
+FunctionFieldDataWithRR alpha k
+    |  + genus : N
+    |  + K_div : Divisor alpha
+    |  + deg_K : deg(K) = 2g - 2
+    |  + rr_axiom : l(D) - l(K-D) = deg(D) + 1 - g
+    |
+    v extends
+FunctionFieldDataWithMul alpha k
+       + mul_sections : L(D) x L(E) -> L(D+E)
+       + mul_image_dim_bound : l(D) + l(K-D) <= g + 1</pre>
+        </section>
+
+        <!-- What's Missing -->
+        <section>
+            <h2>What Would Be Needed for Full Proof</h2>
+            <p>To prove Riemann-Roch from first principles in Lean 4, mathlib would need:</p>
+            <ul>
+                <li><strong>Line bundles / invertible sheaves</strong> on schemes</li>
+                <li><strong>Tensor products</strong> of line bundles</li>
+                <li><strong>Sheaf cohomology</strong> H<sup>0</sup>, H<sup>1</sup></li>
+                <li><strong>Serre duality theorem</strong></li>
+                <li><strong>Euler characteristic formalism</strong></li>
+                <li><strong>Canonical bundle construction</strong></li>
+                <li><strong>Compactification</strong> (adding infinite places)</li>
+            </ul>
+            <p>Each of these would be a substantial multi-month project. The current axiomatized approach captures the <em>logical structure</em> of RR while deferring the <em>construction cost</em>.</p>
+        </section>
+
+        <!-- Philosophy -->
+        <section>
+            <h2>Design Philosophy</h2>
+            <div class="note">
+                <strong>Bourbaki-style approach:</strong> We chose "boundary theorem" style - showing exactly what follows from RR + vanishing, rather than building full cohomology machinery. Axiomatize, derive, then instantiate later.
+            </div>
+            <p>This project demonstrates:</p>
+            <ol>
+                <li><strong>What's provable</strong> from valuation theory alone (affine Riemann inequality)</li>
+                <li><strong>What requires globalization</strong> (classical Riemann inequality with l(0)=1)</li>
+                <li><strong>The logical structure</strong> of Riemann-Roch arguments</li>
+                <li><strong>Exactly which axioms</strong> are needed for each result</li>
+            </ol>
+        </section>
+
+        <!-- Next Steps -->
+        <section>
+            <h2>Possible Future Directions</h2>
+            <ul>
+                <li><strong>Prove LocalGapBound instance</strong> via evaluation map to residue field (Cycle 24 planned)</li>
+                <li><strong>Add compactification</strong> to get SinglePointBound for projective models</li>
+                <li><strong>Weierstrass points</strong> using the special divisor characterization</li>
+                <li><strong>Hyperelliptic curves</strong> and genus 2+ special cases</li>
+            </ul>
+        </section>
+
+        <footer>
+            <p>
+                <strong>Lean 4 + mathlib</strong> &bull;
+                Cycle 23 &bull;
+                Last updated: December 2024 &bull;
+                <a href="https://github.com/cguth7/roch-riemann">Source on GitHub</a>
+            </p>
+            <p style="margin-top: 1rem;">
+                <em>This project explores the boundaries of what can be formalized with current tools, documenting both achievements and limitations honestly.</em>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
