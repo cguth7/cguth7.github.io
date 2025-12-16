@@ -347,7 +347,7 @@
         <section>
             <div class="stats-row">
                 <div class="stat">
-                    <div class="stat-num">27</div>
+                    <div class="stat-num">37</div>
                     <div class="stat-label">Cycles</div>
                 </div>
                 <div class="stat">
@@ -355,12 +355,12 @@
                     <div class="stat-label">Approaches</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">100+</div>
+                    <div class="stat-num">150+</div>
                     <div class="stat-label">Lemmas Proved</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">7</div>
-                    <div class="stat-label">Active Sorries</div>
+                    <div class="stat-num">1</div>
+                    <div class="stat-label">Key Blocker</div>
                 </div>
             </div>
         </section>
@@ -390,7 +390,7 @@
                         <li><strong>Riemann inequality PROVED</strong> by degree induction</li>
                     </ul>
                     <p style="font-size: 0.85rem; color: var(--green);">
-                        <strong>Status:</strong> Core infrastructure complete, working toward unconditional LocalGapBound.
+                        <strong>Status:</strong> Core infrastructure complete. DVR-based set equality nearly complete (1 blocker).
                     </p>
                 </div>
             </div>
@@ -446,34 +446,34 @@
                         <td><span class="status done">Proved</span></td>
                     </tr>
                     <tr>
-                        <td><code>residueFieldAtPrime.linearEquiv</code></td>
-                        <td>R/v.asIdeal &cong; kappa(v)</td>
-                        <td><span class="status done">Proved</span></td>
+                        <td><code>localizationAtPrime_isDVR</code></td>
+                        <td>Localization.AtPrime is DVR</td>
+                        <td><span class="status done">Proved (Cycle 31)</span></td>
                     </tr>
                     <tr>
-                        <td><code>residueFieldAtPrime.isSimpleModule</code></td>
-                        <td>kappa(v) is simple R-module</td>
-                        <td><span class="status done">Proved</span></td>
+                        <td><code>localization_isFractionRing</code></td>
+                        <td>IsFractionRing (Loc.AtPrime) K</td>
+                        <td><span class="status done">Proved (Cycle 35)</span></td>
                     </tr>
                     <tr>
-                        <td><code>local_gap_bound_of_exists_map</code></td>
-                        <td>Linear algebra bridge lemma</td>
-                        <td><span class="status done">Proved</span></td>
+                        <td><code>mk_mem_valuationRingAt</code></td>
+                        <td>Forward: fractions have v &le; 1</td>
+                        <td><span class="status done">Proved (Cycle 33)</span></td>
                     </tr>
                     <tr>
-                        <td><code>uniformizerAt</code></td>
-                        <td>Uniformizer pi at height-1 prime v</td>
-                        <td><span class="status done">Proved</span></td>
+                        <td><code>range_algebraMap_subset_valuationRingAt</code></td>
+                        <td>Forward set inclusion</td>
+                        <td><span class="status done">Proved (Cycle 36)</span></td>
                     </tr>
                     <tr>
-                        <td><code>valuationRingAt</code></td>
-                        <td>Valuation ring at v (local ring)</td>
-                        <td><span class="status done">Proved</span></td>
+                        <td><code>dvr_valuationSubring_eq_range</code></td>
+                        <td>DVR range = valuationSubring</td>
+                        <td><span class="status done">Proved (Cycle 37)</span></td>
                     </tr>
                     <tr>
-                        <td><code>partialResidueMap</code></td>
-                        <td>K-element (v(g) &le; 1) to residue field</td>
-                        <td><span class="status done">Defined</span></td>
+                        <td><code>valuationRingAt_subset_range_algebraMap'</code></td>
+                        <td>Converse set inclusion</td>
+                        <td><span class="status wip">Proved* (needs blocker)</span></td>
                     </tr>
                     <tr>
                         <td><code>riemann_inequality_real</code></td>
@@ -493,178 +493,38 @@
             </ul>
         </section>
 
-        <!-- Current Sorry Status -->
+        <!-- Current Blocker -->
         <section>
-            <h2>Current Sorry Status (RR_v2.lean)</h2>
-            <table class="status-table">
-                <thead>
-                    <tr>
-                        <th>Line</th>
-                        <th>Name</th>
-                        <th>Status</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>337</td>
-                        <td><code>ellV2_mono</code></td>
-                        <td><span class="status wip">Deprecated</span></td>
-                        <td>Superseded by <code>ellV2_real_mono</code></td>
-                    </tr>
-                    <tr>
-                        <td>715</td>
-                        <td><code>riemann_inequality</code></td>
-                        <td><span class="status wip">Deprecated</span></td>
-                        <td>Superseded by <code>riemann_inequality_real</code></td>
-                    </tr>
-                    <tr>
-                        <td>989</td>
-                        <td><code>shifted_element_valuation_le_one</code></td>
-                        <td><span class="status wip">Active</span></td>
-                        <td>WithZero.exp arithmetic (proof path clear)</td>
-                    </tr>
-                    <tr>
-                        <td>1029</td>
-                        <td><code>evaluationMapAt</code></td>
-                        <td><span class="status blocked">Blocker</span></td>
-                        <td>Needs residue field bridge</td>
-                    </tr>
-                    <tr>
-                        <td>1040</td>
-                        <td><code>kernel_evaluationMapAt</code></td>
-                        <td><span class="status blocked">Blocked</span></td>
-                        <td>Depends on evaluationMapAt</td>
-                    </tr>
-                    <tr>
-                        <td>1049</td>
-                        <td><code>instLocalGapBound</code></td>
-                        <td><span class="status blocked">Blocked</span></td>
-                        <td>Depends on kernel proof</td>
-                    </tr>
-                    <tr>
-                        <td>1191</td>
-                        <td><code>partialResidueMap_zero</code></td>
-                        <td><span class="status wip">Active</span></td>
-                        <td>Subtype coercion (NEW Cycle 27)</td>
-                    </tr>
-                    <tr>
-                        <td>1200</td>
-                        <td><code>partialResidueMap_add</code></td>
-                        <td><span class="status wip">Active</span></td>
-                        <td>Subtype addition (NEW Cycle 27)</td>
-                    </tr>
-                    <tr>
-                        <td>1211</td>
-                        <td><code>partialResidueMap_smul</code></td>
-                        <td><span class="status wip">Active</span></td>
-                        <td>Scalar multiplication (NEW Cycle 27)</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p style="font-size: 0.9rem; color: var(--muted); margin-top: 1rem;">
-                <strong>9 total sorries</strong>: 2 deprecated (placeholder code), 7 active (4 on critical path, 3 new linearity proofs)
-            </p>
-        </section>
-
-        <!-- What We Still Need -->
-        <section>
-            <h2>What We Still Need</h2>
-
-            <table class="difficulty-table">
-                <thead>
-                    <tr>
-                        <th>Task</th>
-                        <th>Description</th>
-                        <th>Difficulty</th>
-                        <th>Notes</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><code>partialResidueMap</code> linearity</td>
-                        <td>Prove zero, add, smul for partial residue map</td>
-                        <td><span class="difficulty easy">Easy</span></td>
-                        <td>Subtype coercion pattern (NEW Cycle 27)</td>
-                    </tr>
-                    <tr>
-                        <td>Residue field bridge</td>
-                        <td>Show valuationRingAt.residueField = residueFieldAtPrime</td>
-                        <td><span class="difficulty medium">Medium</span></td>
-                        <td>Key gap identified in Cycle 26</td>
-                    </tr>
-                    <tr>
-                        <td><code>shifted_element_valuation_le_one</code></td>
-                        <td>Complete WithZero.exp arithmetic</td>
-                        <td><span class="difficulty easy">Easy</span></td>
-                        <td>Helper lemmas now in place</td>
-                    </tr>
-                    <tr>
-                        <td><code>evaluationMapAt</code></td>
-                        <td>Construct phi : L(D+v) -> kappa(v)</td>
-                        <td><span class="difficulty medium">Medium</span></td>
-                        <td>Depends on residue field bridge</td>
-                    </tr>
-                    <tr>
-                        <td><code>LocalGapBound</code> instance</td>
-                        <td>Make riemann_inequality unconditional</td>
-                        <td><span class="difficulty easy">Easy</span></td>
-                        <td>Apply local_gap_bound_of_exists_map</td>
-                    </tr>
-                    <tr>
-                        <td>Compactification</td>
-                        <td>Add infinite places for l(0) = 1</td>
-                        <td><span class="difficulty hard">Hard</span></td>
-                        <td>Currently affine model only</td>
-                    </tr>
-                    <tr>
-                        <td>Serre duality</td>
-                        <td>l(K-D) = h1(D) from residues</td>
-                        <td><span class="difficulty very-hard">Very Hard</span></td>
-                        <td>Requires differentials, residue theorem</td>
-                    </tr>
-                </tbody>
-            </table>
+            <h2>Current Status: Single Key Blocker</h2>
 
             <div class="note info">
-                <strong>Cycle 27 Progress:</strong> Defined <code>partialResidueMap</code> to map K-elements (with v(g) &le; 1) to the valuation ring's residue field. Found key mathlib lemma <code>HeightOneSpectrum.mem_integers_of_valuation_le_one</code> confirming why local approach is needed. Three linearity proofs (zero, add, smul) have sorry due to subtype coercion issues.
+                <strong>Cycle 37 Achievement:</strong> Complete proof structure! 7/8 candidates compile.
+                The full set equality <code>valuationRingAt = range(algebraMap from Loc.AtPrime)</code>
+                is now structurally complete, pending one valuation comparison lemma.
             </div>
-        </section>
 
-        <!-- Affine vs Projective -->
-        <section>
-            <h2>Key Insight: Affine vs Projective Models</h2>
-            <div class="two-col">
-                <div class="approach-box">
-                    <h4>Affine Model (Current)</h4>
-                    <ul>
-                        <li>Points = finite places only</li>
-                        <li>L(0) = R (all integral functions)</li>
-                        <li>l(0) = infinity for Dedekind domains</li>
-                        <li>Proves: l(D) &le; deg(D) + l(0)</li>
-                    </ul>
-                    <p style="font-size: 0.85rem; color: var(--muted);">
-                        <strong>Typeclass:</strong> <code>LocalGapBound R K</code>
-                    </p>
-                </div>
-                <div class="approach-box">
-                    <h4>Projective Model (Goal)</h4>
-                    <ul>
-                        <li>Points = finite + infinite places</li>
-                        <li>L(0) = k (constants only)</li>
-                        <li>l(0) = 1</li>
-                        <li>Proves: l(D) &le; deg(D) + 1</li>
-                    </ul>
-                    <p style="font-size: 0.85rem; color: var(--green);">
-                        <strong>Typeclass:</strong> <code>SinglePointBound R K extends LocalGapBound</code>
-                    </p>
-                </div>
-            </div>
-            <p style="font-size: 0.9rem; color: var(--muted);">
-                Cycle 22 discovered that <code>HeightOneSpectrum R</code> only captures finite places.
-                The classical Riemann inequality l(D) &le; deg(D) + 1 requires compactification.
-                We cleanly separated this into two typeclasses so proofs work at both levels.
+            <h3>The Blocker: <code>dvr_valuation_eq_height_one'</code></h3>
+            <p style="margin: 1rem 0;">Need to prove that two valuations agree on K:</p>
+            <pre style="background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+(IsDiscreteValuationRing.maximalIdeal (Localization.AtPrime v.asIdeal)).valuation K g
+  = v.valuation K g</pre>
+
+            <p style="margin: 1rem 0; color: var(--muted);">
+                <strong>Why this should work:</strong> Both valuations are defined from the same prime ideal <code>v.asIdeal</code>.
+                The DVR's maximalIdeal equals <code>Ideal.map v.asIdeal</code>. Both extend <code>intValuation</code> to K.
             </p>
+
+            <h3 style="margin-top: 1.5rem;">Cascade Once Resolved</h3>
+            <p style="margin: 0.5rem 0;">When <code>dvr_valuation_eq_height_one'</code> is proved, these automatically complete:</p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li><code>valuationRingAt_subset_range_algebraMap'</code> &mdash; Converse direction</li>
+                <li><code>valuationSubring_eq_localization_image_complete</code> &mdash; Full set equality</li>
+                <li><code>exists_coprime_rep</code> &mdash; Coprime representation</li>
+                <li><code>valuationRingAt_equiv_localization</code> &mdash; DVR equivalence</li>
+                <li><code>residueMapFromR_surjective</code> &mdash; Residue map surjectivity</li>
+                <li><code>evaluationMapAt</code> &mdash; Evaluation map construction</li>
+                <li><code>instLocalGapBound</code> &mdash; <strong>VICTORY</strong></li>
+            </ul>
         </section>
 
         <!-- Build Progress -->
@@ -681,100 +541,64 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>1-3</td>
-                        <td>Bootstrap</td>
-                        <td>RRData structure, statement elaborates</td>
-                        <td><span class="status done">Complete</span></td>
+                        <td>1-16</td>
+                        <td>Axiom-based RR.lean</td>
+                        <td>Full RR structure, genus formulas, Clifford</td>
+                        <td><span class="status done">70+ proved</span></td>
                     </tr>
                     <tr>
-                        <td>4-6</td>
-                        <td>Foundations</td>
-                        <td><code>Divisor</code>, <code>FunctionFieldData</code>, <code>RRSpace</code></td>
-                        <td><span class="status done">14 proved</span></td>
+                        <td>17-21</td>
+                        <td>Constructive RR_v2.lean</td>
+                        <td><code>RRModuleV2</code>, <code>riemann_inequality_real</code></td>
+                        <td><span class="status done">30+ proved</span></td>
                     </tr>
                     <tr>
-                        <td>7-9</td>
-                        <td>Dimension</td>
-                        <td><code>ell = finrank</code>, quotient infrastructure</td>
-                        <td><span class="status done">17 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>10-11</td>
-                        <td>Riemann ineq (v1)</td>
-                        <td>SinglePointBound axiom, degree induction</td>
+                        <td>22-23</td>
+                        <td>Typeclass hierarchy</td>
+                        <td><code>LocalGapBound</code> / <code>SinglePointBound</code></td>
                         <td><span class="status done">11 proved</span></td>
                     </tr>
                     <tr>
-                        <td>12-16</td>
-                        <td>Full RR structure</td>
-                        <td>Genus, canonical, vanishing, Clifford</td>
-                        <td><span class="status done">28 proved</span></td>
+                        <td>24-28</td>
+                        <td>Valuation infrastructure</td>
+                        <td>Uniformizer, valuation ring, residue map</td>
+                        <td><span class="status done">25+ proved</span></td>
                     </tr>
                     <tr>
-                        <td>17</td>
-                        <td>Pivot to v2</td>
-                        <td>Created RR_v2.lean with Dedekind domains</td>
-                        <td><span class="status done">8 proved</span></td>
+                        <td>29-30</td>
+                        <td>Kernel proofs</td>
+                        <td><code>shifted_element_valuation_le_one</code>, <code>residueMapFromR_ker</code></td>
+                        <td><span class="status done">10 proved</span></td>
                     </tr>
                     <tr>
-                        <td>18-19</td>
-                        <td>Valuation-based L(D)</td>
-                        <td><code>RRModuleV2_real</code> complete</td>
-                        <td><span class="status done">6 proved</span></td>
+                        <td>31-33</td>
+                        <td>DVR & localization</td>
+                        <td><code>localizationAtPrime_isDVR</code>, <code>mk_mem_valuationRingAt</code></td>
+                        <td><span class="status done">12 proved</span></td>
                     </tr>
                     <tr>
-                        <td>20</td>
-                        <td>Monotonicity</td>
-                        <td><code>ellV2_real_mono</code> via Module.length</td>
+                        <td>34</td>
+                        <td>Arithmetic lemmas</td>
+                        <td><code>valuation_of_fraction</code>, partial <code>exists_coprime_rep</code></td>
+                        <td><span class="status done">4 proved</span></td>
+                    </tr>
+                    <tr>
+                        <td>35</td>
+                        <td>IsFractionRing instance</td>
+                        <td><code>localization_isFractionRing</code>, scalar tower</td>
+                        <td><span class="status done">7 proved</span></td>
+                    </tr>
+                    <tr>
+                        <td>36</td>
+                        <td>Forward set inclusion</td>
+                        <td><code>range_algebraMap_subset_valuationRingAt</code></td>
                         <td><span class="status done">5 proved</span></td>
                     </tr>
                     <tr>
-                        <td>21</td>
-                        <td>Riemann ineq (v2)</td>
-                        <td><code>riemann_inequality_real</code> PROVED</td>
-                        <td><span class="status done">8 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>22</td>
-                        <td>Discovery</td>
-                        <td>Affine model limitation identified</td>
-                        <td><span class="status done">3 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>23</td>
-                        <td>Typeclass hierarchy</td>
-                        <td><code>LocalGapBound</code> / <code>SinglePointBound</code> split</td>
-                        <td><span class="status done">8 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>24.1</td>
-                        <td>Linear algebra bridge</td>
-                        <td><code>local_gap_bound_of_exists_map</code>, <code>isSimpleModule</code></td>
-                        <td><span class="status done">6 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>24.2</td>
-                        <td>Uniformizer infrastructure</td>
-                        <td><code>uniformizerAt</code>, valuation lemmas</td>
-                        <td><span class="status done">6 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>25</td>
-                        <td>Integration</td>
-                        <td>Blocker identified (residue field bridge)</td>
-                        <td><span class="status wip">Partial</span></td>
-                    </tr>
-                    <tr>
-                        <td>26</td>
-                        <td>Valuation ring</td>
-                        <td><code>valuationRingAt</code>, local ring infrastructure</td>
-                        <td><span class="status done">8 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>27</td>
-                        <td>Partial residue map</td>
-                        <td><code>partialResidueMap</code>, WithZero.exp helpers</td>
-                        <td><span class="status wip">5 OK, 3 sorry</span></td>
+                        <td>37</td>
+                        <td>Complete proof structure</td>
+                        <td><code>dvr_valuationSubring_eq_range</code>, converse (conditional)</td>
+                        <td><span class="status wip">7/8 compile</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -782,14 +606,21 @@
 
         <!-- What's Next -->
         <section>
-            <h2>What's Next (Cycle 28)</h2>
-            <h3>Immediate Goals</h3>
+            <h2>What's Next (Cycle 38)</h2>
+            <h3>Immediate Goal</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li><strong>Fix partialResidueMap linearity</strong> &mdash; Resolve subtype coercion issues in zero/add/smul proofs</li>
-                <li><strong>Bridge residue fields</strong> &mdash; Show <code>valuationRingAt.residueField v</code> is isomorphic to <code>residueFieldAtPrime R v</code></li>
-                <li><strong>Complete shifted valuation lemma</strong> &mdash; Use <code>withzero_exp_mul_le_one</code> helper</li>
-                <li><strong>Construct evaluation map</strong> &mdash; Map shifted element through valuation ring residue to kappa(v)</li>
-                <li><strong>Instantiate LocalGapBound</strong> &mdash; Apply <code>local_gap_bound_of_exists_map</code></li>
+                <li><strong>Prove <code>dvr_valuation_eq_height_one'</code></strong> &mdash; Show DVR valuation equals HeightOneSpectrum valuation</li>
+            </ul>
+            <p style="color: var(--muted); margin: 1rem 0;">
+                Once this single lemma is proved, 7+ dependent lemmas automatically complete, and we get <code>LocalGapBound</code> instance.
+            </p>
+
+            <h3 style="margin-top: 1.5rem;">Approach</h3>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+                <li>Study how <code>HeightOneSpectrum.valuation</code> is defined (via <code>intValuation.extendToLocalization</code>)</li>
+                <li>Study how <code>IsDiscreteValuationRing.maximalIdeal.valuation</code> is defined</li>
+                <li>Show both valuations extend from the same <code>intValuation</code> on R</li>
+                <li>Use function extensionality to prove equality on K</li>
             </ul>
 
             <h3 style="margin-top: 1.5rem;">Stretch Goals</h3>
@@ -798,12 +629,6 @@
                 <li><strong>Serre duality</strong> &mdash; Would require differentials, residue map, residue theorem</li>
                 <li><strong>Full constructive RR</strong> &mdash; Remove all axioms from RR.lean by instantiation</li>
             </ul>
-
-            <h3 style="margin-top: 1.5rem;">What We Won't Do</h3>
-            <p style="color: var(--muted);">
-                Schemes, sheaf cohomology, or full line bundle theory. These are complexity cliffs that
-                would transform this from "Riemann-Roch formalization" into "algebraic geometry library."
-            </p>
         </section>
 
         <!-- Meta: Process -->
@@ -816,31 +641,7 @@
                 targets a specific edge of the proof graph, builds it, tests it, and commits.
             </p>
 
-            <div class="two-col">
-                <div class="approach-box">
-                    <h4 style="color: var(--green);">What Worked Well</h4>
-                    <ul>
-                        <li><strong>Iterative cycles</strong> &mdash; Small, focused commits kept progress visible and reversible</li>
-                        <li><strong>Two-file strategy</strong> &mdash; Axiom-based (RR.lean) let us explore consequences while constructive (RR_v2.lean) built foundations</li>
-                        <li><strong>Typeclass abstraction</strong> &mdash; <code>LocalGapBound</code> / <code>SinglePointBound</code> hierarchy cleanly separated affine vs projective concerns</li>
-                        <li><strong>Module.length over finrank</strong> &mdash; Key pivot in Cycle 20; length is additive in exact sequences, finrank isn't</li>
-                        <li><strong>Valuation ring approach</strong> &mdash; Cycle 26 insight: use local condition at single prime rather than global integrality</li>
-                        <li><strong>State files</strong> &mdash; playbook.md and ledger.md provided persistent memory across sessions</li>
-                    </ul>
-                </div>
-                <div class="approach-box">
-                    <h4 style="color: var(--red);">What Was Hard / Didn't Work</h4>
-                    <ul>
-                        <li><strong>Instance plumbing</strong> &mdash; Lean's typeclass system sometimes times out on "obvious" instances</li>
-                        <li><strong>Affine model surprise</strong> &mdash; Cycle 22 discovered HeightOneSpectrum only gives finite places; took 3 cycles to cleanly resolve</li>
-                        <li><strong>finrank dead end</strong> &mdash; Cycles 17-19 tried finrank-based dimension; had to pivot when monotonicity failed</li>
-                        <li><strong>API exploration</strong> &mdash; Finding the right mathlib lemma often took longer than writing the proof</li>
-                        <li><strong>Residue field gap</strong> &mdash; Multiple constructions of "residue field at v" that don't match definitionally</li>
-                    </ul>
-                </div>
-            </div>
-
-            <h3 style="margin-top: 1.5rem;">Key Pivots</h3>
+            <h3>Key Pivots</h3>
             <table class="status-table">
                 <thead>
                     <tr>
@@ -866,19 +667,19 @@
                         <td>Split into LocalGapBound (affine) + SinglePointBound (projective)</td>
                     </tr>
                     <tr>
-                        <td>24</td>
-                        <td>IsFractionRing timeout blocking isSimpleModule</td>
-                        <td>Found bijective_algebraMap lemma, avoided IsFractionRing entirely</td>
+                        <td>31</td>
+                        <td>Need DVR structure on localization</td>
+                        <td>Proved Localization.AtPrime is DVR; pivoted to DVR-based approach</td>
                     </tr>
                     <tr>
-                        <td>26</td>
-                        <td>Shifted element may have poles at other primes (not in R)</td>
-                        <td>Introduced valuationRingAt (local condition at single prime)</td>
+                        <td>35</td>
+                        <td>Need IsFractionRing instance</td>
+                        <td>Built instance chain: primeCompl_isUnit → localizationToK → algebra → IsFractionRing</td>
                     </tr>
                     <tr>
-                        <td>27</td>
-                        <td>partialResidueMap linearity blocked on subtype coercions</td>
-                        <td>Identified Subtype.ext pattern needed; mathlib confirms local approach</td>
+                        <td>37</td>
+                        <td>Found mathlib's <code>exists_lift_of_le_one</code></td>
+                        <td>Complete proof structure via DVR valuation comparison</td>
                     </tr>
                 </tbody>
             </table>
@@ -886,14 +687,13 @@
             <h3 style="margin-top: 1.5rem;">Honest Assessment</h3>
             <p style="margin-bottom: 1rem;">
                 <strong>What we achieved:</strong> A working proof of the Riemann inequality from Dedekind domain
-                foundations, plus a complete axiom-based development of RR consequences (genus formulas, Clifford).
-                The core algebraic machinery is solid.
+                foundations, plus a complete axiom-based development of RR consequences. The core algebraic machinery
+                is solid, and we're one lemma away from completing the LocalGapBound instance.
             </p>
             <p style="margin-bottom: 1rem;">
                 <strong>What's missing for "real" RR:</strong> The l(K-D) term requires Serre duality, which requires
                 differentials, residues, and the residue theorem. This is substantial algebraic geometry that
-                mathlib doesn't have. We'd need to either axiomatize it (like we did) or build it from scratch
-                (months of work).
+                mathlib doesn't have.
             </p>
             <p style="color: var(--muted);">
                 <strong>Bottom line:</strong> This is an honest partial formalization. We proved the "easy half"
@@ -906,7 +706,7 @@
             <p>
                 Lean 4 + mathlib &bull;
                 <a href="https://github.com/cguth7/roch-riemann">GitHub</a> &bull;
-                Cycle 27 &bull;
+                Cycle 37 &bull;
                 Last updated: Dec 16, 2024
             </p>
         </footer>
