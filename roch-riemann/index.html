@@ -347,50 +347,48 @@
         <section>
             <div class="stats-row">
                 <div class="stat">
-                    <div class="stat-num">37</div>
+                    <div class="stat-num">43</div>
                     <div class="stat-label">Cycles</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">2</div>
-                    <div class="stat-label">Approaches</div>
+                    <div class="stat-num">7</div>
+                    <div class="stat-label">Modules</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">150+</div>
+                    <div class="stat-num">180+</div>
                     <div class="stat-label">Lemmas Proved</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">1</div>
-                    <div class="stat-label">Key Blocker</div>
+                    <div class="stat-num">~43</div>
+                    <div class="stat-label">Sorries Left</div>
                 </div>
             </div>
         </section>
 
-        <!-- Two Approaches -->
+        <!-- Codebase Structure -->
         <section>
-            <h2>Two Parallel Approaches</h2>
+            <h2>Codebase Structure (Modularized Cycle 40)</h2>
             <div class="two-col">
                 <div class="approach-box">
-                    <h4><span class="file">RR.lean</span> Axiom-Based (Archived)</h4>
+                    <h4><span class="file">RrLean/RiemannRochV2/</span> Main Modules</h4>
                     <ul>
-                        <li>Abstract <code>FunctionFieldData</code> structure</li>
-                        <li>Axiomatizes single-point bound, RR equation</li>
-                        <li>Derives genus 0, genus 1, high-degree formulas</li>
-                        <li>Clifford's theorem (with multiplication axiom)</li>
+                        <li><code>Basic.lean</code> &mdash; Shared imports ✅</li>
+                        <li><code>Divisor.lean</code> &mdash; DivisorV2 ✅</li>
+                        <li><code>RRSpace.lean</code> &mdash; L(D), ℓ(D) ✅</li>
+                        <li><code>Typeclasses.lean</code> &mdash; LocalGapBound ✅</li>
+                        <li><code>RiemannInequality.lean</code> &mdash; Main theorems ✅</li>
+                        <li><code>Infrastructure.lean</code> &mdash; Residue, uniformizer ✅</li>
+                        <li><code>LocalGapInstance.lean</code> &mdash; ~1700 lines WIP</li>
                     </ul>
-                    <p style="font-size: 0.85rem; color: var(--muted);">
-                        <strong>Philosophy:</strong> Capture logical structure of RR, defer construction.
-                    </p>
                 </div>
-                <div class="approach-box" style="border-color: var(--green);">
-                    <h4><span class="file">RR_v2.lean</span> Constructive (Dedekind Domains)</h4>
+                <div class="approach-box">
+                    <h4><span class="file">archive/</span> Historical</h4>
                     <ul>
-                        <li>Points = <code>HeightOneSpectrum R</code> (height-1 primes)</li>
-                        <li>L(D) defined via valuations at each prime</li>
-                        <li>Dimension = <code>Module.length</code> (additive in exact sequences)</li>
-                        <li><strong>Riemann inequality PROVED</strong> by degree induction</li>
+                        <li><code>RR_v1_axiom_based.lean</code> &mdash; Cycles 1-16</li>
+                        <li><code>RR_v2_monolithic.lean</code> &mdash; Cycles 17-39</li>
                     </ul>
-                    <p style="font-size: 0.85rem; color: var(--green);">
-                        <strong>Status:</strong> Core infrastructure complete. DVR-based set equality nearly complete (1 blocker).
+                    <p style="font-size: 0.85rem; color: var(--muted); margin-top: 1rem;">
+                        <strong>Benefits:</strong> Faster iteration, parallel builds, clear separation of proven vs WIP code.
                     </p>
                 </div>
             </div>
@@ -420,7 +418,7 @@
                 </div>
             </div>
 
-            <h3 style="margin-top: 1.5rem;">Key Infrastructure (RR_v2.lean)</h3>
+            <h3 style="margin-top: 1.5rem;">Key Infrastructure</h3>
             <table class="status-table">
                 <thead>
                     <tr>
@@ -431,99 +429,91 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>DivisorV2</code></td>
-                        <td><code>HeightOneSpectrum R ->0 Z</code></td>
-                        <td><span class="status done">Proved</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>RRModuleV2_real</code></td>
-                        <td>L(D) via valuation conditions</td>
-                        <td><span class="status done">Proved</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>ellV2_real_mono</code></td>
-                        <td>D &le; E implies l(D) &le; l(E)</td>
-                        <td><span class="status done">Proved</span></td>
-                    </tr>
-                    <tr>
                         <td><code>localizationAtPrime_isDVR</code></td>
                         <td>Localization.AtPrime is DVR</td>
-                        <td><span class="status done">Proved (Cycle 31)</span></td>
+                        <td><span class="status done">Cycle 31</span></td>
                     </tr>
                     <tr>
                         <td><code>localization_isFractionRing</code></td>
                         <td>IsFractionRing (Loc.AtPrime) K</td>
-                        <td><span class="status done">Proved (Cycle 35)</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>mk_mem_valuationRingAt</code></td>
-                        <td>Forward: fractions have v &le; 1</td>
-                        <td><span class="status done">Proved (Cycle 33)</span></td>
+                        <td><span class="status done">Cycle 35</span></td>
                     </tr>
                     <tr>
                         <td><code>range_algebraMap_subset_valuationRingAt</code></td>
                         <td>Forward set inclusion</td>
-                        <td><span class="status done">Proved (Cycle 36)</span></td>
+                        <td><span class="status done">Cycle 36</span></td>
                     </tr>
                     <tr>
-                        <td><code>dvr_valuationSubring_eq_range</code></td>
-                        <td>DVR range = valuationSubring</td>
-                        <td><span class="status done">Proved (Cycle 37)</span></td>
+                        <td><code>mem_of_algebraMap_mem_map</code></td>
+                        <td>Ideal membership reverse direction</td>
+                        <td><span class="status done">Cycle 41</span></td>
                     </tr>
                     <tr>
-                        <td><code>valuationRingAt_subset_range_algebraMap'</code></td>
-                        <td>Converse set inclusion</td>
-                        <td><span class="status wip">Proved* (needs blocker)</span></td>
+                        <td><code>algebraMap_isUnit_iff_not_mem</code></td>
+                        <td>Unit characterization</td>
+                        <td><span class="status done">Cycle 41</span></td>
                     </tr>
                     <tr>
-                        <td><code>riemann_inequality_real</code></td>
-                        <td>l(D) &le; deg(D) + 1</td>
-                        <td><span class="status done">Proved</span></td>
+                        <td><code>dvr_intValuation_of_isUnit</code></td>
+                        <td>Units have intVal = 1</td>
+                        <td><span class="status done">Cycle 41</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>mem_asIdeal_iff_mem_maxIdeal</code></td>
+                        <td>r ∈ v.asIdeal ↔ algebraMap r ∈ maxIdeal</td>
+                        <td><span class="status done">Cycle 43</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>dvr_intValuation_unit</code></td>
+                        <td>r ∉ v.asIdeal ⟹ DVR.intVal = 1</td>
+                        <td><span class="status done">Cycle 43</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>dvr_intValuation_of_algebraMap'</code> (easy)</td>
+                        <td>DVR intVal = v.intVal for r ∉ v.asIdeal</td>
+                        <td><span class="status done">Cycle 43</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>dvr_intValuation_of_algebraMap'</code> (hard)</td>
+                        <td>DVR intVal = v.intVal for r ∈ v.asIdeal</td>
+                        <td><span class="status wip">SORRY</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>dvr_valuation_eq_height_one'</code></td>
+                        <td>DVR valuation = HeightOneSpectrum valuation</td>
+                        <td><span class="status blocked">KEY BLOCKER</span></td>
                     </tr>
                 </tbody>
             </table>
-
-            <h3 style="margin-top: 1.5rem;">Derived Results (RR.lean)</h3>
-            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li><code>ell_K = g</code> &mdash; Canonical space dimension equals genus</li>
-                <li><code>ell_K_sub_D_eq_zero_of_deg_gt</code> &mdash; Vanishing theorem</li>
-                <li><code>ell_eq_deg_succ_of_genus_zero_deg_gt</code> &mdash; Genus 0: l(D) = deg + 1</li>
-                <li><code>ell_eq_deg_of_genus_one_deg_pos</code> &mdash; Genus 1: l(D) = deg</li>
-                <li><code>clifford_bound'</code> &mdash; Clifford's inequality (with mul axiom)</li>
-            </ul>
         </section>
 
         <!-- Current Blocker -->
         <section>
-            <h2>Current Status: Single Key Blocker</h2>
+            <h2>Current Status: Victory Path Clear</h2>
 
-            <div class="note info">
-                <strong>Cycle 37 Achievement:</strong> Complete proof structure! 7/8 candidates compile.
-                The full set equality <code>valuationRingAt = range(algebraMap from Loc.AtPrime)</code>
-                is now structurally complete, pending one valuation comparison lemma.
+            <div class="note success">
+                <strong>Cycle 43 Achievement:</strong> Section reordering complete! 3 lemmas proved:
+                <code>mem_asIdeal_iff_mem_maxIdeal</code>, <code>dvr_intValuation_unit</code>,
+                <code>dvr_intValuation_of_algebraMap'</code> (easy case). Foundation lemmas chain complete.
             </div>
 
-            <h3>The Blocker: <code>dvr_valuation_eq_height_one'</code></h3>
-            <p style="margin: 1rem 0;">Need to prove that two valuations agree on K:</p>
+            <h3>Blocking Chain</h3>
             <pre style="background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
-(IsDiscreteValuationRing.maximalIdeal (Localization.AtPrime v.asIdeal)).valuation K g
-  = v.valuation K g</pre>
+dvr_intValuation_of_algebraMap' hard case (SORRY - r ∈ v.asIdeal)
+    ↓
+dvr_valuation_eq_height_one' (KEY BLOCKER)
+    ↓
+valuationRingAt_subset_range_algebraMap' (PROVED*, depends on above)
+    ↓
+valuationRingAt_equiv_localization → residueMapFromR_surjective
+    ↓
+evaluationMapAt → instLocalGapBound → VICTORY</pre>
 
-            <p style="margin: 1rem 0; color: var(--muted);">
-                <strong>Why this should work:</strong> Both valuations are defined from the same prime ideal <code>v.asIdeal</code>.
-                The DVR's maximalIdeal equals <code>Ideal.map v.asIdeal</code>. Both extend <code>intValuation</code> to K.
-            </p>
-
-            <h3 style="margin-top: 1.5rem;">Cascade Once Resolved</h3>
-            <p style="margin: 0.5rem 0;">When <code>dvr_valuation_eq_height_one'</code> is proved, these automatically complete:</p>
+            <h3 style="margin-top: 1.5rem;">Recent Progress (Cycles 41-43)</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li><code>valuationRingAt_subset_range_algebraMap'</code> &mdash; Converse direction</li>
-                <li><code>valuationSubring_eq_localization_image_complete</code> &mdash; Full set equality</li>
-                <li><code>exists_coprime_rep</code> &mdash; Coprime representation</li>
-                <li><code>valuationRingAt_equiv_localization</code> &mdash; DVR equivalence</li>
-                <li><code>residueMapFromR_surjective</code> &mdash; Residue map surjectivity</li>
-                <li><code>evaluationMapAt</code> &mdash; Evaluation map construction</li>
-                <li><code>instLocalGapBound</code> &mdash; <strong>VICTORY</strong></li>
+                <li><strong>Cycle 41:</strong> 8/8 foundation lemmas PROVED (ideal membership, unit characterization)</li>
+                <li><strong>Cycle 42:</strong> Section ordering blocker identified</li>
+                <li><strong>Cycle 43:</strong> Section reordering executed, 3 lemmas proved, sorry count 47→43</li>
             </ul>
         </section>
 
@@ -547,58 +537,52 @@
                         <td><span class="status done">70+ proved</span></td>
                     </tr>
                     <tr>
-                        <td>17-21</td>
+                        <td>17-23</td>
                         <td>Constructive RR_v2.lean</td>
-                        <td><code>RRModuleV2</code>, <code>riemann_inequality_real</code></td>
+                        <td><code>RRModuleV2</code>, <code>riemann_inequality_real</code>, typeclasses</td>
+                        <td><span class="status done">40+ proved</span></td>
+                    </tr>
+                    <tr>
+                        <td>24-30</td>
+                        <td>Valuation infrastructure</td>
+                        <td>Uniformizer, valuation ring, residue map, kernel proofs</td>
+                        <td><span class="status done">35+ proved</span></td>
+                    </tr>
+                    <tr>
+                        <td>31-37</td>
+                        <td>DVR & set equality</td>
+                        <td>DVR instance, IsFractionRing, forward/converse set inclusion</td>
                         <td><span class="status done">30+ proved</span></td>
                     </tr>
                     <tr>
-                        <td>22-23</td>
-                        <td>Typeclass hierarchy</td>
-                        <td><code>LocalGapBound</code> / <code>SinglePointBound</code></td>
-                        <td><span class="status done">11 proved</span></td>
+                        <td>38-39</td>
+                        <td>intValuation bridge</td>
+                        <td>Bridge candidates, foundation approach identified</td>
+                        <td><span class="status wip">4 proved</span></td>
                     </tr>
                     <tr>
-                        <td>24-28</td>
-                        <td>Valuation infrastructure</td>
-                        <td>Uniformizer, valuation ring, residue map</td>
-                        <td><span class="status done">25+ proved</span></td>
+                        <td>40</td>
+                        <td>Modularization</td>
+                        <td>Split 2500-line file into 7 focused modules</td>
+                        <td><span class="status done">Complete</span></td>
                     </tr>
                     <tr>
-                        <td>29-30</td>
-                        <td>Kernel proofs</td>
-                        <td><code>shifted_element_valuation_le_one</code>, <code>residueMapFromR_ker</code></td>
-                        <td><span class="status done">10 proved</span></td>
+                        <td>41</td>
+                        <td>Foundation lemmas</td>
+                        <td>Ideal membership, unit characterization</td>
+                        <td><span class="status done">8/8 proved</span></td>
                     </tr>
                     <tr>
-                        <td>31-33</td>
-                        <td>DVR & localization</td>
-                        <td><code>localizationAtPrime_isDVR</code>, <code>mk_mem_valuationRingAt</code></td>
-                        <td><span class="status done">12 proved</span></td>
+                        <td>42</td>
+                        <td>Section ordering</td>
+                        <td>Identified blocker: Cycle 39 needed Cycle 41 lemmas</td>
+                        <td><span class="status done">Diagnosed</span></td>
                     </tr>
                     <tr>
-                        <td>34</td>
-                        <td>Arithmetic lemmas</td>
-                        <td><code>valuation_of_fraction</code>, partial <code>exists_coprime_rep</code></td>
-                        <td><span class="status done">4 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>35</td>
-                        <td>IsFractionRing instance</td>
-                        <td><code>localization_isFractionRing</code>, scalar tower</td>
-                        <td><span class="status done">7 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>36</td>
-                        <td>Forward set inclusion</td>
-                        <td><code>range_algebraMap_subset_valuationRingAt</code></td>
-                        <td><span class="status done">5 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>37</td>
-                        <td>Complete proof structure</td>
-                        <td><code>dvr_valuationSubring_eq_range</code>, converse (conditional)</td>
-                        <td><span class="status wip">7/8 compile</span></td>
+                        <td>43</td>
+                        <td>Section reordering</td>
+                        <td><code>mem_asIdeal_iff_mem_maxIdeal</code>, <code>dvr_intValuation_unit</code></td>
+                        <td><span class="status done">3 proved</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -606,28 +590,23 @@
 
         <!-- What's Next -->
         <section>
-            <h2>What's Next (Cycle 38)</h2>
+            <h2>What's Next (Cycle 44)</h2>
             <h3>Immediate Goal</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li><strong>Prove <code>dvr_valuation_eq_height_one'</code></strong> &mdash; Show DVR valuation equals HeightOneSpectrum valuation</li>
+                <li><strong>Prove <code>dvr_intValuation_of_algebraMap'</code> hard case</strong> &mdash; When r ∈ v.asIdeal</li>
             </ul>
-            <p style="color: var(--muted); margin: 1rem 0;">
-                Once this single lemma is proved, 7+ dependent lemmas automatically complete, and we get <code>LocalGapBound</code> instance.
-            </p>
 
             <h3 style="margin-top: 1.5rem;">Approach</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li>Study how <code>HeightOneSpectrum.valuation</code> is defined (via <code>intValuation.extendToLocalization</code>)</li>
-                <li>Study how <code>IsDiscreteValuationRing.maximalIdeal.valuation</code> is defined</li>
-                <li>Show both valuations extend from the same <code>intValuation</code> on R</li>
-                <li>Use function extensionality to prove equality on K</li>
+                <li>Use <code>mem_asIdeal_pow_iff_mem_maxIdeal_pow</code> for induction on ideal powers</li>
+                <li>Or: Use uniformizer factorization (both intValuations measure powers of same prime)</li>
+                <li>Once hard case done → <code>dvr_valuation_eq_height_one'</code> follows → cascade to victory</li>
             </ul>
 
             <h3 style="margin-top: 1.5rem;">Stretch Goals</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
                 <li><strong>Compactification</strong> &mdash; Add infinite places to get l(0) = 1</li>
                 <li><strong>Serre duality</strong> &mdash; Would require differentials, residue map, residue theorem</li>
-                <li><strong>Full constructive RR</strong> &mdash; Remove all axioms from RR.lean by instantiation</li>
             </ul>
         </section>
 
@@ -636,7 +615,7 @@
             <h2>Meta: How This Project Evolved</h2>
 
             <p style="margin-bottom: 1.5rem;">
-                This project used an <strong>ACE-style orchestration loop</strong>: an LLM (Claude) guided by
+                This project uses an <strong>ACE-style orchestration loop</strong>: an LLM (Claude) guided by
                 a human through iterative "cycles" of planning, implementation, and review. Each cycle
                 targets a specific edge of the proof graph, builds it, tests it, and commits.
             </p>
@@ -653,13 +632,8 @@
                 <tbody>
                     <tr>
                         <td>17</td>
-                        <td>Axiom approach hit ceiling; couldn't instantiate</td>
+                        <td>Axiom approach hit ceiling</td>
                         <td>Created RR_v2.lean with Dedekind domain foundations</td>
-                    </tr>
-                    <tr>
-                        <td>20</td>
-                        <td>finrank not monotonic for infinite-dimensional quotients</td>
-                        <td>Switched to Module.length (ENat-valued, additive)</td>
                     </tr>
                     <tr>
                         <td>22</td>
@@ -669,17 +643,27 @@
                     <tr>
                         <td>31</td>
                         <td>Need DVR structure on localization</td>
-                        <td>Proved Localization.AtPrime is DVR; pivoted to DVR-based approach</td>
-                    </tr>
-                    <tr>
-                        <td>35</td>
-                        <td>Need IsFractionRing instance</td>
-                        <td>Built instance chain: primeCompl_isUnit → localizationToK → algebra → IsFractionRing</td>
+                        <td>Proved Localization.AtPrime is DVR</td>
                     </tr>
                     <tr>
                         <td>37</td>
                         <td>Found mathlib's <code>exists_lift_of_le_one</code></td>
                         <td>Complete proof structure via DVR valuation comparison</td>
+                    </tr>
+                    <tr>
+                        <td>40</td>
+                        <td>2500-line file too large</td>
+                        <td>Modularized into 7 focused modules</td>
+                    </tr>
+                    <tr>
+                        <td>41</td>
+                        <td>Foundation lemmas approach</td>
+                        <td>Decomposed valuation equality into ideal membership + unit case</td>
+                    </tr>
+                    <tr>
+                        <td>43</td>
+                        <td>Section ordering bug</td>
+                        <td>Reordered sections, proved 3 blocked lemmas</td>
                     </tr>
                 </tbody>
             </table>
@@ -706,8 +690,8 @@
             <p>
                 Lean 4 + mathlib &bull;
                 <a href="https://github.com/cguth7/roch-riemann">GitHub</a> &bull;
-                Cycle 37 &bull;
-                Last updated: Dec 16, 2024
+                Cycle 43 &bull;
+                Last updated: Dec 17, 2024
             </p>
         </footer>
     </div>
