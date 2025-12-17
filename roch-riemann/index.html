@@ -233,6 +233,7 @@
         .status.done { background: #dcfce7; color: var(--green); }
         .status.wip { background: #fef3c7; color: var(--yellow); }
         .status.blocked { background: #fee2e2; color: var(--red); }
+        .status.obsolete { background: #e5e7eb; color: #6b7280; text-decoration: line-through; }
 
         .note {
             background: #fffbeb;
@@ -347,7 +348,7 @@
         <section>
             <div class="stats-row">
                 <div class="stat">
-                    <div class="stat-num">43</div>
+                    <div class="stat-num">53</div>
                     <div class="stat-label">Cycles</div>
                 </div>
                 <div class="stat">
@@ -355,11 +356,11 @@
                     <div class="stat-label">Modules</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">180+</div>
+                    <div class="stat-num">200+</div>
                     <div class="stat-label">Lemmas Proved</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-num">~43</div>
+                    <div class="stat-num">~40</div>
                     <div class="stat-label">Sorries Left</div>
                 </div>
             </div>
@@ -372,23 +373,24 @@
                 <div class="approach-box">
                     <h4><span class="file">RrLean/RiemannRochV2/</span> Main Modules</h4>
                     <ul>
-                        <li><code>Basic.lean</code> &mdash; Shared imports ✅</li>
-                        <li><code>Divisor.lean</code> &mdash; DivisorV2 ✅</li>
-                        <li><code>RRSpace.lean</code> &mdash; L(D), ℓ(D) ✅</li>
-                        <li><code>Typeclasses.lean</code> &mdash; LocalGapBound ✅</li>
-                        <li><code>RiemannInequality.lean</code> &mdash; Main theorems ✅</li>
-                        <li><code>Infrastructure.lean</code> &mdash; Residue, uniformizer ✅</li>
-                        <li><code>LocalGapInstance.lean</code> &mdash; ~1700 lines WIP</li>
+                        <li><code>Basic.lean</code> &mdash; Shared imports</li>
+                        <li><code>Divisor.lean</code> &mdash; DivisorV2</li>
+                        <li><code>RRSpace.lean</code> &mdash; L(D), l(D)</li>
+                        <li><code>Typeclasses.lean</code> &mdash; LocalGapBound</li>
+                        <li><code>RiemannInequality.lean</code> &mdash; Main theorems</li>
+                        <li><code>Infrastructure.lean</code> &mdash; Residue, uniformizer</li>
+                        <li><code>LocalGapInstance.lean</code> &mdash; ~2200 lines WIP</li>
                     </ul>
                 </div>
                 <div class="approach-box">
-                    <h4><span class="file">archive/</span> Historical</h4>
+                    <h4><span class="file">state/</span> Project State</h4>
                     <ul>
-                        <li><code>RR_v1_axiom_based.lean</code> &mdash; Cycles 1-16</li>
-                        <li><code>RR_v2_monolithic.lean</code> &mdash; Cycles 17-39</li>
+                        <li><code>ledger.md</code> &mdash; Cycle history (1-53)</li>
+                        <li><code>playbook.md</code> &mdash; Strategy & heuristics</li>
+                        <li><code>candidates.json</code> &mdash; Next priorities</li>
                     </ul>
                     <p style="font-size: 0.85rem; color: var(--muted); margin-top: 1rem;">
-                        <strong>Benefits:</strong> Faster iteration, parallel builds, clear separation of proven vs WIP code.
+                        <strong>Note:</strong> Dead-end code marked OBSOLETE in Cycle 53 consolidation.
                     </p>
                 </div>
             </div>
@@ -418,7 +420,7 @@
                 </div>
             </div>
 
-            <h3 style="margin-top: 1.5rem;">Key Infrastructure</h3>
+            <h3 style="margin-top: 1.5rem;">Key Infrastructure (Victory Path)</h3>
             <table class="status-table">
                 <thead>
                     <tr>
@@ -429,91 +431,88 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><code>localizationAtPrime_isDVR</code></td>
-                        <td>Localization.AtPrime is DVR</td>
-                        <td><span class="status done">Cycle 31</span></td>
+                        <td><code>dvr_intValuation_eq_via_pow_membership</code></td>
+                        <td>intValuation bridge via ideal power characterization</td>
+                        <td><span class="status done">Cycle 46</span></td>
                     </tr>
                     <tr>
-                        <td><code>localization_isFractionRing</code></td>
-                        <td>IsFractionRing (Loc.AtPrime) K</td>
-                        <td><span class="status done">Cycle 35</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>range_algebraMap_subset_valuationRingAt</code></td>
-                        <td>Forward set inclusion</td>
-                        <td><span class="status done">Cycle 36</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>mem_of_algebraMap_mem_map</code></td>
-                        <td>Ideal membership reverse direction</td>
-                        <td><span class="status done">Cycle 41</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>algebraMap_isUnit_iff_not_mem</code></td>
-                        <td>Unit characterization</td>
-                        <td><span class="status done">Cycle 41</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>dvr_intValuation_of_isUnit</code></td>
-                        <td>Units have intVal = 1</td>
-                        <td><span class="status done">Cycle 41</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>mem_asIdeal_iff_mem_maxIdeal</code></td>
-                        <td>r ∈ v.asIdeal ↔ algebraMap r ∈ maxIdeal</td>
-                        <td><span class="status done">Cycle 43</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>dvr_intValuation_unit</code></td>
-                        <td>r ∉ v.asIdeal ⟹ DVR.intVal = 1</td>
-                        <td><span class="status done">Cycle 43</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>dvr_intValuation_of_algebraMap'</code> (easy)</td>
-                        <td>DVR intVal = v.intVal for r ∉ v.asIdeal</td>
-                        <td><span class="status done">Cycle 43</span></td>
-                    </tr>
-                    <tr>
-                        <td><code>dvr_intValuation_of_algebraMap'</code> (hard)</td>
-                        <td>DVR intVal = v.intVal for r ∈ v.asIdeal</td>
-                        <td><span class="status wip">SORRY</span></td>
+                        <td><code>dvr_intValuation_of_algebraMap'</code></td>
+                        <td>DVR intVal = v.intVal (both cases)</td>
+                        <td><span class="status done">Cycle 47</span></td>
                     </tr>
                     <tr>
                         <td><code>dvr_valuation_eq_height_one'</code></td>
                         <td>DVR valuation = HeightOneSpectrum valuation</td>
-                        <td><span class="status blocked">KEY BLOCKER</span></td>
+                        <td><span class="status done">Cycle 49</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>valuationRingAt_equiv_localization'</code></td>
+                        <td>Ring equivalence via ValuationSubring equality</td>
+                        <td><span class="status done">Cycle 50</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>residueField_transport_direct</code></td>
+                        <td>Residue field transport via mapEquiv</td>
+                        <td><span class="status done">Cycle 52</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>residueFieldBridge_explicit</code></td>
+                        <td>valuationRingAt.residueField ~ residueFieldAtPrime</td>
+                        <td><span class="status done">Cycle 52</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>shifted_element_valuation_le_one</code></td>
+                        <td>v(f * pi^{D(v)+1}) &le; 1 for f in L(D+v)</td>
+                        <td><span class="status wip">NEXT TARGET</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>evaluationMapAt_via_bridge</code></td>
+                        <td>L(D+v) &rarr; residueFieldAtPrime R v</td>
+                        <td><span class="status blocked">Blocked by above</span></td>
+                    </tr>
+                    <tr style="opacity: 0.5;">
+                        <td><code>residueMapFromR_surjective</code></td>
+                        <td>R is dense in valuation ring mod maxIdeal</td>
+                        <td><span class="status obsolete">OBSOLETE</span></td>
                     </tr>
                 </tbody>
             </table>
         </section>
 
-        <!-- Current Blocker -->
+        <!-- Current Status -->
         <section>
-            <h2>Current Status: Victory Path Clear</h2>
+            <h2>Current Status: Near Victory</h2>
 
             <div class="note success">
-                <strong>Cycle 43 Achievement:</strong> Section reordering complete! 3 lemmas proved:
-                <code>mem_asIdeal_iff_mem_maxIdeal</code>, <code>dvr_intValuation_unit</code>,
-                <code>dvr_intValuation_of_algebraMap'</code> (easy case). Foundation lemmas chain complete.
+                <strong>Cycle 52 Breakthrough:</strong> Discovered <code>IsLocalRing.ResidueField.mapEquiv</code> in mathlib!
+                This elegant one-liner proved <code>residueFieldBridge</code> without needing the complex
+                surjectivity argument we'd been pursuing for 20+ cycles.
             </div>
 
-            <h3>Blocking Chain</h3>
-            <pre style="background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
-dvr_intValuation_of_algebraMap' hard case (SORRY - r ∈ v.asIdeal)
-    ↓
-dvr_valuation_eq_height_one' (KEY BLOCKER)
-    ↓
-valuationRingAt_subset_range_algebraMap' (PROVED*, depends on above)
-    ↓
-valuationRingAt_equiv_localization → residueMapFromR_surjective
-    ↓
-evaluationMapAt → instLocalGapBound → VICTORY</pre>
+            <div class="note info">
+                <strong>Cycle 53 Consolidation:</strong> Marked dead-end approaches as OBSOLETE after
+                cross-checking with Gemini. The old path (<code>residueMapFromR_surjective</code> &rarr; First Isomorphism Theorem)
+                was completely bypassed by the mapEquiv discovery. Victory path is now clear and narrow.
+            </div>
 
-            <h3 style="margin-top: 1.5rem;">Recent Progress (Cycles 41-43)</h3>
+            <h3>Victory Path (Corrected Cycle 53)</h3>
+            <pre style="background: var(--code-bg); padding: 1rem; border-radius: 6px; overflow-x: auto; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;">
+residueFieldBridge_explicit (Cycle 52 - PROVED)
+    |
+shifted_element_valuation_le_one  <-- ACTUAL NEXT TARGET
+    | (proves f * pi^{D(v)+1} lands in valuationRingAt)
+evaluationMapAt_via_bridge
+    |
+kernel_evaluationMapAt = L(D)
+    |
+LocalGapBound instance --> VICTORY</pre>
+
+            <h3 style="margin-top: 1.5rem;">Remaining Work</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li><strong>Cycle 41:</strong> 8/8 foundation lemmas PROVED (ideal membership, unit characterization)</li>
-                <li><strong>Cycle 42:</strong> Section ordering blocker identified</li>
-                <li><strong>Cycle 43:</strong> Section reordering executed, 3 lemmas proved, sorry count 47→43</li>
+                <li><strong>shifted_element_valuation_le_one</strong> &mdash; Valuation arithmetic with <code>WithZero.exp</code></li>
+                <li><strong>evaluationMapAt_via_bridge</strong> &mdash; Now unblocked by residueFieldBridge!</li>
+                <li><strong>kernel characterization</strong> &mdash; ker(eval) = L(D)</li>
+                <li><strong>LocalGapBound instance</strong> &mdash; Final target for affine RR</li>
             </ul>
         </section>
 
@@ -549,40 +548,52 @@ evaluationMapAt → instLocalGapBound → VICTORY</pre>
                         <td><span class="status done">35+ proved</span></td>
                     </tr>
                     <tr>
-                        <td>31-37</td>
-                        <td>DVR & set equality</td>
-                        <td>DVR instance, IsFractionRing, forward/converse set inclusion</td>
+                        <td>31-40</td>
+                        <td>DVR & modularization</td>
+                        <td>DVR instance, IsFractionRing, split into 7 modules</td>
                         <td><span class="status done">30+ proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>38-39</td>
-                        <td>intValuation bridge</td>
-                        <td>Bridge candidates, foundation approach identified</td>
-                        <td><span class="status wip">4 proved</span></td>
-                    </tr>
-                    <tr>
-                        <td>40</td>
-                        <td>Modularization</td>
-                        <td>Split 2500-line file into 7 focused modules</td>
-                        <td><span class="status done">Complete</span></td>
                     </tr>
                     <tr>
                         <td>41</td>
                         <td>Foundation lemmas</td>
-                        <td>Ideal membership, unit characterization</td>
-                        <td><span class="status done">8/8 proved</span></td>
+                        <td>8/8 foundation lemmas PROVED</td>
+                        <td><span class="status done">8/8</span></td>
                     </tr>
                     <tr>
-                        <td>42</td>
-                        <td>Section ordering</td>
-                        <td>Identified blocker: Cycle 39 needed Cycle 41 lemmas</td>
-                        <td><span class="status done">Diagnosed</span></td>
+                        <td>44-45</td>
+                        <td>Root blocker</td>
+                        <td><code>Ideal.IsPrime.mul_mem_pow</code> discovery</td>
+                        <td><span class="status done">Root blocker</span></td>
                     </tr>
                     <tr>
-                        <td>43</td>
-                        <td>Section reordering</td>
-                        <td><code>mem_asIdeal_iff_mem_maxIdeal</code>, <code>dvr_intValuation_unit</code></td>
-                        <td><span class="status done">3 proved</span></td>
+                        <td>46</td>
+                        <td>intValuation bridge</td>
+                        <td><code>dvr_intValuation_eq_via_pow_membership</code></td>
+                        <td><span class="status done">Key bridge</span></td>
+                    </tr>
+                    <tr>
+                        <td>47-49</td>
+                        <td>Valuation equality</td>
+                        <td><code>dvr_valuation_eq_height_one'</code> deployed</td>
+                        <td><span class="status done">Cascade unblocked</span></td>
+                    </tr>
+                    <tr>
+                        <td>50</td>
+                        <td>Ring equivalence</td>
+                        <td><code>valuationRingAt_equiv_localization'</code></td>
+                        <td><span class="status done">RingEquiv</span></td>
+                    </tr>
+                    <tr>
+                        <td>52</td>
+                        <td>residueFieldBridge</td>
+                        <td>7/8 candidates via <code>mapEquiv</code> discovery</td>
+                        <td><span class="status done">Breakthrough!</span></td>
+                    </tr>
+                    <tr>
+                        <td>53</td>
+                        <td>Consolidation</td>
+                        <td>Dead code culled, victory path corrected</td>
+                        <td><span class="status done">Cleanup</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -590,23 +601,25 @@ evaluationMapAt → instLocalGapBound → VICTORY</pre>
 
         <!-- What's Next -->
         <section>
-            <h2>What's Next (Cycle 44)</h2>
+            <h2>What's Next (Cycle 54)</h2>
             <h3>Immediate Goal</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li><strong>Prove <code>dvr_intValuation_of_algebraMap'</code> hard case</strong> &mdash; When r ∈ v.asIdeal</li>
+                <li><strong>Prove <code>shifted_element_valuation_le_one</code></strong> (Infrastructure.lean:274)</li>
             </ul>
 
-            <h3 style="margin-top: 1.5rem;">Approach</h3>
+            <h3 style="margin-top: 1.5rem;">Proof Strategy</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
-                <li>Use <code>mem_asIdeal_pow_iff_mem_maxIdeal_pow</code> for induction on ideal powers</li>
-                <li>Or: Use uniformizer factorization (both intValuations measure powers of same prime)</li>
-                <li>Once hard case done → <code>dvr_valuation_eq_height_one'</code> follows → cascade to victory</li>
+                <li>f in L(D+v) means v(f) &le; exp(D(v)+1)</li>
+                <li>Uniformizer: v(pi^{D(v)+1}) = exp(-(D(v)+1))</li>
+                <li>Product: v(f * pi^{D(v)+1}) &le; exp(D(v)+1) * exp(-(D(v)+1)) = 1</li>
+                <li>Technical: <code>WithZero.exp</code> arithmetic, case analysis on D(v)+1 sign</li>
             </ul>
 
-            <h3 style="margin-top: 1.5rem;">Stretch Goals</h3>
+            <h3 style="margin-top: 1.5rem;">After LocalGapBound</h3>
             <ul style="margin: 1rem 0; padding-left: 1.5rem;">
                 <li><strong>Compactification</strong> &mdash; Add infinite places to get l(0) = 1</li>
                 <li><strong>Serre duality</strong> &mdash; Would require differentials, residue map, residue theorem</li>
+                <li><strong>Full Riemann-Roch</strong> &mdash; l(D) - l(K-D) = deg(D) + 1 - g</li>
             </ul>
         </section>
 
@@ -641,43 +654,55 @@ evaluationMapAt → instLocalGapBound → VICTORY</pre>
                         <td>Split into LocalGapBound (affine) + SinglePointBound (projective)</td>
                     </tr>
                     <tr>
-                        <td>31</td>
-                        <td>Need DVR structure on localization</td>
-                        <td>Proved Localization.AtPrime is DVR</td>
-                    </tr>
-                    <tr>
                         <td>37</td>
                         <td>Found mathlib's <code>exists_lift_of_le_one</code></td>
                         <td>Complete proof structure via DVR valuation comparison</td>
                     </tr>
                     <tr>
-                        <td>40</td>
-                        <td>2500-line file too large</td>
-                        <td>Modularized into 7 focused modules</td>
+                        <td>45</td>
+                        <td>Found <code>Ideal.IsPrime.mul_mem_pow</code></td>
+                        <td>ROOT BLOCKER resolved, ideal power membership proved</td>
                     </tr>
                     <tr>
-                        <td>41</td>
-                        <td>Foundation lemmas approach</td>
-                        <td>Decomposed valuation equality into ideal membership + unit case</td>
+                        <td>52</td>
+                        <td>Found <code>IsLocalRing.ResidueField.mapEquiv</code></td>
+                        <td>residueFieldBridge proved in one line, bypassing 20+ cycles of work</td>
                     </tr>
                     <tr>
-                        <td>43</td>
-                        <td>Section ordering bug</td>
-                        <td>Reordered sections, proved 3 blocked lemmas</td>
+                        <td>53</td>
+                        <td>Gemini analysis: "hallucinated dependency bloat"</td>
+                        <td>Consolidation cycle: marked dead-end code OBSOLETE, corrected victory path</td>
                     </tr>
                 </tbody>
             </table>
+
+            <h3 style="margin-top: 1.5rem;">Multi-LLM Collaboration (Cycle 53)</h3>
+            <p style="margin-bottom: 1rem;">
+                An interesting development: we consulted Google's Gemini for a "second opinion" on the codebase.
+                Gemini correctly diagnosed that accumulated dead-end sorries were causing "hallucinated dependency bloat"
+                &mdash; where future LLM loops might waste cycles trying to prove obsolete lemmas instead of focusing
+                on the real victory path.
+            </p>
+            <p style="margin-bottom: 1rem;">
+                However, Gemini's suggested next target (<code>residueMapFromR_surjective</code>) was itself obsolete!
+                The Cycle 52 <code>mapEquiv</code> discovery had already bypassed that entire approach. This led to
+                a consolidation cycle where we marked dead code and corrected the victory path documentation.
+            </p>
+            <p style="color: var(--muted);">
+                <strong>Lesson:</strong> Cross-checking with multiple LLMs can surface structural issues (like sorry bloat),
+                but always verify against the actual codebase state &mdash; documentation can lag behind breakthroughs.
+            </p>
 
             <h3 style="margin-top: 1.5rem;">Honest Assessment</h3>
             <p style="margin-bottom: 1rem;">
                 <strong>What we achieved:</strong> A working proof of the Riemann inequality from Dedekind domain
                 foundations, plus a complete axiom-based development of RR consequences. The core algebraic machinery
-                is solid, and we're one lemma away from completing the LocalGapBound instance.
+                is solid, and we're ~3-4 lemmas away from completing the LocalGapBound instance.
             </p>
             <p style="margin-bottom: 1rem;">
                 <strong>What's missing for "real" RR:</strong> The l(K-D) term requires Serre duality, which requires
                 differentials, residues, and the residue theorem. This is substantial algebraic geometry that
-                mathlib doesn't have.
+                mathlib doesn't have yet.
             </p>
             <p style="color: var(--muted);">
                 <strong>Bottom line:</strong> This is an honest partial formalization. We proved the "easy half"
@@ -690,8 +715,8 @@ evaluationMapAt → instLocalGapBound → VICTORY</pre>
             <p>
                 Lean 4 + mathlib &bull;
                 <a href="https://github.com/cguth7/roch-riemann">GitHub</a> &bull;
-                Cycle 43 &bull;
-                Last updated: Dec 17, 2024
+                Cycle 53 &bull;
+                Last updated: Dec 17, 2025
             </p>
         </footer>
     </div>
