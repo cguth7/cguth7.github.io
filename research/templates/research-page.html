@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Title | Charlie Guthmann</title>
+    <link rel="stylesheet" href="../templates/research.css">
+</head>
+<body>
+    <header>
+        <h1>Research Title</h1>
+        <p class="subtitle">Brief description of the research project</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>This Project</span>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">1,234</div>
+                <div class="stat-label">Samples Analyzed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">56</div>
+                <div class="stat-label">Genes Identified</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">98.7%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">12.5h</div>
+                <div class="stat-label">Compute Time</div>
+            </div>
+        </section>
+
+        <!-- Key Finding -->
+        <div class="key-finding">
+            <h3>Key Finding</h3>
+            <p>Main insight or result from the analysis goes here. This box draws attention to important discoveries.</p>
+        </div>
+
+        <!-- Figure Gallery -->
+        <section class="figure-section">
+            <h2>Results</h2>
+            <div class="figure">
+                <img src="figure1.png" alt="Description of figure">
+                <p class="caption"><strong>Figure 1:</strong> Description and interpretation of the visualization.</p>
+            </div>
+            <div class="figure">
+                <img src="figure2.png" alt="Description of figure">
+                <p class="caption"><strong>Figure 2:</strong> Another visualization with its explanation.</p>
+            </div>
+        </section>
+
+        <!-- Data Table -->
+        <section class="table-section">
+            <h2>Summary Statistics</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Mean</th>
+                            <th>Median</th>
+                            <th>Std Dev</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Expression Level</td>
+                            <td>42.5</td>
+                            <td>38.2</td>
+                            <td>12.3</td>
+                        </tr>
+                        <tr>
+                            <td>Fold Change</td>
+                            <td>2.1</td>
+                            <td>1.8</td>
+                            <td>0.6</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Code/Methods -->
+        <section class="methods">
+            <h2>Methods</h2>
+            <pre><code># Example code snippet
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('data.csv')
+results = analyze(df)
+            </code></pre>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><a href="/">← Back to Home</a></p>
+        <p class="meta">Last updated: <time datetime="2025-12-28">December 28, 2025</time></p>
+    </footer>
+</body>
+</html>
