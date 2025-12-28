@@ -22,26 +22,35 @@ def explore_orange_book():
     data_dir = Path(__file__).parent
     zip_path = data_dir / "orange_book.zip"
 
-    if not zip_path.exists():
-        print("ERROR: orange_book.zip not found!")
-        print(f"Expected location: {zip_path}")
-        print("\nPlease download from: https://www.fda.gov/media/76860/download")
-        return
-
     print("="*80)
     print("FDA ORANGE BOOK DATA EXPLORATION")
     print("="*80)
     print()
 
-    # Extract ZIP contents
-    print("Extracting ZIP file...")
-    with zipfile.ZipFile(zip_path, 'r') as zip_ref:
-        file_list = zip_ref.namelist()
-        print(f"\nFiles in archive: {len(file_list)}")
-        for f in file_list:
-            print(f"  - {f}")
-        zip_ref.extractall(data_dir)
-    print()
+    # Check if ZIP exists, extract if needed
+    if zip_path.exists():
+        print("Found orange_book.zip - extracting...")
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            file_list = zip_ref.namelist()
+            print(f"\nFiles in archive: {len(file_list)}")
+            for f in file_list:
+                print(f"  - {f}")
+            zip_ref.extractall(data_dir)
+        print()
+    else:
+        # Check if individual files exist
+        patent_file = data_dir / "patent.txt"
+        products_file = data_dir / "products.txt"
+
+        if not patent_file.exists() and not products_file.exists():
+            print("ERROR: Orange Book data files not found!")
+            print(f"Expected location: {data_dir}")
+            print("\nPlease download from: https://www.fda.gov/drugs/drug-approvals-and-databases/orange-book-data-files")
+            print("Place patent.txt, products.txt, and exclusivity.txt in this directory")
+            return
+
+        print("Found individual text files (no ZIP extraction needed)")
+        print()
 
     # Explore each file
     explore_patents(data_dir)
@@ -66,11 +75,13 @@ def explore_patents(data_dir):
         print(f"WARNING: {patent_file} not found!")
         return
 
-    # Try to infer delimiter (could be tab or pipe)
+    # Try to infer delimiter (could be tab, pipe, tilde, or comma)
     with open(patent_file, 'r', encoding='latin-1') as f:
         first_line = f.readline()
         if '\t' in first_line:
             delimiter = '\t'
+        elif '~' in first_line:
+            delimiter = '~'
         elif '|' in first_line:
             delimiter = '|'
         else:
@@ -173,6 +184,8 @@ def explore_products(data_dir):
         first_line = f.readline()
         if '\t' in first_line:
             delimiter = '\t'
+        elif '~' in first_line:
+            delimiter = '~'
         elif '|' in first_line:
             delimiter = '|'
         else:
@@ -272,6 +285,8 @@ def explore_exclusivity(data_dir):
         first_line = f.readline()
         if '\t' in first_line:
             delimiter = '\t'
+        elif '~' in first_line:
+            delimiter = '~'
         elif '|' in first_line:
             delimiter = '|'
         else:
