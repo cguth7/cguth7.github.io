@@ -4,53 +4,108 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Charlie Guthmann</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: normal;
+            margin: 0 0 0.3em 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.3em;
+        }
+        .bio {
+            margin: 2em 0;
+            font-size: 1.05em;
+        }
+        h2 {
+            font-size: 1.3em;
+            font-weight: normal;
+            margin: 2.5em 0 1em 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        li {
+            margin: 0.8em 0;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.2s;
+        }
+        a:hover {
+            border-bottom: 1px solid #0066cc;
+        }
+        .link-desc {
+            color: #666;
+            font-size: 0.95em;
+            display: inline;
+        }
+        .email {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.95em;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            padding: 2px 6px;
+            font-size: 0.9em;
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>CHARLIE GUTHMANN <span class="chicago-flag"><img src="assets/chicago-flag.png" alt="Chicago"><span class="arrow">→</span><img src="assets/philly-flag.png" alt="Philadelphia"></span></h1>
-            <p class="subtitle">Data Innovation & AI Lab</p>
-        </header>
+    <h1>Charlie Guthmann</h1>
 
-        <section class="about">
-            <p>Hi I'm Charlie. I like effective altruism (started Northwestern EA club), worked in quant trading, tried to solve the loneliness problem with yet another failed spontaneous events marketplace app, and now do AI and econometrics research at DIAL. Interested in longtermism, utilitarian philosophy, and Chicago pro-growth politics.</p>
-            <p class="quote">"Don't get sentimental / It always ends up drivel"</p>
-        </section>
+    <div class="bio">
+        <p>Data Innovation & AI Lab. Effective altruism, quant trading, AI and econometrics research. Chicago → Philadelphia.</p>
+    </div>
 
-        <section class="projects">
-            <h2>PROJECTS</h2>
-            <div class="grid">
-                <a href="https://cguth7.github.io/docg-medical-summaries/" class="project-box" target="_blank">
-                    <h3>DocG Medical Summaries</h3>
-                    <p>AI-powered clinical summaries delivering POEMs to physicians. Transforming medical research into actionable insights.</p>
-                    <span class="status">Active</span>
-                </a>
+    <h2>Research</h2>
+    <ul>
+        <li><a href="/research/gwas/">GWAS Analysis</a> <span class="link-desc">— Genome-wide association studies</span></li>
+        <li><a href="/research/serendipity/">Gene Panel Analysis</a> <span class="link-desc">— Serendipity project statistical results</span></li>
+        <li><a href="/research/patent-analysis/">Patent Data</a> <span class="link-desc">— Disease and gene patent analysis</span></li>
+    </ul>
 
-                <div class="project-box coming-soon">
-                    <h3>Less Lonely</h3>
-                    <p>Discover and plan IRL activities happening this week. Connect with your city.</p>
-                    <span class="status">Coming Soon</span>
-                </div>
+    <h2>Projects</h2>
+    <ul>
+        <li><a href="https://cguth7.github.io/docg-medical-summaries/">DocG Medical Summaries</a> <span class="link-desc">— AI clinical summaries for physicians</span></li>
+        <li><a href="/projects/charity-ranker/">Charity Ranker</a> <span class="link-desc">— Interactive charity comparison tool</span></li>
+        <li><a href="/projects/roch-riemann/">Riemann-Roch Formalization</a> <span class="link-desc">— Lean proof verification project</span></li>
+    </ul>
 
-                <div class="project-box coming-soon">
-                    <h3>NBA API Agent</h3>
-                    <p>Directory enabling LLM agents to seamlessly interface with NBA statistics and data.</p>
-                    <span class="status">Coming Soon</span>
-                </div>
-            </div>
-        </section>
+    <h2>Archive</h2>
+    <ul>
+        <li><a href="/archive/">Expected Value Poker Tutorial</a> <span class="link-desc">— AI poker game theory essays</span></li>
+    </ul>
 
-        <footer>
-            <div class="links">
-                <a href="https://github.com/cguth7" target="_blank">GitHub</a>
-                <a href="https://forum.effectivealtruism.org/users/charlie_guthmann" target="_blank">EA Forum</a>
-                <a href="https://www.linkedin.com/in/charlie-guthmann" target="_blank">LinkedIn</a>
-            </div>
-            <div class="email">
-                <span>charliejguthmann [at] gmail [dot] com</span>
-            </div>
-        </footer>
+    <h2>Elsewhere</h2>
+    <ul>
+        <li><a href="https://github.com/cguth7">GitHub</a></li>
+        <li><a href="https://forum.effectivealtruism.org/users/charlie_guthmann">EA Forum</a></li>
+        <li><a href="https://www.linkedin.com/in/charlie-guthmann">LinkedIn</a></li>
+    </ul>
+
+    <div class="email">
+        <code>charliejguthmann [at] gmail [dot] com</code>
     </div>
 </body>
 </html>

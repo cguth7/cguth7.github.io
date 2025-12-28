@@ -13,16 +13,14 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Expected Value Tutorial
-# email:
-# description: >- # this means to ignore newlines until "baseurl:"
-#   Write an awesome description for your new site here. You can edit this
-#   line in _config.yml. It will appear in your document head meta (for
-#   Google search results) and in your feed.xml site description.
-twitter_username: chisness
-github_username: aipokertutorial
+title: Charlie Guthmann
+email: charliejguthmann@gmail.com
+description: >-
+  Research in AI and econometrics. GWAS analysis, gene panels, medical data science.
+twitter_username:
+github_username: cguth7
 minimal_mistakes_skin: default
-search: true
+search: false
 
 # Build settings
 markdown: kramdown
@@ -36,17 +34,19 @@ timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 include:
   - _pages
 
-# Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
-# to override the default setting.
-# exclude:
-#   - Gemfile
-#   - Gemfile.lock
-#   - node_modules
-#   - vendor/bundle/
-#   - vendor/cache/
-#   - vendor/gems/
-#   - vendor/ruby/
+# Exclude from processing
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - archive/_posts
+  - archive/_pages
+  - research/templates
+  - demos
 
 # Plugins (previously gems:)
 plugins:
@@ -57,57 +57,36 @@ plugins:
   - jemoji
   - jekyll-include-cache
 
-# author:
-#   name   : "Max Chiswick"
-#   avatar : "/assets/images/bio-photo.jpg"
-#   bio    : "I played high-volume online poker professionally until 2013, including playing 3 million hands in 2009. 
-#   Then I studied AI poker for my master's degree, with a thesis on abstracting large games to small games to make them solvable. 
-#   The purpose of this tutorial is to share what I learned from those two experiences."
-#   links:
-#     - label: "Personal website"
-#       icon: "fas fa-fw fa-link"
-#       url: "https://www.maxchiswick.com"
-#     - label: "Twitter"
-#       icon: "fab fa-fw fa-twitter-square"
-#       url: "https://twitter.com/chisness"
-#     - label: "GitHub"
-#       icon: "fab fa-fw fa-github"
-#       url: "https://github.com/chisness/aipokertutorial"
-#     - label: "Instagram"
-#       icon: "fab fa-fw fa-instagram"
-#       url: "https://instagram.com/"
+author:
+  name   : "Charlie Guthmann"
+  bio    : "AI and econometrics research at Data Innovation & AI Lab"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/cguth7"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/charlie-guthmann"
 
 footer:
   links:
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      url: "https://twitter.com/chisness"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      url: "https://github.com/chisness/aipokertutorial"
-#     - label: "Instagram"
-#       icon: "fab fa-fw fa-instagram"
-#       url: "https://instagram.com/"
+      url: "https://github.com/cguth7"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/charlie-guthmann"
 
 defaults:
-  # _posts
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: true
-      share: true
-      related: false
   # _pages
   - scope:
       path: "_pages"
       type: pages
     values:
       layout: single
-      author_profile: true
+      author_profile: false
+      toc: true
+      toc_sticky: true
 
 # category_archive:
 #   type: liquid

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Templates | Charlie Guthmann</title>
+    <link rel="stylesheet" href="research.css">
+</head>
+<body>
+    <header>
+        <h1>Research Page Templates</h1>
+        <p class="subtitle">Standardized templates for posting medical research data</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>Templates</span>
+        </nav>
+    </header>
+
+    <main>
+        <div class="key-finding">
+            <h3>Quick Workflow</h3>
+            <p>From Claude/vim: Generate figures → Export tables → Drop in new directory → Copy template → Push to GitHub → Instant hosted page. No IDE needed!</p>
+        </div>
+
+        <section>
+            <h2>Files</h2>
+            <ul style="list-style: disc; padding-left: 2em;">
+                <li><a href="research-page.html">research-page.html</a> — Base template with all components</li>
+                <li><a href="research.css">research.css</a> — Standardized styles</li>
+                <li><a href="README.md">README.md</a> — Full documentation</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Components</h2>
+
+            <h3>Stat Cards</h3>
+            <pre><code>&lt;div class="stat-card"&gt;
+    &lt;div class="stat-value"&gt;1,234&lt;/div&gt;
+    &lt;div class="stat-label"&gt;Your Metric&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+            <h3>Key Finding Box</h3>
+            <pre><code>&lt;div class="key-finding"&gt;
+    &lt;h3&gt;Key Finding&lt;/h3&gt;
+    &lt;p&gt;Important insight here.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+            <h3>Figure with Caption</h3>
+            <pre><code>&lt;div class="figure"&gt;
+    &lt;img src="figure1.png" alt="Description"&gt;
+    &lt;p class="caption"&gt;&lt;strong&gt;Figure 1:&lt;/strong&gt; Explanation.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+
+            <h3>Data Table</h3>
+            <pre><code>&lt;table&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;&lt;th&gt;Column 1&lt;/th&gt;&lt;th&gt;Column 2&lt;/th&gt;&lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;&lt;td&gt;Data&lt;/td&gt;&lt;td&gt;More data&lt;/td&gt;&lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+        </section>
+
+        <section>
+            <h2>Design System</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #2563eb;">#2563eb</div>
+                    <div class="stat-label">Blue (Primary)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #16a34a;">#16a34a</div>
+                    <div class="stat-label">Green (Success)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #ca8a04;">#ca8a04</div>
+                    <div class="stat-label">Yellow (Warning)</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: #dc2626;">#dc2626</div>
+                    <div class="stat-label">Red (Error)</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="/research">← Back to Research</a></p>
+    </footer>
+</body>
+</html>

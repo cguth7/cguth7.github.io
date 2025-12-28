@@ -1,12 +1,8 @@
 main:
-#   - title: "Posts"
-#     url: /posts/
-#   - title: "Categories"
-#     url: /categories/
-#   - title: "Tags"
-#     url: /tags/
-  - title: "About"
-    url: /about
+  - title: "Research"
+    url: /research
+  - title: "Archive"
+    url: /archive
 # nav:
 #   - title: 1. Background
 #     children:

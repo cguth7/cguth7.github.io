@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWAS Patent Analysis | Charlie Guthmann</title>
+    <link rel="stylesheet" href="../templates/research.css">
+</head>
+<body>
+    <header>
+        <h1>GWAS Patent Analysis</h1>
+        <p class="subtitle">Disease and gene distribution in filtered patent data</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>GWAS Patents</span>
+        </nav>
+    </header>
+
+    <main>
+        <section class="figure-section">
+            <h2>Patent Analysis Results</h2>
+
+            <div class="figure">
+                <img src="diseases_per_patent_filtered.png" alt="Diseases per patent distribution">
+                <p class="caption"><strong>Figure 1:</strong> Distribution of diseases per patent after filtering. Shows the frequency distribution of how many diseases are associated with each patent in the filtered dataset.</p>
+            </div>
+
+            <div class="figure">
+                <img src="genes_per_patent_filtered.png" alt="Genes per patent distribution">
+                <p class="caption"><strong>Figure 2:</strong> Distribution of genes per patent after filtering. Displays the number of genes referenced in each patent, helping identify patents with broad vs. specific genetic focus.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>About This Analysis</h2>
+            <p>This analysis examines the relationship between genetic variants, diseases, and patent filings. The filtering process removes low-quality entries and focuses on patents with clear disease-gene associations.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="/">← Back to Home</a></p>
+        <p class="meta">Last updated: <time datetime="2025-12-28">December 28, 2025</time></p>
+    </footer>
+</body>
+</html>
