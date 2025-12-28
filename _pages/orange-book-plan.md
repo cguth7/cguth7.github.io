@@ -9,6 +9,8 @@ toc_sticky: true
 # Extension Plan: Valuing GWAS Spillovers Using Orange Book & KPSS Data
 *Created: December 28, 2025*
 
+> **📊 Current Status**: See [Orange Book Progress Report](/orange-book-progress) for implementation status, learnings from Days 1-4, and what data we have/don't have.
+
 ---
 
 ## Executive Summary
@@ -671,6 +673,17 @@ Before proceeding, confirm:
 4. **Comparison**: Present all three approaches (count, Orange Book, KPSS) as complementary robustness checks, or separate analyses?
 
 5. **Azoulay pricing**: Use their literature-based patent values, or develop our own estimates?
+
+---
+
+## Implementation Status
+
+**📊 See**: [Orange Book Progress Report](/orange-book-progress) for detailed status including:
+- What we've accomplished (Days 1-4 complete)
+- Schemas discovered (tilde-delimited format, composite keys)
+- Current struggles (network restrictions, KPSS time coverage uncertainty)
+- What data we have vs. don't have (no actual files yet, need manual download)
+- Next steps once data is available
 
 ---
 
