@@ -46,7 +46,6 @@ exclude:
   - archive/_posts
   - archive/_pages
   - research/templates
-  - demos
 
 # Plugins (previously gems:)
 plugins:
