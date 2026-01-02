@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orange Book Patent Analysis | Charlie Guthmann</title>
+    <link rel="stylesheet" href="../templates/research.css">
+</head>
+<body>
+    <header>
+        <h1>Orange Book Patent Analysis</h1>
+        <p class="subtitle">FDA-approved drug patents vs. all pharmaceutical patents</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>Orange Book</span>
+        </nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Overview</h2>
+            <p>The FDA Orange Book contains patents protecting FDA-approved drugs. This analysis compares Orange Book patents against all pharmaceutical patents in our GWAS spillover dataset to understand how approved drug patents differ from the broader patent landscape.</p>
+
+            <h3>Key Statistics</h3>
+            <ul>
+                <li><strong>Orange Book patents:</strong> 6,411 unique patent IDs</li>
+                <li><strong>Matched in dataset:</strong> 1,405 patents (21.9%)</li>
+                <li><strong>Panel cells with OB patents:</strong> 511,713 (0.35% of 148M)</li>
+                <li><strong>Total OB patent count:</strong> 608,778</li>
+            </ul>
+        </section>
+
+        <section class="figure-section">
+            <h2>Analysis Results</h2>
+
+            <div class="figure">
+                <img src="/assets/images/orange_book/ob_yearly_trends.png" alt="Orange Book yearly trends">
+                <p class="caption"><strong>Figure 1:</strong> Total patents by year, split by Orange Book vs non-OB (left), and Orange Book share of total patents over time (right). OB share ranges from 0% in 2000-2002 to peaks of ~2.3% in 2017.</p>
+            </div>
+
+            <div class="figure">
+                <img src="/assets/images/orange_book/ob_distributions.png" alt="Patent count distributions">
+                <p class="caption"><strong>Figure 2:</strong> Distribution of patent counts per gene-disease-year cell. Left: all patents (capped at 50). Right: Orange Book patents only. Both show heavy right-skew typical of patent data.</p>
+            </div>
+
+            <div class="figure">
+                <img src="/assets/images/orange_book/ob_by_treatment_level.png" alt="Patents by treatment level">
+                <p class="caption"><strong>Figure 3:</strong> Mean and total patent counts by GWAS treatment level. Direct GWAS discoveries (Level 0) and 1-hop spillovers show slightly higher OB patent rates than 2-hop and 3-hop spillovers.</p>
+            </div>
+
+            <div class="figure">
+                <img src="/assets/images/orange_book/ob_quartile_analysis.png" alt="Quartile analysis">
+                <p class="caption"><strong>Figure 4:</strong> Orange Book patent intensity by total patent count bin. Cells with more patents (6+) have higher mean OB counts and slightly higher OB share (~1.15% vs 0.77% for single-patent cells).</p>
+            </div>
+
+            <div class="figure">
+                <img src="/assets/images/orange_book/ob_pre_post_treatment.png" alt="Pre vs post GWAS">
+                <p class="caption"><strong>Figure 5:</strong> Mean patent counts before vs after GWAS discovery for treated gene-disease pairs. Both all patents (0.38 → 0.85) and OB patents (0.004 → 0.015) show ~2-4x increases post-GWAS.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Methodology</h2>
+            <p>Orange Book patent IDs were downloaded from the FDA (January 2025) and matched against BioBERT-extracted patent-gene-disease associations. Patent counts were aggregated to the gene-disease-year level and merged with the GWAS spillover panel.</p>
+
+            <h3>Stata Usage</h3>
+            <pre><code>reghdfe ob_patent_count post_gwas, absorb(gene_year disease_year) cluster(gene disease)
+
+* For sparse counts, consider Poisson:
+ppmlhdfe ob_patent_count post_gwas, absorb(gene_year disease_year) cluster(gene disease)</code></pre>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="/research">← Back to Research</a></p>
+        <p class="meta">Last updated: <time datetime="2026-01-02">January 2, 2026</time></p>
+    </footer>
+</body>
+</html>
