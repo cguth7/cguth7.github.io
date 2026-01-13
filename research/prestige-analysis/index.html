@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWAS Researcher Prestige Analysis | Charlie Guthmann</title>
+    <link rel="stylesheet" href="../templates/research.css">
+    <style>
+        /* Additional styles for this page */
+        .filter-controls {
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-controls label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .filter-controls input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+        }
+        .table-scroll {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        .match-count {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .tag-manual {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .tag-auto {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .tag-none {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+        .example-table td:first-child {
+            font-family: monospace;
+        }
+        .example-table a {
+            color: var(--blue);
+        }
+        .method-list {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        .method-list li {
+            margin: 0.5rem 0;
+        }
+        .search-box {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.9rem;
+            width: 250px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GWAS Researcher Prestige Analysis</h1>
+        <p class="subtitle">Matching last-author affiliations to QS 2005 World University Rankings</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>Prestige Analysis</span>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Summary Stats -->
+        <section>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">141,923</div>
+                    <div class="stat-label">Total PMIDs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">21,245</div>
+                    <div class="stat-label">Matched to QS Top 200</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">185</div>
+                    <div class="stat-label">QS Institutions Matched</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">15.0%</div>
+                    <div class="stat-label">Match Rate</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="key-finding">
+            <h3>Key Result</h3>
+            <p>Of 142K GWAS papers analyzed, 21,245 (15%) have last authors affiliated with QS 2005 top 200 universities. 185 of the 200 QS institutions are represented in our dataset.</p>
+        </div>
+
+        <!-- Methodology -->
+        <section>
+            <h2>Methodology</h2>
+            <p>This analysis extracts last-author affiliation data from OpenAlex for 142,645 GWAS-related PMIDs, then matches institutions to QS 2005 World University Rankings.</p>
+
+            <ol class="method-list">
+                <li><strong>OpenAlex Extraction:</strong> Scanned 363GB of OpenAlex snapshot data (971 files) using 49 parallel HPC jobs to extract last-author affiliations</li>
+                <li><strong>Institution Classification:</strong> Used OpenAlex API to classify 8,991 unique institutions by type (education, healthcare, facility, etc.)</li>
+                <li><strong>QS Matching:</strong> Matched education institutions to QS 2005 rankings using OpenAlex display names, alternative names, and 36 manual mappings for naming discrepancies</li>
+            </ol>
+        </section>
+
+        <!-- Institution Type Breakdown -->
+        <section>
+            <h2>Institution Types</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Count</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Education</td><td>62,550</td><td>44.1%</td></tr>
+                        <tr><td>Healthcare</td><td>37,120</td><td>26.2%</td></tr>
+                        <tr><td>Unknown</td><td>11,692</td><td>8.2%</td></tr>
+                        <tr><td>Other</td><td>10,768</td><td>7.6%</td></tr>
+                        <tr><td>Facility</td><td>10,455</td><td>7.4%</td></tr>
+                        <tr><td>Nonprofit</td><td>3,799</td><td>2.7%</td></tr>
+                        <tr><td>Government</td><td>3,292</td><td>2.3%</td></tr>
+                        <tr><td>Company</td><td>2,199</td><td>1.5%</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Top Institutions -->
+        <section>
+            <h2>Top 10 QS Institutions by PMID Count</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Institution</th>
+                            <th>PMIDs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>36</td><td>University of Michigan - Ann Arbor</td><td>470</td></tr>
+                        <tr><td>16</td><td>The University of Tokyo</td><td>463</td></tr>
+                        <tr><td>193</td><td>University of Pittsburgh</td><td>429</td></tr>
+                        <tr><td>17</td><td>University of California - San Francisco</td><td>413</td></tr>
+                        <tr><td>7</td><td>Yale University</td><td>398</td></tr>
+                        <tr><td>32</td><td>University of Pennsylvania</td><td>390</td></tr>
+                        <tr><td>105</td><td>Osaka University</td><td>370</td></tr>
+                        <tr><td>27</td><td>Johns Hopkins University</td><td>355</td></tr>
+                        <tr><td>169</td><td>Shanghai Jiao Tong University</td><td>353</td></tr>
+                        <tr><td>58</td><td>Washington University in St. Louis</td><td>351</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Verification Examples -->
+        <section>
+            <h2>Verification Examples</h2>
+            <p>Three random examples for manual verification on PubMed:</p>
+            <div class="table-wrapper">
+                <table class="example-table">
+                    <thead>
+                        <tr>
+                            <th>PMID</th>
+                            <th>Last Author</th>
+                            <th>Institution</th>
+                            <th>QS Rank</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="https://pubmed.ncbi.nlm.nih.gov/19212328" target="_blank">19212328</a></td>
+                            <td>Stephen B. Calderwood</td>
+                            <td>Harvard University</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://pubmed.ncbi.nlm.nih.gov/24708766" target="_blank">24708766</a></td>
+                            <td>Stefanie S. Jeffrey</td>
+                            <td>Stanford University</td>
+                            <td>5</td>
+                        </tr>
+                        <tr>
+                            <td><a href="https://pubmed.ncbi.nlm.nih.gov/20482762" target="_blank">20482762</a></td>
+                            <td>Antonis C. Antoniou</td>
+                            <td>University of Cambridge</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Full Matching Table -->
+        <section>
+            <h2>QS ↔ OpenAlex Institution Matching Table</h2>
+
+            <div class="filter-controls">
+                <label>
+                    <input type="checkbox" id="showManualOnly"> Show manual mappings only
+                </label>
+                <label>
+                    <input type="checkbox" id="showMatchedOnly" checked> Hide unmatched
+                </label>
+                <input type="text" id="searchBox" class="search-box" placeholder="Search institutions...">
+                <span class="match-count" id="matchCount"></span>
+            </div>
+
+            <div class="table-wrapper">
+                <div class="table-scroll">
+                    <table id="matchingTable">
+                        <thead>
+                            <tr>
+                                <th>QS Rank</th>
+                                <th>QS Institution</th>
+                                <th>OpenAlex Name</th>
+                                <th>Match Type</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <!-- Populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Sources -->
+        <section>
+            <h2>Data Sources</h2>
+            <ul class="method-list">
+                <li><strong>OpenAlex:</strong> Academic metadata snapshot (~363GB) for author affiliations</li>
+                <li><strong>QS Rankings:</strong> 2005 World University Rankings (top 200)</li>
+                <li><strong>PubMed:</strong> 142,645 GWAS-related PMIDs (2005-2016)</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer>
+        <p><a href="/">← Back to Home</a></p>
+        <p class="meta">Last updated: <time datetime="2026-01-13">January 13, 2026</time></p>
+    </footer>
+
+    <script>
+        // Matching table data
+        const matchingData = [
+            {rank: 1, qs: "Harvard University", oa: "Harvard University", manual: false, matched: true},
+            {rank: 2, qs: "Massachusetts Institute of Technology - MIT", oa: "Massachusetts Institute of Technology", manual: true, matched: true},
+            {rank: 3, qs: "University of Cambridge", oa: "University of Cambridge", manual: false, matched: true},
+            {rank: 4, qs: "University of Oxford", oa: "University of Oxford", manual: false, matched: true},
+            {rank: 5, qs: "Stanford University", oa: "Stanford University", manual: false, matched: true},
+            {rank: 6, qs: "University of California - Berkeley", oa: "University of California, Berkeley", manual: false, matched: true},
+            {rank: 7, qs: "Yale University", oa: "Yale University", manual: false, matched: true},
+            {rank: 8, qs: "California Institute of Technology - Caltech", oa: "California Institute of Technology", manual: true, matched: true},
+            {rank: 9, qs: "Princeton University", oa: "Princeton University", manual: false, matched: true},
+            {rank: 10, qs: "Ecole Polytechnique", oa: "", manual: false, matched: false},
+            {rank: 11, qs: "London School of Economics", oa: "", manual: false, matched: false},
+            {rank: 11, qs: "Duke University", oa: "Duke University", manual: false, matched: true},
+            {rank: 13, qs: "Imperial College London", oa: "Imperial College London", manual: false, matched: true},
+            {rank: 14, qs: "Cornell University", oa: "Cornell University", manual: false, matched: true},
+            {rank: 15, qs: "Peking University", oa: "Peking University", manual: false, matched: true},
+            {rank: 16, qs: "The University of Tokyo", oa: "The University of Tokyo", manual: false, matched: true},
+            {rank: 17, qs: "University of California - San Francisco", oa: "University of California, San Francisco", manual: false, matched: true},
+            {rank: 17, qs: "University of Chicago", oa: "University of Chicago", manual: false, matched: true},
+            {rank: 19, qs: "University of Melbourne", oa: "The University of Melbourne", manual: false, matched: true},
+            {rank: 20, qs: "Columbia University", oa: "Columbia University", manual: false, matched: true},
+            {rank: 21, qs: "Swiss Federal Institute of Technology Zurich - ETHZ", oa: "ETH Zurich", manual: true, matched: true},
+            {rank: 22, qs: "National University of Singapore", oa: "National University of Singapore", manual: false, matched: true},
+            {rank: 23, qs: "Australian National University", oa: "Australian National University", manual: false, matched: true},
+            {rank: 24, qs: "McGill University", oa: "McGill University", manual: false, matched: true},
+            {rank: 24, qs: "Ecole Normale Supérieure de Paris", oa: "", manual: false, matched: false},
+            {rank: 26, qs: "University of Texas at Austin", oa: "The University of Texas at Austin", manual: true, matched: true},
+            {rank: 27, qs: "Johns Hopkins University", oa: "Johns Hopkins University", manual: false, matched: true},
+            {rank: 28, qs: "University College London", oa: "University College London", manual: false, matched: true},
+            {rank: 29, qs: "University of Toronto", oa: "University of Toronto", manual: false, matched: true},
+            {rank: 30, qs: "University of Edinburgh", oa: "University of Edinburgh", manual: false, matched: true},
+            {rank: 31, qs: "Kyoto University", oa: "Kyoto University", manual: false, matched: true},
+            {rank: 32, qs: "University of Pennsylvania", oa: "University of Pennsylvania", manual: false, matched: true},
+            {rank: 33, qs: "Monash University", oa: "Monash University", manual: false, matched: true},
+            {rank: 34, qs: "Swiss Federal Institute of Technology Lausanne - EPFL", oa: "École Polytechnique Fédérale de Lausanne", manual: true, matched: true},
+            {rank: 35, qs: "University of Manchester", oa: "University of Manchester", manual: false, matched: true},
+            {rank: 36, qs: "University of Michigan - Ann Arbor", oa: "University of Michigan", manual: true, matched: true},
+            {rank: 37, qs: "University of California - Los Angeles", oa: "University of California, Los Angeles", manual: false, matched: true},
+            {rank: 38, qs: "University of Sydney", oa: "The University of Sydney", manual: false, matched: true},
+            {rank: 38, qs: "University of British Columbia", oa: "University of British Columbia", manual: false, matched: true},
+            {rank: 40, qs: "University of New South Wales", oa: "UNSW Sydney", manual: false, matched: true},
+            {rank: 41, qs: "University of Hong Kong", oa: "University of Hong Kong", manual: false, matched: true},
+            {rank: 42, qs: "University of California - San Diego", oa: "University of California, San Diego", manual: false, matched: true},
+            {rank: 43, qs: "Hong Kong University of Science and Technology", oa: "Hong Kong University of Science and Technology", manual: false, matched: true},
+            {rank: 44, qs: "Carnegie Mellon University", oa: "Carnegie Mellon University", manual: false, matched: true},
+            {rank: 45, qs: "University of Heidelberg", oa: "Heidelberg University", manual: true, matched: true},
+            {rank: 46, qs: "Northwestern University", oa: "Northwestern University", manual: false, matched: true},
+            {rank: 47, qs: "University of Queensland", oa: "The University of Queensland", manual: false, matched: true},
+            {rank: 48, qs: "Nanyang Technological University", oa: "Nanyang Technological University", manual: false, matched: true},
+            {rank: 49, qs: "University of Bristol", oa: "University of Bristol", manual: false, matched: true},
+            {rank: 50, qs: "Indian Institutes of Technology", oa: "", manual: false, matched: false},
+            {rank: 51, qs: "Chinese University of Hong Kong", oa: "Chinese University of Hong Kong", manual: false, matched: true},
+            {rank: 52, qs: "University of Auckland", oa: "University of Auckland", manual: false, matched: true},
+            {rank: 53, qs: "Delft University of Technology", oa: "Delft University of Technology", manual: false, matched: true},
+            {rank: 54, qs: "Boston University", oa: "Boston University", manual: false, matched: true},
+            {rank: 55, qs: "University of München", oa: "Ludwig-Maximilians-Universität München", manual: true, matched: true},
+            {rank: 56, qs: "New York University", oa: "New York University", manual: false, matched: true},
+            {rank: 57, qs: "Erasmus University Rotterdam", oa: "Erasmus University Rotterdam", manual: false, matched: true},
+            {rank: 58, qs: "University of Amsterdam", oa: "University of Amsterdam", manual: false, matched: true},
+            {rank: 58, qs: "University of Illinois", oa: "University of Illinois Urbana-Champaign", manual: false, matched: true},
+            {rank: 58, qs: "Washington University in St. Louis", oa: "Washington University in St. Louis", manual: false, matched: true},
+            {rank: 61, qs: "Purdue University", oa: "Purdue University West Lafayette", manual: true, matched: true},
+            {rank: 62, qs: "Tsinghua University", oa: "Tsinghua University", manual: false, matched: true},
+            {rank: 62, qs: "University of Helsinki", oa: "University of Helsinki", manual: false, matched: true},
+            {rank: 64, qs: "Pennsylvania State University", oa: "Pennsylvania State University", manual: false, matched: true},
+            {rank: 65, qs: "University of Vienna", oa: "University of Vienna", manual: false, matched: true},
+            {rank: 66, qs: "University of Copenhagen", oa: "University of Copenhagen", manual: false, matched: true},
+            {rank: 67, qs: "Macquarie University", oa: "Macquarie University", manual: false, matched: true},
+            {rank: 68, qs: "University of Massachusetts - Amherst", oa: "University of Massachusetts Amherst", manual: false, matched: true},
+            {rank: 69, qs: "Sciences Po - Paris", oa: "", manual: false, matched: false},
+            {rank: 70, qs: "Eindhoven University of Technology", oa: "", manual: false, matched: false},
+            {rank: 71, qs: "Brown University", oa: "Brown University", manual: false, matched: true},
+            {rank: 72, qs: "Fudan University", oa: "Fudan University", manual: false, matched: true},
+            {rank: 73, qs: "King's College London", oa: "King's College London", manual: false, matched: true},
+            {rank: 73, qs: "University of Rochester", oa: "University of Rochester", manual: false, matched: true},
+            {rank: 73, qs: "University of Wisconsin-Madison", oa: "University of Wisconsin–Madison", manual: false, matched: true},
+            {rank: 76, qs: "Université Libre de Bruxelles", oa: "Université Libre de Bruxelles", manual: true, matched: true},
+            {rank: 77, qs: "Hebrew University of Jerusalem", oa: "Hebrew University of Jerusalem", manual: false, matched: true},
+            {rank: 77, qs: "University of Warwick", oa: "University of Warwick", manual: false, matched: true},
+            {rank: 79, qs: "Moscow State University", oa: "Lomonosov Moscow State University", manual: false, matched: true},
+            {rank: 80, qs: "University of Adelaide", oa: "The University of Adelaide", manual: false, matched: true},
+            {rank: 80, qs: "University of Western Australia", oa: "The University of Western Australia", manual: false, matched: true},
+            {rank: 82, qs: "RMIT University", oa: "RMIT University", manual: false, matched: true},
+            {rank: 83, qs: "University of Durham", oa: "Durham University", manual: true, matched: true},
+            {rank: 84, qs: "Indian Institutes of Management", oa: "", manual: false, matched: false},
+            {rank: 85, qs: "University of Zurich", oa: "University of Zurich", manual: false, matched: true},
+            {rank: 86, qs: "Vienna University of Technology", oa: "", manual: false, matched: false},
+            {rank: 87, qs: "University of Technology Sydney", oa: "University of Technology Sydney", manual: false, matched: true},
+            {rank: 88, qs: "Catholic University of Louvain", oa: "UCLouvain", manual: false, matched: true},
+            {rank: 88, qs: "University of Geneva", oa: "University of Geneva", manual: false, matched: true},
+            {rank: 88, qs: "University Pierre et Marie Curie (Paris VI)", oa: "", manual: false, matched: false},
+            {rank: 88, qs: "University of Washington", oa: "University of Washington", manual: false, matched: true},
+            {rank: 92, qs: "Ecole Normale Supérieure de Lyon", oa: "", manual: false, matched: false},
+            {rank: 93, qs: "University of Science and Technology of China", oa: "University of Science and Technology of China", manual: false, matched: true},
+            {rank: 93, qs: "Seoul National University", oa: "Seoul National University", manual: false, matched: true},
+            {rank: 95, qs: "Catholic University of Leuven", oa: "KU Leuven", manual: true, matched: true},
+            {rank: 95, qs: "National Autonomous University of Mexico", oa: "Universidad Nacional Autónoma de México", manual: false, matched: true},
+            {rank: 97, qs: "University of Nottingham", oa: "University of Nottingham", manual: false, matched: true},
+            {rank: 98, qs: "La Trobe University", oa: "La Trobe University", manual: false, matched: true},
+            {rank: 99, qs: "Tokyo Institute of Technology", oa: "Tokyo Institute of Technology", manual: false, matched: true},
+            {rank: 100, qs: "University of Sussex", oa: "University of Sussex", manual: false, matched: true},
+            {rank: 101, qs: "Curtin University", oa: "Curtin University", manual: false, matched: true},
+            {rank: 101, qs: "University of Glasgow", oa: "University of Glasgow", manual: false, matched: true},
+            {rank: 103, qs: "School of Oriental and African Studies", oa: "", manual: false, matched: false},
+            {rank: 103, qs: "University of Leeds", oa: "University of Leeds", manual: false, matched: true},
+            {rank: 105, qs: "Technical University of München", oa: "Technical University of Munich", manual: true, matched: true},
+            {rank: 105, qs: "Osaka University", oa: "The University of Osaka", manual: true, matched: true},
+            {rank: 105, qs: "University of Virginia", oa: "University of Virginia", manual: false, matched: true},
+            {rank: 108, qs: "Wageningen University & Research Center", oa: "Wageningen University & Research", manual: true, matched: true},
+            {rank: 109, qs: "University of York", oa: "University of York", manual: false, matched: true},
+            {rank: 109, qs: "Case Western Reserve University", oa: "Case Western Reserve University", manual: false, matched: true},
+            {rank: 111, qs: "Trinity College Dublin", oa: "Trinity College Dublin", manual: false, matched: true},
+            {rank: 112, qs: "Humboldt University of Berlin", oa: "Humboldt-Universität zu Berlin", manual: true, matched: true},
+            {rank: 112, qs: "Queen Mary University of London", oa: "Queen Mary University of London", manual: false, matched: true},
+            {rank: 114, qs: "University of Göttingen", oa: "University of Göttingen", manual: true, matched: true},
+            {rank: 114, qs: "National Taiwan University", oa: "National Taiwan University", manual: false, matched: true},
+            {rank: 114, qs: "Vanderbilt University", oa: "Vanderbilt University", manual: false, matched: true},
+            {rank: 117, qs: "Dartmouth College", oa: "Dartmouth College", manual: false, matched: true},
+            {rank: 118, qs: "Queensland University of Technology", oa: "Queensland University of Technology", manual: false, matched: true},
+            {rank: 119, qs: "University of Liverpool", oa: "University of Liverpool", manual: false, matched: true},
+            {rank: 120, qs: "Utrecht University", oa: "Utrecht University", manual: false, matched: true},
+            {rank: 121, qs: "University Panthéon-Sorbonne (Paris I)", oa: "", manual: false, matched: false},
+            {rank: 121, qs: "Chulalongkorn University", oa: "Chulalongkorn University", manual: false, matched: true},
+            {rank: 121, qs: "Michigan State University", oa: "Michigan State University", manual: false, matched: true},
+            {rank: 124, qs: "University of Southern California", oa: "University of Southern California", manual: false, matched: true},
+            {rank: 125, qs: "University of Rome - La Sapienza", oa: "Sapienza University of Rome", manual: true, matched: true},
+            {rank: 125, qs: "Texas A&M University", oa: "Texas A&M University", manual: false, matched: true},
+            {rank: 127, qs: "University of Newcastle - Australia", oa: "University of Newcastle Australia", manual: false, matched: true},
+            {rank: 127, qs: "University of Basel", oa: "University of Basel", manual: false, matched: true},
+            {rank: 129, qs: "Nagoya University", oa: "Nagoya University", manual: false, matched: true},
+            {rank: 130, qs: "University of Bath", oa: "University of Bath", manual: false, matched: true},
+            {rank: 131, qs: "University of Strasbourg", oa: "Université de Strasbourg", manual: false, matched: true},
+            {rank: 132, qs: "University of Montreal", oa: "Université de Montréal", manual: false, matched: true},
+            {rank: 133, qs: "University of Lausanne", oa: "University of Lausanne", manual: false, matched: true},
+            {rank: 133, qs: "University of Maryland (System)", oa: "University of Maryland, Baltimore", manual: true, matched: true},
+            {rank: 133, qs: "HEC Paris", oa: "", manual: false, matched: false},
+            {rank: 136, qs: "Tohoku University", oa: "Tohoku University", manual: false, matched: true},
+            {rank: 136, qs: "University of St. Andrews", oa: "University of St Andrews", manual: false, matched: true},
+            {rank: 138, qs: "Aarhus University", oa: "Aarhus University", manual: false, matched: true},
+            {rank: 138, qs: "University of Leiden", oa: "Leiden University", manual: true, matched: true},
+            {rank: 138, qs: "University of Oslo", oa: "University of Oslo", manual: false, matched: true},
+            {rank: 141, qs: "Emory University", oa: "Emory University", manual: false, matched: true},
+            {rank: 142, qs: "University of Frankfurt am Main", oa: "Goethe University Frankfurt", manual: true, matched: true},
+            {rank: 143, qs: "Korea Advanced Institute of Science and Technology", oa: "Korea Advanced Institute of Science and Technology", manual: false, matched: true},
+            {rank: 143, qs: "University of Birmingham", oa: "University of Birmingham", manual: false, matched: true},
+            {rank: 143, qs: "University of Sheffield", oa: "University of Sheffield", manual: false, matched: true},
+            {rank: 143, qs: "University of North Carolina at Chapel Hill", oa: "University of North Carolina at Chapel Hill", manual: false, matched: true},
+            {rank: 147, qs: "Hiroshima University", oa: "Hiroshima University", manual: false, matched: true},
+            {rank: 147, qs: "Georgia Institute of Technology", oa: "Georgia Institute of Technology", manual: false, matched: true},
+            {rank: 149, qs: "University of Alberta", oa: "University of Alberta", manual: false, matched: true},
+            {rank: 150, qs: "University of St.Gallen", oa: "University of St.Gallen", manual: false, matched: true},
+            {rank: 150, qs: "Nanjing University", oa: "Nanjing University", manual: false, matched: true},
+            {rank: 150, qs: "University of Minnesota - Twin Cities", oa: "University of Minnesota", manual: false, matched: true},
+            {rank: 150, qs: "Rice University", oa: "Rice University", manual: false, matched: true},
+            {rank: 154, qs: "University of South Australia", oa: "University of South Australia", manual: false, matched: true},
+            {rank: 154, qs: "Technical University of Berlin", oa: "", manual: false, matched: false},
+            {rank: 154, qs: "Technical University of Denmark", oa: "Technical University of Denmark", manual: false, matched: true},
+            {rank: 157, qs: "Hokkaido University", oa: "Hokkaido University", manual: false, matched: true},
+            {rank: 157, qs: "University of Maastricht", oa: "Maastricht University", manual: true, matched: true},
+            {rank: 159, qs: "University of Waterloo", oa: "University of Waterloo", manual: false, matched: true},
+            {rank: 159, qs: "University of Bologna", oa: "University of Bologna", manual: false, matched: true},
+            {rank: 159, qs: "University of California - Santa Barbara", oa: "University of California, Santa Barbara", manual: false, matched: true},
+            {rank: 159, qs: "Georgetown University", oa: "Georgetown University", manual: false, matched: true},
+            {rank: 163, qs: "University of Colorado at Boulder", oa: "University of Colorado Boulder", manual: true, matched: true},
+            {rank: 164, qs: "Tufts University", oa: "Tufts University", manual: false, matched: true},
+            {rank: 165, qs: "University of Innsbruck", oa: "Universität Innsbruck", manual: false, matched: true},
+            {rank: 166, qs: "University of Tasmania", oa: "University of Tasmania", manual: false, matched: true},
+            {rank: 166, qs: "Chalmers University of Technology", oa: "Chalmers University of Technology", manual: false, matched: true},
+            {rank: 168, qs: "Newcastle University - Newcastle-upon-Tyne", oa: "", manual: false, matched: false},
+            {rank: 169, qs: "Shanghai Jiao Tong University", oa: "Shanghai Jiao Tong University", manual: false, matched: true},
+            {rank: 169, qs: "University of Malaya", oa: "University of Malaya", manual: false, matched: true},
+            {rank: 169, qs: "Novosibirsk State University", oa: "Novosibirsk State University", manual: false, matched: true},
+            {rank: 172, qs: "Free University of Berlin", oa: "Freie Universität Berlin", manual: false, matched: true},
+            {rank: 172, qs: "Kobe University", oa: "Kobe University", manual: false, matched: true},
+            {rank: 172, qs: "RWTH Aachen University", oa: "RWTH Aachen University", manual: false, matched: true},
+            {rank: 175, qs: "State University of New York at Stony Brook", oa: "Stony Brook University", manual: true, matched: true},
+            {rank: 175, qs: "University of Alabama", oa: "University of Alabama", manual: false, matched: true},
+            {rank: 177, qs: "Radboud University of Nijmegen", oa: "Radboud University Nijmegen", manual: true, matched: true},
+            {rank: 178, qs: "City University of Hong Kong", oa: "City University of Hong Kong", manual: false, matched: true},
+            {rank: 179, qs: "University of Notre Dame", oa: "University of Notre Dame", manual: false, matched: true},
+            {rank: 180, qs: "Toulouse 1 University Capitole", oa: "", manual: false, matched: false},
+            {rank: 180, qs: "Lund University", oa: "Lund University", manual: false, matched: true},
+            {rank: 180, qs: "Uppsala University", oa: "Uppsala University", manual: false, matched: true},
+            {rank: 183, qs: "Autonomous University of Madrid", oa: "Universidad Autónoma de Madrid", manual: false, matched: true},
+            {rank: 184, qs: "McMaster University", oa: "McMaster University", manual: false, matched: true},
+            {rank: 184, qs: "Korea University", oa: "Korea University", manual: false, matched: true},
+            {rank: 186, qs: "VU University Amsterdam", oa: "Vrije Universiteit Amsterdam", manual: true, matched: true},
+            {rank: 186, qs: "University of Otago", oa: "University of Otago", manual: false, matched: true},
+            {rank: 188, qs: "Tel Aviv University", oa: "Tel Aviv University", manual: false, matched: true},
+            {rank: 188, qs: "Massey University", oa: "Massey University", manual: false, matched: true},
+            {rank: 190, qs: "Göteborg University", oa: "University of Gothenburg", manual: true, matched: true},
+            {rank: 191, qs: "Western University", oa: "Western University", manual: false, matched: true},
+            {rank: 192, qs: "Jawaharlal Nehru University", oa: "Jawaharlal Nehru University", manual: false, matched: true},
+            {rank: 193, qs: "University of Pittsburgh", oa: "University of Pittsburgh", manual: false, matched: true},
+            {rank: 194, qs: "Helsinki University of Technology", oa: "", manual: false, matched: false},
+            {rank: 194, qs: "Technion - Israel Institute of Technology", oa: "Technion – Israel Institute of Technology", manual: true, matched: true},
+            {rank: 196, qs: "University of Sao Paulo", oa: "Universidade de São Paulo", manual: true, matched: true},
+            {rank: 196, qs: "KTH - Royal Institute of Technology", oa: "KTH Royal Institute of Technology", manual: false, matched: true},
+            {rank: 198, qs: "Showa University", oa: "Showa University", manual: false, matched: true},
+            {rank: 199, qs: "University of Florence", oa: "University of Florence", manual: false, matched: true},
+            {rank: 199, qs: "George Washington University", oa: "George Washington University", manual: false, matched: true},
+            {rank: 199, qs: "Wake Forest University", oa: "Wake Forest University", manual: false, matched: true}
+        ];
+
+        function renderTable() {
+            const showManualOnly = document.getElementById('showManualOnly').checked;
+            const showMatchedOnly = document.getElementById('showMatchedOnly').checked;
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+
+            let filtered = matchingData.filter(row => {
+                if (showManualOnly && !row.manual) return false;
+                if (showMatchedOnly && !row.matched) return false;
+                if (searchTerm && !row.qs.toLowerCase().includes(searchTerm) && !row.oa.toLowerCase().includes(searchTerm)) return false;
+                return true;
+            });
+
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = filtered.map(row => `
+                <tr>
+                    <td>${row.rank}</td>
+                    <td>${row.qs}</td>
+                    <td>${row.oa || '—'}</td>
+                    <td>${row.matched ?
+                        (row.manual ? '<span class="tag tag-manual">Manual</span>' : '<span class="tag tag-auto">Auto</span>')
+                        : '<span class="tag tag-none">No Match</span>'}</td>
+                </tr>
+            `).join('');
+
+            document.getElementById('matchCount').textContent =
+                `Showing ${filtered.length} of ${matchingData.length} institutions`;
+        }
+
+        document.getElementById('showManualOnly').addEventListener('change', renderTable);
+        document.getElementById('showMatchedOnly').addEventListener('change', renderTable);
+        document.getElementById('searchBox').addEventListener('input', renderTable);
+
+        // Initial render
+        renderTable();
+    </script>
+</body>
+</html>

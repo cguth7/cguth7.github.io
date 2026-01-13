@@ -1,0 +1,202 @@
+qs_2005_rank,qs_institution_name,qs_country,openalex_name,openalex_id,is_manual_mapping,matched
+1,Harvard University,USA,Harvard University,https://openalex.org/I136199984,FALSE,TRUE
+2,Massachusetts Institute of Technology - MIT,USA,Massachusetts Institute of Technology,https://openalex.org/I63966007,TRUE,TRUE
+3,University of Cambridge,UK,University of Cambridge,https://openalex.org/I241749,FALSE,TRUE
+4,University of Oxford,UK,University of Oxford,https://openalex.org/I40120149,FALSE,TRUE
+5,Stanford University,USA,Stanford University,https://openalex.org/I97018004,FALSE,TRUE
+6,University of California - Berkeley,USA,"University of California, Berkeley",https://openalex.org/I95457486,FALSE,TRUE
+7,Yale University,USA,Yale University,https://openalex.org/I32971472,FALSE,TRUE
+8,California Institute of Technology - Caltech,USA,California Institute of Technology,https://openalex.org/I122411786,TRUE,TRUE
+9,Princeton University,USA,Princeton University,https://openalex.org/I20089843,FALSE,TRUE
+10,Ecole Polytechnique,France,,,,FALSE
+11,London School of Economics,UK,,,,FALSE
+11,Duke University,USA,Duke University,https://openalex.org/I170897317,FALSE,TRUE
+13,Imperial College London,UK,Imperial College London,https://openalex.org/I47508984,FALSE,TRUE
+14,Cornell University,USA,Cornell University,https://openalex.org/I205783295,FALSE,TRUE
+15,Peking University,China,Peking University,https://openalex.org/I20231570,FALSE,TRUE
+16,The University of Tokyo,Japan,The University of Tokyo,https://openalex.org/I74801974,FALSE,TRUE
+17,University of California - San Francisco,USA,"University of California, San Francisco",https://openalex.org/I180670191,FALSE,TRUE
+17,University of Chicago,USA,University of Chicago,https://openalex.org/I40347166,FALSE,TRUE
+19,University of Melbourne,Australia,The University of Melbourne,https://openalex.org/I165779595,FALSE,TRUE
+20,Columbia University,USA,Columbia University,https://openalex.org/I78577930,FALSE,TRUE
+21,Swiss Federal Institute of Technology Zurich - ETHZ,Switzerland,ETH Zurich,https://openalex.org/I35440088,TRUE,TRUE
+22,National University of Singapore,Singapore,National University of Singapore,https://openalex.org/I165932596,FALSE,TRUE
+23,Australian National University,Australia,Australian National University,https://openalex.org/I118347636,FALSE,TRUE
+24,McGill University,Canada,McGill University,https://openalex.org/I5023651,FALSE,TRUE
+24,Ecole Normale Sup�rieure de Paris,France,,,,FALSE
+26,University of Texas at Austin,USA,The University of Texas at Austin,https://openalex.org/I86519309,TRUE,TRUE
+27,Johns Hopkins University,USA,Johns Hopkins University,https://openalex.org/I145311948,FALSE,TRUE
+28,University College London,UK,University College London,https://openalex.org/I45129253,FALSE,TRUE
+29,University of Toronto,Canada,University of Toronto,https://openalex.org/I185261750,FALSE,TRUE
+30,University of Edinburgh,UK,University of Edinburgh,https://openalex.org/I98677209,FALSE,TRUE
+31,Kyoto University,Japan,Kyoto University,https://openalex.org/I22299242,FALSE,TRUE
+32,University of Pennsylvania,USA,University of Pennsylvania,https://openalex.org/I79576946,FALSE,TRUE
+33,Monash University,Australia,Monash University,https://openalex.org/I56590836,FALSE,TRUE
+34,Swiss Federal Institute of Technology Lausanne - EPFL,Switzerland,École Polytechnique Fédérale de Lausanne,https://openalex.org/I5124864,TRUE,TRUE
+35,University of Manchester Institute of Science and Technology,UK,University of Manchester,https://openalex.org/I28407311,FALSE,TRUE
+36,University of Michigan - Ann Arbor,USA,University of Michigan,https://openalex.org/I27837315,TRUE,TRUE
+37,University of California - Los Angeles,USA,"University of California, Los Angeles",https://openalex.org/I161318765,FALSE,TRUE
+38,University of Sydney,Australia,The University of Sydney,https://openalex.org/I129604602,FALSE,TRUE
+38,University of British Columbia,Canada,University of British Columbia,https://openalex.org/I141945490,FALSE,TRUE
+40,University of New South Wales,Australia,UNSW Sydney,https://openalex.org/I31746571,FALSE,TRUE
+41,University of Hong Kong,Hong Kong,University of Hong Kong,https://openalex.org/I889458895,FALSE,TRUE
+42,University of California - San Diego,USA,"University of California, San Diego",https://openalex.org/I36258959,FALSE,TRUE
+43,Hong Kong University of Science and Technology,Hong Kong,Hong Kong University of Science and Technology,https://openalex.org/I200769079,FALSE,TRUE
+44,Carnegie Mellon University,USA,Carnegie Mellon University,https://openalex.org/I74973139,FALSE,TRUE
+45,University of Heidelberg,Germany,Heidelberg University,https://openalex.org/I223822909,TRUE,TRUE
+46,Northwestern University,USA,Northwestern University,https://openalex.org/I111979921,FALSE,TRUE
+47,University of Queensland,Australia,The University of Queensland,https://openalex.org/I165143802,FALSE,TRUE
+48,Nanyang Technological University,Singapore,Nanyang Technological University,https://openalex.org/I172675005,FALSE,TRUE
+49,University of Bristol,UK,University of Bristol,https://openalex.org/I36234482,FALSE,TRUE
+50,Indian Institutes of Technology,India,,,,FALSE
+51,Chinese University of Hong Kong,Hong Kong,Chinese University of Hong Kong,https://openalex.org/I177725633,FALSE,TRUE
+52,University of Auckland,New Zealand,University of Auckland,https://openalex.org/I154130895,FALSE,TRUE
+53,Delft University of Technology,Netherlands,Delft University of Technology,https://openalex.org/I98358874,FALSE,TRUE
+54,Boston University,USA,Boston University,https://openalex.org/I111088046,FALSE,TRUE
+55,University of M�nchen,Germany,Ludwig-Maximilians-Universität München,https://openalex.org/I8204097,TRUE,TRUE
+56,New York University,USA,New York University,https://openalex.org/I57206974,FALSE,TRUE
+57,Erasmus University Rotterdam,Netherlands,Erasmus University Rotterdam,https://openalex.org/I913958620,FALSE,TRUE
+58,University of Amsterdam,Netherlands,University of Amsterdam,https://openalex.org/I887064364,FALSE,TRUE
+58,University of Illinois,USA,University of Illinois Urbana-Champaign,https://openalex.org/I157725225,FALSE,TRUE
+58,Washington University in St. Louis,USA,Washington University in St. Louis,https://openalex.org/I204465549,FALSE,TRUE
+61,Purdue University,USA,Purdue University West Lafayette,https://openalex.org/I219193219,TRUE,TRUE
+62,Tsinghua University,China,Tsinghua University,https://openalex.org/I99065089,FALSE,TRUE
+62,University of Helsinki,Finland,University of Helsinki,https://openalex.org/I133731052,FALSE,TRUE
+64,Pennsylvania State University,USA,Pennsylvania State University,https://openalex.org/I130769515,FALSE,TRUE
+65,University of Vienna,Austria,University of Vienna,https://openalex.org/I129774422,FALSE,TRUE
+66,University of Copenhagen,Denmark,University of Copenhagen,https://openalex.org/I124055696,FALSE,TRUE
+67,Macquarie University,Australia,Macquarie University,https://openalex.org/I99043593,FALSE,TRUE
+68,University of Massachusetts - Amherst,USA,University of Massachusetts Amherst,https://openalex.org/I24603500,FALSE,TRUE
+69,Sciences Po - Paris,France,,,,FALSE
+70,Eindhoven University of Technology,Netherlands,,,,FALSE
+71,Brown University,USA,Brown University,https://openalex.org/I27804330,FALSE,TRUE
+72,Fudan University,China,Fudan University,https://openalex.org/I24943067,FALSE,TRUE
+73,King's College London,UK,King's College London,https://openalex.org/I183935753,FALSE,TRUE
+73,University of Rochester,USA,University of Rochester,https://openalex.org/I5388228,FALSE,TRUE
+73,University of Wisconsin-Madison,USA,University of Wisconsin–Madison,https://openalex.org/I135310074,FALSE,TRUE
+76,Universit� Libre de Bruxelles,Belgium,Université Libre de Bruxelles,https://openalex.org/I132053463,TRUE,TRUE
+77,Hebrew University of Jerusalem,Israel,Hebrew University of Jerusalem,https://openalex.org/I197251160,FALSE,TRUE
+77,University of Warwick,UK,University of Warwick,https://openalex.org/I39555362,FALSE,TRUE
+79,Moscow State University,Russia,Lomonosov Moscow State University,https://openalex.org/I19880235,FALSE,TRUE
+80,University of Adelaide,Australia,The University of Adelaide,https://openalex.org/I5681781,FALSE,TRUE
+80,University of Western Australia,Australia,The University of Western Australia,https://openalex.org/I177877127,FALSE,TRUE
+82,RMIT University,Australia,RMIT University,https://openalex.org/I82951845,FALSE,TRUE
+83,University of Durham,UK,Durham University,https://openalex.org/I190082696,TRUE,TRUE
+84,Indian Institutes Management,India,,,,FALSE
+85,University of Zurich,Switzerland,University of Zurich,https://openalex.org/I202697423,FALSE,TRUE
+86,Vienna University of Technology,Austria,,,,FALSE
+87,University of Technology Sydney,Australia,University of Technology Sydney,https://openalex.org/I114017466,FALSE,TRUE
+88,Catholic University of Louvain,Belgium,UCLouvain,https://openalex.org/I95674353,FALSE,TRUE
+88,University of Geneva,Switzerland,University of Geneva,https://openalex.org/I114457229,FALSE,TRUE
+88,University Pierre et Marie Curie (Paris VI),France,,,,FALSE
+88,University of Washington,USA,University of Washington,https://openalex.org/I201448701,FALSE,TRUE
+92,Ecole Normale Sup�rieure de Lyon,France,,,,FALSE
+93,University of Science and Technology of China,China,University of Science and Technology of China,https://openalex.org/I126520041,FALSE,TRUE
+93,Seoul National University,South Korea,Seoul National University,https://openalex.org/I139264467,FALSE,TRUE
+95,Catholic University of Leuven,Belgium,KU Leuven,https://openalex.org/I99464096,TRUE,TRUE
+95,National Autonomous University of Mexico,Mexico,Universidad Nacional Autónoma de México,https://openalex.org/I8961855,FALSE,TRUE
+97,University of Nottingham,UK,University of Nottingham,https://openalex.org/I142263535,FALSE,TRUE
+98,La Trobe University,Australia,La Trobe University,https://openalex.org/I196829312,FALSE,TRUE
+99,Tokyo Institute of Technology,Japan,Tokyo Institute of Technology,https://openalex.org/I114531698,FALSE,TRUE
+100,University of Sussex,UK,University of Sussex,https://openalex.org/I162608824,FALSE,TRUE
+101,Curtin University,Australia,Curtin University,https://openalex.org/I205640436,FALSE,TRUE
+101,University of Glasgow,UK,University of Glasgow,https://openalex.org/I7882870,FALSE,TRUE
+103,School of Oriental and African Studies - University of London,UK,,,,FALSE
+103,University of Leeds,UK,University of Leeds,https://openalex.org/I130828816,FALSE,TRUE
+105,Technical University of M�nchen,Germany,Technical University of Munich,https://openalex.org/I62916508,TRUE,TRUE
+105,Osaka University,Japan,The University of Osaka,https://openalex.org/I98285908,TRUE,TRUE
+105,University of Virginia,USA,University of Virginia,https://openalex.org/I51556381,FALSE,TRUE
+108,Wageningen University & Research Center,Netherlands,Wageningen University & Research,https://openalex.org/I913481162,TRUE,TRUE
+109,University of York,UK,University of York,https://openalex.org/I52099693,FALSE,TRUE
+109,Case Western Reserve University,USA,Case Western Reserve University,https://openalex.org/I58956616,FALSE,TRUE
+111,Trinity College Dublin,Ireland,Trinity College Dublin,https://openalex.org/I205274468,FALSE,TRUE
+112,Humboldt University of Berlin,Germany,Humboldt-Universität zu Berlin,https://openalex.org/I39343248,TRUE,TRUE
+112,Queen Mary - University of London,UK,Queen Mary University of London,https://openalex.org/I166337079,FALSE,TRUE
+114,University of G�ttingen,Germany,University of Göttingen,https://openalex.org/I74656192,TRUE,TRUE
+114,National Taiwan University,Taiwan,National Taiwan University,https://openalex.org/I16733864,FALSE,TRUE
+114,Vanderbilt University,USA,Vanderbilt University,https://openalex.org/I200719446,FALSE,TRUE
+117,Dartmouth College,USA,Dartmouth College,https://openalex.org/I107672454,FALSE,TRUE
+118,Queensland University of Technology,Australia,Queensland University of Technology,https://openalex.org/I160993911,FALSE,TRUE
+119,University of Liverpool,UK,University of Liverpool,https://openalex.org/I146655781,FALSE,TRUE
+120,Utrecht University,Netherlands,Utrecht University,https://openalex.org/I193662353,FALSE,TRUE
+121,University Panth�on-Sorbonne (Paris I),France,,,,FALSE
+121,Chulalongkorn University,Thailand,Chulalongkorn University,https://openalex.org/I158708052,FALSE,TRUE
+121,Michigan State University,USA,Michigan State University,https://openalex.org/I87216513,FALSE,TRUE
+124,University of Southern California,USA,University of Southern California,https://openalex.org/I1174212,FALSE,TRUE
+125,University of Rome - La Sapienza,Italy,Sapienza University of Rome,https://openalex.org/I861853513,TRUE,TRUE
+125,Texas A&M University,USA,Texas A&M University,https://openalex.org/I91045830,FALSE,TRUE
+127,University of Newcastle - Australia,Australia,University of Newcastle Australia,https://openalex.org/I78757542,FALSE,TRUE
+127,University of Basel,Switzerland,University of Basel,https://openalex.org/I1850255,FALSE,TRUE
+129,Nagoya University,Japan,Nagoya University,https://openalex.org/I60134161,FALSE,TRUE
+130,University of Bath,UK,University of Bath,https://openalex.org/I51601045,FALSE,TRUE
+131,University of Strasbourg,France,Université de Strasbourg,https://openalex.org/I68947357,FALSE,TRUE
+132,University of Montreal,Canada,Université de Montréal,https://openalex.org/I70931966,FALSE,TRUE
+133,University of Lausanne,Switzerland,University of Lausanne,https://openalex.org/I97565354,FALSE,TRUE
+133,University of Maryland (System),USA,"University of Maryland, Baltimore",https://openalex.org/I126744593,TRUE,TRUE
+133,HEC Paris,France,,,,FALSE
+136,Tohoku University,Japan,Tohoku University,https://openalex.org/I201537933,FALSE,TRUE
+136,University of St. Andrews,UK,University of St Andrews,https://openalex.org/I16835326,FALSE,TRUE
+138,Aarhus University,Denmark,Aarhus University,https://openalex.org/I204337017,FALSE,TRUE
+138,University of Leiden,Netherlands,Leiden University,https://openalex.org/I121797337,TRUE,TRUE
+138,University of Oslo,Norway,University of Oslo,https://openalex.org/I184942183,FALSE,TRUE
+141,Emory University,USA,Emory University,https://openalex.org/I150468666,FALSE,TRUE
+142,University of Frankfurt am Main,Germany,Goethe University Frankfurt,https://openalex.org/I114090438,TRUE,TRUE
+143,Korea Advanced Institute of Science and Technology,South Korea,Korea Advanced Institute of Science and Technology,https://openalex.org/I157485424,FALSE,TRUE
+143,University of Birmingham,UK,University of Birmingham,https://openalex.org/I79619799,FALSE,TRUE
+143,University of Sheffield,UK,University of Sheffield,https://openalex.org/I91136226,FALSE,TRUE
+143,University of North Carolina at Chapel Hill,USA,University of North Carolina at Chapel Hill,https://openalex.org/I114027177,FALSE,TRUE
+147,Hiroshima University,Japan,Hiroshima University,https://openalex.org/I113306721,FALSE,TRUE
+147,Georgia Institute of Technology,USA,Georgia Institute of Technology,https://openalex.org/I130701444,FALSE,TRUE
+149,University of Alberta,Canada,University of Alberta,https://openalex.org/I154425047,FALSE,TRUE
+150,University of St.Gallen,Switzerland,University of St.Gallen,https://openalex.org/I202963720,FALSE,TRUE
+150,Nanjing University,China,Nanjing University,https://openalex.org/I881766915,FALSE,TRUE
+150,University of Minnesota - Twin Cities,USA,University of Minnesota,https://openalex.org/I130238516,FALSE,TRUE
+150,Rice University,USA,Rice University,https://openalex.org/I74775410,FALSE,TRUE
+154,University of South Australia,Australia,University of South Australia,https://openalex.org/I170239107,FALSE,TRUE
+154,Technical University of Berlin,Germany,,,,FALSE
+154,Technical University of Denmark,Denmark,Technical University of Denmark,https://openalex.org/I96673099,FALSE,TRUE
+157,Hokkaido University,Japan,Hokkaido University,https://openalex.org/I205349734,FALSE,TRUE
+157,University of Maastricht,Netherlands,Maastricht University,https://openalex.org/I34352273,TRUE,TRUE
+159,University of Waterloo,Canada,University of Waterloo,https://openalex.org/I151746483,FALSE,TRUE
+159,University of Bologna,Italy,University of Bologna,https://openalex.org/I9360294,FALSE,TRUE
+159,University of California - Santa Barbara,USA,"University of California, Santa Barbara",https://openalex.org/I154570441,FALSE,TRUE
+159,Georgetown University,USA,Georgetown University,https://openalex.org/I184565670,FALSE,TRUE
+163,University of Colorado at Boulder,USA,University of Colorado Boulder,https://openalex.org/I188538660,TRUE,TRUE
+164,Tufts University,USA,Tufts University,https://openalex.org/I121934306,FALSE,TRUE
+165,University of Innsbruck,Austria,Universität Innsbruck,https://openalex.org/I190249584,FALSE,TRUE
+166,University of Tasmania,Australia,University of Tasmania,https://openalex.org/I129801699,FALSE,TRUE
+166,Chalmers University of Technology,Sweden,Chalmers University of Technology,https://openalex.org/I66862912,FALSE,TRUE
+168,Newcastle University - Newcastle-upon-Tyne,UK,Newcastle University,https://openalex.org/I84884186,TRUE,TRUE
+169,Shanghai Jiao Tong University,China,Shanghai Jiao Tong University,https://openalex.org/I183067930,FALSE,TRUE
+169,University of Malaya,Malaysia,University of Malaya,https://openalex.org/I33849332,FALSE,TRUE
+169,Novosibirsk State University,Russia,Novosibirsk State University,https://openalex.org/I188973947,FALSE,TRUE
+172,Free University of Berlin,Germany,Freie Universität Berlin,https://openalex.org/I75951250,FALSE,TRUE
+172,Kobe University,Japan,Kobe University,https://openalex.org/I65837984,FALSE,TRUE
+172,RWTH Aachen University,Germany,RWTH Aachen University,https://openalex.org/I887968799,FALSE,TRUE
+175,State University of New York at Stony Brook,USA,Stony Brook University,https://openalex.org/I59553526,TRUE,TRUE
+175,University of Alabama,USA,University of Alabama,https://openalex.org/I17301866,FALSE,TRUE
+177,Radboud University of Nijmegen,Netherlands,Radboud University Nijmegen,https://openalex.org/I145872427,TRUE,TRUE
+178,City University of Hong Kong,Hong Kong,City University of Hong Kong,https://openalex.org/I168719708,FALSE,TRUE
+179,University of Notre Dame,USA,University of Notre Dame,https://openalex.org/I107639228,FALSE,TRUE
+180,Toulouse 1 University Capitole,France,,,,FALSE
+180,Lund University,Sweden,Lund University,https://openalex.org/I187531555,FALSE,TRUE
+180,Uppsala University,Sweden,Uppsala University,https://openalex.org/I123387679,FALSE,TRUE
+183,Autonomous University of Madrid,Spain,Universidad Autónoma de Madrid,https://openalex.org/I63634437,FALSE,TRUE
+184,McMaster University,Canada,McMaster University,https://openalex.org/I98251732,FALSE,TRUE
+184,Korea University,South Korea,Korea University,https://openalex.org/I197347611,FALSE,TRUE
+186,VU University Amsterdam,Netherlands,Vrije Universiteit Amsterdam,https://openalex.org/I865915315,TRUE,TRUE
+186,University of Otago,New Zealand,University of Otago,https://openalex.org/I80281795,FALSE,TRUE
+188,Tel Aviv University,Israel,Tel Aviv University,https://openalex.org/I16391192,FALSE,TRUE
+188,Massey University,New Zealand,Massey University,https://openalex.org/I51158804,FALSE,TRUE
+190,G�teborg University,Sweden,University of Gothenburg,https://openalex.org/I881427289,TRUE,TRUE
+191,Western University,Canada,Western University,https://openalex.org/I125749732,FALSE,TRUE
+192,Jawaharlal Nehru University,India,Jawaharlal Nehru University,https://openalex.org/I152429107,FALSE,TRUE
+193,University of Pittsburgh,USA,University of Pittsburgh,https://openalex.org/I170201317,FALSE,TRUE
+194,Helsinki University of Technology,Finland,,,,FALSE
+194,Technion - Israel Institute of Technology,Israel,Technion – Israel Institute of Technology,https://openalex.org/I174306211,TRUE,TRUE
+196,University of Sao Paulo,Brazil,Universidade de São Paulo,https://openalex.org/I17974374,TRUE,TRUE
+196,KTH - Royal Institute of Technology,Sweden,KTH Royal Institute of Technology,https://openalex.org/I86987016,FALSE,TRUE
+198,Showa University,Japan,Showa University,https://openalex.org/I119182057,FALSE,TRUE
+199,University of Florence,Italy,University of Florence,https://openalex.org/I45084792,FALSE,TRUE
+199,George Washington University,USA,George Washington University,https://openalex.org/I193531525,FALSE,TRUE
+199,Wake Forest University,USA,Wake Forest University,https://openalex.org/I47251452,FALSE,TRUE
