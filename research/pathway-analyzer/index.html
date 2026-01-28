@@ -405,7 +405,34 @@ CRITICAL RULES:
 7. Detect if the pathway diagram contains any question marks (?) and set has_question_marks accordingly
 8. Identify the overall pathway/biological process shown in the diagram and provide a brief description
 9. Identify the PRIMARY canonical pathway shown. Use standard names like: "PI3K-AKT signaling", "MAPK/ERK signaling", "Wnt/beta-catenin signaling", "NF-kB signaling", "TGF-beta signaling", "JAK-STAT signaling", "Notch signaling", "Hedgehog signaling", "p53 signaling", "Apoptosis", "Autophagy", "Cell cycle", "mTOR signaling", "AMPK signaling", "Hippo signaling", "TNF signaling", "Toll-like receptor signaling", "Insulin signaling", "VEGF signaling", "Calcium signaling", etc. If the pathway doesn't match a canonical name, provide the most descriptive name possible.
-10. Output ONLY valid JSON with no extra text</pre>
+10. Output ONLY valid JSON with no extra text
+
+Return this exact JSON structure:
+{
+  "figure_metadata": {
+    "has_question_marks": boolean,
+    "pathway_description": "string (1-2 sentence description)",
+    "canonical_pathway": "string (primary pathway name, e.g. 'PI3K-AKT signaling')",
+    "related_pathways": ["string (other pathways shown or connected)"]
+  },
+  "nodes": [
+    {
+      "label": "string",
+      "node_type": "gene|phenotype|complex|chemical|other",
+      "entrez_id": integer|null,
+      "is_family_representative": boolean,
+      "notes": "string"
+    }
+  ],
+  "edges": [
+    {
+      "source": "string",
+      "target": "string",
+      "interaction": "activation|inhibition|binding|indirect",
+      "uncertain": boolean
+    }
+  ]
+}</pre>
                 </div>
             </details>
 
