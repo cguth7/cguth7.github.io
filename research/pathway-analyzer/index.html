@@ -4,128 +4,351 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pathway Analyzer | Charlie Guthmann</title>
-    <link rel="stylesheet" href="../templates/research.css">
     <style>
+        :root {
+            --blue: #2563eb;
+            --green: #16a34a;
+            --purple: #7c3aed;
+            --orange: #ea580c;
+            --text: #1a1a1a;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --bg: #f9fafb;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.02em;
+        }
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--muted);
+            max-width: 700px;
+        }
+        .breadcrumb {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+        .breadcrumb a { color: var(--blue); text-decoration: none; }
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        /* Hero Stats */
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .hero-stat {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+        .hero-stat .value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--blue);
+            line-height: 1;
+        }
+        .hero-stat .label {
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 0.5rem;
+        }
+        .hero-stat:nth-child(2) .value { color: var(--green); }
+        .hero-stat:nth-child(3) .value { color: var(--purple); }
+        .hero-stat:nth-child(4) .value { color: var(--orange); }
+
+        /* Section */
+        section {
+            margin-bottom: 4rem;
+        }
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        /* Details Dropdowns */
         details {
             background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
             margin-bottom: 1rem;
+            overflow: hidden;
         }
         summary {
+            padding: 1.25rem 1.5rem;
             cursor: pointer;
             font-weight: 600;
             font-size: 1.1rem;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary:hover { background: var(--bg); }
+        summary::marker { color: var(--blue); }
+        details[open] summary { border-bottom: 1px solid var(--border); }
+        .detail-content {
+            padding: 1.5rem;
+        }
+        .detail-content p { margin-bottom: 0.75rem; }
+
+        /* Distribution Grid */
+        .dist-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+        .dist-card h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--muted);
+        }
+        .dist-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        .dist-label {
+            width: 120px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .dist-track {
+            flex: 1;
+            height: 24px;
+            background: var(--bg);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0 1rem;
+        }
+        .dist-fill {
+            height: 100%;
+            background: var(--blue);
+            border-radius: 4px;
+        }
+        .dist-pct {
+            width: 50px;
+            text-align: right;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        /* Top Pathways */
+        .pathway-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .pathway-chip {
+            background: var(--bg);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        .pathway-chip .count {
+            font-weight: 700;
             color: var(--blue);
         }
-        summary:hover {
-            text-decoration: underline;
+
+        /* Audit Cards */
+        .audit-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+            overflow: hidden;
         }
-        details[open] summary {
-            margin-bottom: 1rem;
+        .audit-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
-        .prompt-box {
-            background: var(--code-bg);
-            padding: 1rem;
-            border-radius: 4px;
-            font-family: monospace;
+        .audit-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+        .pathway-badge {
+            background: var(--blue);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
             font-size: 0.85rem;
-            white-space: pre-wrap;
-            max-height: 400px;
-            overflow-y: auto;
+            font-weight: 600;
         }
-        .audit-grid {
+        .audit-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
-            align-items: start;
+            padding: 2rem;
         }
         .audit-image img {
-            max-width: 100%;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        .audit-data {
+        .audit-meta .description {
+            font-size: 0.95rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+        .audit-meta .related {
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+        .counts {
+            display: flex;
+            gap: 1rem;
+        }
+        .count-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
             font-size: 0.9rem;
+            font-weight: 600;
         }
-        .audit-data table {
+        .count-badge.nodes { background: #dbeafe; color: #1e40af; }
+        .count-badge.edges { background: #dcfce7; color: #166534; }
+
+        /* Data Tables in Audit */
+        .audit-card .data-table {
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+            border-top: 1px solid var(--border);
+        }
+        .audit-card .data-table summary {
+            padding: 1rem 2rem;
+            font-size: 1rem;
+        }
+        .table-scroll {
+            overflow-x: auto;
+            padding: 0 2rem 1.5rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
             font-size: 0.85rem;
         }
-        .pathway-badge {
-            display: inline-block;
-            background: var(--blue);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
+        th, td {
+            padding: 0.6rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
         }
-        .related-pathways {
-            font-size: 0.85rem;
-            color: #666;
-            margin-top: 0.5rem;
+        th {
+            background: var(--bg);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: var(--muted);
         }
-        @media (max-width: 900px) {
-            .audit-grid {
-                grid-template-columns: 1fr;
-            }
+        tbody tr:hover { background: var(--bg); }
+
+        /* Footer */
+        footer {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+            color: var(--muted);
+        }
+        footer a { color: var(--blue); text-decoration: none; }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .hero-stats { grid-template-columns: repeat(3, 1fr); }
+            .pathway-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 800px) {
+            .container { padding: 2rem 1rem; }
+            h1 { font-size: 2rem; }
+            .hero-stats { grid-template-columns: repeat(2, 1fr); }
+            .audit-content { grid-template-columns: 1fr; }
+            .dist-grid { grid-template-columns: 1fr; }
+            .pathway-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Medical Pathway Analyzer</h1>
-        <p class="subtitle">Automated extraction of gene/protein interaction networks from 49k pathway diagrams using Gemini 3 Pro</p>
-        <nav class="breadcrumb">
-            <a href="/">Home</a> / <a href="/research">Research</a> / <span>Pathway Analyzer</span>
-        </nav>
-    </header>
+    <div class="container">
+        <header>
+            <h1>Medical Pathway Analyzer</h1>
+            <p class="subtitle">Automated extraction of gene/protein interaction networks from 49k pathway diagrams using Gemini 3 Pro</p>
+            <nav class="breadcrumb">
+                <a href="/">Home</a> / <a href="/research">Research</a> / Pathway Analyzer
+            </nav>
+        </header>
 
-    <main>
-        <!-- Summary Stats -->
-        <section>
-            <h2>Dataset Summary</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value">48,779</div>
-                    <div class="stat-label">Images Processed</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">1.33M</div>
-                    <div class="stat-label">Nodes Extracted</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">1.38M</div>
-                    <div class="stat-label">Edges Extracted</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">8,821</div>
-                    <div class="stat-label">Unique Pathways</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">42,402</div>
-                    <div class="stat-label">PMC Papers</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-value">99.6%</div>
-                    <div class="stat-label">Success Rate</div>
-                </div>
+        <!-- Hero Stats -->
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <div class="value">48,779</div>
+                <div class="label">Images</div>
             </div>
-
-            <div class="key-finding">
-                <h3>Key Metrics</h3>
-                <p><strong>27.3</strong> avg nodes/image | <strong>28.3</strong> avg edges/image | <strong>56.2%</strong> Entrez ID coverage | <strong>~$650</strong> total cost</p>
+            <div class="hero-stat">
+                <div class="value">1.33M</div>
+                <div class="label">Nodes</div>
             </div>
-        </section>
+            <div class="hero-stat">
+                <div class="value">1.38M</div>
+                <div class="label">Edges</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value">8,821</div>
+                <div class="label">Pathways</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value">42,402</div>
+                <div class="label">PMC Papers</div>
+            </div>
+            <div class="hero-stat">
+                <div class="value">99.6%</div>
+                <div class="label">Success</div>
+            </div>
+        </div>
 
-        <!-- Prompt & Process Dropdown -->
+        <!-- Methodology -->
         <section>
             <h2>Methodology</h2>
 
             <details>
                 <summary>Prompt (v2)</summary>
-                <div class="prompt-box">You are analyzing a biomedical pathway diagram. Extract all entities and relationships.
+                <div class="detail-content">
+                    <pre style="background:#f3f4f6;padding:1rem;border-radius:8px;font-size:0.85rem;overflow-x:auto;white-space:pre-wrap;">You are analyzing a biomedical pathway diagram. Extract all entities and relationships.
 
 For each node, identify:
 - label: The displayed name
@@ -143,248 +366,510 @@ For each edge, identify:
 Also extract figure metadata:
 - pathway_description: Brief description of the pathway
 - has_question_marks: true if diagram contains "?" symbols
-- canonical_pathway: Primary pathway name (e.g., "PI3K-AKT signaling", "Wnt/beta-catenin signaling")
+- canonical_pathway: Primary pathway name (e.g., "PI3K-AKT signaling")
 - related_pathways: List of connected pathways with KEGG IDs if known
 
-Return valid JSON only.</div>
+Return valid JSON only.</pre>
+                </div>
             </details>
 
             <details>
                 <summary>Processing Pipeline</summary>
-                <p style="margin-top: 1rem;"><strong>Source:</strong> 49,014 pathway diagram images from PubMed Central papers stored in Dropbox</p>
-                <p><strong>Model:</strong> Google Gemini 3 Pro Preview via Vertex AI</p>
-                <p><strong>Throughput:</strong> ~120 images/minute with 200 concurrent requests</p>
-                <p><strong>Resilience:</strong> Auto-resume on failure, 5x retry with exponential backoff, 120s timeout per request</p>
-                <p><strong>Output:</strong> JSONL with nodes, edges, and metadata per image, exported to CSV</p>
-            </details>
-
-            <details>
-                <summary>Node Type Distribution</summary>
-                <div class="table-wrapper" style="margin-top: 1rem;">
-                    <table>
-                        <thead><tr><th>Type</th><th>Count</th><th>%</th></tr></thead>
-                        <tbody>
-                            <tr><td>gene</td><td>907,170</td><td>68.0%</td></tr>
-                            <tr><td>chemical</td><td>182,293</td><td>13.7%</td></tr>
-                            <tr><td>phenotype</td><td>147,670</td><td>11.1%</td></tr>
-                            <tr><td>complex</td><td>56,069</td><td>4.2%</td></tr>
-                            <tr><td>other</td><td>40,103</td><td>3.0%</td></tr>
-                        </tbody>
-                    </table>
+                <div class="detail-content">
+                    <p><strong>Source:</strong> 49,014 pathway diagram images from PubMed Central papers stored in Dropbox</p>
+                    <p><strong>Model:</strong> Google Gemini 3 Pro Preview via Vertex AI (project: gen-lang-client-0965862128)</p>
+                    <p><strong>Throughput:</strong> ~120 images/minute with 200 concurrent requests using native async API</p>
+                    <p><strong>Resilience:</strong> Auto-resume on failure, 5x retry with exponential backoff, 120s timeout per request</p>
+                    <p><strong>Cost:</strong> ~$650 total (~$0.039/image)</p>
+                    <p><strong>Output:</strong> JSONL with nodes, edges, and metadata per image; exported to CSV (154 MB total)</p>
                 </div>
             </details>
 
             <details>
-                <summary>Edge Type Distribution</summary>
-                <div class="table-wrapper" style="margin-top: 1rem;">
-                    <table>
-                        <thead><tr><th>Interaction</th><th>Count</th><th>%</th></tr></thead>
-                        <tbody>
-                            <tr><td>activation</td><td>919,824</td><td>66.7%</td></tr>
-                            <tr><td>inhibition</td><td>206,057</td><td>14.9%</td></tr>
-                            <tr><td>binding</td><td>179,245</td><td>13.0%</td></tr>
-                            <tr><td>indirect</td><td>72,298</td><td>5.2%</td></tr>
-                            <tr><td>other</td><td>1,034</td><td>0.1%</td></tr>
-                        </tbody>
-                    </table>
+                <summary>Distributions</summary>
+                <div class="detail-content">
+                    <div class="dist-grid">
+                        <div class="dist-card">
+                            <h4>Node Types</h4>
+                            <div class="dist-bar">
+                                <span class="dist-label">gene</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:68%;background:#2563eb"></div></div>
+                                <span class="dist-pct">68.0%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">chemical</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:13.7%;background:#16a34a"></div></div>
+                                <span class="dist-pct">13.7%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">phenotype</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:11.1%;background:#7c3aed"></div></div>
+                                <span class="dist-pct">11.1%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">complex</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:4.2%;background:#ea580c"></div></div>
+                                <span class="dist-pct">4.2%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">other</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:3%;background:#6b7280"></div></div>
+                                <span class="dist-pct">3.0%</span>
+                            </div>
+                        </div>
+                        <div class="dist-card">
+                            <h4>Edge Types</h4>
+                            <div class="dist-bar">
+                                <span class="dist-label">activation</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:66.7%;background:#2563eb"></div></div>
+                                <span class="dist-pct">66.7%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">inhibition</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:14.9%;background:#dc2626"></div></div>
+                                <span class="dist-pct">14.9%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">binding</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:13%;background:#16a34a"></div></div>
+                                <span class="dist-pct">13.0%</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">indirect</span>
+                                <div class="dist-track"><div class="dist-fill" style="width:5.2%;background:#7c3aed"></div></div>
+                                <span class="dist-pct">5.2%</span>
+                            </div>
+                            <p style="margin-top:1rem;font-size:0.85rem;color:#6b7280"><strong>7.8%</strong> of edges marked uncertain</p>
+                        </div>
+                    </div>
                 </div>
-                <p style="margin-top: 1rem; color: #666;"><strong>7.8%</strong> of edges marked as uncertain (dashed lines or "?" in diagram)</p>
             </details>
 
             <details>
                 <summary>Top 20 Canonical Pathways</summary>
-                <div class="table-wrapper" style="margin-top: 1rem;">
-                    <table>
-                        <thead><tr><th>Pathway</th><th>Images</th></tr></thead>
-                        <tbody>
-                            <tr><td>PI3K-AKT signaling</td><td>1,783</td></tr>
-                            <tr><td>Wnt/beta-catenin signaling</td><td>1,673</td></tr>
-                            <tr><td>Toll-like receptor signaling</td><td>1,624</td></tr>
-                            <tr><td>TGF-beta signaling</td><td>1,355</td></tr>
-                            <tr><td>mTOR signaling</td><td>1,197</td></tr>
-                            <tr><td>JAK-STAT signaling</td><td>1,188</td></tr>
-                            <tr><td>Apoptosis</td><td>971</td></tr>
-                            <tr><td>NF-kB signaling</td><td>955</td></tr>
-                            <tr><td>MAPK/ERK signaling</td><td>638</td></tr>
-                            <tr><td>Hippo signaling</td><td>611</td></tr>
-                            <tr><td>Autophagy</td><td>588</td></tr>
-                            <tr><td>Hedgehog signaling</td><td>575</td></tr>
-                            <tr><td>Unfolded Protein Response</td><td>542</td></tr>
-                            <tr><td>Insulin signaling</td><td>497</td></tr>
-                            <tr><td>Cell cycle</td><td>478</td></tr>
-                            <tr><td>p53 signaling</td><td>452</td></tr>
-                            <tr><td>PI3K-AKT-mTOR signaling</td><td>406</td></tr>
-                            <tr><td>Notch signaling</td><td>397</td></tr>
-                            <tr><td>Central Carbon Metabolism</td><td>309</td></tr>
-                            <tr><td>cGAS-STING signaling</td><td>300</td></tr>
-                        </tbody>
-                    </table>
+                <div class="detail-content">
+                    <div class="pathway-grid">
+                        <div class="pathway-chip"><span class="count">1,783</span> PI3K-AKT signaling</div>
+                        <div class="pathway-chip"><span class="count">1,673</span> Wnt/beta-catenin</div>
+                        <div class="pathway-chip"><span class="count">1,624</span> Toll-like receptor</div>
+                        <div class="pathway-chip"><span class="count">1,355</span> TGF-beta signaling</div>
+                        <div class="pathway-chip"><span class="count">1,197</span> mTOR signaling</div>
+                        <div class="pathway-chip"><span class="count">1,188</span> JAK-STAT signaling</div>
+                        <div class="pathway-chip"><span class="count">971</span> Apoptosis</div>
+                        <div class="pathway-chip"><span class="count">955</span> NF-kB signaling</div>
+                        <div class="pathway-chip"><span class="count">638</span> MAPK/ERK signaling</div>
+                        <div class="pathway-chip"><span class="count">611</span> Hippo signaling</div>
+                        <div class="pathway-chip"><span class="count">588</span> Autophagy</div>
+                        <div class="pathway-chip"><span class="count">575</span> Hedgehog signaling</div>
+                        <div class="pathway-chip"><span class="count">542</span> Unfolded Protein Response</div>
+                        <div class="pathway-chip"><span class="count">497</span> Insulin signaling</div>
+                        <div class="pathway-chip"><span class="count">478</span> Cell cycle</div>
+                        <div class="pathway-chip"><span class="count">452</span> p53 signaling</div>
+                        <div class="pathway-chip"><span class="count">406</span> PI3K-AKT-mTOR</div>
+                        <div class="pathway-chip"><span class="count">397</span> Notch signaling</div>
+                        <div class="pathway-chip"><span class="count">309</span> Central Carbon Metabolism</div>
+                        <div class="pathway-chip"><span class="count">300</span> cGAS-STING signaling</div>
+                    </div>
                 </div>
             </details>
         </section>
 
-        <!-- Random Samples Audit -->
+        <!-- Random Audit -->
         <section>
             <h2>Audit: Random Samples</h2>
-            <p style="margin-bottom: 2rem; color: #666;">5 randomly selected images from the 48,779 processed. Compare extracted networks against original diagrams.</p>
+            <p style="color:var(--muted);margin-bottom:2rem;">5 randomly selected images from the 48,779 processed. Compare extracted networks against original diagrams.</p>
 
-            <!-- Sample 1 -->
-            <details>
-                <summary>PMC7823885 Figure 3 — Liver metabolic reprogramming (79 nodes, 67 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC7823885 — Figure F3</h3>
+                    <span class="pathway-badge">Liver metabolic reprogramming and inflammatory signaling</span>
+                </div>
+                <div class="audit-content">
                     <div class="audit-image">
-                        <img src="images/PMC7823885__F3.jpg" alt="PMC7823885 Figure 3">
+                        <img src="images/PMC7823885__F3.jpg" alt="PMC7823885 F3">
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">Liver metabolic reprogramming and inflammatory signaling</span>
-                        <p class="related-pathways"><strong>Related:</strong> NF-kB signaling; Glycolysis; Fatty acid metabolism</p>
-                        <p style="margin: 1rem 0;"><strong>79 nodes</strong> (genes, chemicals, phenotypes) and <strong>67 edges</strong> extracted from this complex multi-panel figure.</p>
+                    <div class="audit-meta">
+                        <p class="description">The diagram illustrates metabolic reprogramming in liver cells, characterized by alterations in lipid and cholesterol metabolism, fatty acid oxidation, and glycolysis, coupled with inflammatory signaling pathways mediated by IL-1, MAPK/ERK, and JNK.</p>
+                        <p class="related"><strong>Related:</strong> Lipid metabolism; Cholesterol biosynthesis; Fatty acid metabolism</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">79 nodes</span>
+                            <span class="count-badge edges">67 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- Sample 2 -->
-            <details>
-                <summary>PMC7105607 Figure 2 — NF-kB signaling (19 nodes, 21 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC7105607__F2.jpg" alt="PMC7105607 Figure 2">
+                <details class="data-table">
+                    <summary>Nodes (79)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>MCT1/4</td><td>complex</td><td></td><td>Transporter complex (SLC16A1/SLC16A3)</td></tr><tr><td>Acetate</td><td>chemical</td><td></td><td></td></tr><tr><td>Acss2</td><td>gene</td><td>55902</td><td></td></tr><tr><td>Me1</td><td>gene</td><td>4199</td><td></td></tr><tr><td>Acetyl-CoA</td><td>chemical</td><td></td><td></td></tr><tr><td>Acaca</td><td>gene</td><td>31</td><td></td></tr><tr><td>Fasn</td><td>gene</td><td>2194</td><td></td></tr><tr><td>Fdps</td><td>gene</td><td>2224</td><td></td></tr><tr><td>Nsdhl</td><td>gene</td><td>50814</td><td></td></tr><tr><td>Cholesterol</td><td>chemical</td><td></td><td></td></tr><tr><td>Cyp450</td><td>gene</td><td></td><td>Cytochrome P450 family</td></tr><tr><td>Glycolysis</td><td>phenotype</td><td></td><td></td></tr><tr><td>Il1a/b</td><td>gene</td><td>3552</td><td>IL1A and IL1B</td></tr><tr><td>ERK</td><td>gene</td><td>5595</td><td>MAPK1/3</td></tr><tr><td>JNK</td><td>gene</td><td>5599</td><td>MAPK8</td></tr><tr><td>Srebp1</td><td>gene</td><td>6720</td><td>SREBF1</td></tr><tr><td>...</td><td colspan="3"><em>+ 63 more nodes</em></td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">NF-kB signaling</span>
-                        <p class="related-pathways"><strong>Related:</strong> Inflammatory response; Cytokine signaling</p>
-                        <p style="margin: 1rem 0;"><strong>19 nodes</strong> and <strong>21 edges</strong> — clean extraction of canonical NF-kB cascade.</p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (67)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>MCT1/4</td><td>Acetate</td><td>activation</td><td></td></tr><tr><td>Acetate</td><td>Acss2</td><td>activation</td><td></td></tr><tr><td>Acss2</td><td>Acetyl-CoA</td><td>activation</td><td></td></tr><tr><td>Acetyl-CoA</td><td>Acaca</td><td>activation</td><td></td></tr><tr><td>Acaca</td><td>Fasn</td><td>activation</td><td></td></tr><tr><td>Il1a/b</td><td>Il1r</td><td>binding</td><td></td></tr><tr><td>Il1r</td><td>ERK</td><td>activation</td><td></td></tr><tr><td>ERK</td><td>SRF</td><td>activation</td><td></td></tr><tr><td>JNK</td><td>Jun</td><td>activation</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 58 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC7105607 — Figure F2</h3>
+                    <span class="pathway-badge">NF-kB signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC7105607__F2.jpg" alt="PMC7105607 F2">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">The diagram illustrates the cell-type specific roles of NF-kB signaling pathway components (NF-kB1, IKKbeta, c-Rel, RelB) in CNS cells and immune cells, regulating inflammation, cell survival, and T cell differentiation.</p>
+                        <p class="related"><strong>Related:</strong> Th1/Th2 differentiation; Th17 differentiation; Neuroinflammation</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">19 nodes</span>
+                            <span class="count-badge edges">21 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- Sample 3 -->
-            <details>
-                <summary>PMC4580081 Figure 2 — JAK-STAT signaling (17 nodes, 19 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC4580081__F2.jpg" alt="PMC4580081 Figure 2">
+                <details class="data-table">
+                    <summary>Nodes (19)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>NF-kB1</td><td>gene</td><td>4790</td><td>Shown in Astrocytes and Th2 differentiation</td></tr><tr><td>IKKbeta</td><td>gene</td><td>3551</td><td>Shown in Microglia, Neurons, and Oligodendrocytes</td></tr><tr><td>c-Rel</td><td>gene</td><td>5966</td><td>Shown in Microglia and T cell differentiation</td></tr><tr><td>RelB</td><td>gene</td><td>5971</td><td>Shown in Oligodendrocytes and Th1 differentiation</td></tr><tr><td>Pro-inflammatory cytokines</td><td>phenotype</td><td></td><td>Upregulated in Astrocytes</td></tr><tr><td>Th0 cells</td><td>other</td><td></td><td>Precursor T cells</td></tr><tr><td>Th1 cells</td><td>phenotype</td><td></td><td>Differentiation outcome</td></tr><tr><td>Th17 cells</td><td>phenotype</td><td></td><td>Differentiation outcome</td></tr><tr><td>Treg cells</td><td>phenotype</td><td></td><td>Differentiation outcome</td></tr><tr><td>Th2 cells</td><td>phenotype</td><td></td><td>Differentiation outcome</td></tr><tr><td>...</td><td colspan="3"><em>+ 9 more nodes</em></td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">JAK-STAT signaling</span>
-                        <p class="related-pathways"><strong>Related:</strong> Interferon signaling; Cytokine receptor signaling</p>
-                        <p style="margin: 1rem 0;"><strong>17 nodes</strong> and <strong>19 edges</strong> — JAK-STAT pathway with receptor-kinase-transcription factor cascade.</p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (21)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>NF-kB1</td><td>Pro-inflammatory cytokines</td><td>activation</td><td></td></tr><tr><td>IKKbeta</td><td>Pro-inflammatory cytokines</td><td>activation</td><td></td></tr><tr><td>c-Rel</td><td>Th17 cells</td><td>activation</td><td></td></tr><tr><td>c-Rel</td><td>Treg cells</td><td>activation</td><td></td></tr><tr><td>RelB</td><td>Th1 cells</td><td>activation</td><td></td></tr><tr><td>NF-kB1</td><td>Th2 cells</td><td>activation</td><td></td></tr><tr><td>Th0 cells</td><td>Th1 cells</td><td>activation</td><td></td></tr><tr><td>Th0 cells</td><td>Th17 cells</td><td>activation</td><td></td></tr><tr><td>B cells</td><td>T cells</td><td>indirect</td><td>?</td></tr><tr><td>...</td><td colspan="3"><em>+ 12 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC4580081 — Figure F2</h3>
+                    <span class="pathway-badge">JAK-STAT signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC4580081__F2.jpg" alt="PMC4580081 F2">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">Chaperone-mediated life cycle of STAT3 and JAK kinases. Details the folding of STAT3 involving NAC, prefoldin, TRiC, and HSP90/ERp57, its activation by JAKs, and translocation to nucleus or mitochondria.</p>
+                        <p class="related"><strong>Related:</strong> Protein folding; Ubiquitin-proteasome pathway</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">17 nodes</span>
+                            <span class="count-badge edges">19 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- Sample 4 -->
-            <details>
-                <summary>PMC7155770 Figure 4 — Necroptosis signaling (39 nodes, 25 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC7155770__F4.jpg" alt="PMC7155770 Figure 4">
+                <details class="data-table">
+                    <summary>Nodes (17)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>IL-6</td><td>gene</td><td>3569</td><td></td></tr><tr><td>JAK1</td><td>gene</td><td>3716</td><td></td></tr><tr><td>JAK2</td><td>gene</td><td>3717</td><td></td></tr><tr><td>STAT3</td><td>gene</td><td>6774</td><td></td></tr><tr><td>HSP90</td><td>gene</td><td></td><td>Chaperone family</td></tr><tr><td>HOP</td><td>gene</td><td>10963</td><td>Symbol: STIP1</td></tr><tr><td>ERp57</td><td>gene</td><td>2923</td><td>Symbol: PDIA3</td></tr><tr><td>CDC37</td><td>gene</td><td>11140</td><td></td></tr><tr><td>TRiC</td><td>complex</td><td></td><td>Chaperonin containing TCP1</td></tr><tr><td>NAC</td><td>complex</td><td></td><td>Nascent polypeptide-associated complex</td></tr><tr><td>prefoldin</td><td>complex</td><td></td><td></td></tr><tr><td>TOM</td><td>complex</td><td></td><td>Translocase of the Outer Membrane</td></tr><tr><td>TIM</td><td>complex</td><td></td><td>Translocase of the Inner Membrane</td></tr><tr><td>Proteasome</td><td>complex</td><td></td><td></td></tr><tr><td>Mitochondria</td><td>other</td><td></td><td>Organelle</td></tr><tr><td>HSP70</td><td>gene</td><td></td><td>Chaperone family</td></tr><tr><td>HSP40</td><td>gene</td><td></td><td>Chaperone family</td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">Necroptosis signaling</span>
-                        <p class="related-pathways"><strong>Related:</strong> TNF signaling; Cell death; RIPK signaling</p>
-                        <p style="margin: 1rem 0;"><strong>39 nodes</strong> and <strong>25 edges</strong> — programmed necrosis pathway components.</p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (19)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>IL-6</td><td>JAK1</td><td>activation</td><td></td></tr><tr><td>IL-6</td><td>JAK2</td><td>activation</td><td></td></tr><tr><td>JAK1</td><td>STAT3</td><td>activation</td><td></td></tr><tr><td>JAK2</td><td>STAT3</td><td>activation</td><td></td></tr><tr><td>NAC</td><td>STAT3</td><td>activation</td><td>?</td></tr><tr><td>prefoldin</td><td>STAT3</td><td>activation</td><td>?</td></tr><tr><td>TRiC</td><td>STAT3</td><td>activation</td><td></td></tr><tr><td>HSP90</td><td>STAT3</td><td>binding</td><td></td></tr><tr><td>ERp57</td><td>STAT3</td><td>binding</td><td></td></tr><tr><td>STAT3</td><td>TOM</td><td>binding</td><td>?</td></tr><tr><td>STAT3</td><td>TIM</td><td>binding</td><td>?</td></tr><tr><td>CDC37</td><td>JAK1</td><td>binding</td><td></td></tr><tr><td>HSP90</td><td>JAK1</td><td>binding</td><td></td></tr><tr><td>Proteasome</td><td>JAK1</td><td>inhibition</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 5 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC7155770 — Figure F4</h3>
+                    <span class="pathway-badge">Necroptosis signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC7155770__F4.jpg" alt="PMC7155770 F4">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">TNF superfamily death receptor signaling pathways (TNFR1, CD95, TRAIL-R) leading to cell survival, apoptosis, or necroptosis. Details the formation of intracellular complexes (Complex I, IIa, IIb) and key regulators.</p>
+                        <p class="related"><strong>Related:</strong> Apoptosis; NF-kB signaling; TNF signaling pathway</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">39 nodes</span>
+                            <span class="count-badge edges">25 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- Sample 5 -->
-            <details>
-                <summary>PMC5867880 Figure 3 — Cell Migration (10 nodes, 12 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC5867880__F3.jpg" alt="PMC5867880 Figure 3">
+                <details class="data-table">
+                    <summary>Nodes (39)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>TNFalpha</td><td>gene</td><td>7124</td><td></td></tr><tr><td>TNFR1</td><td>gene</td><td>7132</td><td></td></tr><tr><td>CD95L</td><td>gene</td><td>356</td><td>FASLG</td></tr><tr><td>TRAIL</td><td>gene</td><td>8743</td><td>TNFSF10</td></tr><tr><td>CD95</td><td>gene</td><td>355</td><td>FAS</td></tr><tr><td>FADD</td><td>gene</td><td>8772</td><td></td></tr><tr><td>Caspase-8</td><td>gene</td><td>841</td><td></td></tr><tr><td>RIPK1</td><td>gene</td><td>8737</td><td></td></tr><tr><td>RIPK3</td><td>gene</td><td>11035</td><td></td></tr><tr><td>MLKL</td><td>gene</td><td>197259</td><td></td></tr><tr><td>Apoptosis</td><td>phenotype</td><td></td><td></td></tr><tr><td>Necroptosis</td><td>phenotype</td><td></td><td></td></tr><tr><td>Survival</td><td>phenotype</td><td></td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 26 more nodes</em></td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">Regulation of Cell Migration</span>
-                        <p class="related-pathways"><strong>Related:</strong> Cytoskeleton remodeling; Focal adhesion</p>
-                        <p style="margin: 1rem 0;"><strong>10 nodes</strong> and <strong>12 edges</strong> — focused cell migration regulatory network.</p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (25)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>TNFalpha</td><td>TNFR1</td><td>binding</td><td></td></tr><tr><td>CD95L</td><td>CD95</td><td>binding</td><td></td></tr><tr><td>TRAIL</td><td>TRAIL R1/R2</td><td>binding</td><td></td></tr><tr><td>FADD</td><td>Caspase-8</td><td>binding</td><td></td></tr><tr><td>Caspase-8</td><td>Caspase-3/-7</td><td>activation</td><td></td></tr><tr><td>Caspase-3/-7</td><td>Apoptosis</td><td>activation</td><td></td></tr><tr><td>MLKL</td><td>Necroptosis</td><td>activation</td><td></td></tr><tr><td>p65</td><td>Survival</td><td>activation</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 17 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC5867880 — Figure F3</h3>
+                    <span class="pathway-badge">Regulation of Cell Migration</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC5867880__F3.jpg" alt="PMC5867880 F3">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">CD99 signaling in cell migration. In CD99 wt cells, CD99 upregulates Caveolin-1, which inhibits Src, resulting in decreased ROCK2 and ARP2/3 levels and suppressed cell migration.</p>
+                        <p class="related"><strong>Related:</strong> MAPK signaling; Src signaling</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">10 nodes</span>
+                            <span class="count-badge edges">12 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
+                <details class="data-table">
+                    <summary>Nodes (10)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>CD99</td><td>gene</td><td>4267</td><td>Shown in membrane</td></tr><tr><td>Cav-1</td><td>gene</td><td>857</td><td>Caveolin-1</td></tr><tr><td>Src</td><td>gene</td><td>6714</td><td></td></tr><tr><td>ARP2/3</td><td>complex</td><td></td><td>Actin-related protein 2/3 complex</td></tr><tr><td>ROCK2</td><td>gene</td><td>9475</td><td></td></tr><tr><td>pJNK</td><td>gene</td><td></td><td>Phosphorylated JNK</td></tr><tr><td>ERK1/2</td><td>gene</td><td></td><td>MAPK3/1</td></tr><tr><td>AP1</td><td>complex</td><td></td><td>Transcription factor complex</td></tr><tr><td>MMP9</td><td>gene</td><td>4318</td><td></td></tr><tr><td>Cell migration</td><td>phenotype</td><td></td><td></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (12)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>CD99</td><td>Cav-1</td><td>activation</td><td></td></tr><tr><td>Cav-1</td><td>Src</td><td>inhibition</td><td></td></tr><tr><td>Src</td><td>ROCK2</td><td>activation</td><td></td></tr><tr><td>CD99</td><td>ARP2/3</td><td>inhibition</td><td></td></tr><tr><td>ARP2/3</td><td>Cell migration</td><td>activation</td><td></td></tr><tr><td>ROCK2</td><td>Cell migration</td><td>activation</td><td></td></tr><tr><td>Src</td><td>pJNK</td><td>activation</td><td></td></tr><tr><td>Src</td><td>ERK1/2</td><td>activation</td><td></td></tr><tr><td>pJNK</td><td>AP1</td><td>activation</td><td></td></tr><tr><td>ERK1/2</td><td>AP1</td><td>activation</td><td></td></tr><tr><td>AP1</td><td>MMP9</td><td>activation</td><td></td></tr><tr><td>MMP9</td><td>Cell migration</td><td>activation</td><td></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
         </section>
 
         <!-- Same Pathway Audit -->
         <section>
             <h2>Audit: Same Pathway Comparison</h2>
-            <p style="margin-bottom: 2rem; color: #666;">5 images all labeled as <strong>PI3K-AKT signaling</strong> (1,783 total). Useful for assessing extraction consistency across different visual representations.</p>
+            <p style="color:var(--muted);margin-bottom:2rem;">5 images all labeled as <strong>PI3K-AKT signaling</strong> (1,783 total in dataset). Useful for assessing extraction consistency across different visual representations of the same pathway.</p>
 
-            <!-- PI3K Sample 1 -->
-            <details>
-                <summary>PMC2396493 Figure 1 — PI3K-AKT (15 nodes, 18 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC2396493 — Figure F1</h3>
+                    <span class="pathway-badge">PI3K-AKT signaling</span>
+                </div>
+                <div class="audit-content">
                     <div class="audit-image">
-                        <img src="images/PMC2396493__F1.jpg" alt="PMC2396493 Figure 1">
+                        <img src="images/PMC2396493__F1.jpg" alt="PMC2396493 F1">
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">PI3K-AKT signaling</span>
-                        <p style="margin: 1rem 0;"><strong>15 nodes, 18 edges</strong></p>
+                    <div class="audit-meta">
+                        <p class="description">Crosstalk between p53 signaling and the IGF-1/PI3K/AKT pathway. Activated by DNA damage, p53 suppresses the survival pathway by inhibiting IGF-1 signaling components and upregulating inhibitors.</p>
+                        <p class="related"><strong>Related:</strong> p53 signaling; IGF-1 signaling; mTOR signaling</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">15 nodes</span>
+                            <span class="count-badge edges">18 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- PI3K Sample 2 -->
-            <details>
-                <summary>PMC7662987 Figure 5 — PI3K-AKT (15 nodes, 19 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC7662987__F5.jpg" alt="PMC7662987 Figure 5">
+                <details class="data-table">
+                    <summary>Nodes (15)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>DNA damage</td><td>phenotype</td><td></td><td>Stimulus</td></tr><tr><td>IGF-1</td><td>gene</td><td>3479</td><td></td></tr><tr><td>IGF-BP3</td><td>gene</td><td>3486</td><td></td></tr><tr><td>IGF Receptor</td><td>gene</td><td>3480</td><td>IGF1R</td></tr><tr><td>p110a</td><td>gene</td><td>5290</td><td>PIK3CA</td></tr><tr><td>PI3K</td><td>complex</td><td></td><td></td></tr><tr><td>PIP3</td><td>chemical</td><td></td><td></td></tr><tr><td>pTEN</td><td>gene</td><td>5728</td><td></td></tr><tr><td>p53</td><td>gene</td><td>7157</td><td>TP53</td></tr><tr><td>mTOR/Rictor</td><td>complex</td><td></td><td>mTORC2</td></tr><tr><td>PDK1</td><td>gene</td><td>5170</td><td>PDPK1</td></tr><tr><td>AKT-1</td><td>gene</td><td>207</td><td></td></tr><tr><td>FOXO3a</td><td>gene</td><td>2309</td><td></td></tr><tr><td>ROS</td><td>chemical</td><td></td><td>Reactive Oxygen Species</td></tr><tr><td>Apoptosis / Cell Cycle Arrest</td><td>phenotype</td><td></td><td></td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">PI3K-AKT signaling</span>
-                        <p style="margin: 1rem 0;"><strong>15 nodes, 19 edges</strong></p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (18)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>DNA damage</td><td>p53</td><td>activation</td><td></td></tr><tr><td>IGF-1</td><td>IGF Receptor</td><td>activation</td><td></td></tr><tr><td>IGF Receptor</td><td>PI3K</td><td>activation</td><td></td></tr><tr><td>PI3K</td><td>PIP3</td><td>activation</td><td></td></tr><tr><td>p53</td><td>IGF-BP3</td><td>activation</td><td></td></tr><tr><td>p53</td><td>pTEN</td><td>activation</td><td></td></tr><tr><td>pTEN</td><td>PIP3</td><td>inhibition</td><td></td></tr><tr><td>PIP3</td><td>PDK1</td><td>activation</td><td></td></tr><tr><td>PDK1</td><td>AKT-1</td><td>activation</td><td></td></tr><tr><td>AKT-1</td><td>FOXO3a</td><td>inhibition</td><td></td></tr><tr><td>FOXO3a</td><td>ROS</td><td>inhibition</td><td></td></tr><tr><td>p53</td><td>Apoptosis / Cell Cycle Arrest</td><td>activation</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 6 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC7662987 — Figure F5</h3>
+                    <span class="pathway-badge">PI3K-AKT signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC7662987__F5.jpg" alt="PMC7662987 F5">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">Mechanism of action of CUDC-907, a dual inhibitor of HDACs and PI3K. Depicts inhibition of PI3K-Akt-S6 pathway and modulation of c-Myc and DNA repair genes.</p>
+                        <p class="related"><strong>Related:</strong> Apoptosis; Cell cycle; DNA repair</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">15 nodes</span>
+                            <span class="count-badge edges">19 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- PI3K Sample 3 -->
-            <details>
-                <summary>PMC4676894 Figure 2 — PI3K-AKT (34 nodes, 34 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC4676894__F2.jpg" alt="PMC4676894 Figure 2">
+                <details class="data-table">
+                    <summary>Nodes (15)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>CUDC-907</td><td>chemical</td><td></td><td>Dual PI3K/HDAC inhibitor</td></tr><tr><td>HDACs/PI3K</td><td>complex</td><td></td><td>Target inhibited by CUDC-907</td></tr><tr><td>Akt</td><td>gene</td><td>207</td><td>AKT1</td></tr><tr><td>S6</td><td>gene</td><td>6194</td><td>RPS6</td></tr><tr><td>c-Myc</td><td>gene</td><td>4609</td><td>MYC</td></tr><tr><td>Bim</td><td>gene</td><td>10018</td><td>BCL2L11</td></tr><tr><td>Mcl-1</td><td>gene</td><td>4170</td><td>MCL1</td></tr><tr><td>Bcl-xL</td><td>gene</td><td>598</td><td>BCL2L1</td></tr><tr><td>CHK1</td><td>gene</td><td>1111</td><td>CHEK1</td></tr><tr><td>Wee1</td><td>gene</td><td>7465</td><td>WEE1</td></tr><tr><td>DNA repair</td><td>phenotype</td><td></td><td></td></tr><tr><td>Apoptosis</td><td>phenotype</td><td></td><td></td></tr><tr><td>Inhibition of cell proliferation</td><td>phenotype</td><td></td><td></td></tr><tr><td>Histone 4 acetylation</td><td>phenotype</td><td></td><td></td></tr><tr><td>RRM1/M2</td><td>gene</td><td></td><td>RRM1 and RRM2</td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">PI3K-AKT signaling</span>
-                        <p style="margin: 1rem 0;"><strong>34 nodes, 34 edges</strong></p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (19)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>CUDC-907</td><td>HDACs/PI3K</td><td>inhibition</td><td></td></tr><tr><td>HDACs/PI3K</td><td>Akt</td><td>inhibition</td><td></td></tr><tr><td>Akt</td><td>S6</td><td>inhibition</td><td></td></tr><tr><td>S6</td><td>Inhibition of cell proliferation</td><td>activation</td><td></td></tr><tr><td>c-Myc</td><td>Mcl-1</td><td>activation</td><td></td></tr><tr><td>c-Myc</td><td>Bcl-xL</td><td>activation</td><td></td></tr><tr><td>c-Myc</td><td>CHK1</td><td>activation</td><td></td></tr><tr><td>Bim</td><td>Apoptosis</td><td>activation</td><td></td></tr><tr><td>CHK1</td><td>DNA repair</td><td>activation</td><td></td></tr><tr><td>DNA repair</td><td>Apoptosis</td><td>activation</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 9 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC4676894 — Figure F2</h3>
+                    <span class="pathway-badge">PI3K-AKT signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC4676894__F2.jpg" alt="PMC4676894 F2">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">Pathogenic signaling in B-cell lymphoma, with constitutively active PI3K/AKT/mTORC1 due to loss of negative regulators (PTEN, S1PR2, P2RY8) and BCL6-mediated transcriptional reprogramming.</p>
+                        <p class="related"><strong>Related:</strong> mTOR signaling; BCL6 signaling; Immune checkpoint signaling</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">34 nodes</span>
+                            <span class="count-badge edges">34 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- PI3K Sample 4 -->
-            <details>
-                <summary>PMC5088199 Figure 1 — PI3K-AKT (44 nodes, 47 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC5088199__F1.jpg" alt="PMC5088199 Figure 1">
+                <details class="data-table">
+                    <summary>Nodes (34)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>S1PR2</td><td>gene</td><td>9294</td><td>Inactivation cross</td></tr><tr><td>P2RY8</td><td>gene</td><td>286530</td><td>Inactivation cross</td></tr><tr><td>PTEN</td><td>gene</td><td>5728</td><td>Inactivation cross</td></tr><tr><td>PI3K</td><td>gene</td><td></td><td>Complex</td></tr><tr><td>AKT</td><td>gene</td><td></td><td>Family</td></tr><tr><td>mTORC1</td><td>complex</td><td></td><td></td></tr><tr><td>BCL6</td><td>gene</td><td>604</td><td>Activation star</td></tr><tr><td>c-MYC</td><td>gene</td><td>4609</td><td>Activation star</td></tr><tr><td>BCL2</td><td>gene</td><td>596</td><td>Activation star</td></tr><tr><td>EZH2</td><td>gene</td><td>2146</td><td>Activation star</td></tr><tr><td>p53</td><td>gene</td><td>7157</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 23 more nodes</em></td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">PI3K-AKT signaling</span>
-                        <p style="margin: 1rem 0;"><strong>44 nodes, 47 edges</strong></p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (34)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>PTEN</td><td>PI3K</td><td>inhibition</td><td></td></tr><tr><td>PI3K</td><td>AKT</td><td>activation</td><td></td></tr><tr><td>AKT</td><td>mTORC1</td><td>activation</td><td></td></tr><tr><td>mTORC1</td><td>Cell growth and metabolism</td><td>activation</td><td></td></tr><tr><td>BCL6</td><td>p53</td><td>inhibition</td><td></td></tr><tr><td>BCL6</td><td>BCL2</td><td>inhibition</td><td></td></tr><tr><td>BCL2</td><td>Apoptosis</td><td>inhibition</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 27 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC5088199 — Figure F1</h3>
+                    <span class="pathway-badge">PI3K-AKT signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC5088199__F1.jpg" alt="PMC5088199 F1">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">Comprehensive signaling network integrating PI3K-AKT, MAPK, and p53 pathways. Also illustrates Cell Cycle regulation and various therapeutic drug targets.</p>
+                        <p class="related"><strong>Related:</strong> MAPK signaling; p53 signaling; Cell cycle</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">44 nodes</span>
+                            <span class="count-badge edges">47 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
-
-            <!-- PI3K Sample 5 -->
-            <details>
-                <summary>PMC5980113 Figure 6 — PI3K-AKT (11 nodes, 9 edges)</summary>
-                <div class="audit-grid" style="margin-top: 1rem;">
-                    <div class="audit-image">
-                        <img src="images/PMC5980113__F6.jpg" alt="PMC5980113 Figure 6">
+                <details class="data-table">
+                    <summary>Nodes (44)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>KRAS</td><td>gene</td><td>3845</td><td>Drug targeting</td></tr><tr><td>RAS</td><td>gene</td><td></td><td>Family node</td></tr><tr><td>RAF-1</td><td>gene</td><td>5894</td><td></td></tr><tr><td>MEK</td><td>gene</td><td>5604</td><td>MAP2K1/2</td></tr><tr><td>ERK</td><td>gene</td><td>5594</td><td>MAPK1/3</td></tr><tr><td>PIK3CA</td><td>gene</td><td>5290</td><td>Major drug target</td></tr><tr><td>PTEN</td><td>gene</td><td>5728</td><td></td></tr><tr><td>AKT</td><td>gene</td><td>207</td><td>Central hub</td></tr><tr><td>P53</td><td>gene</td><td>7157</td><td></td></tr><tr><td>Cyclin E</td><td>gene</td><td>898</td><td></td></tr><tr><td>CDK2</td><td>gene</td><td>1017</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 33 more nodes</em></td></tr></tbody>
+                        </table>
                     </div>
-                    <div class="audit-data">
-                        <span class="pathway-badge">PI3K-AKT signaling</span>
-                        <p style="margin: 1rem 0;"><strong>11 nodes, 9 edges</strong></p>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (47)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>RAS</td><td>RAF-1</td><td>activation</td><td></td></tr><tr><td>RAF-1</td><td>MEK</td><td>activation</td><td></td></tr><tr><td>MEK</td><td>ERK</td><td>activation</td><td></td></tr><tr><td>PIK3CA</td><td>PIP3</td><td>activation</td><td></td></tr><tr><td>PTEN</td><td>PIP3</td><td>inhibition</td><td></td></tr><tr><td>PIP3</td><td>AKT</td><td>activation</td><td></td></tr><tr><td>AKT</td><td>MDM2</td><td>activation</td><td></td></tr><tr><td>MDM2</td><td>P53</td><td>activation</td><td></td></tr><tr><td>Cyclin E</td><td>CDK2</td><td>activation</td><td></td></tr><tr><td>...</td><td colspan="3"><em>+ 38 more edges</em></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
+
+            <div class="audit-card">
+                <div class="audit-header">
+                    <h3>PMC5980113 — Figure F6</h3>
+                    <span class="pathway-badge">PI3K-AKT signaling</span>
+                </div>
+                <div class="audit-content">
+                    <div class="audit-image">
+                        <img src="images/PMC5980113__F6.jpg" alt="PMC5980113 F6">
+                    </div>
+                    <div class="audit-meta">
+                        <p class="description">MICAL1 activates PI3K/Akt and MAPK signaling pathways, leading to upregulation of Cyclin D/CDK4 and promotion of cell cycle progression and proliferation.</p>
+                        <p class="related"><strong>Related:</strong> MAPK/ERK signaling; Cell cycle</p>
+                        <div class="counts">
+                            <span class="count-badge nodes">11 nodes</span>
+                            <span class="count-badge edges">9 edges</span>
+                        </div>
                     </div>
                 </div>
-            </details>
+                <details class="data-table">
+                    <summary>Nodes (11)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Label</th><th>Type</th><th>Entrez ID</th><th>Notes</th></tr></thead>
+                            <tbody><tr><td>MICAL1</td><td>gene</td><td>85077</td><td></td></tr><tr><td>ROS</td><td>chemical</td><td></td><td>Reactive Oxygen Species</td></tr><tr><td>NAC</td><td>chemical</td><td></td><td>N-acetylcysteine</td></tr><tr><td>wnt/beta-catenin</td><td>complex</td><td></td><td>Not activated</td></tr><tr><td>NF-kB</td><td>complex</td><td>4790</td><td>Not activated</td></tr><tr><td>PI3K/Akt</td><td>complex</td><td></td><td></td></tr><tr><td>LY294002</td><td>chemical</td><td></td><td>PI3K inhibitor</td></tr><tr><td>MAPK</td><td>gene</td><td></td><td>ERK1/2</td></tr><tr><td>U0126</td><td>chemical</td><td></td><td>MEK/ERK inhibitor</td></tr><tr><td>cyclin D / CDK4</td><td>complex</td><td></td><td></td></tr><tr><td>Cell cycle, proliferation</td><td>phenotype</td><td></td><td></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+                <details class="data-table">
+                    <summary>Edges (9)</summary>
+                    <div class="table-scroll">
+                        <table>
+                            <thead><tr><th>Source</th><th>Target</th><th>Interaction</th><th>Uncertain</th></tr></thead>
+                            <tbody><tr><td>MICAL1</td><td>PI3K/Akt</td><td>activation</td><td></td></tr><tr><td>MICAL1</td><td>MAPK</td><td>activation</td><td></td></tr><tr><td>NAC</td><td>ROS</td><td>inhibition</td><td></td></tr><tr><td>LY294002</td><td>PI3K/Akt</td><td>inhibition</td><td></td></tr><tr><td>PI3K/Akt</td><td>MAPK</td><td>activation</td><td></td></tr><tr><td>PI3K/Akt</td><td>cyclin D / CDK4</td><td>activation</td><td></td></tr><tr><td>U0126</td><td>MAPK</td><td>inhibition</td><td></td></tr><tr><td>MAPK</td><td>cyclin D / CDK4</td><td>activation</td><td></td></tr><tr><td>cyclin D / CDK4</td><td>Cell cycle, proliferation</td><td>activation</td><td></td></tr></tbody>
+                        </table>
+                    </div>
+                </details>
+            </div>
         </section>
 
-    </main>
-
-    <footer>
-        <p><a href="/">← Back to Home</a></p>
-        <p class="meta">Last updated: <time datetime="2026-01-28">January 28, 2026</time></p>
-    </footer>
+        <footer>
+            <p><a href="/">← Back to Home</a></p>
+            <p style="margin-top:0.5rem;font-style:italic;">Last updated: January 28, 2026</p>
+        </footer>
+    </div>
 </body>
 </html>
