@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathway Analyzer | Charlie Guthmann</title>
+    <link rel="stylesheet" href="../templates/research.css">
+    <style>
+        details {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 1rem;
+        }
+        summary {
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: var(--blue);
+        }
+        summary:hover {
+            text-decoration: underline;
+        }
+        details[open] summary {
+            margin-bottom: 1rem;
+        }
+        .prompt-box {
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.85rem;
+            white-space: pre-wrap;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .audit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .audit-image img {
+            max-width: 100%;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .audit-data {
+            font-size: 0.9rem;
+        }
+        .audit-data table {
+            font-size: 0.85rem;
+        }
+        .pathway-badge {
+            display: inline-block;
+            background: var(--blue);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .related-pathways {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        @media (max-width: 900px) {
+            .audit-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Medical Pathway Analyzer</h1>
+        <p class="subtitle">Automated extraction of gene/protein interaction networks from 49k pathway diagrams using Gemini 3 Pro</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>Pathway Analyzer</span>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Summary Stats -->
+        <section>
+            <h2>Dataset Summary</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">48,779</div>
+                    <div class="stat-label">Images Processed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1.33M</div>
+                    <div class="stat-label">Nodes Extracted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1.38M</div>
+                    <div class="stat-label">Edges Extracted</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8,821</div>
+                    <div class="stat-label">Unique Pathways</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">42,402</div>
+                    <div class="stat-label">PMC Papers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">99.6%</div>
+                    <div class="stat-label">Success Rate</div>
+                </div>
+            </div>
+
+            <div class="key-finding">
+                <h3>Key Metrics</h3>
+                <p><strong>27.3</strong> avg nodes/image | <strong>28.3</strong> avg edges/image | <strong>56.2%</strong> Entrez ID coverage | <strong>~$650</strong> total cost</p>
+            </div>
+        </section>
+
+        <!-- Prompt & Process Dropdown -->
+        <section>
+            <h2>Methodology</h2>
+
+            <details>
+                <summary>Prompt (v2)</summary>
+                <div class="prompt-box">You are analyzing a biomedical pathway diagram. Extract all entities and relationships.
+
+For each node, identify:
+- label: The displayed name
+- node_type: gene | chemical | phenotype | complex | other
+- entrez_id: NCBI Entrez Gene ID (null if not a gene or unknown)
+- is_family_representative: true if this represents a gene family
+- notes: Any relevant context
+
+For each edge, identify:
+- source: Source node label
+- target: Target node label
+- interaction: activation | inhibition | binding | indirect
+- uncertain: true if marked with "?" or dashed line
+
+Also extract figure metadata:
+- pathway_description: Brief description of the pathway
+- has_question_marks: true if diagram contains "?" symbols
+- canonical_pathway: Primary pathway name (e.g., "PI3K-AKT signaling", "Wnt/beta-catenin signaling")
+- related_pathways: List of connected pathways with KEGG IDs if known
+
+Return valid JSON only.</div>
+            </details>
+
+            <details>
+                <summary>Processing Pipeline</summary>
+                <p style="margin-top: 1rem;"><strong>Source:</strong> 49,014 pathway diagram images from PubMed Central papers stored in Dropbox</p>
+                <p><strong>Model:</strong> Google Gemini 3 Pro Preview via Vertex AI</p>
+                <p><strong>Throughput:</strong> ~120 images/minute with 200 concurrent requests</p>
+                <p><strong>Resilience:</strong> Auto-resume on failure, 5x retry with exponential backoff, 120s timeout per request</p>
+                <p><strong>Output:</strong> JSONL with nodes, edges, and metadata per image, exported to CSV</p>
+            </details>
+
+            <details>
+                <summary>Node Type Distribution</summary>
+                <div class="table-wrapper" style="margin-top: 1rem;">
+                    <table>
+                        <thead><tr><th>Type</th><th>Count</th><th>%</th></tr></thead>
+                        <tbody>
+                            <tr><td>gene</td><td>907,170</td><td>68.0%</td></tr>
+                            <tr><td>chemical</td><td>182,293</td><td>13.7%</td></tr>
+                            <tr><td>phenotype</td><td>147,670</td><td>11.1%</td></tr>
+                            <tr><td>complex</td><td>56,069</td><td>4.2%</td></tr>
+                            <tr><td>other</td><td>40,103</td><td>3.0%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+
+            <details>
+                <summary>Edge Type Distribution</summary>
+                <div class="table-wrapper" style="margin-top: 1rem;">
+                    <table>
+                        <thead><tr><th>Interaction</th><th>Count</th><th>%</th></tr></thead>
+                        <tbody>
+                            <tr><td>activation</td><td>919,824</td><td>66.7%</td></tr>
+                            <tr><td>inhibition</td><td>206,057</td><td>14.9%</td></tr>
+                            <tr><td>binding</td><td>179,245</td><td>13.0%</td></tr>
+                            <tr><td>indirect</td><td>72,298</td><td>5.2%</td></tr>
+                            <tr><td>other</td><td>1,034</td><td>0.1%</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p style="margin-top: 1rem; color: #666;"><strong>7.8%</strong> of edges marked as uncertain (dashed lines or "?" in diagram)</p>
+            </details>
+
+            <details>
+                <summary>Top 20 Canonical Pathways</summary>
+                <div class="table-wrapper" style="margin-top: 1rem;">
+                    <table>
+                        <thead><tr><th>Pathway</th><th>Images</th></tr></thead>
+                        <tbody>
+                            <tr><td>PI3K-AKT signaling</td><td>1,783</td></tr>
+                            <tr><td>Wnt/beta-catenin signaling</td><td>1,673</td></tr>
+                            <tr><td>Toll-like receptor signaling</td><td>1,624</td></tr>
+                            <tr><td>TGF-beta signaling</td><td>1,355</td></tr>
+                            <tr><td>mTOR signaling</td><td>1,197</td></tr>
+                            <tr><td>JAK-STAT signaling</td><td>1,188</td></tr>
+                            <tr><td>Apoptosis</td><td>971</td></tr>
+                            <tr><td>NF-kB signaling</td><td>955</td></tr>
+                            <tr><td>MAPK/ERK signaling</td><td>638</td></tr>
+                            <tr><td>Hippo signaling</td><td>611</td></tr>
+                            <tr><td>Autophagy</td><td>588</td></tr>
+                            <tr><td>Hedgehog signaling</td><td>575</td></tr>
+                            <tr><td>Unfolded Protein Response</td><td>542</td></tr>
+                            <tr><td>Insulin signaling</td><td>497</td></tr>
+                            <tr><td>Cell cycle</td><td>478</td></tr>
+                            <tr><td>p53 signaling</td><td>452</td></tr>
+                            <tr><td>PI3K-AKT-mTOR signaling</td><td>406</td></tr>
+                            <tr><td>Notch signaling</td><td>397</td></tr>
+                            <tr><td>Central Carbon Metabolism</td><td>309</td></tr>
+                            <tr><td>cGAS-STING signaling</td><td>300</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </details>
+        </section>
+
+        <!-- Random Samples Audit -->
+        <section>
+            <h2>Audit: Random Samples</h2>
+            <p style="margin-bottom: 2rem; color: #666;">5 randomly selected images from the 48,779 processed. Compare extracted networks against original diagrams.</p>
+
+            <!-- Sample 1 -->
+            <details>
+                <summary>PMC7823885 Figure 3 — Liver metabolic reprogramming (79 nodes, 67 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC7823885__F3.jpg" alt="PMC7823885 Figure 3">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">Liver metabolic reprogramming and inflammatory signaling</span>
+                        <p class="related-pathways"><strong>Related:</strong> NF-kB signaling; Glycolysis; Fatty acid metabolism</p>
+                        <p style="margin: 1rem 0;"><strong>79 nodes</strong> (genes, chemicals, phenotypes) and <strong>67 edges</strong> extracted from this complex multi-panel figure.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Sample 2 -->
+            <details>
+                <summary>PMC7105607 Figure 2 — NF-kB signaling (19 nodes, 21 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC7105607__F2.jpg" alt="PMC7105607 Figure 2">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">NF-kB signaling</span>
+                        <p class="related-pathways"><strong>Related:</strong> Inflammatory response; Cytokine signaling</p>
+                        <p style="margin: 1rem 0;"><strong>19 nodes</strong> and <strong>21 edges</strong> — clean extraction of canonical NF-kB cascade.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Sample 3 -->
+            <details>
+                <summary>PMC4580081 Figure 2 — JAK-STAT signaling (17 nodes, 19 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC4580081__F2.jpg" alt="PMC4580081 Figure 2">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">JAK-STAT signaling</span>
+                        <p class="related-pathways"><strong>Related:</strong> Interferon signaling; Cytokine receptor signaling</p>
+                        <p style="margin: 1rem 0;"><strong>17 nodes</strong> and <strong>19 edges</strong> — JAK-STAT pathway with receptor-kinase-transcription factor cascade.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Sample 4 -->
+            <details>
+                <summary>PMC7155770 Figure 4 — Necroptosis signaling (39 nodes, 25 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC7155770__F4.jpg" alt="PMC7155770 Figure 4">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">Necroptosis signaling</span>
+                        <p class="related-pathways"><strong>Related:</strong> TNF signaling; Cell death; RIPK signaling</p>
+                        <p style="margin: 1rem 0;"><strong>39 nodes</strong> and <strong>25 edges</strong> — programmed necrosis pathway components.</p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- Sample 5 -->
+            <details>
+                <summary>PMC5867880 Figure 3 — Cell Migration (10 nodes, 12 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC5867880__F3.jpg" alt="PMC5867880 Figure 3">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">Regulation of Cell Migration</span>
+                        <p class="related-pathways"><strong>Related:</strong> Cytoskeleton remodeling; Focal adhesion</p>
+                        <p style="margin: 1rem 0;"><strong>10 nodes</strong> and <strong>12 edges</strong> — focused cell migration regulatory network.</p>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+        <!-- Same Pathway Audit -->
+        <section>
+            <h2>Audit: Same Pathway Comparison</h2>
+            <p style="margin-bottom: 2rem; color: #666;">5 images all labeled as <strong>PI3K-AKT signaling</strong> (1,783 total). Useful for assessing extraction consistency across different visual representations.</p>
+
+            <!-- PI3K Sample 1 -->
+            <details>
+                <summary>PMC2396493 Figure 1 — PI3K-AKT (15 nodes, 18 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC2396493__F1.jpg" alt="PMC2396493 Figure 1">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">PI3K-AKT signaling</span>
+                        <p style="margin: 1rem 0;"><strong>15 nodes, 18 edges</strong></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- PI3K Sample 2 -->
+            <details>
+                <summary>PMC7662987 Figure 5 — PI3K-AKT (15 nodes, 19 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC7662987__F5.jpg" alt="PMC7662987 Figure 5">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">PI3K-AKT signaling</span>
+                        <p style="margin: 1rem 0;"><strong>15 nodes, 19 edges</strong></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- PI3K Sample 3 -->
+            <details>
+                <summary>PMC4676894 Figure 2 — PI3K-AKT (34 nodes, 34 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC4676894__F2.jpg" alt="PMC4676894 Figure 2">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">PI3K-AKT signaling</span>
+                        <p style="margin: 1rem 0;"><strong>34 nodes, 34 edges</strong></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- PI3K Sample 4 -->
+            <details>
+                <summary>PMC5088199 Figure 1 — PI3K-AKT (44 nodes, 47 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC5088199__F1.jpg" alt="PMC5088199 Figure 1">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">PI3K-AKT signaling</span>
+                        <p style="margin: 1rem 0;"><strong>44 nodes, 47 edges</strong></p>
+                    </div>
+                </div>
+            </details>
+
+            <!-- PI3K Sample 5 -->
+            <details>
+                <summary>PMC5980113 Figure 6 — PI3K-AKT (11 nodes, 9 edges)</summary>
+                <div class="audit-grid" style="margin-top: 1rem;">
+                    <div class="audit-image">
+                        <img src="images/PMC5980113__F6.jpg" alt="PMC5980113 Figure 6">
+                    </div>
+                    <div class="audit-data">
+                        <span class="pathway-badge">PI3K-AKT signaling</span>
+                        <p style="margin: 1rem 0;"><strong>11 nodes, 9 edges</strong></p>
+                    </div>
+                </div>
+            </details>
+        </section>
+
+    </main>
+
+    <footer>
+        <p><a href="/">← Back to Home</a></p>
+        <p class="meta">Last updated: <time datetime="2026-01-28">January 28, 2026</time></p>
+    </footer>
+</body>
+</html>
