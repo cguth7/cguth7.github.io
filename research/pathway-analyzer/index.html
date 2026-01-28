@@ -348,28 +348,48 @@
             <details>
                 <summary>Prompt (v2)</summary>
                 <div class="detail-content">
-                    <pre style="background:#f3f4f6;padding:1rem;border-radius:8px;font-size:0.85rem;overflow-x:auto;white-space:pre-wrap;">You are analyzing a biomedical pathway diagram. Extract all entities and relationships.
+                    <pre style="background:#f3f4f6;padding:1rem;border-radius:8px;font-size:0.85rem;overflow-x:auto;white-space:pre-wrap;">You are an expert bioinformatician specializing in pathway analysis.
+Extract gene/protein interaction networks from signaling pathway diagrams.
 
-For each node, identify:
-- label: The displayed name
-- node_type: gene | chemical | phenotype | complex | other
-- entrez_id: NCBI Entrez Gene ID (null if not a gene or unknown)
-- is_family_representative: true if this represents a gene family
-- notes: Any relevant context
+CRITICAL RULES:
+1. Map genes to Human Entrez Gene IDs when possible
+2. Protein families (Rho, GAP, MAPK) get entrez_id: null, is_family_representative: true
+3. Phenotypes/outcomes (Cell scattering, APOPTOSIS, G1 Phase) get node_type: "phenotype"
+4. Identify small molecules, drugs, inhibitors, or metabolites (e.g., 'PD98059', 'ATP', 'Calcium', 'Wortmannin') as node_type: "chemical". Do not exclude them. Do not assign Entrez IDs to chemicals.
+5. Ensure biological processes (e.g., 'Cell Cycle', 'G1 Phase', 'Apoptosis') are strictly labeled as 'phenotype' to distinguish them from molecular entities.
+6. Dashed lines or "?" marks → uncertain: true
+7. Detect if the pathway diagram contains any question marks (?) and set has_question_marks accordingly
+8. Identify the overall pathway/biological process shown in the diagram and provide a brief description
+9. Identify the PRIMARY canonical pathway shown. Use standard names like: "PI3K-AKT signaling", "MAPK/ERK signaling", "Wnt/beta-catenin signaling", "NF-kB signaling", "TGF-beta signaling", "JAK-STAT signaling", "Notch signaling", "Hedgehog signaling", "p53 signaling", "Apoptosis", "Autophagy", "Cell cycle", "mTOR signaling", "AMPK signaling", "Hippo signaling", "TNF signaling", "Toll-like receptor signaling", "Insulin signaling", "VEGF signaling", "Calcium signaling", etc. If the pathway doesn't match a canonical name, provide the most descriptive name possible.
+10. Output ONLY valid JSON with no extra text</pre>
+                </div>
+            </details>
 
-For each edge, identify:
-- source: Source node label
-- target: Target node label
-- interaction: activation | inhibition | binding | indirect
-- uncertain: true if marked with "?" or dashed line
-
-Also extract figure metadata:
-- pathway_description: Brief description of the pathway
-- has_question_marks: true if diagram contains "?" symbols
-- canonical_pathway: Primary pathway name (e.g., "PI3K-AKT signaling")
-- related_pathways: List of connected pathways with KEGG IDs if known
-
-Return valid JSON only.</pre>
+            <details>
+                <summary>Example JSON Output</summary>
+                <div class="detail-content">
+                    <pre style="background:#f3f4f6;padding:1rem;border-radius:8px;font-size:0.85rem;overflow-x:auto;white-space:pre-wrap;">{
+  "figure_metadata": {
+    "has_question_marks": false,
+    "pathway_description": "A schematic of the cell cycle highlighting the G1 phase sub-stages (G1-pm and G1-ps). It illustrates a signaling network where ERK and YAP1 in the post-mitotic G1 phase activate PI3K and Beta-catenin in the pre-synthesis G1 phase to drive cell cycle progression.",
+    "canonical_pathway": "Cell cycle",
+    "related_pathways": ["MAPK/ERK signaling", "Hippo signaling", "PI3K-AKT signaling", "Wnt/beta-catenin signaling"]
+  },
+  "nodes": [
+    {"label": "YAP1", "node_type": "gene", "entrez_id": 10413, "is_family_representative": false, "notes": ""},
+    {"label": "ERK", "node_type": "gene", "entrez_id": null, "is_family_representative": true, "notes": "MAPK family"},
+    {"label": "PI3K", "node_type": "complex", "entrez_id": null, "is_family_representative": true, "notes": ""},
+    {"label": "beta-catenin", "node_type": "gene", "entrez_id": 1499, "is_family_representative": false, "notes": "CTNNB1"},
+    {"label": "G0", "node_type": "phenotype", "entrez_id": null, "is_family_representative": false, "notes": "Quiescence"},
+    {"label": "G1", "node_type": "phenotype", "entrez_id": null, "is_family_representative": false, "notes": "Gap 1 phase"}
+  ],
+  "edges": [
+    {"source": "ERK", "target": "PI3K", "interaction": "activation", "uncertain": false},
+    {"source": "YAP1", "target": "beta-catenin", "interaction": "activation", "uncertain": false},
+    {"source": "ERK", "target": "beta-catenin", "interaction": "activation", "uncertain": true},
+    {"source": "YAP1", "target": "PI3K", "interaction": "activation", "uncertain": true}
+  ]
+}</pre>
                 </div>
             </details>
 
@@ -377,10 +397,9 @@ Return valid JSON only.</pre>
                 <summary>Processing Pipeline</summary>
                 <div class="detail-content">
                     <p><strong>Source:</strong> 49,014 pathway diagram images from PubMed Central papers stored in Dropbox</p>
-                    <p><strong>Model:</strong> Google Gemini 3 Pro Preview via Vertex AI (project: gen-lang-client-0965862128)</p>
+                    <p><strong>Model:</strong> Google Gemini 3 Pro Preview via Vertex AI</p>
                     <p><strong>Throughput:</strong> ~120 images/minute with 200 concurrent requests using native async API</p>
                     <p><strong>Resilience:</strong> Auto-resume on failure, 5x retry with exponential backoff, 120s timeout per request</p>
-                    <p><strong>Cost:</strong> ~$650 total (~$0.039/image)</p>
                     <p><strong>Output:</strong> JSONL with nodes, edges, and metadata per image; exported to CSV (154 MB total)</p>
                 </div>
             </details>
