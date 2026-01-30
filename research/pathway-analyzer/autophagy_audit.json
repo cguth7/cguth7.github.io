@@ -1,0 +1,2737 @@
+{
+  "pathway": "Autophagy",
+  "shared_genes": [
+    "ATG3",
+    "ATG5",
+    "ATG7",
+    "ATG10",
+    "ATG12",
+    "ATG13",
+    "FIP200",
+    "ULK1",
+    "VPS15",
+    "VPS34"
+  ],
+  "images": [
+    {
+      "filename": "PMC9602304__F2.jpg",
+      "pmc": "PMC9602304",
+      "figure": "F2",
+      "description": "Autophagy process: induction, nucleation, elongation, fusion, degradation",
+      "related": "mTOR signaling; ULK1 complex",
+      "nodes": [
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "mTOR",
+          "node_type": "gene",
+          "entrez_id": 2475,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ULK1",
+          "node_type": "gene",
+          "entrez_id": 8408,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG13",
+          "node_type": "gene",
+          "entrez_id": 9776,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "FIP200",
+          "node_type": "gene",
+          "entrez_id": 9821,
+          "is_family_representative": false,
+          "notes": "Official symbol RB1CC1; Part of ULK1 complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG101",
+          "node_type": "gene",
+          "entrez_id": 60673,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ULK1 complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Composed of ULK1, ATG13, FIP200, ATG101",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG14L",
+          "node_type": "gene",
+          "entrez_id": 22863,
+          "is_family_representative": false,
+          "notes": "Official symbol ATG14; Part of Class III PI3K complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "BECN1",
+          "node_type": "gene",
+          "entrez_id": 8678,
+          "is_family_representative": false,
+          "notes": "Beclin-1; Part of Class III PI3K complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "VPS34",
+          "node_type": "gene",
+          "entrez_id": 5289,
+          "is_family_representative": false,
+          "notes": "Official symbol PIK3C3; Part of Class III PI3K complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "VPS15",
+          "node_type": "gene",
+          "entrez_id": 30849,
+          "is_family_representative": false,
+          "notes": "Official symbol PIK3R4; Part of Class III PI3K complex",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "class III PI3K",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Composed of ATG14L, BECN1, VPS34, VPS15",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG4",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": true,
+          "notes": "ATG4 family protease",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG7",
+          "node_type": "gene",
+          "entrez_id": 10533,
+          "is_family_representative": false,
+          "notes": "E1-like enzyme",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG12",
+          "node_type": "gene",
+          "entrez_id": 9140,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG10",
+          "node_type": "gene",
+          "entrez_id": 83734,
+          "is_family_representative": false,
+          "notes": "E2-like enzyme",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG5",
+          "node_type": "gene",
+          "entrez_id": 9474,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG16L1",
+          "node_type": "gene",
+          "entrez_id": 55054,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "LC3",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": true,
+          "notes": "MAP1LC3 family",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "LC3I",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Cytosolic form of LC3",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "LC3II",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Lipidated membrane-bound form of LC3",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG3",
+          "node_type": "gene",
+          "entrez_id": 64422,
+          "is_family_representative": false,
+          "notes": "E2-like enzyme",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "PE",
+          "node_type": "chemical",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Phosphatidylethanolamine",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "ATG12-ATG5",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Conjugate",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "Phagophore",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Structure",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "Autophagosome",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Structure",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "Lysosome",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Organelle",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "Autophagolysosome",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Structure",
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "label": "Degradation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Biological outcome",
+          "filename": "PMC9602304__F2.jpg"
+        }
+      ],
+      "edges": [
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "mTOR",
+          "target": "ULK1 complex",
+          "interaction": "inhibition",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ULK1",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG13",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "FIP200",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG101",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ULK1 complex",
+          "target": "class III PI3K",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG14L",
+          "target": "class III PI3K",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "BECN1",
+          "target": "class III PI3K",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "VPS34",
+          "target": "class III PI3K",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "VPS15",
+          "target": "class III PI3K",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "class III PI3K",
+          "target": "Phagophore",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG4",
+          "target": "LC3",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "LC3",
+          "target": "LC3I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "LC3I",
+          "target": "LC3II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG7",
+          "target": "LC3I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG3",
+          "target": "LC3I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "PE",
+          "target": "LC3II",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG7",
+          "target": "ATG12",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG10",
+          "target": "ATG12",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG12",
+          "target": "ATG12-ATG5",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG5",
+          "target": "ATG12-ATG5",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG12-ATG5",
+          "target": "LC3I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "ATG12-ATG5",
+          "target": "ATG16L1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "Phagophore",
+          "target": "Autophagosome",
+          "interaction": "indirect",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "Autophagosome",
+          "target": "Autophagolysosome",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "Lysosome",
+          "target": "Autophagolysosome",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC9602304",
+          "figure_number": "F2",
+          "source": "Autophagolysosome",
+          "target": "Degradation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9602304__F2.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "PMC9423733__F1.jpg",
+      "pmc": "PMC9423733",
+      "figure": "F1",
+      "description": "Autophagosome formation molecular machinery with ULK1 and PI3K III complexes",
+      "related": "Lysosome; Vesicle formation",
+      "nodes": [
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ULK1",
+          "node_type": "gene",
+          "entrez_id": 8408,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ULK2",
+          "node_type": "gene",
+          "entrez_id": 9706,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG13",
+          "node_type": "gene",
+          "entrez_id": 9776,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "FIP200",
+          "node_type": "gene",
+          "entrez_id": 9821,
+          "is_family_representative": false,
+          "notes": "Alias: RB1CC1. Part of ULK1 Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG101",
+          "node_type": "gene",
+          "entrez_id": 60673,
+          "is_family_representative": false,
+          "notes": "Part of ULK1 Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ULK1 Complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Initiation complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "VPS34",
+          "node_type": "gene",
+          "entrez_id": 5289,
+          "is_family_representative": false,
+          "notes": "Alias: PIK3C3. Part of PI3K III Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Ambra 1",
+          "node_type": "gene",
+          "entrez_id": 55626,
+          "is_family_representative": false,
+          "notes": "Part of PI3K III Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "VPS15",
+          "node_type": "gene",
+          "entrez_id": 30849,
+          "is_family_representative": false,
+          "notes": "Alias: PIK3R4. Part of PI3K III Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Beclin 1",
+          "node_type": "gene",
+          "entrez_id": 8678,
+          "is_family_representative": false,
+          "notes": "Part of PI3K III Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG14L",
+          "node_type": "gene",
+          "entrez_id": 22863,
+          "is_family_representative": false,
+          "notes": "Alias: ATG14. Part of PI3K III Complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "PI3K III Complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Nucleation complex",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "LC3",
+          "node_type": "gene",
+          "entrez_id": 84557,
+          "is_family_representative": true,
+          "notes": "Alias: MAP1LC3A. Representative of LC3 family.",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "LC3-I",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Cytosolic form of LC3",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "LC3-II",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Lipidated membrane-bound form of LC3",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG4",
+          "node_type": "gene",
+          "entrez_id": 23192,
+          "is_family_representative": true,
+          "notes": "Family representative (ATG4B)",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG3",
+          "node_type": "gene",
+          "entrez_id": 64428,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG7",
+          "node_type": "gene",
+          "entrez_id": 10533,
+          "is_family_representative": false,
+          "notes": "E1-like enzyme",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG5",
+          "node_type": "gene",
+          "entrez_id": 9474,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG10",
+          "node_type": "gene",
+          "entrez_id": 83734,
+          "is_family_representative": false,
+          "notes": "E2-like enzyme",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG12",
+          "node_type": "gene",
+          "entrez_id": 9140,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG16L",
+          "node_type": "gene",
+          "entrez_id": 55054,
+          "is_family_representative": false,
+          "notes": "Alias: ATG16L1",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG12-ATG5 Complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "ATG16L-ATG5-ATG12 Complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Phagophore",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Isolation membrane",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Autophagosome",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Double-membraned vesicle",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Lysosome",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Organelle",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Autolysosome",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Fusion product",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Mitochondria",
+          "node_type": "other",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Cargo for degradation (Mitophagy)",
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Initiation/Nucleation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Elongation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Closure/Maturation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Fusion",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "label": "Degradation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC9423733__F1.jpg"
+        }
+      ],
+      "edges": [
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ULK1 Complex",
+          "target": "PI3K III Complex",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "PI3K III Complex",
+          "target": "Initiation/Nucleation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "Initiation/Nucleation",
+          "target": "Phagophore",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "LC3",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG4",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "LC3-I",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG3",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG7",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "LC3-II",
+          "target": "Elongation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG7",
+          "target": "ATG12",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG10",
+          "target": "ATG12",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG12",
+          "target": "ATG12-ATG5 Complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG5",
+          "target": "ATG12-ATG5 Complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG12-ATG5 Complex",
+          "target": "ATG16L-ATG5-ATG12 Complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG16L",
+          "target": "ATG16L-ATG5-ATG12 Complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "ATG16L-ATG5-ATG12 Complex",
+          "target": "Elongation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "Phagophore",
+          "target": "Autophagosome",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "Autophagosome",
+          "target": "Autolysosome",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "Lysosome",
+          "target": "Autolysosome",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC9423733",
+          "figure_number": "F1",
+          "source": "Autolysosome",
+          "target": "Degradation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC9423733__F1.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "PMC8019794__F3.jpg",
+      "pmc": "PMC8019794",
+      "figure": "F3",
+      "description": "Autophagy mechanisms: ULK1 initiation, PI3K nucleation, elongation via ATG conjugation",
+      "related": "AMPK signaling; mTOR",
+      "nodes": [
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "mTOR",
+          "node_type": "gene",
+          "entrez_id": 2475,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "AMPK",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": true,
+          "notes": "PRKAA1/2 family",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ULK1",
+          "node_type": "gene",
+          "entrez_id": 8408,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG13",
+          "node_type": "gene",
+          "entrez_id": 9776,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "FIP200",
+          "node_type": "gene",
+          "entrez_id": 9821,
+          "is_family_representative": false,
+          "notes": "Gene symbol RB1CC1",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "VPS34",
+          "node_type": "gene",
+          "entrez_id": 5289,
+          "is_family_representative": false,
+          "notes": "Gene symbol PIK3C3",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG14",
+          "node_type": "gene",
+          "entrez_id": 22863,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "Beclin 1",
+          "node_type": "gene",
+          "entrez_id": 8678,
+          "is_family_representative": false,
+          "notes": "Gene symbol BECN1",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "VPS15",
+          "node_type": "gene",
+          "entrez_id": 30849,
+          "is_family_representative": false,
+          "notes": "Gene symbol PIK3R4",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG9",
+          "node_type": "gene",
+          "entrez_id": 79065,
+          "is_family_representative": false,
+          "notes": "Gene symbol ATG9A",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG12",
+          "node_type": "gene",
+          "entrez_id": 9140,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG7",
+          "node_type": "gene",
+          "entrez_id": 10533,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG10",
+          "node_type": "gene",
+          "entrez_id": 83734,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG5",
+          "node_type": "gene",
+          "entrez_id": 9474,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG16L1",
+          "node_type": "gene",
+          "entrez_id": 55054,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "WIPIs",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": true,
+          "notes": "WIPI family",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "DFCP1",
+          "node_type": "gene",
+          "entrez_id": 64743,
+          "is_family_representative": false,
+          "notes": "Gene symbol ZFYVE1",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "LC3",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": true,
+          "notes": "Microtubule-associated protein 1 light chain 3 family",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG4B",
+          "node_type": "gene",
+          "entrez_id": 23192,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "LC3-I",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Cytosolic form of LC3",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "LC3-II",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Lipid-conjugated form of LC3",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "ATG3",
+          "node_type": "gene",
+          "entrez_id": 64422,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "PE",
+          "node_type": "chemical",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Phosphatidylethanolamine",
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "Autophagy Initiation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "Membrane Nucleation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "Phagophore Elongation/Expansion",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "Fusion",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "label": "Degradation",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8019794__F3.jpg"
+        }
+      ],
+      "edges": [
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "mTOR",
+          "target": "ULK1",
+          "interaction": "inhibition",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "AMPK",
+          "target": "ULK1",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG13",
+          "target": "ULK1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "FIP200",
+          "target": "ULK1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ULK1",
+          "target": "Autophagy Initiation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "VPS34",
+          "target": "Beclin 1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG14",
+          "target": "Beclin 1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "VPS15",
+          "target": "Beclin 1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "Beclin 1",
+          "target": "Membrane Nucleation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG9",
+          "target": "Membrane Nucleation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG12",
+          "target": "ATG5",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG7",
+          "target": "ATG12",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG10",
+          "target": "ATG12",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG5",
+          "target": "ATG16L1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG16L1",
+          "target": "WIPIs",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG16L1",
+          "target": "DFCP1",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "LC3",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG4B",
+          "target": "LC3",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "LC3-I",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG7",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG3",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "PE",
+          "target": "LC3-II",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "ATG16L1",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "LC3-II",
+          "target": "Phagophore Elongation/Expansion",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "Phagophore Elongation/Expansion",
+          "target": "Fusion",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        },
+        {
+          "pmc_id": "PMC8019794",
+          "figure_number": "F3",
+          "source": "Fusion",
+          "target": "Degradation",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8019794__F3.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "PMC7272661__F2.jpg",
+      "pmc": "PMC7272661",
+      "figure": "F2",
+      "description": "Autophagy induction by stress and nutrient deficiency with AMPK/mTOR regulation",
+      "related": "Stress response; Nutrient sensing",
+      "nodes": [
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "Stress nutrients deficiency",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "AMPK",
+          "node_type": "gene",
+          "entrez_id": 5562,
+          "is_family_representative": true,
+          "notes": "Representative for AMPK family (PRKAA1)",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "mTOR",
+          "node_type": "gene",
+          "entrez_id": 2475,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ULK1 complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Contains ULK1, ATG13, FIP200, ATG101",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ULK1",
+          "node_type": "gene",
+          "entrez_id": 8408,
+          "is_family_representative": false,
+          "notes": "Component of ULK1 complex",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG13",
+          "node_type": "gene",
+          "entrez_id": 9776,
+          "is_family_representative": false,
+          "notes": "Component of ULK1 complex",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "FIP200",
+          "node_type": "gene",
+          "entrez_id": 9821,
+          "is_family_representative": false,
+          "notes": "RB1CC1; Component of ULK1 complex",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG101",
+          "node_type": "gene",
+          "entrez_id": 60673,
+          "is_family_representative": false,
+          "notes": "Component of ULK1 complex",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "PtdIns3K complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Contains Beclin1, ATG14, VPS15, VPS34, AMBRA1, UVRAG",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "Beclin1",
+          "node_type": "gene",
+          "entrez_id": 8678,
+          "is_family_representative": false,
+          "notes": "BECN1",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG14",
+          "node_type": "gene",
+          "entrez_id": 22863,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "VPS15",
+          "node_type": "gene",
+          "entrez_id": 30849,
+          "is_family_representative": false,
+          "notes": "PIK3R4",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "VPS34",
+          "node_type": "gene",
+          "entrez_id": 5289,
+          "is_family_representative": false,
+          "notes": "PIK3C3",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "AMBRA1",
+          "node_type": "gene",
+          "entrez_id": 55626,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "UVRAG",
+          "node_type": "gene",
+          "entrez_id": 7405,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "Bcl-2",
+          "node_type": "gene",
+          "entrez_id": 596,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "PI3P",
+          "node_type": "chemical",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Phosphatidylinositol 3-phosphate",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG12",
+          "node_type": "gene",
+          "entrez_id": 9140,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG5",
+          "node_type": "gene",
+          "entrez_id": 9474,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG7",
+          "node_type": "gene",
+          "entrez_id": 10533,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG10",
+          "node_type": "gene",
+          "entrez_id": 83734,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG12 - ATG5",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG16",
+          "node_type": "gene",
+          "entrez_id": 55054,
+          "is_family_representative": false,
+          "notes": "ATG16L1",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG12 - ATG5-ATG16",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "LC3",
+          "node_type": "gene",
+          "entrez_id": 81631,
+          "is_family_representative": true,
+          "notes": "MAP1LC3B",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG4",
+          "node_type": "gene",
+          "entrez_id": null,
+          "is_family_representative": true,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "LC3-I",
+          "node_type": "gene",
+          "entrez_id": 81631,
+          "is_family_representative": true,
+          "notes": "Processed form of LC3",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "ATG3",
+          "node_type": "gene",
+          "entrez_id": 64422,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "LC3-PE (LC3-II)",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Lipidated form of LC3",
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "Rab7",
+          "node_type": "gene",
+          "entrez_id": 7879,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "label": "FYCO1",
+          "node_type": "gene",
+          "entrez_id": 79443,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC7272661__F2.jpg"
+        }
+      ],
+      "edges": [
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "Stress nutrients deficiency",
+          "target": "AMPK",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "Stress nutrients deficiency",
+          "target": "mTOR",
+          "interaction": "inhibition",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "AMPK",
+          "target": "ULK1 complex",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ULK1",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG13",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "FIP200",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG101",
+          "target": "ULK1 complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ULK1 complex",
+          "target": "PtdIns3K complex",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "Beclin1",
+          "target": "PtdIns3K complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG14",
+          "target": "PtdIns3K complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "VPS15",
+          "target": "PtdIns3K complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "VPS34",
+          "target": "PtdIns3K complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "AMBRA1",
+          "target": "PtdIns3K complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "UVRAG",
+          "target": "PtdIns3K complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "Beclin1",
+          "target": "Bcl-2",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "Bcl-2",
+          "target": "PtdIns3K complex",
+          "interaction": "indirect",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "PtdIns3K complex",
+          "target": "PI3P",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG12",
+          "target": "ATG12 - ATG5",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG5",
+          "target": "ATG12 - ATG5",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG7",
+          "target": "ATG12 - ATG5",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG10",
+          "target": "ATG12 - ATG5",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG12 - ATG5",
+          "target": "ATG12 - ATG5-ATG16",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG16",
+          "target": "ATG12 - ATG5-ATG16",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "LC3",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG4",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "LC3-I",
+          "target": "LC3-PE (LC3-II)",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG3",
+          "target": "LC3-PE (LC3-II)",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        },
+        {
+          "pmc_id": "PMC7272661",
+          "figure_number": "F2",
+          "source": "ATG7",
+          "target": "LC3-PE (LC3-II)",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC7272661__F2.jpg"
+        }
+      ]
+    },
+    {
+      "filename": "PMC8888908__F1.jpg",
+      "pmc": "PMC8888908",
+      "figure": "F1",
+      "description": "Autophagy initiation via Akt/mTORC1 and ULK1 complex regulation",
+      "related": "PI3K-AKT signaling; mTORC1",
+      "nodes": [
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Akt/PKB",
+          "node_type": "gene",
+          "entrez_id": 207,
+          "is_family_representative": true,
+          "notes": "AKT1",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "mTORC1",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Contains mTOR (Entrez 2475)",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ULK1 Complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Contains ULK1, ATG13, FIP200, ATG101",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ULK1",
+          "node_type": "gene",
+          "entrez_id": 8408,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG13",
+          "node_type": "gene",
+          "entrez_id": 9776,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG101",
+          "node_type": "gene",
+          "entrez_id": 60673,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "FIP200",
+          "node_type": "gene",
+          "entrez_id": 9821,
+          "is_family_representative": false,
+          "notes": "RB1CC1",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Class III PI3K Complex I",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Contains VPS15, BECN1, VPS34, ATG14",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "VPS15",
+          "node_type": "gene",
+          "entrez_id": 30849,
+          "is_family_representative": false,
+          "notes": "PIK3R4",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "BECN1",
+          "node_type": "gene",
+          "entrez_id": 8678,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "VPS34",
+          "node_type": "gene",
+          "entrez_id": 5289,
+          "is_family_representative": false,
+          "notes": "PIK3C3",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG14",
+          "node_type": "gene",
+          "entrez_id": 22863,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "LC3/ATG8",
+          "node_type": "gene",
+          "entrez_id": 84557,
+          "is_family_representative": true,
+          "notes": "MAP1LC3A",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG4",
+          "node_type": "gene",
+          "entrez_id": 23192,
+          "is_family_representative": true,
+          "notes": "ATG4B/A",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "LC3-I",
+          "node_type": "gene",
+          "entrez_id": 84557,
+          "is_family_representative": true,
+          "notes": "Processed MAP1LC3A",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG7",
+          "node_type": "gene",
+          "entrez_id": 10533,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG3",
+          "node_type": "gene",
+          "entrez_id": 64422,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "LC3-II",
+          "node_type": "gene",
+          "entrez_id": 84557,
+          "is_family_representative": true,
+          "notes": "Lipidated MAP1LC3A",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "PE",
+          "node_type": "chemical",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Phosphatidylethanolamine",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG12",
+          "node_type": "gene",
+          "entrez_id": 9140,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG10",
+          "node_type": "gene",
+          "entrez_id": 83734,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG5",
+          "node_type": "gene",
+          "entrez_id": 9474,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG16-1",
+          "node_type": "gene",
+          "entrez_id": 55054,
+          "is_family_representative": false,
+          "notes": "ATG16L1",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG5/12/16-1 Complex",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "WIPI2",
+          "node_type": "gene",
+          "entrez_id": 26100,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "PIP3",
+          "node_type": "chemical",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Likely PI3P (Phosphatidylinositol 3-phosphate) in this context",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "ATG9",
+          "node_type": "gene",
+          "entrez_id": 79065,
+          "is_family_representative": false,
+          "notes": "ATG9A",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Phagophore",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Autophagosome",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Lysosome",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Class III PI3K Complex II",
+          "node_type": "complex",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": "Contains BECN1, VPS34, UVRAG, VPS15",
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "UVRAG",
+          "node_type": "gene",
+          "entrez_id": 7405,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "label": "Autolysosome",
+          "node_type": "phenotype",
+          "entrez_id": null,
+          "is_family_representative": false,
+          "notes": null,
+          "filename": "PMC8888908__F1.jpg"
+        }
+      ],
+      "edges": [
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "Akt/PKB",
+          "target": "mTORC1",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "mTORC1",
+          "target": "ULK1 Complex",
+          "interaction": "inhibition",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ULK1 Complex",
+          "target": "Class III PI3K Complex I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "Class III PI3K Complex I",
+          "target": "Phagophore",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "LC3/ATG8",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG4",
+          "target": "LC3-I",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "LC3-I",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG7",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG3",
+          "target": "LC3-II",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "PE",
+          "target": "LC3-II",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "LC3-II",
+          "target": "Phagophore",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG12",
+          "target": "ATG5/12/16-1 Complex",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG7",
+          "target": "ATG5/12/16-1 Complex",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG10",
+          "target": "ATG5/12/16-1 Complex",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG5",
+          "target": "ATG5/12/16-1 Complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG16-1",
+          "target": "ATG5/12/16-1 Complex",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG5/12/16-1 Complex",
+          "target": "Phagophore",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "WIPI2",
+          "target": "Phagophore",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "PIP3",
+          "target": "Phagophore",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "ATG9",
+          "target": "Phagophore",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "Phagophore",
+          "target": "Autophagosome",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "Autophagosome",
+          "target": "Autolysosome",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "Lysosome",
+          "target": "Autolysosome",
+          "interaction": "binding",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        },
+        {
+          "pmc_id": "PMC8888908",
+          "figure_number": "F1",
+          "source": "Class III PI3K Complex II",
+          "target": "Autolysosome",
+          "interaction": "activation",
+          "uncertain": false,
+          "filename": "PMC8888908__F1.jpg"
+        }
+      ]
+    }
+  ]
+}
