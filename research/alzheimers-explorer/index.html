@@ -43,7 +43,8 @@
         .result-score.moderate { background: #f39c12; }
         .result-score.low { background: #27ae60; }
 
-        .result-title { flex: 1; font-weight: 500; }
+        .result-title { flex: 1; font-weight: 500; color: #2980b9; text-decoration: none; }
+        .result-title:hover { text-decoration: underline; }
         .result-reasoning { margin-top: 10px; font-size: 13px; color: #555; font-style: italic; padding: 10px; background: #f8f9fa; border-radius: 4px; }
 
         .criteria-toggle { margin-top: 10px; }
@@ -291,12 +292,16 @@
                         </div>`;
                 }
 
+                // Convert filename to DOI link
+                const doi = paper.filename.replace('.pdf', '').replace(/@/g, '/');
+                const doiUrl = 'https://doi.org/' + doi;
+
                 html += `
                     <div class="result-card ${scoreClass}">
                         <div class="result-header">
                             <span class="result-rank">${rank}.${rankChangeHtml}</span>
                             <span class="result-score ${scoreClass}">${score.toFixed(2)}</span>
-                            <span class="result-title">${paper.filename}</span>
+                            <a href="${doiUrl}" target="_blank" class="result-title">${paper.filename}</a>
                         </div>
                         ${paper.overall_reasoning ? `<div class="result-reasoning">${paper.overall_reasoning}</div>` : ''}
                         <details class="criteria-toggle">
