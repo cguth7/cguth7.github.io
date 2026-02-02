@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alzheimer's Paper Integrity Explorer</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: #2c3e50; color: white; padding: 20px 0; margin-bottom: 20px; }
+        header h1 { font-size: 24px; font-weight: 600; }
+        header p { opacity: 0.8; font-size: 14px; margin-top: 4px; }
+
+        .panel { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .panel h2 { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
+
+        .summary-bar { display: flex; gap: 20px; flex-wrap: wrap; padding: 15px; background: #ecf0f1; border-radius: 6px; margin-bottom: 15px; }
+        .summary-item { font-size: 14px; }
+        .summary-item strong { color: #2c3e50; }
+
+        .sliders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
+        .slider-row { display: flex; align-items: center; gap: 10px; }
+        .slider-row label { min-width: 180px; font-size: 13px; font-weight: 500; }
+        .slider-row input[type="range"] { flex: 1; cursor: pointer; }
+        .slider-row .value { min-width: 40px; text-align: right; font-weight: bold; color: #3498db; }
+
+        .controls { display: flex; gap: 10px; margin-top: 15px; }
+        .controls button { padding: 8px 16px; border-radius: 5px; border: 1px solid #bdc3c7; background: white; cursor: pointer; font-size: 13px; }
+        .controls button:hover { background: #ecf0f1; }
+        .controls button.primary { background: #27ae60; color: white; border-color: #27ae60; }
+
+        .results-list { margin-top: 10px; }
+        .result-card { padding: 15px; margin-bottom: 10px; border: 1px solid #e0e0e0; border-radius: 6px; border-left: 4px solid #3498db; }
+        .result-card.high { border-left-color: #e74c3c; background: #fdf2f2; }
+        .result-card.moderate { border-left-color: #f39c12; }
+        .result-card.low { border-left-color: #27ae60; }
+
+        .result-header { display: flex; align-items: flex-start; gap: 12px; }
+        .result-rank { color: #7f8c8d; font-weight: bold; min-width: 30px; }
+        .result-score { display: inline-block; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 14px; color: white; }
+        .result-score.high { background: #e74c3c; }
+        .result-score.moderate { background: #f39c12; }
+        .result-score.low { background: #27ae60; }
+
+        .result-title { flex: 1; font-weight: 500; }
+        .result-reasoning { margin-top: 10px; font-size: 13px; color: #555; font-style: italic; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+
+        .criteria-toggle { margin-top: 10px; }
+        .criteria-toggle summary { cursor: pointer; color: #3498db; font-size: 13px; }
+        .criteria-list { margin-top: 10px; border: 1px solid #e0e0e0; border-radius: 4px; }
+        .criterion-item { padding: 10px 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: flex-start; }
+        .criterion-item:last-child { border-bottom: none; }
+        .criterion-name { font-weight: 500; font-size: 13px; }
+        .criterion-score { padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: bold; color: white; }
+        .criterion-reasoning { font-size: 12px; color: #666; margin-top: 4px; }
+
+        .rank-change { font-size: 12px; margin-left: 5px; }
+        .rank-change.up { color: #27ae60; }
+        .rank-change.down { color: #e74c3c; }
+
+        .legend { display: flex; gap: 15px; font-size: 12px; margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+
+        #loadingMsg { text-align: center; padding: 40px; color: #7f8c8d; }
+        #errorMsg { text-align: center; padding: 40px; color: #e74c3c; display: none; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Alzheimer's Paper Integrity Explorer</h1>
+            <p>Adjust criterion weights to re-rank papers by integrity indicators (higher score = more concerns)</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="panel" id="summaryPanel" style="display: none;">
+            <div class="summary-bar">
+                <div class="summary-item"><strong id="paperCount">0</strong> papers</div>
+                <div class="summary-item"><strong id="criteriaCount">0</strong> criteria</div>
+                <div class="summary-item">Model: <strong id="modelName">-</strong></div>
+                <div class="summary-item">Run: <strong id="runDate">-</strong></div>
+            </div>
+        </div>
+
+        <div class="panel" id="slidersPanel" style="display: none;">
+            <h2>Criterion Weights</h2>
+            <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">Adjust weights to change how criteria contribute to the total score. Higher weight = more influence.</p>
+            <div class="sliders-grid" id="sliderContainer"></div>
+            <div class="controls">
+                <button onclick="resetWeights()">Reset to Default</button>
+                <button onclick="exportCSV()" class="primary">Export CSV</button>
+            </div>
+        </div>
+
+        <div class="panel" id="resultsPanel" style="display: none;">
+            <h2>Rankings <span style="font-weight: normal; color: #7f8c8d; font-size: 14px;">(Higher score = More concerns)</span></h2>
+            <div class="results-list" id="resultsList"></div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-dot" style="background: #e74c3c;"></span> High concern (>=7)</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #f39c12;"></span> Moderate (4-7)</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #27ae60;"></span> Low concern (<4)</span>
+            </div>
+        </div>
+
+        <div id="loadingMsg">Loading data...</div>
+        <div id="errorMsg"></div>
+    </div>
+
+    <script>
+        const DATA_URL = 'data/rankings.json';
+
+        let data = null;
+        let weights = {};
+        let defaultWeights = {};
+        let previousRanks = {};
+        let criteria = [];
+
+        async function loadData() {
+            try {
+                const resp = await fetch(DATA_URL);
+                if (!resp.ok) throw new Error('Failed to load data: ' + resp.status);
+                const json = await resp.json();
+                initializeData(json);
+            } catch (err) {
+                document.getElementById('loadingMsg').style.display = 'none';
+                document.getElementById('errorMsg').textContent = 'Error loading data: ' + err.message;
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        function initializeData(json) {
+            data = json;
+            criteria = data.metadata.criteria.map(c => c.name);
+
+            // Initialize weights from metadata
+            weights = {};
+            defaultWeights = {};
+            data.metadata.criteria.forEach(c => {
+                const w = Math.round(c.weight * 100);
+                weights[c.name] = w;
+                defaultWeights[c.name] = w;
+            });
+
+            // Update summary
+            document.getElementById('paperCount').textContent = data.papers.length;
+            document.getElementById('criteriaCount').textContent = criteria.length;
+            document.getElementById('modelName').textContent = data.metadata.model || '-';
+            document.getElementById('runDate').textContent = data.metadata.run_date ? new Date(data.metadata.run_date).toLocaleDateString() : '-';
+
+            // Show panels
+            document.getElementById('loadingMsg').style.display = 'none';
+            document.getElementById('summaryPanel').style.display = 'block';
+            document.getElementById('slidersPanel').style.display = 'block';
+            document.getElementById('resultsPanel').style.display = 'block';
+
+            buildSliders();
+            previousRanks = {};
+            recomputeAndRender();
+        }
+
+        function buildSliders() {
+            const container = document.getElementById('sliderContainer');
+            container.innerHTML = '';
+
+            criteria.forEach(criterion => {
+                const row = document.createElement('div');
+                row.className = 'slider-row';
+
+                const label = document.createElement('label');
+                label.textContent = criterion;
+
+                const slider = document.createElement('input');
+                slider.type = 'range';
+                slider.min = '0';
+                slider.max = '100';
+                slider.value = weights[criterion];
+                slider.dataset.criterion = criterion;
+
+                const valDisplay = document.createElement('span');
+                valDisplay.className = 'value';
+                valDisplay.textContent = slider.value;
+                valDisplay.id = 'val-' + criterion.replace(/\s+/g, '-');
+
+                slider.addEventListener('input', () => {
+                    weights[criterion] = parseInt(slider.value);
+                    valDisplay.textContent = slider.value;
+                    recomputeAndRender();
+                });
+
+                row.appendChild(label);
+                row.appendChild(slider);
+                row.appendChild(valDisplay);
+                container.appendChild(row);
+            });
+        }
+
+        function resetWeights() {
+            criteria.forEach(c => { weights[c] = defaultWeights[c]; });
+            document.querySelectorAll('#sliderContainer input[type="range"]').forEach(slider => {
+                const c = slider.dataset.criterion;
+                slider.value = defaultWeights[c];
+                const valId = 'val-' + c.replace(/\s+/g, '-');
+                document.getElementById(valId).textContent = defaultWeights[c];
+            });
+            recomputeAndRender();
+        }
+
+        function computeWeightedScore(paper) {
+            let weightedSum = 0;
+            let totalWeight = 0;
+
+            for (const [name, critData] of Object.entries(paper.criterion_scores || {})) {
+                const w = weights[name] || 0;
+                if (w <= 0) continue;
+                const score = typeof critData === 'object' ? critData.score : critData;
+                weightedSum += score * w;
+                totalWeight += w;
+            }
+
+            return totalWeight > 0 ? weightedSum / totalWeight : 0;
+        }
+
+        function getScoreClass(score) {
+            if (score >= 7) return 'high';
+            if (score >= 4) return 'moderate';
+            return 'low';
+        }
+
+        function getScoreColor(score) {
+            if (score >= 7) return '#e74c3c';
+            if (score >= 4) return '#f39c12';
+            return '#27ae60';
+        }
+
+        function recomputeAndRender() {
+            if (!data) return;
+
+            const prevRanks = {...previousRanks};
+
+            const scored = data.papers.map(paper => ({
+                ...paper,
+                weighted_score: computeWeightedScore(paper)
+            }));
+
+            scored.sort((a, b) => b.weighted_score - a.weighted_score);
+
+            if (Object.keys(prevRanks).length > 0) {
+                previousRanks = {};
+                scored.forEach((p, i) => { previousRanks[p.filename] = i + 1; });
+            } else {
+                scored.forEach((p, i) => { previousRanks[p.filename] = i + 1; });
+            }
+
+            renderResults(scored, prevRanks);
+        }
+
+        function renderResults(scored, prevRanks) {
+            const container = document.getElementById('resultsList');
+            let html = '';
+
+            scored.forEach((paper, idx) => {
+                const rank = idx + 1;
+                const score = paper.weighted_score;
+                const scoreClass = getScoreClass(score);
+
+                let rankChangeHtml = '';
+                if (prevRanks[paper.filename] !== undefined) {
+                    const diff = prevRanks[paper.filename] - rank;
+                    if (diff > 0) {
+                        rankChangeHtml = `<span class="rank-change up">^${diff}</span>`;
+                    } else if (diff < 0) {
+                        rankChangeHtml = `<span class="rank-change down">v${Math.abs(diff)}</span>`;
+                    }
+                }
+
+                let criteriaHtml = '';
+                for (const [name, critData] of Object.entries(paper.criterion_scores || {})) {
+                    const cScore = typeof critData === 'object' ? critData.score : critData;
+                    const cReasoning = typeof critData === 'object' ? critData.reasoning : '';
+                    const cColor = getScoreColor(cScore);
+                    criteriaHtml += `
+                        <div class="criterion-item">
+                            <div>
+                                <div class="criterion-name">${name}</div>
+                                ${cReasoning ? `<div class="criterion-reasoning">${cReasoning}</div>` : ''}
+                            </div>
+                            <span class="criterion-score" style="background: ${cColor};">${cScore.toFixed(1)}</span>
+                        </div>`;
+                }
+
+                html += `
+                    <div class="result-card ${scoreClass}">
+                        <div class="result-header">
+                            <span class="result-rank">${rank}.${rankChangeHtml}</span>
+                            <span class="result-score ${scoreClass}">${score.toFixed(2)}</span>
+                            <span class="result-title">${paper.filename}</span>
+                        </div>
+                        ${paper.overall_reasoning ? `<div class="result-reasoning">${paper.overall_reasoning}</div>` : ''}
+                        <details class="criteria-toggle">
+                            <summary>View ${Object.keys(paper.criterion_scores || {}).length} criterion scores</summary>
+                            <div class="criteria-list">${criteriaHtml}</div>
+                        </details>
+                    </div>`;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function exportCSV() {
+            if (!data) return;
+
+            const scored = data.papers.map(paper => ({
+                ...paper,
+                weighted_score: computeWeightedScore(paper)
+            }));
+            scored.sort((a, b) => b.weighted_score - a.weighted_score);
+
+            let csv = 'rank,filename,weighted_score';
+            criteria.forEach(c => { csv += ',' + c.replace(/,/g, ';'); });
+            csv += '\n';
+
+            scored.forEach((paper, idx) => {
+                csv += `${idx + 1},"${paper.filename}",${paper.weighted_score.toFixed(2)}`;
+                criteria.forEach(c => {
+                    const cData = paper.criterion_scores[c];
+                    const score = cData ? (typeof cData === 'object' ? cData.score : cData) : '';
+                    csv += ',' + score;
+                });
+                csv += '\n';
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'integrity_scores_reranked.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Load data on page load
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>
