@@ -1,0 +1,121 @@
+{
+  "metadata": {
+    "run_date": "2026-02-02T16:21:58.562174",
+    "model": "gpt-5.2",
+    "input_directory": "/Users/charlesguthmann/test_papers",
+    "total_papers": 3,
+    "criteria": [
+      {
+        "key": "sample_size_red_flags",
+        "name": "Sample Size Red Flags",
+        "weight": 0.2
+      },
+      {
+        "key": "statistical_reporting",
+        "name": "Statistical Reporting",
+        "weight": 0.25
+      },
+      {
+        "key": "methodology_transparency",
+        "name": "Methodology Transparency",
+        "weight": 0.25
+      },
+      {
+        "key": "data_availability",
+        "name": "Data Availability",
+        "weight": 0.15
+      },
+      {
+        "key": "figure_image_quality",
+        "name": "Figure/Image Quality Indicators",
+        "weight": 0.15
+      }
+    ]
+  },
+  "papers": [
+    {
+      "total_score": 7.9,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "This piece is a commentary and does not report any primary experimental sample sizes (no N, no attrition/exclusions, no subgroup sizes, no power analysis). It discusses outcomes from Chang et al. (2010) (e.g., \u201cthree separate experiments,\u201d \u201cstarting age\u20265.5 to 9 months\u201d) but provides no numerical sample size details needed to judge adequacy or robustness."
+        },
+        "Statistical Reporting": {
+          "score": 8.0,
+          "reasoning": "No statistical results are presented: no p-values, confidence intervals, effect sizes, variance measures, or multiple-comparison handling. Quantitative claims (e.g., \u201creduced\u2026A\u03b2 by about 50%,\u201d benefit seen after \u201c4 to 7 months\u201d) are given without statistical context, making it impossible to assess evidential strength or detect p-hacking/reporting artifacts."
+        },
+        "Methodology Transparency": {
+          "score": 9.0,
+          "reasoning": "No reproducible methods are provided (no dosing specifics beyond \u2018continuously infused,\u2019 no behavioral test protocols, no randomization/blinding statements, no inclusion/exclusion criteria). The article relies on summarizing another study rather than presenting a replicable protocol, and there is no preregistration or code/protocol reference for the commentary itself."
+        },
+        "Data Availability": {
+          "score": 10.0,
+          "reasoning": "No raw data, supplementary materials, data-sharing statement, or analysis scripts are provided or referenced. As written, there is zero access to underlying data or analytic workflow supporting the quantitative statements summarized."
+        },
+        "Figure/Image Quality Indicators": {
+          "score": 5.0,
+          "reasoning": "No figures/images are included in the provided text, so classic image-manipulation/documentation checks (scale bars, blot exposures, resolution, etc.) cannot be performed. This is a transparency limitation but not direct evidence of manipulation."
+        }
+      },
+      "overall_reasoning": "This is a non-primary \u201cCommentary\u201d article that makes quantitative summary claims about another paper but provides no sample sizes, no statistical reporting, no replicable methods, and no data/code availability. The high score reflects the inability to audit core evidentiary elements from this text alone (rather than clear internal inconsistencies), meaning a research-integrity assessment would need to be performed on the cited primary study (Chang et al., FASEB J. 2010) to meaningfully evaluate",
+      "filename": "21248377-aging-03-14.pdf",
+      "file_path": "/Users/charlesguthmann/test_papers/21248377-aging-03-14.pdf"
+    },
+    {
+      "total_score": 3.2,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 2.5,
+          "reasoning": "Large secondary-analysis cohorts from ADNI (controls n=330, preclinical AD n=218, mild AD n=697; substantial longitudinal observations). Missingness across modalities is visible (e.g., baseline pNfL/MRI counts differ), but eligibility required \u22652 follow-ups for MRI/pNfL/cognition and the paper performs sensitivity analyses for overlapping timepoints, reducing concern. No unexplained dropouts/exclusions beyond modality availability."
+        },
+        "Statistical Reporting": {
+          "score": 3.5,
+          "reasoning": "P-values are not suspiciously rounded (e.g., P=0.10, 0.07, 0.002, many P<0.0001). Uncertainty is reported via confidence intervals for required sample sizes and bootstrapping procedures are described. However, there are many cross-biomarker comparisons and significance testing without clear multiplicity correction discussion, which modestly increases concern."
+        },
+        "Methodology Transparency": {
+          "score": 4.0,
+          "reasoning": "Methods are generally replicable: explicit cohort definitions (A\u03b2+/\u2212 with PET/CSF cutoffs), MRI processing pipeline (FreeSurfer v5.1), PET SUVR estimation approach, pNfL assay description, and R packages (nlme, longpower) are specified with a power formula provided. Pre-registration is not mentioned and analysis code is not openly posted (only 'available upon request'), which reduces transparency."
+        },
+        "Data Availability": {
+          "score": 2.5,
+          "reasoning": "Strong data transparency for a clinical neuroimaging paper: ADNI data are publicly accessible and the paper lists exact ADNI files and download date. Code is only available upon request (not public), which is a minor limitation but not a major red flag."
+        },
+        "Figure/Image Quality Indicators": {
+          "score": 3.0,
+          "reasoning": "Figures are primarily plots (trajectories, power curves) rather than microscopy/blots; no obvious manipulation risk signals from the provided text. Legends are present and describe what is plotted (e.g., predicted trajectories, bootstrapped error bars). Some formatting/typo artifacts appear in the excerpt, but not indicative of image fraud."
+        }
+      },
+      "overall_reasoning": "This is a large, well-documented secondary analysis using ADNI with public data access, detailed biomarker acquisition/processing descriptions, and reasonable uncertainty reporting (CIs/bootstrapping). Main integrity limitations are standard transparency issues (no preregistration noted; code only 'upon request') and many statistical comparisons without an explicit multiple-comparisons correction plan. Overall, low-to-moderate concern rather than high suspicion.",
+      "filename": "32779869-ACN3-7-1661.pdf",
+      "file_path": "/Users/charlesguthmann/test_papers/32779869-ACN3-7-1661.pdf"
+    },
+    {
+      "total_score": 3.12,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 3.5,
+          "reasoning": "Overall N is large for the claims (CN n=399, MCI n=530, AD n=314; total n=1243), reducing small-sample concerns. However, downstream cluster/subgroup analyses create smaller cells (e.g., ADNI-GO/2 cluster 4 n=44; several post hoc comparisons and longitudinal analyses are restricted to late MCI only), and no formal power analysis is described. Early MCI exclusion is explained (only recruited in ADNI-GO/2), so this is not an unexplained exclusion."
+        },
+        "Statistical Reporting": {
+          "score": 3.5,
+          "reasoning": "Multiple-testing control is at least partially addressed (Bonferroni for pairwise categorical comparisons; FDR-adjusted P=0.05 threshold for VBM maps). Models and covariates are described (ANCOVA with age/gender/education/APOE; mixed-effects; Cox model). Main concern is limited reporting of uncertainty/effect magnitude in places: many results are presented primarily as P-values (often shown as \"<0.0001\"/\"\u22640.0001\"), with limited confidence intervals in the provided text/tables (e.g., hazard ratio"
+        },
+        "Methodology Transparency": {
+          "score": 3.5,
+          "reasoning": "Methods are relatively detailed for imaging/ML work: ADNI acquisition described; preprocessing steps (gradwarp, B1, N3, skull stripping), RAVENS map generation, covariate handling (age/gender/cohort), 10-fold cross-validation, and 10,000 random initializations for stability are specified. Replication across ADNI-1 vs ADNI-GO/2 is discussed. Main transparency limitation: CHIMERA software is 'available on request' and 'will be available online' (not clearly fully accessible at publication), and fu"
+        },
+        "Data Availability": {
+          "score": 2.0,
+          "reasoning": "Primary data source (ADNI) is a well-known open-access repository with established access procedures, and the paper clearly states data provenance. However, the paper does not clearly provide analysis scripts or a direct, immediate link to the exact code version used (CHIMERA noted as on-request/soon-online), and cluster assignments/derived intermediate outputs are not explicitly stated as deposited."
+        },
+        "Figure/Image Quality Indicators": {
+          "score": 2.5,
+          "reasoning": "Figures described are standard neuroimaging outputs (VBM/RAVENS effect-size maps with explicit thresholding at FDR-adjusted P=0.05; longitudinal plots). No obvious domain-specific image-manipulation risk signals (e.g., western blots) apply here. Based on the provided text, figure documentation appears adequate (e.g., colour scale meaning and threshold stated), though the excerpt does not include full legends or resolution to independently check for any subtle presentation issues."
+        }
+      },
+      "overall_reasoning": "Overall integrity risk appears low-to-moderate. The study leverages a large ADNI sample with generally appropriate statistical controls (Bonferroni/FDR) and reasonably transparent imaging/method descriptions. The main red flags are typical for complex ML/imaging papers rather than overt fraud signals: lack of explicit power analysis for cluster/subgroup comparisons, limited reporting of confidence intervals/uncertainty for some key estimates (e.g., hazard ratios), and incomplete immediate reprod",
+      "filename": "28003242-aww319.pdf",
+      "file_path": "/Users/charlesguthmann/test_papers/28003242-aww319.pdf"
+    }
+  ]
+}
