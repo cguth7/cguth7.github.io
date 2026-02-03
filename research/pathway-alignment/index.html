@@ -175,10 +175,36 @@
 
         <div class="method-box">
             <h3>Methodology</h3>
-            <p><strong>Step 1:</strong> Downloaded reference pathways - <strong>239 KEGG</strong> human pathways + <strong>984 WikiPathways</strong></p>
-            <p><strong>Step 2:</strong> Aggregated genes per extracted pathway name from 49k images (using Entrez IDs)</p>
-            <p><strong>Step 3:</strong> Computed similarity: <code>combined = 0.7 × Jaccard + 0.3 × StringMatch</code></p>
-            <p><strong>Confidence:</strong> High (≥0.5), Medium (0.25-0.5), Low (&lt;0.25)</p>
+            <p><strong>Goal:</strong> Map our 8,349 LLM-extracted pathway names to canonical IDs in KEGG and WikiPathways databases.</p>
+
+            <div style="margin: 1.5rem 0; padding: 1rem; background: var(--bg); border-radius: 6px; border-left: 3px solid var(--accent);">
+                <h4 style="color: var(--accent); margin-bottom: 0.75rem;">Worked Example: "ErbB signaling pathway"</h4>
+
+                <p style="margin-bottom: 0.75rem;"><strong>Step 1: Aggregate our extracted genes</strong></p>
+                <p style="margin-bottom: 0.5rem;">We found 92 images labeled "ErbB signaling pathway" by Gemini. Across all of them, we collected <strong>282 unique genes</strong> (via Entrez IDs).</p>
+
+                <p style="margin-bottom: 0.75rem; margin-top: 1rem;"><strong>Step 2: Compare to KEGG reference</strong></p>
+                <p style="margin-bottom: 0.5rem;">KEGG pathway <code>hsa04012</code> ("ErbB signaling pathway") contains 85 genes.</p>
+                <p style="margin-bottom: 0.5rem;">We share <strong>84 genes</strong> with KEGG. The Jaccard similarity is:</p>
+                <p style="font-family: monospace; background: var(--surface); padding: 0.5rem; border-radius: 4px; margin-bottom: 0.75rem;">
+                    Jaccard = |shared| / |union| = 84 / (282 + 85 - 84) = 84 / 283 = <strong>0.297</strong>
+                </p>
+
+                <p style="margin-bottom: 0.75rem; margin-top: 1rem;"><strong>Step 3: Add string matching bonus</strong></p>
+                <p style="margin-bottom: 0.5rem;">Name match: "ErbB signaling pathway" vs "ErbB signaling pathway" → <strong>1.0</strong> (exact match)</p>
+                <p style="font-family: monospace; background: var(--surface); padding: 0.5rem; border-radius: 4px; margin-bottom: 0.75rem;">
+                    Combined = 0.7 × 0.297 + 0.3 × 1.0 = 0.208 + 0.30 = <strong>0.508</strong> → High confidence
+                </p>
+
+                <p style="margin-top: 1rem; color: var(--green);"><strong>Result:</strong> "ErbB signaling pathway" → <code>hsa04012</code> (High confidence)</p>
+            </div>
+
+            <h4 style="color: var(--text); margin: 1.5rem 0 0.75rem 0;">Why are Jaccard scores often low?</h4>
+            <p style="margin-bottom: 0.5rem;">Hub pathways like PI3K-AKT appear in many biological contexts (cancer, metabolism, drug mechanisms). Each paper's diagram shows a <em>different subset</em> of the full pathway, so our aggregated gene set is much larger than the canonical reference.</p>
+            <p>Example: Our "PI3K-AKT signaling" has 3,230 genes from 1,783 images, but KEGG's hsa04151 only has 354 genes → low Jaccard (8.6%) even though it's the correct match.</p>
+
+            <h4 style="color: var(--text); margin: 1.5rem 0 0.75rem 0;">Confidence Thresholds</h4>
+            <p><span class="badge high">High</span> Combined ≥ 0.5 &nbsp;&nbsp; <span class="badge medium">Medium</span> 0.25 - 0.5 &nbsp;&nbsp; <span class="badge low">Low</span> &lt; 0.25</p>
         </div>
 
         <div class="section">
