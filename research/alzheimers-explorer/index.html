@@ -31,10 +31,20 @@
         .controls button.primary { background: #27ae60; color: white; border-color: #27ae60; }
 
         .results-list { margin-top: 10px; }
-        .result-card { padding: 15px; margin-bottom: 10px; border: 1px solid #e0e0e0; border-radius: 6px; border-left: 4px solid #3498db; }
+        .result-card { padding: 15px; margin-bottom: 15px; border: 1px solid #e0e0e0; border-radius: 6px; border-left: 4px solid #3498db; }
         .result-card.high { border-left-color: #e74c3c; background: #fdf2f2; }
         .result-card.moderate { border-left-color: #f39c12; }
         .result-card.low { border-left-color: #27ae60; }
+
+        /* Tab system for each paper */
+        .paper-tabs { display: flex; gap: 0; margin-top: 12px; border-bottom: 2px solid #e0e0e0; }
+        .paper-tab { padding: 10px 20px; cursor: pointer; border: 1px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; font-size: 13px; font-weight: 500; color: #7f8c8d; background: #f8f9fa; margin-bottom: -2px; }
+        .paper-tab:hover { background: #ecf0f1; }
+        .paper-tab.active { background: white; border-color: #e0e0e0; color: #2c3e50; border-bottom: 2px solid white; }
+        .paper-tab .tab-badge { background: #3498db; color: white; padding: 2px 6px; border-radius: 8px; font-size: 11px; margin-left: 6px; }
+        .paper-tab.image-tab .tab-badge { background: #9b59b6; }
+        .paper-tab-content { display: none; padding: 15px 0; }
+        .paper-tab-content.active { display: block; }
 
         .result-header { display: flex; align-items: flex-start; gap: 12px; }
         .result-rank { color: #7f8c8d; font-weight: bold; min-width: 30px; }
@@ -80,6 +90,35 @@
         .raw-prompt-toggle { margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0; }
         .raw-prompt-toggle summary { cursor: pointer; color: #7f8c8d; font-size: 13px; }
         .raw-prompt { margin-top: 10px; padding: 15px; background: #2c3e50; color: #ecf0f1; border-radius: 6px; font-size: 12px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; max-height: 400px; overflow-y: auto; }
+
+        /* Image Analysis Styles */
+        .image-analysis-toggle { margin-top: 10px; }
+        .image-analysis-toggle summary { cursor: pointer; color: #9b59b6; font-size: 13px; font-weight: 500; }
+        .image-analysis-toggle summary .badge { background: #9b59b6; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; }
+        .image-analysis-content { margin-top: 15px; }
+        .image-summary { padding: 12px; background: #f5eef8; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #9b59b6; }
+        .image-summary-score { display: inline-block; padding: 4px 10px; border-radius: 12px; font-weight: bold; font-size: 13px; color: white; margin-right: 10px; }
+        .image-summary-text { font-size: 13px; color: #555; margin-top: 8px; }
+
+        .image-gallery { display: flex; flex-direction: column; gap: 15px; }
+        .image-card { display: flex; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .image-card img { max-width: 300px; max-height: 400px; border-radius: 4px; border: 1px solid #ddd; object-fit: contain; background: white; cursor: pointer; transition: transform 0.2s; }
+        .image-card img:hover { transform: scale(1.02); }
+        .image-card-details { flex: 1; min-width: 200px; }
+        .image-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .image-card-title { font-weight: 600; font-size: 14px; color: #2c3e50; }
+        .image-card-category { background: #3498db; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; text-transform: capitalize; }
+        .image-card-findings { font-size: 13px; color: #555; line-height: 1.5; }
+
+        /* Image modal for enlarged view */
+        .image-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; cursor: zoom-out; }
+        .image-modal.active { display: flex; }
+        .image-modal img { max-width: 95%; max-height: 95%; object-fit: contain; }
+
+        @media (max-width: 768px) {
+            .image-card { flex-direction: column; }
+            .image-card img { max-width: 100%; }
+        }
     </style>
 </head>
 <body>
@@ -189,6 +228,11 @@
 
         <div id="loadingMsg">Loading data...</div>
         <div id="errorMsg"></div>
+    </div>
+
+    <!-- Image Modal for enlarged view -->
+    <div class="image-modal" id="imageModal" onclick="closeImageModal()">
+        <img src="" alt="Enlarged view" id="modalImage">
     </div>
 
     <script>
@@ -341,6 +385,32 @@
             renderResults(scored, prevRanks);
         }
 
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.add('active');
+        }
+
+        function closeImageModal() {
+            document.getElementById('imageModal').classList.remove('active');
+        }
+
+        // Close modal on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeImageModal();
+        });
+
+        // Tab switching
+        function switchTab(paperId, tabName) {
+            // Hide all tab contents for this paper
+            document.querySelectorAll(`#${paperId} .paper-tab-content`).forEach(el => el.classList.remove('active'));
+            document.querySelectorAll(`#${paperId} .paper-tab`).forEach(el => el.classList.remove('active'));
+            // Show selected tab
+            document.querySelector(`#${paperId} .paper-tab-content.${tabName}-content`).classList.add('active');
+            document.querySelector(`#${paperId} .paper-tab.${tabName}-tab`).classList.add('active');
+        }
+
         function renderResults(scored, prevRanks) {
             const container = document.getElementById('resultsList');
             let html = '';
@@ -349,6 +419,7 @@
                 const rank = idx + 1;
                 const score = paper.weighted_score;
                 const scoreClass = getScoreClass(score);
+                const paperId = `paper-${idx}`;
 
                 let rankChangeHtml = '';
                 if (prevRanks[paper.filename] !== undefined) {
@@ -360,6 +431,7 @@
                     }
                 }
 
+                // Build text analysis content
                 let criteriaHtml = '';
                 for (const [name, critData] of Object.entries(paper.criterion_scores || {})) {
                     const cScore = typeof critData === 'object' ? critData.score : critData;
@@ -375,22 +447,76 @@
                         </div>`;
                 }
 
+                // Build image analysis content
+                let imageTabHtml = '';
+                let imageContentHtml = '<p style="color: #7f8c8d;">No image analysis available for this paper.</p>';
+                const ia = paper.image_analysis;
+
+                if (ia && ia.images && ia.images.length > 0) {
+                    const summaryScore = ia.summary_score || 0;
+                    const summaryColor = getScoreColor(summaryScore);
+
+                    let imagesHtml = '';
+                    ia.images.forEach((img, i) => {
+                        const imgScore = img.score || 0;
+                        const imgColor = getScoreColor(imgScore);
+                        const imgSrc = img.image_base64 ? `data:image/jpeg;base64,${img.image_base64}` : '';
+
+                        imagesHtml += `
+                            <div class="image-card">
+                                ${imgSrc ? `<img src="${imgSrc}" alt="Page image ${i + 1}" onclick="openImageModal(this.src)">` : '<div style="width:200px;height:200px;background:#eee;display:flex;align-items:center;justify-content:center;border-radius:4px;">No image</div>'}
+                                <div class="image-card-details">
+                                    <div class="image-card-header">
+                                        <span class="image-card-title">Page ${i + 1}</span>
+                                        <span class="criterion-score" style="background: ${imgColor};">${imgScore.toFixed(1)}</span>
+                                    </div>
+                                    ${img.category ? `<span class="image-card-category">${img.category.replace(/_/g, ' ')}</span>` : ''}
+                                    <p class="image-card-findings">${img.findings || 'No findings recorded.'}</p>
+                                </div>
+                            </div>`;
+                    });
+
+                    imageTabHtml = `<span class="tab-badge">${ia.images.length}</span>`;
+                    imageContentHtml = `
+                        <div class="image-summary">
+                            <span class="image-summary-score" style="background: ${summaryColor};">${summaryScore.toFixed(1)}</span>
+                            <strong>Overall Image Assessment</strong>
+                            <p class="image-summary-text">${ia.summary || 'No summary available.'}</p>
+                        </div>
+                        <div class="image-gallery">
+                            ${imagesHtml}
+                        </div>`;
+                }
+
                 // Convert filename to DOI link
                 const doi = paper.filename.replace('.pdf', '').replace(/@/g, '/');
                 const doiUrl = 'https://doi.org/' + doi;
 
                 html += `
-                    <div class="result-card ${scoreClass}">
+                    <div class="result-card ${scoreClass}" id="${paperId}">
                         <div class="result-header">
                             <span class="result-rank">${rank}.${rankChangeHtml}</span>
                             <span class="result-score ${scoreClass}">${score.toFixed(2)}</span>
                             <a href="${doiUrl}" target="_blank" class="result-title">${paper.filename}</a>
                         </div>
                         ${paper.overall_reasoning ? `<div class="result-reasoning">${paper.overall_reasoning}</div>` : ''}
-                        <details class="criteria-toggle">
-                            <summary>View ${Object.keys(paper.criterion_scores || {}).length} criterion scores</summary>
+
+                        <div class="paper-tabs">
+                            <div class="paper-tab text-tab active" onclick="switchTab('${paperId}', 'text')">
+                                Text Analysis <span class="tab-badge">${Object.keys(paper.criterion_scores || {}).length}</span>
+                            </div>
+                            <div class="paper-tab image-tab" onclick="switchTab('${paperId}', 'image')">
+                                Image Analysis ${imageTabHtml}
+                            </div>
+                        </div>
+
+                        <div class="paper-tab-content text-content active">
                             <div class="criteria-list">${criteriaHtml}</div>
-                        </details>
+                        </div>
+
+                        <div class="paper-tab-content image-content">
+                            ${imageContentHtml}
+                        </div>
                     </div>`;
             });
 
