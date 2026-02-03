@@ -240,6 +240,7 @@
     <script>
         const DATA_URL = 'data/rankings.json';
         const PROMPT_URL = 'data/prompt.txt';
+        const EXCLUDED_CRITERIA = ['Figure/Image Concerns']; // Filtered out, not part of scoring
         let promptLoaded = false;
 
         let data = null;
@@ -263,16 +264,20 @@
 
         function initializeData(json) {
             data = json;
-            criteria = data.metadata.criteria.map(c => c.name);
+            criteria = data.metadata.criteria
+                .map(c => c.name)
+                .filter(name => !EXCLUDED_CRITERIA.includes(name));
 
-            // Initialize weights from metadata
+            // Initialize weights from metadata (excluding filtered criteria)
             weights = {};
             defaultWeights = {};
-            data.metadata.criteria.forEach(c => {
-                const w = Math.round(c.weight * 100);
-                weights[c.name] = w;
-                defaultWeights[c.name] = w;
-            });
+            data.metadata.criteria
+                .filter(c => !EXCLUDED_CRITERIA.includes(c.name))
+                .forEach(c => {
+                    const w = Math.round(c.weight * 100);
+                    weights[c.name] = w;
+                    defaultWeights[c.name] = w;
+                });
 
             // Update summary
             document.getElementById('paperCount').textContent = data.papers.length;
@@ -433,9 +438,10 @@
                     }
                 }
 
-                // Build text analysis content
+                // Build text analysis content (excluding filtered criteria)
                 let criteriaHtml = '';
                 for (const [name, critData] of Object.entries(paper.criterion_scores || {})) {
+                    if (EXCLUDED_CRITERIA.includes(name)) continue;
                     const cScore = typeof critData === 'object' ? critData.score : critData;
                     const cReasoning = typeof critData === 'object' ? critData.reasoning : '';
                     const cColor = getScoreColor(cScore);
@@ -514,7 +520,7 @@
 
                         <div class="paper-tabs">
                             <div class="paper-tab text-tab active" onclick="switchTab('${paperId}', 'text')">
-                                Text Analysis <span class="tab-badge">${Object.keys(paper.criterion_scores || {}).length}</span>
+                                Text Analysis <span class="tab-badge">${Object.keys(paper.criterion_scores || {}).filter(k => !EXCLUDED_CRITERIA.includes(k)).length}</span>
                             </div>
                             <div class="paper-tab image-tab" onclick="switchTab('${paperId}', 'image')">
                                 Image Analysis ${imageTabHtml}
