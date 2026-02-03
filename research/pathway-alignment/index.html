@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathway Alignment: KEGG & WikiPathways Mapping</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --border: #30363d;
+            --text: #c9d1d9;
+            --text-muted: #8b949e;
+            --accent: #58a6ff;
+            --green: #3fb950;
+            --yellow: #d29922;
+            --red: #f85149;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            padding: 2rem;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        h1 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); margin-bottom: 2rem; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1rem;
+        }
+        .stat-value { font-size: 2rem; font-weight: 600; }
+        .stat-label { color: var(--text-muted); font-size: 0.875rem; }
+        .stat-value.high { color: var(--green); }
+        .stat-value.medium { color: var(--yellow); }
+        .stat-value.low { color: var(--red); }
+
+        .section { margin-bottom: 2rem; }
+        .section-title { font-size: 1.25rem; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+
+        .method-box {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .method-box h3 { margin-bottom: 0.75rem; color: var(--accent); }
+        .method-box p { color: var(--text-muted); margin-bottom: 0.5rem; }
+        .method-box code {
+            background: var(--bg);
+            padding: 0.2rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.875rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        input, select {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+        input:focus, select:focus { outline: none; border-color: var(--accent); }
+        input[type="text"] { min-width: 250px; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            background: var(--surface);
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+        }
+        th:hover { color: var(--accent); }
+        tr:hover { background: rgba(88, 166, 255, 0.05); }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .badge.high { background: rgba(63, 185, 80, 0.2); color: var(--green); }
+        .badge.medium { background: rgba(210, 153, 34, 0.2); color: var(--yellow); }
+        .badge.low { background: rgba(248, 81, 73, 0.2); color: var(--red); }
+
+        .kegg-link, .wiki-link {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .kegg-link:hover, .wiki-link:hover { text-decoration: underline; }
+
+        .jaccard-bar {
+            width: 60px;
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 0.5rem;
+        }
+        .jaccard-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+        }
+
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+        .footer a { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Pathway Alignment: KEGG & WikiPathways Mapping</h1>
+        <p class="subtitle">Mapping 8,349 extracted pathway names to canonical database IDs using gene overlap (Jaccard) + name matching</p>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">8,349</div>
+                <div class="stat-label">Extracted Pathways</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">48,202</div>
+                <div class="stat-label">Total Images</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value high">253</div>
+                <div class="stat-label">High Confidence</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value medium">4,276</div>
+                <div class="stat-label">Medium Confidence</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value low">3,820</div>
+                <div class="stat-label">Low Confidence</div>
+            </div>
+        </div>
+
+        <div class="method-box">
+            <h3>Methodology</h3>
+            <p><strong>Step 1:</strong> Downloaded reference pathways - <strong>239 KEGG</strong> human pathways + <strong>984 WikiPathways</strong></p>
+            <p><strong>Step 2:</strong> Aggregated genes per extracted pathway name from 49k images (using Entrez IDs)</p>
+            <p><strong>Step 3:</strong> Computed similarity: <code>combined = 0.7 × Jaccard + 0.3 × StringMatch</code></p>
+            <p><strong>Confidence:</strong> High (≥0.5), Medium (0.25-0.5), Low (&lt;0.25)</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Top 100 Pathways by Image Count</h2>
+
+            <div class="controls">
+                <input type="text" id="search" placeholder="Search pathways...">
+                <select id="confidence-filter">
+                    <option value="all">All Confidence</option>
+                    <option value="high">High Only</option>
+                    <option value="medium">Medium Only</option>
+                    <option value="low">Low Only</option>
+                </select>
+            </div>
+
+            <table id="pathway-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Extracted Name</th>
+                        <th data-sort="images">Images</th>
+                        <th data-sort="genes">Genes</th>
+                        <th data-sort="confidence">Conf</th>
+                        <th>Best KEGG Match</th>
+                        <th data-sort="kegg_jaccard">Jaccard</th>
+                        <th>Best WikiPathways Match</th>
+                        <th data-sort="wiki_jaccard">Jaccard</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body"></tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            <p>Generated: Feb 2, 2026 | Data: <code>gemini_cell_pathways/data/pathway_alignment.json</code></p>
+            <p>References: <a href="https://www.kegg.jp/" target="_blank">KEGG</a> | <a href="https://www.wikipathways.org/" target="_blank">WikiPathways</a></p>
+        </div>
+    </div>
+
+    <script>
+        const data = {"stats": {"total": 8349, "high": 253, "medium": 4276, "low": 3820, "total_images": 48202}, "pathways": [{"name": "PI3K-AKT signaling", "images": 1783, "genes": 3230, "confidence": "medium", "kegg_id": "hsa04151", "kegg_name": "PI3K-Akt signaling pathway", "kegg_jaccard": 0.0865, "kegg_shared": 286, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.0812, "wiki_shared": 268}, {"name": "Wnt/beta-catenin signaling", "images": 1673, "genes": 2473, "confidence": "medium", "kegg_id": "hsa04518", "kegg_name": "Integrin signaling", "kegg_jaccard": 0.0282, "kegg_shared": 72, "wiki_id": "WP3658", "wiki_name": "Wnt beta catenin signaling in leukemia", "wiki_jaccard": 0.0101, "wiki_shared": 25}, {"name": "Toll-like receptor signaling", "images": 1624, "genes": 1695, "confidence": "medium", "kegg_id": "hsa04620", "kegg_name": "Toll-like receptor signaling pathway", "kegg_jaccard": 0.0562, "kegg_shared": 96, "wiki_id": "WP75", "wiki_name": "Toll like receptor signaling", "wiki_jaccard": 0.0505, "wiki_shared": 86}, {"name": "TGF-beta signaling", "images": 1355, "genes": 2428, "confidence": "medium", "kegg_id": "hsa04350", "kegg_name": "TGF-beta signaling pathway", "kegg_jaccard": 0.0432, "kegg_shared": 105, "wiki_id": "WP5382", "wiki_name": "TGFB Smad signaling", "wiki_jaccard": 0.0045, "wiki_shared": 11}, {"name": "mTOR signaling", "images": 1197, "genes": 1792, "confidence": "medium", "kegg_id": "hsa04150", "kegg_name": "mTOR signaling pathway", "kegg_jaccard": 0.0679, "kegg_shared": 124, "wiki_id": "WP4223", "wiki_name": "Ras signaling", "wiki_jaccard": 0.0444, "wiki_shared": 84}, {"name": "JAK-STAT signaling", "images": 1188, "genes": 1907, "confidence": "medium", "kegg_id": "hsa04630", "kegg_name": "JAK-STAT signaling pathway", "kegg_jaccard": 0.0847, "kegg_shared": 162, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.0866, "wiki_shared": 179}, {"name": "Apoptosis", "images": 971, "genes": 1373, "confidence": "medium", "kegg_id": "hsa04210", "kegg_name": "Apoptosis", "kegg_jaccard": 0.0855, "kegg_shared": 119, "wiki_id": "WP254", "wiki_name": "Apoptosis", "wiki_jaccard": 0.0572, "wiki_shared": 79}, {"name": "NF-kB signaling", "images": 955, "genes": 2106, "confidence": "medium", "kegg_id": "hsa04064", "kegg_name": "NF-kappa B signaling pathway", "kegg_jaccard": 0.0469, "kegg_shared": 99, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.0542, "wiki_shared": 121}, {"name": "MAPK/ERK signaling", "images": 638, "genes": 1938, "confidence": "medium", "kegg_id": "hsa04010", "kegg_name": "MAPK signaling pathway", "kegg_jaccard": 0.1107, "kegg_shared": 223, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.0876, "wiki_shared": 176}, {"name": "Hippo signaling", "images": 611, "genes": 1182, "confidence": "medium", "kegg_id": "hsa04390", "kegg_name": "Hippo signaling pathway", "kegg_jaccard": 0.0984, "kegg_shared": 120, "wiki_id": "WP4537", "wiki_name": "Hippo YAP signaling", "wiki_jaccard": 0.0135, "wiki_shared": 16}, {"name": "Autophagy", "images": 588, "genes": 1137, "confidence": "medium", "kegg_id": "hsa04140", "kegg_name": "Autophagy - animal", "kegg_jaccard": 0.1134, "kegg_shared": 133, "wiki_id": "WP4923", "wiki_name": "Autophagy", "wiki_jaccard": 0.0219, "wiki_shared": 25}, {"name": "Hedgehog signaling", "images": 575, "genes": 940, "confidence": "medium", "kegg_id": "hsa04340", "kegg_name": "Hedgehog signaling pathway", "kegg_jaccard": 0.0484, "kegg_shared": 46, "wiki_id": "WP4249", "wiki_name": "Hedgehog signaling", "wiki_jaccard": 0.0369, "wiki_shared": 35}, {"name": "Unfolded Protein Response (UPR)", "images": 542, "genes": 948, "confidence": "medium", "kegg_id": "hsa03060", "kegg_name": "Protein export", "kegg_jaccard": 0.0093, "kegg_shared": 9, "wiki_id": "WP4925", "wiki_name": "Unfolded protein response", "wiki_jaccard": 0.0243, "wiki_shared": 23}, {"name": "Insulin signaling", "images": 497, "genes": 1135, "confidence": "medium", "kegg_id": "hsa04910", "kegg_name": "Insulin signaling pathway", "kegg_jaccard": 0.0955, "kegg_shared": 111, "wiki_id": "WP481", "wiki_name": "Insulin signaling", "wiki_jaccard": 0.1059, "wiki_shared": 124}, {"name": "Cell cycle", "images": 478, "genes": 1614, "confidence": "medium", "kegg_id": "hsa04110", "kegg_name": "Cell cycle", "kegg_jaccard": 0.0865, "kegg_shared": 141, "wiki_id": "WP179", "wiki_name": "Cell cycle", "wiki_jaccard": 0.073, "wiki_shared": 118}, {"name": "p53 signaling", "images": 452, "genes": 1966, "confidence": "medium", "kegg_id": "hsa04115", "kegg_name": "p53 signaling pathway", "kegg_jaccard": 0.0381, "kegg_shared": 75, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.0578, "wiki_shared": 126}, {"name": "PI3K-AKT-mTOR signaling", "images": 406, "genes": 1037, "confidence": "medium", "kegg_id": "hsa04151", "kegg_name": "PI3K-Akt signaling pathway", "kegg_jaccard": 0.1356, "kegg_shared": 167, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.1278, "wiki_shared": 156}, {"name": "Notch signaling", "images": 397, "genes": 1120, "confidence": "medium", "kegg_id": "hsa04330", "kegg_name": "Notch signaling pathway", "kegg_jaccard": 0.0525, "kegg_shared": 59, "wiki_id": "WP61", "wiki_name": "Notch signaling", "wiki_jaccard": 0.0473, "wiki_shared": 53}, {"name": "Central Carbon Metabolism", "images": 309, "genes": 517, "confidence": "medium", "kegg_id": "hsa01200", "kegg_name": "Carbon metabolism", "kegg_jaccard": 0.1763, "kegg_shared": 95, "wiki_id": "WP241", "wiki_name": "One carbon metabolism", "wiki_jaccard": 0.0168, "wiki_shared": 9}, {"name": "cGAS-STING signaling", "images": 300, "genes": 450, "confidence": "medium", "kegg_id": "hsa04668", "kegg_name": "TNF signaling pathway", "kegg_jaccard": 0.09, "kegg_shared": 47, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.0561, "wiki_shared": 30}, {"name": "EGFR signaling", "images": 282, "genes": 791, "confidence": "medium", "kegg_id": "hsa04518", "kegg_name": "Integrin signaling", "kegg_jaccard": 0.05, "kegg_shared": 45, "wiki_id": "WP437", "wiki_name": "EGF EGFR signaling", "wiki_jaccard": 0.1501, "wiki_shared": 124}, {"name": "Wnt signaling", "images": 264, "genes": 794, "confidence": "medium", "kegg_id": "hsa04310", "kegg_name": "Wnt signaling pathway", "kegg_jaccard": 0.1877, "kegg_shared": 153, "wiki_id": "WP428", "wiki_name": "Wnt signaling", "wiki_jaccard": 0.1364, "wiki_shared": 109}, {"name": "Ferroptosis", "images": 262, "genes": 621, "confidence": "medium", "kegg_id": "hsa04216", "kegg_name": "Ferroptosis", "kegg_jaccard": 0.0591, "kegg_shared": 37, "wiki_id": "WP4313", "wiki_name": "Ferroptosis", "wiki_jaccard": 0.0957, "wiki_shared": 60}, {"name": "AMPK signaling", "images": 259, "genes": 738, "confidence": "medium", "kegg_id": "hsa04152", "kegg_name": "AMPK signaling pathway", "kegg_jaccard": 0.1125, "kegg_shared": 87, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.0718, "wiki_shared": 66}, {"name": "TNF signaling", "images": 257, "genes": 946, "confidence": "medium", "kegg_id": "hsa04668", "kegg_name": "TNF signaling pathway", "kegg_jaccard": 0.1002, "kegg_shared": 97, "wiki_id": "WP231", "wiki_name": "TNF alpha signaling", "wiki_jaccard": 0.0714, "wiki_shared": 69}, {"name": "Calcium signaling", "images": 251, "genes": 981, "confidence": "medium", "kegg_id": "hsa04020", "kegg_name": "Calcium signaling pathway", "kegg_jaccard": 0.1478, "kegg_shared": 159, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.0887, "wiki_shared": 100}, {"name": "MAPK signaling pathway", "images": 245, "genes": 982, "confidence": "medium", "kegg_id": "hsa04010", "kegg_name": "MAPK signaling pathway", "kegg_jaccard": 0.2245, "kegg_shared": 235, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.1979, "wiki_shared": 203}, {"name": "Wnt signaling pathway", "images": 242, "genes": 1006, "confidence": "medium", "kegg_id": "hsa04310", "kegg_name": "Wnt signaling pathway", "kegg_jaccard": 0.1512, "kegg_shared": 155, "wiki_id": "WP428", "wiki_name": "Wnt signaling", "wiki_jaccard": 0.1089, "wiki_shared": 110}, {"name": "VEGF signaling", "images": 229, "genes": 830, "confidence": "medium", "kegg_id": "hsa04370", "kegg_name": "VEGF signaling pathway", "kegg_jaccard": 0.0621, "kegg_shared": 52, "wiki_id": "WP3888", "wiki_name": "VEGFA VEGFR2 signaling", "wiki_jaccard": 0.1442, "wiki_shared": 159}, {"name": "HIF-1 signaling pathway", "images": 228, "genes": 826, "confidence": "medium", "kegg_id": "hsa04066", "kegg_name": "HIF-1 signaling pathway", "kegg_jaccard": 0.1156, "kegg_shared": 97, "wiki_id": "WP5434", "wiki_name": "Cancer pathways", "wiki_jaccard": 0.1619, "wiki_shared": 186}, {"name": "Inflammasome signaling", "images": 206, "genes": 478, "confidence": "medium", "kegg_id": "hsa04621", "kegg_name": "NOD-like receptor signaling pathway", "kegg_jaccard": 0.1764, "kegg_shared": 100, "wiki_id": "WP5115", "wiki_name": "Network map of SARS CoV 2 signaling", "wiki_jaccard": 0.1193, "wiki_shared": 78}, {"name": "Complement System", "images": 200, "genes": 179, "confidence": "medium", "kegg_id": "hsa04610", "kegg_name": "Complement and coagulation cascades", "kegg_jaccard": 0.2899, "kegg_shared": 60, "wiki_id": "WP2806", "wiki_name": "Complement system", "wiki_jaccard": 0.2287, "wiki_shared": 51}, {"name": "One-carbon metabolism", "images": 200, "genes": 316, "confidence": "medium", "kegg_id": "hsa01200", "kegg_name": "Carbon metabolism", "kegg_jaccard": 0.116, "kegg_shared": 45, "wiki_id": "WP241", "wiki_name": "One carbon metabolism", "wiki_jaccard": 0.0883, "wiki_shared": 28}, {"name": "Nrf2 signaling", "images": 196, "genes": 453, "confidence": "medium", "kegg_id": "hsa04668", "kegg_name": "TNF signaling pathway", "kegg_jaccard": 0.0772, "kegg_shared": 41, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.0986, "wiki_shared": 51}, {"name": "RIG-I-like receptor signaling", "images": 188, "genes": 436, "confidence": "medium", "kegg_id": "hsa04622", "kegg_name": "RIG-I-like receptor signaling pathway", "kegg_jaccard": 0.1467, "kegg_shared": 65, "wiki_id": "WP75", "wiki_name": "Toll like receptor signaling", "wiki_jaccard": 0.1346, "wiki_shared": 63}, {"name": "Antiviral innate immune signaling", "images": 183, "genes": 580, "confidence": "low", "kegg_id": "hsa04621", "kegg_name": "NOD-like receptor signaling pathway", "kegg_jaccard": 0.1376, "kegg_shared": 93, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.0676, "wiki_shared": 44}, {"name": "DNA Damage Response", "images": 162, "genes": 773, "confidence": "medium", "kegg_id": "hsa03030", "kegg_name": "DNA replication", "kegg_jaccard": 0.0253, "kegg_shared": 20, "wiki_id": "WP707", "wiki_name": "DNA damage response", "wiki_jaccard": 0.0851, "wiki_shared": 66}, {"name": "BMP signaling", "images": 160, "genes": 393, "confidence": "medium", "kegg_id": "hsa04350", "kegg_name": "TGF-beta signaling pathway", "kegg_jaccard": 0.159, "kegg_shared": 69, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.0847, "wiki_shared": 50}, {"name": "Innate immune signaling", "images": 159, "genes": 593, "confidence": "medium", "kegg_id": "hsa04518", "kegg_name": "Integrin signaling", "kegg_jaccard": 0.0375, "kegg_shared": 27, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.0786, "wiki_shared": 68}, {"name": "Integrin signaling", "images": 156, "genes": 730, "confidence": "medium", "kegg_id": "hsa04518", "kegg_name": "Integrin signaling", "kegg_jaccard": 0.1333, "kegg_shared": 104, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.0988, "wiki_shared": 76}, {"name": "NLRP3 Inflammasome signaling", "images": 152, "genes": 370, "confidence": "medium", "kegg_id": "hsa04621", "kegg_name": "NOD-like receptor signaling pathway", "kegg_jaccard": 0.155, "kegg_shared": 75, "wiki_id": "WP75", "wiki_name": "Toll like receptor signaling", "wiki_jaccard": 0.1369, "wiki_shared": 56}, {"name": "Pathways in cancer", "images": 148, "genes": 1357, "confidence": "medium", "kegg_id": "hsa04151", "kegg_name": "PI3K-Akt signaling pathway", "kegg_jaccard": 0.1265, "kegg_shared": 193, "wiki_id": "WP5434", "wiki_name": "Cancer pathways", "wiki_jaccard": 0.2141, "wiki_shared": 329}, {"name": "Sphingolipid metabolism", "images": 145, "genes": 226, "confidence": "medium", "kegg_id": "hsa00600", "kegg_name": "Sphingolipid metabolism", "kegg_jaccard": 0.2217, "kegg_shared": 51, "wiki_id": "WP4725", "wiki_name": "Sphingolipid metabolism overview", "wiki_jaccard": 0.1195, "wiki_shared": 27}, {"name": "Arachidonic acid metabolism", "images": 131, "genes": 219, "confidence": "medium", "kegg_id": "hsa00590", "kegg_name": "Arachidonic acid metabolism", "kegg_jaccard": 0.1899, "kegg_shared": 45, "wiki_id": "WP5155", "wiki_name": "Arachidonic acid AA ARA oxylipin metabolism", "wiki_jaccard": 0.0183, "wiki_shared": 4}, {"name": "Glycolysis", "images": 125, "genes": 353, "confidence": "medium", "kegg_id": "hsa00010", "kegg_name": "Glycolysis / Gluconeogenesis", "kegg_jaccard": 0.1382, "kegg_shared": 51, "wiki_id": "WP534", "wiki_name": "Glycolysis and gluconeogenesis", "wiki_jaccard": 0.1211, "wiki_shared": 43}, {"name": "Tryptophan metabolism", "images": 122, "genes": 234, "confidence": "medium", "kegg_id": "hsa00380", "kegg_name": "Tryptophan metabolism", "kegg_jaccard": 0.1548, "kegg_shared": 37, "wiki_id": "WP465", "wiki_name": "Tryptophan metabolism", "wiki_jaccard": 0.1218, "wiki_shared": 29}, {"name": "DNA damage response", "images": 121, "genes": 463, "confidence": "medium", "kegg_id": "hsa03030", "kegg_name": "DNA replication", "kegg_jaccard": 0.0353, "kegg_shared": 17, "wiki_id": "WP707", "wiki_name": "DNA damage response", "wiki_jaccard": 0.106, "wiki_shared": 51}, {"name": "EGFR signaling pathway", "images": 115, "genes": 477, "confidence": "medium", "kegg_id": "hsa04012", "kegg_name": "ErbB signaling pathway", "kegg_jaccard": 0.1193, "kegg_shared": 60, "wiki_id": "WP437", "wiki_name": "EGF EGFR signaling", "wiki_jaccard": 0.1377, "wiki_shared": 77}, {"name": "FGF signaling", "images": 115, "genes": 361, "confidence": "medium", "kegg_id": "hsa04010", "kegg_name": "MAPK signaling pathway", "kegg_jaccard": 0.1556, "kegg_shared": 89, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.1537, "wiki_shared": 81}, {"name": "Nrf2 signaling pathway", "images": 112, "genes": 351, "confidence": "medium", "kegg_id": "hsa04668", "kegg_name": "TNF signaling pathway", "kegg_jaccard": 0.0981, "kegg_shared": 42, "wiki_id": "WP2884", "wiki_name": "NRF2 pathway", "wiki_jaccard": 0.0958, "wiki_shared": 43}, {"name": "Rho GTPase signaling", "images": 110, "genes": 540, "confidence": "medium", "kegg_id": "hsa04517", "kegg_name": "IgSF CAM signaling", "kegg_jaccard": 0.1182, "kegg_shared": 89, "wiki_id": "WP4223", "wiki_name": "Ras signaling", "wiki_jaccard": 0.0757, "wiki_shared": 51}, {"name": "Estrogen signaling pathway", "images": 107, "genes": 430, "confidence": "medium", "kegg_id": "hsa04915", "kegg_name": "Estrogen signaling pathway", "kegg_jaccard": 0.1542, "kegg_shared": 76, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.1426, "wiki_shared": 68}, {"name": "TNF signaling pathway", "images": 107, "genes": 618, "confidence": "medium", "kegg_id": "hsa04668", "kegg_name": "TNF signaling pathway", "kegg_jaccard": 0.1498, "kegg_shared": 96, "wiki_id": "WP231", "wiki_name": "TNF alpha signaling", "wiki_jaccard": 0.1116, "wiki_shared": 71}, {"name": "PPAR signaling pathway", "images": 105, "genes": 740, "confidence": "medium", "kegg_id": "hsa03320", "kegg_name": "PPAR signaling pathway", "kegg_jaccard": 0.0924, "kegg_shared": 69, "wiki_id": "WP3942", "wiki_name": "PPAR signaling", "wiki_jaccard": 0.0661, "wiki_shared": 49}, {"name": "Chemokine signaling pathway", "images": 102, "genes": 511, "confidence": "medium", "kegg_id": "hsa04062", "kegg_name": "Chemokine signaling pathway", "kegg_jaccard": 0.2527, "kegg_shared": 142, "wiki_id": "WP3929", "wiki_name": "Chemokine signaling", "wiki_jaccard": 0.2202, "wiki_shared": 122}, {"name": "Tumor Microenvironment Signaling", "images": 100, "genes": 607, "confidence": "low", "kegg_id": "hsa04081", "kegg_name": "Hormone signaling", "kegg_jaccard": 0.0261, "kegg_shared": 21, "wiki_id": "WP5158", "wiki_name": "Urotensin II mediated signaling", "wiki_jaccard": 0.0481, "wiki_shared": 31}, {"name": "T-cell receptor signaling", "images": 99, "genes": 619, "confidence": "medium", "kegg_id": "hsa04660", "kegg_name": "T cell receptor signaling pathway", "kegg_jaccard": 0.1382, "kegg_shared": 90, "wiki_id": "WP69", "wiki_name": "T cell receptor signaling", "wiki_jaccard": 0.1069, "wiki_shared": 67}, {"name": "Leptin signaling", "images": 97, "genes": 235, "confidence": "medium", "kegg_id": "hsa04910", "kegg_name": "Insulin signaling pathway", "kegg_jaccard": 0.1407, "kegg_shared": 46, "wiki_id": "WP2034", "wiki_name": "Leptin signaling", "wiki_jaccard": 0.186, "wiki_shared": 48}, {"name": "ErbB signaling pathway", "images": 92, "genes": 282, "confidence": "high", "kegg_id": "hsa04012", "kegg_name": "ErbB signaling pathway", "kegg_jaccard": 0.2958, "kegg_shared": 84, "wiki_id": "WP673", "wiki_name": "ErbB signaling", "wiki_jaccard": 0.3099, "wiki_shared": 88}, {"name": "p38 MAPK signaling", "images": 91, "genes": 595, "confidence": "medium", "kegg_id": "hsa04010", "kegg_name": "MAPK signaling pathway", "kegg_jaccard": 0.143, "kegg_shared": 112, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.1302, "wiki_shared": 97}, {"name": "PI3K-Akt signaling", "images": 90, "genes": 909, "confidence": "medium", "kegg_id": "hsa04151", "kegg_name": "PI3K-Akt signaling pathway", "kegg_jaccard": 0.1991, "kegg_shared": 211, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.1895, "wiki_shared": 199}, {"name": "Mevalonate pathway", "images": 89, "genes": 198, "confidence": "medium", "kegg_id": "hsa04066", "kegg_name": "HIF-1 signaling pathway", "kegg_jaccard": 0.0961, "kegg_shared": 27, "wiki_id": "WP3963", "wiki_name": "Mevalonate pathway", "wiki_jaccard": 0.0354, "wiki_shared": 7}, {"name": "NRF2 signaling", "images": 87, "genes": 409, "confidence": "medium", "kegg_id": "hsa04668", "kegg_name": "TNF signaling pathway", "kegg_jaccard": 0.0667, "kegg_shared": 33, "wiki_id": "WP673", "wiki_name": "ErbB signaling", "wiki_jaccard": 0.0527, "wiki_shared": 25}, {"name": "Epithelial-Mesenchymal Transition (EMT)", "images": 85, "genes": 559, "confidence": "medium", "kegg_id": "hsa04670", "kegg_name": "Leukocyte transendothelial migration", "kegg_jaccard": 0.0498, "kegg_shared": 32, "wiki_id": "WP4239", "wiki_name": "Epithelial to mesenchymal transition in colorectal cancer", "wiki_jaccard": 0.0957, "wiki_shared": 63}, {"name": "MAPK signaling", "images": 83, "genes": 543, "confidence": "medium", "kegg_id": "hsa04010", "kegg_name": "MAPK signaling pathway", "kegg_jaccard": 0.2773, "kegg_shared": 183, "wiki_id": "WP382", "wiki_name": "MAPK signaling", "wiki_jaccard": 0.266, "wiki_shared": 166}, {"name": "Metabolic pathways", "images": 82, "genes": 758, "confidence": "medium", "kegg_id": "hsa01100", "kegg_name": "Metabolic pathways", "kegg_jaccard": 0.2552, "kegg_shared": 476, "wiki_id": "WP5414", "wiki_name": "IDO metabolic pathway", "wiki_jaccard": 0.0105, "wiki_shared": 8}, {"name": "DNA Repair", "images": 81, "genes": 264, "confidence": "medium", "kegg_id": "hsa03030", "kegg_name": "DNA replication", "kegg_jaccard": 0.0714, "kegg_shared": 20, "wiki_id": "WP4946", "wiki_name": "DNA repair pathways full network", "wiki_jaccard": 0.3368, "wiki_shared": 97}, {"name": "GPCR signaling", "images": 81, "genes": 628, "confidence": "medium", "kegg_id": "hsa04081", "kegg_name": "Hormone signaling", "kegg_jaccard": 0.1508, "kegg_shared": 111, "wiki_id": "WP4223", "wiki_name": "Ras signaling", "wiki_jaccard": 0.074, "wiki_shared": 56}, {"name": "AhR signaling", "images": 80, "genes": 212, "confidence": "medium", "kegg_id": "hsa04066", "kegg_name": "HIF-1 signaling pathway", "kegg_jaccard": 0.0915, "kegg_shared": 27, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.09, "wiki_shared": 27}, {"name": "Fanconi Anemia pathway", "images": 79, "genes": 182, "confidence": "medium", "kegg_id": "hsa03460", "kegg_name": "Fanconi anemia pathway", "kegg_jaccard": 0.2474, "kegg_shared": 47, "wiki_id": "WP5465", "wiki_name": "Fanconi anemia", "wiki_jaccard": 0.1979, "wiki_shared": 38}, {"name": "Cell Cycle", "images": 79, "genes": 735, "confidence": "medium", "kegg_id": "hsa04110", "kegg_name": "Cell cycle", "kegg_jaccard": 0.1478, "kegg_shared": 115, "wiki_id": "WP179", "wiki_name": "Cell cycle", "wiki_jaccard": 0.14, "wiki_shared": 105}, {"name": "Cancer Metabolism", "images": 79, "genes": 276, "confidence": "medium", "kegg_id": "hsa01200", "kegg_name": "Carbon metabolism", "kegg_jaccard": 0.1731, "kegg_shared": 58, "wiki_id": "WP1541", "wiki_name": "Energy metabolism", "wiki_jaccard": 0.0253, "wiki_shared": 8}, {"name": "p53 signaling pathway", "images": 78, "genes": 433, "confidence": "medium", "kegg_id": "hsa04115", "kegg_name": "p53 signaling pathway", "kegg_jaccard": 0.1625, "kegg_shared": 71, "wiki_id": "WP4172", "wiki_name": "PI3K Akt signaling", "wiki_jaccard": 0.1074, "wiki_shared": 75}, {"name": "Neurotrophin signaling pathway", "images": 78, "genes": 339, "confidence": "medium", "kegg_id": "hsa04012", "kegg_name": "ErbB signaling pathway", "kegg_jaccard": 0.1394, "kegg_shared": 52, "wiki_id": "WP2380", "wiki_name": "Brain derived neurotrophic factor BDNF signaling", "wiki_jaccard": 0.2051, "wiki_shared": 81}, {"name": "B-cell receptor signaling", "images": 77, "genes": 375, "confidence": "medium", "kegg_id": "hsa04662", "kegg_name": "B cell receptor signaling pathway", "kegg_jaccard": 0.1563, "kegg_shared": 63, "wiki_id": "WP23", "wiki_name": "B cell receptor signaling", "wiki_jaccard": 0.1734, "wiki_shared": 69}, {"name": "T cell receptor signaling", "images": 77, "genes": 442, "confidence": "medium", "kegg_id": "hsa04660", "kegg_name": "T cell receptor signaling pathway", "kegg_jaccard": 0.1487, "kegg_shared": 73, "wiki_id": "WP69", "wiki_name": "T cell receptor signaling", "wiki_jaccard": 0.1264, "wiki_shared": 58}, {"name": "T Cell Receptor Signaling", "images": 76, "genes": 365, "confidence": "medium", "kegg_id": "hsa04660", "kegg_name": "T cell receptor signaling pathway", "kegg_jaccard": 0.2025, "kegg_shared": 82, "wiki_id": "WP69", "wiki_name": "T cell receptor signaling", "wiki_jaccard": 0.1796, "wiki_shared": 67}, {"name": "Hippo signaling pathway", "images": 75, "genes": 457, "confidence": "medium", "kegg_id": "hsa04390", "kegg_name": "Hippo signaling pathway", "kegg_jaccard": 0.2039, "kegg_shared": 104, "wiki_id": "WP4540", "wiki_name": "Hippo signaling regulation", "wiki_jaccard": 0.0777, "wiki_shared": 40}, {"name": "Glycerophospholipid metabolism", "images": 74, "genes": 219, "confidence": "medium", "kegg_id": "hsa00564", "kegg_name": "Glycerophospholipid metabolism", "kegg_jaccard": 0.2627, "kegg_shared": 67, "wiki_id": "WP2533", "wiki_name": "Glycerophospholipid biosynthetic pathway", "wiki_jaccard": 0.087, "wiki_shared": 20}, {"name": "NAD+ metabolism", "images": 74, "genes": 135, "confidence": "medium", "kegg_id": "hsa00760", "kegg_name": "Nicotinate and nicotinamide metabolism", "kegg_jaccard": 0.2357, "kegg_shared": 33, "wiki_id": "WP3644", "wiki_name": "NAD metabolism", "wiki_jaccard": 0.1103, "wiki_shared": 15}, {"name": "Pathways in Cancer", "images": 73, "genes": 633, "confidence": "medium", "kegg_id": "hsa04151", "kegg_name": "PI3K-Akt signaling pathway", "kegg_jaccard": 0.1397, "kegg_shared": 122, "wiki_id": "WP5434", "wiki_name": "Cancer pathways", "wiki_jaccard": 0.2577, "wiki_shared": 234}, {"name": "Central carbon metabolism", "images": 73, "genes": 278, "confidence": "medium", "kegg_id": "hsa01200", "kegg_name": "Carbon metabolism", "kegg_jaccard": 0.266, "kegg_shared": 83, "wiki_id": "WP3925", "wiki_name": "Amino acid metabolism", "wiki_jaccard": 0.1491, "wiki_shared": 48}, {"name": "PPAR signaling", "images": 73, "genes": 440, "confidence": "medium", "kegg_id": "hsa03320", "kegg_name": "PPAR signaling pathway", "kegg_jaccard": 0.1366, "kegg_shared": 62, "wiki_id": "WP3942", "wiki_name": "PPAR signaling", "wiki_jaccard": 0.1111, "wiki_shared": 49}, {"name": "Renin-Angiotensin System", "images": 72, "genes": 255, "confidence": "medium", "kegg_id": "hsa04614", "kegg_name": "Renin-angiotensin system", "kegg_jaccard": 0.0817, "kegg_shared": 21, "wiki_id": "WP4756", "wiki_name": "Renin angiotensin aldosterone system RAAS ", "wiki_jaccard": 0.0418, "wiki_shared": 12}, {"name": "IGF-1 signaling", "images": 72, "genes": 237, "confidence": "medium", "kegg_id": "hsa04066", "kegg_name": "HIF-1 signaling pathway", "kegg_jaccard": 0.1086, "kegg_shared": 34, "wiki_id": "WP4659", "wiki_name": "Gastrin signaling", "wiki_jaccard": 0.1852, "wiki_shared": 55}, {"name": "NF-kappaB signaling", "images": 72, "genes": 497, "confidence": "medium", "kegg_id": "hsa04064", "kegg_name": "NF-kappa B signaling pathway", "kegg_jaccard": 0.1533, "kegg_shared": 80, "wiki_id": "WP231", "wiki_name": "TNF alpha signaling", "wiki_jaccard": 0.0892, "wiki_shared": 48}, {"name": "RAS signaling", "images": 70, "genes": 241, "confidence": "medium", "kegg_id": "hsa04014", "kegg_name": "Ras signaling pathway", "kegg_jaccard": 0.1459, "kegg_shared": 61, "wiki_id": "WP4223", "wiki_name": "Ras signaling", "wiki_jaccard": 0.1482, "wiki_shared": 55}, {"name": "Steroid hormone biosynthesis", "images": 70, "genes": 184, "confidence": "medium", "kegg_id": "hsa00140", "kegg_name": "Steroid hormone biosynthesis", "kegg_jaccard": 0.2255, "kegg_shared": 46, "wiki_id": "WP5277", "wiki_name": "Steroid hormone precursor biosynthesis", "wiki_jaccard": 0.0432, "wiki_shared": 8}, {"name": "Immune Checkpoint Signaling", "images": 69, "genes": 174, "confidence": "medium", "kegg_id": "hsa04620", "kegg_name": "Toll-like receptor signaling pathway", "kegg_jaccard": 0.0969, "kegg_shared": 25, "wiki_id": "WP3929", "wiki_name": "Chemokine signaling", "wiki_jaccard": 0.0594, "wiki_shared": 19}, {"name": "PD-1 signaling", "images": 68, "genes": 177, "confidence": "medium", "kegg_id": "hsa04660", "kegg_name": "T cell receptor signaling pathway", "kegg_jaccard": 0.2105, "kegg_shared": 52, "wiki_id": "WP2332", "wiki_name": "IL11 signaling", "wiki_jaccard": 0.1162, "wiki_shared": 23}, {"name": "RTK signaling", "images": 67, "genes": 217, "confidence": "medium", "kegg_id": "hsa04012", "kegg_name": "ErbB signaling pathway", "kegg_jaccard": 0.179, "kegg_shared": 46, "wiki_id": "WP673", "wiki_name": "ErbB signaling", "wiki_jaccard": 0.1992, "wiki_shared": 51}, {"name": "Mitophagy", "images": 66, "genes": 218, "confidence": "medium", "kegg_id": "hsa04137", "kegg_name": "Mitophagy - animal", "kegg_jaccard": 0.2471, "kegg_shared": 64, "wiki_id": "WP4923", "wiki_name": "Autophagy", "wiki_jaccard": 0.0783, "wiki_shared": 18}, {"name": "Androgen Receptor signaling", "images": 63, "genes": 345, "confidence": "medium", "kegg_id": "hsa04660", "kegg_name": "T cell receptor signaling pathway", "kegg_jaccard": 0.0566, "kegg_shared": 25, "wiki_id": "WP138", "wiki_name": "Androgen receptor signaling", "wiki_jaccard": 0.1221, "wiki_shared": 47}, {"name": "Metabolic reprogramming", "images": 63, "genes": 426, "confidence": "medium", "kegg_id": "hsa01100", "kegg_name": "Metabolic pathways", "kegg_jaccard": 0.1211, "kegg_shared": 217, "wiki_id": "WP4290", "wiki_name": "Metabolic reprogramming in colon cancer", "wiki_jaccard": 0.0833, "wiki_shared": 36}, {"name": "NLRP3 inflammasome signaling", "images": 62, "genes": 221, "confidence": "medium", "kegg_id": "hsa04621", "kegg_name": "NOD-like receptor signaling pathway", "kegg_jaccard": 0.185, "kegg_shared": 64, "wiki_id": "WP75", "wiki_name": "Toll like receptor signaling", "wiki_jaccard": 0.1367, "wiki_shared": 38}, {"name": "Coagulation cascade", "images": 61, "genes": 102, "confidence": "medium", "kegg_id": "hsa04610", "kegg_name": "Complement and coagulation cascades", "kegg_jaccard": 0.2752, "kegg_shared": 41, "wiki_id": "WP558", "wiki_name": "Complement and coagulation cascades", "wiki_jaccard": 0.2308, "wiki_shared": 30}, {"name": "Heme biosynthesis", "images": 61, "genes": 82, "confidence": "medium", "kegg_id": "hsa00790", "kegg_name": "Folate biosynthesis", "kegg_jaccard": 0.0577, "kegg_shared": 6, "wiki_id": "WP561", "wiki_name": "Heme biosynthesis", "wiki_jaccard": 0.1098, "wiki_shared": 9}, {"name": "Alzheimer's disease pathway", "images": 61, "genes": 386, "confidence": "medium", "kegg_id": "hsa04020", "kegg_name": "Calcium signaling pathway", "kegg_jaccard": 0.0596, "kegg_shared": 36, "wiki_id": "WP5124", "wiki_name": "Alzheimer 39 s disease", "wiki_jaccard": 0.2037, "wiki_shared": 110}, {"name": "DNA Damage Response (DDR)", "images": 61, "genes": 301, "confidence": "medium", "kegg_id": "hsa03030", "kegg_name": "DNA replication", "kegg_jaccard": 0.0274, "kegg_shared": 9, "wiki_id": "WP707", "wiki_name": "DNA damage response", "wiki_jaccard": 0.142, "wiki_shared": 46}, {"name": "Purine metabolism", "images": 61, "genes": 140, "confidence": "high", "kegg_id": "hsa00230", "kegg_name": "Purine metabolism", "kegg_jaccard": 0.4031, "kegg_shared": 77, "wiki_id": "WP4792", "wiki_name": "Purine metabolism", "wiki_jaccard": 0.0929, "wiki_shared": 13}]};
+
+        let currentData = [...data.pathways];
+        let sortColumn = 'images';
+        let sortAsc = false;
+
+        function renderTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = currentData.map(p => `
+                <tr>
+                    <td>${p.name}</td>
+                    <td>${p.images.toLocaleString()}</td>
+                    <td>${p.genes.toLocaleString()}</td>
+                    <td><span class="badge ${p.confidence}">${p.confidence}</span></td>
+                    <td>
+                        <a href="https://www.kegg.jp/pathway/${p.kegg_id}" target="_blank" class="kegg-link">${p.kegg_id}</a>
+                        <br><small style="color: var(--text-muted)">${p.kegg_name}</small>
+                    </td>
+                    <td>
+                        <div class="jaccard-bar"><div class="jaccard-fill" style="width: ${p.kegg_jaccard * 100}%"></div></div>
+                        ${(p.kegg_jaccard * 100).toFixed(1)}%
+                        <br><small style="color: var(--text-muted)">${p.kegg_shared} genes</small>
+                    </td>
+                    <td>
+                        <a href="https://www.wikipathways.org/instance/${p.wiki_id}" target="_blank" class="wiki-link">${p.wiki_id}</a>
+                        <br><small style="color: var(--text-muted)">${p.wiki_name}</small>
+                    </td>
+                    <td>
+                        <div class="jaccard-bar"><div class="jaccard-fill" style="width: ${p.wiki_jaccard * 100}%"></div></div>
+                        ${(p.wiki_jaccard * 100).toFixed(1)}%
+                        <br><small style="color: var(--text-muted)">${p.wiki_shared} genes</small>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function filterData() {
+            const search = document.getElementById('search').value.toLowerCase();
+            const confidence = document.getElementById('confidence-filter').value;
+
+            currentData = data.pathways.filter(p => {
+                const matchesSearch = p.name.toLowerCase().includes(search) ||
+                    p.kegg_name.toLowerCase().includes(search) ||
+                    p.wiki_name.toLowerCase().includes(search);
+                const matchesConf = confidence === 'all' || p.confidence === confidence;
+                return matchesSearch && matchesConf;
+            });
+
+            sortData();
+            renderTable();
+        }
+
+        function sortData() {
+            currentData.sort((a, b) => {
+                let valA = a[sortColumn];
+                let valB = b[sortColumn];
+                if (typeof valA === 'string') {
+                    return sortAsc ? valA.localeCompare(valB) : valB.localeCompare(valA);
+                }
+                return sortAsc ? valA - valB : valB - valA;
+            });
+        }
+
+        document.getElementById('search').addEventListener('input', filterData);
+        document.getElementById('confidence-filter').addEventListener('change', filterData);
+
+        document.querySelectorAll('th[data-sort]').forEach(th => {
+            th.addEventListener('click', () => {
+                const col = th.dataset.sort;
+                if (sortColumn === col) {
+                    sortAsc = !sortAsc;
+                } else {
+                    sortColumn = col;
+                    sortAsc = false;
+                }
+                sortData();
+                renderTable();
+            });
+        });
+
+        renderTable();
+    </script>
+</body>
+</html>
