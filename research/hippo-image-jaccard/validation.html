@@ -165,7 +165,22 @@
         <div class="explanation">
             <p><strong>What this shows:</strong> We compare each "Hippo" labeled image against ALL 239 KEGG and 984 WikiPathways to verify the labeling.</p>
             <p><strong>Key question:</strong> If an image is labeled "Hippo signaling", does it have highest gene overlap with Hippo pathways, or does it actually match PI3K-AKT or some other pathway better?</p>
-            <p><strong>Method:</strong> Pure Jaccard similarity (gene overlap / gene union) using Entrez IDs.</p>
+            <p><strong>Method:</strong> Pure Jaccard similarity using Entrez gene IDs:</p>
+            <div style="background:#fff;padding:15px;border-radius:6px;margin:12px 0;font-family:monospace;">
+                <div style="font-size:1.1em;margin-bottom:10px;">
+                    <strong>Jaccard(A, B) = |A ∩ B| / |A ∪ B|</strong>
+                </div>
+                <div style="color:#555;font-size:0.9em;">
+                    = (genes in both) / (genes in either)
+                </div>
+            </div>
+            <p><strong>Example:</strong> Image has genes {YAP1, LATS1, MST1} and KEGG Hippo has {YAP1, LATS1, LATS2, MST1, MST2, SAV1, ...157 total}</p>
+            <div style="background:#fff;padding:12px;border-radius:6px;margin:8px 0;font-family:monospace;font-size:0.9em;">
+                Overlap = {YAP1, LATS1, MST1} = 3 genes<br>
+                Union = 3 + (157 - 3) = 157 genes<br>
+                <strong>Jaccard = 3 / 157 = 1.9%</strong>
+            </div>
+            <p style="color:#666;font-size:0.9em;margin-top:8px;">Note: Low Jaccard is expected — images show partial pathway views, not the full reference pathway.</p>
         </div>
 
         <div id="content">
