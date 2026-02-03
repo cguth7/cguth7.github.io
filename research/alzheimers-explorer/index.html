@@ -148,10 +148,10 @@
             <details class="rubric-toggle">
                 <summary>View Scoring Rubric</summary>
                 <div class="rubric-content">
-                    <p style="margin-bottom: 15px; color: #555;">Each paper is scored 1-10 on five criteria. <strong>Higher scores = more concerns.</strong></p>
+                    <p style="margin-bottom: 15px; color: #555;">Each paper is scored 1-10 on four criteria. <strong>Higher scores = more concerns.</strong> Image manipulation is flagged separately.</p>
 
                     <div class="rubric-item">
-                        <h4>Sample Size Red Flags <span class="weight-badge">20%</span></h4>
+                        <h4>Sample Size Red Flags <span class="weight-badge">25%</span></h4>
                         <ul>
                             <li>Is N suspiciously small for the claims made?</li>
                             <li>Are there unexplained dropouts or exclusions?</li>
@@ -161,7 +161,7 @@
                     </div>
 
                     <div class="rubric-item">
-                        <h4>Statistical Reporting Gaps <span class="weight-badge">25%</span></h4>
+                        <h4>Statistical Reporting Gaps <span class="weight-badge">30%</span></h4>
                         <ul>
                             <li>Are p-values suspiciously round (.05, .01, .001)?</li>
                             <li>Is there evidence of p-hacking (clustering near .05)?</li>
@@ -172,7 +172,7 @@
                     </div>
 
                     <div class="rubric-item">
-                        <h4>Methodology Opacity <span class="weight-badge">25%</span></h4>
+                        <h4>Methodology Opacity <span class="weight-badge">30%</span></h4>
                         <ul>
                             <li>Are methods described in enough detail to replicate?</li>
                             <li>Are protocols/code available or referenced?</li>
@@ -191,15 +191,9 @@
                         </ul>
                     </div>
 
-                    <div class="rubric-item">
-                        <h4>Figure/Image Concerns <span class="weight-badge">15%</span></h4>
-                        <ul>
-                            <li>Are figure legends complete and detailed?</li>
-                            <li>Are scale bars/units provided where needed?</li>
-                            <li>For western blots: multiple exposure levels shown?</li>
-                            <li>Are images high enough quality to verify?</li>
-                            <li>Any signs of image manipulation mentioned or visible?</li>
-                        </ul>
+                    <div class="rubric-item" style="background: #fff3cd; border-left: 3px solid #ffc107;">
+                        <h4>Image Flagging <span class="weight-badge" style="background: #ffc107; color: #333;">Not Scored</span></h4>
+                        <p style="margin: 0; font-size: 13px;">Potential manipulation (duplicated bands, splicing, suspicious uniformity) is flagged separately, not included in score.</p>
                     </div>
 
                     <div class="score-guide">
