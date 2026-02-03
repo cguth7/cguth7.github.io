@@ -152,6 +152,7 @@
                 switch(sortCol) {
                     case 'pathway': return p.pathway;
                     case 'images': return p.total_images;
+                    case 'jaccard': return p.kegg.avg_jaccard || 0;
                     case 'top1': return p.kegg.top1_pct;
                     case 'top1_any': return p.kegg.top1_any_pct;
                     case 'top5': return p.kegg.top5_pct;
@@ -241,10 +242,11 @@
                                     <th onclick="sortBy('pathway')">Gemini Pathway</th>
                                     <th onclick="sortBy('images')">Images</th>
                                     <th>Expected KEGG</th>
+                                    <th onclick="sortBy('jaccard')">Jaccard</th>
                                     <th onclick="sortBy('top1')">Specific #1</th>
                                     <th onclick="sortBy('top1_any')">Any #1</th>
                                     <th onclick="sortBy('top5')">Top 5</th>
-                                    <th onclick="sortBy('rank')">Mean Rank</th>
+                                    <th>Top Other Matches</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -253,10 +255,11 @@
                                         <td><strong>${p.pathway}</strong><br><small style="color:#888">term: ${p.search_term}</small></td>
                                         <td>${p.total_images}</td>
                                         <td>${p.expected_kegg?.name || '-'}</td>
+                                        <td>${p.kegg.avg_jaccard || 0}%</td>
                                         <td class="${getClass(p.kegg.top1_pct)}">${p.kegg.top1_pct}%</td>
                                         <td class="${getClass(p.kegg.top1_any_pct)}">${p.kegg.top1_any_pct}%</td>
                                         <td class="${getClass(p.kegg.top5_pct)}">${p.kegg.top5_pct}%</td>
-                                        <td>${p.kegg.mean_rank}</td>
+                                        <td><small>${(p.kegg.top_other_matches || []).slice(0,2).map(m => m.name.substring(0,20) + ' (' + m.count + ')').join(', ') || '-'}</small></td>
                                     </tr>
                                 `).join('')}
                             </tbody>
@@ -273,10 +276,11 @@
                                     <th>Gemini Pathway</th>
                                     <th>Images</th>
                                     <th>Expected WikiPathway</th>
+                                    <th>Jaccard</th>
                                     <th>Specific #1</th>
                                     <th>Any #1</th>
                                     <th>Top 5</th>
-                                    <th>Mean Rank</th>
+                                    <th>Top Other Matches</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -285,10 +289,11 @@
                                         <td><strong>${p.pathway}</strong></td>
                                         <td>${p.total_images}</td>
                                         <td>${p.expected_wiki?.name || '-'}</td>
+                                        <td>${p.wiki.avg_jaccard || 0}%</td>
                                         <td class="${getClass(p.wiki.top1_pct)}">${p.wiki.top1_pct}%</td>
                                         <td class="${getClass(p.wiki.top1_any_pct)}">${p.wiki.top1_any_pct}%</td>
                                         <td class="${getClass(p.wiki.top5_pct)}">${p.wiki.top5_pct}%</td>
-                                        <td>${p.wiki.mean_rank}</td>
+                                        <td><small>${(p.wiki.top_other_matches || []).slice(0,2).map(m => m.name.substring(0,20) + ' (' + m.count + ')').join(', ') || '-'}</small></td>
                                     </tr>
                                 `).join('')}
                             </tbody>

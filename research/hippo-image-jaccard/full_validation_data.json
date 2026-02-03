@@ -8,17 +8,17 @@
     "min_images": 50,
     "sample_size": 50,
     "kegg": {
-      "avg_top1_pct": 29.1,
-      "avg_top1_any_pct": 32.3,
+      "avg_top1_pct": 29.2,
+      "avg_top1_any_pct": 32.7,
       "median_top1_pct": 14.0,
-      "avg_top5_pct": 50.8,
-      "median_top5_pct": 65.0
+      "avg_top5_pct": 52.1,
+      "median_top5_pct": 70.0
     },
     "wiki": {
       "avg_top1_pct": 8.7,
-      "avg_top1_any_pct": 22.5,
+      "avg_top1_any_pct": 23.2,
       "median_top1_pct": 2.0,
-      "avg_top5_pct": 28.6,
+      "avg_top5_pct": 28.4,
       "median_top5_pct": 18.0
     }
   },
@@ -35,11 +35,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 2.0,
+        "top1_pct": 6.0,
+        "top1_any_pct": 6.0,
         "top5_pct": 10.0,
-        "mean_rank": 32.2,
-        "median_rank": 24.5
+        "mean_rank": 27.9,
+        "median_rank": 27.5,
+        "avg_jaccard": 2.83,
+        "median_jaccard": 1.77,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 6
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4172",
@@ -51,8 +67,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 167.1,
-        "median_rank": 163.0
+        "mean_rank": 157.8,
+        "median_rank": 160.0,
+        "avg_jaccard": 2.97,
+        "median_jaccard": 1.62,
+        "top_other_matches": [
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 8
+          },
+          {
+            "name": "RIOK1 and RIOK2 in EGFR and PI3K mediated tumorigenesis",
+            "count": 4
+          },
+          {
+            "name": "miRNA regulation of prostate cancer signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -67,11 +99,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 42.0,
-        "top1_any_pct": 42.0,
-        "top5_pct": 74.0,
-        "mean_rank": 10.3,
-        "median_rank": 3.0
+        "top1_pct": 32.0,
+        "top1_any_pct": 32.0,
+        "top5_pct": 76.0,
+        "mean_rank": 6.6,
+        "median_rank": 3.0,
+        "avg_jaccard": 3.64,
+        "median_jaccard": 2.56,
+        "top_other_matches": [
+          {
+            "name": "Hedgehog signaling pathway",
+            "count": 8
+          },
+          {
+            "name": "Signaling pathways regulating pluripotency of stem cells",
+            "count": 5
+          },
+          {
+            "name": "Melanogenesis",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP363",
@@ -81,10 +129,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 72.0,
-        "top5_pct": 30.0,
-        "mean_rank": 34.1,
-        "median_rank": 10.0
+        "top1_any_pct": 76.0,
+        "top5_pct": 20.0,
+        "mean_rank": 27.9,
+        "median_rank": 11.0,
+        "avg_jaccard": 7.56,
+        "median_jaccard": 7.37,
+        "top_other_matches": [
+          {
+            "name": "Wnt Beta catenin signaling inhibitors in current and past clinical trials",
+            "count": 12
+          },
+          {
+            "name": "Regulation of Wnt B catenin signaling by small molecule compounds",
+            "count": 12
+          },
+          {
+            "name": "Wnt beta catenin signaling in leukemia",
+            "count": 7
+          }
+        ]
       }
     },
     {
@@ -99,11 +163,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 58.0,
-        "top1_any_pct": 58.0,
-        "top5_pct": 90.0,
+        "top1_pct": 62.0,
+        "top1_any_pct": 62.0,
+        "top5_pct": 94.0,
         "mean_rank": 2.3,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 10.49,
+        "median_jaccard": 6.33,
+        "top_other_matches": [
+          {
+            "name": "NF-kappa B signaling pathway",
+            "count": 8
+          },
+          {
+            "name": "RIG-I-like receptor signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3858",
@@ -112,11 +192,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 18.0,
+        "top1_pct": 12.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 56.0,
-        "mean_rank": 24.9,
-        "median_rank": 4.0
+        "top5_pct": 54.0,
+        "mean_rank": 39.6,
+        "median_rank": 5.0,
+        "avg_jaccard": 18.92,
+        "median_jaccard": 14.09,
+        "top_other_matches": [
+          {
+            "name": "Induction of autophagy and toll like receptor signaling by graphene oxide ",
+            "count": 10
+          },
+          {
+            "name": "TLR4 signaling and tolerance",
+            "count": 6
+          },
+          {
+            "name": "LTF danger signal response pathway",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -131,11 +227,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 40.0,
-        "top1_any_pct": 40.0,
-        "top5_pct": 72.0,
-        "mean_rank": 10.3,
-        "median_rank": 2.0
+        "top1_pct": 48.0,
+        "top1_any_pct": 48.0,
+        "top5_pct": 80.0,
+        "mean_rank": 3.2,
+        "median_rank": 2.0,
+        "avg_jaccard": 5.25,
+        "median_jaccard": 3.83,
+        "top_other_matches": [
+          {
+            "name": "Th17 cell differentiation",
+            "count": 8
+          },
+          {
+            "name": "Adherens junction",
+            "count": 5
+          },
+          {
+            "name": "Relaxin signaling pathway",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3859",
@@ -146,9 +258,25 @@
       "wiki": {
         "top1_pct": 2.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 14.0,
-        "mean_rank": 84.3,
-        "median_rank": 20.5
+        "top5_pct": 18.0,
+        "mean_rank": 84.4,
+        "median_rank": 24.5,
+        "avg_jaccard": 6.11,
+        "median_jaccard": 4.55,
+        "top_other_matches": [
+          {
+            "name": "Canonical and non canonical TGF B signaling",
+            "count": 16
+          },
+          {
+            "name": "TGFB Smad signaling",
+            "count": 6
+          },
+          {
+            "name": "TGF beta receptor signaling",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -163,11 +291,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 28.0,
-        "top1_any_pct": 28.0,
-        "top5_pct": 80.0,
-        "mean_rank": 8.0,
-        "median_rank": 2.5
+        "top1_pct": 34.0,
+        "top1_any_pct": 34.0,
+        "top5_pct": 82.0,
+        "mean_rank": 4.4,
+        "median_rank": 3.0,
+        "avg_jaccard": 6.43,
+        "median_jaccard": 5.03,
+        "top_other_matches": [
+          {
+            "name": "Autophagy - other",
+            "count": 8
+          },
+          {
+            "name": "AMPK signaling pathway",
+            "count": 8
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3844",
@@ -176,11 +320,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 0.0,
-        "top1_any_pct": 0.0,
-        "top5_pct": 34.0,
-        "mean_rank": 22.6,
-        "median_rank": 10.0
+        "top1_pct": 2.0,
+        "top1_any_pct": 2.0,
+        "top5_pct": 44.0,
+        "mean_rank": 15.5,
+        "median_rank": 7.0,
+        "avg_jaccard": 11.98,
+        "median_jaccard": 11.11,
+        "top_other_matches": [
+          {
+            "name": "Target of rapamycin signaling",
+            "count": 11
+          },
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 6
+          },
+          {
+            "name": "Follicle stimulating hormone FSH signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -195,11 +355,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 14.0,
-        "top1_any_pct": 14.0,
-        "top5_pct": 78.0,
-        "mean_rank": 5.7,
-        "median_rank": 3.0
+        "top1_pct": 28.0,
+        "top1_any_pct": 28.0,
+        "top5_pct": 82.0,
+        "mean_rank": 3.4,
+        "median_rank": 2.0,
+        "avg_jaccard": 5.61,
+        "median_jaccard": 4.14,
+        "top_other_matches": [
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 10
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "Th1 and Th2 cell differentiation",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5358",
@@ -210,9 +386,25 @@
       "wiki": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 10.0,
-        "mean_rank": 71.8,
-        "median_rank": 32.5
+        "top5_pct": 6.0,
+        "mean_rank": 45.1,
+        "median_rank": 16.5,
+        "avg_jaccard": 7.06,
+        "median_jaccard": 6.39,
+        "top_other_matches": [
+          {
+            "name": "Type III interferon signaling",
+            "count": 9
+          },
+          {
+            "name": "Interferon signaling in tuberculosis",
+            "count": 7
+          },
+          {
+            "name": "ncRNAs involved in STAT3 signaling in hepatocellular carcinoma",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -227,11 +419,23 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 6.0,
-        "top1_any_pct": 94.0,
+        "top1_pct": 0.0,
+        "top1_any_pct": 98.0,
         "top5_pct": 92.0,
-        "mean_rank": 6.8,
-        "median_rank": 3.0
+        "mean_rank": 3.4,
+        "median_rank": 3.0,
+        "avg_jaccard": 7.64,
+        "median_jaccard": 7.17,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 49
+          },
+          {
+            "name": "Neomycin, kanamycin and gentamicin biosynthesis",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1772",
@@ -240,11 +444,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 2.0,
+        "top1_pct": 0.0,
         "top1_any_pct": 68.0,
-        "top5_pct": 12.0,
-        "mean_rank": 25.8,
-        "median_rank": 9.5
+        "top5_pct": 6.0,
+        "mean_rank": 24.6,
+        "median_rank": 13.5,
+        "avg_jaccard": 10.3,
+        "median_jaccard": 9.84,
+        "top_other_matches": [
+          {
+            "name": "Nanomaterial induced apoptosis",
+            "count": 24
+          },
+          {
+            "name": "Pro survival signaling of neuroprotectin D1",
+            "count": 7
+          },
+          {
+            "name": "Apoptosis modulation by HSP70",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -259,11 +479,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 52.0,
+        "top1_pct": 40.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 74.0,
-        "mean_rank": 8.0,
-        "median_rank": 1.0
+        "top5_pct": 80.0,
+        "mean_rank": 7.4,
+        "median_rank": 2.5,
+        "avg_jaccard": 8.88,
+        "median_jaccard": 7.08,
+        "top_other_matches": [
+          {
+            "name": "TNF signaling pathway",
+            "count": 5
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5527",
@@ -275,8 +511,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 4.0,
-        "mean_rank": 242.0,
-        "median_rank": 81.0
+        "mean_rank": 255.6,
+        "median_rank": 56.0,
+        "avg_jaccard": 7.29,
+        "median_jaccard": 7.57,
+        "top_other_matches": [
+          {
+            "name": "Altered glycosylation of MUC1 in tumor microenvironment",
+            "count": 11
+          },
+          {
+            "name": "Canonical NF kB pathway",
+            "count": 9
+          },
+          {
+            "name": "Ebstein Barr virus LMP1 signaling",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -293,9 +545,25 @@
       "kegg": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 0.0,
-        "mean_rank": 39.0,
-        "median_rank": 27.5
+        "top5_pct": 2.0,
+        "mean_rank": 32.4,
+        "median_rank": 23.0,
+        "avg_jaccard": 1.67,
+        "median_jaccard": 0.99,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 20
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP382",
@@ -307,8 +575,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 10.0,
         "top5_pct": 0.0,
-        "mean_rank": 158.9,
-        "median_rank": 135.5
+        "mean_rank": 131.2,
+        "median_rank": 113.0,
+        "avg_jaccard": 1.88,
+        "median_jaccard": 1.0,
+        "top_other_matches": [
+          {
+            "name": "Pilocytic astrocytoma",
+            "count": 15
+          },
+          {
+            "name": "TCA cycle nutrient use and invasiveness of ovarian cancer",
+            "count": 4
+          },
+          {
+            "name": "MAPK pathway in congenital thyroid cancer",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -323,11 +607,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 6.0,
-        "top1_any_pct": 74.0,
-        "top5_pct": 72.0,
-        "mean_rank": 19.0,
-        "median_rank": 2.0
+        "top1_pct": 8.0,
+        "top1_any_pct": 86.0,
+        "top5_pct": 84.0,
+        "mean_rank": 14.4,
+        "median_rank": 2.0,
+        "avg_jaccard": 3.41,
+        "median_jaccard": 2.49,
+        "top_other_matches": [
+          {
+            "name": "Hippo signaling pathway - multiple species",
+            "count": 39
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 2
+          },
+          {
+            "name": "Adherens junction",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4534",
@@ -336,11 +636,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 8.0,
-        "top1_any_pct": 28.0,
+        "top1_pct": 6.0,
+        "top1_any_pct": 24.0,
         "top5_pct": 38.0,
-        "mean_rank": 91.0,
-        "median_rank": 8.5
+        "mean_rank": 59.5,
+        "median_rank": 7.0,
+        "avg_jaccard": 5.9,
+        "median_jaccard": 5.83,
+        "top_other_matches": [
+          {
+            "name": "Targeting YAP in pancreatic ductal adenocarcinoma PDAC ",
+            "count": 18
+          },
+          {
+            "name": "Hippo YAP signaling",
+            "count": 9
+          },
+          {
+            "name": "Nanoparticle mediated activation of receptor signaling",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -355,11 +671,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 78.0,
-        "top5_pct": 86.0,
-        "mean_rank": 3.6,
-        "median_rank": 2.0
+        "top1_pct": 0.0,
+        "top1_any_pct": 70.0,
+        "top5_pct": 80.0,
+        "mean_rank": 7.8,
+        "median_rank": 2.0,
+        "avg_jaccard": 6.19,
+        "median_jaccard": 4.97,
+        "top_other_matches": [
+          {
+            "name": "Autophagy - other",
+            "count": 35
+          },
+          {
+            "name": "Mitophagy - animal",
+            "count": 3
+          },
+          {
+            "name": "Virion - Lassa virus and SFTS virus",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4863",
@@ -368,11 +700,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 46.0,
-        "top1_any_pct": 66.0,
-        "top5_pct": 76.0,
-        "mean_rank": 89.2,
-        "median_rank": 2.0
+        "top1_pct": 34.0,
+        "top1_any_pct": 60.0,
+        "top5_pct": 66.0,
+        "mean_rank": 92.5,
+        "median_rank": 2.0,
+        "avg_jaccard": 19.19,
+        "median_jaccard": 13.96,
+        "top_other_matches": [
+          {
+            "name": "Autophagy",
+            "count": 7
+          },
+          {
+            "name": "Autophagy in pancreatic ductal adenocarcinoma",
+            "count": 4
+          },
+          {
+            "name": "Nanoparticle triggered autophagic cell death",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -387,11 +735,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 98.0,
-        "top1_any_pct": 98.0,
-        "top5_pct": 100.0,
-        "mean_rank": 1.0,
-        "median_rank": 1.0
+        "top1_pct": 90.0,
+        "top1_any_pct": 90.0,
+        "top5_pct": 96.0,
+        "mean_rank": 4.6,
+        "median_rank": 1.0,
+        "avg_jaccard": 10.4,
+        "median_jaccard": 9.3,
+        "top_other_matches": [
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 2
+          },
+          {
+            "name": "AMPK signaling pathway",
+            "count": 1
+          },
+          {
+            "name": "Virion - Rotavirus",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4249",
@@ -400,11 +764,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 14.0,
-        "top1_any_pct": 94.0,
-        "top5_pct": 88.0,
-        "mean_rank": 5.1,
-        "median_rank": 2.0
+        "top1_pct": 8.0,
+        "top1_any_pct": 84.0,
+        "top5_pct": 74.0,
+        "mean_rank": 17.1,
+        "median_rank": 4.0,
+        "avg_jaccard": 12.4,
+        "median_jaccard": 11.37,
+        "top_other_matches": [
+          {
+            "name": "Glucose metabolism in triple negative breast cancer cells",
+            "count": 1
+          },
+          {
+            "name": "Fibrotic response of trabecular meshwork cells to TGFB3 and ENPP2 in aqueous humor",
+            "count": 1
+          },
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -422,8 +802,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 201.6,
-        "median_rank": 200.0
+        "mean_rank": 202.7,
+        "median_rank": 199.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Protein processing in endoplasmic reticulum",
+            "count": 32
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 6
+          },
+          {
+            "name": "Apoptosis",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3613",
@@ -433,10 +829,26 @@
       },
       "wiki": {
         "top1_pct": 6.0,
-        "top1_any_pct": 88.0,
-        "top5_pct": 94.0,
-        "mean_rank": 3.2,
-        "median_rank": 2.0
+        "top1_any_pct": 96.0,
+        "top5_pct": 96.0,
+        "mean_rank": 2.5,
+        "median_rank": 2.0,
+        "avg_jaccard": 19.7,
+        "median_jaccard": 19.5,
+        "top_other_matches": [
+          {
+            "name": "Unfolded protein response",
+            "count": 45
+          },
+          {
+            "name": "Artemisinin inhibition of uveal melanoma",
+            "count": 1
+          },
+          {
+            "name": "Host pathogen interaction of human coronaviruses autophagy",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -452,10 +864,26 @@
       },
       "kegg": {
         "top1_pct": 0.0,
-        "top1_any_pct": 28.0,
-        "top5_pct": 0.0,
-        "mean_rank": 96.7,
-        "median_rank": 54.0
+        "top1_any_pct": 20.0,
+        "top5_pct": 2.0,
+        "mean_rank": 103.4,
+        "median_rank": 57.0,
+        "avg_jaccard": 0.86,
+        "median_jaccard": 1.01,
+        "top_other_matches": [
+          {
+            "name": "Insulin signaling pathway",
+            "count": 10
+          },
+          {
+            "name": "Regulation of lipolysis in adipocytes",
+            "count": 9
+          },
+          {
+            "name": "AMPK signaling pathway",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3634",
@@ -464,11 +892,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 28.0,
-        "top1_any_pct": 44.0,
-        "top5_pct": 46.0,
-        "mean_rank": 32.3,
-        "median_rank": 7.0
+        "top1_pct": 26.0,
+        "top1_any_pct": 40.0,
+        "top5_pct": 52.0,
+        "mean_rank": 57.4,
+        "median_rank": 4.0,
+        "avg_jaccard": 14.05,
+        "median_jaccard": 13.64,
+        "top_other_matches": [
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 6
+          },
+          {
+            "name": "Glucose homeostasis",
+            "count": 5
+          },
+          {
+            "name": "Leptin insulin signaling overlap",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -483,11 +927,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 54.0,
-        "top1_any_pct": 54.0,
-        "top5_pct": 90.0,
-        "mean_rank": 2.3,
-        "median_rank": 1.0
+        "top1_pct": 36.0,
+        "top1_any_pct": 36.0,
+        "top5_pct": 86.0,
+        "mean_rank": 3.4,
+        "median_rank": 2.0,
+        "avg_jaccard": 9.46,
+        "median_jaccard": 4.6,
+        "top_other_matches": [
+          {
+            "name": "p53 signaling pathway",
+            "count": 18
+          },
+          {
+            "name": "Cellular senescence",
+            "count": 5
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP179",
@@ -496,11 +956,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 24.0,
-        "top1_any_pct": 34.0,
-        "top5_pct": 52.0,
-        "mean_rank": 17.2,
-        "median_rank": 4.5
+        "top1_pct": 20.0,
+        "top1_any_pct": 30.0,
+        "top5_pct": 32.0,
+        "mean_rank": 24.3,
+        "median_rank": 17.0,
+        "avg_jaccard": 11.78,
+        "median_jaccard": 5.4,
+        "top_other_matches": [
+          {
+            "name": "ID signaling",
+            "count": 7
+          },
+          {
+            "name": "G1 to S cell cycle control",
+            "count": 5
+          },
+          {
+            "name": "Retinoblastoma gene in cancer",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -515,11 +991,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 62.0,
-        "top1_any_pct": 62.0,
-        "top5_pct": 86.0,
-        "mean_rank": 2.4,
-        "median_rank": 1.0
+        "top1_pct": 66.0,
+        "top1_any_pct": 66.0,
+        "top5_pct": 88.0,
+        "mean_rank": 2.5,
+        "median_rank": 1.0,
+        "avg_jaccard": 12.3,
+        "median_jaccard": 6.33,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 8
+          },
+          {
+            "name": "Ferroptosis",
+            "count": 4
+          },
+          {
+            "name": "Pentose phosphate pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1742",
@@ -528,11 +1020,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 30.0,
-        "top1_any_pct": 42.0,
+        "top1_pct": 26.0,
+        "top1_any_pct": 36.0,
         "top5_pct": 58.0,
-        "mean_rank": 10.8,
-        "median_rank": 4.5
+        "mean_rank": 17.0,
+        "median_rank": 4.0,
+        "avg_jaccard": 13.38,
+        "median_jaccard": 13.58,
+        "top_other_matches": [
+          {
+            "name": "Ultraconserved region 339 modulation of tumor suppressor microRNAs in cancer",
+            "count": 7
+          },
+          {
+            "name": "lncRNA mediated mechanisms of therapeutic resistance",
+            "count": 6
+          },
+          {
+            "name": "miRNA regulation of p53 pathway in prostate cancer",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -550,8 +1058,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 20,
-        "median_rank": 20.0
+        "mean_rank": 20.0,
+        "median_rank": 17.0,
+        "avg_jaccard": 2.47,
+        "median_jaccard": 2.17,
+        "top_other_matches": [
+          {
+            "name": "AMPK signaling pathway",
+            "count": 10
+          },
+          {
+            "name": "Autophagy - other",
+            "count": 7
+          },
+          {
+            "name": "HIF-1 signaling pathway",
+            "count": 6
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3844",
@@ -560,11 +1084,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 10.0,
+        "top1_pct": 6.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 28.0,
-        "mean_rank": 24.8,
-        "median_rank": 11.5
+        "top5_pct": 46.0,
+        "mean_rank": 33.8,
+        "median_rank": 7.0,
+        "avg_jaccard": 10.86,
+        "median_jaccard": 11.33,
+        "top_other_matches": [
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 8
+          },
+          {
+            "name": "Tyrosine kinase inhibitors in glioblastoma",
+            "count": 5
+          },
+          {
+            "name": "Follicle stimulating hormone FSH signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -581,9 +1121,25 @@
       "kegg": {
         "top1_pct": 84.0,
         "top1_any_pct": 84.0,
-        "top5_pct": 96.0,
-        "mean_rank": 5.2,
-        "median_rank": 1.0
+        "top5_pct": 98.0,
+        "mean_rank": 1.4,
+        "median_rank": 1.0,
+        "avg_jaccard": 7.76,
+        "median_jaccard": 4.69,
+        "top_other_matches": [
+          {
+            "name": "Other types of O-glycan biosynthesis",
+            "count": 2
+          },
+          {
+            "name": "Selenocompound metabolism",
+            "count": 1
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP268",
@@ -592,11 +1148,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 6.0,
-        "top1_any_pct": 22.0,
-        "top5_pct": 34.0,
-        "mean_rank": 23.7,
-        "median_rank": 7.0
+        "top1_pct": 2.0,
+        "top1_any_pct": 26.0,
+        "top5_pct": 46.0,
+        "mean_rank": 13.4,
+        "median_rank": 6.0,
+        "avg_jaccard": 8.6,
+        "median_jaccard": 6.25,
+        "top_other_matches": [
+          {
+            "name": "PTF1A related regulatory pathway",
+            "count": 8
+          },
+          {
+            "name": "Canonical and non canonical Notch signaling",
+            "count": 6
+          },
+          {
+            "name": "Somitogenesis in the context of spondylocostal dysostosis",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -614,8 +1186,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 336.6,
-        "median_rank": 374.0
+        "mean_rank": 346.6,
+        "median_rank": 503.5,
+        "avg_jaccard": 0.76,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Lung pathology of COVID 19",
+            "count": 24
+          },
+          {
+            "name": "STING pathway in Kawasaki like disease and COVID 19",
+            "count": 11
+          },
+          {
+            "name": "Pathways of nucleic acid metabolism and innate immune sensing",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -630,11 +1218,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 2.0,
+        "top1_pct": 4.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 6.0,
-        "mean_rank": 88.7,
-        "median_rank": 38.5
+        "top5_pct": 16.0,
+        "mean_rank": 95.8,
+        "median_rank": 157.0,
+        "avg_jaccard": 1.97,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 27
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "Autophagy - other",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3873",
@@ -643,11 +1247,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 4.0,
-        "top5_pct": 40.0,
-        "mean_rank": 43.9,
-        "median_rank": 10.5
+        "top1_pct": 8.0,
+        "top1_any_pct": 12.0,
+        "top5_pct": 34.0,
+        "mean_rank": 35.6,
+        "median_rank": 10.0,
+        "avg_jaccard": 7.79,
+        "median_jaccard": 5.72,
+        "top_other_matches": [
+          {
+            "name": "TCA cycle nutrient use and invasiveness of ovarian cancer",
+            "count": 20
+          },
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 2
+          },
+          {
+            "name": "PDGFR beta pathway",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -662,11 +1282,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 50.0,
-        "top1_any_pct": 50.0,
-        "top5_pct": 90.0,
-        "mean_rank": 2.7,
-        "median_rank": 1.5
+        "top1_pct": 48.0,
+        "top1_any_pct": 48.0,
+        "top5_pct": 84.0,
+        "mean_rank": 5.8,
+        "median_rank": 2.0,
+        "avg_jaccard": 3.19,
+        "median_jaccard": 2.52,
+        "top_other_matches": [
+          {
+            "name": "Melanogenesis",
+            "count": 7
+          },
+          {
+            "name": "Adherens junction",
+            "count": 6
+          },
+          {
+            "name": "Signaling pathways regulating pluripotency of stem cells",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP363",
@@ -675,11 +1311,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 12.0,
+        "top1_pct": 8.0,
         "top1_any_pct": 70.0,
-        "top5_pct": 38.0,
-        "mean_rank": 50.8,
-        "median_rank": 8.0
+        "top5_pct": 26.0,
+        "mean_rank": 57.1,
+        "median_rank": 9.0,
+        "avg_jaccard": 6.49,
+        "median_jaccard": 5.88,
+        "top_other_matches": [
+          {
+            "name": "Regulation of Wnt B catenin signaling by small molecule compounds",
+            "count": 9
+          },
+          {
+            "name": "Wnt Beta catenin signaling inhibitors in current and past clinical trials",
+            "count": 8
+          },
+          {
+            "name": "Wnt signaling in kidney disease",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -694,11 +1346,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 80.0,
-        "top1_any_pct": 80.0,
-        "top5_pct": 94.0,
-        "mean_rank": 2.5,
-        "median_rank": 1.0
+        "top1_pct": 86.0,
+        "top1_any_pct": 86.0,
+        "top5_pct": 98.0,
+        "mean_rank": 2.2,
+        "median_rank": 1.0,
+        "avg_jaccard": 14.92,
+        "median_jaccard": 11.11,
+        "top_other_matches": [
+          {
+            "name": "D-Amino acid metabolism",
+            "count": 2
+          },
+          {
+            "name": "Folate biosynthesis",
+            "count": 2
+          },
+          {
+            "name": "Metabolism of xenobiotics by cytochrome P450",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4313",
@@ -710,8 +1378,24 @@
         "top1_pct": 24.0,
         "top1_any_pct": 24.0,
         "top5_pct": 60.0,
-        "mean_rank": 23.2,
-        "median_rank": 4.0
+        "mean_rank": 15.5,
+        "median_rank": 3.5,
+        "avg_jaccard": 12.13,
+        "median_jaccard": 8.82,
+        "top_other_matches": [
+          {
+            "name": "mRNA protein and metabolite induced stress pathway by cyclosporin A",
+            "count": 10
+          },
+          {
+            "name": "Iron metabolism in placenta",
+            "count": 7
+          },
+          {
+            "name": "Iron metabolism disorders",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -726,11 +1410,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 24.0,
-        "top1_any_pct": 24.0,
-        "top5_pct": 90.0,
-        "mean_rank": 5.8,
-        "median_rank": 2.5
+        "top1_pct": 32.0,
+        "top1_any_pct": 32.0,
+        "top5_pct": 92.0,
+        "mean_rank": 3.0,
+        "median_rank": 2.0,
+        "avg_jaccard": 10.83,
+        "median_jaccard": 8.5,
+        "top_other_matches": [
+          {
+            "name": "RIG-I-like receptor signaling pathway",
+            "count": 13
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 13
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2036",
@@ -739,11 +1439,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 4.0,
-        "top1_any_pct": 4.0,
-        "top5_pct": 48.0,
+        "top1_pct": 16.0,
+        "top1_any_pct": 16.0,
+        "top5_pct": 54.0,
         "mean_rank": 14.3,
-        "median_rank": 6.0
+        "median_rank": 5.0,
+        "avg_jaccard": 15.07,
+        "median_jaccard": 14.63,
+        "top_other_matches": [
+          {
+            "name": "Pro survival signaling of neuroprotectin D1",
+            "count": 25
+          },
+          {
+            "name": "Altered glycosylation of MUC1 in tumor microenvironment",
+            "count": 4
+          },
+          {
+            "name": "Nanoparticle triggered regulated necrosis",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -760,9 +1476,25 @@
       "kegg": {
         "top1_pct": 28.0,
         "top1_any_pct": 28.0,
-        "top5_pct": 62.0,
-        "mean_rank": 15.2,
-        "median_rank": 3.0
+        "top5_pct": 76.0,
+        "mean_rank": 15.1,
+        "median_rank": 3.0,
+        "avg_jaccard": 5.47,
+        "median_jaccard": 3.23,
+        "top_other_matches": [
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 11
+          },
+          {
+            "name": "Autophagy - other",
+            "count": 7
+          },
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5492",
@@ -773,9 +1505,25 @@
       "wiki": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 0.0,
-        "mean_rank": 361.0,
-        "median_rank": 69.0
+        "top5_pct": 8.0,
+        "mean_rank": 326.3,
+        "median_rank": 65.5,
+        "avg_jaccard": 4.61,
+        "median_jaccard": 3.7,
+        "top_other_matches": [
+          {
+            "name": "SREBF and miR33 in cholesterol and lipid homeostasis",
+            "count": 6
+          },
+          {
+            "name": "mir 124 predicted interactions with cell cycle and differentiation ",
+            "count": 6
+          },
+          {
+            "name": "Leptin and adiponectin",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -790,11 +1538,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 14.0,
-        "top1_any_pct": 14.0,
-        "top5_pct": 22.0,
-        "mean_rank": 21.9,
-        "median_rank": 16.0
+        "top1_pct": 16.0,
+        "top1_any_pct": 16.0,
+        "top5_pct": 26.0,
+        "mean_rank": 31.2,
+        "median_rank": 15.5,
+        "avg_jaccard": 3.06,
+        "median_jaccard": 1.16,
+        "top_other_matches": [
+          {
+            "name": "GnRH secretion",
+            "count": 5
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 4
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4698",
@@ -803,11 +1567,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 0.0,
+        "top1_pct": 2.0,
         "top1_any_pct": 4.0,
-        "top5_pct": 0.0,
-        "mean_rank": 307.1,
-        "median_rank": 380.5
+        "top5_pct": 4.0,
+        "mean_rank": 288.9,
+        "median_rank": 364.0,
+        "avg_jaccard": 1.92,
+        "median_jaccard": 0.89,
+        "top_other_matches": [
+          {
+            "name": "Airway smooth muscle cell contraction",
+            "count": 7
+          },
+          {
+            "name": "Cell type dependent selectivity of CCK2R signaling",
+            "count": 5
+          },
+          {
+            "name": "Affected pathways in Duchenne muscular dystrophy",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -822,11 +1602,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 6.0,
+        "top1_pct": 4.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 64.0,
-        "mean_rank": 6.0,
-        "median_rank": 4.0
+        "top5_pct": 70.0,
+        "mean_rank": 5.3,
+        "median_rank": 4.0,
+        "avg_jaccard": 8.17,
+        "median_jaccard": 7.2,
+        "top_other_matches": [
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 23
+          },
+          {
+            "name": "Pentose phosphate pathway",
+            "count": 5
+          },
+          {
+            "name": "Pyruvate metabolism",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP241",
@@ -838,8 +1634,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 169.3,
-        "median_rank": 174.5
+        "mean_rank": 161.2,
+        "median_rank": 173.0,
+        "avg_jaccard": 0.58,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Aerobic glycolysis augmented",
+            "count": 10
+          },
+          {
+            "name": "TCA cycle and deficiency of pyruvate dehydrogenase complex PDHc ",
+            "count": 8
+          },
+          {
+            "name": "Glycolysis in senescence",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -854,11 +1666,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 64.0,
-        "top1_any_pct": 64.0,
-        "top5_pct": 84.0,
-        "mean_rank": 5.6,
-        "median_rank": 1.0
+        "top1_pct": 68.0,
+        "top1_any_pct": 68.0,
+        "top5_pct": 88.0,
+        "mean_rank": 2.5,
+        "median_rank": 1.0,
+        "avg_jaccard": 9.06,
+        "median_jaccard": 5.85,
+        "top_other_matches": [
+          {
+            "name": "Melanogenesis",
+            "count": 4
+          },
+          {
+            "name": "Adherens junction",
+            "count": 4
+          },
+          {
+            "name": "Hippo signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP363",
@@ -867,11 +1695,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 18.0,
-        "top1_any_pct": 76.0,
+        "top1_pct": 8.0,
+        "top1_any_pct": 90.0,
         "top5_pct": 54.0,
-        "mean_rank": 37.1,
-        "median_rank": 5.0
+        "mean_rank": 19.1,
+        "median_rank": 5.0,
+        "avg_jaccard": 10.85,
+        "median_jaccard": 11.91,
+        "top_other_matches": [
+          {
+            "name": "Regulation of Wnt B catenin signaling by small molecule compounds",
+            "count": 13
+          },
+          {
+            "name": "Wnt signaling",
+            "count": 8
+          },
+          {
+            "name": "Wnt Beta catenin signaling inhibitors in current and past clinical trials",
+            "count": 8
+          }
+        ]
       }
     },
     {
@@ -886,11 +1730,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 20.0,
-        "top1_any_pct": 20.0,
-        "top5_pct": 50.0,
-        "mean_rank": 9.2,
-        "median_rank": 6.0
+        "top1_pct": 32.0,
+        "top1_any_pct": 32.0,
+        "top5_pct": 66.0,
+        "mean_rank": 7.3,
+        "median_rank": 4.0,
+        "avg_jaccard": 9.55,
+        "median_jaccard": 9.32,
+        "top_other_matches": [
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "GnRH signaling pathway",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP382",
@@ -899,11 +1759,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 0.0,
-        "top1_any_pct": 38.0,
-        "top5_pct": 6.0,
-        "mean_rank": 70.6,
-        "median_rank": 55.5
+        "top1_pct": 12.0,
+        "top1_any_pct": 46.0,
+        "top5_pct": 16.0,
+        "mean_rank": 46.1,
+        "median_rank": 22.0,
+        "avg_jaccard": 11.21,
+        "median_jaccard": 10.87,
+        "top_other_matches": [
+          {
+            "name": "MAPK cascade",
+            "count": 8
+          },
+          {
+            "name": "Cardiac hypertrophic response",
+            "count": 7
+          },
+          {
+            "name": "p38 MAPK signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -918,11 +1794,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 56.0,
-        "top1_any_pct": 56.0,
-        "top5_pct": 84.0,
-        "mean_rank": 8.5,
-        "median_rank": 1.0
+        "top1_pct": 54.0,
+        "top1_any_pct": 54.0,
+        "top5_pct": 76.0,
+        "mean_rank": 21.0,
+        "median_rank": 1.0,
+        "avg_jaccard": 9.18,
+        "median_jaccard": 4.65,
+        "top_other_matches": [
+          {
+            "name": "HIF-1 signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "Integrin signaling",
+            "count": 4
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3888",
@@ -932,10 +1824,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 14.0,
+        "top1_any_pct": 10.0,
         "top5_pct": 0.0,
-        "mean_rank": 139.4,
-        "median_rank": 123.0
+        "mean_rank": 146.6,
+        "median_rank": 135.5,
+        "avg_jaccard": 1.76,
+        "median_jaccard": 1.27,
+        "top_other_matches": [
+          {
+            "name": "Angiogenesis",
+            "count": 13
+          },
+          {
+            "name": "SARS CoV 2 altering angiogenesis via NRP1",
+            "count": 11
+          },
+          {
+            "name": "ROBO4 and VEGF signaling crosstalk",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -950,11 +1858,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 56.0,
-        "top1_any_pct": 56.0,
-        "top5_pct": 92.0,
-        "mean_rank": 5.4,
-        "median_rank": 1.0
+        "top1_pct": 54.0,
+        "top1_any_pct": 54.0,
+        "top5_pct": 88.0,
+        "mean_rank": 2.9,
+        "median_rank": 1.0,
+        "avg_jaccard": 6.61,
+        "median_jaccard": 4.81,
+        "top_other_matches": [
+          {
+            "name": "Neomycin, kanamycin and gentamicin biosynthesis",
+            "count": 3
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 2
+          },
+          {
+            "name": "Virion - Human immunodeficiency virus",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5523",
@@ -966,8 +1890,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 835.8,
-        "median_rank": 903.0
+        "mean_rank": 748.1,
+        "median_rank": 903.0,
+        "avg_jaccard": 0.52,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Glucose metabolism in triple negative breast cancer cells",
+            "count": 4
+          },
+          {
+            "name": "Osteoarthritic chondrocyte hypertrophy",
+            "count": 3
+          },
+          {
+            "name": "MicroRNA for targeting cancer growth and vascularization in glioblastoma",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -985,8 +1925,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 127.7,
-        "median_rank": 126.0
+        "mean_rank": 127.3,
+        "median_rank": 128.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 36
+          },
+          {
+            "name": "NOD-like receptor signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "NF-kappa B signaling pathway",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3890",
@@ -995,11 +1951,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 36.0,
-        "top1_any_pct": 74.0,
-        "top5_pct": 82.0,
-        "mean_rank": 31.2,
-        "median_rank": 2.0
+        "top1_pct": 28.0,
+        "top1_any_pct": 86.0,
+        "top5_pct": 90.0,
+        "mean_rank": 10.0,
+        "median_rank": 2.0,
+        "avg_jaccard": 22.45,
+        "median_jaccard": 22.65,
+        "top_other_matches": [
+          {
+            "name": "Activation of NLRP3 inflammasome by SARS CoV 2",
+            "count": 29
+          },
+          {
+            "name": "Nucleotide binding oligomerization domain NOD pathway",
+            "count": 3
+          },
+          {
+            "name": "Nanoparticle triggered regulated necrosis",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -1016,9 +1988,25 @@
       "kegg": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 4.0,
-        "mean_rank": 10.7,
-        "median_rank": 9.0
+        "top5_pct": 10.0,
+        "mean_rank": 11.7,
+        "median_rank": 9.0,
+        "avg_jaccard": 1.2,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "One carbon pool by folate",
+            "count": 40
+          },
+          {
+            "name": "Glycine, serine and threonine metabolism",
+            "count": 3
+          },
+          {
+            "name": "Selenocompound metabolism",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP241",
@@ -1027,11 +2015,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 2.0,
+        "top1_pct": 6.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 60.0,
-        "mean_rank": 11.0,
-        "median_rank": 5.0
+        "top5_pct": 48.0,
+        "mean_rank": 14.2,
+        "median_rank": 6.0,
+        "avg_jaccard": 13.86,
+        "median_jaccard": 13.12,
+        "top_other_matches": [
+          {
+            "name": "Serine metabolism",
+            "count": 8
+          },
+          {
+            "name": "Disorders of folate metabolism and transport",
+            "count": 7
+          },
+          {
+            "name": "Spina bifida",
+            "count": 7
+          }
+        ]
       }
     },
     {
@@ -1048,9 +2052,21 @@
       "kegg": {
         "top1_pct": 96.0,
         "top1_any_pct": 96.0,
-        "top5_pct": 100.0,
-        "mean_rank": 1.0,
-        "median_rank": 1.0
+        "top5_pct": 98.0,
+        "mean_rank": 1.2,
+        "median_rank": 1.0,
+        "avg_jaccard": 16.51,
+        "median_jaccard": 15.82,
+        "top_other_matches": [
+          {
+            "name": "Virion - Adenovirus",
+            "count": 1
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2806",
@@ -1060,10 +2076,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 80.0,
-        "top5_pct": 42.0,
-        "mean_rank": 6.2,
-        "median_rank": 6.0
+        "top1_any_pct": 86.0,
+        "top5_pct": 50.0,
+        "mean_rank": 8.8,
+        "median_rank": 5.5,
+        "avg_jaccard": 14.32,
+        "median_jaccard": 15.1,
+        "top_other_matches": [
+          {
+            "name": "Complement activation",
+            "count": 35
+          },
+          {
+            "name": "Complement mediated inflammation of pulmonary alveolus in COVID 19 hypothetical pathway ",
+            "count": 7
+          },
+          {
+            "name": "Acquired partial lipodystrophy Barraquer Simons syndrome",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -1080,9 +2112,25 @@
       "kegg": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 10.0,
-        "mean_rank": 92.5,
-        "median_rank": 145.0
+        "top5_pct": 8.0,
+        "mean_rank": 99.3,
+        "median_rank": 146.0,
+        "avg_jaccard": 1.06,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Ubiquinone and other terpenoid-quinone biosynthesis",
+            "count": 18
+          },
+          {
+            "name": "Ubiquitin mediated proteolysis",
+            "count": 4
+          },
+          {
+            "name": "Glutathione metabolism",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2884",
@@ -1092,10 +2140,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 42.0,
-        "top5_pct": 0.0,
-        "mean_rank": 79.8,
-        "median_rank": 37.0
+        "top1_any_pct": 48.0,
+        "top5_pct": 2.0,
+        "mean_rank": 78.0,
+        "median_rank": 42.5,
+        "avg_jaccard": 2.78,
+        "median_jaccard": 2.74,
+        "top_other_matches": [
+          {
+            "name": "Transcriptional activation by NRF2 in response to phytochemicals",
+            "count": 12
+          },
+          {
+            "name": "mRNA protein and metabolite induced stress pathway by cyclosporin A",
+            "count": 10
+          },
+          {
+            "name": "NRF2 ARE regulation",
+            "count": 9
+          }
+        ]
       }
     },
     {
@@ -1110,11 +2174,23 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 90.0,
-        "top1_any_pct": 90.0,
+        "top1_pct": 92.0,
+        "top1_any_pct": 92.0,
         "top5_pct": 100.0,
-        "mean_rank": 1.2,
-        "median_rank": 1.0
+        "mean_rank": 1.1,
+        "median_rank": 1.0,
+        "avg_jaccard": 12.82,
+        "median_jaccard": 10.17,
+        "top_other_matches": [
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 2
+          },
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3858",
@@ -1126,8 +2202,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 10.0,
-        "mean_rank": 27.9,
-        "median_rank": 12.0
+        "mean_rank": 22.4,
+        "median_rank": 13.0,
+        "avg_jaccard": 12.02,
+        "median_jaccard": 10.38,
+        "top_other_matches": [
+          {
+            "name": "SARS CoV 2 B 1 1 7 variant antagonises innate immune activation",
+            "count": 27
+          },
+          {
+            "name": "Host pathogen interaction of human coronaviruses interferon induction",
+            "count": 5
+          },
+          {
+            "name": "mRNA vaccine activation of dendritic cell and induction of IFN 1",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1145,8 +2237,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 75.2,
-        "median_rank": 33.0
+        "mean_rank": 104,
+        "median_rank": 43.5,
+        "avg_jaccard": 6.26,
+        "median_jaccard": 5.95,
+        "top_other_matches": [
+          {
+            "name": "Host pathogen interaction of human coronaviruses interferon induction",
+            "count": 17
+          },
+          {
+            "name": "SARS CoV 2 B 1 1 7 variant antagonises innate immune activation",
+            "count": 7
+          },
+          {
+            "name": "Lung pathology of COVID 19",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1162,10 +2270,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 28.0,
-        "top5_pct": 30.0,
-        "mean_rank": 13.7,
-        "median_rank": 9.5
+        "top1_any_pct": 34.0,
+        "top5_pct": 24.0,
+        "mean_rank": 12.3,
+        "median_rank": 10.0,
+        "avg_jaccard": 9.93,
+        "median_jaccard": 7.97,
+        "top_other_matches": [
+          {
+            "name": "NIPBL role in DNA damage Cornelia de Lange syndrome",
+            "count": 12
+          },
+          {
+            "name": "ATM signaling",
+            "count": 7
+          },
+          {
+            "name": "Integrated cancer pathway",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1183,8 +2307,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 92.6,
-        "median_rank": 134.0
+        "mean_rank": 117.2,
+        "median_rank": 140.0,
+        "avg_jaccard": 0.2,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "TGF-beta signaling pathway",
+            "count": 35
+          },
+          {
+            "name": "Signaling pathways regulating pluripotency of stem cells",
+            "count": 3
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3876",
@@ -1193,11 +2333,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 0.0,
-        "top1_any_pct": 2.0,
-        "top5_pct": 12.0,
-        "mean_rank": 228.1,
-        "median_rank": 319.0
+        "top1_pct": 4.0,
+        "top1_any_pct": 6.0,
+        "top5_pct": 20.0,
+        "mean_rank": 210.1,
+        "median_rank": 318.0,
+        "avg_jaccard": 3.62,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Bone morphogenic protein signaling and regulation",
+            "count": 30
+          },
+          {
+            "name": "Hfe effect on hepcidin production",
+            "count": 6
+          },
+          {
+            "name": "Differentiation of white and brown adipocyte",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -1215,8 +2371,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 148.4,
-        "median_rank": 183.0
+        "mean_rank": 169.9,
+        "median_rank": 184.0,
+        "avg_jaccard": 0.13,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 15
+          },
+          {
+            "name": "RIG-I-like receptor signaling pathway",
+            "count": 13
+          },
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 10
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4705",
@@ -1225,11 +2397,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 12.0,
-        "top5_pct": 16.0,
-        "mean_rank": 229.9,
-        "median_rank": 33.0
+        "top1_pct": 4.0,
+        "top1_any_pct": 8.0,
+        "top5_pct": 18.0,
+        "mean_rank": 170.9,
+        "median_rank": 23.0,
+        "avg_jaccard": 8.92,
+        "median_jaccard": 8.51,
+        "top_other_matches": [
+          {
+            "name": "Lung pathology of COVID 19",
+            "count": 10
+          },
+          {
+            "name": "mRNA vaccine activation of dendritic cell and induction of IFN 1",
+            "count": 6
+          },
+          {
+            "name": "STING pathway in Kawasaki like disease and COVID 19",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1244,11 +2432,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 4.0,
-        "top1_any_pct": 4.0,
-        "top5_pct": 30.0,
-        "mean_rank": 22.6,
-        "median_rank": 9.5
+        "top1_pct": 14.0,
+        "top1_any_pct": 14.0,
+        "top5_pct": 54.0,
+        "mean_rank": 9.1,
+        "median_rank": 4.5,
+        "avg_jaccard": 3.5,
+        "median_jaccard": 3.07,
+        "top_other_matches": [
+          {
+            "name": "VEGF signaling pathway",
+            "count": 12
+          },
+          {
+            "name": "Focal adhesion",
+            "count": 6
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP185",
@@ -1257,11 +2461,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 4.0,
-        "top1_any_pct": 4.0,
-        "top5_pct": 12.0,
-        "mean_rank": 92.7,
-        "median_rank": 55.5
+        "top1_pct": 8.0,
+        "top1_any_pct": 8.0,
+        "top5_pct": 16.0,
+        "mean_rank": 66.1,
+        "median_rank": 42.5,
+        "avg_jaccard": 4.62,
+        "median_jaccard": 3.46,
+        "top_other_matches": [
+          {
+            "name": "MFAP5 effect on permeability and motility of endothelial cells via cytoskeleton rearrangement",
+            "count": 6
+          },
+          {
+            "name": "ROBO4 and VEGF signaling crosstalk",
+            "count": 5
+          },
+          {
+            "name": "TCA cycle nutrient use and invasiveness of ovarian cancer",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1276,11 +2496,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 56.0,
-        "top1_any_pct": 56.0,
-        "top5_pct": 92.0,
-        "mean_rank": 2.6,
-        "median_rank": 1.0
+        "top1_pct": 54.0,
+        "top1_any_pct": 54.0,
+        "top5_pct": 96.0,
+        "mean_rank": 14.6,
+        "median_rank": 1.0,
+        "avg_jaccard": 32.34,
+        "median_jaccard": 33.33,
+        "top_other_matches": [
+          {
+            "name": "Nanomaterial induced inflammasome activation",
+            "count": 19
+          },
+          {
+            "name": "Lung pathology of COVID 19",
+            "count": 1
+          },
+          {
+            "name": "Leptin and adiponectin",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -1298,8 +2534,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 100.0,
         "top5_pct": 0.0,
-        "mean_rank": 78.1,
-        "median_rank": 80.0
+        "mean_rank": 76.2,
+        "median_rank": 79.5,
+        "avg_jaccard": 0.14,
+        "median_jaccard": 0.06,
+        "top_other_matches": [
+          {
+            "name": "p53 signaling pathway",
+            "count": 10
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 6
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP100",
@@ -1311,8 +2563,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 100.0,
         "top5_pct": 0.0,
-        "mean_rank": 364.1,
-        "median_rank": 363.0
+        "mean_rank": 354.6,
+        "median_rank": 354.0,
+        "avg_jaccard": 0.12,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "miRNA regulation of prostate cancer signaling",
+            "count": 5
+          },
+          {
+            "name": "Bladder cancer",
+            "count": 4
+          },
+          {
+            "name": "Photodynamic therapy induced NF kB survival signaling",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -1327,11 +2595,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 86.0,
+        "top1_pct": 84.0,
         "top1_any_pct": 90.0,
         "top5_pct": 98.0,
-        "mean_rank": 1.3,
-        "median_rank": 1.0
+        "mean_rank": 2.1,
+        "median_rank": 1.0,
+        "avg_jaccard": 11.68,
+        "median_jaccard": 8.93,
+        "top_other_matches": [
+          {
+            "name": "Biosynthesis of unsaturated fatty acids",
+            "count": 3
+          },
+          {
+            "name": "Glycosphingolipid biosynthesis - ganglio series",
+            "count": 3
+          },
+          {
+            "name": "Pentose phosphate pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1422",
@@ -1340,11 +2624,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 8.0,
-        "top1_any_pct": 84.0,
-        "top5_pct": 82.0,
-        "mean_rank": 6.8,
-        "median_rank": 4.0
+        "top1_pct": 6.0,
+        "top1_any_pct": 70.0,
+        "top5_pct": 66.0,
+        "mean_rank": 6.0,
+        "median_rank": 5.0,
+        "avg_jaccard": 14.35,
+        "median_jaccard": 13.81,
+        "top_other_matches": [
+          {
+            "name": "Sphingolipid metabolism overview",
+            "count": 17
+          },
+          {
+            "name": "Biosynthesis and turnover of 1 deoxy sphingoid bases",
+            "count": 10
+          },
+          {
+            "name": "Sphingolipid metabolism integrated pathway",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1359,11 +2659,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 76.0,
-        "top1_any_pct": 76.0,
-        "top5_pct": 94.0,
-        "mean_rank": 2.6,
-        "median_rank": 1.0
+        "top1_pct": 74.0,
+        "top1_any_pct": 74.0,
+        "top5_pct": 96.0,
+        "mean_rank": 2,
+        "median_rank": 1.0,
+        "avg_jaccard": 8.9,
+        "median_jaccard": 7.87,
+        "top_other_matches": [
+          {
+            "name": "Ovarian steroidogenesis",
+            "count": 3
+          },
+          {
+            "name": "Regulation of lipolysis in adipocytes",
+            "count": 3
+          },
+          {
+            "name": "alpha-Linolenic acid metabolism",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5155",
@@ -1372,11 +2688,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 2.0,
-        "top5_pct": 34.0,
-        "mean_rank": 133.8,
-        "median_rank": 7.5
+        "top1_pct": 6.0,
+        "top1_any_pct": 6.0,
+        "top5_pct": 30.0,
+        "mean_rank": 147,
+        "median_rank": 8.5,
+        "avg_jaccard": 16.36,
+        "median_jaccard": 14.29,
+        "top_other_matches": [
+          {
+            "name": "Eicosanoid synthesis",
+            "count": 12
+          },
+          {
+            "name": "Metabolism of alpha linolenic acid",
+            "count": 6
+          },
+          {
+            "name": "Prostaglandin synthesis and regulation",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1391,11 +2723,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 50.0,
-        "top1_any_pct": 50.0,
-        "top5_pct": 82.0,
-        "mean_rank": 4.6,
-        "median_rank": 1.5
+        "top1_pct": 40.0,
+        "top1_any_pct": 40.0,
+        "top5_pct": 80.0,
+        "mean_rank": 3.9,
+        "median_rank": 2.0,
+        "avg_jaccard": 8.95,
+        "median_jaccard": 7.14,
+        "top_other_matches": [
+          {
+            "name": "Pentose phosphate pathway",
+            "count": 9
+          },
+          {
+            "name": "Neomycin, kanamycin and gentamicin biosynthesis",
+            "count": 8
+          },
+          {
+            "name": "Fructose and mannose metabolism",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4628",
@@ -1405,10 +2753,26 @@
       },
       "wiki": {
         "top1_pct": 48.0,
-        "top1_any_pct": 62.0,
-        "top5_pct": 80.0,
-        "mean_rank": 46.7,
-        "median_rank": 2.0
+        "top1_any_pct": 58.0,
+        "top5_pct": 72.0,
+        "mean_rank": 34.6,
+        "median_rank": 3.0,
+        "avg_jaccard": 22.85,
+        "median_jaccard": 16.72,
+        "top_other_matches": [
+          {
+            "name": "Glucose metabolism in triple negative breast cancer cells",
+            "count": 6
+          },
+          {
+            "name": "Glycolysis in senescence",
+            "count": 4
+          },
+          {
+            "name": "Pentose phosphate metabolism",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1425,9 +2789,25 @@
       "kegg": {
         "top1_pct": 86.0,
         "top1_any_pct": 86.0,
-        "top5_pct": 94.0,
-        "mean_rank": 1.6,
-        "median_rank": 1.0
+        "top5_pct": 92.0,
+        "mean_rank": 4.7,
+        "median_rank": 1.0,
+        "avg_jaccard": 12.77,
+        "median_jaccard": 13.95,
+        "top_other_matches": [
+          {
+            "name": "Intestinal immune network for IgA production",
+            "count": 2
+          },
+          {
+            "name": "Th17 cell differentiation",
+            "count": 2
+          },
+          {
+            "name": "Arginine biosynthesis",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2485",
@@ -1436,11 +2816,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 46.0,
-        "top1_any_pct": 58.0,
-        "top5_pct": 70.0,
-        "mean_rank": 32.2,
-        "median_rank": 2.0
+        "top1_pct": 40.0,
+        "top1_any_pct": 60.0,
+        "top5_pct": 72.0,
+        "mean_rank": 35.6,
+        "median_rank": 2.0,
+        "avg_jaccard": 29.89,
+        "median_jaccard": 29.91,
+        "top_other_matches": [
+          {
+            "name": "IDO metabolic pathway",
+            "count": 8
+          },
+          {
+            "name": "Tryptophan kynurenine pathway in post COVID syndrome",
+            "count": 6
+          },
+          {
+            "name": "Tryptophan metabolism",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1456,10 +2852,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 38.0,
-        "top5_pct": 8.0,
-        "mean_rank": 20.5,
-        "median_rank": 12.0
+        "top1_any_pct": 40.0,
+        "top5_pct": 2.0,
+        "mean_rank": 24.3,
+        "median_rank": 17.0,
+        "avg_jaccard": 5.29,
+        "median_jaccard": 4.03,
+        "top_other_matches": [
+          {
+            "name": "NIPBL role in DNA damage Cornelia de Lange syndrome",
+            "count": 13
+          },
+          {
+            "name": "Ultraconserved region 339 modulation of tumor suppressor microRNAs in cancer",
+            "count": 6
+          },
+          {
+            "name": "SMC1 SMC3 role in DNA damage Cornelia de Lange Syndrome",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1474,11 +2886,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 0.0,
+        "top1_pct": 2.0,
         "top1_any_pct": 0.0,
         "top5_pct": 24.0,
-        "mean_rank": 72.4,
-        "median_rank": 25.5
+        "mean_rank": 70.2,
+        "median_rank": 16.0,
+        "avg_jaccard": 3.27,
+        "median_jaccard": 1.56,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 29
+          },
+          {
+            "name": "HIF-1 signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3873",
@@ -1489,9 +2917,25 @@
       "wiki": {
         "top1_pct": 4.0,
         "top1_any_pct": 4.0,
-        "top5_pct": 42.0,
-        "mean_rank": 23.6,
-        "median_rank": 9.0
+        "top5_pct": 46.0,
+        "mean_rank": 38.9,
+        "median_rank": 8.0,
+        "avg_jaccard": 10.1,
+        "median_jaccard": 9.76,
+        "top_other_matches": [
+          {
+            "name": "TCA cycle nutrient use and invasiveness of ovarian cancer",
+            "count": 9
+          },
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 5
+          },
+          {
+            "name": "Tyrosine kinase inhibitors in glioblastoma",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1506,11 +2950,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 4.0,
+        "top1_pct": 2.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 12.0,
-        "mean_rank": 108.2,
-        "median_rank": 147.0
+        "top5_pct": 16.0,
+        "mean_rank": 107.1,
+        "median_rank": 147.0,
+        "avg_jaccard": 1.33,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 15
+          },
+          {
+            "name": "Signaling pathways regulating pluripotency of stem cells",
+            "count": 6
+          },
+          {
+            "name": "Rap1 signaling pathway",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4767",
@@ -1520,10 +2980,26 @@
       },
       "wiki": {
         "top1_pct": 4.0,
-        "top1_any_pct": 10.0,
+        "top1_any_pct": 12.0,
         "top5_pct": 4.0,
-        "mean_rank": 398.4,
-        "median_rank": 557.0
+        "mean_rank": 442.8,
+        "median_rank": 557.0,
+        "avg_jaccard": 1.89,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Pilocytic astrocytoma",
+            "count": 9
+          },
+          {
+            "name": "4p16 3 copy number variation",
+            "count": 5
+          },
+          {
+            "name": "FGFR4 p G388R signaling",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1538,11 +3014,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 0.0,
+        "top1_pct": 2.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 8.0,
-        "mean_rank": 62.2,
-        "median_rank": 20.0
+        "top5_pct": 14.0,
+        "mean_rank": 74.9,
+        "median_rank": 30.5,
+        "avg_jaccard": 1.41,
+        "median_jaccard": 0.77,
+        "top_other_matches": [
+          {
+            "name": "Ubiquinone and other terpenoid-quinone biosynthesis",
+            "count": 13
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 9
+          },
+          {
+            "name": "Ferroptosis",
+            "count": 7
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2884",
@@ -1552,10 +3044,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 54.0,
-        "top5_pct": 2.0,
-        "mean_rank": 89.2,
-        "median_rank": 69.0
+        "top1_any_pct": 56.0,
+        "top5_pct": 0.0,
+        "mean_rank": 87.0,
+        "median_rank": 67.0,
+        "avg_jaccard": 2.85,
+        "median_jaccard": 2.68,
+        "top_other_matches": [
+          {
+            "name": "Transcriptional activation by NRF2 in response to phytochemicals",
+            "count": 20
+          },
+          {
+            "name": "mRNA protein and metabolite induced stress pathway by cyclosporin A",
+            "count": 9
+          },
+          {
+            "name": "NRF2 ARE regulation",
+            "count": 7
+          }
+        ]
       }
     },
     {
@@ -1573,8 +3081,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 150.5,
-        "median_rank": 149.5
+        "mean_rank": 146.9,
+        "median_rank": 148.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Adherens junction",
+            "count": 19
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "Regulation of actin cytoskeleton",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3995",
@@ -1586,8 +3110,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 355.4,
-        "median_rank": 401.5
+        "mean_rank": 364.0,
+        "median_rank": 400.5,
+        "avg_jaccard": 0.33,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "ROBO4 and VEGF signaling crosstalk",
+            "count": 8
+          },
+          {
+            "name": "RalA downstream regulated genes",
+            "count": 7
+          },
+          {
+            "name": "G13 signaling",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1602,11 +3142,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 24.0,
-        "top1_any_pct": 24.0,
-        "top5_pct": 66.0,
-        "mean_rank": 9.7,
-        "median_rank": 4.0
+        "top1_pct": 14.0,
+        "top1_any_pct": 14.0,
+        "top5_pct": 62.0,
+        "mean_rank": 6.1,
+        "median_rank": 4.0,
+        "avg_jaccard": 6.2,
+        "median_jaccard": 3.5,
+        "top_other_matches": [
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 18
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 9
+          },
+          {
+            "name": "GnRH secretion",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2881",
@@ -1615,11 +3171,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 42.0,
-        "top5_pct": 20.0,
-        "mean_rank": 109.5,
-        "median_rank": 40.5
+        "top1_pct": 0.0,
+        "top1_any_pct": 36.0,
+        "top5_pct": 10.0,
+        "mean_rank": 108.0,
+        "median_rank": 35.0,
+        "avg_jaccard": 4.74,
+        "median_jaccard": 5.0,
+        "top_other_matches": [
+          {
+            "name": "Estrogen signaling",
+            "count": 17
+          },
+          {
+            "name": "Mammary gland development puberty stage 2 of 4",
+            "count": 7
+          },
+          {
+            "name": "Estradiol regulation in porto sinusoidal vascular disease",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1634,11 +3206,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 40.0,
-        "top1_any_pct": 40.0,
-        "top5_pct": 94.0,
-        "mean_rank": 2.9,
-        "median_rank": 2.0
+        "top1_pct": 44.0,
+        "top1_any_pct": 44.0,
+        "top5_pct": 92.0,
+        "mean_rank": 2.7,
+        "median_rank": 2.0,
+        "avg_jaccard": 15.83,
+        "median_jaccard": 10.59,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 11
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "RIG-I-like receptor signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2036",
@@ -1647,11 +3235,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 22.0,
-        "top1_any_pct": 22.0,
-        "top5_pct": 44.0,
-        "mean_rank": 13.4,
-        "median_rank": 6.5
+        "top1_pct": 28.0,
+        "top1_any_pct": 30.0,
+        "top5_pct": 56.0,
+        "mean_rank": 16.1,
+        "median_rank": 5.0,
+        "avg_jaccard": 18.48,
+        "median_jaccard": 17.77,
+        "top_other_matches": [
+          {
+            "name": "Pro survival signaling of neuroprotectin D1",
+            "count": 14
+          },
+          {
+            "name": "Altered glycosylation of MUC1 in tumor microenvironment",
+            "count": 8
+          },
+          {
+            "name": "Nanoparticle triggered regulated necrosis",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1668,9 +3272,25 @@
       "kegg": {
         "top1_pct": 56.0,
         "top1_any_pct": 56.0,
-        "top5_pct": 88.0,
-        "mean_rank": 5.2,
-        "median_rank": 1.0
+        "top5_pct": 90.0,
+        "mean_rank": 4,
+        "median_rank": 1.0,
+        "avg_jaccard": 20.49,
+        "median_jaccard": 7.46,
+        "top_other_matches": [
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "Fatty acid biosynthesis",
+            "count": 2
+          },
+          {
+            "name": "Fatty acid metabolism",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2456",
@@ -1679,11 +3299,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 0.0,
-        "top1_any_pct": 30.0,
-        "top5_pct": 12.0,
-        "mean_rank": 100.8,
-        "median_rank": 45.0
+        "top1_pct": 2.0,
+        "top1_any_pct": 40.0,
+        "top5_pct": 10.0,
+        "mean_rank": 106.7,
+        "median_rank": 45.0,
+        "avg_jaccard": 3.96,
+        "median_jaccard": 3.7,
+        "top_other_matches": [
+          {
+            "name": "PPAR signaling",
+            "count": 16
+          },
+          {
+            "name": "SREBF and miR33 in cholesterol and lipid homeostasis",
+            "count": 4
+          },
+          {
+            "name": "PPAR alpha pathway",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1698,11 +3334,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 22.0,
-        "top1_any_pct": 22.0,
-        "top5_pct": 56.0,
-        "mean_rank": 6.8,
-        "median_rank": 4.5
+        "top1_pct": 20.0,
+        "top1_any_pct": 20.0,
+        "top5_pct": 70.0,
+        "mean_rank": 5.7,
+        "median_rank": 4.0,
+        "avg_jaccard": 6.77,
+        "median_jaccard": 3.05,
+        "top_other_matches": [
+          {
+            "name": "Viral protein interaction with cytokine and cytokine receptor",
+            "count": 15
+          },
+          {
+            "name": "Virion - Human immunodeficiency virus",
+            "count": 10
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3929",
@@ -1713,9 +3365,25 @@
       "wiki": {
         "top1_pct": 10.0,
         "top1_any_pct": 10.0,
-        "top5_pct": 26.0,
-        "mean_rank": 63.8,
-        "median_rank": 42.0
+        "top5_pct": 22.0,
+        "mean_rank": 62.1,
+        "median_rank": 38.0,
+        "avg_jaccard": 6.67,
+        "median_jaccard": 2.95,
+        "top_other_matches": [
+          {
+            "name": "PDGF pathway",
+            "count": 4
+          },
+          {
+            "name": "SARS CoV 2 innate immunity evasion and cell specific immune response",
+            "count": 3
+          },
+          {
+            "name": "GNAQ pathways in port wine stain",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -1730,11 +3398,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 4.0,
-        "top1_any_pct": 4.0,
-        "top5_pct": 8.0,
-        "mean_rank": 200.2,
-        "median_rank": 53.5
+        "top1_pct": 2.0,
+        "top1_any_pct": 2.0,
+        "top5_pct": 4.0,
+        "mean_rank": 203.0,
+        "median_rank": 58.0,
+        "avg_jaccard": 4.42,
+        "median_jaccard": 3.92,
+        "top_other_matches": [
+          {
+            "name": "COVID 19 adverse outcome pathway",
+            "count": 7
+          },
+          {
+            "name": "Immune infiltration in pancreatic cancer",
+            "count": 6
+          },
+          {
+            "name": "Cytokines and inflammatory response",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1749,11 +3433,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 50.0,
+        "top1_pct": 48.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 82.0,
-        "mean_rank": 7.7,
-        "median_rank": 1.5
+        "top5_pct": 78.0,
+        "mean_rank": 11.6,
+        "median_rank": 2.0,
+        "avg_jaccard": 7.88,
+        "median_jaccard": 6.15,
+        "top_other_matches": [
+          {
+            "name": "Th1 and Th2 cell differentiation",
+            "count": 6
+          },
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "Intestinal immune network for IgA production",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP69",
@@ -1762,11 +3462,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 8.0,
+        "top1_pct": 12.0,
         "top1_any_pct": 0.0,
         "top5_pct": 40.0,
-        "mean_rank": 58.8,
-        "median_rank": 9.5
+        "mean_rank": 71.9,
+        "median_rank": 8.5,
+        "avg_jaccard": 9.95,
+        "median_jaccard": 7.5,
+        "top_other_matches": [
+          {
+            "name": "T cell antigen receptor TCR pathway during Staphylococcus aureus infection",
+            "count": 6
+          },
+          {
+            "name": "Control of immune tolerance by vasoactive intestinal peptide",
+            "count": 4
+          },
+          {
+            "name": "T cell receptor and co stimulatory signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1784,8 +3500,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 135.4,
-        "median_rank": 140.0
+        "mean_rank": 127.1,
+        "median_rank": 125.5,
+        "avg_jaccard": 0.03,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 45
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "Neomycin, kanamycin and gentamicin biosynthesis",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2034",
@@ -1795,10 +3527,26 @@
       },
       "wiki": {
         "top1_pct": 2.0,
-        "top1_any_pct": 74.0,
+        "top1_any_pct": 68.0,
         "top5_pct": 18.0,
-        "mean_rank": 16.6,
-        "median_rank": 14.0
+        "mean_rank": 16.4,
+        "median_rank": 14.0,
+        "avg_jaccard": 7.97,
+        "median_jaccard": 7.42,
+        "top_other_matches": [
+          {
+            "name": "Leptin insulin signaling overlap",
+            "count": 31
+          },
+          {
+            "name": "Hunger and satiety",
+            "count": 9
+          },
+          {
+            "name": "6q16 copy number variation",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1813,11 +3561,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 92.0,
-        "top1_any_pct": 92.0,
+        "top1_pct": 94.0,
+        "top1_any_pct": 94.0,
         "top5_pct": 98.0,
-        "mean_rank": 1.2,
-        "median_rank": 1.0
+        "mean_rank": 1.3,
+        "median_rank": 1.0,
+        "avg_jaccard": 23.22,
+        "median_jaccard": 14.29,
+        "top_other_matches": [
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 1
+          },
+          {
+            "name": "p53 signaling pathway",
+            "count": 1
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP673",
@@ -1826,11 +3590,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 38.0,
-        "top1_any_pct": 38.0,
-        "top5_pct": 50.0,
-        "mean_rank": 15.2,
-        "median_rank": 5.5
+        "top1_pct": 42.0,
+        "top1_any_pct": 42.0,
+        "top5_pct": 60.0,
+        "mean_rank": 11.2,
+        "median_rank": 3.0,
+        "avg_jaccard": 22.28,
+        "median_jaccard": 14.75,
+        "top_other_matches": [
+          {
+            "name": "Targeted therapy in breast cancer",
+            "count": 5
+          },
+          {
+            "name": "PDGFR beta pathway",
+            "count": 4
+          },
+          {
+            "name": "Mammary gland development puberty stage 2 of 4",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -1845,11 +3625,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 4.0,
-        "top1_any_pct": 4.0,
+        "top1_pct": 6.0,
+        "top1_any_pct": 6.0,
         "top5_pct": 12.0,
-        "mean_rank": 24.4,
-        "median_rank": 22.5
+        "mean_rank": 26.0,
+        "median_rank": 21.5,
+        "avg_jaccard": 3.11,
+        "median_jaccard": 2.1,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 4
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "HIF-1 signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4172",
@@ -1861,8 +3657,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 6.0,
-        "mean_rank": 148.9,
-        "median_rank": 153.5
+        "mean_rank": 160.7,
+        "median_rank": 162.5,
+        "avg_jaccard": 3.19,
+        "median_jaccard": 2.23,
+        "top_other_matches": [
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 7
+          },
+          {
+            "name": "miRNA regulation of prostate cancer signaling",
+            "count": 6
+          },
+          {
+            "name": "RIOK1 and RIOK2 in EGFR and PI3K mediated tumorigenesis",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -1880,8 +3692,24 @@
         "top1_pct": 4.0,
         "top1_any_pct": 0.0,
         "top5_pct": 16.0,
-        "mean_rank": 30.3,
-        "median_rank": 20.5
+        "mean_rank": 32.0,
+        "median_rank": 21.0,
+        "avg_jaccard": 2.15,
+        "median_jaccard": 1.13,
+        "top_other_matches": [
+          {
+            "name": "VEGF signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 5
+          },
+          {
+            "name": "TNF signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP400",
@@ -1890,11 +3718,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 12.0,
-        "top1_any_pct": 12.0,
-        "top5_pct": 26.0,
-        "mean_rank": 81.4,
-        "median_rank": 35.0
+        "top1_pct": 14.0,
+        "top1_any_pct": 14.0,
+        "top5_pct": 28.0,
+        "mean_rank": 89.9,
+        "median_rank": 35.5,
+        "avg_jaccard": 9.18,
+        "median_jaccard": 4.21,
+        "top_other_matches": [
+          {
+            "name": "Mammary gland development involution stage 4 of 4",
+            "count": 2
+          },
+          {
+            "name": "MAPK signaling and ARTD family members",
+            "count": 2
+          },
+          {
+            "name": "FGFR4 p G388R signaling",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -1911,9 +3755,25 @@
       "kegg": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 4.0,
-        "mean_rank": 103.1,
-        "median_rank": 146.0
+        "top5_pct": 8.0,
+        "mean_rank": 100.4,
+        "median_rank": 145.0,
+        "avg_jaccard": 0.92,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Ferroptosis",
+            "count": 12
+          },
+          {
+            "name": "Ubiquinone and other terpenoid-quinone biosynthesis",
+            "count": 9
+          },
+          {
+            "name": "Hedgehog signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2884",
@@ -1925,8 +3785,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 56.0,
         "top5_pct": 8.0,
-        "mean_rank": 59.8,
-        "median_rank": 36.5
+        "mean_rank": 55.0,
+        "median_rank": 32.5,
+        "avg_jaccard": 4.39,
+        "median_jaccard": 3.04,
+        "top_other_matches": [
+          {
+            "name": "Transcriptional activation by NRF2 in response to phytochemicals",
+            "count": 13
+          },
+          {
+            "name": "NRF2 ARE regulation",
+            "count": 11
+          },
+          {
+            "name": "mRNA protein and metabolite induced stress pathway by cyclosporin A",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1944,8 +3820,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 140.2,
-        "median_rank": 137.5
+        "mean_rank": 136.7,
+        "median_rank": 134.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Adherens junction",
+            "count": 15
+          },
+          {
+            "name": "Integrin signaling",
+            "count": 4
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4239",
@@ -1957,8 +3849,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 2.0,
-        "mean_rank": 78.2,
-        "median_rank": 42.0
+        "mean_rank": 84.7,
+        "median_rank": 41.0,
+        "avg_jaccard": 3.54,
+        "median_jaccard": 3.02,
+        "top_other_matches": [
+          {
+            "name": "TGF beta signaling in thyroid cells for epithelial mesenchymal transition",
+            "count": 14
+          },
+          {
+            "name": "Mammary gland development involution stage 4 of 4",
+            "count": 6
+          },
+          {
+            "name": "Hallmark of cancer metastasis and epithelial to mesenchymal transition",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -1976,8 +3884,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 28.0,
-        "mean_rank": 35.1,
-        "median_rank": 25.0
+        "mean_rank": 34.5,
+        "median_rank": 25.0,
+        "avg_jaccard": 1.24,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Terpenoid backbone biosynthesis",
+            "count": 31
+          },
+          {
+            "name": "Steroid biosynthesis",
+            "count": 5
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3963",
@@ -1986,11 +3910,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 22.0,
-        "top1_any_pct": 56.0,
-        "top5_pct": 64.0,
-        "mean_rank": 70.3,
-        "median_rank": 3.0
+        "top1_pct": 20.0,
+        "top1_any_pct": 54.0,
+        "top5_pct": 62.0,
+        "mean_rank": 65.5,
+        "median_rank": 3.5,
+        "avg_jaccard": 20.26,
+        "median_jaccard": 14.29,
+        "top_other_matches": [
+          {
+            "name": "Mevalonate arm of cholesterol biosynthesis pathway",
+            "count": 13
+          },
+          {
+            "name": "Cholesterol biosynthesis pathway",
+            "count": 4
+          },
+          {
+            "name": "Mevalonate arm of cholesterol biosynthesis pathway with inhibitors",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2005,11 +3945,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 10.0,
-        "top1_any_pct": 10.0,
+        "top1_pct": 12.0,
+        "top1_any_pct": 12.0,
         "top5_pct": 34.0,
-        "mean_rank": 20.4,
-        "median_rank": 11.0
+        "mean_rank": 18.1,
+        "median_rank": 9.0,
+        "avg_jaccard": 5.57,
+        "median_jaccard": 3.23,
+        "top_other_matches": [
+          {
+            "name": "GnRH signaling pathway",
+            "count": 9
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 8
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP382",
@@ -2019,10 +3975,26 @@
       },
       "wiki": {
         "top1_pct": 2.0,
-        "top1_any_pct": 32.0,
+        "top1_any_pct": 36.0,
         "top5_pct": 6.0,
-        "mean_rank": 90.4,
-        "median_rank": 71.0
+        "mean_rank": 86.5,
+        "median_rank": 65.5,
+        "avg_jaccard": 6.58,
+        "median_jaccard": 3.79,
+        "top_other_matches": [
+          {
+            "name": "MAPK signaling and ARTD family members",
+            "count": 7
+          },
+          {
+            "name": "MAPK cascade",
+            "count": 6
+          },
+          {
+            "name": "MAPK pathway in congenital thyroid cancer",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2039,9 +4011,25 @@
       "kegg": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 24.0,
-        "mean_rank": 64.1,
-        "median_rank": 59.5
+        "top5_pct": 36.0,
+        "mean_rank": 57.6,
+        "median_rank": 8.5,
+        "avg_jaccard": 3.26,
+        "median_jaccard": 1.68,
+        "top_other_matches": [
+          {
+            "name": "Non-homologous end-joining",
+            "count": 18
+          },
+          {
+            "name": "Base excision repair",
+            "count": 13
+          },
+          {
+            "name": "Homologous recombination",
+            "count": 12
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4946",
@@ -2052,9 +4040,25 @@
       "wiki": {
         "top1_pct": 6.0,
         "top1_any_pct": 6.0,
-        "top5_pct": 54.0,
-        "mean_rank": 44.3,
-        "median_rank": 5.0
+        "top5_pct": 48.0,
+        "mean_rank": 44.4,
+        "median_rank": 6.0,
+        "avg_jaccard": 9.27,
+        "median_jaccard": 8.54,
+        "top_other_matches": [
+          {
+            "name": "Non homologous end joining",
+            "count": 15
+          },
+          {
+            "name": "Homologous recombination",
+            "count": 5
+          },
+          {
+            "name": "Base excision repair",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -2072,8 +4076,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 215.2,
-        "median_rank": 218.0
+        "mean_rank": 214.2,
+        "median_rank": 217.0,
+        "avg_jaccard": 0.04,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Tryptophan metabolism",
+            "count": 11
+          },
+          {
+            "name": "Th17 cell differentiation",
+            "count": 9
+          },
+          {
+            "name": "Caffeine metabolism",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3875",
@@ -2085,8 +4105,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 375.9,
-        "median_rank": 359.5
+        "mean_rank": 372.1,
+        "median_rank": 359.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Aryl hydrocarbon receptor pathway",
+            "count": 25
+          },
+          {
+            "name": "Benzo a pyrene metabolism",
+            "count": 2
+          },
+          {
+            "name": "Estrogen receptor pathway",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2104,8 +4140,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 213.3,
-        "median_rank": 226.5
+        "mean_rank": 216.4,
+        "median_rank": 229.0,
+        "avg_jaccard": 0.1,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Relaxin signaling pathway",
+            "count": 5
+          },
+          {
+            "name": "GnRH secretion",
+            "count": 4
+          },
+          {
+            "name": "Parathyroid hormone synthesis, secretion and action",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP117",
@@ -2117,8 +4169,24 @@
         "top1_pct": 2.0,
         "top1_any_pct": 10.0,
         "top5_pct": 4.0,
-        "mean_rank": 146.7,
-        "median_rank": 108.0
+        "mean_rank": 144.5,
+        "median_rank": 99.5,
+        "avg_jaccard": 0.83,
+        "median_jaccard": 0.35,
+        "top_other_matches": [
+          {
+            "name": "Cell type dependent selectivity of CCK2R signaling",
+            "count": 3
+          },
+          {
+            "name": "DNAJB1 PRKACA fusion in fibrolamellar liver cancer",
+            "count": 2
+          },
+          {
+            "name": "GPCRs class B secretin like",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2133,11 +4201,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 92.0,
-        "top1_any_pct": 92.0,
+        "top1_pct": 90.0,
+        "top1_any_pct": 90.0,
         "top5_pct": 96.0,
-        "mean_rank": 4.2,
-        "median_rank": 1.0
+        "mean_rank": 4.3,
+        "median_rank": 1.0,
+        "avg_jaccard": 21.22,
+        "median_jaccard": 19.53,
+        "top_other_matches": [
+          {
+            "name": "Homologous recombination",
+            "count": 2
+          },
+          {
+            "name": "Non-homologous end-joining",
+            "count": 1
+          },
+          {
+            "name": "Melanogenesis",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5465",
@@ -2146,11 +4230,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 76.0,
-        "top1_any_pct": 76.0,
-        "top5_pct": 94.0,
-        "mean_rank": 3.6,
-        "median_rank": 1.0
+        "top1_pct": 72.0,
+        "top1_any_pct": 72.0,
+        "top5_pct": 90.0,
+        "mean_rank": 4.0,
+        "median_rank": 1.0,
+        "avg_jaccard": 22.58,
+        "median_jaccard": 20.33,
+        "top_other_matches": [
+          {
+            "name": "NIPBL role in DNA damage Cornelia de Lange syndrome",
+            "count": 4
+          },
+          {
+            "name": "ATR signaling",
+            "count": 3
+          },
+          {
+            "name": "15q13 3 copy number variation syndrome",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -2168,8 +4268,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 121.1,
-        "median_rank": 118.5
+        "mean_rank": 124.2,
+        "median_rank": 121.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 8
+          },
+          {
+            "name": "Arginine biosynthesis",
+            "count": 6
+          },
+          {
+            "name": "Neomycin, kanamycin and gentamicin biosynthesis",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1589",
@@ -2179,10 +4295,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 44.0,
+        "top1_any_pct": 42.0,
         "top5_pct": 0.0,
-        "mean_rank": 199.0,
-        "median_rank": 193.5
+        "mean_rank": 205.5,
+        "median_rank": 194.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Amino acid metabolism in triple negative breast cancer cells",
+            "count": 6
+          },
+          {
+            "name": "Metabolic reprogramming in colon cancer",
+            "count": 6
+          },
+          {
+            "name": "Metabolic reprogramming in pancreatic cancer",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -2197,11 +4329,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 76.0,
-        "top1_any_pct": 76.0,
-        "top5_pct": 98.0,
-        "mean_rank": 1.6,
-        "median_rank": 1.0
+        "top1_pct": 78.0,
+        "top1_any_pct": 78.0,
+        "top5_pct": 94.0,
+        "mean_rank": 2.0,
+        "median_rank": 1.0,
+        "avg_jaccard": 18.3,
+        "median_jaccard": 8.86,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 3
+          },
+          {
+            "name": "Virion - Human immunodeficiency virus",
+            "count": 1
+          },
+          {
+            "name": "Thyroid hormone signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1742",
@@ -2210,11 +4358,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 20.0,
-        "top1_any_pct": 32.0,
-        "top5_pct": 54.0,
-        "mean_rank": 8.6,
-        "median_rank": 5.0
+        "top1_pct": 18.0,
+        "top1_any_pct": 30.0,
+        "top5_pct": 50.0,
+        "mean_rank": 10.1,
+        "median_rank": 5.5,
+        "avg_jaccard": 14.18,
+        "median_jaccard": 14.64,
+        "top_other_matches": [
+          {
+            "name": "miRNA regulation of p53 pathway in prostate cancer",
+            "count": 6
+          },
+          {
+            "name": "Integrated cancer pathway",
+            "count": 6
+          },
+          {
+            "name": "Caloric restriction and aging",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2232,8 +4396,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 119.5,
-        "median_rank": 125.0
+        "mean_rank": 115.3,
+        "median_rank": 115.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 13
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 6
+          },
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2645",
@@ -2245,8 +4425,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 383.6,
-        "median_rank": 371.0
+        "mean_rank": 375.7,
+        "median_rank": 364.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "BDNF signaling in neurodevelopment",
+            "count": 9
+          },
+          {
+            "name": "ERK pathway in Huntington 39 s disease",
+            "count": 5
+          },
+          {
+            "name": "BDNF TrkB signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2261,11 +4457,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 56.0,
-        "top1_any_pct": 56.0,
+        "top1_pct": 52.0,
+        "top1_any_pct": 52.0,
         "top5_pct": 94.0,
-        "mean_rank": 2.5,
-        "median_rank": 1.0
+        "mean_rank": 2.1,
+        "median_rank": 1.0,
+        "avg_jaccard": 13.65,
+        "median_jaccard": 9.12,
+        "top_other_matches": [
+          {
+            "name": "p53 signaling pathway",
+            "count": 9
+          },
+          {
+            "name": "DNA replication",
+            "count": 5
+          },
+          {
+            "name": "Progesterone-mediated oocyte maturation",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP179",
@@ -2274,11 +4486,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 34.0,
+        "top1_pct": 32.0,
         "top1_any_pct": 46.0,
-        "top5_pct": 58.0,
-        "mean_rank": 13.7,
-        "median_rank": 3.5
+        "top5_pct": 56.0,
+        "mean_rank": 10.9,
+        "median_rank": 4.5,
+        "avg_jaccard": 16.94,
+        "median_jaccard": 11.32,
+        "top_other_matches": [
+          {
+            "name": "G1 to S cell cycle control",
+            "count": 7
+          },
+          {
+            "name": "Integrated cancer pathway",
+            "count": 3
+          },
+          {
+            "name": "DNA replication",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2293,11 +4521,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 58.0,
+        "top1_pct": 48.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 90.0,
-        "mean_rank": 2.7,
-        "median_rank": 1.0
+        "top5_pct": 82.0,
+        "mean_rank": 11.8,
+        "median_rank": 2.0,
+        "avg_jaccard": 8.32,
+        "median_jaccard": 7.61,
+        "top_other_matches": [
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "NF-kappa B signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "Intestinal immune network for IgA production",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP23",
@@ -2306,11 +4550,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 26.0,
+        "top1_pct": 28.0,
         "top1_any_pct": 0.0,
         "top5_pct": 42.0,
-        "mean_rank": 26.4,
-        "median_rank": 8.5
+        "mean_rank": 34.9,
+        "median_rank": 9.0,
+        "avg_jaccard": 8.15,
+        "median_jaccard": 6.93,
+        "top_other_matches": [
+          {
+            "name": "Transcriptional regulation of memory B cell differentiation",
+            "count": 3
+          },
+          {
+            "name": "Artemisinin inhibition of uveal melanoma",
+            "count": 3
+          },
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2325,11 +4585,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 18.0,
-        "top1_any_pct": 18.0,
-        "top5_pct": 68.0,
-        "mean_rank": 5.7,
-        "median_rank": 4.0
+        "top1_pct": 20.0,
+        "top1_any_pct": 20.0,
+        "top5_pct": 72.0,
+        "mean_rank": 5.4,
+        "median_rank": 3.5,
+        "avg_jaccard": 4.92,
+        "median_jaccard": 3.24,
+        "top_other_matches": [
+          {
+            "name": "Virion - Adenovirus",
+            "count": 10
+          },
+          {
+            "name": "Intestinal immune network for IgA production",
+            "count": 8
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2583",
@@ -2338,11 +4614,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 6.0,
+        "top1_pct": 8.0,
         "top1_any_pct": 8.0,
-        "top5_pct": 24.0,
-        "mean_rank": 34.6,
-        "median_rank": 12.0
+        "top5_pct": 28.0,
+        "mean_rank": 25.1,
+        "median_rank": 10.5,
+        "avg_jaccard": 7.89,
+        "median_jaccard": 6.32,
+        "top_other_matches": [
+          {
+            "name": "Control of immune tolerance by vasoactive intestinal peptide",
+            "count": 11
+          },
+          {
+            "name": "Lupus pathogenesis",
+            "count": 5
+          },
+          {
+            "name": "Killer cell immunoglobulin like receptors and human leukocyte antigen C pathway",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2359,9 +4651,25 @@
       "kegg": {
         "top1_pct": 52.0,
         "top1_any_pct": 52.0,
-        "top5_pct": 96.0,
-        "mean_rank": 2.3,
-        "median_rank": 1.0
+        "top5_pct": 92.0,
+        "mean_rank": 2.4,
+        "median_rank": 1.0,
+        "avg_jaccard": 12.53,
+        "median_jaccard": 6.66,
+        "top_other_matches": [
+          {
+            "name": "Virion - Adenovirus",
+            "count": 7
+          },
+          {
+            "name": "Th1 and Th2 cell differentiation",
+            "count": 3
+          },
+          {
+            "name": "Virion - Human immunodeficiency virus",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2583",
@@ -2370,11 +4678,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 2.0,
-        "top1_any_pct": 14.0,
-        "top5_pct": 52.0,
-        "mean_rank": 7.8,
-        "median_rank": 5.0
+        "top1_pct": 4.0,
+        "top1_any_pct": 22.0,
+        "top5_pct": 42.0,
+        "mean_rank": 8.8,
+        "median_rank": 6.0,
+        "avg_jaccard": 12.61,
+        "median_jaccard": 11.5,
+        "top_other_matches": [
+          {
+            "name": "T cell antigen receptor TCR pathway during Staphylococcus aureus infection",
+            "count": 13
+          },
+          {
+            "name": "T cell receptor signaling",
+            "count": 9
+          },
+          {
+            "name": "Control of immune tolerance by vasoactive intestinal peptide",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2389,11 +4713,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 8.0,
+        "top1_pct": 10.0,
         "top1_any_pct": 84.0,
-        "top5_pct": 66.0,
-        "mean_rank": 9.6,
-        "median_rank": 2.0
+        "top5_pct": 62.0,
+        "mean_rank": 10.5,
+        "median_rank": 2.0,
+        "avg_jaccard": 6.86,
+        "median_jaccard": 3.12,
+        "top_other_matches": [
+          {
+            "name": "Hippo signaling pathway - multiple species",
+            "count": 37
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 1
+          },
+          {
+            "name": "Arginine biosynthesis",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4534",
@@ -2402,11 +4742,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 6.0,
+        "top1_pct": 8.0,
         "top1_any_pct": 24.0,
         "top5_pct": 36.0,
-        "mean_rank": 61.0,
-        "median_rank": 7.0
+        "mean_rank": 50.6,
+        "median_rank": 8.0,
+        "avg_jaccard": 5.68,
+        "median_jaccard": 5.97,
+        "top_other_matches": [
+          {
+            "name": "Targeting YAP in pancreatic ductal adenocarcinoma PDAC ",
+            "count": 9
+          },
+          {
+            "name": "Hippo YAP signaling",
+            "count": 8
+          },
+          {
+            "name": "Chromosomal and microsatellite instability in colorectal cancer ",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2421,11 +4777,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 2.0,
+        "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 36.0,
-        "mean_rank": 17.9,
-        "median_rank": 7.0
+        "top5_pct": 38.0,
+        "mean_rank": 23.2,
+        "median_rank": 7.0,
+        "avg_jaccard": 9.06,
+        "median_jaccard": 6.9,
+        "top_other_matches": [
+          {
+            "name": "NAD metabolism",
+            "count": 17
+          },
+          {
+            "name": "Tryptophan catabolism leading to NAD production",
+            "count": 7
+          },
+          {
+            "name": "Disorders of NAD metabolism",
+            "count": 7
+          }
+        ]
       }
     },
     {
@@ -2443,8 +4815,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 100.0,
         "top5_pct": 0.0,
-        "mean_rank": 77.3,
-        "median_rank": 80.5
+        "mean_rank": 79,
+        "median_rank": 82.5,
+        "avg_jaccard": 0.11,
+        "median_jaccard": 0.09,
+        "top_other_matches": [
+          {
+            "name": "p53 signaling pathway",
+            "count": 13
+          },
+          {
+            "name": "ErbB signaling pathway",
+            "count": 10
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP100",
@@ -2456,8 +4844,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 100.0,
         "top5_pct": 0.0,
-        "mean_rank": 371.8,
-        "median_rank": 371.5
+        "mean_rank": 394.0,
+        "median_rank": 429.0,
+        "avg_jaccard": 0.04,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "miRNA regulation of prostate cancer signaling",
+            "count": 14
+          },
+          {
+            "name": "Extracellular vesicle mediated signaling in recipient cells",
+            "count": 5
+          },
+          {
+            "name": "Endometrial cancer",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2472,11 +4876,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 52.0,
-        "top1_any_pct": 52.0,
-        "top5_pct": 76.0,
-        "mean_rank": 5.6,
-        "median_rank": 1.0
+        "top1_pct": 62.0,
+        "top1_any_pct": 62.0,
+        "top5_pct": 82.0,
+        "mean_rank": 8.5,
+        "median_rank": 1.0,
+        "avg_jaccard": 19.53,
+        "median_jaccard": 7.44,
+        "top_other_matches": [
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 4
+          },
+          {
+            "name": "Fatty acid biosynthesis",
+            "count": 2
+          },
+          {
+            "name": "Thyroid hormone signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2456",
@@ -2485,11 +4905,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 6.0,
+        "top1_pct": 4.0,
         "top1_any_pct": 42.0,
-        "top5_pct": 10.0,
-        "mean_rank": 89.1,
-        "median_rank": 48.0
+        "top5_pct": 8.0,
+        "mean_rank": 77.1,
+        "median_rank": 43.5,
+        "avg_jaccard": 4.39,
+        "median_jaccard": 3.77,
+        "top_other_matches": [
+          {
+            "name": "PPAR signaling",
+            "count": 17
+          },
+          {
+            "name": "SREBF and miR33 in cholesterol and lipid homeostasis",
+            "count": 4
+          },
+          {
+            "name": "Transcription factor regulation in adipogenesis",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2504,11 +4940,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 90.0,
-        "top1_any_pct": 90.0,
+        "top1_pct": 92.0,
+        "top1_any_pct": 92.0,
         "top5_pct": 94.0,
-        "mean_rank": 5.9,
-        "median_rank": 1.0
+        "mean_rank": 10.2,
+        "median_rank": 1.0,
+        "avg_jaccard": 25.17,
+        "median_jaccard": 23.29,
+        "top_other_matches": [
+          {
+            "name": "Intestinal immune network for IgA production",
+            "count": 2
+          },
+          {
+            "name": "Arginine biosynthesis",
+            "count": 1
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4969",
@@ -2519,9 +4971,25 @@
       "wiki": {
         "top1_pct": 2.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 24.0,
-        "mean_rank": 10.2,
-        "median_rank": 7.0
+        "top5_pct": 30.0,
+        "mean_rank": 11,
+        "median_rank": 6.5,
+        "avg_jaccard": 14.3,
+        "median_jaccard": 14.64,
+        "top_other_matches": [
+          {
+            "name": "SARS CoV 2 and ACE2 receptor molecular mechanisms",
+            "count": 19
+          },
+          {
+            "name": "ACE inhibitor pathway",
+            "count": 13
+          },
+          {
+            "name": "Downregulation of ACE2 by SARS CoV 2 spike protein",
+            "count": 7
+          }
+        ]
       }
     },
     {
@@ -2538,9 +5006,25 @@
       "kegg": {
         "top1_pct": 8.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 40.0,
-        "mean_rank": 9.4,
-        "median_rank": 7.0
+        "top5_pct": 46.0,
+        "mean_rank": 9.3,
+        "median_rank": 6.0,
+        "avg_jaccard": 3.64,
+        "median_jaccard": 3.4,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 15
+          },
+          {
+            "name": "Ovarian steroidogenesis",
+            "count": 11
+          },
+          {
+            "name": "AMPK signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP195",
@@ -2552,8 +5036,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 163.5,
-        "median_rank": 153.0
+        "mean_rank": 168.5,
+        "median_rank": 157.5,
+        "avg_jaccard": 2.08,
+        "median_jaccard": 0.74,
+        "top_other_matches": [
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 14
+          },
+          {
+            "name": "PDGFR beta pathway",
+            "count": 6
+          },
+          {
+            "name": "Hormonal control of pubertal growth spurt",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2568,11 +5068,27 @@
         "match_type": "similarity"
       },
       "kegg": {
-        "top1_pct": 50.0,
+        "top1_pct": 44.0,
         "top1_any_pct": 0.0,
         "top5_pct": 82.0,
-        "mean_rank": 6.6,
-        "median_rank": 1.5
+        "mean_rank": 6.9,
+        "median_rank": 2.0,
+        "avg_jaccard": 9.87,
+        "median_jaccard": 8.18,
+        "top_other_matches": [
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5527",
@@ -2583,9 +5099,25 @@
       "wiki": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 4.0,
-        "mean_rank": 220.1,
-        "median_rank": 30.0
+        "top5_pct": 2.0,
+        "mean_rank": 288.8,
+        "median_rank": 32.5,
+        "avg_jaccard": 7.81,
+        "median_jaccard": 7.15,
+        "top_other_matches": [
+          {
+            "name": "Canonical NF kB pathway",
+            "count": 10
+          },
+          {
+            "name": "TNF related weak inducer of apoptosis TWEAK signaling",
+            "count": 5
+          },
+          {
+            "name": "LTF danger signal response pathway",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2603,8 +5135,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 147.4,
-        "median_rank": 147.5
+        "mean_rank": 148.5,
+        "median_rank": 148.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 12
+          },
+          {
+            "name": "Fc epsilon RI signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "Autophagy - other",
+            "count": 7
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4222",
@@ -2616,8 +5164,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 465.7,
-        "median_rank": 485.0
+        "mean_rank": 481.8,
+        "median_rank": 492.5,
+        "avg_jaccard": 0.09,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Pilocytic astrocytoma",
+            "count": 19
+          },
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 5
+          },
+          {
+            "name": "mRNA protein and metabolite induced stress pathway by cyclosporin A",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2632,11 +5196,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 74.0,
-        "top1_any_pct": 74.0,
-        "top5_pct": 98.0,
-        "mean_rank": 1.5,
-        "median_rank": 1.0
+        "top1_pct": 68.0,
+        "top1_any_pct": 68.0,
+        "top5_pct": 96.0,
+        "mean_rank": 3.9,
+        "median_rank": 1.0,
+        "avg_jaccard": 11.47,
+        "median_jaccard": 11.25,
+        "top_other_matches": [
+          {
+            "name": "Ovarian steroidogenesis",
+            "count": 11
+          },
+          {
+            "name": "Cortisol synthesis and secretion",
+            "count": 3
+          },
+          {
+            "name": "Fatty acid degradation",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5277",
@@ -2645,11 +5225,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 4.0,
+        "top1_pct": 6.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 68.0,
-        "mean_rank": 36.7,
-        "median_rank": 5.0
+        "top5_pct": 58.0,
+        "mean_rank": 68.4,
+        "median_rank": 5.0,
+        "avg_jaccard": 19.82,
+        "median_jaccard": 19.9,
+        "top_other_matches": [
+          {
+            "name": "Classical pathway of steroidogenesis with glucocorticoid and mineralocorticoid metabolism",
+            "count": 19
+          },
+          {
+            "name": "Steroidogenic pathway",
+            "count": 14
+          },
+          {
+            "name": "Estrogen metabolism",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2667,8 +5263,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 96.7,
-        "median_rank": 101.5
+        "mean_rank": 109.2,
+        "median_rank": 144.5,
+        "avg_jaccard": 0.66,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "T cell receptor signaling pathway",
+            "count": 20
+          },
+          {
+            "name": "Virion - Adenovirus",
+            "count": 13
+          },
+          {
+            "name": "Intestinal immune network for IgA production",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2526",
@@ -2680,8 +5292,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 107.9,
-        "median_rank": 81.5
+        "mean_rank": 107.5,
+        "median_rank": 81.5,
+        "avg_jaccard": 3.12,
+        "median_jaccard": 2.13,
+        "top_other_matches": [
+          {
+            "name": "T cell receptor and co stimulatory signaling",
+            "count": 11
+          },
+          {
+            "name": "Cancer immunotherapy by PD 1 blockade",
+            "count": 10
+          },
+          {
+            "name": "Lupus pathogenesis",
+            "count": 8
+          }
+        ]
       }
     },
     {
@@ -2698,9 +5326,25 @@
       "wiki": {
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 4.0,
-        "mean_rank": 174.7,
-        "median_rank": 75.5
+        "top5_pct": 8.0,
+        "mean_rank": 150.8,
+        "median_rank": 51.0,
+        "avg_jaccard": 4.59,
+        "median_jaccard": 4.45,
+        "top_other_matches": [
+          {
+            "name": "Somatroph axis GH and its relationship to dietary restriction and aging",
+            "count": 10
+          },
+          {
+            "name": "TCA cycle nutrient use and invasiveness of ovarian cancer",
+            "count": 6
+          },
+          {
+            "name": "Artemisinin inhibition of uveal melanoma",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2715,11 +5359,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 68.0,
-        "top1_any_pct": 68.0,
+        "top1_pct": 78.0,
+        "top1_any_pct": 78.0,
         "top5_pct": 94.0,
-        "mean_rank": 2,
-        "median_rank": 1.0
+        "mean_rank": 1.8,
+        "median_rank": 1.0,
+        "avg_jaccard": 8.08,
+        "median_jaccard": 6.57,
+        "top_other_matches": [
+          {
+            "name": "Autophagy - other",
+            "count": 3
+          },
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 2
+          },
+          {
+            "name": "Tryptophan metabolism",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4923",
@@ -2728,11 +5388,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 4.0,
+        "top1_pct": 6.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 20.0,
-        "mean_rank": 223.3,
-        "median_rank": 28.0
+        "top5_pct": 18.0,
+        "mean_rank": 222.4,
+        "median_rank": 32.5,
+        "avg_jaccard": 3.51,
+        "median_jaccard": 2.6,
+        "top_other_matches": [
+          {
+            "name": "Autophagy in pancreatic ductal adenocarcinoma",
+            "count": 22
+          },
+          {
+            "name": "Mitochondrial fission and fusion",
+            "count": 9
+          },
+          {
+            "name": "Parkinson 39 s disease pathway",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2749,9 +5425,25 @@
       "kegg": {
         "top1_pct": 24.0,
         "top1_any_pct": 24.0,
-        "top5_pct": 92.0,
+        "top5_pct": 94.0,
         "mean_rank": 2.9,
-        "median_rank": 2.0
+        "median_rank": 2.0,
+        "avg_jaccard": 7.48,
+        "median_jaccard": 8.26,
+        "top_other_matches": [
+          {
+            "name": "Phosphonate and phosphinate metabolism",
+            "count": 26
+          },
+          {
+            "name": "Glycosaminoglycan biosynthesis - keratan sulfate",
+            "count": 2
+          },
+          {
+            "name": "Ether lipid metabolism",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2533",
@@ -2761,10 +5453,26 @@
       },
       "wiki": {
         "top1_pct": 6.0,
-        "top1_any_pct": 28.0,
-        "top5_pct": 64.0,
-        "mean_rank": 36.2,
-        "median_rank": 5.0
+        "top1_any_pct": 24.0,
+        "top5_pct": 68.0,
+        "mean_rank": 39.8,
+        "median_rank": 4.5,
+        "avg_jaccard": 8.54,
+        "median_jaccard": 8.17,
+        "top_other_matches": [
+          {
+            "name": "Kennedy pathway from sphingolipids",
+            "count": 24
+          },
+          {
+            "name": "Glycerolipids and glycerophospholipids",
+            "count": 9
+          },
+          {
+            "name": "Acetylcholine synthesis",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2782,8 +5490,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 138.1,
-        "median_rank": 193.5
+        "mean_rank": 142.8,
+        "median_rank": 195.0,
+        "avg_jaccard": 0.36,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "ErbB signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "Ovarian steroidogenesis",
+            "count": 4
+          },
+          {
+            "name": "Thyroid hormone signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP138",
@@ -2794,9 +5518,25 @@
       "wiki": {
         "top1_pct": 4.0,
         "top1_any_pct": 4.0,
-        "top5_pct": 6.0,
-        "mean_rank": 60.9,
-        "median_rank": 44.5
+        "top5_pct": 8.0,
+        "mean_rank": 57,
+        "median_rank": 38.5,
+        "avg_jaccard": 3.4,
+        "median_jaccard": 2.25,
+        "top_other_matches": [
+          {
+            "name": "TCA cycle nutrient use and invasiveness of ovarian cancer",
+            "count": 5
+          },
+          {
+            "name": "miRNA regulation of prostate cancer signaling",
+            "count": 4
+          },
+          {
+            "name": "Influenza A virus infection",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -2814,8 +5554,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 32.4,
-        "median_rank": 32.0
+        "mean_rank": 32.8,
+        "median_rank": 32.0,
+        "avg_jaccard": 0.57,
+        "median_jaccard": 0.5,
+        "top_other_matches": [
+          {
+            "name": "Arginine biosynthesis",
+            "count": 8
+          },
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 7
+          },
+          {
+            "name": "Fatty acid biosynthesis",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4290",
@@ -2825,10 +5581,26 @@
       },
       "wiki": {
         "top1_pct": 6.0,
-        "top1_any_pct": 8.0,
-        "top5_pct": 24.0,
-        "mean_rank": 60.1,
-        "median_rank": 12.0
+        "top1_any_pct": 10.0,
+        "top5_pct": 26.0,
+        "mean_rank": 51.5,
+        "median_rank": 12.0,
+        "avg_jaccard": 7.73,
+        "median_jaccard": 5.71,
+        "top_other_matches": [
+          {
+            "name": "Amino acid metabolism in triple negative breast cancer cells",
+            "count": 6
+          },
+          {
+            "name": "Glucose metabolism in triple negative breast cancer cells",
+            "count": 4
+          },
+          {
+            "name": "Aerobic glycolysis augmented",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2843,11 +5615,27 @@
         "match_type": "substring"
       },
       "wiki": {
-        "top1_pct": 38.0,
-        "top1_any_pct": 38.0,
-        "top5_pct": 100.0,
-        "mean_rank": 1.8,
-        "median_rank": 2.0
+        "top1_pct": 50.0,
+        "top1_any_pct": 50.0,
+        "top5_pct": 98.0,
+        "mean_rank": 2.1,
+        "median_rank": 1.5,
+        "avg_jaccard": 29.14,
+        "median_jaccard": 28.99,
+        "top_other_matches": [
+          {
+            "name": "Nanomaterial induced inflammasome activation",
+            "count": 14
+          },
+          {
+            "name": "Sickle cell disease",
+            "count": 3
+          },
+          {
+            "name": "LTF danger signal response pathway",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2866,7 +5654,10 @@
         "top1_any_pct": 100.0,
         "top5_pct": 100.0,
         "mean_rank": 1,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 16.33,
+        "median_jaccard": 14.68,
+        "top_other_matches": []
       },
       "expected_wiki": {
         "id": "WP3896",
@@ -2876,10 +5667,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 4.0,
+        "top1_any_pct": 6.0,
         "top5_pct": 86.0,
-        "mean_rank": 10.4,
-        "median_rank": 4.0
+        "mean_rank": 10.5,
+        "median_rank": 3.5,
+        "avg_jaccard": 19.54,
+        "median_jaccard": 17.97,
+        "top_other_matches": [
+          {
+            "name": "Blood clotting cascade",
+            "count": 42
+          },
+          {
+            "name": "Vitamin K metabolism and activation of dependent proteins",
+            "count": 4
+          },
+          {
+            "name": "Complement and coagulation cascades",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2896,9 +5703,25 @@
       "wiki": {
         "top1_pct": 4.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 10.0,
-        "mean_rank": 71.7,
-        "median_rank": 32.0
+        "top5_pct": 12.0,
+        "mean_rank": 74.2,
+        "median_rank": 30.5,
+        "avg_jaccard": 4.27,
+        "median_jaccard": 2.19,
+        "top_other_matches": [
+          {
+            "name": "Inclusion body myositis",
+            "count": 24
+          },
+          {
+            "name": "Apoptosis modulation by HSP70",
+            "count": 5
+          },
+          {
+            "name": "Involvement of secretase in neurodegenerative diseases",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -2915,9 +5738,25 @@
       "kegg": {
         "top1_pct": 2.0,
         "top1_any_pct": 0.0,
-        "top5_pct": 52.0,
-        "mean_rank": 7.0,
-        "median_rank": 5.0
+        "top5_pct": 56.0,
+        "mean_rank": 6.8,
+        "median_rank": 5.0,
+        "avg_jaccard": 6.54,
+        "median_jaccard": 5.65,
+        "top_other_matches": [
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 17
+          },
+          {
+            "name": "Pentose phosphate pathway",
+            "count": 7
+          },
+          {
+            "name": "Neomycin, kanamycin and gentamicin biosynthesis",
+            "count": 5
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP241",
@@ -2929,8 +5768,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 173.1,
-        "median_rank": 172.5
+        "mean_rank": 174.8,
+        "median_rank": 171.0,
+        "avg_jaccard": 0.14,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Aerobic glycolysis augmented",
+            "count": 9
+          },
+          {
+            "name": "Amino acid metabolism in triple negative breast cancer cells",
+            "count": 6
+          },
+          {
+            "name": "Metabolic reprogramming in colon cancer",
+            "count": 5
+          }
+        ]
       }
     },
     {
@@ -2947,9 +5802,25 @@
       "wiki": {
         "top1_pct": 0.0,
         "top1_any_pct": 34.0,
-        "top5_pct": 18.0,
-        "mean_rank": 12.4,
-        "median_rank": 10.0
+        "top5_pct": 20.0,
+        "mean_rank": 11.9,
+        "median_rank": 9.0,
+        "avg_jaccard": 9.27,
+        "median_jaccard": 8.06,
+        "top_other_matches": [
+          {
+            "name": "NIPBL role in DNA damage Cornelia de Lange syndrome",
+            "count": 16
+          },
+          {
+            "name": "ATM signaling",
+            "count": 12
+          },
+          {
+            "name": "ATR signaling",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -2968,7 +5839,19 @@
         "top1_any_pct": 0.0,
         "top5_pct": 2.0,
         "mean_rank": 85.5,
-        "median_rank": 85.0
+        "median_rank": 85.0,
+        "avg_jaccard": 0.29,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Porphyrin metabolism",
+            "count": 48
+          },
+          {
+            "name": "ABC transporters",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP561",
@@ -2980,8 +5863,20 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 100.0,
-        "mean_rank": 2,
-        "median_rank": 2.0
+        "mean_rank": 2.1,
+        "median_rank": 2.0,
+        "avg_jaccard": 69.31,
+        "median_jaccard": 75.25,
+        "top_other_matches": [
+          {
+            "name": "Hemesynthesis defects and porphyrias",
+            "count": 49
+          },
+          {
+            "name": "Transcriptional activation by NRF2 in response to phytochemicals",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -2996,11 +5891,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 62.0,
-        "top1_any_pct": 62.0,
+        "top1_pct": 60.0,
+        "top1_any_pct": 60.0,
         "top5_pct": 96.0,
         "mean_rank": 1.8,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 7.98,
+        "median_jaccard": 5.88,
+        "top_other_matches": [
+          {
+            "name": "Tyrosine metabolism",
+            "count": 18
+          },
+          {
+            "name": "Cortisol synthesis and secretion",
+            "count": 1
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1539",
@@ -3012,8 +5923,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 117.6,
-        "median_rank": 109.5
+        "mean_rank": 125.4,
+        "median_rank": 115.0,
+        "avg_jaccard": 0.8,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "GPR143 in melanocytes and retinal pigment epithelium cells",
+            "count": 45
+          },
+          {
+            "name": "Post COVID neuroinflammation",
+            "count": 1
+          },
+          {
+            "name": "Biogenic amine synthesis",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -3031,8 +5958,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 8.0,
-        "mean_rank": 26.4,
-        "median_rank": 25.0
+        "mean_rank": 27.8,
+        "median_rank": 25.0,
+        "avg_jaccard": 0.95,
+        "median_jaccard": 0.72,
+        "top_other_matches": [
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 9
+          },
+          {
+            "name": "Pyruvate metabolism",
+            "count": 3
+          },
+          {
+            "name": "Glycolysis / Gluconeogenesis",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2491",
@@ -3042,10 +5985,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 2.0,
+        "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 204.1,
-        "median_rank": 188.0
+        "mean_rank": 206.1,
+        "median_rank": 194.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Aerobic glycolysis augmented",
+            "count": 5
+          },
+          {
+            "name": "TCA cycle and deficiency of pyruvate dehydrogenase complex PDHc ",
+            "count": 5
+          },
+          {
+            "name": "Pentose phosphate metabolism",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -3063,8 +6022,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 149.5,
-        "median_rank": 182.5
+        "mean_rank": 152,
+        "median_rank": 183.0,
+        "avg_jaccard": 0.3,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 14
+          },
+          {
+            "name": "RIG-I-like receptor signaling pathway",
+            "count": 12
+          },
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 11
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4705",
@@ -3076,8 +6051,24 @@
         "top1_pct": 2.0,
         "top1_any_pct": 8.0,
         "top5_pct": 18.0,
-        "mean_rank": 184.9,
-        "median_rank": 34.5
+        "mean_rank": 170.9,
+        "median_rank": 30.0,
+        "avg_jaccard": 9.31,
+        "median_jaccard": 8.99,
+        "top_other_matches": [
+          {
+            "name": "TLR4 signaling and tolerance",
+            "count": 9
+          },
+          {
+            "name": "Type I interferon induction and signaling during SARS CoV 2 infection",
+            "count": 8
+          },
+          {
+            "name": "Host pathogen interaction of human coronaviruses interferon induction",
+            "count": 6
+          }
+        ]
       }
     },
     {
@@ -3092,11 +6083,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 22.0,
-        "top1_any_pct": 22.0,
+        "top1_pct": 24.0,
+        "top1_any_pct": 24.0,
         "top5_pct": 84.0,
-        "mean_rank": 4.4,
-        "median_rank": 2.0
+        "mean_rank": 4.5,
+        "median_rank": 2.0,
+        "avg_jaccard": 5.89,
+        "median_jaccard": 3.99,
+        "top_other_matches": [
+          {
+            "name": "p53 signaling pathway",
+            "count": 26
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 2
+          },
+          {
+            "name": "FoxO signaling pathway",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5050",
@@ -3108,8 +6115,24 @@
         "top1_pct": 2.0,
         "top1_any_pct": 0.0,
         "top5_pct": 2.0,
-        "mean_rank": 147.8,
-        "median_rank": 49.0
+        "mean_rank": 161.6,
+        "median_rank": 52.0,
+        "avg_jaccard": 4.62,
+        "median_jaccard": 4.76,
+        "top_other_matches": [
+          {
+            "name": "lncRNA mediated mechanisms of therapeutic resistance",
+            "count": 17
+          },
+          {
+            "name": "TP53 network",
+            "count": 7
+          },
+          {
+            "name": "Bladder cancer",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -3127,8 +6150,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 147.8,
-        "median_rank": 148.0
+        "mean_rank": 152.1,
+        "median_rank": 148.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Arginine biosynthesis",
+            "count": 6
+          },
+          {
+            "name": "Citrate cycle (TCA cycle)",
+            "count": 4
+          },
+          {
+            "name": "Adipocytokine signaling pathway",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4582",
@@ -3140,8 +6179,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 2.0,
         "top5_pct": 4.0,
-        "mean_rank": 520.6,
-        "median_rank": 570.0
+        "mean_rank": 533.5,
+        "median_rank": 571.0,
+        "avg_jaccard": 0.64,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Glucose metabolism in triple negative breast cancer cells",
+            "count": 5
+          },
+          {
+            "name": "Sickle cell disease",
+            "count": 3
+          },
+          {
+            "name": "Control of immune tolerance by vasoactive intestinal peptide",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -3159,8 +6214,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 154.7,
-        "median_rank": 151.5
+        "mean_rank": 153,
+        "median_rank": 149.5,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 7
+          },
+          {
+            "name": "Viral protein interaction with cytokine and cytokine receptor",
+            "count": 6
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4919",
@@ -3170,10 +6241,26 @@
       },
       "wiki": {
         "top1_pct": 0.0,
-        "top1_any_pct": 20.0,
+        "top1_any_pct": 18.0,
         "top5_pct": 0.0,
-        "mean_rank": 358.1,
-        "median_rank": 230.5
+        "mean_rank": 328.1,
+        "median_rank": 134.0,
+        "avg_jaccard": 2.8,
+        "median_jaccard": 3.1,
+        "top_other_matches": [
+          {
+            "name": "Blood based neuroinflammation markers ",
+            "count": 8
+          },
+          {
+            "name": "LTF danger signal response pathway",
+            "count": 4
+          },
+          {
+            "name": "Nanomaterial induced inflammasome activation",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3191,8 +6278,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 91.9,
-        "median_rank": 55.0
+        "mean_rank": 88.4,
+        "median_rank": 51.0,
+        "avg_jaccard": 0.84,
+        "median_jaccard": 0.59,
+        "top_other_matches": [
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 14
+          },
+          {
+            "name": "Toll-like receptor signaling pathway",
+            "count": 5
+          },
+          {
+            "name": "Th17 cell differentiation",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4482",
@@ -3203,9 +6306,25 @@
       "wiki": {
         "top1_pct": 0.0,
         "top1_any_pct": 14.0,
-        "top5_pct": 0.0,
-        "mean_rank": 173.9,
-        "median_rank": 47.0
+        "top5_pct": 2.0,
+        "mean_rank": 152.4,
+        "median_rank": 46.0,
+        "avg_jaccard": 5.61,
+        "median_jaccard": 5.71,
+        "top_other_matches": [
+          {
+            "name": "COVID 19 adverse outcome pathway",
+            "count": 3
+          },
+          {
+            "name": "Activation of NLRP3 inflammasome by SARS CoV 2",
+            "count": 3
+          },
+          {
+            "name": "Cytokines and inflammatory response",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -3222,9 +6341,25 @@
       "kegg": {
         "top1_pct": 14.0,
         "top1_any_pct": 14.0,
-        "top5_pct": 94.0,
-        "mean_rank": 3.0,
-        "median_rank": 2.0
+        "top5_pct": 98.0,
+        "mean_rank": 2.7,
+        "median_rank": 2.0,
+        "avg_jaccard": 6.44,
+        "median_jaccard": 6.56,
+        "top_other_matches": [
+          {
+            "name": "Nucleotide metabolism",
+            "count": 23
+          },
+          {
+            "name": "Caffeine metabolism",
+            "count": 8
+          },
+          {
+            "name": "Alanine, aspartate and glutamate metabolism",
+            "count": 6
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4224",
@@ -3234,10 +6369,26 @@
       },
       "wiki": {
         "top1_pct": 24.0,
-        "top1_any_pct": 80.0,
-        "top5_pct": 84.0,
-        "mean_rank": 20.0,
-        "median_rank": 2.0
+        "top1_any_pct": 84.0,
+        "top5_pct": 88.0,
+        "mean_rank": 12.0,
+        "median_rank": 2.0,
+        "avg_jaccard": 19.26,
+        "median_jaccard": 20.0,
+        "top_other_matches": [
+          {
+            "name": "Purine metabolism",
+            "count": 30
+          },
+          {
+            "name": "Oxytocin signaling",
+            "count": 1
+          },
+          {
+            "name": "Gamma glutamyl cycle for the biosynthesis and degradation of glutathione",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -3256,7 +6407,23 @@
         "top1_any_pct": 80.0,
         "top5_pct": 100.0,
         "mean_rank": 1.2,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 25.17,
+        "median_jaccard": 12.44,
+        "top_other_matches": [
+          {
+            "name": "Th17 cell differentiation",
+            "count": 6
+          },
+          {
+            "name": "C-type lectin receptor signaling pathway",
+            "count": 1
+          },
+          {
+            "name": "Drug metabolism - cytochrome P450",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2112",
@@ -3265,11 +6432,27 @@
         "match_type": "similarity"
       },
       "wiki": {
-        "top1_pct": 30.0,
+        "top1_pct": 28.0,
         "top1_any_pct": 0.0,
         "top5_pct": 60.0,
         "mean_rank": 27.1,
-        "median_rank": 3.0
+        "median_rank": 3.0,
+        "avg_jaccard": 16.04,
+        "median_jaccard": 15.51,
+        "top_other_matches": [
+          {
+            "name": "Immune infiltration in pancreatic cancer",
+            "count": 7
+          },
+          {
+            "name": "Psoriasis mechanism and therapies",
+            "count": 6
+          },
+          {
+            "name": "COVID 19 and endothelial cell senescence",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3288,7 +6471,23 @@
         "top1_any_pct": 76.0,
         "top5_pct": 96.0,
         "mean_rank": 3.6,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 13.74,
+        "median_jaccard": 10.2,
+        "top_other_matches": [
+          {
+            "name": "Fanconi anemia pathway",
+            "count": 7
+          },
+          {
+            "name": "Mismatch repair",
+            "count": 3
+          },
+          {
+            "name": "Non-homologous end-joining",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP186",
@@ -3301,7 +6500,23 @@
         "top1_any_pct": 58.0,
         "top5_pct": 86.0,
         "mean_rank": 7.9,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 13.63,
+        "median_jaccard": 13.33,
+        "top_other_matches": [
+          {
+            "name": "DNA IR damage and cellular response via ATR",
+            "count": 4
+          },
+          {
+            "name": "Nifedipine activity",
+            "count": 3
+          },
+          {
+            "name": "ATR signaling",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -3319,8 +6534,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 56.7,
-        "median_rank": 47.0
+        "mean_rank": 57.2,
+        "median_rank": 47.0,
+        "avg_jaccard": 0.0,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Retinol metabolism",
+            "count": 23
+          },
+          {
+            "name": "p53 signaling pathway",
+            "count": 3
+          },
+          {
+            "name": "Prolactin signaling pathway",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3879",
@@ -3332,8 +6563,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 311.3,
-        "median_rank": 315.5
+        "mean_rank": 312.4,
+        "median_rank": 317.5,
+        "avg_jaccard": 0.43,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Vitamin A and carotenoid metabolism",
+            "count": 17
+          },
+          {
+            "name": "Vitamin A1 and A5 X pathways",
+            "count": 9
+          },
+          {
+            "name": "Vitamins A and D action mechanisms",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3348,11 +6595,27 @@
         "match_type": "substring"
       },
       "kegg": {
-        "top1_pct": 56.0,
-        "top1_any_pct": 56.0,
-        "top5_pct": 88.0,
-        "mean_rank": 2.5,
-        "median_rank": 1.0
+        "top1_pct": 54.0,
+        "top1_any_pct": 54.0,
+        "top5_pct": 86.0,
+        "mean_rank": 2.7,
+        "median_rank": 1.0,
+        "avg_jaccard": 5.05,
+        "median_jaccard": 4.07,
+        "top_other_matches": [
+          {
+            "name": "Pyruvate metabolism",
+            "count": 3
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 2
+          },
+          {
+            "name": "Mitophagy - animal",
+            "count": 2
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP5523",
@@ -3364,8 +6627,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 834.0,
-        "median_rank": 903.5
+        "mean_rank": 817.4,
+        "median_rank": 902.5,
+        "avg_jaccard": 0.29,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "MicroRNA for targeting cancer growth and vascularization in glioblastoma",
+            "count": 6
+          },
+          {
+            "name": "Glucose metabolism in triple negative breast cancer cells",
+            "count": 4
+          },
+          {
+            "name": "HIF1A and PPARG in hypertrophic cardiomyopathy",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -3381,10 +6660,26 @@
       },
       "kegg": {
         "top1_pct": 26.0,
-        "top1_any_pct": 50.0,
-        "top5_pct": 50.0,
-        "mean_rank": 17.7,
-        "median_rank": 5.5
+        "top1_any_pct": 52.0,
+        "top5_pct": 48.0,
+        "mean_rank": 17.8,
+        "median_rank": 6.5,
+        "avg_jaccard": 3.38,
+        "median_jaccard": 1.69,
+        "top_other_matches": [
+          {
+            "name": "Sphingolipid signaling pathway",
+            "count": 12
+          },
+          {
+            "name": "VEGF signaling pathway",
+            "count": 6
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP1422",
@@ -3396,8 +6691,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 20.0,
         "top5_pct": 12.0,
-        "mean_rank": 66.1,
-        "median_rank": 39.5
+        "mean_rank": 67.2,
+        "median_rank": 45.5,
+        "avg_jaccard": 4.53,
+        "median_jaccard": 2.86,
+        "top_other_matches": [
+          {
+            "name": "Biosynthesis and turnover of 1 deoxy sphingoid bases",
+            "count": 8
+          },
+          {
+            "name": "Multiple sclerosis mechanism and therapies",
+            "count": 5
+          },
+          {
+            "name": "Modulation of PI3K Akt mTOR signaling by bioactive sphingolipids",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3415,8 +6726,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 57.2,
-        "median_rank": 60.5
+        "mean_rank": 57.6,
+        "median_rank": 61.0,
+        "avg_jaccard": 0.02,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "TGF-beta signaling pathway",
+            "count": 30
+          },
+          {
+            "name": "Ferroptosis",
+            "count": 15
+          },
+          {
+            "name": "Th17 cell differentiation",
+            "count": 3
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3529",
@@ -3428,8 +6755,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 318.5,
-        "median_rank": 339.5
+        "mean_rank": 321.3,
+        "median_rank": 353.0,
+        "avg_jaccard": 0.14,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Hfe effect on hepcidin production",
+            "count": 32
+          },
+          {
+            "name": "Iron metabolism disorders",
+            "count": 11
+          },
+          {
+            "name": "Iron metabolism in placenta",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3447,8 +6790,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 62.9,
-        "median_rank": 56.0
+        "mean_rank": 63.1,
+        "median_rank": 56.0,
+        "avg_jaccard": 0.05,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 10
+          },
+          {
+            "name": "IL-17 signaling pathway",
+            "count": 5
+          },
+          {
+            "name": "Ubiquinone and other terpenoid-quinone biosynthesis",
+            "count": 4
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP3670",
@@ -3458,10 +6817,26 @@
       },
       "wiki": {
         "top1_pct": 2.0,
-        "top1_any_pct": 14.0,
+        "top1_any_pct": 16.0,
         "top5_pct": 2.0,
-        "mean_rank": 142,
-        "median_rank": 73.5
+        "mean_rank": 140.7,
+        "median_rank": 73.5,
+        "avg_jaccard": 5.13,
+        "median_jaccard": 3.92,
+        "top_other_matches": [
+          {
+            "name": "Oxidative stress response",
+            "count": 5
+          },
+          {
+            "name": "Transcriptional activation by NRF2 in response to phytochemicals",
+            "count": 4
+          },
+          {
+            "name": "Quercetin and Nf kB AP 1 induced apoptosis",
+            "count": 3
+          }
+        ]
       }
     },
     {
@@ -3480,7 +6855,23 @@
         "top1_any_pct": 12.0,
         "top5_pct": 84.0,
         "mean_rank": 28.3,
-        "median_rank": 3.0
+        "median_rank": 3.0,
+        "avg_jaccard": 22.09,
+        "median_jaccard": 21.42,
+        "top_other_matches": [
+          {
+            "name": "SARS coronavirus and innate immunity",
+            "count": 15
+          },
+          {
+            "name": "Type III interferon signaling",
+            "count": 12
+          },
+          {
+            "name": "SARS CoV 2 B 1 1 7 variant antagonises innate immune activation",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3497,9 +6888,25 @@
       "kegg": {
         "top1_pct": 10.0,
         "top1_any_pct": 10.0,
-        "top5_pct": 64.0,
+        "top5_pct": 62.0,
         "mean_rank": 5.2,
-        "median_rank": 4.5
+        "median_rank": 5.0,
+        "avg_jaccard": 6.72,
+        "median_jaccard": 6.43,
+        "top_other_matches": [
+          {
+            "name": "TNF signaling pathway",
+            "count": 14
+          },
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 11
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 9
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4313",
@@ -3511,8 +6918,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 503.3,
-        "median_rank": 525.5
+        "mean_rank": 501.8,
+        "median_rank": 524.0,
+        "avg_jaccard": 0.07,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Nanoparticle triggered regulated necrosis",
+            "count": 27
+          },
+          {
+            "name": "Pro survival signaling of neuroprotectin D1",
+            "count": 15
+          },
+          {
+            "name": "Apoptosis modulation by HSP70",
+            "count": 1
+          }
+        ]
       }
     },
     {
@@ -3530,8 +6953,24 @@
         "top1_pct": 0.0,
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
-        "mean_rank": 876.8,
-        "median_rank": 926.0
+        "mean_rank": 876.7,
+        "median_rank": 926.0,
+        "avg_jaccard": 0.18,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "MAPK signaling and ARTD family members",
+            "count": 6
+          },
+          {
+            "name": "Neuroinflammation",
+            "count": 4
+          },
+          {
+            "name": "Influenza A virus infection",
+            "count": 4
+          }
+        ]
       }
     },
     {
@@ -3550,7 +6989,23 @@
         "top1_any_pct": 18.0,
         "top5_pct": 74.0,
         "mean_rank": 4.1,
-        "median_rank": 4.0
+        "median_rank": 4.0,
+        "avg_jaccard": 5.43,
+        "median_jaccard": 4.14,
+        "top_other_matches": [
+          {
+            "name": "Cytosolic DNA-sensing pathway",
+            "count": 14
+          },
+          {
+            "name": "TNF signaling pathway",
+            "count": 12
+          },
+          {
+            "name": "Apoptosis - multiple species",
+            "count": 9
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP4313",
@@ -3563,7 +7018,23 @@
         "top1_any_pct": 0.0,
         "top5_pct": 0.0,
         "mean_rank": 448.5,
-        "median_rank": 488.0
+        "median_rank": 488.0,
+        "avg_jaccard": 0.19,
+        "median_jaccard": 0.0,
+        "top_other_matches": [
+          {
+            "name": "Nanoparticle triggered regulated necrosis",
+            "count": 41
+          },
+          {
+            "name": "Pro survival signaling of neuroprotectin D1",
+            "count": 5
+          },
+          {
+            "name": "Inclusion body myositis",
+            "count": 2
+          }
+        ]
       }
     },
     {
@@ -3582,7 +7053,23 @@
         "top1_any_pct": 94.0,
         "top5_pct": 100.0,
         "mean_rank": 1.1,
-        "median_rank": 1.0
+        "median_rank": 1.0,
+        "avg_jaccard": 17.12,
+        "median_jaccard": 10.37,
+        "top_other_matches": [
+          {
+            "name": "Th17 cell differentiation",
+            "count": 1
+          },
+          {
+            "name": "RIG-I-like receptor signaling pathway",
+            "count": 1
+          },
+          {
+            "name": "Viral protein interaction with cytokine and cytokine receptor",
+            "count": 1
+          }
+        ]
       },
       "expected_wiki": {
         "id": "WP2112",
@@ -3595,7 +7082,23 @@
         "top1_any_pct": 0.0,
         "top5_pct": 78.0,
         "mean_rank": 17.1,
-        "median_rank": 2.0
+        "median_rank": 2.0,
+        "avg_jaccard": 18.88,
+        "median_jaccard": 19.44,
+        "top_other_matches": [
+          {
+            "name": "COVID 19 and endothelial cell senescence",
+            "count": 7
+          },
+          {
+            "name": "Psoriasis mechanism and therapies",
+            "count": 6
+          },
+          {
+            "name": "Immune infiltration in pancreatic cancer",
+            "count": 4
+          }
+        ]
       }
     }
   ]
