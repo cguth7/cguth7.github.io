@@ -263,6 +263,38 @@
                         </table>
                     </div>
                 </div>
+
+                <div class="chart-container">
+                    <h3>WikiPathways Validation by Pathway</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Gemini Pathway</th>
+                                    <th>Images</th>
+                                    <th>Expected WikiPathway</th>
+                                    <th>Specific #1</th>
+                                    <th>Any #1</th>
+                                    <th>Top 5</th>
+                                    <th>Mean Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${pathways.filter(p => p.wiki).map(p => `
+                                    <tr>
+                                        <td><strong>${p.pathway}</strong></td>
+                                        <td>${p.total_images}</td>
+                                        <td>${p.expected_wiki?.name || '-'}</td>
+                                        <td class="${getClass(p.wiki.top1_pct)}">${p.wiki.top1_pct}%</td>
+                                        <td class="${getClass(p.wiki.top1_any_pct)}">${p.wiki.top1_any_pct}%</td>
+                                        <td class="${getClass(p.wiki.top5_pct)}">${p.wiki.top5_pct}%</td>
+                                        <td>${p.wiki.mean_rank}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             `;
 
             document.getElementById('content').innerHTML = html;
