@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Pathway Analysis | Charlie Guthmann</title>
+    <style>
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-muted: #666;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 900px; margin: 0 auto; }
+
+        header {
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .overview {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .overview h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .overview p {
+            margin-bottom: 0.75rem;
+        }
+        .overview p:last-child { margin-bottom: 0; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .pipeline {
+            margin-bottom: 2rem;
+        }
+        .pipeline h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .step-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        .step-content {
+            flex: 1;
+            padding-top: 4px;
+        }
+        .step-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .dashboards {
+            margin-bottom: 2rem;
+        }
+        .dashboards h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 0.75rem;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .dashboard-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+        }
+        .dashboard-card h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--accent);
+        }
+        .dashboard-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        .dashboard-card .badge {
+            display: inline-block;
+            background: var(--accent-light);
+            color: var(--accent);
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+        }
+
+        .method {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .method h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .method h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem 0;
+        }
+        .method h3:first-of-type { margin-top: 0; }
+        .method p, .method ul {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        .method ul {
+            margin: 0.5rem 0 0.5rem 1.25rem;
+        }
+        .method li { margin: 0.25rem 0; }
+        .method code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gemini Pathway Analysis</h1>
+            <p class="subtitle">Automated extraction and validation of signaling pathways from scientific figures</p>
+        </header>
+
+        <div class="overview">
+            <h2>Project Overview</h2>
+            <p>We use Google Gemini to extract gene/protein interaction networks from published pathway diagrams. The model identifies nodes (genes, chemicals, phenotypes), edges (interactions), and pathway classifications from ~49,000 images sourced from PubMed Central.</p>
+            <p>The dashboards below show our validation work: mapping extracted pathway names to canonical databases (KEGG, WikiPathways) and measuring how well individual images match reference gene sets.</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">49k</div>
+                <div class="stat-label">Images Processed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">8,349</div>
+                <div class="stat-label">Unique Pathways</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">239</div>
+                <div class="stat-label">KEGG References</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">984</div>
+                <div class="stat-label">WikiPathways Refs</div>
+            </div>
+        </div>
+
+        <div class="pipeline">
+            <h2>Analysis Pipeline</h2>
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Image Extraction</div>
+                    <div class="step-desc">Gemini processes pathway images, extracting gene names, interactions, and pathway classifications</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Pathway Alignment</div>
+                    <div class="step-desc">Map extracted pathway names to canonical KEGG/WikiPathways IDs using gene overlap (Jaccard) and string matching</div>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Per-Image Validation</div>
+                    <div class="step-desc">Test individual images against reference gene sets to measure extraction quality</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboards">
+            <h2>Interactive Dashboards</h2>
+
+            <a href="/research/pathway-alignment/" class="dashboard-card">
+                <h3>Pathway Alignment Dashboard <span class="badge">Primary</span></h3>
+                <p>Explore how 8,349 extracted pathway names map to KEGG and WikiPathways. Compare pure Jaccard vs combined scoring methods.</p>
+            </a>
+
+            <a href="/research/hippo-image-jaccard/" class="dashboard-card">
+                <h3>Hippo Pathway Case Study</h3>
+                <p>Deep dive into Hippo signaling pathway. Per-image gene overlap analysis against KEGG and WikiPathways Hippo references.</p>
+            </a>
+
+            <a href="/research/hippo-image-jaccard/validation.html" class="dashboard-card">
+                <h3>Hippo Cross-Pathway Validation</h3>
+                <p>Test Hippo images against ALL pathways. Validates that Hippo-labeled images actually match Hippo best (not hub pathways like PI3K-Akt).</p>
+            </a>
+
+            <a href="/research/hippo-image-jaccard/full_validation.html" class="dashboard-card">
+                <h3>Full Pathway Validation</h3>
+                <p>Extends validation to 118 pathways. For each pathway, measures how often images match their labeled pathway vs. other pathways.</p>
+            </a>
+        </div>
+
+        <div class="method">
+            <h2>Methodology Notes</h2>
+
+            <h3>Jaccard Similarity</h3>
+            <p>Gene overlap between extracted and reference gene sets: <code>|A ∩ B| / |A ∪ B|</code>. Simple but effective for measuring pathway similarity.</p>
+
+            <h3>Why Combined Scoring?</h3>
+            <p>Pure Jaccard has a hub pathway problem: large pathways like PI3K-Akt or Cancer pathways match almost everything. We use <code>0.7 × Jaccard + 0.3 × StringMatch</code> to balance gene overlap with pathway name similarity.</p>
+
+            <h3>Known Limitations</h3>
+            <ul>
+                <li>Images often show partial pathway views, leading to low Jaccard scores</li>
+                <li>Gene naming varies: "ERK" vs. "MAPK1/3", "AKT" vs. "AKT1/2/3"</li>
+                <li>Some real pathways missing from KEGG/WikiPathways (e.g., cGAS-STING)</li>
+                <li>KEGG and WikiPathways have different curation philosophies (broad vs. focused)</li>
+            </ul>
+        </div>
+
+        <footer>
+            <p><a href="/research/">← Back to Research</a> &nbsp;|&nbsp; <a href="/">Home</a></p>
+            <p style="margin-top: 0.5rem;">Data source: <code>gemini_cell_pathways/</code> &nbsp;|&nbsp; Updated: Feb 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
