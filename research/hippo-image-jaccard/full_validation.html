@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Pathway Validation - All Gemini Pathways</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container { max-width: 1400px; margin: 0 auto; }
+        header {
+            background: linear-gradient(135deg, #1a5276, #2980b9);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+        h1 { font-size: 1.8em; margin-bottom: 10px; }
+        .subtitle { opacity: 0.9; font-size: 1.1em; }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .summary-card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .summary-card h3 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        .stat-row { display: flex; justify-content: space-between; margin: 10px 0; }
+        .stat-label { color: #666; }
+        .stat-value { font-weight: 600; color: #2c3e50; }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .chart-container h3 { color: #2c3e50; margin-bottom: 20px; }
+
+        .explanation {
+            background: #e8f4fd;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-bottom: 25px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        th { background: #f8f9fa; font-weight: 600; color: #2c3e50; cursor: pointer; }
+        th:hover { background: #e8f4fd; }
+        tr:hover { background: #f8f9fa; }
+
+        .good { color: #27ae60; font-weight: 600; }
+        .medium { color: #f39c12; font-weight: 600; }
+        .poor { color: #e74c3c; font-weight: 600; }
+
+        .search-box {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 300px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9em;
+        }
+        footer a { color: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Full Pathway Validation</h1>
+            <p class="subtitle">Do images match their expected KEGG/WikiPathways references?</p>
+        </header>
+
+        <div class="explanation">
+            <p><strong>Method:</strong> For each Gemini pathway with 50+ images, we find the best-matching KEGG/WikiPathways by name, then check if images actually have highest Jaccard with that pathway.</p>
+            <p><strong>Two metrics:</strong></p>
+            <ul style="margin:10px 0 0 20px;">
+                <li><strong>Specific #1:</strong> The exact matched pathway is ranked #1</li>
+                <li><strong>Any-matching #1:</strong> Any pathway containing the search term is #1 (e.g., any "Hippo" pathway)</li>
+            </ul>
+        </div>
+
+        <div id="content">Loading...</div>
+
+        <footer>
+            <p><a href="validation.html">Hippo-only Validation</a> | <a href="index.html">Hippo Reference Comparison</a> | <a href="../../">Home</a></p>
+        </footer>
+    </div>
+
+    <script>
+        let data = null;
+        let sortCol = 'top1_any';
+        let sortAsc = false;
+
+        async function loadData() {
+            const response = await fetch('full_validation_data.json');
+            data = await response.json();
+            render();
+        }
+
+        function sortBy(col) {
+            if (sortCol === col) {
+                sortAsc = !sortAsc;
+            } else {
+                sortCol = col;
+                sortAsc = false;
+            }
+            render();
+        }
+
+        function getClass(val) {
+            if (val >= 50) return 'good';
+            if (val >= 20) return 'medium';
+            return 'poor';
+        }
+
+        function render() {
+            const s = data.summary;
+
+            // Filter and sort pathways
+            let pathways = data.pathways.filter(p => p.kegg);
+
+            const getValue = (p) => {
+                switch(sortCol) {
+                    case 'pathway': return p.pathway;
+                    case 'images': return p.total_images;
+                    case 'top1': return p.kegg.top1_pct;
+                    case 'top1_any': return p.kegg.top1_any_pct;
+                    case 'top5': return p.kegg.top5_pct;
+                    case 'rank': return p.kegg.mean_rank;
+                    default: return p.kegg.top1_any_pct;
+                }
+            };
+
+            pathways.sort((a, b) => {
+                const va = getValue(a);
+                const vb = getValue(b);
+                if (typeof va === 'string') {
+                    return sortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+                }
+                return sortAsc ? va - vb : vb - va;
+            });
+
+            let html = `
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <h3>KEGG Validation</h3>
+                        <div class="stat-row">
+                            <span class="stat-label">Pathways tested</span>
+                            <span class="stat-value">${s.pathways_with_kegg_match}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Avg specific #1</span>
+                            <span class="stat-value">${s.kegg.avg_top1_pct}%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Avg any-matching #1</span>
+                            <span class="stat-value">${s.kegg.avg_top1_any_pct}%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Avg expected top-5</span>
+                            <span class="stat-value">${s.kegg.avg_top5_pct}%</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>WikiPathways Validation</h3>
+                        <div class="stat-row">
+                            <span class="stat-label">Pathways tested</span>
+                            <span class="stat-value">${s.pathways_with_wiki_match}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Avg specific #1</span>
+                            <span class="stat-value">${s.wiki.avg_top1_pct}%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Avg any-matching #1</span>
+                            <span class="stat-value">${s.wiki.avg_top1_any_pct}%</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Avg expected top-5</span>
+                            <span class="stat-value">${s.wiki.avg_top5_pct}%</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card">
+                        <h3>Dataset</h3>
+                        <div class="stat-row">
+                            <span class="stat-label">Total pathways tested</span>
+                            <span class="stat-value">${s.total_pathways_tested}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Min images per pathway</span>
+                            <span class="stat-value">${s.min_images}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">KEGG reference size</span>
+                            <span class="stat-value">${s.total_kegg_refs}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">WikiPathways size</span>
+                            <span class="stat-value">${s.total_wiki_refs}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <h3>KEGG Validation by Pathway (click headers to sort)</h3>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th onclick="sortBy('pathway')">Gemini Pathway</th>
+                                    <th onclick="sortBy('images')">Images</th>
+                                    <th>Expected KEGG</th>
+                                    <th onclick="sortBy('top1')">Specific #1</th>
+                                    <th onclick="sortBy('top1_any')">Any #1</th>
+                                    <th onclick="sortBy('top5')">Top 5</th>
+                                    <th onclick="sortBy('rank')">Mean Rank</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${pathways.map(p => `
+                                    <tr>
+                                        <td><strong>${p.pathway}</strong><br><small style="color:#888">term: ${p.search_term}</small></td>
+                                        <td>${p.total_images}</td>
+                                        <td>${p.expected_kegg?.name || '-'}</td>
+                                        <td class="${getClass(p.kegg.top1_pct)}">${p.kegg.top1_pct}%</td>
+                                        <td class="${getClass(p.kegg.top1_any_pct)}">${p.kegg.top1_any_pct}%</td>
+                                        <td class="${getClass(p.kegg.top5_pct)}">${p.kegg.top5_pct}%</td>
+                                        <td>${p.kegg.mean_rank}</td>
+                                    </tr>
+                                `).join('')}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('content').innerHTML = html;
+        }
+
+        loadData();
+    </script>
+</body>
+</html>
