@@ -94,21 +94,29 @@
         /* Image Analysis Styles */
         .image-analysis-toggle { margin-top: 10px; }
         .image-analysis-toggle summary { cursor: pointer; color: #9b59b6; font-size: 13px; font-weight: 500; }
-        .image-analysis-toggle summary .badge { background: #9b59b6; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; }
+        .image-analysis-toggle summary .badge { background: #27ae60; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; }
+        .image-analysis-toggle summary .badge.has-flags { background: #e74c3c; }
         .image-analysis-content { margin-top: 15px; }
-        .image-summary { padding: 12px; background: #f5eef8; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #9b59b6; }
-        .image-summary-score { display: inline-block; padding: 4px 10px; border-radius: 12px; font-weight: bold; font-size: 13px; color: white; margin-right: 10px; }
-        .image-summary-text { font-size: 13px; color: #555; margin-top: 8px; }
+        .image-summary { padding: 12px; background: #f0fff0; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #27ae60; }
+        .image-summary.has-flags { background: #fff5f5; border-left-color: #e74c3c; }
+        .image-summary-status { font-weight: bold; font-size: 14px; }
+        .image-summary-status.clean { color: #27ae60; }
+        .image-summary-status.flagged { color: #e74c3c; }
 
         .image-gallery { display: flex; flex-direction: column; gap: 15px; }
         .image-card { display: flex; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0; }
+        .image-card.flagged { background: #fff5f5; border-color: #e74c3c; border-width: 2px; }
+        .image-card.skipped { opacity: 0.5; }
         .image-card img { max-width: 300px; max-height: 400px; border-radius: 4px; border: 1px solid #ddd; object-fit: contain; background: white; cursor: pointer; transition: transform 0.2s; }
         .image-card img:hover { transform: scale(1.02); }
         .image-card-details { flex: 1; min-width: 200px; }
         .image-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
         .image-card-title { font-weight: 600; font-size: 14px; color: #2c3e50; }
         .image-card-category { background: #3498db; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; text-transform: capitalize; }
+        .image-card-category.skipped { background: #95a5a6; }
+        .flag-badge { background: #e74c3c; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; }
         .image-card-findings { font-size: 13px; color: #555; line-height: 1.5; }
+        .image-card-findings.flagged { color: #c0392b; font-weight: 500; }
 
         /* Image modal for enlarged view */
         .image-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; cursor: zoom-out; }
@@ -447,45 +455,54 @@
                         </div>`;
                 }
 
-                // Build image analysis content
+                // Build image analysis content (binary flags, not scores)
                 let imageTabHtml = '';
                 let imageContentHtml = '<p style="color: #7f8c8d;">No image analysis available for this paper.</p>';
                 const ia = paper.image_analysis;
 
-                if (ia && ia.images && ia.images.length > 0) {
-                    const summaryScore = ia.summary_score || 0;
-                    const summaryColor = getScoreColor(summaryScore);
+                if (ia && ia.images) {
+                    const flagCount = ia.flag_count || 0;
+                    const hasFlags = flagCount > 0;
+                    const scientificImages = ia.images.filter(img => img.is_scientific);
 
                     let imagesHtml = '';
                     ia.images.forEach((img, i) => {
-                        const imgScore = img.score || 0;
-                        const imgColor = getScoreColor(imgScore);
+                        const isScientific = img.is_scientific;
+                        const isFlagged = img.flagged;
                         const imgSrc = img.image_base64 ? `data:image/jpeg;base64,${img.image_base64}` : '';
 
+                        // Skip non-scientific images in display (just show count)
+                        if (!isScientific) return;
+
                         imagesHtml += `
-                            <div class="image-card">
-                                ${imgSrc ? `<img src="${imgSrc}" alt="Page image ${i + 1}" onclick="openImageModal(this.src)">` : '<div style="width:200px;height:200px;background:#eee;display:flex;align-items:center;justify-content:center;border-radius:4px;">No image</div>'}
+                            <div class="image-card ${isFlagged ? 'flagged' : ''}">
+                                ${imgSrc ? `<img src="${imgSrc}" alt="Figure ${i + 1}" onclick="openImageModal(this.src)">` : '<div style="width:200px;height:200px;background:#eee;display:flex;align-items:center;justify-content:center;border-radius:4px;">No preview</div>'}
                                 <div class="image-card-details">
                                     <div class="image-card-header">
-                                        <span class="image-card-title">Page ${i + 1}</span>
-                                        <span class="criterion-score" style="background: ${imgColor};">${imgScore.toFixed(1)}</span>
+                                        <span class="image-card-title">Figure (page ${img.page || '?'})</span>
+                                        ${isFlagged ? '<span class="flag-badge">FLAGGED</span>' : ''}
                                     </div>
                                     ${img.category ? `<span class="image-card-category">${img.category.replace(/_/g, ' ')}</span>` : ''}
-                                    <p class="image-card-findings">${img.findings || 'No findings recorded.'}</p>
+                                    <p class="image-card-findings ${isFlagged ? 'flagged' : ''}">${isFlagged ? img.finding : 'No issues detected.'}</p>
                                 </div>
                             </div>`;
                     });
 
-                    imageTabHtml = `<span class="tab-badge">${ia.images.length}</span>`;
+                    const skippedCount = ia.images.length - scientificImages.length;
+                    const badgeClass = hasFlags ? 'has-flags' : '';
+                    const badgeText = hasFlags ? `${flagCount} FLAG${flagCount > 1 ? 'S' : ''}` : 'Clean';
+                    imageTabHtml = `<span class="tab-badge ${badgeClass}">${badgeText}</span>`;
+
+                    const summaryClass = hasFlags ? 'has-flags' : '';
+                    const statusClass = hasFlags ? 'flagged' : 'clean';
+                    const statusText = hasFlags ? `${flagCount} potential issue(s) flagged` : 'No manipulation detected';
+
                     imageContentHtml = `
-                        <div class="image-summary">
-                            <span class="image-summary-score" style="background: ${summaryColor};">${summaryScore.toFixed(1)}</span>
-                            <strong>Overall Image Assessment</strong>
-                            <p class="image-summary-text">${ia.summary || 'No summary available.'}</p>
+                        <div class="image-summary ${summaryClass}">
+                            <span class="image-summary-status ${statusClass}">${statusText}</span>
+                            <p style="font-size: 13px; color: #666; margin-top: 5px;">${scientificImages.length} scientific figure(s) analyzed${skippedCount > 0 ? `, ${skippedCount} non-scientific image(s) skipped` : ''}</p>
                         </div>
-                        <div class="image-gallery">
-                            ${imagesHtml}
-                        </div>`;
+                        ${imagesHtml ? `<div class="image-gallery">${imagesHtml}</div>` : '<p style="color: #7f8c8d;">No scientific figures found in this paper.</p>'}`;
                 }
 
                 // Convert filename to DOI link
