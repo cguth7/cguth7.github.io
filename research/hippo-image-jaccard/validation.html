@@ -181,6 +181,15 @@
                 <strong>Jaccard = 3 / 157 = 1.9%</strong>
             </div>
             <p style="color:#666;font-size:0.9em;margin-top:8px;">Note: Low Jaccard is expected — images show partial pathway views, not the full reference pathway.</p>
+
+            <div style="background:#fff3e0;border-left:4px solid #e67e22;padding:12px 15px;margin-top:15px;border-radius:0 6px 6px 0;">
+                <strong style="color:#d35400;">⚠️ Known limitation: Gene family labels</strong>
+                <p style="margin:8px 0 0 0;font-size:0.9em;">29% of gene labels (482/1648) lack Entrez IDs. Many are Hippo-related family names:</p>
+                <div style="font-family:monospace;font-size:0.85em;margin-top:8px;color:#555;">
+                    LATS1/2 (37x), MST1/2 (32x), YAP/TAZ (25x), TEAD (35x), MOB1 (14x)
+                </div>
+                <p style="margin:8px 0 0 0;font-size:0.85em;color:#666;">These don't contribute to Jaccard overlap, making true scores higher than reported.</p>
+            </div>
         </div>
 
         <div id="content">
