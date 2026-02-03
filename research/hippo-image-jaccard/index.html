@@ -375,11 +375,11 @@
                                     .sort((a, b) => b[1].jaccard - a[1].jaccard)[0];
                                 return `
                                     <tr>
-                                        <td><a class="pmc-link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/\${img.pmc_id}" target="_blank">\${img.pmc_id}</a></td>
-                                        <td>\${img.filename.split('__')[1] || img.filename}</td>
-                                        <td>\${img.gene_count}</td>
-                                        <td>\${bestKegg[1].name}: \${(bestKegg[1].jaccard * 100).toFixed(1)}%</td>
-                                        <td>\${bestWiki[1].name.substring(0, 30)}: \${(bestWiki[1].jaccard * 100).toFixed(1)}%</td>
+                                        <td><a class="pmc-link" href="https://www.ncbi.nlm.nih.gov/pmc/articles/${img.pmc_id}" target="_blank">${img.pmc_id}</a></td>
+                                        <td>${img.filename.split('__')[1] || img.filename}</td>
+                                        <td>${img.gene_count}</td>
+                                        <td>${bestKegg[1].name}: ${(bestKegg[1].jaccard * 100).toFixed(1)}%</td>
+                                        <td>${bestWiki[1].name.substring(0, 30)}: ${(bestWiki[1].jaccard * 100).toFixed(1)}%</td>
                                     </tr>
                                 `;
                             }).join('')}
@@ -391,7 +391,7 @@
                     <h3>Sample Images with Matching Genes</h3>
                     <p style="color:#666;margin-bottom:15px;">Top 10 images by best KEGG Jaccard score. Click images to view in PMC.</p>
                     <div class="image-gallery">
-                        \${[...images].sort((a, b) => {
+                        ${[...images].sort((a, b) => {
                             const maxA = Math.max(...Object.values(a.kegg_scores).map(s => s.jaccard));
                             const maxB = Math.max(...Object.values(b.kegg_scores).map(s => s.jaccard));
                             return maxB - maxA;
@@ -400,22 +400,22 @@
                                 .sort((a, b) => b[1].jaccard - a[1].jaccard)[0];
                             const bestWiki = Object.entries(img.wiki_scores)
                                 .sort((a, b) => b[1].jaccard - a[1].jaccard)[0];
-                            const imgUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/\${img.pmc_id}/bin/\${img.filename}`;
-                            const pmcUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/\${img.pmc_id}`;
+                            const imgUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${img.pmc_id}/bin/${img.filename}`;
+                            const pmcUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${img.pmc_id}`;
                             return `
                                 <div class="image-card">
-                                    <a href="\${pmcUrl}" target="_blank">
-                                        <img src="\${imgUrl}" alt="\${img.filename}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22><rect fill=%22%23eee%22 width=%22200%22 height=%22150%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 fill=%22%23999%22>Image unavailable</text></svg>'">
+                                    <a href="${pmcUrl}" target="_blank">
+                                        <img src="${imgUrl}" alt="${img.filename}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22><rect fill=%22%23eee%22 width=%22200%22 height=%22150%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 fill=%22%23999%22>Image unavailable</text></svg>'">
                                     </a>
                                     <div class="image-info">
-                                        <h4><a href="\${pmcUrl}" target="_blank">\${img.pmc_id}</a> - \${img.filename.split('__')[1] || img.filename}</h4>
+                                        <h4><a href="${pmcUrl}" target="_blank">${img.pmc_id}</a> - ${img.filename.split('__')[1] || img.filename}</h4>
                                         <div class="image-genes">
-                                            <strong>All genes (\${img.genes.length}):</strong> \${img.genes.slice(0, 8).join(', ')}\${img.genes.length > 8 ? '...' : ''}
+                                            <strong>All genes (${img.genes.length}):</strong> ${img.genes.slice(0, 8).join(', ')}${img.genes.length > 8 ? '...' : ''}
                                         </div>
                                         <div class="matching-genes">
-                                            <strong>KEGG match (\${bestKegg[1].name}, \${(bestKegg[1].jaccard * 100).toFixed(1)}%):</strong><br>
-                                            \${bestKegg[1].overlap_genes?.length > 0
-                                                ? bestKegg[1].overlap_genes.map(g => `<span class="gene-tag">\${g}</span>`).join('')
+                                            <strong>KEGG match (${bestKegg[1].name}, ${(bestKegg[1].jaccard * 100).toFixed(1)}%):</strong><br>
+                                            ${bestKegg[1].overlap_genes?.length > 0
+                                                ? bestKegg[1].overlap_genes.map(g => `<span class="gene-tag">${g}</span>`).join('')
                                                 : '<em>No overlapping genes</em>'}
                                         </div>
                                     </div>
