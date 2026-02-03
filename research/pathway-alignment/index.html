@@ -177,6 +177,15 @@
             <h3>Methodology</h3>
             <p><strong>Goal:</strong> Map our 8,349 LLM-extracted pathway names to canonical IDs in KEGG and WikiPathways databases.</p>
 
+            <h4 style="color: var(--text); margin: 1.5rem 0 0.75rem 0;">Data Source: Gemini 3 Pro Extractions</h4>
+            <p style="margin-bottom: 0.5rem;">We processed <strong>49k pathway diagram images</strong> from PubMed Central using Gemini 3 Pro. For each image, the model extracted:</p>
+            <ul style="margin: 0.5rem 0 0.5rem 1.5rem; color: var(--text-muted);">
+                <li><code>canonical_pathway</code> — a free-text pathway name (e.g., "PI3K-AKT signaling", "Wnt/beta-catenin signaling")</li>
+                <li><code>nodes</code> — genes/proteins with Entrez IDs when identifiable</li>
+                <li><code>edges</code> — interactions between nodes</li>
+            </ul>
+            <p style="margin-bottom: 0.5rem;">This produced <strong>8,349 unique pathway names</strong> — but many are variants of the same pathway (e.g., "PI3K-AKT signaling" vs "PI3K-Akt signaling pathway"). The table below shows the <strong>top 100 by image count</strong>; full data is in <code>pathway_alignment.json</code>.</p>
+
             <div style="margin: 1.5rem 0; padding: 1rem; background: var(--bg); border-radius: 6px; border-left: 3px solid var(--accent);">
                 <h4 style="color: var(--accent); margin-bottom: 0.75rem;">Worked Example: "ErbB signaling pathway"</h4>
 
@@ -208,7 +217,7 @@
         </div>
 
         <div class="section">
-            <h2 class="section-title">Top 100 Pathways by Image Count</h2>
+            <h2 class="section-title">Top 100 Pathways by Image Count <span style="font-weight: normal; font-size: 0.875rem; color: var(--text-muted);">(of 8,349 total)</span></h2>
 
             <div class="controls">
                 <input type="text" id="search" placeholder="Search pathways...">
