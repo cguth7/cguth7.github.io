@@ -72,3 +72,11 @@ Return ONLY valid JSON with this exact structure:
 - Score 1-3 = Low concern (well-documented, transparent)
 - Score 4-6 = Moderate concern (some issues)
 - Score 7-10 = High concern (significant red flags)
+
+**IMPORTANT - Paper Type Awareness**:
+If a criterion fundamentally doesn't apply to the paper type, score it 1-2 (not 4-5) with clear reasoning. Examples:
+- Review/meta-analysis with no raw data → Data Inaccessibility should be 1-2 ("N/A for review; appropriately cites sources")
+- Computational/theoretical paper with no wet lab work → Figure/Image Concerns for western blots should be 1-2
+- Case report with N=1 → Sample Size is inherent to the format, score based on whether it's appropriately framed as a case report
+
+Don't penalize papers for lacking things their paper type wouldn't have. Reserve 4-6 for actual moderate concerns, not "criteria doesn't quite fit."
