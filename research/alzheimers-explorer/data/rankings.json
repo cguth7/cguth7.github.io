@@ -1,9 +1,9 @@
 {
   "metadata": {
-    "run_date": "2026-02-02T16:50:02.654187",
+    "run_date": "2026-02-02T23:52:36.543092",
     "model": "gpt-5.2",
-    "input_directory": "papers_10",
-    "total_papers": 10,
+    "input_directory": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer",
+    "total_papers": 40,
     "criteria": [
       {
         "key": "sample_size_red_flags",
@@ -34,284 +34,1124 @@
   },
   "papers": [
     {
+      "total_score": 7.5,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 8.5,
+          "reasoning": "In vivo experiments use N=6 per group (explicitly stated for MWM and multiple histology outcomes), which is small given numerous endpoints (behavior + multiple biomarkers across hippocampal subregions). No power analysis is mentioned, and there are multiple group comparisons and region-wise analyses (CA1/CA2/CA3/DG) that are likely underpowered. No reporting of attrition/exclusions (e.g., failed injections, animal losses) despite invasive stereotaxic procedures."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 8.0,
+          "reasoning": "P-values are largely thresholded (e.g., P<0.05, P<0.01) with many significance claims but few exact p-values; no confidence intervals or effect sizes are reported. Extensive multiple comparisons are conducted (many markers, multiple groups, multiple brain regions/timepoints), yet the posthoc approach is LSD (liberal) with no multiple-comparison correction described, increasing false-positive risk. Variance is shown as mean\u00b1SD, but the modeling details for repeated MWM days/timepoints are unclear"
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Methods include key procedural details (stereotaxic coordinates, injection volumes/rates, antibodies, software), which supports partial replicability. However, critical bias-control details are missing/unclear: blinding for behavioral testing and histological quantification is not described; randomization is stated only generally ('randomly divided') without method; no preregistration; limited detail on handling of potential confounders (e.g., verification of injection placement/model success cr"
+        },
+        "Data Inaccessibility": {
+          "score": 8.5,
+          "reasoning": "No data availability statement is provided and no raw data (MWM trajectories, individual animal values, uncropped blots, ImageJ/IPP quantification outputs) or analysis scripts are referenced. Figures are described as 'representative images from three independent experiments' for several assays, but underlying data for all animals and full datasets are not made accessible in the provided text."
+        },
+        "Figure/Image Concerns": {
+          "score": 6.0,
+          "reasoning": "Figure legends generally include magnification and scale bars, which is good. However, western blots are presented as 'representative' without mention of uncropped/full-length blots, molecular weight markers, or replicate-level presentation; only semiquantification is shown. For histology/IHC, quantification relies on area/positive-rate measures but details on ROI selection, thresholding, and batch handling are not fully specified, limiting verification. No explicit signs of manipulation can be "
+        }
+      },
+      "overall_reasoning": "Overall concern is high primarily due to small in vivo sample size (N=6/group) relative to the breadth of claims and endpoints, combined with substantial statistical reporting weaknesses (thresholded p-values, no CIs/effect sizes, many comparisons with LSD posthoc and no correction). Transparency is further limited by lack of data/code sharing and incomplete reporting of blinding/randomization, while figures are mostly documented but not to current best practices for image-based verification (e.",
+      "filename": "hu2019.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hu2019.pdf"
+    },
+    {
+      "total_score": 7.45,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "While the headline group size is n=10/group, many key assays use much smaller Ns (e.g., TEM: 3\u20134 mice/group; Golgi: 3 mice/group; immunohistochemistry: 3 mice/group; 1H-MRS: 3\u20135 mice/group). These small per-assay Ns are then used for multiple endpoints (synapse density, PSD thickness, Sholl intersections, metabolite ratios), raising power/precision concerns. No power analysis is mentioned. The paper itself acknowledges 'relatively small sample size' as a limitation."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 8.0,
+          "reasoning": "Widespread reliance on threshold p-value reporting (e.g., p<0.05, p<0.01, p<0.001) with several 'trend' results (e.g., p=0.070, 0.077, 0.066, 0.055) that are close to 0.05 across multiple endpoints, consistent with potential selective emphasis. No confidence intervals and no standardized effect sizes are reported. Multiple comparisons are extensive (many outcomes across regions CA1/CA3/DG and several modalities), yet post hoc LSD is used (liberal) and no multiple-testing correction is described."
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Some procedural detail is provided (doses, duration, key staining/processing steps, software), and blinding is stated for several quantifications. However, critical reproducibility elements are limited/unclear: no pre-registration; no statement of allocation concealment; randomization is stated but method is not described; the synapse counting approach is explicitly a less rigorous 'profile counts method' (authors acknowledge stereology would be better). Details that often matter for replication"
+        },
+        "Data Inaccessibility": {
+          "score": 8.5,
+          "reasoning": "No data availability statement is present in the provided text, and no raw data, analysis scripts, or code are referenced. Quantification appears to rely on ImageJ/Quantity One/TopSpin workflows but without sharing outputs or scripts. Given the image-heavy nature of the work (TEM, Golgi, IHC, western blots, MRS spectra), lack of accessible raw/source data and uncropped blots is a substantial transparency gap."
+        },
+        "Figure/Image Concerns": {
+          "score": 7.0,
+          "reasoning": "The study relies heavily on representative microscopy images and western blots. From the provided text, there is no explicit mention of scale bars/units in the legends shown, nor of uncropped/full western blots or multiple exposures, which reduces verifiability. 'Representative images' are used frequently, and with small n (e.g., 3 mice/group) this increases risk of cherry-picking. No overt manipulation is visible from text alone, but documentation appears insufficient to fully audit image integ"
+        }
+      },
+      "overall_reasoning": "Primary integrity concerns are driven by small effective sample sizes for several core readouts (often n=3\u20134/group), extensive multi-endpoint testing across brain regions and modalities, liberal post hoc testing (LSD) without multiple-comparison correction, and absence of confidence intervals/effect sizes. Transparency is further limited by no data/code sharing statement and limited documentation for image-based and blot-based verification (e.g., uncropped blots). Collectively these patterns cre",
+      "filename": "10.1007@s00213-019-05251-x.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1007@s00213-019-05251-x.pdf"
+    },
+    {
+      "total_score": 7.15,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "Behavioral groups are n=10, but several key biochemical endpoints use much smaller Ns (ELISA n=4; Western blot quantification often n=3\u20134; IHC CD45 n=3; GFAP IF n=5), which is weak for the breadth of mechanistic claims. No power analysis is mentioned. There are also internal consistency issues suggesting reporting errors (e.g., open-field ANOVA reports F(5,13) despite six groups with n=10 stated; degrees of freedom do not align with the described design). No dropouts/exclusions are described."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.5,
+          "reasoning": "P-values are largely thresholded (e.g., p<0.05, p<0.01, p<0.001) rather than exact, with no confidence intervals and no effect sizes. Multiple endpoints are tested across many groups; while Tukey is used in places, the Morris water maze uses LSD post hoc (a liberal choice that inflates false positives under multiple comparisons). No explicit multiple-testing strategy across the many outcomes (behavior, ELISAs, multiple blots, multiple stains) is described."
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Some procedural detail is provided (A\u03b2 oligomer preparation, injection volume, behavioral timelines), and random assignment is stated. However, key reproducibility details are missing/unclear: the group list is inconsistent with later inclusion of donepezil (described as six groups but the written list appears to omit donepezil), blinding is only explicitly stated for the open field (not clearly for Morris water maze scoring, tissue quantification, Western blot densitometry), and there is no pre"
+        },
+        "Data Inaccessibility": {
+          "score": 8.5,
+          "reasoning": "No data availability statement, no raw data, and no analysis scripts are mentioned in the provided text. Quantification appears to rely on OD/densitometry and semi-automated image analysis, but underlying numerical data, code/settings (thresholds, segmentation parameters), and full outputs are not provided or referenced."
+        },
+        "Figure/Image Concerns": {
+          "score": 6.5,
+          "reasoning": "Some figure documentation is present (e.g., scale bars for GFAP and CD45). However, Western blots are described as developed on autoradiographic film with densitometry ratios; there is no mention of full-length blots, exposure linearity, or multiple exposures. Image quantification describes selecting 'three randomly selected microscopic fields' per slide, which can be vulnerable to selection bias if not blinded/standardized; blinding for histology quantification is not clearly stated."
+        }
+      },
+      "overall_reasoning": "The paper shows high-to-moderate integrity red flags driven by limited statistical transparency (threshold-only p-values, no CIs/effect sizes), liberal post hoc testing (LSD) amid many outcomes, small N for key mechanistic assays, and notable internal inconsistencies in reported group structure/ANOVA degrees of freedom. Data and code are not made accessible, and image/blot reporting lacks full documentation, making independent verification difficult.",
+      "filename": "hui2020.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hui2020.pdf"
+    },
+    {
+      "total_score": 7.12,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 8.0,
+          "reasoning": "Final inferential comparisons are based on n=8 rats/group (LETO n=8, OLETF n=8, AD-model non-EA n=8, AD-model EA n=8), despite many endpoints (MWM behavior, multiple ELISAs, multiple western blot targets, qPCR targets, histology). No power analysis is reported. There are multiple staged exclusions/attrition: initial 12 LETO + 36 OLETF \u2192 12 LETO + 35 OLETF \u2018qualified\u2019 after Morris water maze screening; 27 OLETF selected for modeling \u2192 only 16 \u2018successfully established\u2019 AD models used (n=8+8). Thi"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.5,
+          "reasoning": "Results are largely reported as thresholded p-values (e.g., p<0.05, p<0.01) with few exact p-values (one example: MWM interaction F(5,150)=13.33, P<0.001). No confidence intervals are reported and no effect sizes are presented. Many outcomes and comparisons are tested (multiple biomarkers in hippocampus and CSF, multiple pathway proteins/mRNAs, multiple groups) without a clear multiple-comparisons correction strategy; they use one-way ANOVA with Student-Newman-Keuls post hoc (less conservative) "
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Core procedures are described (EA points/frequency/duration, Al/D-gal modeling, MWM protocol, ELISA/WB/qPCR basics), but key bias-control details are missing or weak: randomization is stated but not described (method not provided); no blinding is reported for behavioral testing, histology assessment, western blot quantification, or exclusion decisions. Exclusion criteria for MWM are given, but the timing and who applied them is not clearly blinded, increasing risk of subjective selection. No pre"
+        },
+        "Data Inaccessibility": {
+          "score": 6.5,
+          "reasoning": "Data sharing is limited to 'available from the corresponding author on reasonable request' with no repository link, no raw data files, and no analysis code/scripts. Supplementary figures/tables are referenced, but the provided statement does not ensure durable access or reproducibility."
+        },
+        "Figure/Image Concerns": {
+          "score": 7.0,
+          "reasoning": "Western blot methodology includes a major interpretability concern: 'CSF (20 \u00b5L/rat) was pooled from all rats within a given group for analysis,' which eliminates biological replicates for CSF WB and makes statistical inference/variability assessment unclear. There is no mention of showing uncropped blots, replicate blots, or exposure controls. Histology is described (H&E at 400\u00d7) but scale bar/quantification details are not included in the text provided, limiting verifiability."
+        }
+      },
+      "overall_reasoning": "Overall concern is high due to small final group sizes (n=8) supporting broad mechanistic and behavioral claims across many endpoints, substantial staged attrition/exclusions during screening and model establishment, and heavy reliance on thresholded p-values without CIs/effect sizes or multiple-comparison control. Transparency is moderate: methods are described but key safeguards (blinding, randomization details, preregistration) are missing, and data/code are not openly available. A specific t",
+      "filename": "huang2020-1.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huang2020-1.pdf"
+    },
+    {
+      "total_score": 7.03,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "Across experiments the paper repeatedly states results are from \u201ctriplicates/three independent experiments\u201d (e.g., figures and Statistical Analysis; Fig. 6 notes n=3). For mechanistic claims about Nrf2/Keap1/HO-1 signaling and multiple readouts (MTT, ROS flow cytometry, MMP flow cytometry, western blots), n=3 without clear definition of biological vs technical replicates is underpowered and vulnerable to variability. No power analysis is mentioned, and there is no discussion of exclusions/dropou"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.0,
+          "reasoning": "Statistics are described only generically (ANOVA + Bonferroni; p<0.05 threshold) with no exact p-values, no confidence intervals, and no effect sizes. P-values are mostly reported as thresholds (p<0.01, p<0.001) rather than exact values (e.g., Fig. 6, Fig. 8\u201310). There are also apparent inconsistencies/possible legend errors (Fig. 6 legend shows \u201c***p < 0.01 compared to H2O2 group\u201d while elsewhere **/*** denote p<0.001 in Fig. 8/9; Fig. 8/9 text shows \u201c**p < 0.001 versus HO alone\u201d), which underm"
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Methods for core wet-lab procedures are described at a high level (cell lines, differentiation with retinoic acid, H2O2 dose, extract concentrations, basic western blot fractionation), but key reproducibility details are missing or ambiguous: extract chemical characterization/standardization is not provided beyond \u201csingle batch\u201d (no marker compounds quantified for this study), no clear statement of biological replicate structure, limited reporting of gating strategy/controls for flow cytometry ("
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No data availability statement is included; there is no indication that raw numerical data, uncropped western blots, flow cytometry FCS files, or analysis scripts are shared. The text references figures/tables but does not mention supplementary datasets/materials or a repository link for raw data/code."
+        },
+        "Figure/Image Concerns": {
+          "score": 7.0,
+          "reasoning": "The study relies on image-based evidence (phase-contrast morphology images; western blots; flow cytometry plots), but the text does not indicate availability of uncropped/full-length blots or replicate blots. Phase-contrast imaging description lacks scale bars/quantification details. Western blot presentation appears to rely on scanned X-ray films with densitometry, but exposure controls/linearity checks are not discussed. Flow cytometry figures are referenced (Figs. 8\u20139) without methodological "
+        }
+      },
+      "overall_reasoning": "Primary integrity red flags are limited transparency around what \u201cn=3/triplicates\u201d represent for complex multi-assay mechanistic claims, incomplete statistical reporting (threshold-only p-values, no CIs/effect sizes, and inconsistent significance annotations), and lack of accessible raw data (uncropped blots, FCS files, underlying numeric data, scripts). While many wet-lab procedural steps are described, gaps in reproducibility-relevant details and figure documentation elevate concern to moderat",
+      "filename": "10.1007@s10571-019-00656-w.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1007@s10571-019-00656-w.pdf"
+    },
+    {
+      "total_score": 6.98,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "Although 40 rats were enrolled (4 groups, n=10 each), the reported n varies widely by outcome (e.g., behavioral tests n=6\u201310/group; many biochemical assays n=5/group; qRT-PCR n=3\u20135/group). These reductions are not explained (no attrition/exclusion flow, no criteria for removing animals/samples), raising concerns about selective availability. No power analysis is mentioned, and many endpoints across two brain regions are analyzed with small per-group n, making several comparisons plausibly underp"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.0,
+          "reasoning": "Inferential reporting is largely threshold-based (e.g., \u201cP<0.05, P<0.01, P<0.001, P<0.0001\u201d) with few exact p-values, no confidence intervals, and no effect sizes. The study tests a large battery of outcomes (multiple behavioral measures plus numerous enzyme activities/oxidative markers in two regions plus gene expression and serum markers), but there is no explicit multiple-comparisons control across the full family of tests beyond Tukey post hoc within each ANOVA, increasing false-positive ris"
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Many laboratory procedures are described with reasonable detail (STZ icv coordinates/volume; dosing schedule; assay citations), but key bias-control details are missing: no statement of randomization method, blinding of behavioral scoring/biochemical assays, or predefined inclusion/exclusion criteria. No pre-registration is mentioned. Some outcomes are counted manually (open-field crossings), yet assessor blinding is not described, which is a common integrity/replicability gap in behavioral work"
+        },
+        "Data Inaccessibility": {
+          "score": 8.5,
+          "reasoning": "The provided text contains no data availability statement, no link to raw data/supplementary datasets, and no access to analysis scripts/code. Figures appear to summarize results without underlying individual-level datapoints. This substantially limits independent verification and reanalysis."
+        },
+        "Figure/Image Concerns": {
+          "score": 5.5,
+          "reasoning": "Figure legends include group identifiers, significance notation, and n ranges (e.g., n=5\u20136; n=3\u20135 for qPCR), but the variable n across figures is a documentation concern without explanation. The text does not indicate presentation of individual data points or detailed QC for qRT-PCR (e.g., efficiency, melt curves) and does not provide raw gel/blot imagery (qPCR-based expression is reported). No overt image-manipulation indicators can be assessed from the text alone."
+        }
+      },
+      "overall_reasoning": "Overall concern is moderate-to-high driven by inconsistent/downsized sample sizes across endpoints without explanation, heavy reliance on threshold p-value reporting across many outcomes without confidence intervals/effect sizes or global multiplicity control, and a lack of data/code sharing. Methods for assays are fairly detailed, but the absence of randomization/blinding and attrition reporting adds meaningful integrity and bias risk.",
+      "filename": "10.1007@s00213-019-05419-5.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1007@s00213-019-05419-5.pdf"
+    },
+    {
+      "total_score": 6.98,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "Biological results are reported as mean \u00b1 (SD/SEM) for percent neuroprotection/NO inhibition, but the number of independent experiments/replicates (n) is not stated in the provided text. Screening appears largely at a single concentration (10 \u03bcM) with many compounds marked NA, and no justification/power considerations are mentioned. No discussion of exclusions/dropouts is provided (typical for in vitro work but still a transparency gap)."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 8.0,
+          "reasoning": "No p-values, confidence intervals, hypothesis tests, or multiple-comparison corrections are reported. Effect sizes are limited to percent changes at a single dose rather than dose\u2013response parameters (e.g., IC50/EC50) for the main series (except a cited prior-study EC50 for another compound). Variability is shown (\u00b1 values), but without specifying n or statistical framework, making robustness hard to assess."
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Synthetic route is described with reagents/conditions and yields (reasonably standard for med-chem), but biological methods are summarized at a high level: OGD model and LPS-induced NO assay are referenced without key reproducibility details in the provided text (e.g., OGD duration/conditions, cell density, timing, controls, normalization, criteria for NA, how percent protection is calculated, blinding/randomization\u2014not usually applicable but still not addressed). No preregistration/protocol rep"
+        },
+        "Data Inaccessibility": {
+          "score": 7.5,
+          "reasoning": "Only summarized tables (percent effects at 10 \u03bcM) are shown; raw measurements, plate-level data, and analysis scripts are not provided in the text. While a Supplementary Data link is referenced, there is no explicit data availability statement indicating raw data deposition or reusable datasets/code."
+        },
+        "Figure/Image Concerns": {
+          "score": 5.5,
+          "reasoning": "Figures are limited (e.g., a single cell viability bar plot referenced) and appear to be standard quantitative plots rather than high-risk image types (e.g., western blots). However, figure documentation details are thin in the provided excerpt (limited legend/assay specifics), and the underlying raw data are not available to verify plotting choices. No overt manipulation cues are visible from the text alone."
+        }
+      },
+      "overall_reasoning": "Main red flags are statistical and transparency-related: results are primarily single-dose screening with unclear replicate counts, no inferential statistics (p-values/CIs), and limited methodological detail for the bioassays. Data availability is limited to summary tables with no raw dataset or analysis code indicated (supplementary information is referenced but not described as including raw data). Figure concerns are moderate mainly due to limited documentation rather than clear manipulation.",
+      "filename": "huang2021.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huang2021.pdf"
+    },
+    {
+      "total_score": 6.88,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 6.5,
+          "reasoning": "Biological replication is unclear for key claims about neurotoxicity. The MTT section reports only that experiments were \u201crepeated three times\u201d and averaged (\u00b1SEM), but does not specify number of biological replicates vs technical replicates, independent cell passages, or plate layout (e.g., wells per condition). No power analysis is mentioned. Only one neuronal cell line (SH-SY5Y) is used for toxicity conclusions, increasing risk of overinterpretation. No unexplained exclusions/dropouts are des"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 8.5,
+          "reasoning": "The paper reports means/SEM for cytotoxicity but provides no hypothesis-testing statistics (no p-values, no tests specified, no multiple-comparison correction) despite many pairwise comparisons across peptides and timepoints (\u201cdifferent timepoints of ThT aggregation kinetics\u201d). Confidence intervals are not reported. For kinetic modeling, fitted parameters are reported (e.g., t_lag with \u00b1 values), but uncertainty methodology and goodness-of-fit metrics are not fully reported in the main text; rel"
+        },
+        "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "Many experimental parameters are provided (buffers, temperatures, concentrations, instruments), which supports reproducibility. However, several key transparency elements are missing: no mention of randomization or blinding for the MTT assay, no details on cell line authentication or mycoplasma testing, and no clear definition of what constitutes an independent replicate. Some important quality-control data are explicitly withheld (\u201cpurity \u2026 checked by HPLC and mass spectra (data not shown)\u201d). C"
+        },
+        "Data Inaccessibility": {
+          "score": 7.5,
+          "reasoning": "No data sharing statement is included. Raw data (e.g., fluorescence traces, CD spectra files, AFM/SEM raw images, NMR FIDs/processed spectra, MTT plate-level data) are not indicated as available. Several results are deferred to supplementary figures/tables (e.g., Table S1, Figures S1\u2013S11) and some QC data are \u201cdata not shown,\u201d reducing verifiability. The Julia analysis script is described but not shared."
+        },
+        "Figure/Image Concerns": {
+          "score": 5.5,
+          "reasoning": "The study relies heavily on imaging (confocal, SEM, AFM) and spectroscopy figures, but in the provided text it is not possible to verify presence of scale bars/units, full legend detail, or image resolution. No explicit statements about image processing or manipulation controls are provided. There are no western blots/gel figures that would trigger common duplication concerns, but the documentation level for imaging QC cannot be assessed from the text alone."
+        }
+      },
+      "overall_reasoning": "Main integrity-related concerns are concentrated in statistical transparency and data availability: neurotoxicity conclusions are presented with minimal inferential statistics (no p-values/tests/multiple-comparison handling) and unclear replication structure, while raw data and custom analysis code are not made available and some QC is \u201cdata not shown.\u201d Methods for the biophysical experiments are relatively detailed, which lowers (but does not eliminate) concerns about opacity.",
+      "filename": "10.1002@cmdc.201900620.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@cmdc.201900620.pdf"
+    },
+    {
+      "total_score": 6.85,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "Most results are reported as n = number of recording slices (often n=5\u201316 per condition; e.g., CHO-CM n=16 vs 7PA2 CM n=8; multiple conditions in Fig. 1\u20134), but the number of animals contributing slices is not reported, creating substantial pseudoreplication risk (multiple slices per mouse treated as independent). No power analysis is mentioned. Exclusion criteria are vague ('If the fEPSP out of range, it will be discarded') without counts of excluded slices/animals."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "Inferential statistics are described (t-test, one-/two-way ANOVA with post hoc tests; repeated-measures ANOVA with Holm\u2013Sidak), but reporting is largely threshold-based (e.g., 'p<0.05', 'p<0.01', 'p>0.05') with few/no exact p-values and no confidence intervals. Many endpoints/conditions are compared (multiple doses of 7PA2 CM and two TBOA variants; multiple plasticity paradigms; multiple timepoints in western blots) without clearly stated multiple-testing control across the paper beyond per-anal"
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Core electrophysiology methods are described (slice prep, stimulation parameters, recording setup), and A\u03b2/oligomer preparation is outlined; however, key transparency items are missing: no pre-registration, no blinding statements for electrophysiology or western blot quantification, and unclear randomization/allocation of slices to conditions (they state 'paired control and experimental slices from a single mouse' and 'recording order or hemisphere ... evenly' but not a concrete randomization pr"
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No data sharing statement is provided. Raw electrophysiology traces, quantified fEPSP slope data, uncropped western blots, and analysis scripts/code are not indicated as available. No supplementary dataset deposition is referenced."
+        },
+        "Figure/Image Concerns": {
+          "score": 6.0,
+          "reasoning": "Only captions are provided here; for the western blots (Fig. 5), there is no indication of uncropped/full blots, molecular weight markers, or how many independent biological replicates are shown per lane beyond a general 'three replicates.' For electrophysiology, scale bars are given in captions, but without the actual figures it is not possible to assess image integrity/manipulation; documentation appears moderate but not fully verification-friendly."
+        }
+      },
+      "overall_reasoning": "Main integrity risks come from unclear unit of replication (slice-level n without animal-level N), vague exclusions, and limited transparency around randomization/blinding. Statistical reporting relies on threshold p-values without CIs or effect sizes across many comparisons. Data and analysis materials are not stated to be available, and western blot reporting lacks full-blot documentation, collectively yielding moderate-to-high concern.",
+      "filename": "huang2017.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huang2017.pdf"
+    },
+    {
+      "total_score": 6.84,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "Several key analyses rely on small or uneven Ns relative to the breadth of claims/endpoints: mouse groups are often n=6\u201312 (e.g., Figure 1 n=6\u201311; Figure 2 n=11\u201312), while the human AD comparison is imbalanced and small for APOE\u03b54/\u03b54 (n=10) versus APOE\u03b53/\u03b53 (n=34) (Figure 3). The microarray/PCR array screening uses n=3\u20134 mice/group (Figure 4A), which is particularly low for high-dimensional screening. No power analysis is mentioned, and many endpoints/lipid species are evaluated, increasing risk"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.8,
+          "reasoning": "P-values are frequently reported as thresholded stars (e.g., *P<.05 to ****P<.0001) rather than exact values, with limited reporting of effect sizes; confidence intervals are not reported. Multiple comparisons within some analyses are addressed (two-way ANOVA with Bonferroni or Tukey is mentioned), but it is unclear whether multiplicity across broad lipid panels, multiple metabolites, and the PCR array screen is controlled beyond within-ANOVA post hoc tests. Some results are borderline (e.g., P="
+        },
+        "Methodology Opacity": {
+          "score": 6.8,
+          "reasoning": "Many critical details are deferred to supplementary methods (human specimen details, mouse strain/experimental details, CHO cell experiments, LC-MS lipidomics procedures), reducing immediate replicability from the main text. No pre-registration is mentioned (expected for animal/human observational analyses is limited but still relevant for analysis plans), and randomization/blinding procedures for animal experiments and outcome assessment are not clearly described in the provided text. The stati"
+        },
+        "Data Inaccessibility": {
+          "score": 7.8,
+          "reasoning": "There is no explicit data availability/data sharing statement in the provided text, and no indication that raw lipidomics data, microarray/PCR array outputs, or analysis scripts/code are publicly deposited. The paper notes 'supporting information' online, but that is not equivalent to raw data access, and there is no clear path to reproduce LC-MS processing and downstream analyses from shared datasets/scripts."
+        },
+        "Figure/Image Concerns": {
+          "score": 5.8,
+          "reasoning": "Figure legends generally include n, age, and statistical tests, and microscopy figures include scale bars. However, western blot reporting appears limited to representative blots and densitometry (e.g., Figure 1; Figure 6D) without mention of uncropped blots, molecular weight markers, or multiple exposures, which limits forensic verifiability. No overt manipulation is indicated in the text provided, but documentation is not maximally transparent for image-based evidence."
+        }
+      },
+      "overall_reasoning": "Overall concern is moderate-to-high, driven mainly by limited transparency around data/code availability, heavy reliance on supplementary methods for key experimental specifics, and small Ns for high-dimensional screening (PCR array) and for the APOE\u03b54/\u03b54 human subgroup. Statistical reporting is serviceable but lacks confidence intervals/effect sizes and has unclear multiplicity control across broad lipidomic and transcript panels.",
+      "filename": "10.1002@alz.12121.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12121.pdf"
+    },
+    {
+      "total_score": 6.8,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 6.5,
+          "reasoning": "Sample sizes vary and are sometimes small relative to the breadth of mechanistic claims: several key imaging/functional endpoints use n=3 (e.g., A\u03b2 engulfment; nanoparticle uptake; iron staining in cultured microglia), while many metabolic/PCR experiments report n=6 and some n=8\u201310. No power analysis is mentioned. It is often unclear whether n refers to biological replicates (independent litters/animals) versus technical replicates (e.g., Seahorse wells), and subgroup-style comparisons (WT vs AP"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.5,
+          "reasoning": "Statistical reporting relies heavily on threshold p-values (*p<0.05, **p<0.01, etc.) rather than exact p-values; no confidence intervals are reported and effect sizes are not provided. Numerous endpoints are tested across many figures (multiple genes, multiple Seahorse-derived metrics, multiple conditions), but there is no evident multiple-comparison correction strategy beyond Dunnett\u2019s for some ANOVAs; many analyses use repeated unpaired t-tests across different readouts. SEM is reported, but d"
+        },
+        "Methodology Opacity": {
+          "score": 5.5,
+          "reasoning": "Core wet-lab protocols (cell prep, qPCR assays, ELISAs, Seahorse conditions, nanoparticle synthesis/uptake quantification) are described with substantial operational detail. However, several reproducibility-relevant items are missing/unclear: no pre-registration; randomization/blinding are not described for imaging quantification or animal/tissue analyses; key animal metadata (especially age and sex for APP/PS1 vs WT microglia isolations) are not specified in the provided text; 'data not shown' "
+        },
+        "Data Inaccessibility": {
+          "score": 8.5,
+          "reasoning": "No data sharing statement is provided and there is no indication that raw data, processed data tables, or analysis scripts are available. Supplementary materials are mentioned only implicitly (e.g., 'Supporting Information' for Seahorse) but are not included here, and no repository links are provided."
+        },
+        "Figure/Image Concerns": {
+          "score": 6.5,
+          "reasoning": "Figure legends are generally detailed and include scale bars where relevant (e.g., 100 \u00b5m in tissue sections; 25\u201350 \u00b5m in culture images). However, western blot presentation appears limited to representative bands without uncropped/full blots, molecular weight markers, or explicit exposure documentation; densitometry is reported but full transparency elements (full membranes, replicate blots) are not evident in the provided manuscript text. Image-based quantification (e.g., selecting a single z-"
+        }
+      },
+      "overall_reasoning": "Overall concern is moderate-to-high, driven primarily by limited transparency around raw data availability, heavy reliance on threshold p-values without CIs/effect sizes, many parallel statistical tests with limited multiple-comparison control, and several key findings supported by small n (often n=3) with unclear biological-vs-technical replication. Methods are comparatively detailed for a biology paper, which moderates methodology-opacity concerns, but missing animal metadata and absent blindi",
+      "filename": "holland2017.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/holland2017.pdf"
+    },
+    {
+      "total_score": 6.7,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "Although there are 90 SPECT studies total (50 labeled AD, 40 controls), the AD data come from only 25 patients with two scans each (mean 447 days apart). Treating 50 scans as independent AD cases creates a non-independence/pseudoreplication risk that can inflate ROC performance and p-values if not modeled. No power analysis is mentioned. Several claims (e.g., across 16 physicians, two reading modes, plus automated method) rely on inferential comparisons without clear justification that the effec"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.0,
+          "reasoning": "Frequent hypothesis testing is reported (paired t-tests, ANOVA, Wilcoxon, Levene, ROC/Az comparisons) but there is no multiple-comparison correction despite many endpoints (Az per reader, sensitivity/specificity comparisons, time comparisons, etc.). Confidence intervals are not reported for Az, sensitivity, specificity, or differences\u2014only means\u00b1SD and p-values. The ROC/Az comparison approach is mentioned (Metz method), but the potential within-patient correlation (two scans per AD patient) is n"
+        },
+        "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "Imaging acquisition and reconstruction parameters are described in substantial detail, which supports reproducibility. However, key elements remain unclear/weak: (1) case presentation order was the same in both sessions for each observer, increasing memory/learning bias; (2) the order of viewing SPECT vs 3D-SSP in session 2 was left to participants (not standardized); (3) the ROI shape for automated diagnosis is attributed to a 'submitted' study and not fully specified for replication; (4) no pr"
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No raw data sharing statement, no repository link, and no supplementary materials or analysis scripts are referenced. The normal database is referenced as previously reported (Kogure et al.), but the actual datasets and derived ROC inputs (per-case probabilities, Z-values) are not made available, limiting independent verification."
+        },
+        "Figure/Image Concerns": {
+          "score": 5.0,
+          "reasoning": "Figures are described and appear to be illustrative rather than primary evidence of quantification; however, documentation is limited by modern standards: images were printed on paper for interpretation, and there is no indication of providing digital image data, standardized display settings, or quantitative color scales/legends sufficient for independent assessment. No explicit red flags of manipulation are apparent from the provided text."
+        }
+      },
+      "overall_reasoning": "Main integrity red flags are statistical/design-related rather than overtly fabricated-looking results: the effective AD sample is 25 patients but analyses treat 50 AD scans as independent; multiple comparisons are abundant without correction; and uncertainty reporting (CIs/effect sizes) is limited. Methods for acquisition are fairly detailed, but several procedural choices (same case order across sessions, non-standardized viewing order, partially specified ROI definition) and lack of data/scri",
+      "filename": "honda_et_al_2003.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/honda_et_al_2003.pdf"
+    },
+    {
+      "total_score": 6.7,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "Group Ns are modest for multiple subgroup comparisons and interaction tests (carers: AD n=14, bvFTD n=18, SD n=14; patients with IRI: AD n=8, bvFTD n=14, SD n=9). There is substantial incompleteness/mismatch between patient vs carer IRI availability (e.g., Table 1 shows many 'carer only' cases), and some analyses depend on the smaller paired subsample (n\u224830). No a priori power analysis is reported, yet numerous tests/correlations are run within each diagnostic subgroup, increasing risk of underp"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 8.0,
+          "reasoning": "Many results cluster around conventional significance thresholds (e.g., P=.046, P=.05, P=.053, P=.06, P=.07), which is a classic fragility/p-hacking risk pattern (not proof). Multiple outcomes/subscales and many post hoc comparisons/correlations are conducted, but no multiple-comparison correction is described. Confidence intervals are not reported, and standardized effect sizes for group differences (e.g., Cohen\u2019s d/eta-squared) are generally absent (some correlations reported as r_s, but witho"
+        },
+        "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "Core measures and recruitment/diagnostic approach are described reasonably, and key instruments are cited. However, there is no preregistration, no prespecified analysis plan, and limited detail on data-processing choices that can materially affect results (e.g., handling of missing items: 'at least 4 of 7' rule is stated, but details on item imputation/scoring for partially missing subscales are limited). Extensive analytic flexibility (many tests across groups/subscales/timepoints) is not clea"
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No data sharing statement is included in the provided text, no raw data or supplementary dataset is referenced, and no analysis scripts/code are provided. Given the reliance on many statistical tests and derived difference scores (present-minus-before), lack of accessible data/code limits reproducibility and verification."
+        },
+        "Figure/Image Concerns": {
+          "score": 4.0,
+          "reasoning": "Figures appear to be standard plots (e.g., change scores; correlation scatterplots) rather than high-risk image modalities (no western blots/microscopy). Based on the text provided, there are no obvious image-manipulation flags. However, without the actual figure files/legends beyond brief mentions, documentation/verification is limited."
+        }
+      },
+      "overall_reasoning": "Primary integrity concerns are statistical fragility and analytic multiplicity: small-to-moderate subgroup Ns (especially for paired patient\u2013carer analyses), many tests across groups and subscales, one-tailed correlations, no multiple-comparison correction, and several p-values hovering near .05. Transparency is limited by the absence of shared data/code and lack of preregistration, though the basic methodology and measures are described adequately for a conventional observational questionnaire ",
+      "filename": "hsieh2013.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hsieh2013.pdf"
+    },
+    {
+      "total_score": 6.5,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "In vivo cognitive data are reported with one-way ANOVA F(4,40), implying ~5 groups with total N\u224845 (\u22489 mice/group). That is modest for behavioral claims and no a priori power analysis is mentioned. No information is provided (in the text shown) on exclusions/dropouts, or whether any animals were removed from analysis."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "Behavioral results are reported mainly via threshold p-values (***p<0.001, #p<0.05, ##p<0.01) rather than exact p-values. No confidence intervals or effect sizes are reported. For enzyme assays, IC50 values are given as mean \u00b1 SD/SEM with 'at least three experiments', but without reporting replicate structure (biological vs technical), model fitting details, or uncertainty beyond SD; no multiple-comparison considerations are discussed for the large compound series beyond standard post hoc testin"
+        },
+        "Methodology Opacity": {
+          "score": 7.5,
+          "reasoning": "Key replicability details for the in vivo scopolamine model and 'passageway water maze' are sparse in the provided text (e.g., mouse strain/sex/age, randomization, blinding, dosing schedule/timing relative to scopolamine and testing, housing, predefined endpoints). Pre-registration is not mentioned. Chemical synthesis is referenced as 'general methods' and docking software/PDB are stated, but overall experimental transparency for the animal work is limited."
+        },
+        "Data Inaccessibility": {
+          "score": 6.0,
+          "reasoning": "A supplementary data section is referenced with a DOI link, which reduces concern somewhat, but there is no explicit data availability statement for raw behavioral data, enzyme assay raw measurements, or analysis scripts/code. No repository deposition is mentioned in the provided text."
+        },
+        "Figure/Image Concerns": {
+          "score": 4.0,
+          "reasoning": "No obvious image-manipulation indicators are visible from the text-only excerpt. Figure legends appear reasonably descriptive (e.g., stats test specified: one-way ANOVA + Dunnett). However, for the behavioral figure, underlying data points are not described, and for docking, only a schematic binding mode is presented (typical but not independently verifiable without coordinates/poses). No scale-bar type issues are relevant here."
+        }
+      },
+      "overall_reasoning": "Overall concern is moderate-to-high driven mainly by limited methodological detail for the in vivo cognition experiment (no clear randomization/blinding/protocol specifics) and incomplete statistical reporting (threshold p-values, no CIs/effect sizes). Sample size for behavioral outcomes appears modest (~9/group inferred from F(4,40)) with no power analysis or dropout/exclusion accounting. Data transparency is partial due to supplementary material being referenced but no clear raw-data/code shar",
+      "filename": "huang2020.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huang2020.pdf"
+    },
+    {
+      "total_score": 6.47,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 6.5,
+          "reasoning": "Most quantitative claims rely on small numbers of independent experiments typical for wet-lab work but still fragile for strong biological generalization: e.g., multiple key readouts are reported as \"three independent experiments with triplicates\" (Figures 2b/2d/6a) and some results are explicitly from \"one experiment\" (e.g., Figure 5e; Figure 6g mentions mean\u00b1SD from one experiment with biological triplicates). No power analysis is mentioned, and the iPSC-derived microglia work uses a proprieta"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.0,
+          "reasoning": "Statistics are basic and partly underspecified: frequent use of unpaired two-tailed t-tests and one-way ANOVA/Tukey, but no confidence intervals, no effect sizes, and no discussion of multiple-testing burden across many endpoints/variants/stimuli/figures beyond Tukey within an ANOVA. P-values are largely reported as thresholded stars (*p<.05; **p<.01; ***p<.001) rather than exact p-values, limiting forensic interpretability and inviting selective emphasis. Some comparisons appear to involve more"
+        },
+        "Methodology Opacity": {
+          "score": 7.5,
+          "reasoning": "Core wet-lab protocols for the HEK293 system are described with reasonable detail, but a key validation arm\u2014iPSC-derived microglia\u2014uses a \"previous established proprietary protocol\" without sufficient details to replicate (no full differentiation steps, QC markers, batch controls, or acceptance criteria). No pre-registration, randomization, or blinding is described (especially relevant for image-based quantification and selection of representative microscopy fields/blots). Some analytic choices "
+        },
+        "Data Inaccessibility": {
+          "score": 6.5,
+          "reasoning": "Data availability is \"available from the corresponding author upon reasonable request\" rather than public deposition. No raw western blot images, primary microscopy image sets, or AlphaLISA plate-level data are referenced as deposited, and no analysis scripts are provided. This limits independent reanalysis and detection of selective reporting."
+        },
+        "Figure/Image Concerns": {
+          "score": 5.5,
+          "reasoning": "Figure documentation appears generally adequate (e.g., microscopy includes scale bars; antibodies and controls are described; calnexin used as loading/negative control in membrane/biotinylation contexts). However, typical integrity-enhancing materials are not mentioned in the provided text: no uncropped/unedited blots, no exposure series for immunoblots, and limited detail on how densitometry was performed. Several results rely on representative blots/images, which is standard but increases depe"
+        }
+      },
+      "overall_reasoning": "Overall concern is moderate-to-high driven less by overt statistical impossibilities and more by reproducibility/transparency weaknesses: small effective N for several key claims (including some single-experiment summaries), heavy reliance on star-threshold p-value reporting without CIs/effect sizes, and especially the use of a proprietary iPSC-microglia protocol that prevents full replication. Data are not publicly available (upon-request only), and full raw image/blot provenance is not documen",
+      "filename": "10.1002@glia.23953.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@glia.23953.pdf"
+    },
+    {
+      "total_score": 6.35,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 5.5,
+          "reasoning": "Overall N=165 is reasonable for descriptive clinic-series claims, but the key longitudinal progression analysis is only N=77 with unclear selection mechanism beyond 'readministered to 77 patients' (potential attrition/selection bias). No power analysis is mentioned. Subgroup comparisons (presenile vs senile) for progression are effectively smaller (subset within the 77) and may be underpowered for anything beyond detecting moderate effects."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.0,
+          "reasoning": "Inferential reporting is limited to t-tests, correlations, and threshold p-values (e.g., P<.05, P<.001, and a borderline range '.05<P<.10'), with no confidence intervals and no effect sizes. Multiple tests are run (bimodality test, sex proportion chi-square, multiple correlations, subgroup t-tests) with no multiple-comparison control discussed. The 'rate of progression' outcome is analyzed with simple tests despite repeated-measure/variable follow-up intervals, with no modeling details beyond a "
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Core methods are described but leave replication-relevant gaps: onset/duration estimated from family member report (no instrument/standardization described); follow-up schedule described only as 'three months or greater' without distribution of follow-up times or visit schedule; unclear how the 77 follow-up patients differ from the 88 without follow-up beyond being 'slightly younger and less demented.' No pre-registration, blinding, or detailed analysis plan is mentioned (typical for era, but st"
+        },
+        "Data Inaccessibility": {
+          "score": 9.0,
+          "reasoning": "No data-sharing statement, no raw data, and no supplementary materials or analysis code are provided/referenced in the text. Only summary tables/figure are available, making verification/reanalysis difficult."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.5,
+          "reasoning": "Figures/tables are basic (histogram and summary tables) and do not involve high-risk image types (e.g., blots/microscopy). Legends and units are generally interpretable (e.g., age in years, BDS points/month). However, the bimodality claim relies on a histogram without detailed binning parameters, and the underlying distributional data are not shown."
+        }
+      },
+      "overall_reasoning": "Main integrity concerns are transparency-related: the longitudinal subset (N=77) is not clearly characterized versus those without follow-up, there is no power analysis, and statistical reporting lacks confidence intervals/effect sizes and any multiple-testing adjustment. Data are not accessible, limiting independent verification. No strong image-manipulation-type issues are apparent.",
+      "filename": "huff_et_al_1997.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huff_et_al_1997.pdf"
+    },
+    {
+      "total_score": 6.32,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 5.5,
+          "reasoning": "Final analyzable N=103 split across three groups (AD n=32, MCI n=44, SMC n=27), which is modest but not implausibly small for ERP work. However, no power analysis is reported, and several analyses effectively become small (e.g., ear-by-group interactions and gender-stratified summaries). Exclusions are described (16 declined; 17 had uninterpretable recordings in one/both ears), but the paper does not define 'not interpretable' or whether exclusions differed by group."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.0,
+          "reasoning": "Reports F-statistics with df and p-values (e.g., F(2,100)=4.55, p=0.01; interaction p=0.02) and uses post hoc Scheff\u00e9, but provides no confidence intervals and no effect sizes (e.g., partial eta-squared) for key findings. Limited detail on multiple testing beyond noting Scheff\u00e9; numerous outcomes are discussed (group, ear, interaction, several pairwise comparisons, nonparametric tests) without a clearly enumerated testing plan. P-values are often reported as rounded thresholds (p<0.05) or to two"
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Core stimulus and recording setup is described (tones, ISI, electrode placement, filters, monaural presentation; two raters blinded to group), but several replication-critical details are missing: artifact rejection criteria, number of accepted trials, handling of eye blinks/movement, exact MMN time window/peak-picking rules, and how 'uninterpretable' recordings were determined. Notable internal inconsistency in stimulus intensity reporting: abstract states 80 dB nHL while Methods states 60 dB S"
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No data availability statement, no raw ERP data sharing, and no analysis scripts/code are provided or referenced. Only a general online disclosure link is mentioned; there is no indication of supplementary material containing analyzable data or full processing details."
+        },
+        "Figure/Image Concerns": {
+          "score": 6.0,
+          "reasoning": "Figures are referenced (example waveforms and bar plots with SD), but the text provides limited documentation for verification (e.g., unclear time axis/latency details and whether single-subject examples are representative). With only summary plots and without access to underlying traces/processing steps, figures are not sufficient to independently assess robustness; no explicit image integrity issues are detectable from the provided text."
+        }
+      },
+      "overall_reasoning": "Main integrity concerns are transparency-related rather than overtly implausible results: no power analysis, limited statistical completeness (no CIs/effect sizes), no shared data/code, and several missing ERP preprocessing details. A notable red flag is inconsistent reporting of stimulus intensity (80 dB nHL vs 60 dB SPL), which undermines methodological clarity and replicability.",
+      "filename": "idrizbegovic2016.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/idrizbegovic2016.pdf"
+    },
+    {
+      "total_score": 6.08,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 6.0,
+          "reasoning": "Overall N=230 is adequate for an observational clinic study, but analyses were stratified by sex (male n=71 vs female n=159) and multiple regression models included many candidate predictors per outcome (especially in females: MMSE, Digit Span, FAB, two ADAS subtests, GDS-15, and multiple NPI subscales). This raises risk of overfitting/unstable estimates in subgroups, particularly the male subgroup where authors themselves note the sample may be insufficient. No power analysis reported, and many"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 7.0,
+          "reasoning": "P-values are largely thresholded (e.g., P<.05, P<.01) rather than exact values; no confidence intervals are reported for regression coefficients. Many parallel tests were run (numerous IADL subscales, two sexes, multiple predictors). Bonferroni correction is mentioned for Spearman correlations, but the paper explicitly states repeated-comparison corrections were not made for the main exploratory analyses ('Corrections for repeated comparisons were not made...'). Variable selection based on univa"
+        },
+        "Methodology Opacity": {
+          "score": 5.0,
+          "reasoning": "Inclusion/exclusion criteria and core measures are described, and sex-stratified rationale is given. However, replication-relevant details are incomplete: the modified/polytomous Lawton IADL scoring is referenced but item-by-item scoring ranges and coding direction are not fully specified in the provided text; handling of missing data is not described; no pre-registration is mentioned; no clear analysis plan beyond the described stepwise inclusion (univariate P<.10) is provided. As an observatio"
+        },
+        "Data Inaccessibility": {
+          "score": 9.5,
+          "reasoning": "The paper includes an explicit statement: 'Research data are not shared.' No repository link, supplementary raw data, or analysis scripts are provided. This substantially limits reproducibility and independent verification."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.0,
+          "reasoning": "Figures are simple (e.g., a frequency bar chart of IADL independence) with basic labeling; there are no complex images (e.g., microscopy/western blots) where manipulation is a common issue. No evident image-integrity concerns are raised in the text provided, though figure documentation is fairly minimal and does not add methodological detail beyond what is in tables."
+        }
+      },
+      "overall_reasoning": "Main integrity red flags center on analytic flexibility and multiplicity (many outcomes and predictors, sex-stratified models, univariate screening, limited multiple-comparison control) combined with lack of confidence intervals and a strict non-sharing data statement. Sample size is reasonable overall but becomes less robust under subgrouping and multi-predictor regressions, increasing risk of unstable findings.",
+      "filename": "ikezaki2020.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/ikezaki2020.pdf"
+    },
+    {
+      "total_score": 6.0,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.0,
+          "reasoning": "Total N=45 (15 AD, 15 MCI, 15 controls) is small for high-dimensional DTI machine-learning classification (voxel-wise FA, connectivity edges, graph metrics), especially with leave-one-out cross-validation which has high variance in small samples. No power analysis is described. No dropouts/exclusions are clearly reported, but the small per-class N raises overfitting/instability concerns for the reported 83\u201390% accuracies."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "They report accuracy CIs (e.g., 90% with CI \u00b111%) and permutation-based p-values (100 permutations), which is a plus. However, there is extensive model/feature-set searching (e.g., trying many voxel counts: 10/20/40/80/160/320/640/1280 and multiple edge/feature counts) across multiple pairwise comparisons, with no clear multiple-comparison control or nested CV for hyperparameter/feature-count selection\u2014this can inflate performance. Limited reporting beyond accuracy/sensitivity/specificity (e.g.,"
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "The pipeline steps and key tractography parameters are described (e.g., FA threshold=0.1, max angle=60\u00b0, step size=1.25 mm, length constraints 25\u2013100 mm; SPM8/DSI Studio/MATLAB). However, crucial replication details appear missing in the provided text: MRI/DTI acquisition parameters (scanner model, b-values, number of directions, voxel size, TR/TE), diagnostic criteria/procedures for AD vs MCI, inclusion/exclusion criteria, and handling of potential confounds. Also, feature selection and selecti"
+        },
+        "Data Inaccessibility": {
+          "score": 6.0,
+          "reasoning": "They state the analysis pipeline/scripts are available on OSF (https://osf.io/bgfer/), which improves transparency. However, there is no clear indication that the underlying raw/preprocessed imaging data are shared, nor a detailed data availability statement describing how to obtain the dataset, limiting reproducibility/verification."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.0,
+          "reasoning": "Figures shown are primarily workflow schematics and accuracy-vs-feature-count plots; there are no biological images (e.g., blots/microscopy) where manipulation concerns typically arise. No obvious image-integrity red flags are evident from the provided text. Some plots/legends are somewhat minimal, but overall figure-related fraud indicators appear low."
+        }
+      },
+      "overall_reasoning": "Main integrity risks are consistent with overfitting/optimistic reporting in a small-sample, high-dimensional ML setting: N=15 per group with LOOCV, extensive feature-count/parameter searching across multiple pairwise comparisons, and unclear use of nested validation or multiple-testing correction. Transparency is partially improved by an OSF script pipeline, but lack of shared data and missing key acquisition/clinical details constrain independent verification.",
+      "filename": "2fd89851720b42aef00c2e977ef154c7.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/2fd89851720b42aef00c2e977ef154c7.pdf"
+    },
+    {
+      "total_score": 5.83,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "Outcome-positive group is small (MCI-C N=18 vs MCI-NC N=62), yet very high performance is claimed (up to 97% accuracy, 100% specificity/PPV). No formal power analysis is reported. Class imbalance is handled via repeated random sub-sampling (selecting 18/62 MCI-NC) repeated 1000 times, but this still leaves only 36 subjects per run and may yield optimistic estimates. No independent external test set is used; all results are cross-validated within the same cohort."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "Classification performance is reported as point estimates (accuracy/sensitivity/specificity/PPV/AUC) without confidence intervals, which is a major omission given small N and resampling. Multiple-hypothesis context is substantial (many candidate features/atlases/models), but there is no clear correction framework for the many t-tests in Table 3 beyond NBS being corrected; feature-selection-driven p-values are susceptible to selection bias. Potential non-nested feature selection leakage is not cl"
+        },
+        "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "Imaging preprocessing is described with standard tools (DPARSF/SPM12; FreeSurfer) and key parameters (TR/TE, filtering, smoothing, nuisance regression). However, core parts that affect reproducibility and inflation risk are not fully specified: SFC feature-selection is referenced as described previously rather than fully detailed here; it is unclear whether feature selection is nested within cross-validation; SVM hyperparameters (e.g., C) and any tuning procedure are not reported. No preregistra"
+        },
+        "Data Inaccessibility": {
+          "score": 4.5,
+          "reasoning": "Raw imaging data are from ADNI (publicly accessible with application), which improves transparency. However, there is no data sharing statement for derived features, intermediate connectivity matrices, or the exact subject ID list; and no analysis scripts/code are provided (MRMR + custom SFC wrapper + LIBSVM pipeline), limiting independent reproduction of the reported 97% result."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.5,
+          "reasoning": "Figures are mainly schematic brain-region/network visualizations rather than raw biological images prone to manipulation. Legends appear generally adequate (regions listed; NBS thresholding described). Limited quantitative annotation is shown in figures themselves (e.g., no explicit scales/colorbars visible in the provided text), but there are no obvious image-manipulation red flags."
+        }
+      },
+      "overall_reasoning": "Primary integrity risk signals are statistical/ML-validity related rather than classic wet-lab image/data manipulation: very small converter sample (N=18), heavy model/feature searching with high reported accuracy, lack of confidence intervals, and unclear (possibly non-nested) feature selection within cross-validation that could inflate performance. Use of ADNI improves baseline transparency, but missing code/derived-data sharing and incomplete ML parameter reporting reduce reproducibility.",
+      "filename": "hojjati2018.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hojjati2018.pdf"
+    },
+    {
       "total_score": 5.8,
       "criterion_scores": {
         "Sample Size Red Flags": {
-          "score": 5.0,
-          "reasoning": "The work is largely in vitro/biophysical, so very large N is not expected, but biological replication is under-specified. MTT cytotoxicity is described as \u201crepeated three times\u201d with averaging (\u00b1SEM) and 5\u00d710^3 cells/well, but the number of technical replicates/wells per condition and independent culture repeats are not clearly reported. ThT kinetics: \u201cThree independent experiments\u201d are mentioned, but N for fitted parameters across runs is not fully transparent. No power analysis is provided (co"
+          "score": 6.5,
+          "reasoning": "Overall group sizes are modest (AD n=21, controls n=15, VD n=11, OND n=15), with very small subgroups explicitly present (e.g., Lewy bodies dementia n=3; FTD n=11). The paper performs multiple between-group comparisons across ~30 analytes, which can be underpowered for subtle effects and increases instability in small subgroups. No power analysis is mentioned, and there is no discussion of exclusions/dropouts beyond defining diagnostic categories."
         },
         "Statistical Reporting Gaps": {
-          "score": 7.0,
-          "reasoning": "Statistical inference is limited: the manuscript reports means/uncertainties for some kinetic parameters (e.g., t_lag values) and shows \u00b1SEM for MTT, but does not report p-values, confidence intervals, or statistical tests for key comparisons (e.g., toxicity differences across mutants). No multiple-comparison correction is described despite multiple peptide variants and multiple timepoints/conditions (10 \u00b5M and 40 \u00b5M; time course). Effect sizes for toxicity (with uncertainty) and model-fit uncer"
+          "score": 7.5,
+          "reasoning": "The analysis runs ANOVA \"against each sterol\" and then univariate t-tests vs controls with a fixed threshold P<0.05, despite ~30 sterols quantified (i.e., substantial multiple-testing risk). No multiple-comparison correction (e.g., FDR/Bonferroni) is described. Exact p-values and test statistics are not reported (only thresholds like P<0.05 and P<0.01), and confidence intervals are not provided. Effect sizes are limited to mean\u00b1SD; no standardized effect sizes or model estimates are reported."
         },
         "Methodology Opacity": {
+          "score": 4.5,
+          "reasoning": "Analytical chemistry methods are relatively detailed and tied to a previously published full protocol (EADSA; \"fully described in Abdel-Khalik et al\"), including instrumentation details (high-resolution MS, MSn) and internal-standard strategy; there is also a standard-addition validation for the key metabolite. However, clinical cohort/diagnostic procedures are described only at a high level (memory clinic, \"probable NPH\" workup, then post-tap diagnostic categorization) with limited detail on di"
+        },
+        "Data Inaccessibility": {
+          "score": 6.5,
+          "reasoning": "The manuscript references multiple supplemental tables/figures (S1\u2013S7; Tables S1\u2013S4) suggesting some data are provided, but there is no explicit data sharing statement, no repository link for raw LC-MS files, and no analysis code/scripts shared. Quantification relies partly on structural-analogue standards, and without raw data and scripts, reproducibility and reanalysis are limited."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.5,
+          "reasoning": "Figures appear to be standard for LC-MS work (dot plots with individual points, chromatograms, high-resolution spectra, MS3 spectra) with generally detailed legends and units/normalizations stated (ng/mL; ng/\u00b5g-cholesterol). No obvious red flags like missing units/scale information are apparent from the text description, and the image types are less prone to manipulation concerns than gel/blot images. Actual image quality cannot be verified from text alone."
+        }
+      },
+      "overall_reasoning": "Main integrity risk is statistical: ~30 analytes are tested with per-analyte ANOVA plus uncorrected t-tests at P<0.05, with no multiple-comparison control and limited reporting (no exact p-values/CIs). Sample sizes are modest and some subgroups are extremely small (e.g., LBD n=3), making subgroup inferences fragile. Analytical methods are comparatively well-described and validated for the key finding, but raw data/code sharing is not addressed, limiting transparency.",
+      "filename": "9fb388dbfc85f61d1278a101743733b1.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/9fb388dbfc85f61d1278a101743733b1.pdf"
+    },
+    {
+      "total_score": 5.75,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 7.5,
+          "reasoning": "Very small NHP sample (4 baboons total; for 11C-PiB n=3 due to one missing exam; one 18F-florbetapir scan interrupted at 75 min). Several key measurements are incomplete: for radiometabolite correction, only 2/4 animals had parent fraction sampling for each tracer (except 18F-flutemetamol with 4/4), and for 18F-florbetapir there were no radiometabolite measurements for any animal (no input function, so no VT/BP). No power analysis is mentioned, yet multiple tracers and endpoints are compared."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "Inferential claims rely on mixed-effects models, but reporting is largely limited to p-values (e.g., p=0.04, p=0.55, p<0.001) without confidence intervals or standardized effect sizes. Multiple tracer comparisons are performed across several outcomes (SUVR, BP, DVR) with no explicit multiple-comparisons adjustment described. Some borderline p-values (e.g., 0.04) are central to conclusions in a very small sample, increasing fragility."
+        },
+        "Methodology Opacity": {
+          "score": 4.5,
+          "reasoning": "Methods are generally detailed (scan protocol, reconstruction, framing, segmentation/registration pipeline with ANTs, Logan modeling choices, mixed-effects model structure). However, key analytic choices that affect estimates are only partly justified (e.g., fixed Logan start time at 40 min; use of cerebellar GM as 'pseudo-reference' despite acknowledged myelin/partial volume concerns). No pre-registration is mentioned, and for missing metabolite data they impute parent fraction models by averag"
+        },
+        "Data Inaccessibility": {
+          "score": 6.5,
+          "reasoning": "The paper references electronic supplementary material and provides a GitHub link for the Multiblood tool, but there is no clear data sharing statement for the raw PET/MRI data, arterial input functions, time-activity curves, or processed region-wise outputs needed to reproduce results. The presence of supplementary materials reduces concern somewhat, but overall data/accessibility for independent verification remains limited."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.5,
+          "reasoning": "Figures appear standard for PET methodology (SUV images, TAC curves, boxplots, equilibrium analysis). Legends/axes and units are generally described (SUV, SUVR, DVR, time), and there is no obvious indication of image manipulation from the provided text. One minor documentation issue is that Figure 3 uses different colormap scales across tracer classes, which can visually exaggerate differences if not carefully interpreted, but it is explicitly noted."
+        }
+      },
+      "overall_reasoning": "Primary integrity red flags stem from the very small sample size (N=4, with missing scans) combined with incomplete metabolite/input-function data for key tracers (especially 18F-florbetapir, preventing BP/VT estimation). Statistical reporting lacks CIs/effect sizes and does not describe multiplicity correction despite many comparisons. Methods are comparatively well described for a PET kinetics paper, and figure documentation is adequate, but limited data sharing/access prevents strong external",
+      "filename": "10.1007@s00259-019-04516-z.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1007@s00259-019-04516-z.pdf"
+    },
+    {
+      "total_score": 5.5,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
           "score": 5.0,
-          "reasoning": "Methods are generally described with instrument models, buffers, temperatures, and some key parameters (e.g., CD scan settings, DLS instrument, CPMG block-time, recycle delay). However, several replication-critical details are missing or ambiguous: exact plate layout and number of wells/condition for MTT; whether investigators were blinded during toxicity quantification; criteria for excluding data/timepoints; exact shaking/incubation vessel and volume for aggregation; confocal acquisition setti"
+          "reasoning": "As a systematic review, the effective evidence base is small (11 included preclinical studies out of 320 screened). The review does not report the sample sizes (N) of the included animal experiments in the summary tables, limiting assessment of whether underlying experiments were adequately powered. It also reports that \u201csample size calculation was mentioned in none of the publications,\u201d indicating pervasive power concerns in the underlying literature."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.0,
+          "reasoning": "The review is largely narrative with no quantitative synthesis/meta-analysis and provides no pooled effect sizes or confidence intervals. Behavioral outcomes are summarized as '+'/NS in Table 2 without effect magnitudes, uncertainty, or exact p-values. There is no discussion of multiple-comparisons control across the many endpoints and models summarized."
+        },
+        "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "While databases searched and high-level keywords are listed, the paper does not provide full reproducible search strings per database, nor does it mention protocol pre-registration (e.g., PROSPERO/OSF) or a published protocol. Screening is described (two investigators, third-party resolution), and a modified CAMARADES checklist is used, but item-level scoring details per included study are not shown in the provided text (only aggregate percentages and a figure reference)."
         },
         "Data Inaccessibility": {
           "score": 7.0,
-          "reasoning": "No explicit data availability statement is present. Multiple results are deferred to supporting information (Tables/Figures S1\u2013S11), but raw data (ThT time series, CD spectra files, AFM raw images, DLS correlation functions, NMR FIDs/processed spectra) are not indicated as deposited. Analysis code is referenced (Julia script for fitting water peak intensities; R for SVD), but scripts are not provided or linked to a repository, limiting reproducibility."
+          "reasoning": "No data sharing statement is provided for the review\u2019s extracted dataset (e.g., extracted outcomes, risk-of-bias/quality ratings, or screening decisions). No supplementary materials, extraction forms, or analysis scripts are referenced in the provided text, which limits auditability of study selection and data extraction."
         },
         "Figure/Image Concerns": {
-          "score": 5.0,
-          "reasoning": "Figures rely heavily on microscopy/AFM/SEM, but in the provided text the extent of figure documentation is mixed: AFM includes some quantitative height/length summaries, yet details like scale bars and imaging parameters must be verified in the actual figures/SI (not fully assessable from the excerpt). No obvious internal inconsistencies or explicit signs of manipulation are detectable from the text alone, but limited access to the actual high-resolution images and SI increases verification diff"
+          "score": 3.0,
+          "reasoning": "This is a review paper with no primary experimental images (e.g., blots/microscopy) presented in the provided text. Figures referenced include a PRISMA flowchart, a CAMARADES checklist summary, and a schematic mechanism diagram; there are no obvious opportunities to detect image manipulation from the provided content, though figure-level verifiability cannot be fully assessed without the actual rendered figures."
         }
       },
-      "overall_reasoning": "Overall concern is moderate. The manuscript is method-rich for a biophysical study, but the main integrity-relevant red flags are weak statistical reporting (few/no inferential statistics despite multiple variants and conditions) and limited transparency around raw data and code availability. Sample size/replication reporting for the cell toxicity assays is not sufficiently detailed to independently assess robustness of the key neurotoxicity claim.",
-      "filename": "10.1002@cmdc.201900620.pdf",
-      "file_path": "papers_10/10.1002@cmdc.201900620.pdf"
+      "overall_reasoning": "The main integrity-relevant weaknesses are transparency and statistical synthesis: the review includes only 11 studies, does not present effect sizes/CI or a meta-analysis, and summarizes results with coarse '+'/NS indicators. It also lacks protocol pre-registration and does not provide an accessible extracted dataset or supplementary materials for auditing. These issues raise moderate concern about robustness and reproducibility, though there are no direct primary-data image red flags in the pr",
+      "filename": "hosseini2021.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hosseini2021.pdf"
     },
     {
-      "total_score": 5.7,
+      "total_score": 5.47,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 3.5,
+          "reasoning": "Overall N is not small for the stated binary classification task (ADNI: 139 AD / 347 NC; external Severance: 73 AD / 68 NC). However, there is no power analysis, and it is unclear how training/validation splits were done within ADNI (risk of optimistic estimates if slice-level samples from the same subject leak across splits). Numerous slice/sub-slice comparisons are performed, which can create effectively underpowered subgroup-style conclusions unless handled carefully."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "Many hypothesis tests are conducted across multiple slices and slice-pairs (Tables 2\u20136) with a nominal p<0.05 threshold, but no multiple-comparisons correction is described despite extensive testing (risk of false positives). Performance comparisons between datasets use Pearson\u2019s chi-square on classification performance without clear specification of contingency structure and without reporting uncertainty around accuracy/sensitivity/specificity. AUC comparisons use DeLong and sometimes provide 9"
+        },
+        "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "Architecture and some hyperparameters are described (BEGAN setup, optimizer, learning rate, batch size), but key reproducibility details are missing/unclear: exact ADNI train/validation protocol, whether slice selection was tuned on the external test set (they search for 'best' slices and report significance), whether any subject-level separation prevents leakage, and how the fully connected layer + SVM were trained/validated. No pre-registration is mentioned; no code/protocol repository is cite"
+        },
+        "Data Inaccessibility": {
+          "score": 7.0,
+          "reasoning": "ADNI data are publicly obtainable, but the external Severance Hospital dataset is institutional with no sharing pathway described. No analysis scripts or trained model weights are provided in the text. Supplementary material is mentioned as available only to authorized users, and there is no explicit data-sharing statement detailing access, which limits independent verification/replication."
+        },
+        "Figure/Image Concerns": {
+          "score": 4.0,
+          "reasoning": "Figures described are primarily synthesized PET-like images and ROC plots. From the provided text alone there are no explicit indicators of image manipulation, but documentation details (full legends, units/scale, resolution, and availability of underlying images) cannot be verified from the excerpt; synthetic image generation could also benefit from clearer quantitative validation beyond visual examples."
+        }
+      },
+      "overall_reasoning": "Main integrity red flags center on statistical multiplicity (many slice/pair tests with no correction) and reproducibility opacity (unclear split/leakage control, potential slice tuning, no code/scripts). Sample sizes are generally adequate, but limited transparency around evaluation design and restricted access to the external dataset raise moderate concern.",
+      "filename": "10.1007@s00259-019-04676-y.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1007@s00259-019-04676-y.pdf"
+    },
+    {
+      "total_score": 5.45,
       "criterion_scores": {
         "Sample Size Red Flags": {
           "score": 4.0,
-          "reasoning": "This is primarily a synthetic chemistry communication with an in-silico docking component; there is no biological/clinical sample size (N) to assess. However, the computational claims (e.g., inhibition/disruption of A\u03b2 polymerization) are based on a small set of ligands (inositols 1\u20133 vs DHD 13) and appear to rely on single-point docking/binding-energy comparisons without reporting replicate dockings/ensembles or sensitivity analyses, which functions as a de facto 'small N' for the computational"
+          "reasoning": "Overall N=165 (YA=51, OA=48, AD=66) is reasonably sized for group comparisons and mediation, and no unexplained dropouts/exclusions are apparent in the provided text. However, no a priori power analysis is reported, and the study runs many mediation models (16) which effectively reduces evidential strength per model (risk of being underpowered for some indirect effects, especially in harder balance conditions)."
         },
         "Statistical Reporting Gaps": {
           "score": 6.0,
-          "reasoning": "No inferential statistics are reported (no p-values, confidence intervals, or uncertainty estimates). Binding affinity values are presented comparatively (Figure 5) without describing variance across docking runs, alternative poses, bootstrapping, or model validation. No multiple-testing considerations are discussed (e.g., testing multiple ligands against monomeric and hexameric A\u03b2; potentially multiple poses), and no effect-size framing beyond raw docking scores/binding energies."
+          "reasoning": "There is partial good practice (effect sizes Cohen\u2019s d are reported for group differences; indirect-effect confidence intervals are reported in Table 2 using bootstrap CIs). Key gaps/flags: (i) heavy reliance on thresholded p-values (many reported as p<0.001 rather than exact values), (ii) substantial multiplicity\u201416 mediation models plus multiple ANOVAs/post-hocs\u2014with limited/unclear familywise or FDR correction for the mediation results (they adjust p<0.001 for Table 1 demographics, but mediat"
         },
         "Methodology Opacity": {
+          "score": 6.0,
+          "reasoning": "Core measures are described (mCTSIB conditions; accelerometer placement; sampling rate; Trail Making A/B; Colenbrander mixed-contrast acuity). However, replication-relevant details are missing/unclear: how accelerometer signals were processed to derive 'total sway area (cm^2)' (filtering, windowing, calibration, algorithm, quality-control rules), how failed/invalid trials were handled, whether assessors were blinded to group, and whether there was any protocol/pre-registration. Observational des"
+        },
+        "Data Inaccessibility": {
           "score": 7.0,
-          "reasoning": "Synthetic methodology is relatively detailed and supported by multiple single-crystal X-ray structures for intermediates, which improves credibility. By contrast, the in-silico section is under-specified for reproducibility: it names AutoDock Vina 1.1.2 and LigPlot+ but does not clearly state the exact A\u03b2 structures used (PDB IDs), preparation steps (protonation states, minimization), docking box/grid parameters, exhaustiveness, number of runs, pose selection criteria, or whether any controls/de"
+          "reasoning": "No explicit data-sharing statement, repository link, or availability of raw data/analysis scripts is provided in the text excerpt. Supplementary material is referenced (e.g., 'Supplementary Table 1'), which helps, but does not substitute for raw data and code needed to verify the mediation and accelerometer-derived sway computations."
+        },
+        "Figure/Image Concerns": {
+          "score": 4.0,
+          "reasoning": "No obvious image-manipulation risk signals (no blots/microscopy). Figures described appear standard (group means/3D scatter). Some documentation limitations are possible from the excerpt: unclear whether variability (SD/SE/CI) and exact n per condition are displayed in Fig. 2, and the 3D scatter visualization may be hard to audit quantitatively without underlying data. Overall, image-related fraud indicators are low to moderate."
+        }
+      },
+      "overall_reasoning": "This paper shows moderate integrity risk primarily from analytic flexibility and multiplicity: numerous mediation models (16) and multiple inferential steps with limited correction/diagnostic reporting, plus lack of shared raw data and analysis code (notably important for accelerometer-derived sway area and PROCESS mediation outputs). Sample size is generally adequate and the study reports some good statistical elements (effect sizes and bootstrap CIs), which lowers suspicion compared with high-",
+      "filename": "hunter2020.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hunter2020.pdf"
+    },
+    {
+      "total_score": 5.44,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 6.8,
+          "reasoning": "Total N=62 (31 mild AD, 31 controls) is modest for estimating ROC curves and especially for an 8-predictor stepwise logistic regression (risk of overfitting/unstable coefficients). No a priori power/sample-size calculation is reported. Exclusions from the initial patient pool are described (21/52 excluded: vascular dementia n=7, unwilling n=14), which is transparent, but still introduces potential selection bias."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 4.5,
+          "reasoning": "Overall statistical reporting is fairly complete for this design: ROC AUCs are accompanied by 95% CIs; likelihood ratios include 95% CIs; effect sizes (partial eta-squared) are reported; and multiple-comparison control is described (Bonferroni p<.005). Main gaps/concerns: frequent threshold-style p-values (e.g., '<.0001', '***p<.001') instead of exact values; stepwise logistic regression with p-based entry/removal without cross-validation or shrinkage, which increases false-positive/optimism ris"
+        },
+        "Methodology Opacity": {
+          "score": 5.5,
+          "reasoning": "Methods are described in reasonable detail (diagnostic criteria, test battery, administration order, age-adjustment approach, software used). However, there is no pre-registration, no analysis plan linkage, and no mention of blinding of the examiner to case/control status (important for neuropsych testing). The stepwise model-building approach is not accompanied by model diagnostics, calibration, or external/held-out validation, limiting replicability of the claimed 'optimal combination'."
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No raw data availability statement, no supplementary dataset, and no analysis scripts/code are provided or referenced in the provided text. Reproduction would require access to underlying participant-level scores and ROC/regression inputs that are not shared."
+        },
+        "Figure/Image Concerns": {
+          "score": 2.5,
+          "reasoning": "Figures described (mean z-score plot; ROC curves) are standard and not image-manipulation-prone. Legends appear interpretable (error bars, curve descriptions). No biochemical/gel images or microscopy where manipulation concerns would be higher. Main limitation is simply that figures cannot be independently verified without underlying data, but documentation itself is not suspicious."
+        }
+      },
+      "overall_reasoning": "The main integrity risk signals are analytic fragility rather than overt fabrication indicators: a modest N used for ROC estimation and an 8-variable stepwise logistic regression without validation raises overfitting/optimism concerns, and the paper provides no data/code sharing. Statistical reporting is otherwise comparatively solid (CIs for ROC/LR, effect sizes, Bonferroni correction), and there are no figure-based red flags.",
+      "filename": "huang2016.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huang2016.pdf"
+    },
+    {
+      "total_score": 5.38,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 5.5,
+          "reasoning": "Overall cohort is reasonably large (n=643; CN n=570, AD n=73), but key biomarker and subgroup analyses are based on much smaller Ns: CSF subset n=58 (CN-only n=42) and APOE \u03b54/\u03b54 subgroup n=20. Numerous stratified analyses (A\u03b2high CN n=247; APOE strata; PRS quartiles) raise concerns about power for some comparisons. No power calculation is reported and attrition/missingness handling across 0\u201390 month timepoints is not clearly quantified."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.5,
+          "reasoning": "Many hypothesis tests are conducted (multiple biomarkers, two PRSs, CN-only vs combined, baseline and longitudinal outcomes, quartile contrasts, APOE-stratified analyses) without a clear multiple-comparison correction strategy. Some borderline results are interpreted (e.g., phospho-tau p=0.0719 described as trending). Confidence intervals are shown for some results (e.g., AIBL ORs in Table 1; figures show 95% CI bands), but mixed-effects model results are largely reported as p-values/coefficient"
+        },
+        "Methodology Opacity": {
+          "score": 5.5,
+          "reasoning": "Core procedures are described and heavily referenced (AIBL cohort methods, PET tracers and BeCKeT conversion, genotyping/imputation, composite cognition definitions), and clinical panel blinding to A\u03b2 status is stated. However, the statistical models are not specified in enough detail to replicate precisely (e.g., exact fixed-effects covariates for each LME, time coding, covariance structure, handling of missing visits, model diagnostics). No preregistration or analysis plan is mentioned, and no"
         },
         "Data Inaccessibility": {
           "score": 6.0,
-          "reasoning": "The manuscript indicates that 'Supporting information' is available via a link, but the provided text does not include it, and there is no explicit data availability statement for docking inputs/outputs (protein/ligand files, prepared structures, docking configuration files, raw pose sets) or analysis scripts. X-ray structures are referenced as determined, but deposition/accession details for the new structures are not clearly provided within the excerpt, limiting independent verification from t"
+          "reasoning": "Raw data are not directly provided; access is via an AIBL 'Expression of Interest' process rather than open deposition. There is no explicit sharing of analysis scripts/code. Supplementary material is referenced, but transparency is still limited for full reproduction without access approval."
         },
         "Figure/Image Concerns": {
-          "score": 5.0,
-          "reasoning": "Figures described (MPES surfaces, binding affinity comparison, LigPlot interaction diagrams) are typical for this type of work, but the excerpted legends are relatively high-level and do not document enough computational parameters to interpret/verify the plots (e.g., what 'binding affinity values' precisely represent and how derived). There are no obvious image-manipulation targets (e.g., western blots) here; concern is more about documentation completeness than visual forensics."
+          "score": 2.5,
+          "reasoning": "Figures are primarily statistical plots (scatter/regression with 95% CI shading; longitudinal trajectories) with generally adequate legends and units/interpretation. No image-based assays (e.g., blots/micrographs) are present, and no visible manipulation concerns are suggested in the provided text."
         }
       },
-      "overall_reasoning": "Main red flags are concentrated in the computational/in-silico substantiation of biological relevance: docking/energy comparisons are presented without uncertainty, validation, or sufficient parameter reporting to enable replication, yet are used to imply polymerization inhibition/disruption potential. The synthetic chemistry portion is comparatively stronger (stepwise transformations, multiple X-ray confirmations), which moderates overall concern. Net result is moderate integrity risk driven by",
+      "overall_reasoning": "This is a relatively well-described observational cohort analysis with a substantial main sample, but it raises moderate integrity/robustness flags due to (i) many subgroup and biomarker analyses conducted on small subsets (notably CSF n=58 and APOE \u03b54/\u03b54 n=20) without a stated power plan, and (ii) extensive multiple testing without an explicit correction framework, with limited confidence-interval reporting for key longitudinal model estimates. Data/code are not openly available, though data ca",
+      "filename": "8a7ffa3269394a928ee75dd5152f49d0.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/8a7ffa3269394a928ee75dd5152f49d0.pdf"
+    },
+    {
+      "total_score": 5.25,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 5.0,
+          "reasoning": "No biological/clinical sample size is reported (this is primarily a synthetic chemistry communication with \u201cpreliminary in-silico evaluation\u201d). However, the computational claims appear based on a very limited set of targets/structures (monomeric and hexameric A\u03b2 only) with no indication of ensemble sampling, replicate docking runs, or alternative conformations, which limits robustness for the Alzheimer\u2019s-therapy implications."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.0,
+          "reasoning": "The paper reports comparative \u2018binding affinity values\u2019 and qualitative statements (e.g., \u2018increased binding potential\u2019, \u2018acts both as polymerization inhibitor\u2026 disrupt fibrils\u2019) without uncertainty estimates, confidence intervals, hypothesis tests, or validation metrics. No multiple-testing framework or sensitivity analyses are described for the docking comparisons across ligands (inositols 1\u20133 vs DHD 13) and states (monomer vs hexamer)."
+        },
+        "Methodology Opacity": {
+          "score": 6.5,
+          "reasoning": "Key computational-method details needed for reproducibility are not provided in the text: no PDB IDs/structures for monomeric/hexameric A\u03b2, no ligand/protein preparation workflow, protonation states, docking box location/size, exhaustiveness/seed, or rescoring/validation approach\u2014only the tools are named (\u201cAutodock vina 1.1.2\u201d and \u201cLigPlot+\u201d) and MPES level is stated (B3LYP/6-31G(d)). Synthetic methodology is described at a high level but many operational details appear deferred to Supporting In"
+        },
+        "Data Inaccessibility": {
+          "score": 4.5,
+          "reasoning": "The manuscript indicates Supporting Information exists (\u201cSupporting information\u2026 via a link\u2026\u201d) and mentions multiple single-crystal X-ray structure determinations, which typically implies accessible crystallographic data; however, in the provided text there are no explicit deposition numbers (e.g., CCDC IDs), no data availability statement for docking inputs/outputs, and no access to raw docking poses/parameter files or computed surface potential data."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.0,
+          "reasoning": "Figures are mainly chemical schemes and computational visualization/plots; no high-risk image types (e.g., blots, microscopy) are present. Legends are brief but generally interpretable (e.g., MPES comparison, binding affinity comparison, LigPlot interactions). No visible signs of image manipulation can be assessed from the text-only excerpt."
+        }
+      },
+      "overall_reasoning": "Overall concern is moderate. The work is largely a synthesis paper with an added in-silico docking component, but the docking/statistical support for Alzheimer\u2019s-related functional claims is thin: binding affinity comparisons are presented without uncertainty/validation, and reproducibility-critical docking details (structures, parameters, sampling strategy) are not specified in the provided text. Transparency appears better on the chemistry side (multiple X-ray confirmations and Supporting Info",
       "filename": "10.1002@chem.202003367.pdf",
-      "file_path": "papers_10/10.1002@chem.202003367.pdf"
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@chem.202003367.pdf"
     },
     {
-      "total_score": 5.67,
+      "total_score": 5.25,
       "criterion_scores": {
         "Sample Size Red Flags": {
-          "score": 4.5,
-          "reasoning": "Most mouse experiments use moderate N (often n=6\u201312 per genotype; e.g., Fig 1 n=6\u201311, Fig 2 n=11\u201312). Human AD tissue lipidomics compares APOE\u03b54/\u03b54 n=10 vs APOE\u03b53/\u03b53 n=34 (Fig 3), which is modest and potentially underpowered for heterogeneous human postmortem material. A notable small-N component is the PPAR-target PCR array screening (Fig 4A: n=3\u20134 mice/group), increasing risk of unstable hits. No power analysis or attrition/exclusion accounting is described in the provided text."
+          "score": 5.0,
+          "reasoning": "Total N=56 is reasonable for a psychometric equivalence pilot, but key subgroup sizes are small (healthy controls n=15; Alzheimer\u2019s n=24; heterogeneous \u2018other brain lesions\u2019 n=17). Multiple subgroup-specific inferences are made (e.g., equivalence within controls and within Alzheimer\u2019s) without any power analysis or precision assessment. The \u2018other lesions\u2019 group is clinically diverse, which complicates interpretation without larger N or stratification."
         },
         "Statistical Reporting Gaps": {
-          "score": 6.5,
-          "reasoning": "Reporting largely relies on threshold p-values (e.g., *P<.05; **P<.01; ***P<.001; ****P<.0001) with limited exact p-values (one example: P=.057). Confidence intervals and standardized effect sizes are not reported. Multiple-testing risk is material: targeted lipidomics and multiple eCB endpoints are tested; human comparisons in Fig 3 appear to use multiple Student\u2019s t-tests across several analytes without clear multiplicity correction, and the PCR array screening (84 targets) does not clearly sp"
+          "score": 6.0,
+          "reasoning": "Inferential results are often reported as thresholded p-values (e.g., p<.05) rather than exact p-values, and correlations are annotated with star thresholds (e.g., p<.001) rather than full reporting. No confidence intervals are provided for mean differences, correlations, or reliability estimates; no effect sizes are reported for the form difference (Form I vs Form II) despite a statistically significant F over the full sample. Multiple related tests are performed (several split-plot ANOVAs and "
+        },
+        "Methodology Opacity": {
+          "score": 5.0,
+          "reasoning": "Methods are reasonably described for test construction (Latin-square assignment, frequency ordering, cueing rules, timing) and administration (counterbalanced order), supporting partial replicability. However, there is limited detail on recruitment/selection procedures, testing conditions, and the exact handling of scoring edge cases (e.g., acceptable synonyms, articulation errors), and no pre-registration is mentioned (common for 1986). Randomization is limited to counterbalancing; blinding is "
+        },
+        "Data Inaccessibility": {
+          "score": 8.0,
+          "reasoning": "No raw item-level data, anonymized subject-level scores, or analysis code are provided or referenced; there is no data availability statement. Only summary tables are shown, which prevents independent reanalysis (e.g., verifying ANOVA assumptions, recomputing reliability/correlations, examining potential outliers/ceiling effects)."
+        },
+        "Figure/Image Concerns": {
+          "score": 2.0,
+          "reasoning": "No image-based figures (e.g., blots/microscopy) are present; results are presented mainly in tables. Table content is generally interpretable, and there are no obvious opportunities for image manipulation concerns. Minor documentation issues (e.g., reliance on significance stars and some typographic/scan artifacts) do not rise to serious figure-integrity concerns."
+        }
+      },
+      "overall_reasoning": "Overall, the paper shows moderate integrity red flags primarily driven by limited modern transparency (no shared data/code) and incomplete statistical reporting by current standards (no CIs/effect sizes, thresholded p-values, no multiplicity discussion). The sample is adequate for a preliminary psychometric study, but subgroup Ns are small and one subgroup is heterogeneous, which weakens some subgroup-level equivalence claims.",
+      "filename": "huff1986.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/huff1986.pdf"
+    },
+    {
+      "total_score": 5.05,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 4.0,
+          "reasoning": "This chapter is a narrative review and does not report an original study sample size (no overall N, no inclusion/exclusion flow, no power analysis). The only explicit N-like detail is in a cited example (\u201cThe three rabbits\u2026 exposed to aluminum lactate through the nasal cavity\u201d), which is a very small sample for strong inferences, but that is from a referenced study rather than new data generated here."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 5.0,
+          "reasoning": "No statistical results are presented (no p-values, confidence intervals, effect sizes, or multiple-comparison considerations). This is consistent with a narrative review format, but it creates a transparency gap because claims such as \u201csignificantly higher\u201d ratios and percentage changes (e.g., BBB permeability increased 60\u201370%) are mentioned without providing the underlying quantitative context, uncertainty, or analytic details within the chapter itself."
         },
         "Methodology Opacity": {
           "score": 6.0,
-          "reasoning": "Key methodological details are deferred to 'supplementary methods' (human specimen collection details, LC-MS lipidomics specifics, mouse strain/animal experimentation details, CHO-cell assays). The main text does not describe randomization, blinding, handling of batch effects (important for LC-MS and histology quantification), or prespecified primary endpoints. Pre-registration is not mentioned (typical for basic science, but still a transparency gap). Replication is described in places (e.g., n"
+          "reasoning": "As a literature narrative, the chapter provides no systematic review methodology (no search strategy, databases, time windows, inclusion/exclusion criteria, or risk-of-bias assessment). There is no preregistration or protocol referenced. This makes it hard to assess selection bias/cherry-picking risk (e.g., strong causal framing around aluminum entry/deposition and Alzheimer\u2019s-related pathology is presented without a reproducible evidence-synthesis method)."
         },
         "Data Inaccessibility": {
-          "score": 6.5,
-          "reasoning": "The paper notes Supporting Information and supplementary methods, but the provided text contains no explicit data availability statement, no raw LC-MS data deposition (e.g., mzML/processed tables), no microarray/PCR-array data repository link, and no analysis code/scripts. Given the reliance on lipidomics and image quantification, lack of explicit raw-data and code access is a substantial transparency limitation."
+          "score": 7.0,
+          "reasoning": "No raw data, extracted data tables, supplementary materials, or analysis scripts are provided (and there is no data availability statement). While typical for a book chapter, it limits verifiability of how cited findings were selected, summarized, or quantitatively interpreted."
         },
         "Figure/Image Concerns": {
-          "score": 4.5,
-          "reasoning": "Figure legends are generally detailed and include scale bars/units where relevant (e.g., microscopy scale bars 10 \u00b5m; GFAP section scale bar 250 \u00b5m). Western blots are quantified by densitometry, but full blot presentation, exposure details, and uncropped blots are not indicated in the provided text (often relegated to supplements). No obvious internal indications of image manipulation are described, but verification is limited without access to higher-resolution originals/uncropped data."
+          "score": 3.0,
+          "reasoning": "Figures appear to be schematic/diagrammatic (e.g., TfR1 diagram; cellular uptake schematic) rather than primary experimental images. No visible signs of manipulation are assessable from the provided text, and there are no western blots/micrographs requiring scale bars or exposure documentation. Documentation detail is limited, but the figure type reduces typical image-fraud risk."
         }
       },
-      "overall_reasoning": "Overall concern is moderate. The work uses plausible sample sizes for many mouse comparisons and provides basic statistical methods, but there are meaningful integrity-relevant transparency gaps: limited reporting of effect sizes/CIs, unclear multiplicity control for multi-analyte lipidomics and the 84-gene array screen, heavy reliance on supplementary methods for replicability-critical details (randomization/blinding/batch control), and no explicit raw-data/code availability information in the ",
-      "filename": "10.1002@alz.12121.pdf",
-      "file_path": "papers_10/10.1002@alz.12121.pdf"
+      "overall_reasoning": "This is a narrative review chapter rather than an original empirical paper, so many standard fraud-detection signals (sample attrition, primary statistical reporting, raw data availability) are inherently absent. The main integrity-relevant red flags are evidence-synthesis opacity (no systematic methods, making selective citation/cherry-picking harder to rule out) and lack of verifiable data/extraction materials. Image-related concerns are low because the figures are schematic.",
+      "filename": "6d3e4c9bc03e83fb4b81ef0042e728ea.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/6d3e4c9bc03e83fb4b81ef0042e728ea.pdf"
     },
     {
-      "total_score": 5.12,
+      "total_score": 4.97,
       "criterion_scores": {
         "Sample Size Red Flags": {
-          "score": 4.5,
-          "reasoning": "Overall case counts are reasonably large for a population-based EOD epidemiology study (incidence based on 160 new cases from Jan 2016\u2013Jun 2019; prevalence 258 cases on June 30, 2019 in a ~700k province). However, many subtype/phenotype estimates are based on very small Ns (eg, nfvPPA prevalent n=2; incident n=2; PCA incident n=2; CBS incident n=2; PSP prevalent n=4), making those rate estimates potentially unstable. No formal power/sample-size justification is provided (common in descriptive ep"
+          "score": 3.5,
+          "reasoning": "For a province-wide epidemiology study, case counts are reasonably sized (160 incident cases 2016\u2013mid-2019; 258 prevalent cases at 6/30/2019) and based on a defined catchment (~700k inhabitants; 30\u201364 population ~347k). Exclusions are described (31 prevalent cases excluded for developmental/psychiatric/other neurologic disability etiologies). No power analysis is provided (common for descriptive incidence/prevalence work), and some subtype strata are very small (eg, several variants with N=2\u20138),"
         },
         "Statistical Reporting Gaps": {
-          "score": 7.0,
-          "reasoning": "A major red flag is the extremely narrow 95% CIs reported for incidence rates despite only 160 incident cases (eg, age/sex-adjusted incidence 6.49 with 95% CI 6.46\u20136.52; similarly tight CIs for yearly estimates). These CI widths appear implausibly precise for counts of this magnitude and may indicate a calculation/reporting error or nonstandard CI derivation. In contrast, prevalence CIs appear more plausible (eg, adjusted prevalence 36.41 per 100,000 with 95% CI 35.01\u201337.81). Limited hypothesis "
+          "score": 7.5,
+          "reasoning": "Major red flag: multiple reported 95% CIs for incidence are implausibly narrow given N=160 over ~3.5 years (eg, adjusted incidence 6.49 with 95% CI 6.46\u20136.52; yearly adjusted incidence 5.98 with CI 5.93\u20136.04). With Poisson variability, CIs should be materially wider; this suggests a calculation/reporting error (eg, treating population denominator as N for CI or reporting SE of standardized rate incorrectly). Also there is potential denominator confusion: they alternately report per 100,000 inhab"
         },
         "Methodology Opacity": {
           "score": 4.5,
-          "reasoning": "Case ascertainment and setting are described in substantial detail (extended network of neurology/geriatric memory clinics and relevant specialty clinics; retrospective 2006\u20132016 plus prospective 2017\u20132019; DSM-5 dementia definition; contemporary syndrome-specific diagnostic criteria; consensus review/harmonization of older diagnoses). Biomarker workup is outlined and proportions receiving CSF/PET/genetics are reported. However, there is no mention of preregistration, no analytic code, and limit"
+          "reasoning": "Case ascertainment and diagnostic workup are described in considerable detail (network of clinics, DSM-5 dementia definition, disease-specific diagnostic criteria, imaging/CSF/PET/genetics availability). However, key elements that affect reproducibility remain partly opaque: retrospective diagnoses were 'systematically assessed and harmonized' by consensus among neurologists, but specific adjudication procedures, inter-rater reliability, and how disagreements were resolved are not quantified. No"
         },
         "Data Inaccessibility": {
           "score": 6.5,
-          "reasoning": "The text notes that 'Additional supporting information may be found online,' but there is no explicit data sharing statement, no raw line-level dataset access, and no analysis scripts/code availability described. Given the epidemiologic calculations (standardization, denominator exclusions), lack of accessible data and code reduces verifiability\u2014especially important in light of the unusually narrow incidence CIs."
+          "reasoning": "The text references 'Supporting Information' online, but there is no explicit data sharing statement, no access to de-identified case-level data, and no analysis scripts/code. Given that rates and subtype counts are derived from clinical records across services, the lack of a clear data availability pathway limits auditability and reanalysis."
         },
         "Figure/Image Concerns": {
-          "score": 2.5,
-          "reasoning": "No obvious image-based integrity risks are present in the provided text; results are primarily conveyed via tables with clear denominators and labels. There are no western blots or microscopy images. Minor documentation gaps include limited detail on any supplementary materials (not shown here), but overall figure/image manipulation concerns are low."
+          "score": 2.0,
+          "reasoning": "The provided content contains tables rather than complex images (no western blots/microscopy). Table labeling is adequate and units (per 100,000) are generally stated. No obvious image-manipulation risks are present from the excerpt."
         }
       },
-      "overall_reasoning": "This is a largely well-described population-based descriptive epidemiology study with adequate overall case counts, but it shows moderate integrity concern due to (1) very small Ns for several subtype-specific estimates and (2) highly implausible precision in the reported incidence confidence intervals for only 160 incident cases. Transparency is moderate: methods are reasonably detailed, but the absence of shared data/code limits independent verification of key calculations.",
+      "overall_reasoning": "Overall concern is moderate. The study appears broadly plausible for a population-based registry-style design with reasonable case counts and a described clinical network, but statistical reporting contains a prominent integrity signal: several incidence/prevalence 95% CIs are unrealistically narrow for the observed number of cases, suggesting a computational or transcription error that undermines confidence in the reported precision. Transparency is also limited by lack of shared data/code and ",
       "filename": "10.1002@alz.12177.pdf",
-      "file_path": "papers_10/10.1002@alz.12177.pdf"
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12177.pdf"
     },
     {
-      "total_score": 4.9,
+      "total_score": 4.93,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 5.0,
+          "reasoning": "This is primarily a chemistry/in vitro biophysics study (not clinical), so large N is not inherently expected. However, key functional assays rely on limited replication: ThT aggregation assays are stated as \"tested in triplicate\" per condition (technical replicates) with no clear indication of independent biological repeats (e.g., independent peptide preparations/days) or power justification. No power analysis is mentioned, and multiple ligand:peptide ratios are explored without discussion of p"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 6.0,
+          "reasoning": "No hypothesis-testing statistics are reported (no p-values, no confidence intervals), and there is no multiple-comparisons handling despite many conditions (multiple compounds \u00d7 multiple molar ratios). Results are often summarized descriptively (e.g., changes in lag phase and fibril amount) with some means \u00b1 SD/SE reporting (ABTS TEAC values; kinetics fit parameters referenced as mean (standard error)), but inferential support is limited and effect sizes/uncertainty for key comparisons are not c"
+        },
+        "Methodology Opacity": {
+          "score": 4.0,
+          "reasoning": "Synthetic chemistry methods are detailed extensively (reagents, conditions, NMR/MS characterization). The A\u03b2 ThT assay protocol is reasonably described (peptide monomerization, buffer, concentrations, plate format, shaking regimen, controls without peptide, fitting equation). However, there is no mention of preregistration, no clear statement about independent repeats across days/batches, and no explicit blinding/randomization (less applicable here but still a transparency point for assay handli"
+        },
+        "Data Inaccessibility": {
+          "score": 6.0,
+          "reasoning": "The text states supporting information exists (e.g., Figure S1, supplementary kinetics parameters), but no data availability statement is provided and no raw time-course data, potentiometric titration datasets, or analysis scripts/code are referenced. Replication would require access to underlying numerical data beyond plotted curves and summarized constants."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.5,
+          "reasoning": "Figure legends are generally detailed (conditions, concentrations, buffer, temperature; triplicate statement for ThT). Spectra/kinetics appear plausibly documented, and there are no obvious cues in the provided text indicating image manipulation. However, without access to original high-resolution figures and raw gels/images (not applicable here), verification is limited; some key quantitative outputs are deferred to supplementary materials."
+        }
+      },
+      "overall_reasoning": "Overall concerns are moderate rather than high. The work is methodologically detailed for synthesis and describes assays adequately, but research-integrity red flags arise mainly from limited replication reporting (triplicates that may be technical only), minimal inferential statistics (no p-values/CIs, no multiple-comparison framework despite many conditions), and lack of explicit data/code availability for underlying kinetic/titration datasets.",
+      "filename": "10.1002@cmdc.202000807.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@cmdc.202000807.pdf"
+    },
+    {
+      "total_score": 4.75,
       "criterion_scores": {
         "Sample Size Red Flags": {
           "score": 4.0,
-          "reasoning": "Overall sample sizes are substantial for population estimates (SESD N=5055; SAS N=3670), which reduces small-N concerns. However, key education subgroup comparisons are imbalanced and potentially underpowered/unstable, especially SAS \u22646 years education (n=445; 12.1%) versus SESD \u22646 years (n=3227; 63.8%), and age-stratified incidence in \u226585 further reduces effective N. Incidence follow-up attrition is acknowledged as a limitation (\u201clower response rate\u2026 lost to follow-up\u201d), and lost participants h"
+          "reasoning": "Overall N=143 is adequate for a methods-validation study and supports AUC estimation; however, per-center subgroup sizes are small/uneven (e.g., ICSM-PV n=19), yet center-stratified claims are made (Table 3/6). No a priori power analysis is reported, and multiple diagnostic subtypes are listed (Table 2) without clear powering for subtype-level inference."
         },
         "Statistical Reporting Gaps": {
-          "score": 5.0,
-          "reasoning": "The paper reports 95% CIs for prevalence/incidence and ORs (good), but relies heavily on many subgroup comparisons (sex/age/education, plus age-specific plots) using chi-squared/Fisher tests without describing any multiple-comparison correction, increasing false-positive risk. Effect sizes are partly provided (ORs), but modeling is limited (no regression adjustment beyond direct standardization), and key potential confounding cannot be adjusted due to missing SESD covariates (vascular risk facto"
+          "score": 4.5,
+          "reasoning": "Many key metrics are reported with uncertainty (e.g., bootstrap accuracy/sensitivity/specificity with 95% CIs; cut-off CIs; linear-model coefficient CIs). P-values are not conspicuously rounded and are often given as <10^-3. Main gap: multiple t-tests across centers/methods (Table 6; Fig. 3 marked at p<0.05) are reported without an explicit multiple-comparisons correction, increasing false-positive risk."
         },
         "Methodology Opacity": {
+          "score": 5.0,
+          "reasoning": "Core method is described with explicit equations, thresholds (IE0=0.85 quantile; IL0=0.99 quantile), and processing steps (rigid 6-parameter registration E\u2192L; MNI normalization for comparisons). However, key implementation details are partially deferred to supplementary/Appendix A, and no preregistration is mentioned. Reader blinding procedures are not clearly described (two readers reached consensus, but whether blinded to clinical information/center is unclear)."
+        },
+        "Data Inaccessibility": {
+          "score": 7.0,
+          "reasoning": "Supplementary material is referenced, but there is no clear public data or code availability statement, and no analysis scripts are provided. Data are described as collected as anonymized DICOMs, yet there is no pathway for external access (the online supplementary is 'available to authorized users'), limiting reproducibility."
+        },
+        "Figure/Image Concerns": {
+          "score": 3.5,
+          "reasoning": "No obvious image-forensics risk areas (e.g., western blots) are present; figures appear to be standard PET examples/plots with described ROIs (e.g., Fig. 1\u20133). Based on the provided text, legends/units seem generally interpretable, though image quality and manipulation cannot be verified from text alone."
+        }
+      },
+      "overall_reasoning": "Primary integrity concerns relate to transparency/reproducibility rather than overt statistical anomalies: the method is reasonably specified and sample size is decent overall, but there is no preregistration or shared code/data, and some center-comparison statistics are presented without clear multiple-testing control. Net signal is moderate concern rather than high suspicion.",
+      "filename": "10.1007@s00259-020-04689-y.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1007@s00259-020-04689-y.pdf"
+    },
+    {
+      "total_score": 4.42,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 4.5,
+          "reasoning": "Overall sample sizes are substantial for population-based estimates (SESD N=5055; SAS N=3670), which reduces concern. However, key education-stratified inferences rely on a small subgroup in SAS (\u22646 years education: n=445, 12.1%), making some age-stratified comparisons potentially underpowered/unstable. No formal power analysis is mentioned, and incidence estimates also depend on follow-up participation with acknowledged attrition/selection bias."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 4.0,
+          "reasoning": "Effect estimates and uncertainty are generally reported (prevalence/incidence with 95% CIs; ORs with 95% CIs), and p-values are not conspicuously 'round' or clustered just below 0.05 (values include <.001, .019, .066, .940, .002, .006, .029). However, many subgroup comparisons are performed (age \u00d7 education \u00d7 sex) with no multiple-comparison adjustment described, and inference is largely via chi-squared/Fisher tests without more detailed modeling to address confounding beyond standardization."
+        },
+        "Methodology Opacity": {
+          "score": 5.0,
+          "reasoning": "Core methods are described, but comparability across cohorts is compromised and partially opaque: SESD used a two-stage screening design while SAS used one-stage assessment; dementia diagnostic criteria changed (DSM-III vs DSM-IV), which the authors acknowledge could inflate increases. Some key details are deferred to prior publications (\u201creported elsewhere\u201d), limiting standalone reproducibility. No preregistration is mentioned (common for older observational cohorts, but still a transparency li"
+        },
+        "Data Inaccessibility": {
           "score": 6.0,
-          "reasoning": "Several features limit reproducibility/comparability across the two cohorts: (1) different ascertainment designs (SESD two-stage screening with 5% negatives sampled vs SAS one-stage full assessment), (2) different diagnostic criteria across time (DSM-III in SESD vs DSM-IV in SAS), which the authors note could increase diagnosis in SAS and overestimate temporal increases, and (3) SESD subgroup prevalence/incidence were 'extracted from the published literatures' rather than analyzed from shared ra"
+          "reasoning": "The paper states 'The raw data of the SAS could be used freely' but provides no repository link, accession process, or concrete data-sharing statement/conditions in the provided text; analysis scripts/code are not mentioned. SESD subgroup rates were 'extracted from the published literatures,' implying the underlying SESD participant-level data are not available here, reducing auditability and making harmonization checks difficult."
+        },
+        "Figure/Image Concerns": {
+          "score": 2.5,
+          "reasoning": "Figures referenced are epidemiologic flowcharts and rate plots (no high-risk image types like blots/microscopy). No visible indicators of image manipulation are suggested in the provided text. Some figure/legend detail cannot be fully assessed from the excerpted content, but nothing stands out as suspicious."
+        }
+      },
+      "overall_reasoning": "Overall integrity risk appears moderate rather than high: sample sizes are strong and statistical reporting includes CIs and effect estimates. The main red-flag areas are transparency/data accessibility (no clear public dataset or code) and methodological comparability across decades (different assessment designs and DSM criteria), which could bias trend estimates and reduces verifiability of the headline conclusions, especially within the small low-education subgroup in the later cohort.",
+      "filename": "10.1002@alz.12159.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12159.pdf"
+    },
+    {
+      "total_score": 4.0,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 2.5,
+          "reasoning": "Overall N=282 cognitively normal adults (A\u03b2\u2212 n=195, A\u03b2+ n=87) is reasonably large for imaging associations across ages 30\u201389. Exclusions are explained (12 removed for anatomical abnormalities/artifacts/noise; DTI n=6, T1 n=4, etc.). Timing gaps between modalities are disclosed (PET median 82 days after MRI; 19 subjects >1 year). No formal power analysis is mentioned, but sample size is not suspiciously small for the primary claims; subgroup WMH probability maps restrict to age\u226546 (n=254) with ra"
+        },
+        "Statistical Reporting Gaps": {
+          "score": 3.5,
+          "reasoning": "Key analyses use appropriate corrections: TBSS uses nonparametric permutation inference with TFCE and FWE correction (\u03b1=0.05), reducing p-hacking concern. For WMH interaction, regression reports coefficient, SE, and 95% CI (e.g., B=0.30, SE=0.14, 95% CI=0.07\u20130.59) and sensitivity analyses excluding low-WMH cases and controlling for hypertension. However, some secondary ROI/tract analyses explicitly use P<0.05 uncorrected for multiple comparisons (even though they note Bonferroni renders them non"
+        },
+        "Methodology Opacity": {
+          "score": 4.5,
+          "reasoning": "Imaging acquisition and preprocessing are described with substantial detail (scanner parameters, DTI directions/b-values, ExploreDTI motion/eddy correction and B-matrix rotation, susceptibility correction via nonlinear registration to T1; TBSS normalization to FMRIB58). Amyloid PET processing and SUVR thresholding (\u22651.2) are referenced as established previously. Nonetheless, there is no mention of preregistration, prespecified analysis plan, or availability of full code/scripts; some methods are"
         },
         "Data Inaccessibility": {
           "score": 6.5,
-          "reasoning": "There is no clear data availability statement, repository link, or access procedure. The authors state 'The raw data of the SAS could be used freely' but do not specify where/how to obtain it, and SESD appears unavailable at the raw-data level (they rely on published extraction). No analysis code/scripts are provided or referenced."
+          "reasoning": "The text indicates supporting information exists online, but no explicit data sharing statement, raw data availability, or analysis script/code release is described. The dataset appears to be from a cohort study (DLBS) but access conditions are not provided here. This lack of explicit data/code availability increases reproducibility barriers."
         },
         "Figure/Image Concerns": {
-          "score": 2.5,
-          "reasoning": "Figures are primarily flowcharts and epidemiologic rate plots (Figures 1\u20133) rather than high-risk biomedical images (e.g., blots/micrographs). No obvious image-forensics concerns are raised by the provided text. Some documentation detail (e.g., exact denominators/uncertainty bands in age-specific plots) cannot be fully assessed from the text excerpt, but nothing suggests manipulation."
+          "score": 3.5,
+          "reasoning": "Figures are described with reasonably complete legends (e.g., TBSS map color encoding and FWE-corrected threshold; WMH probability maps stratified by age and A\u03b2 group with sample sizes noted; regression plots with SE shading). No obvious indicators of image manipulation are visible from the provided text. However, because the actual figure panels are not provided here, image-level verification (resolution, artifacts, manipulation) cannot be assessed."
         }
       },
-      "overall_reasoning": "This is not a classic small-sample or image-manipulation risk paper; the main integrity red flags are transparency and comparability issues: reliance on published SESD subgroup values rather than raw data, lack of clear data/code access despite a claim that SAS data are usable, and substantial methodological differences across cohorts (two-stage vs one-stage ascertainment; DSM-III vs DSM-IV) that can mechanically inflate temporal differences. Extensive subgroup testing without multiple-compariso",
-      "filename": "10.1002@alz.12159.pdf",
-      "file_path": "papers_10/10.1002@alz.12159.pdf"
-    },
-    {
-      "total_score": 4.55,
-      "criterion_scores": {
-        "Sample Size Red Flags": {
-          "score": 2.5,
-          "reasoning": "Overall sample is fairly large for an imaging cross-sectional study (N=282; A\u03b2+=87, A\u03b2\u2212=195) spanning ages 30\u201389. Exclusions are reported with specific reasons (12/294 excluded for anatomical abnormalities or MRI artifacts/noise). No major unexplained attrition is evident. However, no a priori power analysis is described, and some stratified/subset analyses reduce N (e.g., WMH probability mapping restricted to age \u226546; n=254)."
-        },
-        "Statistical Reporting Gaps": {
-          "score": 5.0,
-          "reasoning": "Primary voxelwise TBSS inference uses nonparametric permutation testing with TFCE and FWE correction (good practice). For the WMH interaction model, coefficients, SEs, and 95% CIs are reported (e.g., B=0.30, SE=0.14, 95% CI=0.07\u20130.59). However, the tract-ROI analyses explicitly use P<0.05 uncorrected for multiple comparisons because they are described as secondary, increasing false-positive risk; Bonferroni is mentioned as making results non-significant. P-values are frequently reported as thres"
-        },
-        "Methodology Opacity": {
-          "score": 4.0,
-          "reasoning": "Imaging acquisition parameters and preprocessing pipelines are described in substantial detail (scanner, sequences, voxel sizes; ExploreDTI motion/eddy correction, B-matrix rotation, susceptibility correction; TBSS in FSL with TFCE/FWE). Key operational definitions are provided (A\u03b2+ threshold SUVR \u22651.2; WMH transform; covariates). Nonetheless, there is no mention of preregistration, a full analysis plan, or publicly available code/protocol; WMH segmentation relies on a previously described semia"
-        },
-        "Data Inaccessibility": {
-          "score": 7.0,
-          "reasoning": "The article notes that supporting information exists online, but there is no clear data availability statement, no indication that raw imaging data/derived measures are deposited in a repository, and no sharing of analysis scripts. Given the complexity of the imaging pipeline, lack of accessible data/code materially limits verification and reanalysis."
-        },
-        "Figure/Image Concerns": {
-          "score": 5.0,
-          "reasoning": "Figures are standard for TBSS/WMH mapping studies and include descriptions of significance thresholds (e.g., P<0.05 FWE corrected) and reference space (MNI). However, from the provided text alone it is not possible to verify whether figure legends include all necessary technical details (e.g., color scale ranges for probability maps, exact thresholds for displayed overlays), nor to assess image quality/manipulation. No raw overlays or single-subject examples are described, which can sometimes he"
-        }
-      },
-      "overall_reasoning": "Overall, the paper shows relatively low concern on sample size and primary statistical rigor (appropriate permutation-based TBSS with FWE correction and some CI reporting). The main integrity-related red flags are transparency-related: absence of an explicit data/code availability pathway and the use of uncorrected multiple-comparison thresholds for secondary ROI analyses, which increases the risk of overstated findings if those secondary results are emphasized.",
+      "overall_reasoning": "Overall, the paper shows relatively low-to-moderate fraud red flags: a solid sample size with explained exclusions and appropriate correction for the main voxelwise TBSS analyses (TFCE/FWE), plus CI reporting and sensitivity checks for WMH. The main integrity concerns are typical transparency/reproducibility issues (no clear data/code sharing statement; some methods pushed to supplementary/prior work) and the use of uncorrected p-values for secondary tract-ROI analyses.",
       "filename": "10.1002@alz.12062.pdf",
-      "file_path": "papers_10/10.1002@alz.12062.pdf"
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12062.pdf"
     },
     {
-      "total_score": 4.1,
+      "total_score": 4.0,
       "criterion_scores": {
         "Sample Size Red Flags": {
-          "score": 2.0,
-          "reasoning": "This is a narrative REVIEW ARTICLE and does not report an original study cohort (no single N, no enrollment/exclusions/dropouts). Therefore classic sample-size red flags are largely not applicable. The authors do acknowledge that several cited primary studies are small/pilot (e.g., N=49; N=15 vs 30; N=32), but those are limitations of the literature reviewed rather than unexplained features of this paper\u2019s own data."
+          "score": 4.0,
+          "reasoning": "Discovery GWAS sample sizes are moderate for CSF biomarker GWAS (EMIF-AD: N\u2248671\u2013677 across traits; Table 1), which is generally adequate for common-variant signals, but replication is uneven and small for YKL-40 in ADNI (N=131; Table 1), limiting confidence for that trait. No formal power analysis is described in the provided text. The paper also reports several rare-variant hits for NfL with MAF \u22481% and explicitly notes these should be viewed with caution, indicating potential instability at th"
         },
         "Statistical Reporting Gaps": {
-          "score": 4.0,
-          "reasoning": "No original statistical analyses are presented (aside from summarizing results from prior studies and a qualitative Table 1), so typical p-value/CI/effect-size reporting issues are mostly not applicable. However, because the review is not a formal systematic review/meta-analysis, it does not provide quantitative synthesis, heterogeneity metrics, or publication-bias assessment, which limits evaluability and can increase cherry-picking risk in principle."
+          "score": 3.5,
+          "reasoning": "Statistical reporting follows standard GWAS conventions: clear genome-wide thresholds for SNP-based (5E-08) and gene-based testing (2.651E-6) and use of meta-analysis (METAL) are specified. Effect estimates (betas) and exact p-values are reported (Table 2) and are not suspiciously rounded or clustered near 0.05 (many are extremely small, e.g., 1E-15). However, confidence intervals are not reported (common in GWAS but still a transparency gap), and details on how multiple phenotypes/secondary loo"
         },
         "Methodology Opacity": {
-          "score": 6.0,
-          "reasoning": "Literature search is described only briefly (\u201cPubMed and Google Scholar searches\u201d with a few keywords) without PRISMA-style documentation: no explicit inclusion/exclusion criteria, screening process, time window, study quality/risk-of-bias assessment, or reproducible search strings. No pre-registration/protocol is mentioned. This level of detail makes the review difficult to replicate and increases vulnerability to selection bias."
-        },
-        "Data Inaccessibility": {
-          "score": 5.0,
-          "reasoning": "As a review, there is no raw dataset to share, but the paper also does not provide a structured extraction sheet, curated dataset of included studies, or analysis scripts (none would be expected unless performing meta-analysis). No explicit data-sharing statement is present beyond standard acknowledgments/COI statements."
-        },
-        "Figure/Image Concerns": {
-          "score": 3.0,
-          "reasoning": "The provided text contains a summary table (Table 1) and no experimental images (e.g., blots/micrographs). Thus, image-manipulation risks are minimal here. The main potential issue is that table-based evidence mapping does not show how studies were selected/weighted, but there are no obvious figure-documentation red flags in the excerpt."
-        }
-      },
-      "overall_reasoning": "This paper is a narrative review rather than original empirical research, so many classic fraud indicators (sample manipulation, p-hacking, image tampering) are not directly assessable. The primary integrity-relevant vulnerability is methodological transparency of the review process: the literature search and study-selection procedures are described at a high level without reproducible search strings, inclusion/exclusion criteria, PRISMA flow, or risk-of-bias assessment. Overall concern is moder",
-      "filename": "10.1002@alz.12006.pdf",
-      "file_path": "papers_10/10.1002@alz.12006.pdf"
-    },
-    {
-      "total_score": 3.35,
-      "criterion_scores": {
-        "Sample Size Red Flags": {
-          "score": 2.0,
-          "reasoning": "Overall sample is large for a claims-based epidemiology letter (N=2968 adults with DS with \u22653 years of Medicaid claims). Key age strata are still reasonably sized (e.g., \u226555 years: 938 at last claim; 40-54 years: 1013 at last claim). No unusual/unexplained exclusions beyond a clearly stated \u22653-year enrollment requirement and a 1-year washout for incidence."
-        },
-        "Statistical Reporting Gaps": {
-          "score": 3.0,
-          "reasoning": "Estimates are generally accompanied by 95% CIs (prevalence/incidence per 1000; prevalence ratios with 95% CIs). The letter does not emphasize individual p-values (mostly CI-based inference) and states \u03b1=.05 without detailing exact hypothesis tests. Multiple-comparison correction is not discussed (though the analytic scope is limited), and effect-size reporting is present (rates and prevalence ratios)."
-        },
-        "Methodology Opacity": {
-          "score": 4.0,
-          "reasoning": "Methods are brief (research letter format) but include key design elements: DS identification (\u22652 DS claims on separate days), study window (2008-2018), dementia/AD code source (CMS Chronic Conditions Data Warehouse), \u22653-year enrollment criterion, age categorization, models used (log-binomial; log-Poisson with 1-year washout), and Kaplan-Meier with administrative censoring. However, there is no pre-registration, no detailed code lists in the text, and limited detail on model specifications/covar"
+          "score": 4.5,
+          "reasoning": "Core analytic steps are described (QC/imputation, MAF thresholds, linear regression with covariates sex/age/diagnosis/PC1-5, FUMA, MAGMA, METAL), and key software/tools are named. However, multiple crucial details are deferred to supporting information and prior publications (e.g., genotyping/QC workflow: \u201csupporting information and Hong et al.17\u201d; biomarker measurement details: \u201cBos et al.4\u201d), which reduces standalone reproducibility from the main text. No pre-registration is mentioned (not typ"
         },
         "Data Inaccessibility": {
           "score": 6.0,
-          "reasoning": "Data are explicitly obtained under a limited data use agreement from the Wisconsin Department of Health Services, and no data sharing statement or pathway for accessing analytic datasets is provided in the excerpt. No analysis scripts or code repository is referenced, making independent reanalysis difficult even though this is common for restricted Medicaid claims."
+          "reasoning": "The replication dataset (ADNI) is accessible via the ADNI database with a URL provided, but access is controlled rather than fully open. For the discovery dataset (EMIF-AD MBD), the excerpt does not include a clear data sharing statement, raw-data deposition, or analysis-script availability. The paper repeatedly references supporting information, but does not (in the provided text) specify public release of GWAS summary statistics, code, or full phenotype/genotype files."
         },
         "Figure/Image Concerns": {
           "score": 2.0,
-          "reasoning": "Figures are standard cumulative incidence/Kaplan-Meier-style plots with numbers at risk and clear labeling; no biological images (e.g., blots/microscopy) where manipulation is a typical concern. Minor formatting/legibility issues in the provided text scrape do not indicate image integrity problems in the original publication."
+          "reasoning": "Figures are standard GWAS Manhattan plots with clear threshold lines and sample sizes stated in legends (e.g., meta-analysis n=979/808/980). There are no high-risk image types (e.g., western blots, microscopy) and no visible indications of manipulation issues from the provided content. Documentation appears adequate for the plots shown."
         }
       },
-      "overall_reasoning": "This is a large, population-based Medicaid claims analysis with broadly appropriate statistical reporting (frequent 95% CIs) and no obvious sample-size-related red flags. The main integrity/transparency concerns are typical for restricted administrative data: limited ability to share raw data and lack of shared analysis code, plus the inherent brevity of a research letter (no preregistration and limited methodological detail such as explicit code lists and full model specification).",
-      "filename": "10.1001@jamaneurol.2019.3666.pdf",
-      "file_path": "papers_10/10.1001@jamaneurol.2019.3666.pdf"
+      "overall_reasoning": "Overall concern is moderate. The study uses fairly standard GWAS methodology with appropriate multiple-testing thresholds and non-suspicious p-value reporting, and discovery sample sizes are reasonable. Main red flags relate to transparency/data access (no clear data/code sharing statement in the provided text) and limited replication power for YKL-40 (ADNI N=131), plus reliance on supporting information/prior papers for full methodological detail.",
+      "filename": "hong2021.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/hong2021.pdf"
     },
     {
-      "total_score": 3.15,
+      "total_score": 3.83,
       "criterion_scores": {
         "Sample Size Red Flags": {
-          "score": 1.0,
-          "reasoning": "This is an 'Association Update' / meeting summary with no original empirical study, participants N, enrollment, exclusions, or outcomes reported\u2014so typical sample-size red flags are not applicable."
+          "score": 2.0,
+          "reasoning": "Overall cohort size is large for the main descriptive claims (N=2968 Medicaid enrollees with DS with \u22653 years of enrollment). Age-stratified groups are still substantial for <40 (n=1547) and 40-54 (n=1111), though the \u226555-at-first-claim group is smaller (n=310). No unexplained dropouts are described; censoring is explicitly noted (administratively censored n=835) and handled with Kaplan-Meier. No formal power analysis is provided, but the study\u2019s primary aims are prevalence/incidence estimation "
         },
         "Statistical Reporting Gaps": {
-          "score": 1.0,
-          "reasoning": "No statistical analyses are presented (no p-values, confidence intervals, effect sizes, or multiple-comparison issues), consistent with a narrative update rather than a results paper."
+          "score": 3.5,
+          "reasoning": "Estimates are generally accompanied by 95% CIs for prevalence and incidence, and prevalence ratios are reported with 95% CIs (e.g., PR 1.23 [95% CI, 1.02-1.50]). However, p-values are not reported (only an alpha threshold of .05 is stated), effect sizes beyond rates/PRs are limited, and there is no discussion of multiple-comparison control despite several age/sex comparisons (though the analysis is fairly limited and mostly descriptive). No strong signs of p-hacking (few hypothesis tests; emphas"
         },
         "Methodology Opacity": {
-          "score": 6.0,
-          "reasoning": "The piece makes broad claims/recommendations (eg, calls for new outcome measures and harmonized observational studies) but provides no reproducible methods, protocol, pre-registration, or clear description of how consensus was reached at the meeting. While partly expected for this article type, it limits verifiability."
+          "score": 4.5,
+          "reasoning": "Core design is described (Wisconsin Medicaid claims 2008-2018; DS defined by \u22652 claims on separate days; dementia/AD codes from CMS Chronic Conditions Data Warehouse; \u22653-year enrollment requirement; 1-year washout for incidence; log-binomial/log-Poisson models; Kaplan-Meier with administrative censoring; SAS 9.4). Still, key reproducibility details are limited for full replication: exact ICD code lists are not included in the letter (they reference CMS definitions and prior cohort details), and "
         },
         "Data Inaccessibility": {
           "score": 7.0,
-          "reasoning": "No raw data, supplementary materials, data sharing statement, or analysis scripts are provided or referenced. If any structured outputs existed (eg, attendee list, voting results, consensus process documentation), they are not made accessible here."
+          "reasoning": "Data were obtained under a limited data use agreement from the Wisconsin Department of Health Services, and the dataset is deidentified; no data-sharing statement indicates that data can be accessed by other researchers, and no repository/supplement with raw or analytic datasets is provided. No analysis scripts/code are shared."
         },
         "Figure/Image Concerns": {
-          "score": 1.0,
-          "reasoning": "No figures or images are included, so image manipulation/documentation concerns are not applicable."
+          "score": 2.5,
+          "reasoning": "Figures are standard cumulative incidence/Kaplan-Meier-style plots with risk tables and a clear caption noting inclusion criteria and washout period. No image types prone to manipulation (e.g., blots/microscopy) are present. Some figure axis/label clarity is hard to assess from the provided text-extraction, but there are no evident red flags suggesting manipulation or missing essential measurement units."
         }
       },
-      "overall_reasoning": "This item is a brief association/meeting update rather than an original research report, so many classic fraud indicators (sample size/statistics/figures) are not assessable. The main integrity-relevant limitation is transparency: the article provides no methodological detail about how conclusions were derived from the roundtable and no accessible underlying materials or data, yielding moderate concern primarily due to verifiability constraints rather than clear evidence of manipulation.",
-      "filename": "10.1002@alz.12111.pdf",
-      "file_path": "papers_10/10.1002@alz.12111.pdf"
+      "overall_reasoning": "This is a large, claims-based epidemiology research letter with appropriate use of confidence intervals and clear high-level analytic choices, which reduces fraud concern. The main integrity limitation is transparency/access: code lists and analysis scripts are not provided in the letter, and the Medicaid claims data are not openly available due to restricted access, which limits reproducibility but is common in administrative-data studies. Overall red-flag level is low to moderate, driven prima",
+      "filename": "10.1001@jamaneurol.2019.3666.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1001@jamaneurol.2019.3666.pdf"
     },
     {
-      "total_score": 2.65,
+      "total_score": 3.0,
       "criterion_scores": {
         "Sample Size Red Flags": {
           "score": 2.0,
-          "reasoning": "This is explicitly a theoretical/hypothesis/review-style article and does not report new experiments or a study cohort with an N to evaluate. The only sample-size-related comment is a general limitation statement about prior MRS studies being limited by small sample size and diagnostic criteria (but those Ns are not presented or analyzed here). No power analysis is applicable."
+          "reasoning": "This is a narrative REVIEW ARTICLE rather than a primary study, so it does not present a single study N, dropouts, exclusions, or powered subgroup analyses. It does cite many underlying studies with small Ns (e.g., N=49, N=15, N=9) but that reflects the reviewed literature rather than an integrity red flag for this paper itself."
         },
         "Statistical Reporting Gaps": {
-          "score": 2.0,
-          "reasoning": "No primary statistical analyses are reported in the provided text (no p-values/CIs/effect sizes for new results), so classic red flags like p-hacking, clustered p-values, or missing multiplicity corrections are largely not applicable. The article summarizes prior literature rather than presenting its own inferential statistics."
+          "score": 3.0,
+          "reasoning": "As a review, it does not report original hypothesis tests, p-values, confidence intervals, or effect sizes, so classic p-hacking indicators cannot be evaluated. The paper summarizes findings qualitatively and via Table 1 (significant vs null) without systematic quantitative synthesis beyond referencing external meta-analyses."
         },
         "Methodology Opacity": {
-          "score": 4.0,
-          "reasoning": "As a narrative hypothesis piece, there is no replicable experimental protocol to assess. However, there is limited transparency about the review methodology: no systematic search strategy, inclusion/exclusion criteria, screening process, or PRISMA-style workflow is described, and there is no pre-registration mentioned for the review/hypothesis. This raises moderate (not high) opacity concerns typical of narrative reviews."
+          "score": 5.0,
+          "reasoning": "The literature search is described briefly (PubMed/Google Scholar keywords listed), but there is no PRISMA-style flow, no explicit inclusion/exclusion criteria, no assessment of risk of bias, no protocol/pre-registration, and no details on screening/dual-review processes. This level of opacity is common in narrative reviews but reduces reproducibility and increases susceptibility to selective citation."
         },
         "Data Inaccessibility": {
-          "score": 3.0,
-          "reasoning": "No raw dataset or analysis scripts are provided or referenced, but the article also does not generate primary data. There is no explicit data/code sharing statement in the provided text; for a theoretical review this is common, so the concern is low-to-moderate rather than high."
+          "score": 2.0,
+          "reasoning": "No original dataset or analysis scripts are generated by this review, so raw-data availability is largely not applicable. There is also no explicit data-sharing statement or shared extraction sheets/supplementary materials for Table 1, but that is typical for narrative reviews."
         },
         "Figure/Image Concerns": {
           "score": 2.0,
-          "reasoning": "Figures shown/described appear to be conceptual/schematic (e.g., pathway diagrams) and include detailed legends (e.g., Figure 1 legend includes scales for example traces; Figure 2 is a model schematic). There are no empirical image types (e.g., western blots, microscopy panels) in the provided excerpts that would commonly raise manipulation/documentation concerns."
+          "reasoning": "No experimental images (e.g., microscopy, western blots) are presented in the provided text. The main visual element is Table 1 summarizing references; there are no apparent image-manipulation risks to assess from the content shown."
         }
       },
-      "overall_reasoning": "Overall fraud-risk indicators are low because the paper is a theoretical/narrative hypothesis article rather than a primary empirical report. Most standard integrity checks (sample size adequacy, statistical reporting completeness, raw data availability) are not directly applicable. The main moderate issue is methodological transparency typical of narrative reviews: the literature selection process is not described as systematic or pre-registered.",
+      "overall_reasoning": "Overall integrity-fraud risk appears low because this is a review article (limited exposure to fabricated data/images). The primary concern is moderate methodology opacity typical of narrative reviews (non-systematic search and unclear study selection), which can enable biased or selective reporting, but there are no strong indicators of data manipulation or statistical anomalies within this paper itself.",
+      "filename": "10.1002@alz.12006.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12006.pdf"
+    },
+    {
+      "total_score": 2.47,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 1.5,
+          "reasoning": "This is explicitly a THEORETICAL ARTICLE/review proposing a hypothesis and does not report new experiments, cohorts, or participant enrollment. Therefore typical sample-size red flags (small N, attrition, power) are largely not applicable to this paper\u2019s own work."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 2.0,
+          "reasoning": "No original statistical analyses are presented (no new p-values/CI/effect sizes expected). The paper mainly synthesizes prior literature. Limited ability to assess p-hacking or selective reporting within this article itself."
+        },
+        "Methodology Opacity": {
+          "score": 4.0,
+          "reasoning": "As a narrative hypothesis/review, it does not provide a reproducible literature-search strategy (e.g., databases searched, inclusion/exclusion criteria, screening process) and is not presented as a systematic review. No preregistration for the review process is mentioned. This creates moderate opacity regarding how evidence was selected and weighted."
+        },
+        "Data Inaccessibility": {
+          "score": 2.5,
+          "reasoning": "No raw data or analysis code are expected because the article does not generate primary datasets. However, there is also no explicit data-sharing statement (common in primary studies but less relevant here)."
+        },
+        "Figure/Image Concerns": {
+          "score": 2.0,
+          "reasoning": "Figures appear to be conceptual schematics (e.g., pathway diagrams) and tables summarizing drugs/strategies rather than empirical images (e.g., western blots/microscopy). Legends are reasonably detailed for interpretability; there is little opportunity to detect manipulation concerns from the provided content."
+        }
+      },
+      "overall_reasoning": "Overall integrity red-flag level is low because this is a hypothesis/narrative review article rather than a primary empirical report. The main potential concern is evidence-selection transparency (no systematic search methodology), which can introduce narrative bias, but there are no direct indicators of data fabrication/manipulation within the article itself.",
       "filename": "10.1002@alz.12088.pdf",
-      "file_path": "papers_10/10.1002@alz.12088.pdf"
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12088.pdf"
+    },
+    {
+      "total_score": 1.57,
+      "criterion_scores": {
+        "Sample Size Red Flags": {
+          "score": 1.5,
+          "reasoning": "This is an Association Update/meeting summary (not an empirical study). No participant N, recruitment, exclusions, or power analysis are applicable/expected, so there are minimal fraud-relevant sample-size red flags."
+        },
+        "Statistical Reporting Gaps": {
+          "score": 1.0,
+          "reasoning": "No hypothesis tests, p-values, confidence intervals, effect sizes, or multiple-comparison issues are presented because the piece does not report statistical analyses."
+        },
+        "Methodology Opacity": {
+          "score": 2.0,
+          "reasoning": "Methods are not described in replicable detail (eg, no formal consensus methodology such as Delphi, no structured agenda/protocol described), but this is consistent with the article type (brief meeting update) rather than indicative of hidden analyses."
+        },
+        "Data Inaccessibility": {
+          "score": 2.5,
+          "reasoning": "No data sharing statement, raw data, or analysis code are provided; however, no primary dataset appears to exist in this text (it summarizes stakeholder discussions). It notes that a more detailed report will appear later."
+        },
+        "Figure/Image Concerns": {
+          "score": 1.0,
+          "reasoning": "No figures, blots, or images are included; therefore there are no image-manipulation or figure-documentation concerns observable."
+        }
+      },
+      "overall_reasoning": "The text is a short meeting/roundtable summary rather than a primary research report. Most common fraud indicators (sample size manipulation, p-hacking, selective reporting of statistical outcomes, image tampering) are not applicable because no original empirical results, datasets, or figures are presented. The only minor transparency limitation is the lack of detail about how the meeting conclusions were generated, which is typical for this publication format.",
+      "filename": "10.1002@alz.12111.pdf",
+      "file_path": "/Users/charlesguthmann/Dropbox/pdf_copies/Transfer/10.1002@alz.12111.pdf"
     }
   ]
 }
