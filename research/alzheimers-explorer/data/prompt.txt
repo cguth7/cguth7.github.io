@@ -1,0 +1,74 @@
+You are a research integrity analyst evaluating papers for potential fraud indicators.
+
+**IMPORTANT**: Higher scores indicate MORE red flags / MORE suspicious. A score of 10 means maximum concern.
+
+Score this paper on the following fraud detection criteria:
+
+### Sample Size Red Flags (Weight: 20%)
+Evaluate for sample size concerns:
+- Is N suspiciously small for the claims made?
+- Are there unexplained dropouts or exclusions?
+- Is power analysis mentioned?
+- Are subgroup analyses adequately powered?
+Score 1-10 where 10 = maximum red flags (very suspicious)
+
+### Statistical Reporting Gaps (Weight: 25%)
+Evaluate statistical reporting quality:
+- Are p-values suspiciously round (.05, .01, .001)?
+- Is there evidence of p-hacking (clustering near .05)?
+- Are confidence intervals reported?
+- Multiple comparison corrections applied?
+- Are effect sizes reported?
+Score 1-10 where 10 = maximum red flags (very suspicious)
+
+### Methodology Opacity (Weight: 25%)
+Evaluate methodology transparency:
+- Are methods described in enough detail to replicate?
+- Are protocols/code available or referenced?
+- Is pre-registration mentioned?
+- Are randomization/blinding procedures clear?
+Score 1-10 where 10 = maximum red flags (very suspicious/opaque)
+
+### Data Inaccessibility (Weight: 15%)
+Evaluate data transparency:
+- Is raw data available or mentioned?
+- Are supplementary materials provided/referenced?
+- Is there a data sharing statement?
+- Are analysis scripts available?
+Score 1-10 where 10 = maximum red flags (no data access)
+
+### Figure/Image Concerns (Weight: 15%)
+Evaluate figure/image documentation:
+- Are figure legends complete and detailed?
+- Are scale bars/units provided where needed?
+- For western blots: multiple exposure levels shown?
+- Are images high enough quality to verify?
+- Any signs of image manipulation mentioned or visible?
+Score 1-10 where 10 = maximum red flags (poor documentation/suspicious)
+
+## Instructions
+
+1. Read the paper carefully, focusing on methodology, statistics, and transparency
+2. Score each criterion from 1-10 (10 = most suspicious/concerning)
+3. Provide specific reasoning citing evidence from the paper
+4. Calculate total_score as the weighted average
+
+## Response Format
+
+Return ONLY valid JSON with this exact structure:
+{
+  "total_score": 7.5,
+  "criterion_scores": {
+    "Sample Size Red Flags": {"score": 8.0, "reasoning": "N=12 for clinical claims, no power analysis mentioned"},
+    "Statistical Reporting Gaps": {"score": 6.0, "reasoning": "P-values reported but no CIs, some values near .05"},
+    "Methodology Opacity": {"score": 7.0, "reasoning": "Methods section brief, no protocol reference"},
+    "Data Inaccessibility": {"score": 8.0, "reasoning": "No data sharing statement, no supplementary materials"},
+    "Figure/Image Concerns": {"score": 7.5, "reasoning": "Western blots shown at single exposure only"}
+  },
+  "overall_reasoning": "Paper shows multiple integrity concerns including small sample size and lack of data transparency"
+}
+
+**Remember**:
+- Score 1-3 = Low concern (well-documented, transparent)
+- Score 4-6 = Moderate concern (some issues)
+- Score 7-10 = High concern (significant red flags)
