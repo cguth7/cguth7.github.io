@@ -400,7 +400,7 @@
                                 .sort((a, b) => b[1].jaccard - a[1].jaccard)[0];
                             const bestWiki = Object.entries(img.wiki_scores)
                                 .sort((a, b) => b[1].jaccard - a[1].jaccard)[0];
-                            const imgUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${img.pmc_id}/bin/${img.filename}`;
+                            const imgUrl = `images/${img.filename}`;
                             const pmcUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${img.pmc_id}`;
                             return `
                                 <div class="image-card">
