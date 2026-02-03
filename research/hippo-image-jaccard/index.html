@@ -85,38 +85,51 @@
         button:hover { background: #f0f0f0; }
         button.active { background: #3498db; color: white; border-color: #3498db; }
 
+        .heatmap-wrapper {
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
         .heatmap {
             display: grid;
-            gap: 2px;
-            overflow-x: auto;
+            gap: 3px;
+            min-width: max-content;
         }
         .heatmap-cell {
-            min-width: 40px;
-            height: 40px;
+            min-width: 70px;
+            height: 45px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.7em;
+            font-size: 0.8em;
+            font-weight: 500;
             color: white;
-            border-radius: 3px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: transform 0.1s;
+            transition: transform 0.15s, box-shadow 0.15s;
         }
-        .heatmap-cell:hover { transform: scale(1.1); z-index: 1; }
+        .heatmap-cell:hover {
+            transform: scale(1.08);
+            z-index: 1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
         .heatmap-header {
             font-weight: 600;
             background: #34495e !important;
-            font-size: 0.6em;
+            font-size: 0.7em;
             text-align: center;
-            padding: 4px;
+            padding: 6px;
+            min-width: 100px;
         }
         .heatmap-row-label {
             background: #ecf0f1 !important;
             color: #333 !important;
-            font-size: 0.65em;
+            font-size: 0.75em;
             justify-content: flex-start;
-            padding-left: 5px;
-            min-width: 120px;
+            padding-left: 8px;
+            min-width: 150px;
+            position: sticky;
+            left: 0;
+            z-index: 2;
         }
 
         .legend {
@@ -135,19 +148,24 @@
         .legend-labels { display: flex; justify-content: space-between; width: 200px; font-size: 0.8em; color: #666; }
 
         .table-section { margin-top: 30px; }
+        .table-wrapper {
+            overflow-x: auto;
+            border-radius: 8px;
+        }
         table {
             width: 100%;
+            min-width: 700px;
             border-collapse: collapse;
-            font-size: 0.85em;
+            font-size: 0.9em;
         }
         th, td {
-            padding: 10px;
+            padding: 12px 15px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
         }
-        th { background: #f8f9fa; font-weight: 600; color: #2c3e50; }
-        tr:hover { background: #f8f9fa; }
-        .pmc-link { color: #3498db; text-decoration: none; }
+        th { background: #f8f9fa; font-weight: 600; color: #2c3e50; position: sticky; top: 0; }
+        tr:hover { background: #f0f7ff; }
+        .pmc-link { color: #3498db; text-decoration: none; font-weight: 500; }
         .pmc-link:hover { text-decoration: underline; }
 
         .loading {
@@ -158,25 +176,55 @@
 
         .image-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 25px;
             margin-top: 20px;
         }
         .image-card {
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
             border: 1px solid #e0e0e0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
         .image-card img {
             width: 100%;
-            height: 200px;
+            height: 350px;
             object-fit: contain;
             background: white;
-            cursor: pointer;
+            cursor: zoom-in;
+            transition: transform 0.2s;
         }
         .image-card img:hover {
-            opacity: 0.9;
+            transform: scale(1.02);
+        }
+
+        /* Lightbox modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            cursor: zoom-out;
+        }
+        .modal.active { display: flex; align-items: center; justify-content: center; }
+        .modal img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
         }
         .image-info {
             padding: 15px;
@@ -233,6 +281,12 @@
             <p>Data: 100 randomly sampled Hippo pathway images from Gemini pathway extraction dataset</p>
             <p><a href="../pathway-alignment/">Back to Pathway Alignment Dashboard</a> | <a href="../../">Home</a></p>
         </footer>
+    </div>
+
+    <!-- Lightbox modal -->
+    <div id="lightbox" class="modal" onclick="closeLightbox()">
+        <span class="modal-close">&times;</span>
+        <img id="lightbox-img" src="" alt="Full size image">
     </div>
 
     <script>
@@ -357,6 +411,7 @@
 
                 <div class="chart-container table-section">
                     <h3>Image Details</h3>
+                    <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
@@ -385,11 +440,12 @@
                             }).join('')}
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <div class="chart-container">
                     <h3>Sample Images with Matching Genes</h3>
-                    <p style="color:#666;margin-bottom:15px;">Top 10 images by best KEGG Jaccard score. Click images to view in PMC.</p>
+                    <p style="color:#666;margin-bottom:15px;">Top 10 images by best KEGG Jaccard score. Click images to enlarge. PMC links in titles.</p>
                     <div class="image-gallery">
                         ${[...images].sort((a, b) => {
                             const maxA = Math.max(...Object.values(a.kegg_scores).map(s => s.jaccard));
@@ -404,9 +460,7 @@
                             const pmcUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${img.pmc_id}`;
                             return `
                                 <div class="image-card">
-                                    <a href="${pmcUrl}" target="_blank">
-                                        <img src="${imgUrl}" alt="${img.filename}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22><rect fill=%22%23eee%22 width=%22200%22 height=%22150%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 fill=%22%23999%22>Image unavailable</text></svg>'">
-                                    </a>
+                                    <img src="${imgUrl}" alt="${img.filename}" onclick="openLightbox('${imgUrl}')" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22200%22 height=%22150%22><rect fill=%22%23eee%22 width=%22200%22 height=%22150%22/><text x=%2250%%22 y=%2250%%22 text-anchor=%22middle%22 fill=%22%23999%22>Image unavailable</text></svg>'">
                                     <div class="image-info">
                                         <h4><a href="${pmcUrl}" target="_blank">${img.pmc_id}</a> - ${img.filename.split('__')[1] || img.filename}</h4>
                                         <div class="image-genes">
@@ -477,11 +531,28 @@
             });
 
             document.getElementById('heatmap').innerHTML = `
-                <div class="heatmap" style="grid-template-columns: 120px repeat(${cols - 1}, 1fr);">
-                    ${cells}
+                <div class="heatmap-wrapper">
+                    <div class="heatmap" style="grid-template-columns: 150px repeat(${cols - 1}, 100px);">
+                        ${cells}
+                    </div>
                 </div>
             `;
         }
+
+        function openLightbox(imgSrc) {
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
 
         loadData();
     </script>
