@@ -275,6 +275,13 @@
                     <div class="step-desc">Test individual images against reference gene sets to measure extraction quality</div>
                 </div>
             </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">Caption Validation</div>
+                    <div class="step-desc">Cross-reference Gemini labels with original PMC figure captions to validate pathway identification</div>
+                </div>
+            </div>
         </div>
 
         <div class="dashboards">
@@ -298,6 +305,11 @@
             <a href="/research/hippo-image-jaccard/full_validation.html" class="dashboard-card">
                 <h3>Full Pathway Validation</h3>
                 <p>Extends validation to 118 pathways. For each pathway, measures how often images match their labeled pathway vs. other pathways.</p>
+            </a>
+
+            <a href="/research/pmc-caption-audit/" class="dashboard-card">
+                <h3>PMC Caption Audit <span class="badge">New</span></h3>
+                <p>Validates Gemini labels against original figure captions from PMC articles. 62% of images have extractable caption data; 24% have caption-confirmed labels.</p>
             </a>
         </div>
 
