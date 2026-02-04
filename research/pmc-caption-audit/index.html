@@ -213,6 +213,10 @@
                 <li><strong>Matching:</strong> Word-based overlap with fuzzy stemming (apoptosis~apoptotic, mTOR~mTORC1)</li>
                 <li><strong>Limitations:</strong> 28% of articles restricted by publishers; biological synonyms (SHH≠Hedgehog) not handled</li>
             </ul>
+            <p style="margin-top:1rem; color: var(--text-muted); font-size: 0.9rem;">
+                <strong>Note:</strong> Captions typically describe the biology shown, not explicitly label the pathway.
+                A match means the caption <em>mentions</em> the same pathway Gemini identified—not strict ground truth confirmation.
+            </p>
         </div>
 
         <div id="examples"></div>
@@ -278,12 +282,14 @@
 
     function renderStats() {
         const s = data.stats;
+        const pctWithPathways = (100*s.with_pathways/s.total).toFixed(0);
+        const pctGoodMatchOfAll = (100*s.good_match/s.total).toFixed(0);
         const html = `
             <div class="stat-card"><div class="stat-value">${s.total}</div><div class="stat-label">Total Sampled</div></div>
-            <div class="stat-card"><div class="stat-value">${s.ok}</div><div class="stat-label">Fetched OK (${(100*s.ok/s.total).toFixed(0)}%)</div></div>
-            <div class="stat-card"><div class="stat-value">${s.restricted}</div><div class="stat-label">Restricted (${(100*s.restricted/s.total).toFixed(0)}%)</div></div>
-            <div class="stat-card"><div class="stat-value">${s.good_match}</div><div class="stat-label">Good Match ≥0.5 (${(100*s.good_match/s.with_pathways).toFixed(0)}%)</div></div>
-            <div class="stat-card"><div class="stat-value">${s.mean_score.toFixed(2)}</div><div class="stat-label">Mean Score</div></div>
+            <div class="stat-card"><div class="stat-value">${pctWithPathways}%</div><div class="stat-label">Captions w/ Pathway Mentions<br><small style="color:#666">(${s.with_pathways} of ${s.total})</small></div></div>
+            <div class="stat-card"><div class="stat-value">${pctGoodMatchOfAll}%</div><div class="stat-label">Caption-Confirmed Labels<br><small style="color:#666">(${s.good_match} good matches)</small></div></div>
+            <div class="stat-card"><div class="stat-value">${(100*s.restricted/s.total).toFixed(0)}%</div><div class="stat-label">Publisher Restricted<br><small style="color:#666">(${s.restricted} blocked)</small></div></div>
+            <div class="stat-card"><div class="stat-value">${s.mean_score.toFixed(2)}</div><div class="stat-label">Mean Match Score<br><small style="color:#666">(of fetched captions)</small></div></div>
         `;
         document.getElementById('stats').innerHTML = html;
     }
