@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PMC Caption Pathway Extraction Audit</title>
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #eee;
+            --text-muted: #888;
+            --accent: #4ecca3;
+            --high: #4ecca3;
+            --medium: #ffc857;
+            --low: #ff6b6b;
+            --none: #666;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h1 { color: var(--accent); margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); margin-bottom: 2rem; }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-value { font-size: 2rem; font-weight: bold; color: var(--accent); }
+        .stat-label { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Section Headers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--card-bg);
+        }
+        .section-header h2 { font-size: 1.3rem; }
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+        .badge-high { background: var(--high); color: #000; }
+        .badge-medium { background: var(--medium); color: #000; }
+        .badge-low { background: var(--low); color: #fff; }
+        .badge-none { background: var(--none); color: #fff; }
+        .badge-restricted { background: #444; color: #fff; }
+
+        /* Example Cards */
+        .example-card {
+            background: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .example-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .pmc-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-family: monospace;
+        }
+        .pmc-link:hover { text-decoration: underline; }
+        .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+        }
+        .score-high { background: var(--high); color: #000; }
+        .score-medium { background: var(--medium); color: #000; }
+        .score-low { background: var(--low); color: #fff; }
+        .score-none { background: var(--none); color: #fff; }
+
+        .field { margin-bottom: 1rem; }
+        .field-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+        .gemini-pathway {
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        .caption {
+            font-size: 0.9rem;
+            color: var(--text);
+            background: rgba(0,0,0,0.2);
+            padding: 0.75rem;
+            border-radius: 4px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .extracted-pathways {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .pathway-tag {
+            background: rgba(78, 204, 163, 0.2);
+            color: var(--accent);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .pathway-tag.matched {
+            background: var(--accent);
+            color: #000;
+            font-weight: bold;
+        }
+        .match-info {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+        .match-info strong { color: var(--text); }
+
+        /* Pipeline visualization */
+        .pipeline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+        .pipeline-step {
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+        .pipeline-arrow { color: var(--text-muted); }
+
+        /* Methodology */
+        .methodology {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        .methodology h3 { color: var(--accent); margin-bottom: 1rem; }
+        .methodology ul { margin-left: 1.5rem; }
+        .methodology li { margin-bottom: 0.5rem; }
+        .methodology code {
+            background: rgba(0,0,0,0.3);
+            padding: 0.1rem 0.3rem;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--card-bg);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        footer a { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PMC Caption Pathway Extraction Audit</h1>
+        <p class="subtitle">Validating Gemini's pathway labels against PubMed Central figure captions</p>
+
+        <div class="stats-grid" id="stats"></div>
+
+        <div class="methodology">
+            <h3>Methodology</h3>
+            <div class="pipeline">
+                <span class="pipeline-step">Image filename<br><code>PMC1234__F2.jpg</code></span>
+                <span class="pipeline-arrow">→</span>
+                <span class="pipeline-step">Fetch PMC XML<br><code>efetch API</code></span>
+                <span class="pipeline-arrow">→</span>
+                <span class="pipeline-step">Extract Figure Caption</span>
+                <span class="pipeline-arrow">→</span>
+                <span class="pipeline-step">Regex Extraction<br><code>X signaling pathway</code></span>
+                <span class="pipeline-arrow">→</span>
+                <span class="pipeline-step">Match vs Gemini<br><code>word overlap + fuzzy</code></span>
+            </div>
+            <ul>
+                <li><strong>Source:</strong> 1,000 random samples from 49k pathway images</li>
+                <li><strong>Extraction patterns:</strong> "X signaling", "X pathway", "X activation", known pathway names (MAPK, PI3K, etc.)</li>
+                <li><strong>Matching:</strong> Word-based overlap with fuzzy stemming (apoptosis~apoptotic, mTOR~mTORC1)</li>
+                <li><strong>Limitations:</strong> 28% of articles restricted by publishers; biological synonyms (SHH≠Hedgehog) not handled</li>
+            </ul>
+        </div>
+
+        <div id="examples"></div>
+
+        <footer>
+            Part of the <a href="/research/gemini-pathways/">Gemini Pathway Extraction</a> project.
+            Data: <code>gemini_cell_pathways/data/pmc_caption_validation_1k.json</code>
+        </footer>
+    </div>
+
+    <script>
+    const data = {
+        "stats": {
+            "total": 1000,
+            "ok": 631,
+            "restricted": 284,
+            "no_caption": 80,
+            "with_pathways": 615,
+            "any_match": 301,
+            "good_match": 237,
+            "mean_score": 0.37
+        },
+        "high_match": [
+            {"pmc_id":"PMC8533248","figure_number":"F2","gemini_pathway":"TGF-beta signaling","caption":"TGF-β1, the main regulator of fibrosis, plays a central role in SSc pathogenesis. SMAD and non-SMAD TGF-β signaling pathways lead to transcription of fibrosis-related genes responsible for fibroblast proliferation, myofibroblast differentiation, and extracellular matrix deposition...","caption_pathways":["TGF","TGF-β","TGF-β signaling","Wnt","Wnt signaling","Wnt signaling pathway","signaling pathway"],"match_score":1.0,"best_match":"TGF-β signaling","status":"ok"},
+            {"pmc_id":"PMC7392626","figure_number":"F2","gemini_pathway":"cGAS-STING signaling","caption":"Coordination of innate and adaptive immune signaling resulting from cGAS-STING activation.","caption_pathways":["cGAS-STING","cGAS-STING activation","immune signaling"],"match_score":1.0,"best_match":"cGAS-STING","status":"ok"},
+            {"pmc_id":"PMC8463930","figure_number":"F8","gemini_pathway":"TNF signaling pathway","caption":"The key KEGG pathways: (a) NF-κB signaling pathway, (b) TNF signaling pathway, and (c) IL-17 signaling pathway. The red nodes represent upregulated SARS-CoV-2 DEGs...","caption_pathways":["IL-17 signaling","IL-17 signaling pathway","NF-κB","NF-κB signaling","NF-κB signaling pathway","TNF signaling","TNF signaling pathway","signaling pathway"],"match_score":1.0,"best_match":"TNF signaling pathway","status":"ok"},
+            {"pmc_id":"PMC8002742","figure_number":"F1","gemini_pathway":"Toll-like receptor signaling","caption":"Schematic overview of the activation of the Toll-like receptor signaling pathway. Toll-like receptors (TLRs) are the pattern-recognition receptors, which recognize different pathogen- or danger-associated molecular patterns...","caption_pathways":["MAPK","NF-κB","receptor signaling","receptor signaling pathway","signaling pathway","the activation"],"match_score":0.8,"best_match":"receptor signaling","status":"ok"}
+        ],
+        "medium_match": [
+            {"pmc_id":"PMC3335850","figure_number":"F1","gemini_pathway":"Apoptosis","caption":"FAS receptor pathway in peripheral cells. The membrane FAS-R (blue) forms a trimer upon ligand binding (TNFSF13, red). The adaptor molecule FADD (green) then binds to the death domain of FAS-R through its own death domain...","caption_pathways":["apoptotic pathway","intracellular pathway","pathway signaling","receptor pathway"],"match_score":0.5,"best_match":"apoptotic pathway","status":"ok"},
+            {"pmc_id":"PMC9089305","figure_number":"F8","gemini_pathway":"KEAP1-NRF2 signaling","caption":"A schematic diagram of protection of DMF against DOX-induced cardiotoxicity through Nrf2 pathway. ARE Antioxidant Response Element.","caption_pathways":["Nrf2 pathway"],"match_score":0.5,"best_match":"Nrf2 pathway","status":"ok"},
+            {"pmc_id":"PMC6997465","figure_number":"F1","gemini_pathway":"Nociceptor sensitization signaling","caption":"Immune system and nociceptor activation. (A) Cytokines released in the vicinity of the cell body of nociceptors can induce specific receptor activation and signaling cascades...","caption_pathways":["AKT/mTOR","ERK","MAPK","Upon activation","and signaling","nociceptor activation","receptor activation"],"match_score":0.5,"best_match":"nociceptor activation","status":"ok"},
+            {"pmc_id":"PMC8267696","figure_number":"F1","gemini_pathway":"Apoptosis","caption":"Mitochondria: A signalling hub between life and death. (Left) Death receptor activation by complementary ligand binding promotes the recruitment of the adaptor protein FADD...","caption_pathways":["and activation","apoptotic pathway","glycolytic cascade","receptor activation"],"match_score":0.5,"best_match":"apoptotic pathway","status":"ok"}
+        ],
+        "low_match": [
+            {"pmc_id":"PMC8392544","figure_number":"F4","gemini_pathway":"JAK-STAT signaling","caption":"Schematic representation of GH action and the methodological tools applied to the characterization of genetic variants. Upon GH binding to dimerized cell-surface GH receptor (GHR), JAK2 is activated and phosphorylates specific tyrosine residues...","caption_pathways":["STATs activation","cytokine signaling"],"match_score":0.33,"best_match":"STATs activation","status":"ok"},
+            {"pmc_id":"PMC8990928","figure_number":"F1","gemini_pathway":"Azathioprine metabolism","caption":"Thiopurine metabolic pathway mediated by TPMT and NUDT15. AZA azathioprine, GST glutathione-S-transferase, 6-MP 6-mercaptopurine...","caption_pathways":["metabolic pathway"],"match_score":0.33,"best_match":"metabolic pathway","status":"ok"},
+            {"pmc_id":"PMC4784721","figure_number":"F1","gemini_pathway":"Angiotensin II signaling","caption":"Major AGTR1 signalling pathways linked to cancer cell proliferation, angiogenesis and EMT. AngII activated AGTR1 recruits a CARMA3-Bcl10-MALT1 (CBM) signalosome...","caption_pathways":["AngII activation","ERK","NFκB","The activation","kinase activation","this pathway"],"match_score":0.33,"best_match":"AngII activation","status":"ok"},
+            {"pmc_id":"PMC3248191","figure_number":"F7","gemini_pathway":"NF-kB signaling","caption":"Network modeling and validation of MI-219 single agent treatment at different time points. [A] Ingenuity pathway analysis of primary events mediated by MI-219 single agent treatment at 16 hrs showing activation of NF-κB central hub...","caption_pathways":["Ingenuity pathway","NF-κB","and activation","de-regulated signaling","showing activation"],"match_score":0.33,"best_match":"NF-κB","status":"ok"}
+        ],
+        "no_match": [
+            {"pmc_id":"PMC7747855","figure_number":"F7","gemini_pathway":"Hedgehog signaling","caption":"Astrocytic SHH signaling pathway regulates BBB integrity after ICH. SHH secreted by astrocytes binds to its receptor Ptch-1 in endothelial cells (ECs), leading to the activation of SMO and its downstream transcription factor Gli-1...","caption_pathways":["SHH signaling","SHH signaling pathway","signaling pathway","the activation","this pathway"],"match_score":0.0,"best_match":null,"status":"ok","note":"SHH = Sonic Hedgehog (biological synonym not detected)"},
+            {"pmc_id":"PMC7914659","figure_number":"F1","gemini_pathway":"Hydrogen sulfide biosynthesis","caption":"Schematic representation of three major sources of H2S: enzymatic pathway, nonenzymatic pathway, and bacterial origins. Cystathionine β-synthase (CBS) catalyzes homocysteine to produce Cystathionine...","caption_pathways":["enzymatic pathway","nonenzymatic pathway"],"match_score":0.0,"best_match":null,"status":"ok","note":"Caption describes mechanism, not pathway name"},
+            {"pmc_id":"PMC4498940","figure_number":"F3","gemini_pathway":"Cell cycle","caption":"Changes in the pRb and p53 pathway promoting cell cycle passage in high-grade central chondrosarcoma, as found in the present and previous studies.","caption_pathways":["p53 pathway"],"match_score":0.0,"best_match":null,"status":"ok","note":"Caption names different pathway (p53) than Gemini label (Cell cycle)"},
+            {"pmc_id":"PMC4716143","figure_number":"F3","gemini_pathway":"Complement System","caption":"T. cruzi complement evasion mechanisms. There are three complement pathways: classic, alternative, and lectin...","caption_pathways":["alternative pathway","classical pathway","lectin pathway"],"match_score":0.0,"best_match":null,"status":"ok","note":"Caption names sub-pathways, not 'Complement System'"}
+        ],
+        "restricted": [
+            {"pmc_id":"PMC5283822","figure_number":"F3","gemini_pathway":"Nucleotide excision repair","caption":null,"caption_pathways":[],"match_score":0.0,"best_match":null,"status":"restricted"},
+            {"pmc_id":"PMC3724648","figure_number":"F6","gemini_pathway":"T cell signaling","caption":null,"caption_pathways":[],"match_score":0.0,"best_match":null,"status":"restricted"}
+        ],
+        "no_caption": [
+            {"pmc_id":"PMC5031334","figure_number":"F6","gemini_pathway":"Secondary metabolite biosynthesis","caption":null,"caption_pathways":[],"match_score":0.0,"best_match":null,"status":"no_caption_found"},
+            {"pmc_id":"PMC8099789","figure_number":"F1","gemini_pathway":"Renin-Angiotensin System (RAS) signaling","caption":null,"caption_pathways":[],"match_score":0.0,"best_match":null,"status":"no_caption_found"}
+        ]
+    };
+
+    function getScoreClass(score) {
+        if (score >= 0.8) return 'high';
+        if (score >= 0.4) return 'medium';
+        if (score > 0) return 'low';
+        return 'none';
+    }
+
+    function renderStats() {
+        const s = data.stats;
+        const html = `
+            <div class="stat-card"><div class="stat-value">${s.total}</div><div class="stat-label">Total Sampled</div></div>
+            <div class="stat-card"><div class="stat-value">${s.ok}</div><div class="stat-label">Fetched OK (${(100*s.ok/s.total).toFixed(0)}%)</div></div>
+            <div class="stat-card"><div class="stat-value">${s.restricted}</div><div class="stat-label">Restricted (${(100*s.restricted/s.total).toFixed(0)}%)</div></div>
+            <div class="stat-card"><div class="stat-value">${s.good_match}</div><div class="stat-label">Good Match ≥0.5 (${(100*s.good_match/s.with_pathways).toFixed(0)}%)</div></div>
+            <div class="stat-card"><div class="stat-value">${s.mean_score.toFixed(2)}</div><div class="stat-label">Mean Score</div></div>
+        `;
+        document.getElementById('stats').innerHTML = html;
+    }
+
+    function renderExample(ex) {
+        const scoreClass = getScoreClass(ex.match_score);
+        const pmcNum = ex.pmc_id.replace('PMC', '');
+        const pmcUrl = `https://www.ncbi.nlm.nih.gov/pmc/articles/${ex.pmc_id}/`;
+
+        let pathwayTags = '';
+        if (ex.caption_pathways && ex.caption_pathways.length > 0) {
+            pathwayTags = ex.caption_pathways.map(p =>
+                `<span class="pathway-tag ${p === ex.best_match ? 'matched' : ''}">${p}</span>`
+            ).join('');
+        } else {
+            pathwayTags = '<span style="color: var(--text-muted)">None extracted</span>';
+        }
+
+        let captionHtml = ex.caption
+            ? `<div class="caption">${ex.caption}</div>`
+            : `<div class="caption" style="color: var(--text-muted); font-style: italic;">
+                ${ex.status === 'restricted' ? 'Publisher restricts XML access' : 'Figure caption not found in XML'}
+               </div>`;
+
+        let matchInfo = '';
+        if (ex.match_score > 0) {
+            matchInfo = `<div class="match-info">Matched: <strong>${ex.best_match}</strong></div>`;
+        } else if (ex.note) {
+            matchInfo = `<div class="match-info" style="color: var(--low);">${ex.note}</div>`;
+        }
+
+        return `
+            <div class="example-card">
+                <div class="example-header">
+                    <div>
+                        <a class="pmc-link" href="${pmcUrl}" target="_blank">${ex.pmc_id} ${ex.figure_number}</a>
+                    </div>
+                    <div class="score score-${scoreClass}">${ex.match_score.toFixed(2)}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Gemini Label</div>
+                    <div class="gemini-pathway">${ex.gemini_pathway}</div>
+                </div>
+                <div class="field">
+                    <div class="field-label">Figure Caption</div>
+                    ${captionHtml}
+                </div>
+                <div class="field">
+                    <div class="field-label">Extracted Pathway Mentions</div>
+                    <div class="extracted-pathways">${pathwayTags}</div>
+                    ${matchInfo}
+                </div>
+            </div>
+        `;
+    }
+
+    function renderSection(title, badge, examples) {
+        if (!examples || examples.length === 0) return '';
+        return `
+            <div class="section-header">
+                <h2>${title}</h2>
+                <span class="badge badge-${badge}">${examples.length} examples</span>
+            </div>
+            ${examples.map(renderExample).join('')}
+        `;
+    }
+
+    function render() {
+        renderStats();
+
+        const html =
+            renderSection('High Match (≥0.8)', 'high', data.high_match) +
+            renderSection('Medium Match (0.4–0.8)', 'medium', data.medium_match) +
+            renderSection('Low Match (0.1–0.4)', 'low', data.low_match) +
+            renderSection('No Match (0)', 'none', data.no_match) +
+            renderSection('Publisher Restricted', 'restricted', data.restricted) +
+            renderSection('Caption Not Found', 'restricted', data.no_caption);
+
+        document.getElementById('examples').innerHTML = html;
+    }
+
+    render();
+    </script>
+</body>
+</html>
