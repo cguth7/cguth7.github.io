@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #FFFFFF; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header {
+  padding: 18pt 45pt 12pt 45pt;
+  border-bottom: 3pt solid #1a3a5c;
+}
+.header h1 {
+  color: #1a3a5c;
+  font-size: 20pt;
+  margin: 0;
+  font-weight: bold;
+}
+.content {
+  flex: 1;
+  padding: 15pt 45pt;
+  display: flex;
+  flex-direction: column;
+}
+.section {
+  display: flex;
+  gap: 20pt;
+}
+.section-label {
+  width: 70pt;
+  text-align: right;
+  padding-right: 15pt;
+  border-right: 2pt solid #1a3a5c;
+}
+.section-label h3 {
+  color: #1a3a5c;
+  font-size: 10pt;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+}
+.section-content {
+  flex: 1;
+  display: flex;
+  gap: 15pt;
+}
+.box {
+  flex: 1;
+  background: #f7f9fb;
+  padding: 10pt 12pt;
+}
+.box h4 {
+  color: #1a3a5c;
+  font-size: 10pt;
+  margin: 0 0 5pt 0;
+}
+.box p {
+  color: #444;
+  font-size: 9pt;
+  margin: 0;
+  line-height: 1.35;
+}
+.arrow-row {
+  display: flex;
+  justify-content: center;
+  padding: 8pt 0;
+}
+.arrow {
+  color: #1a3a5c;
+  font-size: 20pt;
+}
+.solution-box {
+  flex: 1;
+  background: #f7f9fb;
+  border-top: 2pt solid #1a3a5c;
+  padding: 10pt 12pt;
+}
+.solution-box h4 {
+  color: #1a3a5c;
+  font-size: 10pt;
+  margin: 0 0 5pt 0;
+}
+.solution-box p {
+  color: #444;
+  font-size: 9pt;
+  margin: 0;
+  line-height: 1.35;
+}
+.solution-box p.result {
+  color: #1a3a5c;
+  font-size: 8pt;
+  margin-top: 5pt;
+  font-style: italic;
+}
+.footer {
+  padding: 8pt 45pt;
+  border-top: 1pt solid #ddd;
+}
+.footer p {
+  color: #888;
+  font-size: 8pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Measuring the True ROI of GWAS Research</h1>
+</div>
+<div class="content">
+  <div class="section">
+    <div class="section-label">
+      <h3>Problem</h3>
+    </div>
+    <div class="section-content">
+      <div class="box">
+        <h4>Citation Gap</h4>
+        <p>ROI studies rely on patent citations, but citations miss when research influences innovation without explicit reference.</p>
+      </div>
+      <div class="box">
+        <h4>Spillover Gap</h4>
+        <p>Metrics only count direct outcomes, but discoveries about one gene inform research on biologically related genes.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow-row">
+    <p class="arrow">↓</p>
+  </div>
+
+  <div class="section">
+    <div class="section-label">
+      <h3>Our Approach</h3>
+    </div>
+    <div class="section-content">
+      <div class="solution-box">
+        <h4>BioBERT Text Mining</h4>
+        <p>Extract gene-disease mentions directly from patent text using biomedical language models—capturing actual content, not just citations.</p>
+        <p class="result">→ Comprehensive patent-to-science linkage</p>
+      </div>
+      <div class="solution-box">
+        <h4>KEGG Pathway Spillovers</h4>
+        <p>Use biological pathway networks to measure how knowledge flows from discovered genes to related genes.</p>
+        <p class="result">→ Quantifiable "distance" for spillovers</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p></p>
+</div>
+</body>
+</html>
