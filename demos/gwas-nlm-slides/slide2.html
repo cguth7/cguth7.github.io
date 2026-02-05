@@ -5,81 +5,95 @@
 html { background: #ffffff; }
 body {
   width: 720pt; height: 405pt; margin: 0; padding: 0;
-  background: #1C2833; font-family: Arial, sans-serif;
+  background: #FFFFFF; font-family: Arial, sans-serif;
   display: flex; flex-direction: column;
 }
 .header {
-  background: #2E4053;
-  padding: 15pt 40pt;
-  border-bottom: 3pt solid #F39C12;
+  padding: 20pt 45pt 15pt 45pt;
+  border-bottom: 3pt solid #1a3a5c;
 }
 .header h1 {
-  color: #FFFFFF;
+  color: #1a3a5c;
   font-size: 22pt;
   margin: 0;
   font-weight: bold;
 }
-.header p {
-  color: #AAB7B8;
-  font-size: 11pt;
-  margin: 4pt 0 0 0;
-}
 .content {
+  flex: 1;
+  padding: 18pt 45pt 12pt 45pt;
   display: flex;
-  flex: 1;
-  padding: 15pt 40pt 10pt 40pt;
+  flex-direction: column;
 }
-.col {
-  flex: 1;
-  padding: 0 10pt;
+.main-insight {
+  background: #f7f9fb;
+  border-left: 4pt solid #1a3a5c;
+  padding: 12pt 18pt;
+  margin-bottom: 18pt;
 }
-.col:first-child { padding-left: 0; }
-.col:last-child { padding-right: 0; }
-.col-box {
-  background: #2E4053;
-  border-radius: 6pt;
-  padding: 12pt 14pt;
-  border-top: 3pt solid #F39C12;
-}
-.col h2 {
-  color: #F39C12;
-  font-size: 12pt;
-  margin: 0 0 6pt 0;
-  font-weight: bold;
-}
-.col ul {
-  color: #F4F6F6;
-  font-size: 10pt;
+.main-insight p {
+  color: #1a3a5c;
+  font-size: 13pt;
   margin: 0;
-  padding-left: 12pt;
   line-height: 1.4;
 }
-.col li {
-  margin-bottom: 4pt;
+.diagram-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+.flow-diagram {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flow-box {
+  background: #f7f9fb;
+  border: 2pt solid #1a3a5c;
+  padding: 12pt 15pt;
+  text-align: center;
+  width: 130pt;
+}
+.flow-box h3 {
+  color: #1a3a5c;
+  font-size: 10pt;
+  margin: 0 0 5pt 0;
+  text-transform: uppercase;
+}
+.flow-box p {
+  color: #555;
+  font-size: 9pt;
+  margin: 0;
+  line-height: 1.3;
+}
+.arrow {
+  color: #1a3a5c;
+  font-size: 20pt;
+  padding: 0 12pt;
 }
 .bottom-section {
-  background: #2E4053;
-  padding: 12pt 40pt;
-  margin: 0 40pt 10pt 40pt;
-  border-radius: 6pt;
+  background: #1a3a5c;
+  padding: 12pt 20pt;
 }
 .bottom-section h3 {
-  color: #F39C12;
+  color: #fff;
   font-size: 11pt;
   margin: 0 0 5pt 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
 }
 .bottom-section p {
-  color: #F4F6F6;
+  color: #d0d8e0;
   font-size: 10pt;
   margin: 0;
   line-height: 1.3;
 }
 .footer {
-  background: #2E4053;
-  padding: 8pt 40pt;
+  padding: 10pt 45pt;
+  border-top: 1pt solid #ddd;
 }
 .footer p {
-  color: #AAB7B8;
+  color: #888;
   font-size: 8pt;
   margin: 0;
 }
@@ -87,50 +101,37 @@ body {
 </head>
 <body>
 <div class="header">
-  <h1>A Novel Landscape Model for Gene-Disease Relationships</h1>
-  <p>Quantifying Knowledge Proximity Through Biological Networks</p>
+  <h1>A Framework for Measuring Knowledge Spillovers</h1>
 </div>
 <div class="content">
-  <div class="col">
-    <div class="col-box">
-      <h2>Pathway Distance (KEGG)</h2>
-      <ul>
-        <li><b>1-hop:</b> Direct pathway neighbors</li>
-        <li><b>2-hop:</b> Shared pathway partners</li>
-        <li><b>3-hop:</b> Extended network</li>
-        <li>30K+ genes, avg 31 connections</li>
-      </ul>
+  <div class="main-insight">
+    <p>We construct a "landscape model" mapping gene-disease relationships through biological pathways and disease taxonomies—enabling rigorous measurement of how scientific knowledge propagates.</p>
+  </div>
+  <div class="diagram-section">
+    <div class="flow-diagram">
+      <div class="flow-box">
+        <h3>GWAS Discovery</h3>
+        <p>Gene A linked to Disease X</p>
+      </div>
+      <p class="arrow">→</p>
+      <div class="flow-box">
+        <h3>Pathway Network</h3>
+        <p>Biological connections to related genes</p>
+      </div>
+      <p class="arrow">→</p>
+      <div class="flow-box">
+        <h3>Spillover Impact</h3>
+        <p>Innovation in related gene-disease pairs</p>
+      </div>
     </div>
   </div>
-  <div class="col">
-    <div class="col-box">
-      <h2>Disease Hierarchy (MeSH)</h2>
-      <ul>
-        <li>Tree-structured taxonomy</li>
-        <li>Levels 3-5 optimal granularity</li>
-        <li>924 diseases mapped</li>
-        <li>Fuzzy matching at 90%</li>
-      </ul>
-    </div>
+  <div class="bottom-section">
+    <h3>Implication for NLM</h3>
+    <p>This framework provides evidence-based tools to assess the true return on genomic research investments—capturing value that traditional metrics miss.</p>
   </div>
-  <div class="col">
-    <div class="col-box">
-      <h2>Patent-Gene-Disease</h2>
-      <ul>
-        <li>140M patent associations</li>
-        <li>7M unique gene-disease pairs</li>
-        <li>21 years (2000-2020)</li>
-        <li>99% confidence filter</li>
-      </ul>
-    </div>
-  </div>
-</div>
-<div class="bottom-section">
-  <h3>Why This Matters for NLM</h3>
-  <p>This framework enables rigorous measurement of how NIH-funded discoveries propagate through the biomedical knowledge graph, providing evidence-based ROI assessment for genomic research investments.</p>
 </div>
 <div class="footer">
-  <p>Tranchero, Guthmann et al. | Wharton School, University of Pennsylvania</p>
+  <p>Tranchero &amp; Guthmann | Wharton School</p>
 </div>
 </body>
 </html>

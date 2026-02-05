@@ -5,120 +5,121 @@
 html { background: #ffffff; }
 body {
   width: 720pt; height: 405pt; margin: 0; padding: 0;
-  background: #1C2833; font-family: Arial, sans-serif;
+  background: #FFFFFF; font-family: Arial, sans-serif;
   display: flex; flex-direction: column;
 }
 .header {
-  background: #2E4053;
-  padding: 20pt 40pt;
-  border-bottom: 4pt solid #F39C12;
+  padding: 20pt 45pt 15pt 45pt;
+  border-bottom: 3pt solid #1a3a5c;
 }
 .header h1 {
-  color: #FFFFFF;
-  font-size: 24pt;
+  color: #1a3a5c;
+  font-size: 22pt;
   margin: 0;
   font-weight: bold;
-}
-.header p {
-  color: #AAB7B8;
-  font-size: 12pt;
-  margin: 6pt 0 0 0;
 }
 .content {
-  display: flex;
   flex: 1;
-  padding: 25pt 40pt;
-}
-.left-col {
-  flex: 1;
-  padding-right: 30pt;
-}
-.right-col {
-  width: 220pt;
+  padding: 18pt 45pt 12pt 45pt;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
 }
-.stat-box {
-  background: #F39C12;
-  border-radius: 12pt;
-  padding: 25pt 30pt;
-  text-align: center;
-  width: 180pt;
+.main-insight {
+  background: #f7f9fb;
+  border-left: 4pt solid #1a3a5c;
+  padding: 12pt 18pt;
+  margin-bottom: 15pt;
 }
-.stat-box p.big-number {
-  color: #1C2833;
-  font-size: 56pt;
-  font-weight: bold;
-  margin: 0;
-  line-height: 1;
-}
-.stat-box p.label {
-  color: #1C2833;
-  font-size: 14pt;
-  margin: 8pt 0 0 0;
-  font-weight: bold;
-}
-.left-col h2 {
-  color: #F39C12;
-  font-size: 16pt;
-  margin: 0 0 12pt 0;
-  text-transform: uppercase;
-  letter-spacing: 1pt;
-}
-.left-col ul {
-  color: #F4F6F6;
+.main-insight p {
+  color: #1a3a5c;
   font-size: 13pt;
   margin: 0;
-  padding-left: 18pt;
-  line-height: 1.6;
+  line-height: 1.4;
 }
-.left-col li {
-  margin-bottom: 10pt;
+.two-col {
+  display: flex;
+  flex: 1;
 }
-.highlight {
-  color: #F39C12;
+.col {
+  flex: 1;
+  padding-right: 25pt;
+}
+.col:last-child {
+  padding-right: 0;
+  padding-left: 25pt;
+  border-left: 1pt solid #ddd;
+}
+.col h2 {
+  color: #1a3a5c;
+  font-size: 12pt;
+  margin: 0 0 8pt 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+}
+.col p {
+  color: #444;
+  font-size: 11pt;
+  margin: 0 0 8pt 0;
+  line-height: 1.4;
+}
+.highlight-box {
+  background: #1a3a5c;
+  color: white;
+  padding: 12pt 15pt;
+  text-align: center;
+  margin-top: 8pt;
+}
+.highlight-box p.stat {
+  font-size: 32pt;
   font-weight: bold;
+  margin: 0;
+}
+.highlight-box p.label {
+  font-size: 10pt;
+  margin: 4pt 0 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
 }
 .footer {
-  background: #2E4053;
-  padding: 10pt 40pt;
+  padding: 10pt 45pt;
+  border-top: 1pt solid #ddd;
   display: flex;
   justify-content: space-between;
 }
 .footer p {
-  color: #AAB7B8;
-  font-size: 9pt;
+  color: #888;
+  font-size: 8pt;
   margin: 0;
 }
 </style>
 </head>
 <body>
 <div class="header">
-  <h1>Measuring the True Impact of NIH Genomic Research</h1>
-  <p>GWAS Discoveries and Pharmaceutical Innovation Spillovers</p>
+  <h1>GWAS Research: Impact Beyond Direct Discovery</h1>
 </div>
 <div class="content">
-  <div class="left-col">
-    <h2>Key Finding</h2>
-    <ul>
-      <li>GWAS discoveries don't just benefit <b>direct targets</b></li>
-      <li>Innovation <b>spills over</b> to biologically related gene-disease pairs through pathway networks</li>
-      <li>For every directly-linked pair, <b>60 additional pairs</b> see increased pharmaceutical patenting</li>
-      <li>707K gene-disease pairs affected across 21 years of patent data</li>
-    </ul>
+  <div class="main-insight">
+    <p>When NIH funds a GWAS discovery, the scientific value extends far beyond that single finding. Knowledge flows through biological networks, enabling innovation across related gene-disease pairs.</p>
   </div>
-  <div class="right-col">
-    <div class="stat-box">
-      <p class="big-number">60x</p>
-      <p class="label">Spillover Multiplier</p>
+  <div class="two-col">
+    <div class="col">
+      <h2>The Challenge</h2>
+      <p>Traditional ROI metrics only capture <b>direct</b> outcomes. But scientific knowledge is interconnected—a discovery about one gene informs research on biologically related genes.</p>
+      <p>Without measuring spillovers, we systematically <b>undervalue</b> basic science investments.</p>
+    </div>
+    <div class="col">
+      <h2>What We Found</h2>
+      <p>Using biological pathway data, we trace how discoveries propagate through the biomedical knowledge network.</p>
+      <div class="highlight-box">
+        <p class="stat">60x</p>
+        <p class="label">Spillover Multiplier</p>
+      </div>
     </div>
   </div>
 </div>
 <div class="footer">
-  <p>Tranchero, Guthmann et al. | Wharton School, University of Pennsylvania</p>
-  <p>Data: GWAS Catalog, USPTO Patents, KEGG Pathways (2000-2020)</p>
+  <p>Tranchero &amp; Guthmann | Wharton School</p>
+  <p>GWAS Catalog, USPTO Patents, KEGG Pathways</p>
 </div>
 </body>
 </html>
