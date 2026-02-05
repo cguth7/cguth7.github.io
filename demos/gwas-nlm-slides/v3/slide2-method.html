@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #FFFFFF; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header {
+  padding: 20pt 45pt 15pt 45pt;
+  border-bottom: 3pt solid #1a3a5c;
+}
+.header h1 {
+  color: #1a3a5c;
+  font-size: 22pt;
+  margin: 0;
+  font-weight: bold;
+}
+.content {
+  flex: 1;
+  padding: 20pt 45pt;
+  display: flex;
+  flex-direction: column;
+}
+.intro {
+  margin-bottom: 15pt;
+}
+.intro p {
+  color: #444;
+  font-size: 12pt;
+  margin: 0;
+  line-height: 1.4;
+}
+.two-col {
+  display: flex;
+  flex: 1;
+  gap: 25pt;
+}
+.col {
+  flex: 1;
+  background: #f7f9fb;
+  border-top: 3pt solid #1a3a5c;
+  padding: 15pt;
+}
+.col h2 {
+  color: #1a3a5c;
+  font-size: 12pt;
+  margin: 0 0 10pt 0;
+}
+.col p {
+  color: #444;
+  font-size: 10pt;
+  margin: 0 0 8pt 0;
+  line-height: 1.4;
+}
+.col p.highlight {
+  background: #e8f4f8;
+  border-left: 2pt solid #1a3a5c;
+  padding: 8pt 10pt;
+  margin-top: 10pt;
+  color: #1a3a5c;
+  font-size: 9pt;
+}
+.footer {
+  padding: 10pt 45pt;
+  border-top: 1pt solid #ddd;
+}
+.footer p {
+  color: #888;
+  font-size: 8pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Two Innovations to Measure True Impact</h1>
+</div>
+<div class="content">
+  <div class="intro">
+    <p>We address both problems with new methods for linking GWAS discoveries to pharmaceutical innovation.</p>
+  </div>
+  <div class="two-col">
+    <div class="col">
+      <h2>1. Text Mining Gene-Disease Pairs</h2>
+      <p>Instead of relying on citations, we use <b>BioBERT</b> (a biomedical language model) to extract gene and disease mentions directly from patent text.</p>
+      <p>This captures the actual scientific content being used in patents—not just what's formally cited.</p>
+      <p class="highlight"><b>Result:</b> A comprehensive map of which gene-disease pairs appear in pharmaceutical patents.</p>
+    </div>
+    <div class="col">
+      <h2>2. Measuring Spillovers via Pathways</h2>
+      <p>We use <b>KEGG biological pathways</b> to define relationships between genes. When GWAS links Gene A to a disease, we can trace how that knowledge flows to related genes.</p>
+      <p>Genes in the same pathway share biological function—a discovery about one informs research on others.</p>
+      <p class="highlight"><b>Result:</b> A "distance" metric for how far knowledge travels through biological networks.</p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p></p>
+</div>
+</body>
+</html>

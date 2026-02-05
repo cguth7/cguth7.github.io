@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWAS Spillover - v3 Slideshow</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #222;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        .slide-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        iframe {
+            width: 960px;
+            height: 540px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            background: white;
+        }
+        .controls {
+            background: #333;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .nav-btn {
+            background: #1a3a5c;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .nav-btn:hover {
+            background: #2c5282;
+        }
+        .nav-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+        .slide-info {
+            color: #aaa;
+            font-size: 14px;
+            min-width: 120px;
+            text-align: center;
+        }
+        .slide-title {
+            color: #fff;
+            font-size: 13px;
+            max-width: 300px;
+            text-align: center;
+        }
+        .hint {
+            color: #666;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <div class="slide-container">
+        <iframe id="slideFrame" src="slide1-problem.html"></iframe>
+    </div>
+    <div class="controls">
+        <button class="nav-btn" id="prevBtn" onclick="prevSlide()">← Previous</button>
+        <div class="slide-info">
+            <span id="slideNum">1</span> / <span id="totalSlides">3</span>
+        </div>
+        <button class="nav-btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+        <div class="slide-title" id="slideTitle">Problem</div>
+        <div class="hint">Use ← → arrow keys</div>
+    </div>
+
+    <script>
+        const slides = [
+            { file: 'slide1-problem.html', title: 'Problem: Metrics Undervalue GWAS' },
+            { file: 'slide2-method.html', title: 'Two Innovations' },
+            { file: 'slide3-finding.html', title: 'Spillovers Drive Impact' }
+        ];
+
+        let current = 0;
+        const frame = document.getElementById('slideFrame');
+        const slideNum = document.getElementById('slideNum');
+        const slideTitle = document.getElementById('slideTitle');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+
+        document.getElementById('totalSlides').textContent = slides.length;
+
+        function showSlide(index) {
+            current = index;
+            frame.src = slides[current].file;
+            slideNum.textContent = current + 1;
+            slideTitle.textContent = slides[current].title;
+            prevBtn.disabled = current === 0;
+            nextBtn.disabled = current === slides.length - 1;
+        }
+
+        function nextSlide() {
+            if (current < slides.length - 1) showSlide(current + 1);
+        }
+
+        function prevSlide() {
+            if (current > 0) showSlide(current - 1);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+            if (e.key === 'ArrowLeft') prevSlide();
+        });
+
+        document.querySelector('.slide-container').addEventListener('click', nextSlide);
+    </script>
+</body>
+</html>
