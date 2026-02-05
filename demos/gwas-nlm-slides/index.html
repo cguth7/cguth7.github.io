@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GWAS Spillover - NLM Summary Slides</title>
+    <title>GWAS Spillover Slides - All Versions</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px;
             background: #f5f5f5;
         }
         h1 {
@@ -18,80 +18,83 @@
         }
         .subtitle {
             color: #666;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
         }
-        .download-btn {
+        .version-section {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .version-section h2 {
+            color: #1a3a5c;
+            font-size: 18px;
+            margin: 0 0 10px 0;
+        }
+        .version-section p {
+            color: #666;
+            margin: 0 0 15px 0;
+            font-size: 14px;
+        }
+        .slide-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .slide-links a {
             display: inline-block;
             background: #1a3a5c;
             color: white;
-            padding: 12px 24px;
+            padding: 8px 16px;
             text-decoration: none;
             border-radius: 4px;
-            font-weight: 500;
-            margin-bottom: 25px;
+            font-size: 13px;
         }
-        .download-btn:hover {
+        .slide-links a:hover {
             background: #2c5282;
         }
-        .slide-container {
-            margin-bottom: 25px;
+        .slide-links a.download {
+            background: #48bb78;
         }
-        .slide-label {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #1a3a5c;
-        }
-        iframe {
-            width: 100%;
-            height: 500px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background: white;
-        }
-        .notes {
-            background: #fff;
-            padding: 20px;
-            border-radius: 4px;
-            margin-top: 25px;
-            border: 1px solid #ddd;
-        }
-        .notes h3 {
-            margin-top: 0;
-            color: #1a3a5c;
-        }
-        .notes ul {
-            color: #444;
-            line-height: 1.7;
-        }
-        .notes li {
-            margin-bottom: 8px;
+        .slide-links a.download:hover {
+            background: #38a169;
         }
     </style>
 </head>
 <body>
     <h1>GWAS Spillover Analysis</h1>
-    <p class="subtitle">Summary for NLM | Tranchero &amp; Guthmann, Wharton School</p>
+    <p class="subtitle">Slide deck versions for NLM presentation</p>
 
-    <a href="gwas-nlm-summary.pptx" class="download-btn">Download PowerPoint</a>
-
-    <div class="slide-container">
-        <div class="slide-label">Slide 1: Impact Beyond Direct Discovery</div>
-        <iframe src="slide1.html"></iframe>
+    <div class="version-section">
+        <h2>Version 2: Full Story (5 slides)</h2>
+        <p>Complete narrative: Core question → BioBERT innovation → KEGG spillovers → Spillovers drive impact → NLM implications</p>
+        <div class="slide-links">
+            <a href="v2/slideshow.html" style="background:#c53030;">▶ Slideshow</a>
+            <a href="v2/slide1-question.html">1. Core Question</a>
+            <a href="v2/slide2-biobert.html">2. BioBERT Innovation</a>
+            <a href="v2/slide3-kegg.html">3. KEGG Spillovers</a>
+            <a href="v2/slide4-result.html">4. Spillovers Drive Impact</a>
+            <a href="v2/slide5-implications.html">5. NLM Implications</a>
+        </div>
     </div>
 
-    <div class="slide-container">
-        <div class="slide-label">Slide 2: Framework for Measuring Spillovers</div>
-        <iframe src="slide2.html"></iframe>
+    <div class="version-section">
+        <h2>Version 1: Executive Summary (2 slides)</h2>
+        <p>Condensed version: Problem/Finding → Framework</p>
+        <div class="slide-links">
+            <a href="slide1.html">1. Impact Beyond Discovery</a>
+            <a href="slide2.html">2. Spillover Framework</a>
+            <a href="gwas-nlm-summary.pptx" class="download">Download PPTX</a>
+        </div>
     </div>
 
-    <div class="notes">
-        <h3>Key Messages for NLM Leadership</h3>
-        <ul>
-            <li><strong>The Problem:</strong> Traditional ROI metrics undervalue basic science by only counting direct outcomes. Scientific knowledge is interconnected.</li>
-            <li><strong>Our Finding:</strong> GWAS discoveries create a 60x spillover effect—for every direct finding, 60 related gene-disease pairs see increased pharmaceutical innovation.</li>
-            <li><strong>The Innovation:</strong> A "landscape model" that maps gene-disease relationships through biological pathways, enabling rigorous measurement of knowledge propagation.</li>
-            <li><strong>Why It Matters:</strong> Provides evidence-based tools to demonstrate the true ROI of NIH genomic research investments.</li>
-        </ul>
+    <div class="version-section">
+        <h2>Notes</h2>
+        <p><b>Two key innovations:</b></p>
+        <p>1. <b>BioBERT text mining</b> - Extract gene-disease pairs from patent text (vs. citation-based approaches)</p>
+        <p>2. <b>KEGG pathway spillovers</b> - Measure knowledge flow through biological networks</p>
+        <p><b>Core question:</b> What's the ROI of NIH-funded GWAS research?</p>
     </div>
 </body>
 </html>

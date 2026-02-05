@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #FFFFFF; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header {
+  padding: 20pt 45pt 15pt 45pt;
+  border-bottom: 3pt solid #1a3a5c;
+}
+.header p.label {
+  color: #888;
+  font-size: 10pt;
+  margin: 0 0 3pt 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+}
+.header h1 {
+  color: #1a3a5c;
+  font-size: 20pt;
+  margin: 0;
+  font-weight: bold;
+}
+.content {
+  flex: 1;
+  padding: 18pt 45pt;
+  display: flex;
+  flex-direction: column;
+}
+.main-text {
+  margin-bottom: 12pt;
+}
+.main-text p {
+  color: #444;
+  font-size: 11pt;
+  margin: 0;
+  line-height: 1.4;
+}
+.diagram-area {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.flow {
+  display: flex;
+  align-items: center;
+}
+.box {
+  background: #f7f9fb;
+  border: 2pt solid #1a3a5c;
+  padding: 10pt 12pt;
+  text-align: center;
+  width: 110pt;
+}
+.box.highlight {
+  background: #1a3a5c;
+}
+.box h3 {
+  color: #1a3a5c;
+  font-size: 9pt;
+  margin: 0 0 4pt 0;
+  text-transform: uppercase;
+}
+.box.highlight h3 {
+  color: #fff;
+}
+.box p {
+  color: #555;
+  font-size: 8pt;
+  margin: 0;
+  line-height: 1.3;
+}
+.box.highlight p {
+  color: #d0d8e0;
+}
+.arrow {
+  color: #1a3a5c;
+  font-size: 16pt;
+  padding: 0 6pt;
+}
+.bottom-insight {
+  background: #e8f4f8;
+  border-left: 3pt solid #1a3a5c;
+  padding: 10pt 15pt;
+  margin-top: 8pt;
+}
+.bottom-insight p {
+  color: #1a3a5c;
+  font-size: 10pt;
+  margin: 0;
+}
+.footer {
+  padding: 10pt 45pt;
+  border-top: 1pt solid #ddd;
+}
+.footer p {
+  color: #888;
+  font-size: 8pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <p class="label">Innovation #2</p>
+  <h1>Measuring Spillovers Through Biological Pathways</h1>
+</div>
+<div class="content">
+  <div class="main-text">
+    <p>A GWAS discovery about Gene A doesn't just benefit research on Gene A. Biologically related genes—those in the same pathways—also benefit from the new knowledge.</p>
+  </div>
+  <div class="diagram-area">
+    <div class="flow">
+      <div class="box">
+        <h3>GWAS Finding</h3>
+        <p>Gene A → Disease X</p>
+      </div>
+      <p class="arrow">→</p>
+      <div class="box highlight">
+        <h3>KEGG Pathways</h3>
+        <p>Biological relationships</p>
+      </div>
+      <p class="arrow">→</p>
+      <div class="box">
+        <h3>Related Genes</h3>
+        <p>B, C, D in same pathways</p>
+      </div>
+      <p class="arrow">→</p>
+      <div class="box">
+        <h3>Spillover</h3>
+        <p>Innovation on B-X, C-X</p>
+      </div>
+    </div>
+  </div>
+  <div class="bottom-insight">
+    <p><b>Key insight:</b> KEGG pathways let us define biological "distance" between genes—enabling rigorous measurement of how far knowledge travels.</p>
+  </div>
+</div>
+<div class="footer">
+  <p>Tranchero &amp; Guthmann | Wharton School</p>
+</div>
+</body>
+</html>

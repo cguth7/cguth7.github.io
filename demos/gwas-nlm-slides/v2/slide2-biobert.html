@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #FFFFFF; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header {
+  padding: 20pt 45pt 15pt 45pt;
+  border-bottom: 3pt solid #1a3a5c;
+}
+.header p.label {
+  color: #888;
+  font-size: 10pt;
+  margin: 0 0 3pt 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5pt;
+}
+.header h1 {
+  color: #1a3a5c;
+  font-size: 20pt;
+  margin: 0;
+  font-weight: bold;
+}
+.content {
+  flex: 1;
+  padding: 20pt 45pt;
+  display: flex;
+}
+.col {
+  flex: 1;
+  padding-right: 25pt;
+}
+.col:last-child {
+  padding-right: 0;
+  padding-left: 25pt;
+  border-left: 1pt solid #ddd;
+}
+.col h2 {
+  color: #1a3a5c;
+  font-size: 13pt;
+  margin: 0 0 10pt 0;
+}
+.col p {
+  color: #444;
+  font-size: 11pt;
+  margin: 0 0 10pt 0;
+  line-height: 1.4;
+}
+.highlight {
+  background: #e8f4f8;
+  border-left: 3pt solid #1a3a5c;
+  padding: 10pt 12pt;
+  margin-top: 12pt;
+}
+.highlight p {
+  color: #1a3a5c;
+  font-size: 10pt;
+  margin: 0;
+  line-height: 1.4;
+}
+.footer {
+  padding: 10pt 45pt;
+  border-top: 1pt solid #ddd;
+}
+.footer p {
+  color: #888;
+  font-size: 8pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <p class="label">Innovation #1</p>
+  <h1>Text Mining Gene-Disease Links from Patents</h1>
+</div>
+<div class="content">
+  <div class="col">
+    <h2>Traditional Approach</h2>
+    <p>Previous studies rely on <b>patent citations</b> to measure innovation impact.</p>
+    <p>Limitation: Citations only capture explicit references—they miss when research influences innovation without direct citation.</p>
+    <p>This underestimates the true impact of basic science on pharmaceutical R&amp;D.</p>
+  </div>
+  <div class="col">
+    <h2>Our Approach</h2>
+    <p>We use <b>BioBERT</b> (biomedical language model) to extract gene and disease mentions directly from patent text.</p>
+    <p>This captures the actual scientific content being used in patents, not just what's cited.</p>
+    <div class="highlight">
+      <p><b>Result:</b> A comprehensive map of which gene-disease pairs appear in pharmaceutical patents—enabling direct measurement of knowledge translation.</p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p>Tranchero &amp; Guthmann | Wharton School</p>
+</div>
+</body>
+</html>
