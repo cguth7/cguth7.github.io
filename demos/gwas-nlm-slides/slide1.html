@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+html { background: #ffffff; }
+body {
+  width: 720pt; height: 405pt; margin: 0; padding: 0;
+  background: #1C2833; font-family: Arial, sans-serif;
+  display: flex; flex-direction: column;
+}
+.header {
+  background: #2E4053;
+  padding: 20pt 40pt;
+  border-bottom: 4pt solid #F39C12;
+}
+.header h1 {
+  color: #FFFFFF;
+  font-size: 24pt;
+  margin: 0;
+  font-weight: bold;
+}
+.header p {
+  color: #AAB7B8;
+  font-size: 12pt;
+  margin: 6pt 0 0 0;
+}
+.content {
+  display: flex;
+  flex: 1;
+  padding: 25pt 40pt;
+}
+.left-col {
+  flex: 1;
+  padding-right: 30pt;
+}
+.right-col {
+  width: 220pt;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.stat-box {
+  background: #F39C12;
+  border-radius: 12pt;
+  padding: 25pt 30pt;
+  text-align: center;
+  width: 180pt;
+}
+.stat-box p.big-number {
+  color: #1C2833;
+  font-size: 56pt;
+  font-weight: bold;
+  margin: 0;
+  line-height: 1;
+}
+.stat-box p.label {
+  color: #1C2833;
+  font-size: 14pt;
+  margin: 8pt 0 0 0;
+  font-weight: bold;
+}
+.left-col h2 {
+  color: #F39C12;
+  font-size: 16pt;
+  margin: 0 0 12pt 0;
+  text-transform: uppercase;
+  letter-spacing: 1pt;
+}
+.left-col ul {
+  color: #F4F6F6;
+  font-size: 13pt;
+  margin: 0;
+  padding-left: 18pt;
+  line-height: 1.6;
+}
+.left-col li {
+  margin-bottom: 10pt;
+}
+.highlight {
+  color: #F39C12;
+  font-weight: bold;
+}
+.footer {
+  background: #2E4053;
+  padding: 10pt 40pt;
+  display: flex;
+  justify-content: space-between;
+}
+.footer p {
+  color: #AAB7B8;
+  font-size: 9pt;
+  margin: 0;
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Measuring the True Impact of NIH Genomic Research</h1>
+  <p>GWAS Discoveries and Pharmaceutical Innovation Spillovers</p>
+</div>
+<div class="content">
+  <div class="left-col">
+    <h2>Key Finding</h2>
+    <ul>
+      <li>GWAS discoveries don't just benefit <b>direct targets</b></li>
+      <li>Innovation <b>spills over</b> to biologically related gene-disease pairs through pathway networks</li>
+      <li>For every directly-linked pair, <b>60 additional pairs</b> see increased pharmaceutical patenting</li>
+      <li>707K gene-disease pairs affected across 21 years of patent data</li>
+    </ul>
+  </div>
+  <div class="right-col">
+    <div class="stat-box">
+      <p class="big-number">60x</p>
+      <p class="label">Spillover Multiplier</p>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <p>Tranchero, Guthmann et al. | Wharton School, University of Pennsylvania</p>
+  <p>Data: GWAS Catalog, USPTO Patents, KEGG Pathways (2000-2020)</p>
+</div>
+</body>
+</html>

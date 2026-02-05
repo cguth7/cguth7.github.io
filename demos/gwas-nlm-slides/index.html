@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWAS Spillover - NLM Summary Slides</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #1C2833;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .download-btn {
+            display: inline-block;
+            background: #F39C12;
+            color: #1C2833;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+        .download-btn:hover {
+            background: #e67e22;
+        }
+        .slide-container {
+            margin-bottom: 30px;
+        }
+        .slide-label {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        iframe {
+            width: 100%;
+            height: 540px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+        }
+        .notes {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 1px solid #ddd;
+        }
+        .notes h3 {
+            margin-top: 0;
+            color: #1C2833;
+        }
+        .notes ul {
+            color: #555;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <h1>GWAS Spillover Analysis - NLM Summary</h1>
+    <p class="subtitle">For Jay Bhattacharya's NLM Presentation | Tranchero, Guthmann et al.</p>
+
+    <a href="gwas-nlm-summary.pptx" class="download-btn">Download PowerPoint (.pptx)</a>
+
+    <div class="slide-container">
+        <div class="slide-label">Slide 1: ROI Impact - The 60x Multiplier</div>
+        <iframe src="slide1.html"></iframe>
+    </div>
+
+    <div class="slide-container">
+        <div class="slide-label">Slide 2: Landscape Model - Measuring Gene-Disease Distance</div>
+        <iframe src="slide2.html"></iframe>
+    </div>
+
+    <div class="notes">
+        <h3>Key Messages</h3>
+        <ul>
+            <li><strong>Slide 1:</strong> GWAS discoveries have a 60x spillover multiplier - for every direct gene-disease pair discovered, 60 additional pairs see increased pharmaceutical innovation through biological pathway connections.</li>
+            <li><strong>Slide 2:</strong> Novel "landscape model" methodology that measures distance between gene-disease candidates using KEGG biological pathways (1/2/3-hop network distance) and MeSH disease hierarchies.</li>
+            <li><strong>Why it matters for NIH:</strong> Provides evidence-based ROI assessment for genomic research investments - the true impact of GWAS is much larger than direct discoveries alone.</li>
+        </ul>
+        <h3>Data Sources</h3>
+        <ul>
+            <li>GWAS Catalog: 64K discoveries</li>
+            <li>USPTO Patents: 140M patent-gene-disease associations</li>
+            <li>KEGG Pathways: 30K+ genes with biological connections</li>
+            <li>Time span: 2000-2020 (21 years)</li>
+        </ul>
+    </div>
+</body>
+</html>
