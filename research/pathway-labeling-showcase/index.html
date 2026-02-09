@@ -36,6 +36,10 @@
   .signal-value { font-size: 1.05em; font-weight: 500; }
   .signal-detail { font-size: 0.8em; color: #888; margin-top: 2px; }
 
+  .jaccard-equation { font-size: 0.8em; color: #666; margin-top: 6px; padding: 6px 10px; background: #fff5f5; border-radius: 4px; font-family: 'SF Mono', 'Fira Code', monospace; border: 1px solid #f0dede; }
+  .overlap-genes { font-size: 0.78em; color: #555; margin-top: 6px; line-height: 1.5; }
+  .overlap-genes .gene-tag { display: inline-block; background: #fef0f0; border: 1px solid #f0dede; border-radius: 3px; padding: 1px 6px; margin: 2px 2px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9em; }
+
   .caption-text { font-size: 0.78em; color: #666; margin-top: 10px; padding: 8px 12px; background: #f9f9f9; border-radius: 6px; line-height: 1.4; border: 1px solid #eee; }
   .caption-text summary { cursor: pointer; font-weight: 500; color: #555; }
 
@@ -111,6 +115,10 @@ fetch('data.json').then(r => r.json()).then(data => {
             <div class="signal-label">Jaccard Top KEGG Match</div>
             <div class="signal-value">${item.jaccard_top1_name}</div>
             <div class="signal-detail">Score: ${item.jaccard_top1_score.toFixed(4)} &nbsp;|&nbsp; #2: ${item.jaccard_top2_name} (${item.jaccard_top2_score.toFixed(4)})</div>
+            ${item.jaccard_intersection != null ? `
+            <div class="jaccard-equation">J(A,B) = |A &cap; B| / |A &cup; B| = ${item.jaccard_intersection} / ${item.jaccard_union} = ${item.jaccard_top1_score.toFixed(4)} &nbsp;&nbsp; (image: ${item.jaccard_image_count} genes, KEGG: ${item.jaccard_kegg_count} genes)</div>` : ''}
+            ${item.jaccard_overlap_genes && item.jaccard_overlap_genes.length > 0 ? `
+            <div class="overlap-genes">Overlapping genes: ${item.jaccard_overlap_genes.map(g => '<span class="gene-tag">' + g + '</span>').join('')}</div>` : ''}
           </div>
           <div class="signal signal-caption">
             <div class="signal-label">PMC Caption &rarr; KEGG</div>
