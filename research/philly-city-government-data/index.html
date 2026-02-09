@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philly City &amp; Government Data &mdash; Source Registry Research</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            color: #1a1a1a;
+            background: #fff;
+            line-height: 1.6;
+        }
+        .back { font-size: 0.85em; color: #666; margin-bottom: 2em; }
+        .back a { color: #666; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+        h1 { font-size: 2em; font-weight: 700; margin-bottom: 0.2em; }
+        .subtitle { color: #666; font-size: 1.05em; margin-bottom: 2em; }
+        .summary {
+            background: #f8f9fa;
+            border-left: 4px solid #d84315;
+            padding: 1.2em 1.5em;
+            margin: 2em 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .summary p { margin: 0.5em 0; }
+        .summary strong { color: #d84315; }
+        h2 {
+            font-size: 1.4em;
+            margin: 2.5em 0 0.8em;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        h3 { font-size: 1.1em; margin: 1.5em 0 0.5em; color: #333; }
+
+        /* Bar chart */
+        .bar-chart { margin: 1.5em 0 2em; }
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 0.9em;
+        }
+        .bar-label {
+            width: 220px;
+            text-align: right;
+            padding-right: 12px;
+            flex-shrink: 0;
+            color: #444;
+        }
+        .bar-track {
+            flex: 1;
+            height: 26px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #fff;
+            transition: width 0.6s ease;
+            min-width: 36px;
+        }
+        .bar-fill.license { background: #d84315; }
+        .bar-fill.library { background: #9c27b0; }
+        .bar-fill.opaque { background: #78909c; }
+
+        /* Source cards */
+        .source-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.2em 1.5em;
+            margin: 1em 0;
+        }
+        .source-card h3 { margin-top: 0; }
+        .source-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.3em 2em;
+            font-size: 0.9em;
+            color: #555;
+            margin: 0.8em 0;
+        }
+        .source-meta span { display: block; }
+        .source-meta .label { font-weight: 600; color: #333; }
+        .quality { display: inline-flex; gap: 2px; }
+        .quality .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+        .quality .dot.filled { background: #2d7d46; }
+        .verdict {
+            margin-top: 0.8em;
+            padding: 0.6em 1em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .verdict.go { background: #e8f5e9; color: #1b5e20; }
+        .verdict.wait { background: #fff3e0; color: #e65100; }
+        .verdict.skip { background: #fbe9e7; color: #bf360c; }
+        .verdict.foia { background: #e3f2fd; color: #0d47a1; }
+
+        /* Coverage matrix */
+        .matrix-wrap { overflow-x: auto; margin: 1.5em 0; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.85em;
+        }
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        td:first-child { font-weight: 500; }
+        .num { text-align: right; font-variant-numeric: tabular-nums; }
+        .check { color: #2d7d46; text-align: center; }
+        .dash { color: #ccc; text-align: center; }
+        .warn { color: #e53935; font-weight: 600; text-align: center; }
+
+        /* Gap / insight boxes */
+        .insight-list { list-style: none; padding: 0; }
+        .insight-list li {
+            padding: 0.8em 1em;
+            margin: 0.5em 0;
+            background: #fafafa;
+            border-radius: 6px;
+        }
+        .insight-list li strong { display: block; margin-bottom: 0.2em; }
+        .insight-list li.gap { border-left: 3px solid #e53935; }
+        .insight-list li.gold { border-left: 3px solid #ff8f00; }
+        .insight-list li.foia { border-left: 3px solid #1565c0; }
+
+        /* Recommendations */
+        .rec-list { list-style: none; padding: 0; counter-reset: rec; }
+        .rec-list li {
+            padding: 1em 1em 1em 3.5em;
+            margin: 0.6em 0;
+            background: #f8f9fa;
+            border-radius: 6px;
+            position: relative;
+            counter-increment: rec;
+        }
+        .rec-list li::before {
+            content: counter(rec);
+            position: absolute;
+            left: 1em;
+            top: 1em;
+            width: 1.8em;
+            height: 1.8em;
+            background: #d84315;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85em;
+        }
+        .rec-list li strong { display: block; margin-bottom: 0.2em; }
+
+        /* Gotchas */
+        .gotcha {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 0.8em 1.2em;
+            margin: 0.8em 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9em;
+        }
+        .gotcha code {
+            background: rgba(0,0,0,0.06);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .legend {
+            display: flex;
+            gap: 1.5em;
+            margin: 0.5em 0 1em;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .legend span::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 5px;
+            vertical-align: -1px;
+        }
+        .legend .l-license::before { background: #d84315; }
+        .legend .l-library::before { background: #9c27b0; }
+        .legend .l-opaque::before { background: #78909c; }
+
+        /* Feed type table */
+        .feed-table { margin: 1em 0; }
+        .feed-row {
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+            font-size: 0.88em;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .feed-type { width: 60px; color: #888; font-family: monospace; }
+        .feed-name { flex: 1; }
+        .feed-count { width: 50px; text-align: right; font-weight: 600; }
+
+        .transfer-bar {
+            display: inline-block;
+            height: 8px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 600px) {
+            .bar-label { width: 140px; font-size: 0.8em; }
+            .source-meta { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="back"><a href="/research/reality/">&larr; Reality Project Research</a></div>
+
+    <h1>Philly City &amp; Government Data</h1>
+    <p class="subtitle">Category 4: What event-adjacent data does Philadelphia publish as open data? Spoiler: not nearly enough.</p>
+
+    <div class="summary">
+        <p><strong>400+ datasets</strong> on OpenDataPhilly but <strong>zero event-specific data</strong>. No special event permits, no block party approvals, no festival calendars.</p>
+        <p><strong>72 unique events</strong> found via Free Library RSS (8 feed types, 10 items each, deduped). Best structured event source in the city.</p>
+        <p><strong>3,332 event food licenses</strong> + <strong>279 carnival licenses</strong> in business license data &mdash; indirect but valuable signals of where events happen.</p>
+        <p>Part of the <a href="https://github.com/cguth7/reality">Reality</a> project &mdash; <a href="/research/reality/">full research index</a></p>
+    </div>
+
+    <h2>Event Signal Landscape</h2>
+    <p style="margin-bottom:0.5em;color:#555;">What the city's data actually tells us about events:</p>
+    <div class="legend">
+        <span class="l-license">Business Licenses</span>
+        <span class="l-library">Free Library RSS</span>
+        <span class="l-opaque">Opaque (no data)</span>
+    </div>
+    <div class="bar-chart" id="chart"></div>
+
+    <h2>Data Sources Tested</h2>
+
+    <div class="source-card">
+        <h3>OpenDataPhilly &mdash; Full Catalog</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Datasets</span> 400+</span>
+            <span><span class="label">Event data</span> None</span>
+            <span><span class="label">NYC Transfer</span> 2/5</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Scanned all categories: Arts &amp; Culture, Health &amp; Human Services, Parks &amp; Rec, Public Safety, Economy, Education. Found <strong>zero</strong> datasets for event permits, block parties, street closures, cultural programming, or festival calendars. City publishes facility locations but not what happens in them.</p>
+        <div class="verdict skip">No event data published. NYC Open Data is significantly more mature.</div>
+    </div>
+
+    <div class="source-card">
+        <h3>L&amp;I Business Licenses (CARTO SQL API)</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Format</span> JSON via SQL API</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></span> 4/5</span>
+            <span><span class="label">Freshness</span> Continuously updated</span>
+            <span><span class="label">Endpoint</span> <code style="font-size:0.8em">phl.carto.com/api/v2/sql</code></span>
+            <span><span class="label">NYC Transfer</span> 2/5</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;"><strong>Best indirect event signal.</strong> Carnival licenses reveal churches hosting festivals. Bingo licenses identify community gathering spaces. Event food licenses confirm scale of event activity. All geocoded with addresses.</p>
+
+        <div class="matrix-wrap">
+            <table>
+                <thead>
+                    <tr><th>License Type</th><th class="num">Total</th><th class="num">Active</th><th>What It Reveals</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Event Food Vendor</td><td class="num">3,332</td><td class="num">14</td><td>Confirms events exist (no location data)</td></tr>
+                    <tr><td>Carnival</td><td class="num">279</td><td class="num">0</td><td>Churches &amp; community orgs hosting festivals</td></tr>
+                    <tr><td>Curb Market</td><td class="num">174</td><td class="num">?</td><td>Outdoor market activity</td></tr>
+                    <tr><td>Bingo</td><td class="num">170</td><td class="num">10</td><td>YMCAs, churches, schools, VFW posts</td></tr>
+                    <tr><td>Small Games of Chance</td><td class="num">133</td><td class="num">?</td><td>Community fundraiser events</td></tr>
+                    <tr><td>Outdoor Food</td><td class="num">37</td><td class="num">?</td><td>Outdoor dining / event vendors</td></tr>
+                    <tr><td>Promoter Registration</td><td class="num">9</td><td class="num">2</td><td>Event promoters (most don't register)</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="verdict go">Mine for event signals &mdash; cross-reference carnival addresses with OSM places of worship</div>
+    </div>
+
+    <div class="source-card">
+        <h3>Free Library of Philadelphia &mdash; RSS Deep Dive</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Format</span> RSS (XML), 8 feed types</span>
+            <span><span class="label">Coverage</span> 72 unique events (live)</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></span> 5/5</span>
+            <span><span class="label">Freshness</span> Live (refreshes daily)</span>
+            <span><span class="label">NYC Transfer</span> 2/5</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Category 1 found the RSS cap of 10 items. This deep dive discovered <strong>8 active feed types</strong> yielding 72 unique events after dedup &mdash; a 7.2x improvement. Calendar API remains Cloudflare-blocked.</p>
+
+        <h3>Feed Type Map</h3>
+        <div class="feed-table">
+            <div class="feed-row"><span class="feed-type">type=1</span><span class="feed-name">Arts and Crafts Programs</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=2</span><span class="feed-name">Author Events</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=3</span><span class="feed-name">Workshops and Enrichment</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=4</span><span class="feed-name">Arts and Crafts Programs</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=5</span><span class="feed-name">Community Events</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=6</span><span class="feed-name">Live Performances</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=7</span><span class="feed-name">Author Events</span><span class="feed-count">10</span></div>
+            <div class="feed-row"><span class="feed-type">type=8</span><span class="feed-name">Workshops and Enrichment</span><span class="feed-count">10</span></div>
+            <div class="feed-row" style="color:#999;"><span class="feed-type">type=9</span><span class="feed-name">(empty)</span><span class="feed-count">0</span></div>
+            <div class="feed-row"><span class="feed-type">type=10</span><span class="feed-name">Other Great Programs</span><span class="feed-count">10</span></div>
+        </div>
+        <p style="font-size:0.85em;color:#888;margin-top:0.5em;">16 events appear in multiple feeds. Some feed types appear duplicated (1/4, 2/7, 3/8) but return different items.</p>
+
+        <div class="verdict go">Poll all 9 active feeds, deduplicate by URL &mdash; best structured event data in the city</div>
+    </div>
+
+    <div class="source-card">
+        <h3>Block Party Permits (Streets Department)</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Application portal only</span>
+            <span><span class="label">Portal</span> <code style="font-size:0.8em">stsweb.phila.gov/blockParty/</code></span>
+            <span><span class="label">Public database</span> None</span>
+            <span><span class="label">NYC Transfer</span> 2/5</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Online application form for street event permits. <strong>No searchable database</strong> of approved permits. Fees: $25-$150. Requires 75% neighbor petition. Likely <strong>thousands per summer</strong> &mdash; the exact grassroots events that no platform captures.</p>
+        <div class="verdict foia">FOIA opportunity &mdash; file Right-to-Know request for permit data</div>
+    </div>
+
+    <div class="source-card">
+        <h3>Special Event Permits (Office of Special Events)</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Paper/email process</span>
+            <span><span class="label">Contact</span> OSE@phila.gov</span>
+            <span><span class="label">Public database</span> None</span>
+            <span><span class="label">NYC Transfer</span> 1/5</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Covers carnivals, festivals, demonstrations, flea markets, concerts using city property. Entirely paper/email process. Plus 8 PPR park permit types (picnics, weddings, large events, venue rentals, etc.). <strong>None produce public data.</strong></p>
+        <div class="verdict foia">FOIA opportunity &mdash; both OSE and PPR permit data</div>
+    </div>
+
+    <div class="source-card">
+        <h3>PPR Programming / Finder App</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> React SPA (no public API)</span>
+            <span><span class="label">URL</span> <code style="font-size:0.8em">phila.gov/parks-rec-finder/</code></span>
+            <span><span class="label">Data feed</span> None accessible</span>
+            <span><span class="label">NYC Transfer</span> 2/5</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">171 rec centers running programs daily but no data feed. Finder app is a React SPA behind CloudFront with no visible API. Featured events (Tai Chi, bird walks, food trucks at Love Park) shown on website but not in any structured format.</p>
+        <div class="verdict wait">Significant blind spot &mdash; needs browser scraping or direct PPR outreach</div>
+    </div>
+
+    <div class="source-card">
+        <h3>311 Service Requests</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free via CARTO SQL API</span>
+            <span><span class="label">Table</span> <code style="font-size:0.8em">public_cases_fc</code></span>
+            <span><span class="label">Event categories</span> Zero</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">80+ service categories covering infrastructure complaints. No event-related request types. "Parks and Rec Safety and Maintenance" covers facility maintenance, not programming.</p>
+        <div class="verdict skip">Dead end for event discovery</div>
+    </div>
+
+    <h2>The Big Picture</h2>
+
+    <ul class="insight-list">
+        <li class="gold"><strong>Carnival licenses = churches that host events</strong> The 279 carnival licenses in business license data are tied to churches and community orgs (Christian Stronghold Baptist, St. Gregory the Illuminator, St. Anselm Church, Southeast Youth Athletic Assoc). This is the bridge between OSM's 1,552 places of worship and the subset that actually hosts public events.</li>
+        <li class="gold"><strong>Free Library is the city's best event source</strong> 72 unique events across 54+ branches, in 8 categories (arts, author events, workshops, community events, live performances). Structured RSS with date, time, location, description. Free, no auth, live data.</li>
+        <li class="gap"><strong>Permit data is the biggest gap</strong> Block parties, street festivals, park events, carnivals &mdash; thousands of permits processed annually but zero published as data. This represents the entire grassroots event landscape that no platform captures.</li>
+        <li class="gap"><strong>PPR programming is a blind spot</strong> 171 rec centers with daily programs (sports leagues, senior activities, youth programs, fitness classes) but no structured data feed. The Finder app exists but its data isn't publicly accessible.</li>
+        <li class="foia"><strong>FOIA is the unlock</strong> A Right-to-Know request to the Streets Dept (block party permits) and Office of Special Events (festival/concert permits) could be the single highest-value data acquisition for the entire source registry.</li>
+    </ul>
+
+    <h2>Technical Gotchas</h2>
+    <div class="gotcha">
+        <strong>Free Library RSS needs User-Agent:</strong> Python's <code>urllib</code> gets 403'd without a browser User-Agent header. <code>curl</code> works without one. Always set <code>User-Agent: Mozilla/5.0</code> in code.
+    </div>
+    <div class="gotcha">
+        <strong>Free Library calendar fully Cloudflare-blocked:</strong> All JSON API endpoints (<code>/calendar/api/events</code>, <code>/calendar/events.json</code>, etc.) return 403. RSS is the only viable automated access.
+    </div>
+    <div class="gotcha">
+        <strong>CARTO SQL API is wide open:</strong> Full SQL queries (SELECT, WHERE, GROUP BY, JOIN) against Philadelphia's data. No auth, no rate limits observed. Table: <code>business_licenses</code>. Incredibly useful.
+    </div>
+    <div class="gotcha">
+        <strong>Event food licenses have no location:</strong> The 3,332 event food vendor licenses have null address fields. They confirm event activity exists but can't tell you where.
+    </div>
+
+    <h2>NYC Transferability</h2>
+    <div class="matrix-wrap">
+        <table>
+            <thead>
+                <tr><th>Source</th><th>Score</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>OpenDataPhilly scan</td><td><span class="transfer-bar" style="width:60px;background:#ff8f00;"></span> 3/5</td><td>NYC Open Data has more event datasets (street activity permits, film permits)</td></tr>
+                <tr><td>Business Licenses</td><td><span class="transfer-bar" style="width:40px;background:#ffc107;"></span> 2/5</td><td>NYC has own license data, different schema</td></tr>
+                <tr><td>Block Party Permits</td><td><span class="transfer-bar" style="width:40px;background:#ffc107;"></span> 2/5</td><td>NYC publishes street activity permits &mdash; better than Philly</td></tr>
+                <tr><td>Special Events</td><td><span class="transfer-bar" style="width:20px;background:#e53935;"></span> 1/5</td><td>Different agency (SAPO in NYC), different process</td></tr>
+                <tr><td>Free Library RSS</td><td><span class="transfer-bar" style="width:40px;background:#ffc107;"></span> 2/5</td><td>NYPL has own event system, pattern transfers</td></tr>
+                <tr><td>PPR Finder</td><td><span class="transfer-bar" style="width:40px;background:#ffc107;"></span> 2/5</td><td>NYC Parks has own system with better data access</td></tr>
+                <tr><td>311 Data</td><td><span class="transfer-bar" style="width:20px;background:#e53935;"></span> 1/5</td><td>Both cities have 311, both lack event categories</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Recommended Actions</h2>
+    <ol class="rec-list">
+        <li><strong>Free Library RSS scraper</strong> Poll all 9 active feed types, deduplicate by event URL. Yields ~72 events with title, date, time, location, description. Easiest win.</li>
+        <li><strong>Business license mining</strong> Query CARTO for Carnival, Bingo, Event Food, and Promoter licenses. Cross-reference Carnival addresses with OSM places of worship to identify churches-that-host-events.</li>
+        <li><strong>FOIA requests</strong> File Right-to-Know with Streets Dept (block party permits, last 3 years) and Office of Special Events (all permits, last 3 years). Could unlock thousands of grassroots events.</li>
+        <li><strong>BID website scraping</strong> Philadelphia's 15 Business Improvement Districts organize street events, holiday markets, and community programming. Scrape their event calendars.</li>
+        <li><strong>PPR Finder reverse-engineering</strong> Use browser dev tools to inspect the React SPA's network requests and find the data API powering the Finder.</li>
+    </ol>
+
+    <p style="margin-top:3em;padding-top:2em;border-top:1px solid #e0e0e0;color:#888;font-size:0.85em;">
+        Research conducted 2026-02-09 as part of the <a href="https://github.com/cguth7/reality" style="color:#888;">Reality</a> project.
+        Full findings: <a href="https://github.com/cguth7/reality/blob/main/docs/research/category-4-city-government-data.md" style="color:#888;">category-4-city-government-data.md</a>
+        &nbsp;&bull;&nbsp; <a href="/research/reality/" style="color:#888;">All Reality research</a>
+    </p>
+
+    <script>
+        const data = [
+            { label: 'Event Food Licenses', value: 3332, type: 'license' },
+            { label: 'Carnival Licenses', value: 279, type: 'license' },
+            { label: 'Curb Market Licenses', value: 174, type: 'license' },
+            { label: 'Bingo Licenses', value: 170, type: 'license' },
+            { label: 'Small Games of Chance', value: 133, type: 'license' },
+            { label: 'Free Library Events', value: 72, type: 'library' },
+            { label: 'Outdoor Food Licenses', value: 37, type: 'license' },
+            { label: 'Block Party Permits', value: null, type: 'opaque', display: '???' },
+            { label: 'Special Event Permits', value: null, type: 'opaque', display: '???' },
+            { label: 'PPR Programming', value: null, type: 'opaque', display: '???' },
+            { label: 'Promoter Registrations', value: 9, type: 'license' },
+        ];
+
+        const max = data[0].value;
+        const chart = document.getElementById('chart');
+
+        data.forEach(d => {
+            const row = document.createElement('div');
+            row.className = 'bar-row';
+            if (d.value === null) {
+                row.innerHTML = `
+                    <div class="bar-label">${d.label}</div>
+                    <div class="bar-track">
+                        <div class="bar-fill ${d.type}" style="width:30%;opacity:0.5;font-style:italic;">${d.display}</div>
+                    </div>
+                `;
+            } else {
+                const pct = Math.max((d.value / max) * 100, 3);
+                row.innerHTML = `
+                    <div class="bar-label">${d.label}</div>
+                    <div class="bar-track">
+                        <div class="bar-fill ${d.type}" style="width:${pct}%">${d.value.toLocaleString()}</div>
+                    </div>
+                `;
+            }
+            chart.appendChild(row);
+        });
+    </script>
+</body>
+</html>
