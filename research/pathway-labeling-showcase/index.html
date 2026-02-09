@@ -110,6 +110,7 @@ fetch('data.json').then(r => r.json()).then(data => {
           <div class="signal signal-gemini">
             <div class="signal-label">Gemini Label</div>
             <div class="signal-value">${item.gemini_label}</div>
+            ${item.gemini_description ? `<div class="signal-detail">${item.gemini_description}</div>` : ''}
           </div>
           <div class="signal signal-jaccard">
             <div class="signal-label">Jaccard Top KEGG Match</div>
