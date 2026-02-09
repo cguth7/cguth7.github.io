@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathway Labeling: 3-Signal Comparison</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #333; padding: 20px; }
+  h1 { text-align: center; margin-bottom: 8px; font-size: 1.6em; }
+  .subtitle { text-align: center; color: #666; margin-bottom: 24px; font-size: 0.95em; }
+  .legend { display: flex; justify-content: center; gap: 24px; margin-bottom: 28px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.85em; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 3px; }
+  .dot-gemini { background: #4285f4; }
+  .dot-jaccard { background: #ea4335; }
+  .dot-caption { background: #34a853; }
+
+  .card { background: white; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px; overflow: hidden; }
+  .card-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: #fafafa; border-bottom: 1px solid #eee; }
+  .card-header h2 { font-size: 1em; font-weight: 600; }
+  .card-header .meta { font-size: 0.8em; color: #888; }
+  .card-body { display: flex; gap: 0; }
+  .card-image { flex: 0 0 400px; max-width: 400px; background: #000; display: flex; align-items: center; justify-content: center; min-height: 280px; }
+  .card-image img { max-width: 100%; max-height: 400px; object-fit: contain; }
+  .card-signals { flex: 1; padding: 16px 20px; display: flex; flex-direction: column; gap: 14px; }
+
+  .signal { border-left: 4px solid; padding: 8px 12px; border-radius: 0 6px 6px 0; background: #fafafa; }
+  .signal-gemini { border-color: #4285f4; }
+  .signal-jaccard { border-color: #ea4335; }
+  .signal-caption { border-color: #34a853; }
+  .signal-label { font-size: 0.75em; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .signal-gemini .signal-label { color: #4285f4; }
+  .signal-jaccard .signal-label { color: #ea4335; }
+  .signal-caption .signal-label { color: #34a853; }
+  .signal-value { font-size: 1.05em; font-weight: 500; }
+  .signal-detail { font-size: 0.8em; color: #888; margin-top: 2px; }
+
+  .caption-text { font-size: 0.78em; color: #666; margin-top: 10px; padding: 8px 12px; background: #f9f9f9; border-radius: 6px; line-height: 1.4; border: 1px solid #eee; }
+  .caption-text summary { cursor: pointer; font-weight: 500; color: #555; }
+
+  .agreement { display: inline-block; font-size: 0.7em; padding: 2px 8px; border-radius: 10px; margin-left: 8px; font-weight: 600; }
+  .agree-yes { background: #e6f4ea; color: #1e7e34; }
+  .agree-no { background: #fce8e6; color: #c5221f; }
+
+  @media (max-width: 800px) {
+    .card-body { flex-direction: column; }
+    .card-image { flex: none; max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Pathway Labeling: 3-Signal Comparison</h1>
+<p class="subtitle">10 random images showing Gemini label vs Jaccard KEGG match vs PMC caption match</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot dot-gemini"></div> Gemini (vision model)</div>
+  <div class="legend-item"><div class="legend-dot dot-jaccard"></div> Jaccard (gene overlap vs KEGG)</div>
+  <div class="legend-item"><div class="legend-dot dot-caption"></div> PMC Caption (regex + string match)</div>
+</div>
+
+<div id="cards"></div>
+
+<script>
+fetch('data.json').then(r => r.json()).then(data => {
+  const container = document.getElementById('cards');
+
+  data.forEach((item, i) => {
+    // Check agreement
+    const gj = item.gemini_label.toLowerCase();
+    const jj = item.jaccard_top1_name.toLowerCase();
+    const cj = item.caption_kegg_name.toLowerCase();
+
+    // Simple agreement: check if key terms overlap
+    function mainTerm(s) {
+      return s.replace(/signaling|pathway|receptor| - .*$/gi, '').trim().toLowerCase();
+    }
+    const gt = mainTerm(item.gemini_label);
+    const jt = mainTerm(item.jaccard_top1_name);
+    const ct = mainTerm(item.caption_kegg_name);
+
+    let agreements = 0;
+    if (gt && jt && (gt.includes(jt) || jt.includes(gt))) agreements++;
+    if (gt && ct && (gt.includes(ct) || ct.includes(gt))) agreements++;
+    if (jt && ct && (jt.includes(ct) || ct.includes(jt))) agreements++;
+
+    const agreeTag = agreements >= 2
+      ? '<span class="agreement agree-yes">2+ agree</span>'
+      : agreements === 1
+      ? '<span class="agreement agree-no">1 agrees</span>'
+      : '<span class="agreement agree-no">all differ</span>';
+
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <div class="card-header">
+        <h2>#${i+1}: ${item.pmc_id} ${item.figure_number} ${agreeTag}</h2>
+        <span class="meta">${item.n_genes} genes with Entrez IDs</span>
+      </div>
+      <div class="card-body">
+        <div class="card-image">
+          <img src="data:image/jpeg;base64,${item.image_b64}" alt="${item.filename}">
+        </div>
+        <div class="card-signals">
+          <div class="signal signal-gemini">
+            <div class="signal-label">Gemini Label</div>
+            <div class="signal-value">${item.gemini_label}</div>
+          </div>
+          <div class="signal signal-jaccard">
+            <div class="signal-label">Jaccard Top KEGG Match</div>
+            <div class="signal-value">${item.jaccard_top1_name}</div>
+            <div class="signal-detail">Score: ${item.jaccard_top1_score.toFixed(4)} &nbsp;|&nbsp; #2: ${item.jaccard_top2_name} (${item.jaccard_top2_score.toFixed(4)})</div>
+          </div>
+          <div class="signal signal-caption">
+            <div class="signal-label">PMC Caption &rarr; KEGG</div>
+            <div class="signal-value">${item.caption_kegg_name}</div>
+            <div class="signal-detail">Score: ${item.caption_kegg_score} &nbsp;|&nbsp; Matched phrase: "${item.caption_matched_phrase}"</div>
+          </div>
+          ${item.caption_text ? `
+          <details class="caption-text">
+            <summary>Show figure caption</summary>
+            <p style="margin-top:6px">${item.caption_text}</p>
+          </details>` : ''}
+        </div>
+      </div>
+    `;
+    container.appendChild(card);
+  });
+});
+</script>
+
+</body>
+</html>
