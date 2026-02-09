@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caption Validation Pilot: 50 images x 3 models</title>
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --bg-card: #ffffff;
+    --text: #1a1a2e;
+    --text-muted: #6c757d;
+    --border: #dee2e6;
+    --header-bg: #1a1a2e;
+    --header-text: #f8f9fa;
+    --green: #28a745;
+    --green-bg: #d4edda;
+    --green-border: #c3e6cb;
+    --yellow: #ffc107;
+    --yellow-bg: #fff3cd;
+    --yellow-border: #ffeaa7;
+    --orange: #fd7e14;
+    --orange-bg: #ffe0cc;
+    --orange-border: #ffc89a;
+    --red: #dc3545;
+    --red-bg: #f8d7da;
+    --red-border: #f5c6cb;
+    --blue: #0d6efd;
+    --blue-bg: #cfe2ff;
+    --gray-bg: #e9ecef;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  header {
+    background: var(--header-bg);
+    color: var(--header-text);
+    padding: 2rem 2rem 1.5rem;
+  }
+
+  header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  header .meta {
+    font-size: 0.875rem;
+    color: #adb5bd;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 1.5rem 2rem;
+  }
+
+  section {
+    margin-bottom: 2.5rem;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--header-bg);
+  }
+
+  /* Aggregate stats */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .model-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .model-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .model-card h3 .cost {
+    font-size: 0.85rem;
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 0;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--bg);
+  }
+
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--text-muted); }
+  .stat-value { font-weight: 600; }
+  .stat-value.good { color: var(--green); }
+  .stat-value.warn { color: var(--orange); }
+  .stat-value.bad { color: var(--red); }
+
+  .bar-chart {
+    margin-top: 0.75rem;
+    display: flex;
+    height: 24px;
+    border-radius: 4px;
+    overflow: hidden;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #333;
+  }
+
+  .bar-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2px;
+    transition: all 0.2s;
+  }
+
+  .bar-exact { background: var(--green-bg); border-right: 1px solid var(--green-border); }
+  .bar-too_broad { background: var(--yellow-bg); border-right: 1px solid var(--yellow-border); }
+  .bar-too_narrow { background: var(--orange-bg); border-right: 1px solid var(--orange-border); }
+  .bar-wrong { background: var(--red-bg); }
+
+  /* Filter controls */
+  .controls {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .controls label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+  }
+
+  .controls select, .controls input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    background: var(--bg-card);
+  }
+
+  .controls input[type="text"] {
+    width: 220px;
+  }
+
+  /* Comparison table */
+  .table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.8rem;
+    background: var(--bg-card);
+  }
+
+  thead th {
+    background: var(--header-bg);
+    color: var(--header-text);
+    padding: 0.6rem 0.5rem;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  thead th:hover {
+    background: #2a2a4e;
+  }
+
+  thead th .sort-indicator {
+    margin-left: 4px;
+    opacity: 0.5;
+  }
+
+  thead th.sorted .sort-indicator {
+    opacity: 1;
+  }
+
+  tbody tr {
+    border-bottom: 1px solid var(--border);
+  }
+
+  tbody tr:hover {
+    background: #f0f4ff;
+  }
+
+  tbody td {
+    padding: 0.45rem 0.5rem;
+    vertical-align: top;
+  }
+
+  .cell-green { background: var(--green-bg); }
+  .cell-yellow { background: var(--yellow-bg); }
+  .cell-orange { background: var(--orange-bg); }
+  .cell-red { background: var(--red-bg); }
+  .cell-gray { background: var(--gray-bg); }
+
+  .caption-cell {
+    max-width: 250px;
+    cursor: pointer;
+  }
+
+  .caption-text {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+  }
+
+  .caption-text.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .filename-cell {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .pathway-cell {
+    font-size: 0.75rem;
+    max-width: 140px;
+  }
+
+  .confidence-cell {
+    text-align: center;
+    font-family: "SFMono-Regular", Consolas, monospace;
+    font-size: 0.75rem;
+  }
+
+  .model-group {
+    border-left: 2px solid var(--header-bg);
+  }
+
+  /* Findings */
+  .findings {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+
+  .findings h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 1rem 0 0.4rem;
+  }
+
+  .findings h3:first-child {
+    margin-top: 0;
+  }
+
+  .findings p, .findings ul {
+    font-size: 0.9rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  .findings ul {
+    padding-left: 1.5rem;
+  }
+
+  .findings li {
+    margin-bottom: 0.3rem;
+  }
+
+  .legend {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+    font-size: 0.8rem;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(0,0,0,0.1);
+  }
+
+  .hidden { display: none; }
+
+  @media (max-width: 768px) {
+    header { padding: 1rem; }
+    .container { padding: 1rem; }
+    .stats-grid { grid-template-columns: 1fr; }
+    .controls { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Caption Validation Pilot: 50 images x 3 models</h1>
+  <div class="meta">
+    <span>Date: 2026-02-09</span>
+    <span>Prompt version: v2</span>
+    <span>Task: Validate Gemini pathway labels against PMC figure captions</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Aggregate Stats -->
+  <section id="stats">
+    <h2>Aggregate Model Comparison</h2>
+    <div class="stats-grid" id="stats-grid"></div>
+  </section>
+
+  <!-- Per-image table -->
+  <section id="comparison">
+    <h2>Per-Image Comparison</h2>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--green-bg);border-color:var(--green-border)"></div> bio=yes + exact</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--yellow-bg);border-color:var(--yellow-border)"></div> bio=yes + too_broad</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--orange-bg);border-color:var(--orange-border)"></div> too_narrow</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--red-bg);border-color:var(--red-border)"></div> bio=no / wrong</div>
+      <div class="legend-item"><div class="legend-swatch" style="background:var(--gray-bg)"></div> unclear</div>
+    </div>
+
+    <div class="controls">
+      <label>Filter by precision:</label>
+      <select id="filter-precision">
+        <option value="all">All</option>
+        <option value="exact">Exact</option>
+        <option value="too_broad">Too Broad</option>
+        <option value="too_narrow">Too Narrow</option>
+        <option value="wrong">Wrong</option>
+      </select>
+      <label>Filter by bio correctness:</label>
+      <select id="filter-bio">
+        <option value="all">All</option>
+        <option value="yes">Yes</option>
+        <option value="no">No</option>
+        <option value="unclear">Unclear</option>
+      </select>
+      <label>Search:</label>
+      <input type="text" id="search-input" placeholder="filename, label, or caption...">
+    </div>
+
+    <div class="table-wrap">
+      <table id="comparison-table">
+        <thead>
+          <tr>
+            <th data-col="filename" data-type="string">#<span class="sort-indicator"></span></th>
+            <th data-col="filename" data-type="string">Filename<span class="sort-indicator"></span></th>
+            <th data-col="gemini_label" data-type="string">Gemini Label<span class="sort-indicator"></span></th>
+            <th data-col="caption" data-type="string">Caption<span class="sort-indicator"></span></th>
+            <th class="model-group" data-col="mini_bio" data-type="string">4o-mini Bio<span class="sort-indicator"></span></th>
+            <th data-col="mini_prec" data-type="string">4o-mini Prec<span class="sort-indicator"></span></th>
+            <th data-col="mini_pathway" data-type="string">4o-mini Pathway<span class="sort-indicator"></span></th>
+            <th data-col="mini_conf" data-type="number">4o-mini Conf<span class="sort-indicator"></span></th>
+            <th class="model-group" data-col="4o_bio" data-type="string">4o Bio<span class="sort-indicator"></span></th>
+            <th data-col="4o_prec" data-type="string">4o Prec<span class="sort-indicator"></span></th>
+            <th data-col="4o_pathway" data-type="string">4o Pathway<span class="sort-indicator"></span></th>
+            <th data-col="4o_conf" data-type="number">4o Conf<span class="sort-indicator"></span></th>
+            <th class="model-group" data-col="5_bio" data-type="string">GPT-5 Bio<span class="sort-indicator"></span></th>
+            <th data-col="5_prec" data-type="string">GPT-5 Prec<span class="sort-indicator"></span></th>
+            <th data-col="5_pathway" data-type="string">GPT-5 Pathway<span class="sort-indicator"></span></th>
+            <th data-col="5_conf" data-type="number">GPT-5 Conf<span class="sort-indicator"></span></th>
+          </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Key Findings -->
+  <section id="findings">
+    <h2>Key Findings</h2>
+    <div class="findings">
+      <h3>Overall Picture</h3>
+      <p>All three models agree that Gemini's pathway labels are biologically correct in the vast majority of cases (96-100% "yes"). The main issue is <strong>label granularity</strong>, not correctness: Gemini tends to assign category-level labels (e.g., "Cancer signaling," "Autophagy") rather than the specific pathway described in the caption.</p>
+
+      <h3>Precision Is the Discriminator</h3>
+      <ul>
+        <li><strong>GPT-4o-mini</strong> is the most lenient: it calls 36% of labels "exact" and nearly all others "too_broad."</li>
+        <li><strong>GPT-4o</strong> is stricter, marking only ~42% as "exact" but also flagging 3 entries as "wrong" (2 bio=no, 1 unclear) and catching nuances where 4o-mini accepted the label.</li>
+        <li><strong>GPT-5</strong> is the most demanding on precision: only ~24% "exact," with the majority rated "too_broad" and several "too_narrow." It provides the most detailed and context-rich reasoning.</li>
+      </ul>
+
+      <h3>Model Disagreements</h3>
+      <ul>
+        <li><strong>TLR vs. RIG-I</strong> (PMC8716696): GPT-4o flags the Gemini label "Toll-like receptor signaling" as <em>wrong</em> since the caption describes RIG-I/MDA5 signaling. GPT-4o-mini and GPT-5 keep bio=yes but note the label is too broad/narrow. GPT-4o appears most accurate here.</li>
+        <li><strong>Methionine vs. Transsulfuration</strong> (PMC8007787): GPT-4o says the label "Methionine Metabolism" is <em>wrong</em>, calling the described pathway "Reverse Transsulfuration." The other models call it too_broad but biologically correct. A judgment call, but GPT-4o's position is defensible.</li>
+        <li><strong>Insulin signaling</strong> (PMC7470804): The caption is too short to determine pathway; all three models give low confidence, with GPT-4o marking bio=unclear and GPT-5 marking bio=unclear. Only GPT-4o-mini defaults to bio=yes but with wrong precision.</li>
+      </ul>
+
+      <h3>Cost-Quality Tradeoff</h3>
+      <p>GPT-4o-mini is 20x cheaper than GPT-4o and 45x cheaper than GPT-5. For a binary "is the label biologically correct?" check, 4o-mini performs nearly identically. But for nuanced precision grading and detailed reasoning, GPT-5 provides the richest output. <strong>Recommendation:</strong> Use GPT-4o for the full 49k-image run -- it balances cost, accuracy, and the ability to catch genuine errors (bio=no).</p>
+
+      <h3>What This Means for the Pipeline</h3>
+      <ul>
+        <li>Gemini's pathway labels are reliable for <strong>biological domain identification</strong> but not for precise pathway assignment.</li>
+        <li>The "too_broad" finding aligns with the hub pathway problem observed in Jaccard scoring: both signals tend toward generic pathway categories.</li>
+        <li>Caption-based LLM validation adds real value by catching the ~4-6% of labels that are genuinely wrong or misleading.</li>
+        <li>Next step: run GPT-4o validation on the full 34k captioned images.</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// ============================================================
+// Embedded pilot data
+// ============================================================
+const DATA_MINI = [{"pmc_id":"PMC7281461","figure_number":"F2","filename":"PMC7281461__F2.jpg","gemini_label":"Tumor Microenvironment Signaling","caption":"Primary pancreatic cancer recruits fibroblasts to become cancer associated fibroblasts (CAFs). Tumor cells with CAFs invade the portal vein and metastasize to the liver. In order to establish a focus in the liver, Kupffer cells secrete transforming growth factor-beta (TGF-beta) that recruits and activates hepatic stellate cells to become CAFs. Strategies to treat pancreatic cancer through CAFs include inhibitors of the hedgehog pathway, hyaluronidase, tyrosine kinase, and inhibitors of CAF recru","llm_validation":{"caption_pathway":"Tumor Microenvironment Signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption discusses processes related to the tumor microenvironment, particularly the role of cancer-associated fibroblasts and their interactions with various signals, fitting the proposed label accurately.","prompt_version":"v2"}},{"pmc_id":"PMC6566801","figure_number":"F2","filename":"PMC6566801__F2.jpg","gemini_label":"Inflammasome and Innate Immune Signaling","caption":"Schematic representation of possible mechanisms releasing mitochondrial components into the circulation. Dysfunctional but not yet depolarised mitochondria are targeted to degradation by serine/threonine-protein kinase PTEN-induced putative kinase 1 (PINK1) and Parkin. This priming process may also assist in the generation of mitochondrial-derived vesicles (MDVs). MDVs reach out the endolysosomal system and form multivesicular bodies (MVBs) that are unloaded outside the cell as exosomes. Impairm","llm_validation":{"caption_pathway":"Mitochondrial release of components and DAMP signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label refers to immune signaling but does not specifically address the aspects of mitochondrial dysfunction and DAMP release highlighted in the caption.","prompt_version":"v2"}},{"pmc_id":"PMC4831128","figure_number":"F6","filename":"PMC4831128__F6.jpg","gemini_label":"Lipid metabolism regulation","caption":"Ingenuity Pathway Analysis (IPA) of cholesterol and bile acid metabolism genes.","llm_validation":{"caption_pathway":"Cholesterol and bile acid metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label identifies a general area of lipid metabolism, but it does not specify the focus on cholesterol and bile acid metabolism as detailed in the caption.","prompt_version":"v2"}},{"pmc_id":"PMC3056141","figure_number":"F1","filename":"PMC3056141__F1.jpg","gemini_label":"Cytosolic DNA Sensing Pathway","caption":"DNA-mediated activation of innate immune signaling.","llm_validation":{"caption_pathway":"Cytosolic DNA sensing and innate immune signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label identifies a relevant aspect of the signaling pathway but lacks specificity.","prompt_version":"v2"}},{"pmc_id":"PMC6885181","figure_number":"F5","filename":"PMC6885181__F5.jpg","gemini_label":"Hypoxia signaling","caption":"HIF-1-miR-219-SMC4 axis regulates proliferation and migration of HCC under hypoxic condition.","llm_validation":{"caption_pathway":"HIF-1 signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"While the proposed label relates to HIF-1 signaling in hypoxic conditions, it is too broad.","prompt_version":"v2"}},{"pmc_id":"PMC4392729","figure_number":"F4","filename":"PMC4392729__F4.jpg","gemini_label":"Tumor Microenvironment Signaling","caption":"Th17 counteracts the effect of IL6.","llm_validation":{"caption_pathway":"unclear","biologically_correct":"yes","label_precision":"too_broad","confidence":0.7,"reasoning":"The caption discusses various immunological interactions in the tumor microenvironment.","prompt_version":"v2"}},{"pmc_id":"PMC4676991","figure_number":"F2","filename":"PMC4676991__F2.jpg","gemini_label":"Autophagy","caption":"Autophagic signaling pathways associated with oxidative stress.","llm_validation":{"caption_pathway":"Autophagy","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The caption describes the mechanisms and pathways involved in autophagy.","prompt_version":"v2"}},{"pmc_id":"PMC8745771","figure_number":"F3","filename":"PMC8745771__F3.jpg","gemini_label":"Cell cycle","caption":"PLK1 phosphorylation and proteasome degradation pathway.","llm_validation":{"caption_pathway":"PLK1 phosphorylation and proteasome degradation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label is correct but too broad.","prompt_version":"v2"}},{"pmc_id":"PMC5385391","figure_number":"F9","filename":"PMC5385391__F9.jpg","gemini_label":"Calcium signaling","caption":"HMGB1 release regulated by the PLCg1-IP3R-SOC signalling pathway during calcium overload in hepatocytes.","llm_validation":{"caption_pathway":"PLCg1-IP3R-SOC signaling pathway","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"Calcium signaling is accurate but does not capture the specific components.","prompt_version":"v2"}},{"pmc_id":"PMC3227454","figure_number":"F2","filename":"PMC3227454__F2.jpg","gemini_label":"Insulin/IGF-1 signaling","caption":"Multiple pathways interact with the EGF pathway to regulate longevity.","llm_validation":{"caption_pathway":"EGF pathway and related signaling pathways regulating longevity","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label is more general than the caption.","prompt_version":"v2"}},{"pmc_id":"PMC3179880","figure_number":"F2","filename":"PMC3179880__F2.jpg","gemini_label":"Neurotrophin signaling","caption":"Schematic diagram of the functional role of skeletal muscle-derived neurotrophic factors after exercise.","llm_validation":{"caption_pathway":"Neurotrophic signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label is more general.","prompt_version":"v2"}},{"pmc_id":"PMC6520938","figure_number":"F1","filename":"PMC6520938__F1.jpg","gemini_label":"Wnt/beta-catenin signaling","caption":"Canonical Wnt signaling pathway.","llm_validation":{"caption_pathway":"Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The caption accurately describes the canonical Wnt signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC4516533","figure_number":"F5","filename":"PMC4516533__F5.jpg","gemini_label":"EGFR signaling","caption":"Proposed model for EGFR-related signal transduction pathways regulating Snail.","llm_validation":{"caption_pathway":"EGFR signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption describes EGFR-related signaling pathways.","prompt_version":"v2"}},{"pmc_id":"PMC6710175","figure_number":"F3","filename":"PMC6710175__F3.jpg","gemini_label":"Hepatocellular Carcinoma Signaling","caption":"Mechanisms of hepatocellular carcinoma development in the Mat1a knockout mouse.","llm_validation":{"caption_pathway":"unclear","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The caption describes mechanisms leading to HCC but not a single signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC9582432","figure_number":"F2","filename":"PMC9582432__F2.jpg","gemini_label":"mTOR signaling","caption":"Molecular network of mTOR between autophagy and metabolism.","llm_validation":{"caption_pathway":"mTOR signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The caption accurately describes the mTOR signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC3101043","figure_number":"F2","filename":"PMC3101043__F2.jpg","gemini_label":"Toll-like receptor signaling","caption":"Endogenous and exogenous regulators of TLR activation.","llm_validation":{"caption_pathway":"Toll-like receptor signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The caption clearly describes TLR signaling.","prompt_version":"v2"}},{"pmc_id":"PMC6266917","figure_number":"F3","filename":"PMC6266917__F3.jpg","gemini_label":"PI3K-AKT-mTOR signaling","caption":"Systemic effects of increased adiposity on EC progression.","llm_validation":{"caption_pathway":"Insulin signaling and angiogenesis","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.85,"reasoning":"The caption describes insulin signaling related to EC progression.","prompt_version":"v2"}},{"pmc_id":"PMC8716696","figure_number":"F4","filename":"PMC8716696__F4.jpg","gemini_label":"Toll-like receptor signaling","caption":"Interaction of LPS- and virus-induced signalling pathways.","llm_validation":{"caption_pathway":"Type I interferon signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label is too broad.","prompt_version":"v2"}},{"pmc_id":"PMC6536593","figure_number":"F5","filename":"PMC6536593__F5.jpg","gemini_label":"Inflammasome signaling","caption":"Implication of hexosamine biosynthetic pathway on the NLRP3 inflammasome.","llm_validation":{"caption_pathway":"NLRP3 inflammasome activation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label is correct but not specific to NLRP3.","prompt_version":"v2"}},{"pmc_id":"PMC7313089","figure_number":"F2","filename":"PMC7313089__F2.jpg","gemini_label":"Antiviral innate immunity signaling","caption":"Involvement of ubiquitin in the key signaling pathways important for IFN production and IFN responses.","llm_validation":{"caption_pathway":"IFN signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label encompasses a broader scope.","prompt_version":"v2"}},{"pmc_id":"PMC10527779","figure_number":"F3","filename":"PMC10527779__F3.jpg","gemini_label":"Neurodegenerative disease pathway","caption":"Schematic presentation of various common neuronal biochemical pathways perturbed in multiple neurodegenerative diseases.","llm_validation":{"caption_pathway":"Protein Quality Control and Autophagy-Lysosome Pathway","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label is too broad.","prompt_version":"v2"}},{"pmc_id":"PMC5701683","figure_number":"F2","filename":"PMC5701683__F2.jpg","gemini_label":"Melanoma signaling pathway","caption":"Signal transduction in melanoma with regard to the role of the SOX10-MITF pathway.","llm_validation":{"caption_pathway":"SOX10-MITF signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label is broader.","prompt_version":"v2"}},{"pmc_id":"PMC8750882","figure_number":"F12","filename":"PMC8750882__F12.jpg","gemini_label":"Wnt/beta-catenin signaling","caption":"The Influence of Differentially Expressed miRNAs on the Wnt Pathway.","llm_validation":{"caption_pathway":"Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The proposed label accurately describes the Wnt/beta-catenin signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC7975969","figure_number":"F2","filename":"PMC7975969__F2.jpg","gemini_label":"mTOR signaling","caption":"Nutrient effects in activation of mTOR system and the end-organ results.","llm_validation":{"caption_pathway":"mTOR signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The caption accurately describes the mTOR signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC7312293","figure_number":"F2","filename":"PMC7312293__F2.jpg","gemini_label":"NLRP3 Inflammasome signaling","caption":"Key negative and positive regulators for NLRP3 inflammasome.","llm_validation":{"caption_pathway":"NLRP3 Inflammasome signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The caption clearly describes NLRP3 inflammasome.","prompt_version":"v2"}},{"pmc_id":"PMC5633884","figure_number":"F7","filename":"PMC5633884__F7.jpg","gemini_label":"Hippo signaling","caption":"Elevated expression of Par3 promotes PCa metastasis via Hippo pathway inactivation.","llm_validation":{"caption_pathway":"Hippo signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption specifically describes the Hippo pathway.","prompt_version":"v2"}},{"pmc_id":"PMC4673467","figure_number":"F2","filename":"PMC4673467__F2.jpg","gemini_label":"Wnt signaling","caption":"Wnt signaling pathways.","llm_validation":{"caption_pathway":"Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The proposed label accurately identifies Wnt signaling.","prompt_version":"v2"}},{"pmc_id":"PMC6476918","figure_number":"F1","filename":"PMC6476918__F1.jpg","gemini_label":"Wnt signaling","caption":"Overview of canonical and alternative Wnt signaling pathways.","llm_validation":{"caption_pathway":"Canonical and alternative Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The proposed label accurately captures the main focus.","prompt_version":"v2"}},{"pmc_id":"PMC7934064","figure_number":"F2","filename":"PMC7934064__F2.jpg","gemini_label":"cGAS-STING signaling pathway","caption":"The mechanisms involved in DDR and checkpoint immunotherapies.","llm_validation":{"caption_pathway":"DNA damage response and immune modulation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label refers to a specific pathway within a broader context.","prompt_version":"v2"}},{"pmc_id":"PMC4498740","figure_number":"F3","filename":"PMC4498740__F3.jpg","gemini_label":"T Cell Receptor (TCR) Signaling","caption":"Canonical pathway for CD28 Signaling in T Helper Cells.","llm_validation":{"caption_pathway":"CD28 Signaling in T Helper Cells","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label is related but not as specific as CD28 Signaling.","prompt_version":"v2"}},{"pmc_id":"PMC4576203","figure_number":"F1","filename":"PMC4576203__F1.jpg","gemini_label":"Wnt/beta-catenin signaling","caption":"Wnt/beta-catenin cell signaling pathway.","llm_validation":{"caption_pathway":"Wnt/beta-catenin signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The proposed label accurately reflects the pathway.","prompt_version":"v2"}},{"pmc_id":"PMC8349295","figure_number":"F7","filename":"PMC8349295__F7.jpg","gemini_label":"Nrf2 signaling","caption":"Proposed model of BOX A or BOX B inducing oxidative stress and activation of antioxidant response in neurons.","llm_validation":{"caption_pathway":"Nrf2 signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The caption specifically describes Nrf2 signaling.","prompt_version":"v2"}},{"pmc_id":"PMC8154043","figure_number":"F1","filename":"PMC8154043__F1.jpg","gemini_label":"Plant Central Carbon Metabolism","caption":"Metabolic network model of central metabolism with potential RL sources in photosynthetic C. sativa leaves.","llm_validation":{"caption_pathway":"Central Carbon Metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label does not specifically represent the various pathways mentioned.","prompt_version":"v2"}},{"pmc_id":"PMC7140412","figure_number":"F2","filename":"PMC7140412__F2.jpg","gemini_label":"Autophagy","caption":"Schematic overview of the autophagy molecular pathway and target steps of its modulation.","llm_validation":{"caption_pathway":"Autophagy","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The caption clearly describes the autophagy molecular pathway.","prompt_version":"v2"}},{"pmc_id":"PMC8007787","figure_number":"F1","filename":"PMC8007787__F1.jpg","gemini_label":"Methionine Metabolism","caption":"The reverse transsulfuration pathway and inputs from associated pathways.","llm_validation":{"caption_pathway":"Transsulfuration pathway","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"The proposed label is broader than the specific focus on the reverse transsulfuration process.","prompt_version":"v2"}},{"pmc_id":"PMC3502886","figure_number":"F1","filename":"PMC3502886__F1.jpg","gemini_label":"PI3K-AKT signaling","caption":"The PI3K/Akt/mTOR pathway regulates central carbon metabolism.","llm_validation":{"caption_pathway":"PI3K/Akt/mTOR signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9,"reasoning":"The proposed label does not encompass the mTOR component.","prompt_version":"v2"}},{"pmc_id":"PMC5082879","figure_number":"F2","filename":"PMC5082879__F2.jpg","gemini_label":"Cancer signaling","caption":"Differentially expressed genes concordant between two data sets containing LMP and HGSOC samples.","llm_validation":{"caption_pathway":"unclear","biologically_correct":"yes","label_precision":"too_broad","confidence":0.7,"reasoning":"The caption does not specify which cancer signaling pathways are involved.","prompt_version":"v2"}},{"pmc_id":"PMC9133699","figure_number":"F9","filename":"PMC9133699__F9.jpg","gemini_label":"Central Carbon Metabolism","caption":"Simulation results of the flux distribution for 3HB synthesis.","llm_validation":{"caption_pathway":"3-Hydroxybutyrate Synthesis and Central Carbon Metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label does not specify the pathways related to 3HB synthesis.","prompt_version":"v2"}},{"pmc_id":"PMC4240652","figure_number":"F8","filename":"PMC4240652__F8.jpg","gemini_label":"T Cell Receptor Signaling","caption":"List of genes involved in the T cell receptor signaling pathway.","llm_validation":{"caption_pathway":"T cell receptor signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The caption clearly describes the T cell receptor signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC8329661","figure_number":"F5","filename":"PMC8329661__F5.jpg","gemini_label":"PI3K-AKT signaling","caption":"Nimesulide in PANC-1 cells. Nimesulide inhibits proliferation and promotes apoptosis via increased expression of PTEN.","llm_validation":{"caption_pathway":"PI3K-AKT signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95,"reasoning":"The caption describes mechanisms involving PTEN, AKT, and related signaling.","prompt_version":"v2"}},{"pmc_id":"PMC8188603","figure_number":"F7","filename":"PMC8188603__F7.jpg","gemini_label":"AGE-RAGE signaling pathway in diabetic complications","caption":"Pathway map of YQHXTLF in the treatment of DPN. AGE/RAGE signaling causes activation of multiple intracellular signaling pathways.","llm_validation":{"caption_pathway":"AGE-RAGE signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The proposed label accurately reflects the AGE-RAGE signaling pathway.","prompt_version":"v2"}},{"pmc_id":"PMC6156235","figure_number":"F6","filename":"PMC6156235__F6.jpg","gemini_label":"Angiogenesis","caption":"A schematic illustration of how DPPA might inhibit angiogenesis in breast cancer.","llm_validation":{"caption_pathway":"Angiogenesis","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption describes the role of DPPA in inhibiting angiogenesis.","prompt_version":"v2"}},{"pmc_id":"PMC3554558","figure_number":"F1","filename":"PMC3554558__F1.jpg","gemini_label":"HIF-1 signaling pathway","caption":"The putative role of VHL-HIF-EPO pathway in RCC progression.","llm_validation":{"caption_pathway":"HIF signaling pathway","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption describes the HIF pathway's role.","prompt_version":"v2"}},{"pmc_id":"PMC4041457","figure_number":"F4","filename":"PMC4041457__F4.jpg","gemini_label":"Homologous Recombination","caption":"The SDSA and DSB repair sub-pathways.","llm_validation":{"caption_pathway":"Homologous Recombination","biologically_correct":"yes","label_precision":"exact","confidence":1.0,"reasoning":"The caption clearly describes processes involved in homologous recombination.","prompt_version":"v2"}},{"pmc_id":"PMC7431487","figure_number":"F1","filename":"PMC7431487__F1.jpg","gemini_label":"RIG-I-like receptor signaling","caption":"Antiviral signaling pathways induced during viral infection.","llm_validation":{"caption_pathway":"RIG-I-like receptor signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption specifically describes RIG-I and MDA5 signaling.","prompt_version":"v2"}},{"pmc_id":"PMC6631457","figure_number":"F8","filename":"PMC6631457__F8.jpg","gemini_label":"Type I Interferon signaling","caption":"Schematic showing that exosomes carrying miRNAs promote NDV infection.","llm_validation":{"caption_pathway":"Type I Interferon signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9,"reasoning":"The caption describes the role of microRNAs in the Type I Interferon pathway.","prompt_version":"v2"}},{"pmc_id":"PMC4264220","figure_number":"F1","filename":"PMC4264220__F1.jpg","gemini_label":"One-carbon metabolism","caption":"Schematic representation of homocysteine metabolism and intersection with glutathione (GSH) production and folate cycle.","llm_validation":{"caption_pathway":"Homocysteine metabolism and Glutathione production","biologically_correct":"yes","label_precision":"too_broad","confidence":0.8,"reasoning":"One-carbon metabolism does not specifically capture the detailed interplay described.","prompt_version":"v2"}},{"pmc_id":"PMC6711114","figure_number":"F1","filename":"PMC6711114__F1.jpg","gemini_label":"Pyrimidine metabolism","caption":"Schematic representation of the main enzyme pathways involved in mitochondrial pyrimidine dNTPs metabolism.","llm_validation":{"caption_pathway":"Mitochondrial pyrimidine dNTP metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85,"reasoning":"The proposed label lacks specificity.","prompt_version":"v2"}}];
+
+const DATA_4O = [{"pmc_id":"PMC4831128","figure_number":"F6","filename":"PMC4831128__F6.jpg","gemini_label":"Lipid metabolism regulation","llm_validation":{"caption_pathway":"Lipid metabolism","biologically_correct":"yes","label_precision":"exact","confidence":0.9}},{"pmc_id":"PMC6885181","figure_number":"F5","filename":"PMC6885181__F5.jpg","gemini_label":"Hypoxia signaling","llm_validation":{"caption_pathway":"Hypoxia signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC7281461","figure_number":"F2","filename":"PMC7281461__F2.jpg","gemini_label":"Tumor Microenvironment Signaling","llm_validation":{"caption_pathway":"Tumor Microenvironment","biologically_correct":"yes","label_precision":"exact","confidence":0.9}},{"pmc_id":"PMC3056141","figure_number":"F1","filename":"PMC3056141__F1.jpg","gemini_label":"Cytosolic DNA Sensing Pathway","llm_validation":{"caption_pathway":"Innate immune signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC6566801","figure_number":"F2","filename":"PMC6566801__F2.jpg","gemini_label":"Inflammasome and Innate Immune Signaling","llm_validation":{"caption_pathway":"Mitochondrial Quality Control and DAMP Release","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC4676991","figure_number":"F2","filename":"PMC4676991__F2.jpg","gemini_label":"Autophagy","llm_validation":{"caption_pathway":"Autophagy signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC4392729","figure_number":"F4","filename":"PMC4392729__F4.jpg","gemini_label":"Tumor Microenvironment Signaling","llm_validation":{"caption_pathway":"IL-6/IL-17 signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC8745771","figure_number":"F3","filename":"PMC8745771__F3.jpg","gemini_label":"Cell cycle","llm_validation":{"caption_pathway":"PLK1 phosphorylation and proteasome degradation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC3227454","figure_number":"F2","filename":"PMC3227454__F2.jpg","gemini_label":"Insulin/IGF-1 signaling","llm_validation":{"caption_pathway":"EGF signaling and longevity regulation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC5385391","figure_number":"F9","filename":"PMC5385391__F9.jpg","gemini_label":"Calcium signaling","llm_validation":{"caption_pathway":"PLCg1-IP3R-SOC signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC4516533","figure_number":"F5","filename":"PMC4516533__F5.jpg","gemini_label":"EGFR signaling","llm_validation":{"caption_pathway":"EGFR signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC3179880","figure_number":"F2","filename":"PMC3179880__F2.jpg","gemini_label":"Neurotrophin signaling","llm_validation":{"caption_pathway":"Neurotrophin signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC6520938","figure_number":"F1","filename":"PMC6520938__F1.jpg","gemini_label":"Wnt/beta-catenin signaling","llm_validation":{"caption_pathway":"Canonical Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC6710175","figure_number":"F3","filename":"PMC6710175__F3.jpg","gemini_label":"Hepatocellular Carcinoma Signaling","llm_validation":{"caption_pathway":"Hepatocellular Carcinoma Mechanisms","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC3101043","figure_number":"F2","filename":"PMC3101043__F2.jpg","gemini_label":"Toll-like receptor signaling","llm_validation":{"caption_pathway":"Toll-like receptor signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC9582432","figure_number":"F2","filename":"PMC9582432__F2.jpg","gemini_label":"mTOR signaling","llm_validation":{"caption_pathway":"mTOR signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC8716696","figure_number":"F4","filename":"PMC8716696__F4.jpg","gemini_label":"Toll-like receptor signaling","llm_validation":{"caption_pathway":"Type I IFN signaling","biologically_correct":"no","label_precision":"wrong","confidence":0.9}},{"pmc_id":"PMC6266917","figure_number":"F3","filename":"PMC6266917__F3.jpg","gemini_label":"PI3K-AKT-mTOR signaling","llm_validation":{"caption_pathway":"Insulin signaling and angiogenesis","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC6536593","figure_number":"F5","filename":"PMC6536593__F5.jpg","gemini_label":"Inflammasome signaling","llm_validation":{"caption_pathway":"NLRP3 inflammasome activation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC7313089","figure_number":"F2","filename":"PMC7313089__F2.jpg","gemini_label":"Antiviral innate immunity signaling","llm_validation":{"caption_pathway":"Interferon signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC9014844","figure_number":"F3","filename":"PMC9014844__F3.jpg","gemini_label":"Gut-Brain Axis Signaling","llm_validation":{"caption_pathway":"Inflammatory response, hormonal regulation, neuropeptide expression","biologically_correct":"yes","label_precision":"too_broad","confidence":0.85}},{"pmc_id":"PMC10527779","figure_number":"F3","filename":"PMC10527779__F3.jpg","gemini_label":"Neurodegenerative disease pathway","llm_validation":{"caption_pathway":"Proteostasis and autophagy in neurodegeneration","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC5701683","figure_number":"F2","filename":"PMC5701683__F2.jpg","gemini_label":"Melanoma signaling pathway","llm_validation":{"caption_pathway":"SOX10-MITF signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC8750882","figure_number":"F12","filename":"PMC8750882__F12.jpg","gemini_label":"Wnt/beta-catenin signaling","llm_validation":{"caption_pathway":"Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC7312293","figure_number":"F2","filename":"PMC7312293__F2.jpg","gemini_label":"NLRP3 Inflammasome signaling","llm_validation":{"caption_pathway":"NLRP3 inflammasome activation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC7975969","figure_number":"F2","filename":"PMC7975969__F2.jpg","gemini_label":"mTOR signaling","llm_validation":{"caption_pathway":"mTORC1 signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.95}},{"pmc_id":"PMC5633884","figure_number":"F7","filename":"PMC5633884__F7.jpg","gemini_label":"Hippo signaling","llm_validation":{"caption_pathway":"Hippo signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC7934064","figure_number":"F2","filename":"PMC7934064__F2.jpg","gemini_label":"cGAS-STING signaling pathway","llm_validation":{"caption_pathway":"cGAS-STING signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC6476918","figure_number":"F1","filename":"PMC6476918__F1.jpg","gemini_label":"Wnt signaling","llm_validation":{"caption_pathway":"Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC4673467","figure_number":"F2","filename":"PMC4673467__F2.jpg","gemini_label":"Wnt signaling","llm_validation":{"caption_pathway":"Wnt signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC8349295","figure_number":"F7","filename":"PMC8349295__F7.jpg","gemini_label":"Nrf2 signaling","llm_validation":{"caption_pathway":"Nrf2 signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC8154043","figure_number":"F1","filename":"PMC8154043__F1.jpg","gemini_label":"Plant Central Carbon Metabolism","llm_validation":{"caption_pathway":"Central Carbon Metabolism","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC4576203","figure_number":"F1","filename":"PMC4576203__F1.jpg","gemini_label":"Wnt/beta-catenin signaling","llm_validation":{"caption_pathway":"Wnt/beta-catenin signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC8007787","figure_number":"F1","filename":"PMC8007787__F1.jpg","gemini_label":"Methionine Metabolism","llm_validation":{"caption_pathway":"Reverse Transsulfuration Pathway","biologically_correct":"no","label_precision":"wrong","confidence":0.9}},{"pmc_id":"PMC7140412","figure_number":"F2","filename":"PMC7140412__F2.jpg","gemini_label":"Autophagy","llm_validation":{"caption_pathway":"Autophagy","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC4498740","figure_number":"F3","filename":"PMC4498740__F3.jpg","gemini_label":"T Cell Receptor (TCR) Signaling","llm_validation":{"caption_pathway":"CD28 Signaling in T Helper Cells","biologically_correct":"no","label_precision":"wrong","confidence":0.9}},{"pmc_id":"PMC9133699","figure_number":"F9","filename":"PMC9133699__F9.jpg","gemini_label":"Central Carbon Metabolism","llm_validation":{"caption_pathway":"3HB synthesis","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC5082879","figure_number":"F2","filename":"PMC5082879__F2.jpg","gemini_label":"Cancer signaling","llm_validation":{"caption_pathway":"Cancer-related processes","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC3502886","figure_number":"F1","filename":"PMC3502886__F1.jpg","gemini_label":"PI3K-AKT signaling","llm_validation":{"caption_pathway":"PI3K-Akt-mTOR signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC8329661","figure_number":"F5","filename":"PMC8329661__F5.jpg","gemini_label":"PI3K-AKT signaling","llm_validation":{"caption_pathway":"PI3K-AKT signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC4240652","figure_number":"F8","filename":"PMC4240652__F8.jpg","gemini_label":"T Cell Receptor Signaling","llm_validation":{"caption_pathway":"T Cell Receptor Signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC7470804","figure_number":"F8","filename":"PMC7470804__F8.jpg","gemini_label":"Insulin signaling pathway","llm_validation":{"caption_pathway":"unclear","biologically_correct":"unclear","label_precision":"wrong","confidence":0.7}},{"pmc_id":"PMC6156235","figure_number":"F6","filename":"PMC6156235__F6.jpg","gemini_label":"Angiogenesis","llm_validation":{"caption_pathway":"Angiogenesis","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC8188603","figure_number":"F7","filename":"PMC8188603__F7.jpg","gemini_label":"AGE-RAGE signaling pathway in diabetic complications","llm_validation":{"caption_pathway":"AGE-RAGE signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC4041457","figure_number":"F4","filename":"PMC4041457__F4.jpg","gemini_label":"Homologous Recombination","llm_validation":{"caption_pathway":"Homologous Recombination","biologically_correct":"yes","label_precision":"too_broad","confidence":0.95}},{"pmc_id":"PMC3554558","figure_number":"F1","filename":"PMC3554558__F1.jpg","gemini_label":"HIF-1 signaling pathway","llm_validation":{"caption_pathway":"VHL-HIF-EPO signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC7431487","figure_number":"F1","filename":"PMC7431487__F1.jpg","gemini_label":"RIG-I-like receptor signaling","llm_validation":{"caption_pathway":"RIG-I-like receptor signaling","biologically_correct":"yes","label_precision":"exact","confidence":1.0}},{"pmc_id":"PMC6631457","figure_number":"F8","filename":"PMC6631457__F8.jpg","gemini_label":"Type I Interferon signaling","llm_validation":{"caption_pathway":"Type I Interferon signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.95}},{"pmc_id":"PMC4264220","figure_number":"F1","filename":"PMC4264220__F1.jpg","gemini_label":"One-carbon metabolism","llm_validation":{"caption_pathway":"Homocysteine metabolism and glutathione and folate cycles","biologically_correct":"yes","label_precision":"too_broad","confidence":0.95}},{"pmc_id":"PMC6711114","figure_number":"F1","filename":"PMC6711114__F1.jpg","gemini_label":"Pyrimidine metabolism","llm_validation":{"caption_pathway":"Mitochondrial pyrimidine dNTP metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}}];
+
+const DATA_5 = [{"pmc_id":"PMC6885181","figure_number":"F5","filename":"PMC6885181__F5.jpg","gemini_label":"Hypoxia signaling","llm_validation":{"caption_pathway":"HIF-1-mediated hypoxia response","biologically_correct":"yes","label_precision":"too_broad","confidence":0.78}},{"pmc_id":"PMC4831128","figure_number":"F6","filename":"PMC4831128__F6.jpg","gemini_label":"Lipid metabolism regulation","llm_validation":{"caption_pathway":"Cholesterol and bile acid metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC3056141","figure_number":"F1","filename":"PMC3056141__F1.jpg","gemini_label":"Cytosolic DNA Sensing Pathway","llm_validation":{"caption_pathway":"DNA sensing innate immune signaling","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.88}},{"pmc_id":"PMC6566801","figure_number":"F2","filename":"PMC6566801__F2.jpg","gemini_label":"Inflammasome and Innate Immune Signaling","llm_validation":{"caption_pathway":"Mitochondrial quality control and DAMP release","biologically_correct":"yes","label_precision":"too_broad","confidence":0.84}},{"pmc_id":"PMC7281461","figure_number":"F2","filename":"PMC7281461__F2.jpg","gemini_label":"Tumor Microenvironment Signaling","llm_validation":{"caption_pathway":"Tumor-stroma interactions / CAF recruitment","biologically_correct":"yes","label_precision":"too_broad","confidence":0.78}},{"pmc_id":"PMC5385391","figure_number":"F9","filename":"PMC5385391__F9.jpg","gemini_label":"Calcium signaling","llm_validation":{"caption_pathway":"PLCg1-IP3R-SOC calcium signaling leading to HMGB1 release","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC4676991","figure_number":"F2","filename":"PMC4676991__F2.jpg","gemini_label":"Autophagy","llm_validation":{"caption_pathway":"Oxidative stress-regulated autophagy signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC8745771","figure_number":"F3","filename":"PMC8745771__F3.jpg","gemini_label":"Cell cycle","llm_validation":{"caption_pathway":"PLK1 phosphorylation and proteasomal degradation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC3227454","figure_number":"F2","filename":"PMC3227454__F2.jpg","gemini_label":"Insulin/IGF-1 signaling","llm_validation":{"caption_pathway":"Longevity signaling pathways","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.66}},{"pmc_id":"PMC4392729","figure_number":"F4","filename":"PMC4392729__F4.jpg","gemini_label":"Tumor Microenvironment Signaling","llm_validation":{"caption_pathway":"IL-6/IL-17 immune cytokine signaling in the tumor microenvironment","biologically_correct":"yes","label_precision":"too_broad","confidence":0.74}},{"pmc_id":"PMC9582432","figure_number":"F2","filename":"PMC9582432__F2.jpg","gemini_label":"mTOR signaling","llm_validation":{"caption_pathway":"mTOR signaling regulating autophagy and metabolism","biologically_correct":"yes","label_precision":"exact","confidence":0.93}},{"pmc_id":"PMC6520938","figure_number":"F1","filename":"PMC6520938__F1.jpg","gemini_label":"Wnt/beta-catenin signaling","llm_validation":{"caption_pathway":"Canonical Wnt/beta-catenin signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.97}},{"pmc_id":"PMC6710175","figure_number":"F3","filename":"PMC6710175__F3.jpg","gemini_label":"Hepatocellular Carcinoma Signaling","llm_validation":{"caption_pathway":"HCC pathogenesis mechanisms in Mat1a knockout","biologically_correct":"yes","label_precision":"too_broad","confidence":0.78}},{"pmc_id":"PMC3179880","figure_number":"F2","filename":"PMC3179880__F2.jpg","gemini_label":"Neurotrophin signaling","llm_validation":{"caption_pathway":"Exercise-induced skeletal muscle neurotrophin signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.78}},{"pmc_id":"PMC4516533","figure_number":"F5","filename":"PMC4516533__F5.jpg","gemini_label":"EGFR signaling","llm_validation":{"caption_pathway":"EGFR-mediated signaling regulating Snail","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC3101043","figure_number":"F2","filename":"PMC3101043__F2.jpg","gemini_label":"Toll-like receptor signaling","llm_validation":{"caption_pathway":"Toll-like receptor signaling regulation","biologically_correct":"yes","label_precision":"exact","confidence":0.93}},{"pmc_id":"PMC6266917","figure_number":"F3","filename":"PMC6266917__F3.jpg","gemini_label":"PI3K-AKT-mTOR signaling","llm_validation":{"caption_pathway":"Obesity-related endocrine/metabolic signaling","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.74}},{"pmc_id":"PMC6536593","figure_number":"F5","filename":"PMC6536593__F5.jpg","gemini_label":"Inflammasome signaling","llm_validation":{"caption_pathway":"NLRP3 inflammasome activation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC8716696","figure_number":"F4","filename":"PMC8716696__F4.jpg","gemini_label":"Toll-like receptor signaling","llm_validation":{"caption_pathway":"Innate antiviral signaling and type I IFN","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.78}},{"pmc_id":"PMC8750882","figure_number":"F12","filename":"PMC8750882__F12.jpg","gemini_label":"Wnt/beta-catenin signaling","llm_validation":{"caption_pathway":"Wnt/beta-catenin signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.93}},{"pmc_id":"PMC7313089","figure_number":"F2","filename":"PMC7313089__F2.jpg","gemini_label":"Antiviral innate immunity signaling","llm_validation":{"caption_pathway":"Type I interferon innate immune signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC5701683","figure_number":"F2","filename":"PMC5701683__F2.jpg","gemini_label":"Melanoma signaling pathway","llm_validation":{"caption_pathway":"SOX10-MITF transcriptional regulatory pathway in melanoma","biologically_correct":"yes","label_precision":"too_broad","confidence":0.78}},{"pmc_id":"PMC9014844","figure_number":"F3","filename":"PMC9014844__F3.jpg","gemini_label":"Gut-Brain Axis Signaling","llm_validation":{"caption_pathway":"Intermittent fasting modulation of hypothalamic inflammation","biologically_correct":"yes","label_precision":"too_broad","confidence":0.74}},{"pmc_id":"PMC10527779","figure_number":"F3","filename":"PMC10527779__F3.jpg","gemini_label":"Neurodegenerative disease pathway","llm_validation":{"caption_pathway":"Protein quality control and autophagy-lysosome pathway","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC5633884","figure_number":"F7","filename":"PMC5633884__F7.jpg","gemini_label":"Hippo signaling","llm_validation":{"caption_pathway":"Hippo signaling (YAP/TEAD activation via LATS inhibition)","biologically_correct":"yes","label_precision":"exact","confidence":0.94}},{"pmc_id":"PMC7975969","figure_number":"F2","filename":"PMC7975969__F2.jpg","gemini_label":"mTOR signaling","llm_validation":{"caption_pathway":"mTORC1 signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.93}},{"pmc_id":"PMC6476918","figure_number":"F1","filename":"PMC6476918__F1.jpg","gemini_label":"Wnt signaling","llm_validation":{"caption_pathway":"Canonical and non-canonical Wnt signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC7312293","figure_number":"F2","filename":"PMC7312293__F2.jpg","gemini_label":"NLRP3 Inflammasome signaling","llm_validation":{"caption_pathway":"NLRP3 inflammasome regulation/activation signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.86}},{"pmc_id":"PMC7934064","figure_number":"F2","filename":"PMC7934064__F2.jpg","gemini_label":"cGAS-STING signaling pathway","llm_validation":{"caption_pathway":"PARP inhibitor-modulated DDR and immune checkpoint mechanisms","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.78}},{"pmc_id":"PMC8349295","figure_number":"F7","filename":"PMC8349295__F7.jpg","gemini_label":"Nrf2 signaling","llm_validation":{"caption_pathway":"Nrf2/ARE antioxidant response signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.93}},{"pmc_id":"PMC4673467","figure_number":"F2","filename":"PMC4673467__F2.jpg","gemini_label":"Wnt signaling","llm_validation":{"caption_pathway":"Wnt signaling (canonical and non-canonical)","biologically_correct":"yes","label_precision":"exact","confidence":0.96}},{"pmc_id":"PMC4498740","figure_number":"F3","filename":"PMC4498740__F3.jpg","gemini_label":"T Cell Receptor (TCR) Signaling","llm_validation":{"caption_pathway":"CD28 signaling in T helper cells","biologically_correct":"yes","label_precision":"too_broad","confidence":0.82}},{"pmc_id":"PMC4576203","figure_number":"F1","filename":"PMC4576203__F1.jpg","gemini_label":"Wnt/beta-catenin signaling","llm_validation":{"caption_pathway":"Wnt/beta-catenin signaling (canonical)","biologically_correct":"yes","label_precision":"exact","confidence":0.99}},{"pmc_id":"PMC8154043","figure_number":"F1","filename":"PMC8154043__F1.jpg","gemini_label":"Plant Central Carbon Metabolism","llm_validation":{"caption_pathway":"Plant central carbon metabolism","biologically_correct":"yes","label_precision":"exact","confidence":0.87}},{"pmc_id":"PMC7140412","figure_number":"F2","filename":"PMC7140412__F2.jpg","gemini_label":"Autophagy","llm_validation":{"caption_pathway":"Autophagy","biologically_correct":"yes","label_precision":"exact","confidence":0.97}},{"pmc_id":"PMC3502886","figure_number":"F1","filename":"PMC3502886__F1.jpg","gemini_label":"PI3K-AKT signaling","llm_validation":{"caption_pathway":"PI3K/Akt/mTOR signaling","biologically_correct":"yes","label_precision":"too_broad","confidence":0.9}},{"pmc_id":"PMC8007787","figure_number":"F1","filename":"PMC8007787__F1.jpg","gemini_label":"Methionine Metabolism","llm_validation":{"caption_pathway":"Transsulfuration / homocysteine-to-cysteine metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC9133699","figure_number":"F9","filename":"PMC9133699__F9.jpg","gemini_label":"Central Carbon Metabolism","llm_validation":{"caption_pathway":"3HB biosynthesis / flux distribution","biologically_correct":"yes","label_precision":"too_broad","confidence":0.74}},{"pmc_id":"PMC4240652","figure_number":"F8","filename":"PMC4240652__F8.jpg","gemini_label":"T Cell Receptor Signaling","llm_validation":{"caption_pathway":"T cell receptor signaling pathway","biologically_correct":"yes","label_precision":"exact","confidence":0.96}},{"pmc_id":"PMC5082879","figure_number":"F2","filename":"PMC5082879__F2.jpg","gemini_label":"Cancer signaling","llm_validation":{"caption_pathway":"Cellular movement/cancer/cellular development gene network","biologically_correct":"yes","label_precision":"too_broad","confidence":0.74}},{"pmc_id":"PMC8329661","figure_number":"F5","filename":"PMC8329661__F5.jpg","gemini_label":"PI3K-AKT signaling","llm_validation":{"caption_pathway":"PTEN-PI3K/AKT signaling","biologically_correct":"yes","label_precision":"exact","confidence":0.9}},{"pmc_id":"PMC7470804","figure_number":"F8","filename":"PMC7470804__F8.jpg","gemini_label":"Insulin signaling pathway","llm_validation":{"caption_pathway":"Glucose and lipid metabolism regulation","biologically_correct":"unclear","label_precision":"too_narrow","confidence":0.55}},{"pmc_id":"PMC8188603","figure_number":"F7","filename":"PMC8188603__F7.jpg","gemini_label":"AGE-RAGE signaling pathway in diabetic complications","llm_validation":{"caption_pathway":"AGE-RAGE signaling pathway","biologically_correct":"yes","label_precision":"exact","confidence":0.93}},{"pmc_id":"PMC6156235","figure_number":"F6","filename":"PMC6156235__F6.jpg","gemini_label":"Angiogenesis","llm_validation":{"caption_pathway":"Tumor angiogenesis inhibition","biologically_correct":"yes","label_precision":"exact","confidence":0.9}},{"pmc_id":"PMC4041457","figure_number":"F4","filename":"PMC4041457__F4.jpg","gemini_label":"Homologous Recombination","llm_validation":{"caption_pathway":"Homologous recombination (SDSA and DSBR)","biologically_correct":"yes","label_precision":"exact","confidence":0.96}},{"pmc_id":"PMC3554558","figure_number":"F1","filename":"PMC3554558__F1.jpg","gemini_label":"HIF-1 signaling pathway","llm_validation":{"caption_pathway":"VHL-HIF-EPO signaling pathway","biologically_correct":"yes","label_precision":"too_broad","confidence":0.86}},{"pmc_id":"PMC7431487","figure_number":"F1","filename":"PMC7431487__F1.jpg","gemini_label":"RIG-I-like receptor signaling","llm_validation":{"caption_pathway":"Innate antiviral signaling via RIG-I/MDA5 and TLR","biologically_correct":"yes","label_precision":"too_narrow","confidence":0.84}},{"pmc_id":"PMC6631457","figure_number":"F8","filename":"PMC6631457__F8.jpg","gemini_label":"Type I Interferon signaling","llm_validation":{"caption_pathway":"Type I interferon / ISG response during NDV infection","biologically_correct":"yes","label_precision":"exact","confidence":0.9}},{"pmc_id":"PMC6711114","figure_number":"F1","filename":"PMC6711114__F1.jpg","gemini_label":"Pyrimidine metabolism","llm_validation":{"caption_pathway":"Mitochondrial pyrimidine dNTP metabolism","biologically_correct":"yes","label_precision":"too_broad","confidence":0.92}},{"pmc_id":"PMC4264220","figure_number":"F1","filename":"PMC4264220__F1.jpg","gemini_label":"One-carbon metabolism","llm_validation":{"caption_pathway":"Homocysteine/methionine metabolism with transsulfuration and GSH","biologically_correct":"yes","label_precision":"too_broad","confidence":0.78}}];
+
+// ============================================================
+// Model metadata
+// ============================================================
+const MODELS = [
+  { key: 'mini', name: 'GPT-4o-mini', data: DATA_MINI, cost: '$0.04' },
+  { key: '4o',   name: 'GPT-4o',      data: DATA_4O,   cost: '$0.82' },
+  { key: '5',    name: 'GPT-5',       data: DATA_5,    cost: '$1.80' }
+];
+
+// ============================================================
+// Merge data by filename
+// ============================================================
+const mergedMap = {};
+
+DATA_MINI.forEach(d => {
+  mergedMap[d.filename] = {
+    filename: d.filename,
+    pmc_id: d.pmc_id,
+    figure_number: d.figure_number,
+    gemini_label: d.gemini_label,
+    caption: d.caption,
+    mini: d.llm_validation
+  };
+});
+
+DATA_4O.forEach(d => {
+  if (mergedMap[d.filename]) {
+    mergedMap[d.filename]['4o'] = d.llm_validation;
+  }
+});
+
+DATA_5.forEach(d => {
+  if (mergedMap[d.filename]) {
+    mergedMap[d.filename]['5'] = d.llm_validation;
+  }
+});
+
+const merged = Object.values(mergedMap);
+
+// ============================================================
+// Compute aggregate stats
+// ============================================================
+function computeStats(data) {
+  const stats = {
+    total: data.length,
+    bio_yes: 0, bio_no: 0, bio_unclear: 0,
+    prec_exact: 0, prec_too_broad: 0, prec_too_narrow: 0, prec_wrong: 0,
+    avg_confidence: 0
+  };
+  let confSum = 0;
+  data.forEach(d => {
+    const v = d.llm_validation;
+    if (v.biologically_correct === 'yes') stats.bio_yes++;
+    else if (v.biologically_correct === 'no') stats.bio_no++;
+    else stats.bio_unclear++;
+
+    if (v.label_precision === 'exact') stats.prec_exact++;
+    else if (v.label_precision === 'too_broad') stats.prec_too_broad++;
+    else if (v.label_precision === 'too_narrow') stats.prec_too_narrow++;
+    else stats.prec_wrong++;
+
+    confSum += v.confidence || 0;
+  });
+  stats.avg_confidence = (confSum / data.length).toFixed(2);
+  stats.success_rate = ((stats.bio_yes / stats.total) * 100).toFixed(0);
+  return stats;
+}
+
+// ============================================================
+// Render aggregate stats
+// ============================================================
+function renderStats() {
+  const grid = document.getElementById('stats-grid');
+  MODELS.forEach(m => {
+    const s = computeStats(m.data);
+    const card = document.createElement('div');
+    card.className = 'model-card';
+
+    const pctExact = ((s.prec_exact / s.total) * 100).toFixed(0);
+    const pctBroad = ((s.prec_too_broad / s.total) * 100).toFixed(0);
+    const pctNarrow = ((s.prec_too_narrow / s.total) * 100).toFixed(0);
+    const pctWrong = ((s.prec_wrong / s.total) * 100).toFixed(0);
+
+    card.innerHTML = `
+      <h3>${m.name} <span class="cost">est. cost: ${m.cost}</span></h3>
+      <div class="stat-row"><span class="stat-label">Biologically Correct</span><span class="stat-value good">${s.bio_yes} / ${s.total} (${s.success_rate}%)</span></div>
+      <div class="stat-row"><span class="stat-label">Bio = No</span><span class="stat-value ${s.bio_no > 0 ? 'bad' : ''}">${s.bio_no}</span></div>
+      <div class="stat-row"><span class="stat-label">Bio = Unclear</span><span class="stat-value ${s.bio_unclear > 0 ? 'warn' : ''}">${s.bio_unclear}</span></div>
+      <div class="stat-row"><span class="stat-label">Precision: Exact</span><span class="stat-value">${s.prec_exact} (${pctExact}%)</span></div>
+      <div class="stat-row"><span class="stat-label">Precision: Too Broad</span><span class="stat-value">${s.prec_too_broad} (${pctBroad}%)</span></div>
+      <div class="stat-row"><span class="stat-label">Precision: Too Narrow</span><span class="stat-value">${s.prec_too_narrow} (${pctNarrow}%)</span></div>
+      <div class="stat-row"><span class="stat-label">Precision: Wrong</span><span class="stat-value ${s.prec_wrong > 0 ? 'bad' : ''}">${s.prec_wrong} (${pctWrong}%)</span></div>
+      <div class="stat-row"><span class="stat-label">Avg Confidence</span><span class="stat-value">${s.avg_confidence}</span></div>
+      <div class="bar-chart">
+        <div class="bar-segment bar-exact" style="width:${pctExact}%" title="Exact: ${pctExact}%">${pctExact > 8 ? pctExact + '%' : ''}</div>
+        <div class="bar-segment bar-too_broad" style="width:${pctBroad}%" title="Too Broad: ${pctBroad}%">${pctBroad > 8 ? pctBroad + '%' : ''}</div>
+        <div class="bar-segment bar-too_narrow" style="width:${pctNarrow}%" title="Too Narrow: ${pctNarrow}%">${pctNarrow > 8 ? pctNarrow + '%' : ''}</div>
+        <div class="bar-segment bar-wrong" style="width:${pctWrong}%" title="Wrong: ${pctWrong}%">${pctWrong > 8 ? pctWrong + '%' : ''}</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ============================================================
+// Color coding
+// ============================================================
+function getCellClass(bio, prec) {
+  if (bio === 'no' || prec === 'wrong') return 'cell-red';
+  if (bio === 'unclear') return 'cell-gray';
+  if (prec === 'too_narrow') return 'cell-orange';
+  if (prec === 'too_broad') return 'cell-yellow';
+  if (bio === 'yes' && prec === 'exact') return 'cell-green';
+  return '';
+}
+
+// ============================================================
+// Render table
+// ============================================================
+let tableData = [...merged];
+
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  const precFilter = document.getElementById('filter-precision').value;
+  const bioFilter = document.getElementById('filter-bio').value;
+  const search = document.getElementById('search-input').value.toLowerCase();
+
+  const filtered = tableData.filter(row => {
+    // Apply filters across all models
+    if (precFilter !== 'all') {
+      const match = ['mini', '4o', '5'].some(m => row[m] && row[m].label_precision === precFilter);
+      if (!match) return false;
+    }
+    if (bioFilter !== 'all') {
+      const match = ['mini', '4o', '5'].some(m => row[m] && row[m].biologically_correct === bioFilter);
+      if (!match) return false;
+    }
+    if (search) {
+      const haystack = (row.filename + ' ' + row.gemini_label + ' ' + (row.caption || '')).toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  tbody.innerHTML = filtered.map((row, i) => {
+    const miniV = row.mini || {};
+    const v4o = row['4o'] || {};
+    const v5 = row['5'] || {};
+
+    return `<tr>
+      <td>${i + 1}</td>
+      <td class="filename-cell">${row.filename}</td>
+      <td class="pathway-cell">${row.gemini_label}</td>
+      <td class="caption-cell" onclick="this.querySelector('.caption-text').classList.toggle('expanded')"><div class="caption-text">${row.caption || ''}</div></td>
+      <td class="model-group ${getCellClass(miniV.biologically_correct, miniV.label_precision)}">${miniV.biologically_correct || '-'}</td>
+      <td class="${getCellClass(miniV.biologically_correct, miniV.label_precision)}">${miniV.label_precision || '-'}</td>
+      <td class="pathway-cell">${miniV.caption_pathway || '-'}</td>
+      <td class="confidence-cell">${miniV.confidence != null ? miniV.confidence.toFixed(2) : '-'}</td>
+      <td class="model-group ${getCellClass(v4o.biologically_correct, v4o.label_precision)}">${v4o.biologically_correct || '-'}</td>
+      <td class="${getCellClass(v4o.biologically_correct, v4o.label_precision)}">${v4o.label_precision || '-'}</td>
+      <td class="pathway-cell">${v4o.caption_pathway || '-'}</td>
+      <td class="confidence-cell">${v4o.confidence != null ? v4o.confidence.toFixed(2) : '-'}</td>
+      <td class="model-group ${getCellClass(v5.biologically_correct, v5.label_precision)}">${v5.biologically_correct || '-'}</td>
+      <td class="${getCellClass(v5.biologically_correct, v5.label_precision)}">${v5.label_precision || '-'}</td>
+      <td class="pathway-cell">${v5.caption_pathway || '-'}</td>
+      <td class="confidence-cell">${v5.confidence != null ? v5.confidence.toFixed(2) : '-'}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ============================================================
+// Sorting
+// ============================================================
+let sortCol = null;
+let sortDir = 1; // 1 = asc, -1 = desc
+
+function getVal(row, col) {
+  if (col === 'filename') return row.filename;
+  if (col === 'gemini_label') return row.gemini_label;
+  if (col === 'caption') return row.caption || '';
+  // Model-specific columns
+  const parts = col.split('_');
+  let model, field;
+  if (parts[0] === 'mini') { model = 'mini'; field = parts.slice(1).join('_'); }
+  else if (parts[0] === '4o') { model = '4o'; field = parts.slice(1).join('_'); }
+  else if (parts[0] === '5') { model = '5'; field = parts.slice(1).join('_'); }
+  else return '';
+
+  const v = row[model] || {};
+  if (field === 'bio') return v.biologically_correct || '';
+  if (field === 'prec') return v.label_precision || '';
+  if (field === 'pathway') return v.caption_pathway || '';
+  if (field === 'conf') return v.confidence || 0;
+  return '';
+}
+
+document.querySelectorAll('thead th').forEach(th => {
+  th.addEventListener('click', () => {
+    const col = th.dataset.col;
+    if (!col) return;
+    const type = th.dataset.type || 'string';
+
+    if (sortCol === col) {
+      sortDir *= -1;
+    } else {
+      sortCol = col;
+      sortDir = 1;
+    }
+
+    // Update indicators
+    document.querySelectorAll('thead th').forEach(t => t.classList.remove('sorted'));
+    th.classList.add('sorted');
+    th.querySelector('.sort-indicator').textContent = sortDir === 1 ? ' \u25B2' : ' \u25BC';
+
+    tableData.sort((a, b) => {
+      let va = getVal(a, col);
+      let vb = getVal(b, col);
+      if (type === 'number') {
+        va = Number(va) || 0;
+        vb = Number(vb) || 0;
+        return (va - vb) * sortDir;
+      }
+      return String(va).localeCompare(String(vb)) * sortDir;
+    });
+    renderTable();
+  });
+});
+
+// ============================================================
+// Filters / search
+// ============================================================
+document.getElementById('filter-precision').addEventListener('change', renderTable);
+document.getElementById('filter-bio').addEventListener('change', renderTable);
+document.getElementById('search-input').addEventListener('input', renderTable);
+
+// ============================================================
+// Init
+// ============================================================
+renderStats();
+renderTable();
+</script>
+
+</body>
+</html>
