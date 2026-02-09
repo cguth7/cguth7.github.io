@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philly Venue Landscape &mdash; Source Registry Research</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+            color: #1a1a1a;
+            background: #fff;
+            line-height: 1.6;
+        }
+        .back { font-size: 0.85em; color: #666; margin-bottom: 2em; }
+        .back a { color: #666; text-decoration: none; }
+        .back a:hover { text-decoration: underline; }
+        h1 { font-size: 2em; font-weight: 700; margin-bottom: 0.2em; }
+        .subtitle { color: #666; font-size: 1.05em; margin-bottom: 2em; }
+        .summary {
+            background: #f8f9fa;
+            border-left: 4px solid #0066cc;
+            padding: 1.2em 1.5em;
+            margin: 2em 0;
+            border-radius: 0 6px 6px 0;
+        }
+        .summary p { margin: 0.5em 0; }
+        .summary strong { color: #0066cc; }
+        h2 {
+            font-size: 1.4em;
+            margin: 2.5em 0 0.8em;
+            padding-bottom: 0.3em;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        h3 { font-size: 1.1em; margin: 1.5em 0 0.5em; color: #333; }
+
+        /* Bar chart */
+        .bar-chart { margin: 1.5em 0 2em; }
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+            font-size: 0.9em;
+        }
+        .bar-label {
+            width: 200px;
+            text-align: right;
+            padding-right: 12px;
+            flex-shrink: 0;
+            color: #444;
+        }
+        .bar-track {
+            flex: 1;
+            height: 26px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding-left: 8px;
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #fff;
+            transition: width 0.6s ease;
+            min-width: 36px;
+        }
+        .bar-fill.osm { background: #2d7d46; }
+        .bar-fill.city { background: #0066cc; }
+        .bar-fill.library { background: #9c27b0; }
+        .bar-fill.gap { background: #e53935; }
+
+        /* Source cards */
+        .source-card {
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1.2em 1.5em;
+            margin: 1em 0;
+        }
+        .source-card h3 { margin-top: 0; }
+        .source-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.3em 2em;
+            font-size: 0.9em;
+            color: #555;
+            margin: 0.8em 0;
+        }
+        .source-meta span { display: block; }
+        .source-meta .label { font-weight: 600; color: #333; }
+        .quality { display: inline-flex; gap: 2px; }
+        .quality .dot { width: 10px; height: 10px; border-radius: 50%; background: #ddd; }
+        .quality .dot.filled { background: #2d7d46; }
+        .verdict {
+            margin-top: 0.8em;
+            padding: 0.6em 1em;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+        .verdict.go { background: #e8f5e9; color: #1b5e20; }
+        .verdict.wait { background: #fff3e0; color: #e65100; }
+        .verdict.skip { background: #fbe9e7; color: #bf360c; }
+
+        /* Coverage matrix */
+        .matrix-wrap { overflow-x: auto; margin: 1.5em 0; }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.85em;
+        }
+        th, td {
+            padding: 8px 10px;
+            text-align: left;
+            border-bottom: 1px solid #e8e8e8;
+        }
+        th {
+            background: #f8f9fa;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+        td:first-child { font-weight: 500; }
+        .num { text-align: right; font-variant-numeric: tabular-nums; }
+        .check { color: #2d7d46; text-align: center; }
+        .dash { color: #ccc; text-align: center; }
+        .warn { color: #e53935; font-weight: 600; text-align: center; }
+
+        /* Gap list */
+        .gap-list { list-style: none; padding: 0; }
+        .gap-list li {
+            padding: 0.8em 1em;
+            margin: 0.5em 0;
+            background: #fafafa;
+            border-radius: 6px;
+            border-left: 3px solid #e53935;
+        }
+        .gap-list li strong { display: block; margin-bottom: 0.2em; }
+
+        /* Transfer table */
+        .transfer-bar {
+            display: inline-block;
+            height: 8px;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        /* Recommendations */
+        .rec-list { list-style: none; padding: 0; counter-reset: rec; }
+        .rec-list li {
+            padding: 1em 1em 1em 3.5em;
+            margin: 0.6em 0;
+            background: #f8f9fa;
+            border-radius: 6px;
+            position: relative;
+            counter-increment: rec;
+        }
+        .rec-list li::before {
+            content: counter(rec);
+            position: absolute;
+            left: 1em;
+            top: 1em;
+            width: 1.8em;
+            height: 1.8em;
+            background: #0066cc;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85em;
+        }
+        .rec-list li strong { display: block; margin-bottom: 0.2em; }
+
+        /* Gotchas */
+        .gotcha {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 0.8em 1.2em;
+            margin: 0.8em 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.9em;
+        }
+        .gotcha code {
+            background: rgba(0,0,0,0.06);
+            padding: 1px 5px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+
+        .legend {
+            display: flex;
+            gap: 1.5em;
+            margin: 0.5em 0 1em;
+            font-size: 0.85em;
+            color: #666;
+        }
+        .legend span::before {
+            content: '';
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            margin-right: 5px;
+            vertical-align: -1px;
+        }
+        .legend .l-osm::before { background: #2d7d46; }
+        .legend .l-city::before { background: #0066cc; }
+        .legend .l-library::before { background: #9c27b0; }
+        .legend .l-gap::before { background: #e53935; }
+
+        @media (max-width: 600px) {
+            .bar-label { width: 120px; font-size: 0.8em; }
+            .source-meta { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="back"><a href="/">&larr; Charlie Guthmann</a></div>
+
+    <h1>Philly Venue Landscape</h1>
+    <p class="subtitle">Mapping Philadelphia's event source registry &mdash; what free data sources exist for every venue, group, and location that could host events?</p>
+
+    <div class="summary">
+        <p><strong>4,882 venues</strong> found via OSM Overpass (free, no auth). <strong>3,400+</strong> additional city facilities and markets via OpenDataPhilly.</p>
+        <p>Estimated <strong>70-80% coverage</strong> of the durable venue landscape using only free sources. Music venues, private event spaces, and pop-up locations are the biggest gaps.</p>
+        <p>Part of the <a href="https://github.com/cguth7/reality">Reality</a> project &mdash; building the intelligence infrastructure for social life.</p>
+    </div>
+
+    <h2>Venue Counts by Type</h2>
+    <div class="legend">
+        <span class="l-osm">OSM Overpass</span>
+        <span class="l-city">City Open Data</span>
+        <span class="l-library">Free Library</span>
+        <span class="l-gap">Gap</span>
+    </div>
+    <div class="bar-chart" id="chart"></div>
+
+    <h2>Data Sources Tested</h2>
+
+    <div class="source-card">
+        <h3>OpenStreetMap Overpass API</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Format</span> JSON / XML</span>
+            <span><span class="label">Coverage</span> 4,882 venues in Philly bbox</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span></span> 4/5</span>
+            <span><span class="label">Freshness</span> Continuous (community-updated)</span>
+            <span><span class="label">NYC Transfer</span> 5/5 &mdash; same API, different bbox</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Best single source for venue discovery. Bars, restaurants, parks, churches, theatres, and community centres are well-covered. Music venues are severely undercounted (5 tagged vs ~50+ real).</p>
+        <div class="verdict go">Use first &mdash; build initial registry from OSM data</div>
+    </div>
+
+    <div class="source-card">
+        <h3>OpenDataPhilly &mdash; PPR Program Sites</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Format</span> GeoJSON / CSV / ArcGIS REST</span>
+            <span><span class="label">Coverage</span> 171 recreation centers, pools, senior centers</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></span> 5/5</span>
+            <span><span class="label">Freshness</span> October 2025</span>
+            <span><span class="label">NYC Transfer</span> 1/5 &mdash; city-specific</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Official city data: 159 rec centers, 6 older adult centers, 3 pools, 3 environmental education centers. 165 have buildings, 56 have gyms.</p>
+        <div class="verdict go">Layer onto OSM for government/public venue coverage</div>
+    </div>
+
+    <div class="source-card">
+        <h3>OpenDataPhilly &mdash; City Facilities Master DB</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free via ArcGIS REST</span>
+            <span><span class="label">Format</span> JSON (paginated at 2,000)</span>
+            <span><span class="label">Coverage</span> 3,197 city-owned facilities</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot"></span><span class="dot"></span></span> 3/5</span>
+            <span><span class="label">Freshness</span> 2019 timestamps in samples</span>
+            <span><span class="label">NYC Transfer</span> 1/5 &mdash; city-specific</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Comprehensive but categories are encoded (A11, A13, etc.) without a public lookup table. Hub download URLs are broken; must query FeatureServer directly.</p>
+        <div class="verdict wait">Useful but needs category decoding work</div>
+    </div>
+
+    <div class="source-card">
+        <h3>OpenDataPhilly &mdash; Farmers Markets</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Format</span> JSON via ArcGIS REST</span>
+            <span><span class="label">Coverage</span> 32 farmers markets</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></span> 5/5</span>
+            <span><span class="label">Freshness</span> Active</span>
+            <span><span class="label">NYC Transfer</span> 1/5 &mdash; city-specific</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Excellent structured data: hours per day, seasons, SNAP/FMNP/Philly Food Bucks payment, transit access, operator contact info. <strong>Model for what a source registry entry should look like.</strong></p>
+        <div class="verdict go">Small dataset but perfect schema model</div>
+    </div>
+
+    <div class="source-card">
+        <h3>Free Library of Philadelphia &mdash; RSS Events</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free, no auth</span>
+            <span><span class="label">Format</span> RSS (XML)</span>
+            <span><span class="label">Coverage</span> Events across 54+ branches</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></span> 5/5</span>
+            <span><span class="label">Freshness</span> Live (events happening today)</span>
+            <span><span class="label">NYC Transfer</span> 2/5 &mdash; NYPL has different format</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Structured events with title, description, date, time, location, and images. Author events, storytimes, cooking classes, language groups, tech help. Feed capped at 10 items; calendar website behind Cloudflare.</p>
+        <div class="verdict go">High-value event source; needs scraping strategy for full coverage</div>
+    </div>
+
+    <div class="source-card">
+        <h3>Google Places API (New)</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Free tier (per-SKU limits)</span>
+            <span><span class="label">Format</span> JSON</span>
+            <span><span class="label">Coverage</span> Not tested (no API key)</span>
+            <span><span class="label">Quality</span> <span class="quality"><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span><span class="dot filled"></span></span> Expected 5/5</span>
+            <span><span class="label">Pricing</span> Post-March 2025: 10K free/month per SKU</span>
+            <span><span class="label">NYC Transfer</span> 5/5 &mdash; same API worldwide</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Most comprehensive commercial venue database. Would fill gaps in music venues, private event spaces, and coworking. Requires Google Cloud account with billing enabled.</p>
+        <div class="verdict wait">Defer to Phase 2 &mdash; upgrade path for gap-filling</div>
+    </div>
+
+    <div class="source-card">
+        <h3>Yelp Fusion API</h3>
+        <div class="source-meta">
+            <span><span class="label">Access</span> Paid only ($7.99/1K calls)</span>
+            <span><span class="label">Format</span> JSON</span>
+            <span><span class="label">Pricing</span> No free tier since 2019</span>
+            <span><span class="label">NYC Transfer</span> 5/5 &mdash; same API worldwide</span>
+        </div>
+        <p style="font-size:0.9em;color:#555;">Not cost-effective for venue discovery when OSM and Google Places cover the same types. Yelp's unique value (reviews/ratings) isn't needed for the source registry.</p>
+        <div class="verdict skip">Skip &mdash; not worth the cost</div>
+    </div>
+
+    <h2>Coverage Matrix</h2>
+    <div class="matrix-wrap">
+        <table>
+            <thead>
+                <tr>
+                    <th>Venue Type</th>
+                    <th class="num">OSM</th>
+                    <th class="num">PPR</th>
+                    <th>City Fac.</th>
+                    <th class="num">Markets</th>
+                    <th>Library</th>
+                    <th>Google</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>Bars / Pubs / Nightclubs</td><td class="num">513</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr><td>Restaurants</td><td class="num">1,278</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr><td>Recreation Centers</td><td class="num">~79</td><td class="num">159</td><td class="check">Inc.</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">Some</td></tr>
+                <tr><td>Libraries</td><td class="num">~118</td><td class="dash">&mdash;</td><td class="check">Inc.</td><td class="dash">&mdash;</td><td class="check">Events</td><td class="check">Some</td></tr>
+                <tr><td>Parks</td><td class="num">835</td><td class="dash">&mdash;</td><td class="check">Inc.</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">Some</td></tr>
+                <tr><td>Places of Worship</td><td class="num">1,552</td><td class="dash">&mdash;</td><td class="check">Some</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr><td>Theatres / Cinemas</td><td class="num">99</td><td class="dash">&mdash;</td><td class="check">Some</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr><td>Arts / Galleries / Museums</td><td class="num">149</td><td class="dash">&mdash;</td><td class="check">Some</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr><td>Sports / Fitness</td><td class="num">254</td><td class="dash">&mdash;</td><td class="check">Some</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr style="background:#fff5f5;"><td>Music Venues</td><td class="warn">5</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">High</td></tr>
+                <tr><td>Farmers Markets</td><td class="num">~3</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="num">32</td><td class="dash">&mdash;</td><td class="check">Some</td></tr>
+                <tr style="background:#fff5f5;"><td>Private Event Spaces</td><td class="warn">~0</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="dash">&mdash;</td><td class="check">Some</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Gap Analysis</h2>
+    <p style="margin-bottom:1em;color:#555;">What's invisible to automation:</p>
+    <ul class="gap-list">
+        <li><strong>Music Venues</strong> Only 5 tagged in OSM (World Cafe Live, Fillmore, Brooklyn Bowl, Foundry, Union Transfer). Missing ~45+ real venues. Most are tagged as bars/nightclubs instead.</li>
+        <li><strong>Private Event Spaces</strong> Hotel ballrooms, rooftop venues, rental spaces. Nearly zero in any free source. Exist mainly on Peerspace/Splacer.</li>
+        <li><strong>Churches as Venues</strong> 1,552 places of worship in OSM but no signal for which ones host public events (concerts, dinners, AA meetings, community events).</li>
+        <li><strong>Pop-up Venues</strong> Warehouse parties, gallery pop-ups, outdoor festivals. Ephemeral by nature &mdash; no data source captures these.</li>
+        <li><strong>Coworking Spaces</strong> Host meetups, talks, and workshops. Poorly tagged in OSM.</li>
+        <li><strong>Schools as Community Spaces</strong> Evening/weekend community events in school buildings. Not in any venue database as event spaces.</li>
+        <li><strong>Neighborhood Coverage Bias</strong> Center City and University City are well-mapped. North Philly, Kensington, and Southwest likely have lower OSM density.</li>
+    </ul>
+
+    <h2>Technical Gotchas</h2>
+    <div class="gotcha">
+        <strong>OSM regex trap:</strong> Querying <code>amenity~"bar|pub"</code> also matches <code>public_bookcase</code> (Little Free Library street boxes). Use exact equality (<code>amenity=bar</code> OR <code>amenity=pub</code>) instead.
+    </div>
+    <div class="gotcha">
+        <strong>OSM area query broken:</strong> <code>area["name"="Philadelphia"]</code> returns zero results at all admin levels. Use bounding box <code>(39.87,-75.28,40.14,-74.96)</code> instead &mdash; but filter for NJ/suburb spillover in post-processing.
+    </div>
+    <div class="gotcha">
+        <strong>OpenDataPhilly Hub links broken:</strong> CSV/GeoJSON download URLs return 404. Must query the ArcGIS FeatureServer REST API directly. Results paginate at 2,000 records.
+    </div>
+    <div class="gotcha">
+        <strong>Overpass rate limiting:</strong> ~40% failure rate on parallel requests. Use sequential queries with 10-second delays between calls.
+    </div>
+    <div class="gotcha">
+        <strong>Free Library RSS capped at 10:</strong> Feed returns max 10 items regardless of parameters. Calendar website is behind Cloudflare challenge &mdash; needs browser-based scraping.
+    </div>
+
+    <h2>NYC Transferability</h2>
+    <div class="matrix-wrap">
+        <table>
+            <thead>
+                <tr><th>Source</th><th>Score</th><th>Notes</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>OSM Overpass</td><td><span class="transfer-bar" style="width:100px;background:#2d7d46;"></span> 5/5</td><td>Same API, different bbox. NYC is better-mapped.</td></tr>
+                <tr><td>Google Places</td><td><span class="transfer-bar" style="width:100px;background:#2d7d46;"></span> 5/5</td><td>Same API worldwide</td></tr>
+                <tr><td>Free Library RSS</td><td><span class="transfer-bar" style="width:40px;background:#ffc107;"></span> 2/5</td><td>Pattern transfers; NYPL has different format</td></tr>
+                <tr><td>PPR Program Sites</td><td><span class="transfer-bar" style="width:20px;background:#e53935;"></span> 1/5</td><td>City-specific. NYC Parks open data equivalent.</td></tr>
+                <tr><td>City Facilities</td><td><span class="transfer-bar" style="width:20px;background:#e53935;"></span> 1/5</td><td>City-specific. NYC open data equivalent.</td></tr>
+                <tr><td>Farmers Markets</td><td><span class="transfer-bar" style="width:20px;background:#e53935;"></span> 1/5</td><td>City-specific. GrowNYC equivalent.</td></tr>
+            </tbody>
+        </table>
+    </div>
+    <p style="margin-top:1em;color:#555;">The <em>methodology</em> transfers perfectly. The specific city datasets need to be re-discovered per city. OSM and Google Places are the only truly city-agnostic sources.</p>
+
+    <h2>Recommended Build Sequence</h2>
+    <ol class="rec-list">
+        <li><strong>OSM Overpass</strong> Free, no auth, 4,882 venues. Build the initial registry from bars, restaurants, parks, theatres, community centres, arts venues.</li>
+        <li><strong>OpenDataPhilly ArcGIS REST</strong> Layer on city-specific data: 171 rec centers, 32 farmers markets, 3,197 city facilities. Fills government/public-space gaps.</li>
+        <li><strong>Free Library Events</strong> RSS scraping for library events. High-quality structured data. Model for scraping other institutional calendars.</li>
+        <li><strong>Google Places</strong> Gap-filling pass for music venues, event spaces, coworking. Cross-reference with OSM to deduplicate.</li>
+        <li><strong>Physical Exploration</strong> Walk neighborhoods to find what no data source captures. Focus on areas with low OSM mapping density.</li>
+    </ol>
+
+    <p style="margin-top:3em;padding-top:2em;border-top:1px solid #e0e0e0;color:#888;font-size:0.85em;">
+        Research conducted 2026-02-09 as part of the <a href="https://github.com/cguth7/reality" style="color:#888;">Reality</a> project.
+        Full findings: <a href="https://github.com/cguth7/reality/blob/main/docs/research/category-1-venues-locations.md" style="color:#888;">category-1-venues-locations.md</a>
+    </p>
+
+    <script>
+        const data = [
+            { label: 'Places of Worship', value: 1552, type: 'osm' },
+            { label: 'Restaurants', value: 1278, type: 'osm' },
+            { label: 'Parks', value: 835, type: 'osm' },
+            { label: 'Bars / Pubs / Nightclubs', value: 513, type: 'osm' },
+            { label: 'Sports / Fitness', value: 254, type: 'osm' },
+            { label: 'PPR Rec Centers', value: 171, type: 'city' },
+            { label: 'Arts / Galleries / Museums', value: 149, type: 'osm' },
+            { label: 'Libraries', value: 118, type: 'osm' },
+            { label: 'Theatres / Cinemas', value: 99, type: 'osm' },
+            { label: 'Community Centres', value: 79, type: 'osm' },
+            { label: 'Farmers Markets', value: 32, type: 'city' },
+            { label: 'Music Venues', value: 5, type: 'gap' },
+        ];
+
+        const max = data[0].value;
+        const chart = document.getElementById('chart');
+
+        data.forEach(d => {
+            const pct = Math.max((d.value / max) * 100, 3);
+            const row = document.createElement('div');
+            row.className = 'bar-row';
+            row.innerHTML = `
+                <div class="bar-label">${d.label}</div>
+                <div class="bar-track">
+                    <div class="bar-fill ${d.type}" style="width:${pct}%">${d.value.toLocaleString()}</div>
+                </div>
+            `;
+            chart.appendChild(row);
+        });
+    </script>
+</body>
+</html>
