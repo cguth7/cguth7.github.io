@@ -196,6 +196,43 @@
             font-size: 0.85rem;
         }
         footer a { color: var(--accent); text-decoration: none; }
+
+        .bar-chart { margin: 1rem 0; }
+        .bar-row { display: flex; align-items: center; margin-bottom: 0.5rem; }
+        .bar-label { width: 180px; font-size: 0.85rem; color: var(--text); flex-shrink: 0; }
+        .bar-track { flex: 1; height: 24px; background: #f0f0f0; border-radius: 4px; overflow: hidden; position: relative; }
+        .bar-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; padding-left: 8px; font-size: 0.72rem; color: white; font-weight: 600; min-width: fit-content; }
+        .bar-fill.green { background: var(--green); }
+        .bar-fill.blue { background: var(--accent); }
+        .bar-fill.amber { background: var(--amber); }
+        .bar-fill.red { background: var(--red); }
+        .bar-count { margin-left: 0.75rem; font-size: 0.8rem; color: var(--text-muted); flex-shrink: 0; width: 100px; }
+
+        .breakdown-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+        @media (max-width: 700px) { .breakdown-grid { grid-template-columns: 1fr; } }
+        .breakdown-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+        }
+        .breakdown-card h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        .breakdown-card .big-num { font-size: 2rem; font-weight: 700; }
+        .breakdown-card .big-num.green { color: var(--green); }
+        .breakdown-card .big-num.amber { color: var(--amber); }
     </style>
 </head>
 <body>
@@ -250,6 +287,107 @@
     <div class="stat-card">
         <div class="stat-value">239</div>
         <div class="stat-label">KEGG Pathways</div>
+    </div>
+</div>
+
+<!-- Signal Coverage -->
+<h2>Signal Coverage Across All 48,779 Images</h2>
+
+<div class="card">
+    <p>What data do we actually have for each image? Every image gets the Gemini vision annotation (that's how they entered the dataset). Beyond that, coverage varies.</p>
+</div>
+
+<div class="bar-chart">
+    <div class="bar-row">
+        <div class="bar-label">Gemini annotation</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:100%">100%</div></div>
+        <div class="bar-count">48,779</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Abstract</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:98.5%">98.5%</div></div>
+        <div class="bar-count">48,068</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Jaccard score &gt; 0</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:97.4%">97.4%</div></div>
+        <div class="bar-count">47,526</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Caption</div>
+        <div class="bar-track"><div class="bar-fill blue" style="width:69.8%">69.8%</div></div>
+        <div class="bar-count">34,062</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">MeSH headings</div>
+        <div class="bar-track"><div class="bar-fill blue" style="width:69.9%">69.9%</div></div>
+        <div class="bar-count">34,120</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Author keywords</div>
+        <div class="bar-track"><div class="bar-fill amber" style="width:61.5%">61.5%</div></div>
+        <div class="bar-count">29,975</div>
+    </div>
+</div>
+
+<div class="note">
+    Jaccard scores exist for nearly all images but are often very low &mdash; only 8.1% have Jaccard &gt; 0.2. The Jaccard signal is most useful as tiebreaker/validation, not primary assignment.
+</div>
+
+<!-- Two-population breakdown -->
+<div class="breakdown-grid">
+    <div class="breakdown-card">
+        <h4>Captioned Images</h4>
+        <div class="big-num green">34,062</div>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;">These get <strong>Signal 2 (Caption LLM)</strong> &mdash; the strongest assignment.</p>
+        <table style="font-size:0.82rem; margin-top:0.75rem;">
+            <tr><td>+ Abstract</td><td><strong>99.1%</strong> (33,764)</td></tr>
+            <tr><td>+ MeSH</td><td>61.8% (21,061)</td></tr>
+            <tr><td>+ Keywords</td><td>70.5% (23,998)</td></tr>
+        </table>
+        <p style="color:var(--text-muted); font-size:0.82rem; margin-top:0.75rem;">Metadata is available but not needed &mdash; the caption itself is the primary signal for KEGG assignment.</p>
+    </div>
+    <div class="breakdown-card">
+        <h4>Captionless Images</h4>
+        <div class="big-num amber">14,717</div>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;">These get <strong>Signal 3 (Metadata LLM)</strong> &mdash; paper-level, inherently weaker.</p>
+        <table style="font-size:0.82rem; margin-top:0.75rem;">
+            <tr><td>+ Abstract</td><td><strong>97.2%</strong> (14,304)</td></tr>
+            <tr><td>+ MeSH</td><td><strong>88.7%</strong> (13,059)</td></tr>
+            <tr><td>+ Keywords</td><td>40.6% (5,977)</td></tr>
+            <tr><td style="color:var(--red);">Nothing at all</td><td style="color:var(--red);">0.4% (61)</td></tr>
+        </table>
+        <p style="color:var(--text-muted); font-size:0.82rem; margin-top:0.75rem;">MeSH coverage is actually <em>higher</em> for captionless images (88.7% vs 61.8%) &mdash; restricted-access papers tend to be older and better indexed. Only 61 images have zero signal beyond the Gemini annotation.</p>
+    </div>
+</div>
+
+<!-- Jaccard threshold breakdown -->
+<h2>Jaccard Score Distribution</h2>
+
+<div class="card">
+    <p>Jaccard measures gene overlap between the image's extracted genes and each KEGG pathway's gene set. Most scores are very low because pathway images rarely depict >50% of a pathway's genes.</p>
+</div>
+
+<div class="bar-chart">
+    <div class="bar-row">
+        <div class="bar-label">Jaccard &gt; 0</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:97.4%">97.4%</div></div>
+        <div class="bar-count">47,526</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Jaccard &gt; 0.05</div>
+        <div class="bar-track"><div class="bar-fill blue" style="width:64.8%">64.8%</div></div>
+        <div class="bar-count">31,601</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Jaccard &gt; 0.1</div>
+        <div class="bar-track"><div class="bar-fill amber" style="width:29.7%">29.7%</div></div>
+        <div class="bar-count">14,469</div>
+    </div>
+    <div class="bar-row">
+        <div class="bar-label">Jaccard &gt; 0.2</div>
+        <div class="bar-track"><div class="bar-fill red" style="width:8.1%">8.1%</div></div>
+        <div class="bar-count">3,968</div>
     </div>
 </div>
 
