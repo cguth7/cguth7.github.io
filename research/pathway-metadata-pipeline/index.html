@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Metadata Pipeline | Gemini Pathways</title>
+    <style>
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-muted: #666;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --green: #16a34a;
+            --green-light: #dcfce7;
+            --amber: #d97706;
+            --amber-light: #fef3c7;
+            --red: #dc2626;
+            --red-light: #fee2e2;
+            --purple: #7c3aed;
+            --purple-light: #f3e8ff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 960px; margin: 0 auto; }
+
+        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+        h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+
+        h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin: 2.5rem 0 1rem 0;
+        }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.25rem 0 0.5rem 0; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.25rem;
+        }
+        .card p { margin-bottom: 0.75rem; color: var(--text-muted); font-size: 0.95rem; }
+        .card p:last-child { margin-bottom: 0; }
+        .card ul { margin: 0.5rem 0 0.75rem 1.25rem; color: var(--text-muted); font-size: 0.95rem; }
+        .card li { margin: 0.3rem 0; }
+
+        code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.85em;
+            word-break: break-all;
+        }
+        pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 6px;
+            padding: 1rem;
+            overflow-x: auto;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin: 0.75rem 0;
+        }
+        pre .comment { color: #6c7086; }
+        pre .key { color: #89b4fa; }
+        pre .string { color: #a6e3a1; }
+        pre .number { color: #fab387; }
+        pre .null { color: #f38ba8; }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+        th { background: var(--accent-light); color: var(--accent); font-weight: 600; text-align: left; padding: 0.6rem 0.75rem; }
+        td { padding: 0.55rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tr:hover td { background: #f8f9fa; }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            vertical-align: middle;
+        }
+        .badge-llm { background: var(--purple-light); color: var(--purple); }
+        .badge-api { background: var(--accent-light); color: var(--accent); }
+        .badge-regex { background: var(--amber-light); color: var(--amber); }
+        .badge-compute { background: var(--green-light); color: var(--green); }
+        .badge-ref { background: #f0f0f0; color: #666; }
+        .badge-broken { background: var(--red-light); color: var(--red); }
+
+        .pipeline-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+        }
+        .flow-box {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: center;
+            min-width: 100px;
+        }
+        .flow-box.signal { background: var(--purple-light); color: var(--purple); }
+        .flow-box.output { background: var(--green-light); color: var(--green); }
+        .flow-arrow { color: var(--text-muted); font-size: 1.2rem; }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value { font-size: 1.4rem; font-weight: 600; color: var(--accent); }
+        .stat-label { font-size: 0.78rem; color: var(--text-muted); }
+
+        details {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        details[open] { margin-bottom: 1rem; }
+        summary {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        summary:hover { background: #f8f9fa; border-radius: 8px; }
+        .detail-body { padding: 0 1rem 1rem 1rem; border-top: 1px solid var(--border); }
+        .detail-body p { font-size: 0.9rem; color: var(--text-muted); margin: 0.75rem 0; }
+
+        .file-path {
+            font-family: monospace;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            background: #f5f5f5;
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            display: inline-block;
+            margin: 0.25rem 0;
+        }
+
+        .coverage-bar {
+            display: flex;
+            height: 24px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 0.5rem 0;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .coverage-bar > div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .cov-ok { background: var(--green); }
+        .cov-nocap { background: var(--amber); }
+        .cov-restricted { background: var(--red); }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <header>
+        <h1>Metadata Pipeline</h1>
+        <p class="subtitle">Data sources, parsing methods, and signal architecture for pathway image labeling</p>
+    </header>
+
+    <!-- Overview -->
+    <div class="card">
+        <h2 style="margin-top:0;">Overview</h2>
+        <p>Each pathway image can draw on <strong>4 independent signals</strong> for KEGG pathway assignment. These signals vary in availability, method (LLM vs regex vs computation), and reliability.</p>
+    </div>
+
+    <div class="pipeline-flow">
+        <div class="flow-box">49k Images<br><small>Dropbox</small></div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-box signal">Signal 1<br><small>Gemini Vision</small></div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-box signal">Signal 2<br><small>Jaccard Overlap</small></div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-box signal">Signal 3<br><small>Caption &rarr; LLM</small></div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-box signal">Signal 4<br><small>Metadata &rarr; LLM</small></div>
+        <span class="flow-arrow">&rarr;</span>
+        <div class="flow-box output">KEGG ID</div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat">
+            <div class="stat-value">48,974</div>
+            <div class="stat-label">Gemini Annotations</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">~22k</div>
+            <div class="stat-label">Captions Available</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">42,402</div>
+            <div class="stat-label">PubMed Records</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">239</div>
+            <div class="stat-label">KEGG Pathways</div>
+        </div>
+    </div>
+
+    <!-- Signal 1: Gemini Vision -->
+    <h2>Signal 1: Gemini Vision Annotations</h2>
+
+    <div class="card">
+        <p><span class="badge badge-llm">LLM</span> &nbsp; <strong>Gemini 3 Pro</strong> via Vertex AI</p>
+        <p>The primary data source. Gemini looks at each pathway diagram image and extracts a structured annotation: pathway name, gene/protein nodes, interaction edges, and figure metadata.</p>
+        <div class="file-path">gemini3_annotations/full_49k_v2_2026-01-26_clean.jsonl</div>
+        <p><strong>48,974 images</strong> &mdash; 318 MB JSONL</p>
+
+        <h3>Schema</h3>
+<pre>{
+  <span class="key">"figure_metadata"</span>: {
+    <span class="key">"canonical_pathway"</span>: <span class="string">"Cell cycle"</span>,       <span class="comment">// Free-form label</span>
+    <span class="key">"related_pathways"</span>: [<span class="string">"Apoptosis"</span>, <span class="string">"p53 signaling"</span>],
+    <span class="key">"pathway_description"</span>: <span class="string">"..."</span>,
+    <span class="key">"filename"</span>: <span class="string">"PMC100005__F11.jpg"</span>
+  },
+  <span class="key">"nodes"</span>: [
+    { <span class="key">"label"</span>: <span class="string">"CDK2"</span>, <span class="key">"node_type"</span>: <span class="string">"gene"</span>, <span class="key">"entrez_id"</span>: <span class="number">1017</span> }
+  ],
+  <span class="key">"edges"</span>: [
+    { <span class="key">"source"</span>: <span class="string">"p53"</span>, <span class="key">"target"</span>: <span class="string">"CDK2"</span>, <span class="key">"interaction_type"</span>: <span class="string">"inhibition"</span> }
+  ]
+}</pre>
+        <p><strong>Method:</strong> Async batch processing (~117 img/min, 500 concurrent). Images fetched from Dropbox via API (Smart Sync = 0-byte placeholders locally).</p>
+        <p><strong>Key output:</strong> <code>canonical_pathway</code> is Gemini's free-text pathway label (e.g. "Hippo signaling", "TrkA signaling"). These are <em>not</em> KEGG IDs &mdash; they're 8,349 unique free-form names that need mapping.</p>
+        <p><strong>Limitation:</strong> Free-form labels have variant spellings. "PI3K/AKT signaling", "PI3K-AKT pathway", "Akt signaling" all mean hsa04151.</p>
+    </div>
+
+    <!-- Signal 2: Jaccard -->
+    <h2>Signal 2: Jaccard Gene Overlap</h2>
+
+    <div class="card">
+        <p><span class="badge badge-compute">Computation</span> &nbsp; Set intersection on Entrez gene IDs</p>
+        <p>For each image, compare its extracted gene set (from Gemini nodes) against every KEGG pathway's reference gene set.</p>
+        <div class="file-path">data/image_pathway_scores.csv</div>
+        <p><strong>48,779 images scored</strong> &mdash; 6.8 MB CSV</p>
+
+        <h3>How it works</h3>
+        <p>Jaccard similarity: <code>|image_genes &cap; pathway_genes| / |image_genes &cup; pathway_genes|</code></p>
+        <p>All 239 KEGG pathways are ranked per image. Top 2 matches stored.</p>
+
+        <h3>Reference data</h3>
+        <table>
+            <tr><th>File</th><th>Records</th><th>Description</th></tr>
+            <tr>
+                <td><code>kegg_human_pathways.json</code></td>
+                <td>239</td>
+                <td>KEGG pathway names + Entrez gene sets (10-1000+ genes each)</td>
+            </tr>
+            <tr>
+                <td><code>wikipathways_human.gmt</code></td>
+                <td>984</td>
+                <td>WikiPathways gene sets (GMT format, alternative reference)</td>
+            </tr>
+            <tr>
+                <td><code>ncbi_gene_cache.json</code></td>
+                <td>9,500</td>
+                <td>Gene symbol &rarr; Entrez ID cache (avoids repeated NCBI lookups)</td>
+            </tr>
+        </table>
+
+        <h3>Known issues</h3>
+        <ul>
+            <li><strong>Hub pathway problem:</strong> Large pathways (PI3K-AKT = 354 genes, Cancer pathways = 500+) match almost everything because they share genes with many smaller pathways.</li>
+            <li><strong>Gene sparsity:</strong> ~50% of images have &lt;10 Entrez genes. With so few genes, Jaccard scores become near-random.</li>
+            <li><strong>Gene family ambiguity:</strong> "ERK" maps to MAPK1 and MAPK3. "AKT" maps to AKT1/2/3. Gemini sometimes reports the family name.</li>
+        </ul>
+    </div>
+
+    <!-- Signal 3: Captions -->
+    <h2>Signal 3: PMC Figure Captions</h2>
+
+    <div class="card">
+        <p>
+            <span class="badge badge-api">API</span> extraction &nbsp;+&nbsp;
+            <span class="badge badge-regex">Regex</span> <span class="badge badge-broken">broken</span> matching &nbsp;&rarr;&nbsp;
+            <span class="badge badge-llm">LLM</span> replacement in progress
+        </p>
+        <div class="file-path">data/pmc_caption_pathways_full.json</div>
+        <p><strong>~34k entries</strong> &mdash; 42 MB JSON</p>
+
+        <h3>Step 1: Caption extraction <span class="badge badge-api">API</span></h3>
+        <p>Script: <code>scripts/pmc_caption_extractor_full.py</code></p>
+        <p>For each PMC ID, fetch the full article XML via <strong>NCBI EFetch API</strong>, then parse <code>&lt;fig&gt;</code> elements to extract figure captions. Rate limited to 3-10 req/sec.</p>
+
+        <h3>Caption availability</h3>
+        <div class="coverage-bar">
+            <div class="cov-ok" style="width: 64%;">64% with caption</div>
+            <div class="cov-nocap" style="width: 30%;">30% no caption</div>
+            <div class="cov-restricted" style="width: 6%;">6% restricted</div>
+        </div>
+        <p>Captions are <strong>truncated at 1000 characters</strong> during extraction. ~36.5% of captions hit this limit.</p>
+
+        <h3>Step 2a: Regex matching (original, deprecated) <span class="badge badge-regex">Regex</span> <span class="badge badge-broken">Broken</span></h3>
+        <p>The original extractor ran 11 regex patterns over each caption to find pathway mentions, then used Python's <code>SequenceMatcher</code> (similarity &ge; 0.4) to match against KEGG names.</p>
+        <p><strong>Problem:</strong> Regex picks up junk. "this signaling" matches "Thiamine metabolism". "general cell biology" triggers pathway patterns. These regex-based matches in <code>kegg_match</code> and <code>caption_pathways</code> fields are unreliable and being replaced.</p>
+
+<pre><span class="comment">// Example of broken regex match</span>
+{
+  <span class="key">"caption_pathways"</span>: [<span class="string">"this signaling pathway"</span>],
+  <span class="key">"kegg_match"</span>: {
+    <span class="key">"kegg_id"</span>: <span class="string">"hsa00730"</span>,
+    <span class="key">"kegg_name"</span>: <span class="string">"Thiamine metabolism"</span>,  <span class="comment">// Wrong!</span>
+    <span class="key">"score"</span>: <span class="number">0.42</span>
+  }
+}</pre>
+
+        <h3>Step 2b: LLM assignment (current, validated) <span class="badge badge-llm">LLM</span></h3>
+        <p>Script: <code>scripts/assign_kegg_from_caption.py</code></p>
+        <p>Sends the full caption + 239 KEGG pathway list to an LLM. The model uses biological reasoning (not keyword matching) to identify the best KEGG pathway.</p>
+        <p>Prompt validated on 10-image audit &mdash; see <a href="/research/caption-kegg-prompt-eval/" style="color: var(--accent);">prompt eval report</a>.</p>
+
+        <h3>Schema (per caption entry)</h3>
+<pre>{
+  <span class="key">"pmc_id"</span>: <span class="string">"PMC4831128"</span>,
+  <span class="key">"filename"</span>: <span class="string">"PMC4831128__F6.jpg"</span>,
+  <span class="key">"gemini_pathway"</span>: <span class="string">"Lipid metabolism regulation"</span>,
+  <span class="key">"status"</span>: <span class="string">"ok"</span>,
+  <span class="key">"caption"</span>: <span class="string">"The figure shows bile acid..."</span>,  <span class="comment">// max 1000 chars</span>
+  <span class="key">"caption_pathways"</span>: [...],         <span class="comment">// regex matches (deprecated)</span>
+  <span class="key">"kegg_match"</span>: {...}               <span class="comment">// SequenceMatcher (deprecated)</span>
+}</pre>
+
+        <h3>LLM assignment schema (output)</h3>
+<pre><span class="comment">// data/kegg_assignments/*.json</span>
+{
+  <span class="key">"filename"</span>: <span class="string">"PMC4831128__F6.jpg"</span>,
+  <span class="key">"mode"</span>: <span class="string">"caption"</span>,
+  <span class="key">"gemini_pathway"</span>: <span class="string">"Lipid metabolism regulation"</span>,
+  <span class="key">"kegg_id"</span>: <span class="string">"hsa00120"</span>,
+  <span class="key">"kegg_name"</span>: <span class="string">"Primary bile acid biosynthesis"</span>,
+  <span class="key">"confidence"</span>: <span class="number">0.9</span>,
+  <span class="key">"reasoning"</span>: <span class="string">"Caption mentions cholesterol and bile acid genes"</span>
+}</pre>
+    </div>
+
+    <!-- Signal 4: PubMed Metadata -->
+    <h2>Signal 4: PubMed Metadata</h2>
+
+    <div class="card">
+        <p><span class="badge badge-api">API</span> extraction &nbsp;+&nbsp; <span class="badge badge-llm">LLM</span> assignment</p>
+        <p>For images <strong>without captions</strong> (~30% of the dataset), we fall back to paper-level metadata: title, abstract, MeSH terms, and author keywords.</p>
+        <div class="file-path">data/pubmed_metadata_full.json</div>
+        <p><strong>42,402 records</strong> &mdash; 131 MB JSON</p>
+
+        <h3>Extraction pipeline <span class="badge badge-api">API</span></h3>
+        <p>Script: <code>scripts/fetch_pubmed_metadata.py</code> (519 LOC, stdlib only)</p>
+        <ol style="margin: 0.5rem 0 0.75rem 1.25rem; color: var(--text-muted); font-size: 0.95rem;">
+            <li><strong>PMC &rarr; PMID</strong>: NCBI ID Converter API (batch=200)</li>
+            <li><strong>PMID &rarr; PubMed XML</strong>: NCBI EFetch API</li>
+            <li><strong>XML &rarr; structured fields</strong>: Python <code>xml.etree.ElementTree</code> parsing</li>
+        </ol>
+        <p>All parsing is deterministic XML extraction &mdash; no LLM or regex at this stage.</p>
+
+        <h3>Field coverage (200-article pilot)</h3>
+        <table>
+            <tr><th>Field</th><th>Coverage</th><th>Notes</th></tr>
+            <tr><td>Title</td><td><strong>98.5%</strong></td><td>Almost always available</td></tr>
+            <tr><td>Abstract</td><td><strong>98.5%</strong></td><td>Some structured (BACKGROUND/METHODS/...)</td></tr>
+            <tr><td>MeSH headings</td><td><strong>70.6%</strong></td><td>NLM-curated subject terms + qualifiers</td></tr>
+            <tr><td>Author keywords</td><td>49.5%</td><td>Author-provided, less standardized</td></tr>
+            <tr><td>Publication types</td><td>100%</td><td>"Journal Article", "Review", etc.</td></tr>
+        </table>
+        <p><strong>Key finding:</strong> For restricted images (no caption available), 92% still get MeSH terms. This makes metadata the primary fallback signal.</p>
+
+        <h3>Schema</h3>
+<pre>{
+  <span class="key">"pmc_id"</span>: <span class="string">"PMC4831128"</span>,
+  <span class="key">"pmid"</span>: <span class="string">"27148032"</span>,
+  <span class="key">"title"</span>: <span class="string">"Bile acid signaling in liver..."</span>,
+  <span class="key">"abstract"</span>: <span class="string">"..."</span>,                       <span class="comment">// truncated to 2000 chars in prompt</span>
+  <span class="key">"abstract_structured"</span>: <span class="number">false</span>,
+  <span class="key">"mesh_headings"</span>: [
+    { <span class="key">"descriptor"</span>: <span class="string">"Signal Transduction"</span>, <span class="key">"qualifiers"</span>: [<span class="string">"genetics"</span>] }
+  ],
+  <span class="key">"keywords"</span>: [
+    { <span class="key">"term"</span>: <span class="string">"bile acid"</span>, <span class="key">"owner"</span>: <span class="string">"Author"</span> }
+  ],
+  <span class="key">"is_retracted"</span>: <span class="number">false</span>,
+  <span class="key">"year"</span>: <span class="string">"2016"</span>
+}</pre>
+
+        <h3>LLM assignment (metadata mode) <span class="badge badge-llm">LLM</span></h3>
+        <p>Script: <code>scripts/assign_kegg_from_caption.py --mode metadata</code></p>
+        <p>Same script, different prompt. Sends title + abstract (2000 chars) + MeSH terms + keywords + KEGG list to an LLM. The model identifies the most prominent KEGG pathway discussed in the paper.</p>
+        <p><strong>Important caveat:</strong> This is <em>paper-level</em> metadata, not <em>figure-level</em>. A paper may have 5 figures showing different pathways, but we only get one paper-level assignment. Confidence is inherently lower than caption-based assignment.</p>
+    </div>
+
+    <!-- Supporting data -->
+    <h2>Supporting Data &amp; Caches</h2>
+
+    <details>
+        <summary>Caches &amp; ID mappings</summary>
+        <div class="detail-body">
+            <table>
+                <tr><th>File</th><th>Records</th><th>Purpose</th></tr>
+                <tr><td><code>pmc_to_pmid_map.json</code></td><td>42.4k</td><td>PMC &harr; PMID + DOI mapping</td></tr>
+                <tr><td><code>pmc_fetch_status_cache.json</code></td><td>varies</td><td>Avoids re-fetching restricted/errored PMCs</td></tr>
+                <tr><td><code>ncbi_gene_cache.json</code></td><td>9,500</td><td>Gene symbol &rarr; Entrez ID (avoids NCBI API calls)</td></tr>
+                <tr><td><code>pmc_publication_years.json</code></td><td>42.4k</td><td>PMC ID &rarr; publication year</td></tr>
+                <tr><td><code>pubmed_fetch_checkpoint.json</code></td><td>&mdash;</td><td>Resume point for interrupted PubMed fetches</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>Validation &amp; alignment data</summary>
+        <div class="detail-body">
+            <table>
+                <tr><th>File</th><th>Description</th></tr>
+                <tr><td><code>pathway_alignment.json</code></td><td>Aggregated pathway-level stats (12 MB)</td></tr>
+                <tr><td><code>full_pathway_validation.json</code></td><td>118-pathway Jaccard validation results</td></tr>
+                <tr><td><code>normalized_pathway_groups.json</code></td><td>Groups variant Gemini labels into canonical names (2 MB)</td></tr>
+                <tr><td><code>hippo_image_jaccard.json</code></td><td>Hippo pathway deep-dive validation</td></tr>
+                <tr><td><code>pmc_audit_showcase.json</code></td><td>Curated caption audit examples</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <details>
+        <summary>LLM assignment output files</summary>
+        <div class="detail-body">
+            <table>
+                <tr><th>File</th><th>Description</th></tr>
+                <tr><td><code>kegg_assignments/eval_200_results.json</code></td><td>200-image stratified eval (v1 prompt, GPT-4o-mini)</td></tr>
+                <tr><td><code>kegg_assignments/eval_sample_200.json</code></td><td>The 200 test images with metadata</td></tr>
+                <tr><td><code>kegg_assignments/test_set_both_gpt-4o-mini.json</code></td><td>Caption + metadata mode comparison</td></tr>
+                <tr><td><code>kegg_assignments/prompt_v2_test_10.json</code></td><td>v2 prompt test (GPT-4o-mini)</td></tr>
+                <tr><td><code>kegg_assignments/prompt_v2_gpt52_test_10.json</code></td><td>v2 prompt test (GPT-5.2)</td></tr>
+                <tr><td><code>kegg_assignments/prompt_v2_gemini3_test_10.json</code></td><td>v2 prompt test (Gemini 3 Pro)</td></tr>
+            </table>
+        </div>
+    </details>
+
+    <!-- Method summary -->
+    <h2>Parsing Methods at a Glance</h2>
+
+    <div class="card" style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr><th>Step</th><th>Method</th><th>Tool</th><th>Status</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Image &rarr; pathway label + genes</td>
+                    <td><span class="badge badge-llm">LLM</span></td>
+                    <td>Gemini 3 Pro (Vertex AI)</td>
+                    <td>Complete (49k)</td>
+                </tr>
+                <tr>
+                    <td>PMC ID &rarr; figure caption text</td>
+                    <td><span class="badge badge-api">API</span></td>
+                    <td>NCBI EFetch + XML parsing</td>
+                    <td>Complete (34k)</td>
+                </tr>
+                <tr>
+                    <td>Caption &rarr; pathway phrase (old)</td>
+                    <td><span class="badge badge-regex">Regex</span></td>
+                    <td>11 patterns + SequenceMatcher</td>
+                    <td><span class="badge badge-broken">Deprecated</span></td>
+                </tr>
+                <tr>
+                    <td>Caption &rarr; KEGG ID (new)</td>
+                    <td><span class="badge badge-llm">LLM</span></td>
+                    <td>GPT-4o-mini / GPT-5.2 / Gemini 3</td>
+                    <td>Validated (10-img), pending full run</td>
+                </tr>
+                <tr>
+                    <td>PMC ID &rarr; PMID &rarr; PubMed XML</td>
+                    <td><span class="badge badge-api">API</span></td>
+                    <td>NCBI ID Converter + EFetch</td>
+                    <td>Complete (42.4k)</td>
+                </tr>
+                <tr>
+                    <td>PubMed XML &rarr; title/abstract/MeSH</td>
+                    <td><span class="badge badge-api">XML Parse</span></td>
+                    <td>Python ElementTree (stdlib)</td>
+                    <td>Complete (42.4k)</td>
+                </tr>
+                <tr>
+                    <td>Metadata &rarr; KEGG ID</td>
+                    <td><span class="badge badge-llm">LLM</span></td>
+                    <td>GPT-4o-mini (metadata mode)</td>
+                    <td>Pending (~14.7k captionless)</td>
+                </tr>
+                <tr>
+                    <td>Gene set &rarr; KEGG score</td>
+                    <td><span class="badge badge-compute">Computation</span></td>
+                    <td>Jaccard similarity (Python)</td>
+                    <td>Complete (48.8k)</td>
+                </tr>
+                <tr>
+                    <td>Gene symbol &rarr; Entrez ID</td>
+                    <td><span class="badge badge-api">API</span> + cache</td>
+                    <td>NCBI Gene API + local cache</td>
+                    <td>Complete (9.5k cached)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Next steps -->
+    <h2>Pipeline Status</h2>
+    <div class="card">
+        <table>
+            <tr><th>Step</th><th>Status</th><th>Cost</th></tr>
+            <tr><td>Full 34k caption LLM assignment</td><td>Ready to run (v2 prompt validated)</td><td>~$20 (mini) / ~$340 (5.2)</td></tr>
+            <tr><td>14.7k metadata LLM assignment</td><td>Ready to run (metadata prompt exists)</td><td>~$10 (mini)</td></tr>
+            <tr><td>Multi-signal consolidation</td><td>Pending &mdash; needs decision on weighting</td><td>&mdash;</td></tr>
+            <tr><td>Caption re-extraction at 2000 chars</td><td>Optional improvement, low priority</td><td>API time only</td></tr>
+        </table>
+    </div>
+
+    <footer>
+        <p><a href="/research/gemini-pathways/">&larr; Gemini Pathways</a> &nbsp;|&nbsp; <a href="/research/caption-kegg-prompt-eval/">Prompt Eval</a> &nbsp;|&nbsp; <a href="/research/">Research</a> &nbsp;|&nbsp; <a href="/">Home</a></p>
+        <p style="margin-top: 0.5rem;">Source: <code>gemini_cell_pathways/</code> &nbsp;|&nbsp; Updated: Feb 10, 2026</p>
+    </footer>
+
+</div>
+</body>
+</html>
