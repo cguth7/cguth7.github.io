@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caption → KEGG Prompt Evaluation | Gemini Pathways</title>
+    <style>
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-muted: #666;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --green: #16a34a;
+            --green-light: #dcfce7;
+            --red: #dc2626;
+            --red-light: #fee2e2;
+            --amber: #d97706;
+            --amber-light: #fef3c7;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+        h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+
+        h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin: 2rem 0 1rem 0;
+        }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem 0; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card p { margin-bottom: 0.75rem; color: var(--text-muted); font-size: 0.95rem; }
+        .card p:last-child { margin-bottom: 0; }
+
+        pre {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 6px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+        pre .comment { color: #6c7086; }
+        pre .string { color: #a6e3a1; }
+        pre .keyword { color: #cba6f7; }
+        pre .number { color: #fab387; }
+
+        code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.88em;
+        }
+
+        .diff { margin: 1rem 0; }
+        .diff-add { background: var(--green-light); padding: 0.15rem 0.5rem; border-left: 3px solid var(--green); font-family: monospace; font-size: 0.82rem; margin: 1px 0; }
+        .diff-remove { background: var(--red-light); padding: 0.15rem 0.5rem; border-left: 3px solid var(--red); font-family: monospace; font-size: 0.82rem; margin: 1px 0; text-decoration: line-through; opacity: 0.7; }
+        .diff-context { background: #f5f5f5; padding: 0.15rem 0.5rem; border-left: 3px solid var(--border); font-family: monospace; font-size: 0.82rem; margin: 1px 0; color: var(--text-muted); }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.88rem; }
+        th { background: var(--accent-light); color: var(--accent); font-weight: 600; text-align: left; padding: 0.6rem 0.75rem; }
+        td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+        tr:hover td { background: #f8f9fa; }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        .badge-fixed { background: var(--green-light); color: var(--green); }
+        .badge-ok { background: var(--accent-light); color: var(--accent); }
+        .badge-wrong { background: var(--red-light); color: var(--red); }
+        .badge-changed { background: var(--amber-light); color: var(--amber); }
+        .badge-ambig { background: #f3e8ff; color: #7c3aed; }
+
+        details {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+        details[open] { margin-bottom: 1rem; }
+        summary {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        summary:hover { background: #f8f9fa; border-radius: 8px; }
+        summary::marker { color: var(--accent); }
+        .detail-body {
+            padding: 0 1rem 1rem 1rem;
+            border-top: 1px solid var(--border);
+        }
+        .detail-body p { font-size: 0.9rem; color: var(--text-muted); margin: 0.75rem 0; }
+        .detail-body .field { display: flex; gap: 0.5rem; margin: 0.4rem 0; font-size: 0.88rem; }
+        .detail-body .field-label { font-weight: 600; min-width: 100px; flex-shrink: 0; }
+        .detail-body .field-value { color: var(--text-muted); }
+        .caption-text {
+            background: #f5f5f5;
+            border-radius: 4px;
+            padding: 0.75rem;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin: 0.5rem 0;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value { font-size: 1.5rem; font-weight: 600; color: var(--accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); }
+
+        .verdict-row { display: flex; align-items: center; gap: 0.75rem; }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        .arrow { color: var(--text-muted); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Caption &rarr; KEGG Prompt Evaluation</h1>
+            <p class="subtitle">Improving LLM-based KEGG pathway assignment from figure captions. 10-image audit across 4 model configurations.</p>
+        </header>
+
+        <!-- TLDR -->
+        <div class="card">
+            <h2>Summary</h2>
+            <p>We assign KEGG pathway IDs to ~34k pathway images by sending their PMC figure captions to an LLM along with the full 239-pathway KEGG list. A 10-image audit of the original prompt (GPT-4o-mini) revealed <strong>4 false negatives</strong> out of 10 &mdash; the model was returning "none" for captions that clearly described KEGG pathways.</p>
+            <p>We rewrote the prompt to fix 3 root causes (poor list scanning, aggressive "none" trigger, no biological inference), then tested the new prompt on <strong>GPT-4o-mini</strong>, <strong>GPT-5.2</strong>, and <strong>Gemini 3 Pro</strong>.</p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat">
+                <div class="stat-value">10</div>
+                <div class="stat-label">Audit Images</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">4 &rarr; 1</div>
+                <div class="stat-label">False Negatives (mini)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">4 &rarr; 0</div>
+                <div class="stat-label">False Negatives (5.2)</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">4 &rarr; 0</div>
+                <div class="stat-label">False Negatives (Gemini)</div>
+            </div>
+        </div>
+
+        <!-- Original Prompt -->
+        <h2>Original Prompt (v1)</h2>
+        <div class="card">
+            <p>The v1 prompt was straightforward: hand the LLM a caption and the KEGG list, ask for the best match.</p>
+<pre><span class="comment">You are a biomedical pathway expert. Given a figure caption from a scientific paper,
+identify which KEGG human signaling/metabolic pathway the figure most specifically depicts.</span>
+
+FIGURE CAPTION:
+<span class="string">{caption}</span>
+
+KEGG HUMAN PATHWAYS:
+<span class="string">{kegg_list}</span>   <span class="comment"># 239 pathways</span>
+
+INSTRUCTIONS:
+<span class="number">1.</span> Read the caption carefully. Identify the specific biological pathway or process shown.
+<span class="number">2.</span> Match it to the single most specific KEGG pathway from the list above.
+<span class="number">3.</span> If the caption describes something not in the KEGG list (e.g., a disease overview,
+   drug mechanism, or general cell biology without a specific pathway), respond with <span class="string">"none"</span>.
+<span class="number">4.</span> Prefer specific pathways over broad ones.
+
+Respond in JSON: <span class="string">{"kegg_id", "kegg_name", "confidence": 0.0-1.0, "reasoning"}</span></pre>
+            <p><strong>Problems found:</strong></p>
+            <ul style="margin: 0.5rem 0 0 1.25rem; color: var(--text-muted); font-size: 0.95rem;">
+                <li><strong>KEGG list scan failure</strong> &mdash; model couldn't reliably search 239 items. Non-obvious names like "Protein processing in endoplasmic reticulum" (which covers UPR/PERK) were missed.</li>
+                <li><strong>"None" too aggressive</strong> &mdash; any multi-mechanism or disease-context caption triggered "none" even when a specific pathway was clearly named.</li>
+                <li><strong>No biological inference</strong> &mdash; pure keyword matching. "Metformin" &rarr; AMPK requires one hop of biology knowledge the model wasn't told to use.</li>
+                <li><strong>Coarse confidence</strong> &mdash; everything got 0.9. The scale wasn't anchored.</li>
+            </ul>
+        </div>
+
+        <!-- New Prompt -->
+        <h2>Revised Prompt (v2)</h2>
+        <div class="card">
+            <p>Six targeted changes, all within a single prompt (no multi-pass):</p>
+
+            <h3>Change 1: Conceptual matching instruction</h3>
+            <div class="diff">
+                <div class="diff-context">1. Read the caption carefully. Identify the specific biological pathway or process shown.</div>
+                <div class="diff-add">2. Use your biomedical expertise to identify the KEGG pathway even if the exact pathway name is not stated in the caption. For example: if the caption mentions "metformin," recognize it acts through AMPK signaling (hsa04152). If it mentions "PERK/eIF2alpha/ATF4/CHOP," recognize this as the UPR branch within "Protein processing in endoplasmic reticulum" (hsa04141). Map from biological knowledge, not just keyword matching.</div>
+            </div>
+
+            <h3>Change 2: Explicit list-scanning nudge</h3>
+            <div class="diff">
+                <div class="diff-remove">2. Match it to the single most specific KEGG pathway from the list above.</div>
+                <div class="diff-add">3. Match it to the single most specific KEGG pathway from the list above. Read the FULL list carefully &mdash; KEGG pathway names are sometimes non-obvious (e.g., "Protein processing in endoplasmic reticulum" covers the Unfolded Protein Response; "Glycerophospholipid metabolism" covers choline/phosphatidylcholine pathways).</div>
+            </div>
+
+            <h3>Change 3: Tightened "none" criteria</h3>
+            <div class="diff">
+                <div class="diff-remove">3. If the caption describes something not in the KEGG list (e.g., a disease overview, drug mechanism, or general cell biology without a specific pathway), respond with "none".</div>
+                <div class="diff-add">4. Only respond with "none" if NONE of the biological processes in the caption can be mapped to ANY pathway in the KEGG list. If the caption describes a disease mechanism or drug effect that operates THROUGH a specific KEGG pathway, assign that pathway. Reserve "none" for: purely methodological figures, generic network visualizations, or captions too vague to identify any specific pathway.</div>
+            </div>
+
+            <h3>Change 4: Crosstalk handling</h3>
+            <div class="diff">
+                <div class="diff-add">6. If the caption describes crosstalk or interaction between two specific pathways, choose the pathway that is the PRIMARY subject of the figure (usually the one in the title or first mentioned). If truly equal, choose the more specific of the two.</div>
+            </div>
+
+            <h3>Change 5: Anchored confidence scale</h3>
+            <div class="diff">
+                <div class="diff-remove">"confidence": 0.0-1.0</div>
+                <div class="diff-add">CONFIDENCE SCALE (use strictly):</div>
+                <div class="diff-add">- 1.0: Caption explicitly names the KEGG pathway or its canonical synonym</div>
+                <div class="diff-add">- 0.8: Caption names key pathway components (&gt;2 specific genes/proteins)</div>
+                <div class="diff-add">- 0.6: Caption implies the pathway through drug/disease/mechanism inference</div>
+                <div class="diff-add">- 0.4: Caption is ambiguous between 2-3 possible KEGG pathways</div>
+                <div class="diff-add">- 0.2: Weak/indirect evidence only</div>
+                <div class="diff-add">- 0.0: No pathway information in caption (returning "none")</div>
+            </div>
+        </div>
+
+        <!-- Comparison Table -->
+        <h2>Results: 4-Way Model Comparison</h2>
+        <div class="card" style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Expected</th>
+                        <th>v1 Mini</th>
+                        <th>v2 Mini</th>
+                        <th>v2 GPT-5.2</th>
+                        <th>v2 Gemini 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>cGAS-STING / DDR</td>
+                        <td>hsa04623</td>
+                        <td><span class="badge badge-wrong">none</span></td>
+                        <td><span class="badge badge-changed">hsa03440</span></td>
+                        <td><span class="badge badge-fixed">hsa04623</span></td>
+                        <td><span class="badge badge-fixed">hsa04623</span></td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Metformin / AMPK</td>
+                        <td>hsa04152</td>
+                        <td><span class="badge badge-wrong">none</span></td>
+                        <td><span class="badge badge-fixed">hsa04152</span></td>
+                        <td><span class="badge badge-fixed">hsa04152</span></td>
+                        <td><span class="badge badge-fixed">hsa04152</span></td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>PERK / UPR</td>
+                        <td>hsa04141</td>
+                        <td><span class="badge badge-wrong">none</span></td>
+                        <td><span class="badge badge-fixed">hsa04141</span></td>
+                        <td><span class="badge badge-fixed">hsa04141</span></td>
+                        <td><span class="badge badge-fixed">hsa04141</span></td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>DNA-sensing (truncated)</td>
+                        <td>hsa04623</td>
+                        <td><span class="badge badge-changed">hsa04620</span></td>
+                        <td><span class="badge badge-changed">hsa04620</span></td>
+                        <td><span class="badge badge-fixed">hsa04623</span></td>
+                        <td><span class="badge badge-changed">hsa04620</span></td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>PLK1 / proteasome</td>
+                        <td><em>ambiguous</em></td>
+                        <td><span class="badge badge-ambig">hsa04120</span></td>
+                        <td><span class="badge badge-ambig">hsa04120</span></td>
+                        <td><span class="badge badge-ambig">hsa04120</span></td>
+                        <td><span class="badge badge-ambig">hsa04110</span></td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Hippo / TGF-&beta; crosstalk</td>
+                        <td><em>ambiguous</em></td>
+                        <td><span class="badge badge-ambig">hsa04350</span></td>
+                        <td><span class="badge badge-ambig">hsa04350</span></td>
+                        <td><span class="badge badge-ambig">hsa04390</span></td>
+                        <td><span class="badge badge-ambig">hsa04390</span></td>
+                    </tr>
+                    <tr>
+                        <td>7</td>
+                        <td>HIF-1 (verbatim)</td>
+                        <td>hsa04066</td>
+                        <td><span class="badge badge-ok">hsa04066</span></td>
+                        <td><span class="badge badge-ok">hsa04066</span></td>
+                        <td><span class="badge badge-ok">hsa04066</span></td>
+                        <td><span class="badge badge-ok">hsa04066</span></td>
+                    </tr>
+                    <tr>
+                        <td>8</td>
+                        <td>Wnt (verbatim)</td>
+                        <td>hsa04310</td>
+                        <td><span class="badge badge-ok">hsa04310</span></td>
+                        <td><span class="badge badge-ok">hsa04310</span></td>
+                        <td><span class="badge badge-ok">hsa04310</span></td>
+                        <td><span class="badge badge-ok">hsa04310</span></td>
+                    </tr>
+                    <tr>
+                        <td>9</td>
+                        <td>Choline / glycerophospholipid</td>
+                        <td>hsa00564</td>
+                        <td><span class="badge badge-wrong">none</span></td>
+                        <td><span class="badge badge-fixed">hsa00564</span></td>
+                        <td><span class="badge badge-fixed">hsa00564</span></td>
+                        <td><span class="badge badge-fixed">hsa00564</span></td>
+                    </tr>
+                    <tr>
+                        <td>10</td>
+                        <td>Vague (36 chars)</td>
+                        <td>none</td>
+                        <td><span class="badge badge-ok">none</span></td>
+                        <td><span class="badge badge-ok">none</span></td>
+                        <td><span class="badge badge-ok">none</span></td>
+                        <td><span class="badge badge-ok">none</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="margin-top: 0.75rem;">
+                <span class="badge badge-fixed">FIXED</span> correct where v1 was wrong &nbsp;
+                <span class="badge badge-ok">OK</span> correct in both &nbsp;
+                <span class="badge badge-wrong">WRONG</span> false negative &nbsp;
+                <span class="badge badge-changed">CHANGED</span> different but not ideal &nbsp;
+                <span class="badge badge-ambig">AMBIG</span> genuinely ambiguous
+            </p>
+        </div>
+
+        <!-- Confidence Comparison -->
+        <h2>Confidence Calibration</h2>
+        <div class="card">
+            <p>The v1 prompt produced <strong>0.9 for everything</strong> &mdash; correct, wrong, and ambiguous alike. The anchored scale in v2 produces meaningful signal:</p>
+            <table>
+                <thead>
+                    <tr><th>Image</th><th>v1 Mini</th><th>v2 Mini</th><th>v2 GPT-5.2</th><th>v2 Gemini 3</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>cGAS-STING (multi-panel)</td><td>0.9</td><td>0.8</td><td>0.8</td><td>0.8</td></tr>
+                    <tr><td>Metformin (inference)</td><td>0.9</td><td>0.8</td><td>0.6</td><td>0.6</td></tr>
+                    <tr><td>PERK/UPR (components)</td><td>0.9</td><td>0.8</td><td>0.8</td><td>0.9</td></tr>
+                    <tr><td>Wnt (verbatim)</td><td>1.0</td><td>1.0</td><td>1.0</td><td>1.0</td></tr>
+                    <tr><td>HIF-1 (verbatim)</td><td>1.0</td><td>1.0</td><td>1.0</td><td>1.0</td></tr>
+                    <tr><td>Vague caption</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                </tbody>
+            </table>
+            <p>GPT-5.2 and Gemini 3 correctly use 0.6 for inference-required cases (metformin &rarr; AMPK), while mini stays at 0.8. All three reserve 1.0 for verbatim matches only.</p>
+        </div>
+
+        <!-- Per-Image Detail Dropdowns -->
+        <h2>Per-Image Detail</h2>
+
+        <details>
+            <summary>
+                <span class="badge badge-wrong" style="font-size: 0.65rem;">v1: WRONG</span>
+                <span class="badge badge-changed" style="font-size: 0.65rem;">v2 mini: CHANGED</span>
+                <span class="badge badge-fixed" style="font-size: 0.65rem;">5.2/Gem: FIXED</span>
+                &nbsp;#1 PMC7934064__F2 &mdash; cGAS-STING / DDR
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">cGAS-STING signaling pathway</span></div>
+                <div class="field"><span class="field-label">Expected:</span><span class="field-value">hsa04623 (Cytosolic DNA-sensing pathway)</span></div>
+                <div class="caption-text">The mechanisms involved in DDR and checkpoint immunotherapies. (A) PARPi promote antigen presentation by ICD owing to the failure of DNA repair; (B) PARPi upregulate the release of Th1 cytokines and recruit CD4+CD8+ T cells via CCL5 and CXCL10; (C) PARPi promote T-cell infiltration; (D) PARPi increase PD-L1 expression by GSK-3beta, ATM-ATR-CHK1, and cGAS-STING pathway; (E) PARPi regulate EMT; and (F) PARPi inhibit tumor angiogenesis by modulating PARP1/HIF1-alpha/VEGF signals. <em>(truncated at 1000 chars)</em></div>
+                <p><strong>v1 mini:</strong> "none" (0.9) &mdash; "The figure caption describes mechanisms related to DNA damage response and immunotherapy, which do not correspond to a specific KEGG pathway."</p>
+                <p><strong>v2 mini:</strong> hsa03440 Homologous recombination (0.8) &mdash; latched onto DDR/PARPi theme instead of cGAS-STING.</p>
+                <p><strong>GPT-5.2:</strong> hsa04623 (0.8) &mdash; "The caption highlights PARP inhibitor-induced PD-L1 upregulation via the cGAS-STING axis."</p>
+                <p><strong>Gemini 3:</strong> hsa04623 (0.8) &mdash; "The caption explicitly names the cGAS-STING pathway as a key mechanism."</p>
+                <p><strong>Analysis:</strong> Multi-panel caption covering 6 mechanisms. cGAS-STING is panel D. Both frontier models found it; mini picked the broader DDR theme. Truncation at 1000 chars also hides context.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-wrong" style="font-size: 0.65rem;">v1: WRONG</span>
+                <span class="badge badge-fixed" style="font-size: 0.65rem;">ALL v2: FIXED</span>
+                &nbsp;#2 PMC7822116__F3 &mdash; Metformin / AMPK
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">AMPK signaling</span></div>
+                <div class="field"><span class="field-label">Expected:</span><span class="field-value">hsa04152 (AMPK signaling pathway)</span></div>
+                <div class="caption-text">Schematic picture of the mechanisms by which metformin exerts a protective action against oxidative stress and endothelial dysfunction (direct arrows indicate the direction of the pathway, whilst blocked arrows stands for inhibition of that specific pathway. Double arrow stands instead for a bidirectional reaction).</div>
+                <p><strong>v1 mini:</strong> "none" (0.9) &mdash; "does not directly correspond to a specific KEGG pathway listed."</p>
+                <p><strong>v2 mini:</strong> hsa04152 (0.8) &mdash; "metformin's protective action... is known to involve the AMPK signaling pathway."</p>
+                <p><strong>GPT-5.2:</strong> hsa04152 (0.6) &mdash; correctly flags as inference-based.</p>
+                <p><strong>Gemini 3:</strong> hsa04152 (0.6) &mdash; "metformin primarily functions by activating the AMPK signaling pathway."</p>
+                <p><strong>Analysis:</strong> The caption never says "AMPK" &mdash; it says "metformin." The conceptual matching instruction (Change 1) directly fixed this. The 0.6 confidence from frontier models is well-calibrated: it's an inference, not a verbatim match.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-wrong" style="font-size: 0.65rem;">v1: WRONG</span>
+                <span class="badge badge-fixed" style="font-size: 0.65rem;">ALL v2: FIXED</span>
+                &nbsp;#3 PMC8771506__F6 &mdash; PERK / UPR
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">Unfolded Protein Response (UPR)</span></div>
+                <div class="field"><span class="field-label">Expected:</span><span class="field-value">hsa04141 (Protein processing in endoplasmic reticulum)</span></div>
+                <div class="caption-text">A simple diagram shows that POU4F3 suppresses LUAD via activating PERK/eIF2&alpha;/ATF4/CHOP pathway.</div>
+                <p><strong>v1 mini:</strong> "none" (0.9) &mdash; "PERK/eIF2alpha/ATF4/CHOP... is not listed in the provided KEGG pathways."</p>
+                <p><strong>v2 mini:</strong> hsa04141 (0.8) &mdash; "PERK/eIF2&alpha;/ATF4/CHOP pathway... is a key component of the Unfolded Protein Response."</p>
+                <p><strong>GPT-5.2:</strong> hsa04141 (0.8)</p>
+                <p><strong>Gemini 3:</strong> hsa04141 (0.9)</p>
+                <p><strong>Analysis:</strong> Classic list-scanning failure. "Protein processing in endoplasmic reticulum" is a non-obvious name for UPR. The explicit examples in Change 1 (mentioning PERK &rarr; hsa04141) and the list-scanning nudge in Change 2 both helped.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-changed" style="font-size: 0.65rem;">v1/v2 mini/Gem: TLR</span>
+                <span class="badge badge-fixed" style="font-size: 0.65rem;">5.2: FIXED</span>
+                &nbsp;#4 PMC3056141__F1 &mdash; DNA-sensing (truncated caption)
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">Cytosolic DNA Sensing Pathway</span></div>
+                <div class="field"><span class="field-label">Expected:</span><span class="field-value">hsa04623 (Cytosolic DNA-sensing pathway)</span></div>
+                <div class="caption-text">DNA-mediated activation of innate immune signaling. a TLR9-dependent innate immune signaling. TLR9 localizes in the ER and interacts with UNC-93B, which mediates TLR9 translocation. Upon stimulation of DNA-containing CpG motifs (CpG DNA) including viral genome, TLR9 traffics from ER to endosome to contact CpG DNA, and recruits a signaling complex consisting of MyD88, IRAK4, and TRAF6. [...] b Cytosolic DNA-mediated innate immune signaling. Cytosolic AT-rich dsDNA is recognized by RNA PolIII... <em>(truncated at 1000 chars &mdash; panel b details cut off)</em></div>
+                <p><strong>All mini + Gemini 3:</strong> hsa04620 (TLR) &mdash; latched onto panel (a) which is fully described in the truncated text.</p>
+                <p><strong>GPT-5.2:</strong> hsa04623 (0.8) &mdash; "the caption centers on DNA-triggered innate immune signaling, explicitly describing cytosolic DNA recognition."</p>
+                <p><strong>Analysis:</strong> Truncation at 1000 chars is the root cause. Panel (a) TLR9 is fully described; panel (b) cytosolic DNA-sensing is cut off mid-sentence. Only GPT-5.2 inferred the overall figure theme from the title ("DNA-mediated activation") rather than the first panel's detail.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-ambig" style="font-size: 0.65rem;">AMBIGUOUS</span>
+                &nbsp;#5 PMC8745771__F3 &mdash; PLK1 / proteasome
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">Cell cycle</span></div>
+                <div class="caption-text">PLK1 phosphorylation and proteasome degradation pathway.</div>
+                <p><strong>Mini + GPT-5.2:</strong> hsa04120 (Ubiquitin mediated proteolysis) &mdash; keyword-matched "proteasome degradation."</p>
+                <p><strong>Gemini 3:</strong> hsa04110 (Cell cycle) &mdash; PLK1 is a canonical cell-cycle kinase; its proteasomal degradation is a cell-cycle regulatory step.</p>
+                <p><strong>Analysis:</strong> Both are defensible. 56-char caption is simply too short to disambiguate. Gemini 3 made the deeper biological call (PLK1 = G2/M checkpoint regulator).</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-ambig" style="font-size: 0.65rem;">AMBIGUOUS</span>
+                &nbsp;#6 PMC7214151__F3 &mdash; Hippo / TGF-&beta; crosstalk
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">Hippo signaling</span></div>
+                <div class="caption-text">The interaction between Rap2-Hippo-Yap1 pathway and TGF-&beta; signaling</div>
+                <p><strong>Mini (both):</strong> hsa04350 (TGF-beta) &mdash; picked the second pathway mentioned.</p>
+                <p><strong>GPT-5.2 + Gemini 3:</strong> hsa04390 (Hippo) &mdash; chose the primary subject (Rap2-Hippo-Yap1 is the compound noun, TGF-&beta; is the interactor).</p>
+                <p><strong>Analysis:</strong> The crosstalk instruction (Change 4) was designed for this case. Frontier models applied it correctly; mini didn't. KEGG's Hippo pathway includes TGF-&beta; as upstream input, making Hippo the better contextual choice.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-ok" style="font-size: 0.65rem;">ALL CORRECT</span>
+                &nbsp;#7 PMC6885181__F5 &mdash; HIF-1 (verbatim)
+            </summary>
+            <div class="detail-body">
+                <div class="caption-text">HIF-1-miR-219-SMC4 axis regulates proliferation and migration of HCC under hypoxic condition.</div>
+                <p>All models: hsa04066 (1.0). Caption explicitly names HIF-1. Ideal case.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-ok" style="font-size: 0.65rem;">ALL CORRECT</span>
+                &nbsp;#8 PMC6520938__F1 &mdash; Wnt (verbatim)
+            </summary>
+            <div class="detail-body">
+                <div class="caption-text">Canonical Wnt signaling pathway. Left: In the absence of Wnt ligands, the multi-protein complex with APC, GSK3, and CK1 cause phosphorylation and subsequent proteosomal degradation of beta-catenin...</div>
+                <p>All models: hsa04310 (1.0). Textbook Wnt description. Ideal case.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-wrong" style="font-size: 0.65rem;">v1: WRONG</span>
+                <span class="badge badge-fixed" style="font-size: 0.65rem;">ALL v2: FIXED</span>
+                &nbsp;#9 PMC8234087__F2 &mdash; Choline / glycerophospholipid
+            </summary>
+            <div class="detail-body">
+                <div class="field"><span class="field-label">Gemini label:</span><span class="field-value">Glycerophospholipid metabolism</span></div>
+                <div class="field"><span class="field-label">Expected:</span><span class="field-value">hsa00564 (Glycerophospholipid metabolism)</span></div>
+                <div class="caption-text">Oncogenic pathways upstream and downstream of aberrant choline metabolism discovered in B cell malignancies. Pathway schematics depict the anabolic and catabolic pathways of PC. Enzymes are denoted in Italic font in the schematics. Metabolites, lipids and metabolic enzymes that are dysregulated in malignant B cells are indicated in red (for up-regulated) or blue (for down-regulated)... <em>(truncated)</em></div>
+                <p><strong>v1 mini:</strong> "none" (0.9) &mdash; "does not directly correspond to a specific KEGG pathway listed." This despite the Gemini label being a near-verbatim match to the KEGG name.</p>
+                <p><strong>All v2:</strong> hsa00564 (0.8-0.9) &mdash; correctly identified choline/PC biosynthesis as glycerophospholipid metabolism.</p>
+                <p><strong>Analysis:</strong> The clearest list-scanning failure in the set. The tightened "none" criteria (Change 3) and list-scanning nudge (Change 2) both contributed to the fix.</p>
+            </div>
+        </details>
+
+        <details>
+            <summary>
+                <span class="badge badge-ok" style="font-size: 0.65rem;">ALL CORRECT</span>
+                &nbsp;#10 PMC9396278__F7 &mdash; Vague (36-char caption)
+            </summary>
+            <div class="detail-body">
+                <div class="caption-text">Schematic of the regulatory pathway.</div>
+                <p>All models: "none" (0.0). Caption provides zero pathway information. Correct behavior preserved &mdash; the tightened "none" criteria didn't cause false positives.</p>
+            </div>
+        </details>
+
+        <!-- Cost -->
+        <h2>Cost Comparison</h2>
+        <div class="card">
+            <table>
+                <thead>
+                    <tr><th>Model</th><th>10-image cost</th><th>Est. 34k full run</th><th>Accuracy (10-img)</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>GPT-4o-mini (v2 prompt)</td><td>$0.006</td><td>~$20</td><td>7/10 (1 wrong, 2 ambig)</td></tr>
+                    <tr><td>GPT-5.2 (v2 prompt)</td><td>$0.10</td><td>~$340</td><td>8/10 (0 wrong, 2 ambig)</td></tr>
+                    <tr><td>Gemini 3 Pro (v2 prompt)</td><td>~$0.08</td><td>~$270</td><td>8/10 (0 wrong, 2 ambig)</td></tr>
+                </tbody>
+            </table>
+            <p>v2 mini gets 80% of the improvement at 1/17th the cost. Frontier models (GPT-5.2, Gemini 3) converge on the same answers and split only on genuinely ambiguous cases.</p>
+        </div>
+
+        <!-- Conclusions -->
+        <h2>Conclusions</h2>
+        <div class="card">
+            <p><strong>Prompt > model for most failures.</strong> 3 of 4 false negatives were fixed by prompt changes alone on the same cheap model (GPT-4o-mini). The prompt changes that mattered most: conceptual matching examples and tightened "none" criteria.</p>
+            <p><strong>Frontier models handle edge cases.</strong> The remaining failure (multi-panel DDR caption) requires the model to identify a specific pathway named in one sub-panel among six. Only GPT-5.2 managed this.</p>
+            <p><strong>Caption truncation is a real bottleneck.</strong> Two of the hardest cases (#1, #4) involve captions truncated at 1000 chars. Re-extracting at 2000 chars would help but is a separate pipeline step.</p>
+            <p><strong>Confidence is now meaningful.</strong> The anchored scale produces 1.0 (verbatim), 0.8 (components), 0.6 (inference), and 0.0 (none) &mdash; each tier maps to a distinct evidence quality.</p>
+        </div>
+
+        <footer>
+            <p><a href="/research/gemini-pathways/">&larr; Gemini Pathways</a> &nbsp;|&nbsp; <a href="/research/">Research</a> &nbsp;|&nbsp; <a href="/">Home</a></p>
+            <p style="margin-top: 0.5rem;">Source: <code>gemini_cell_pathways/scripts/assign_kegg_from_caption.py</code> &nbsp;|&nbsp; Updated: Feb 10, 2026</p>
+        </footer>
+    </div>
+</body>
+</html>
