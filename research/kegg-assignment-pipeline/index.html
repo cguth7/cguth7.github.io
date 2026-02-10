@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KEGG Assignment Pipeline | Gemini Pathways</title>
+    <style>
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-muted: #666;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --green: #16a34a;
+            --green-light: #dcfce7;
+            --amber: #d97706;
+            --amber-light: #fef3c7;
+            --red: #dc2626;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 1000px; margin: 0 auto; }
+        header { margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+        h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+        .breadcrumb { margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted); }
+        .breadcrumb a { color: var(--accent); text-decoration: none; }
+
+        h2 {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin: 2.5rem 0 1rem 0;
+        }
+        h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem 0; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card p { margin-bottom: 0.75rem; color: var(--text-muted); font-size: 0.95rem; }
+        .card p:last-child { margin-bottom: 0; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .stat-value { font-size: 1.6rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 0.25rem; }
+
+        .prompt-block {
+            background: #1e1e2e;
+            color: #cdd6f4;
+            border-radius: 6px;
+            padding: 1.25rem;
+            overflow-x: auto;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+            max-height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+        .prompt-block.collapsed {
+            max-height: 200px;
+            overflow-y: hidden;
+        }
+        .prompt-block.collapsed::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(transparent, #1e1e2e);
+            pointer-events: none;
+        }
+        .expand-btn {
+            display: inline-block;
+            margin-top: 0.5rem;
+            padding: 0.3rem 0.8rem;
+            font-size: 0.82rem;
+            color: var(--accent);
+            background: var(--accent-light);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .expand-btn:hover { background: #bfdbfe; }
+
+        .kegg-block {
+            background: #f8f8f0;
+            border: 1px solid #e0ddd0;
+            border-radius: 6px;
+            padding: 1rem;
+            font-size: 0.72rem;
+            line-height: 1.4;
+            font-family: monospace;
+            max-height: 200px;
+            overflow-y: auto;
+            margin: 0.75rem 0;
+            color: #555;
+        }
+
+        .output-example {
+            background: #1a2332;
+            color: #e2e8f0;
+            border-radius: 6px;
+            padding: 1.25rem;
+            font-size: 0.82rem;
+            line-height: 1.5;
+            font-family: monospace;
+            margin: 1rem 0;
+            white-space: pre-wrap;
+        }
+        .output-example .key { color: #7dd3fc; }
+        .output-example .str { color: #86efac; }
+        .output-example .num { color: #fbbf24; }
+
+        .pipeline-flow {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        .pipeline-step {
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            text-align: center;
+            min-width: 120px;
+        }
+        .pipeline-step.active { border-color: var(--accent); background: var(--accent-light); }
+        .pipeline-step.done { border-color: var(--green); background: var(--green-light); }
+        .pipeline-step.pending { border-color: var(--border); opacity: 0.7; }
+        .pipeline-step .step-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; }
+        .pipeline-step .step-name { font-weight: 600; font-size: 0.9rem; margin-top: 0.2rem; }
+        .pipeline-arrow { font-size: 1.2rem; color: var(--text-muted); padding: 0 0.5rem; }
+
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.9rem; }
+        th { text-align: left; padding: 0.6rem 0.75rem; border-bottom: 2px solid var(--border); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-muted); }
+        td { padding: 0.6rem 0.75rem; border-bottom: 1px solid #f0f0f0; }
+        tr:hover td { background: #f8f8f8; }
+
+        .tag {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .tag-green { background: var(--green-light); color: var(--green); }
+        .tag-amber { background: var(--amber-light); color: var(--amber); }
+        .tag-red { background: #fee2e2; color: var(--red); }
+        .tag-blue { background: var(--accent-light); color: var(--accent); }
+
+        .note {
+            background: var(--amber-light);
+            border-left: 3px solid var(--amber);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+            border-radius: 0 6px 6px 0;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+<header>
+    <h1>KEGG Assignment Pipeline</h1>
+    <p class="subtitle">Assigning KEGG pathway IDs to ~49k pathway images via LLM analysis of captions and PubMed metadata</p>
+    <nav class="breadcrumb">
+        <a href="/research/gemini-pathways/">Gemini Pathways</a> / <span>KEGG Assignment Pipeline</span>
+    </nav>
+</header>
+
+<!-- Pipeline Status -->
+<h2>Pipeline Overview</h2>
+
+<div class="pipeline-flow">
+    <div class="pipeline-step done">
+        <div class="step-label">Signal 1</div>
+        <div class="step-name">Jaccard</div>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step active">
+        <div class="step-label">Signal 2</div>
+        <div class="step-name">Caption LLM</div>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step pending">
+        <div class="step-label">Signal 3</div>
+        <div class="step-name">Metadata LLM</div>
+    </div>
+    <span class="pipeline-arrow">&rarr;</span>
+    <div class="pipeline-step pending">
+        <div class="step-label">Output</div>
+        <div class="step-name">Final CSVs</div>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-value">48,974</div>
+        <div class="stat-label">Total Images</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">34,062</div>
+        <div class="stat-label">Have Captions</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">14,717</div>
+        <div class="stat-label">Captionless</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-value">239</div>
+        <div class="stat-label">KEGG Pathways</div>
+    </div>
+</div>
+
+<!-- The Plan -->
+<h2>The Plan</h2>
+
+<div class="card">
+    <p>Every image needs a KEGG pathway ID. We have three independent signals to get there:</p>
+
+    <h3>Signal 1: Jaccard Gene Overlap <span class="tag tag-green">DONE</span></h3>
+    <p><strong>Input:</strong> Gemini-extracted gene lists from each image vs. KEGG pathway gene sets.<br>
+    <strong>Method:</strong> Jaccard similarity score. Pure math, no LLM.<br>
+    <strong>Coverage:</strong> Only works when Gemini extracted Entrez gene IDs (subset of images).<br>
+    <strong>Output:</strong> <code>jaccard_kegg_id</code>, <code>jaccard_kegg_name</code>, <code>jaccard_score</code></p>
+
+    <h3>Signal 2: Caption &rarr; KEGG via LLM <span class="tag tag-amber">NEXT</span></h3>
+    <p><strong>Input:</strong> Figure caption text + full KEGG pathway list.<br>
+    <strong>Method:</strong> Send caption + 239 KEGG pathways to LLM, ask it to pick the best match.<br>
+    <strong>Coverage:</strong> 34,062 images with captions (69.5% of total).<br>
+    <strong>Cost:</strong> ~$20 with GPT-4o-mini, ~$270 with Gemini 3 Pro.<br>
+    <strong>Output:</strong> <code>caption_kegg_id</code>, <code>caption_kegg_name</code>, <code>caption_confidence</code>, <code>caption_reasoning</code></p>
+
+    <h3>Signal 3: PubMed Metadata &rarr; KEGG via LLM <span class="tag tag-blue">PLANNED</span></h3>
+    <p><strong>Input:</strong> Paper title + abstract + MeSH terms + keywords + full KEGG pathway list.<br>
+    <strong>Method:</strong> Same idea as caption, but using paper-level metadata for the 14,717 captionless images.<br>
+    <strong>Coverage:</strong> 13,173 captionless images with PubMed metadata (99.9% of captionless).<br>
+    <strong>Cost:</strong> ~$10 with GPT-4o-mini.<br>
+    <strong>Output:</strong> <code>metadata_kegg_id</code>, <code>metadata_kegg_name</code>, <code>metadata_confidence</code>, <code>metadata_reasoning</code></p>
+
+    <div class="note">
+        <strong>Note:</strong> Metadata assignment is inherently lower confidence than caption assignment. A paper may contain multiple figures showing different pathways, so paper-level metadata is a weaker signal than figure-level captions.
+    </div>
+</div>
+
+<!-- PubMed Metadata Coverage -->
+<h2>PubMed Metadata Coverage (42,402 records)</h2>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr><th>Field</th><th>Coverage</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Title</td><td><span class="tag tag-green">99.9%</span></td><td>42,362 records</td></tr>
+            <tr><td>Abstract</td><td><span class="tag tag-green">98.4%</span></td><td>41,716 records. Truncated to 2000 chars in prompt.</td></tr>
+            <tr><td>MeSH Headings</td><td><span class="tag tag-amber">70.5%</span></td><td>29,904 records. Structured: descriptor + qualifiers (e.g. "Osteoblasts/metabolism")</td></tr>
+            <tr><td>Author Keywords</td><td><span class="tag tag-amber">60.6%</span></td><td>25,682 records. Free-text, author-provided.</td></tr>
+            <tr><td>Supplementary Concepts</td><td><span class="tag tag-red">0.7%</span></td><td>304 records. Not used.</td></tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Prompt 1: Caption -->
+<h2>Prompt 1: Caption &rarr; KEGG Assignment</h2>
+
+<div class="card">
+    <p>Sent for each of the 34,062 images that have a figure caption. The <code>{caption}</code> placeholder is replaced with the actual caption text (up to 1000 chars). The <code>{kegg_list}</code> placeholder is replaced with all 239 KEGG pathways shown below.</p>
+</div>
+
+<div class="prompt-block" id="prompt1">You are a biomedical pathway expert. Given a figure caption from a scientific paper,
+identify which KEGG human signaling/metabolic pathway the figure most specifically depicts.
+
+FIGURE CAPTION:
+<span style="color:#fab387">{caption}</span>
+
+KEGG HUMAN PATHWAYS:
+<span style="color:#6c7086">{kegg_list}  &larr; 239 pathways, shown below</span>
+
+INSTRUCTIONS:
+1. Read the caption carefully. Identify the specific biological pathway or process shown.
+2. Use your biomedical expertise to identify the KEGG pathway even if the exact pathway
+   name is not stated in the caption. For example: if the caption mentions "metformin,"
+   recognize it acts through AMPK signaling (hsa04152). If it mentions "PERK/eIF2alpha/ATF4/CHOP,"
+   recognize this as the UPR branch within "Protein processing in endoplasmic reticulum" (hsa04141).
+   Map from biological knowledge, not just keyword matching.
+3. Match it to the single most specific KEGG pathway from the list above. Read the FULL list
+   carefully &mdash; KEGG pathway names are sometimes non-obvious (e.g., "Protein processing in
+   endoplasmic reticulum" covers the Unfolded Protein Response; "Glycerophospholipid metabolism"
+   covers choline/phosphatidylcholine pathways).
+4. Only respond with "none" if NONE of the biological processes in the caption can be mapped
+   to ANY pathway in the KEGG list. If the caption describes a disease mechanism or drug effect
+   that operates THROUGH a specific KEGG pathway, assign that pathway. Reserve "none" for:
+   purely methodological figures, generic network visualizations, or captions too vague to
+   identify any specific pathway.
+5. Prefer specific pathways over broad ones. For example, if the caption clearly describes
+   Wnt signaling, choose "Wnt signaling pathway" not "Pathways in cancer".
+6. If the caption describes crosstalk or interaction between two specific pathways, choose
+   the pathway that is the PRIMARY subject of the figure (usually the one in the title or
+   first mentioned). If truly equal, choose the more specific of the two.
+
+Respond in JSON only:
+{"kegg_id": "hsaXXXXX or none", "kegg_name": "pathway name or none", "confidence": 0.0-1.0, "reasoning": "one sentence explaining your choice"}
+
+CONFIDENCE SCALE (use strictly):
+- 1.0: Caption explicitly names the KEGG pathway or its canonical synonym
+- 0.8: Caption names key pathway components (&gt;2 specific genes/proteins from the pathway)
+- 0.6: Caption implies the pathway through drug/disease/mechanism inference
+- 0.4: Caption is ambiguous between 2-3 possible KEGG pathways
+- 0.2: Weak/indirect evidence only
+- 0.0: No pathway information in caption (returning "none")</div>
+
+<!-- Prompt 2: Metadata -->
+<h2>Prompt 2: PubMed Metadata &rarr; KEGG Assignment</h2>
+
+<div class="card">
+    <p>Sent for each of the ~13,173 captionless images that have PubMed metadata. The placeholders are replaced with actual paper metadata. Abstract is truncated to 2000 chars. MeSH descriptors are comma-joined (qualifiers currently dropped). Keywords are comma-joined.</p>
+</div>
+
+<div class="prompt-block" id="prompt2">You are a biomedical pathway expert. A scientific paper contains pathway diagram figures,
+but the figure captions are not available. Using the paper's metadata below, identify
+which KEGG human signaling/metabolic pathway the paper most likely depicts in its figures.
+
+PAPER TITLE: <span style="color:#fab387">{title}</span>
+
+ABSTRACT (truncated): <span style="color:#fab387">{abstract}</span>
+
+MeSH TERMS: <span style="color:#fab387">{mesh_terms}</span>
+
+AUTHOR KEYWORDS: <span style="color:#fab387">{keywords}</span>
+
+KEGG HUMAN PATHWAYS:
+<span style="color:#6c7086">{kegg_list}  &larr; same 239 pathways</span>
+
+INSTRUCTIONS:
+1. This is paper-level metadata, not figure-level. The paper may discuss multiple pathways.
+2. Use your biomedical expertise to identify the KEGG pathway even if not named verbatim.
+3. Identify the single most prominent pathway discussed in this paper.
+4. Only respond with "none" if the paper doesn't focus on any specific KEGG pathway.
+5. Prefer specific pathways over broad ones.
+6. Note: this assignment is inherently lower confidence than caption-based assignment
+   since we're matching paper-level info to figure-level pathways.
+
+Respond in JSON only:
+{"kegg_id": "hsaXXXXX or none", "kegg_name": "pathway name or none", "confidence": 0.0-1.0, "reasoning": "one sentence explaining your choice"}
+
+CONFIDENCE SCALE (use strictly):
+- 1.0: Paper title explicitly names the KEGG pathway
+- 0.8: Abstract describes key pathway components in detail
+- 0.6: MeSH terms or keywords strongly suggest a specific pathway
+- 0.4: Multiple pathways discussed, one slightly more prominent
+- 0.2: Weak/indirect evidence only
+- 0.0: No pathway information (returning "none")</div>
+
+<!-- KEGG Reference List -->
+<h2>KEGG Reference List (fed to both prompts)</h2>
+
+<div class="card">
+    <p>The full list of 239 human KEGG pathways that both prompts receive. This is the menu of options the LLM picks from.</p>
+</div>
+
+<div class="kegg-block" id="kegg-list">Loading...</div>
+
+<!-- Expected Output -->
+<h2>Expected Output</h2>
+
+<div class="card">
+    <p>Each LLM call returns one JSON object per image. These get assembled into the intermediate assignment files, then merged into the final <code>metadata.csv</code>.</p>
+
+    <h3>Per-image LLM response</h3>
+</div>
+
+<div class="output-example"><span class="key">"pmc_id"</span>: <span class="str">"PMC3056141"</span>,
+<span class="key">"filename"</span>: <span class="str">"PMC3056141__F1.jpg"</span>,
+<span class="key">"kegg_id"</span>: <span class="str">"hsa04620"</span>,
+<span class="key">"kegg_name"</span>: <span class="str">"Toll-like receptor signaling pathway"</span>,
+<span class="key">"confidence"</span>: <span class="num">1.0</span>,
+<span class="key">"reasoning"</span>: <span class="str">"The caption explicitly describes TLR9-dependent innate immune signaling, which is a key component of the Toll-like receptor signaling pathway."</span></div>
+
+<div class="card">
+    <h3>Final <code>metadata.csv</code> columns</h3>
+    <p>One row per image. The main deliverable &mdash; all three signals merged:</p>
+</div>
+
+<div class="output-example"><span class="key">pmc_id</span>          &mdash; PMC article ID
+<span class="key">filename</span>        &mdash; image filename
+<span class="key">figure_number</span>   &mdash; extracted figure number (F1, F2, ...)
+<span class="key">gemini_label</span>    &mdash; Gemini's free-form pathway name
+<span class="key">gemini_related</span>  &mdash; related pathways (pipe-delimited)
+<span class="key">n_genes</span>         &mdash; number of Entrez genes extracted
+
+<span style="color:#6c7086">--- Signal 1: Jaccard ---</span>
+<span class="key">jaccard_kegg_id</span>   &mdash; best KEGG match by gene overlap
+<span class="key">jaccard_kegg_name</span> &mdash; pathway name
+<span class="key">jaccard_score</span>     &mdash; Jaccard similarity (0-1)
+
+<span style="color:#6c7086">--- Signal 2: Caption LLM ---</span>
+<span class="key">caption_kegg_id</span>   &mdash; KEGG ID from caption analysis
+<span class="key">caption_kegg_name</span> &mdash; pathway name
+<span class="key">caption_confidence</span>&mdash; 0.0-1.0 (strict scale)
+<span class="key">caption_reasoning</span> &mdash; one-sentence explanation
+
+<span style="color:#6c7086">--- Signal 3: Metadata LLM ---</span>
+<span class="key">metadata_kegg_id</span>   &mdash; KEGG ID from paper metadata
+<span class="key">metadata_kegg_name</span> &mdash; pathway name
+<span class="key">metadata_confidence</span>&mdash; 0.0-1.0 (strict scale)
+<span class="key">metadata_reasoning</span> &mdash; one-sentence explanation
+
+<span class="key">year</span>             &mdash; publication year</div>
+
+<!-- Model Comparison -->
+<h2>Model Comparison (pilot results)</h2>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr><th>Model</th><th>Pilot (20)</th><th>Scaled (100)</th><th>Cost / 34k</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>GPT-4o-mini</td>
+                <td>20/20</td>
+                <td>98/100, 0 errors</td>
+                <td>~$20</td>
+                <td><span class="tag tag-green">Ready</span></td>
+            </tr>
+            <tr>
+                <td>GPT-4o</td>
+                <td>20/20</td>
+                <td>&mdash;</td>
+                <td>~$340</td>
+                <td><span class="tag tag-blue">Pilot only</span></td>
+            </tr>
+            <tr>
+                <td>Gemini 3 Pro</td>
+                <td>20/20</td>
+                <td>Not tested</td>
+                <td>~$270</td>
+                <td><span class="tag tag-amber">Unknown at scale</span></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Open question:</strong> Gemini 3 Pro via Vertex AI has unknown rate limits for our project. 20-image pilots succeed but we have never completed a 100+ image run. We don't know if we'll get rate-blocked at 34k scale.
+    </div>
+</div>
+
+<footer>
+    <p>Part of the <a href="/research/gemini-pathways/">Gemini Pathways</a> project &mdash; Feb 2026</p>
+</footer>
+
+</div>
+
+<script>
+// Load KEGG list
+fetch('kegg_list.txt')
+    .then(r => r.text())
+    .then(text => {
+        document.getElementById('kegg-list').textContent = text;
+    })
+    .catch(() => {
+        document.getElementById('kegg-list').textContent = '(Failed to load kegg_list.txt)';
+    });
+</script>
+</body>
+</html>
