@@ -84,32 +84,6 @@
             overflow-y: auto;
             position: relative;
         }
-        .prompt-block.collapsed {
-            max-height: 200px;
-            overflow-y: hidden;
-        }
-        .prompt-block.collapsed::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: linear-gradient(transparent, #1e1e2e);
-            pointer-events: none;
-        }
-        .expand-btn {
-            display: inline-block;
-            margin-top: 0.5rem;
-            padding: 0.3rem 0.8rem;
-            font-size: 0.82rem;
-            color: var(--accent);
-            background: var(--accent-light);
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .expand-btn:hover { background: #bfdbfe; }
 
         .kegg-block {
             background: #f8f8f0;
@@ -233,6 +207,30 @@
         .breakdown-card .big-num { font-size: 2rem; font-weight: 700; }
         .breakdown-card .big-num.green { color: var(--green); }
         .breakdown-card .big-num.amber { color: var(--amber); }
+
+        .run-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        .run-card h4 { font-size: 1rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .run-card code {
+            background: #f0f0f0;
+            padding: 0.15rem 0.4rem;
+            border-radius: 3px;
+            font-size: 0.82rem;
+        }
+        .run-card .cmd {
+            background: #1e1e2e;
+            color: #a6e3a1;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.82rem;
+            margin: 0.75rem 0;
+        }
     </style>
 </head>
 <body>
@@ -240,7 +238,7 @@
 
 <header>
     <h1>KEGG Assignment Pipeline</h1>
-    <p class="subtitle">Assigning KEGG pathway IDs to ~49k pathway images via LLM analysis of captions and PubMed metadata</p>
+    <p class="subtitle">Assigning KEGG pathway IDs to ~49k pathway images via Gemini 3 Pro analysis of captions and PubMed metadata</p>
     <nav class="breadcrumb">
         <a href="/research/gemini-pathways/">Gemini Pathways</a> / <span>KEGG Assignment Pipeline</span>
     </nav>
@@ -260,7 +258,7 @@
         <div class="step-name">Caption LLM</div>
     </div>
     <span class="pipeline-arrow">&rarr;</span>
-    <div class="pipeline-step pending">
+    <div class="pipeline-step active">
         <div class="step-label">Signal 3</div>
         <div class="step-name">Metadata LLM</div>
     </div>
@@ -273,7 +271,7 @@
 
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-value">48,974</div>
+        <div class="stat-value">48,779</div>
         <div class="stat-label">Total Images</div>
     </div>
     <div class="stat-card">
@@ -281,8 +279,8 @@
         <div class="stat-label">Have Captions</div>
     </div>
     <div class="stat-card">
-        <div class="stat-value">14,717</div>
-        <div class="stat-label">Captionless</div>
+        <div class="stat-value">42,362</div>
+        <div class="stat-label">Papers w/ Metadata</div>
     </div>
     <div class="stat-card">
         <div class="stat-value">239</div>
@@ -290,12 +288,51 @@
     </div>
 </div>
 
-<!-- Signal Coverage -->
-<h2>Signal Coverage Across All 48,779 Images</h2>
+<!-- The Execution Plan -->
+<h2>Execution Plan</h2>
 
-<div class="card">
-    <p>What data do we actually have for each image? Every image gets the Gemini vision annotation (that's how they entered the dataset). Beyond that, coverage varies.</p>
+<div class="run-card">
+    <h4>Run 1: Caption Assignment (Signal 2)</h4>
+    <p style="color:var(--text-muted); font-size:0.9rem;">Send each figure caption + 239 KEGG pathways to Gemini 3 Pro. Figure-level signal &mdash; strongest assignment.</p>
+    <table style="font-size:0.85rem; margin:0.5rem 0;">
+        <tr><td style="width:140px;">LLM calls</td><td><strong>34,062</strong> (one per captioned image)</td></tr>
+        <tr><td>Model</td><td>Gemini 3 Pro (Vertex AI)</td></tr>
+        <tr><td>Throughput</td><td>~120&ndash;165/min sustained</td></tr>
+        <tr><td>Est. time</td><td><strong>~4.7 hours</strong></td></tr>
+        <tr><td>Cost</td><td>Free (GCP credits)</td></tr>
+        <tr><td>Output</td><td><code>intermediate/caption_assignments.json</code></td></tr>
+    </table>
+    <div class="cmd">caffeinate -s python scripts/run_caption_assignment_gemini.py --full</div>
 </div>
+
+<div class="run-card">
+    <h4>Run 2: Metadata Assignment (Signal 3)</h4>
+    <p style="color:var(--text-muted); font-size:0.9rem;">Send paper title + abstract + MeSH + keywords + 239 KEGG pathways to Gemini 3 Pro. Paper-level signal &mdash; run for <strong>all</strong> papers, not just captionless. Deduped by PMC ID.</p>
+    <table style="font-size:0.85rem; margin:0.5rem 0;">
+        <tr><td style="width:140px;">LLM calls</td><td><strong>42,362</strong> (one per unique paper)</td></tr>
+        <tr><td>Model</td><td>Gemini 3 Pro (Vertex AI)</td></tr>
+        <tr><td>Throughput</td><td>~120&ndash;165/min sustained</td></tr>
+        <tr><td>Est. time</td><td><strong>~5.9 hours</strong></td></tr>
+        <tr><td>Cost</td><td>Free (GCP credits)</td></tr>
+        <tr><td>Output</td><td><code>intermediate/metadata_assignments.json</code></td></tr>
+    </table>
+    <div class="cmd">caffeinate -s python scripts/run_metadata_assignment_gemini.py --full</div>
+    <div class="note" style="margin-top:0.75rem;">
+        Metadata assignment is paper-level: one paper may have multiple figures showing different pathways. Results fan out to all images from that paper. Running for all papers (not just captionless) gives an independent validation signal for captioned images too.
+    </div>
+</div>
+
+<div class="run-card">
+    <h4>Run 3: Build Final CSVs</h4>
+    <p style="color:var(--text-muted); font-size:0.9rem;">Merge all signals into three deliverable CSVs. No API calls.</p>
+    <div class="cmd">python scripts/build_edges.py && python scripts/build_nodes.py && python scripts/build_metadata.py</div>
+    <table style="font-size:0.85rem; margin:0.5rem 0;">
+        <tr><td style="width:140px;">Output</td><td><code>output/edges.csv</code>, <code>output/nodes.csv</code>, <code>output/metadata.csv</code></td></tr>
+    </table>
+</div>
+
+<!-- Signal Coverage -->
+<h2>Signal Coverage After Both Runs</h2>
 
 <div class="bar-chart">
     <div class="bar-row">
@@ -304,9 +341,9 @@
         <div class="bar-count">48,779</div>
     </div>
     <div class="bar-row">
-        <div class="bar-label">Abstract</div>
-        <div class="bar-track"><div class="bar-fill green" style="width:98.5%">98.5%</div></div>
-        <div class="bar-count">48,068</div>
+        <div class="bar-label">Metadata LLM (Signal 3)</div>
+        <div class="bar-track"><div class="bar-fill green" style="width:99.9%">99.9%</div></div>
+        <div class="bar-count">48,738</div>
     </div>
     <div class="bar-row">
         <div class="bar-label">Jaccard score &gt; 0</div>
@@ -314,129 +351,83 @@
         <div class="bar-count">47,526</div>
     </div>
     <div class="bar-row">
-        <div class="bar-label">Caption</div>
+        <div class="bar-label">Caption LLM (Signal 2)</div>
         <div class="bar-track"><div class="bar-fill blue" style="width:69.8%">69.8%</div></div>
         <div class="bar-count">34,062</div>
     </div>
-    <div class="bar-row">
-        <div class="bar-label">MeSH headings</div>
-        <div class="bar-track"><div class="bar-fill blue" style="width:69.9%">69.9%</div></div>
-        <div class="bar-count">34,120</div>
-    </div>
-    <div class="bar-row">
-        <div class="bar-label">Author keywords</div>
-        <div class="bar-track"><div class="bar-fill amber" style="width:61.5%">61.5%</div></div>
-        <div class="bar-count">29,975</div>
-    </div>
 </div>
-
-<div class="note">
-    Jaccard scores exist for nearly all images but are often very low &mdash; only 8.1% have Jaccard &gt; 0.2. The Jaccard signal is most useful as tiebreaker/validation, not primary assignment.
-</div>
-
-<!-- Two-population breakdown -->
-<div class="breakdown-grid">
-    <div class="breakdown-card">
-        <h4>Captioned Images</h4>
-        <div class="big-num green">34,062</div>
-        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;">These get <strong>Signal 2 (Caption LLM)</strong> &mdash; the strongest assignment.</p>
-        <table style="font-size:0.82rem; margin-top:0.75rem;">
-            <tr><td>+ Abstract</td><td><strong>99.1%</strong> (33,764)</td></tr>
-            <tr><td>+ MeSH</td><td>61.8% (21,061)</td></tr>
-            <tr><td>+ Keywords</td><td>70.5% (23,998)</td></tr>
-        </table>
-        <p style="color:var(--text-muted); font-size:0.82rem; margin-top:0.75rem;">Metadata is available but not needed &mdash; the caption itself is the primary signal for KEGG assignment.</p>
-    </div>
-    <div class="breakdown-card">
-        <h4>Captionless Images</h4>
-        <div class="big-num amber">14,717</div>
-        <p style="color:var(--text-muted); font-size:0.85rem; margin-top:0.5rem;">These get <strong>Signal 3 (Metadata LLM)</strong> &mdash; paper-level, inherently weaker.</p>
-        <table style="font-size:0.82rem; margin-top:0.75rem;">
-            <tr><td>+ Abstract</td><td><strong>97.2%</strong> (14,304)</td></tr>
-            <tr><td>+ MeSH</td><td><strong>88.7%</strong> (13,059)</td></tr>
-            <tr><td>+ Keywords</td><td>40.6% (5,977)</td></tr>
-            <tr><td style="color:var(--red);">Nothing at all</td><td style="color:var(--red);">0.4% (61)</td></tr>
-        </table>
-        <p style="color:var(--text-muted); font-size:0.82rem; margin-top:0.75rem;">MeSH coverage is actually <em>higher</em> for captionless images (88.7% vs 61.8%) &mdash; restricted-access papers tend to be older and better indexed. Only 61 images have zero signal beyond the Gemini annotation.</p>
-    </div>
-</div>
-
-<!-- Jaccard threshold breakdown -->
-<h2>Jaccard Score Distribution</h2>
 
 <div class="card">
-    <p>Jaccard measures gene overlap between the image's extracted genes and each KEGG pathway's gene set. Most scores are very low because pathway images rarely depict >50% of a pathway's genes.</p>
+    <p><strong>After both runs:</strong> 34,039 images get both caption AND metadata signals (cross-validation). 14,699 captionless images get metadata only. Only 18 images (~0.04%) have no caption and no PubMed metadata &mdash; these get Jaccard + Gemini label only.</p>
 </div>
 
-<div class="bar-chart">
-    <div class="bar-row">
-        <div class="bar-label">Jaccard &gt; 0</div>
-        <div class="bar-track"><div class="bar-fill green" style="width:97.4%">97.4%</div></div>
-        <div class="bar-count">47,526</div>
-    </div>
-    <div class="bar-row">
-        <div class="bar-label">Jaccard &gt; 0.05</div>
-        <div class="bar-track"><div class="bar-fill blue" style="width:64.8%">64.8%</div></div>
-        <div class="bar-count">31,601</div>
-    </div>
-    <div class="bar-row">
-        <div class="bar-label">Jaccard &gt; 0.1</div>
-        <div class="bar-track"><div class="bar-fill amber" style="width:29.7%">29.7%</div></div>
-        <div class="bar-count">14,469</div>
-    </div>
-    <div class="bar-row">
-        <div class="bar-label">Jaccard &gt; 0.2</div>
-        <div class="bar-track"><div class="bar-fill red" style="width:8.1%">8.1%</div></div>
-        <div class="bar-count">3,968</div>
-    </div>
-</div>
-
-<!-- The Plan -->
-<h2>The Plan</h2>
+<!-- Model Comparison -->
+<h2>Model Comparison &amp; Throughput Testing</h2>
 
 <div class="card">
-    <p>Every image needs a KEGG pathway ID. We have three independent signals to get there:</p>
-
-    <h3>Signal 1: Jaccard Gene Overlap <span class="tag tag-green">DONE</span></h3>
-    <p><strong>Input:</strong> Gemini-extracted gene lists from each image vs. KEGG pathway gene sets.<br>
-    <strong>Method:</strong> Jaccard similarity score. Pure math, no LLM.<br>
-    <strong>Coverage:</strong> Only works when Gemini extracted Entrez gene IDs (subset of images).<br>
-    <strong>Output:</strong> <code>jaccard_kegg_id</code>, <code>jaccard_kegg_name</code>, <code>jaccard_score</code></p>
-
-    <h3>Signal 2: Caption &rarr; KEGG via LLM <span class="tag tag-amber">NEXT</span></h3>
-    <p><strong>Input:</strong> Figure caption text + full KEGG pathway list.<br>
-    <strong>Method:</strong> Send caption + 239 KEGG pathways to LLM, ask it to pick the best match.<br>
-    <strong>Coverage:</strong> 34,062 images with captions (69.5% of total).<br>
-    <strong>Cost:</strong> ~$20 with GPT-4o-mini, ~$270 with Gemini 3 Pro.<br>
-    <strong>Output:</strong> <code>caption_kegg_id</code>, <code>caption_kegg_name</code>, <code>caption_confidence</code>, <code>caption_reasoning</code></p>
-
-    <h3>Signal 3: PubMed Metadata &rarr; KEGG via LLM <span class="tag tag-blue">PLANNED</span></h3>
-    <p><strong>Input:</strong> Paper title + abstract + MeSH terms + keywords + full KEGG pathway list.<br>
-    <strong>Method:</strong> Same idea as caption, but using paper-level metadata for the 14,717 captionless images.<br>
-    <strong>Coverage:</strong> 13,173 captionless images with PubMed metadata (99.9% of captionless).<br>
-    <strong>Cost:</strong> ~$10 with GPT-4o-mini.<br>
-    <strong>Output:</strong> <code>metadata_kegg_id</code>, <code>metadata_kegg_name</code>, <code>metadata_confidence</code>, <code>metadata_reasoning</code></p>
-
-    <div class="note">
-        <strong>Note:</strong> Metadata assignment is inherently lower confidence than caption assignment. A paper may contain multiple figures showing different pathways, so paper-level metadata is a weaker signal than figure-level captions.
-    </div>
-</div>
-
-<!-- PubMed Metadata Coverage -->
-<h2>PubMed Metadata Coverage (42,402 records)</h2>
-
-<div class="card">
+    <p>Tested 4 models on the caption assignment task. Gemini 3 Pro is the clear winner: best quality, free via credits, and fast enough with the native async client.</p>
     <table>
         <thead>
-            <tr><th>Field</th><th>Coverage</th><th>Notes</th></tr>
+            <tr><th>Model</th><th>RPM</th><th>34k time</th><th>Cost</th><th>Quality</th><th>Reasoning</th><th>Status</th></tr>
         </thead>
         <tbody>
-            <tr><td>Title</td><td><span class="tag tag-green">99.9%</span></td><td>42,362 records</td></tr>
-            <tr><td>Abstract</td><td><span class="tag tag-green">98.4%</span></td><td>41,716 records. Truncated to 2000 chars in prompt.</td></tr>
-            <tr><td>MeSH Headings</td><td><span class="tag tag-amber">70.5%</span></td><td>29,904 records. Structured: descriptor + qualifiers (e.g. "Osteoblasts/metabolism")</td></tr>
-            <tr><td>Author Keywords</td><td><span class="tag tag-amber">60.6%</span></td><td>25,682 records. Free-text, author-provided.</td></tr>
-            <tr><td>Supplementary Concepts</td><td><span class="tag tag-red">0.7%</span></td><td>304 records. Not used.</td></tr>
+            <tr>
+                <td><strong>Gemini 3 Pro</strong></td>
+                <td>120&ndash;165</td>
+                <td><strong>~4.7 hrs</strong></td>
+                <td>Free</td>
+                <td>Baseline (best)</td>
+                <td>Yes</td>
+                <td><span class="tag tag-green">Selected</span></td>
+            </tr>
+            <tr>
+                <td>GPT-4o-mini</td>
+                <td>~200</td>
+                <td>~3 hrs</td>
+                <td>~$20</td>
+                <td>70% agree w/ Pro</td>
+                <td>Yes</td>
+                <td><span class="tag tag-blue">Backup</span></td>
+            </tr>
+            <tr>
+                <td>Gemini 2.0 Flash</td>
+                <td>716</td>
+                <td>~47 min</td>
+                <td>Free</td>
+                <td>Untested</td>
+                <td>Untested</td>
+                <td><span class="tag tag-amber">Not used</span></td>
+            </tr>
+            <tr>
+                <td>Gemini 2.5 Flash</td>
+                <td>68</td>
+                <td>~8.3 hrs</td>
+                <td>Free</td>
+                <td>65% agree w/ Pro</td>
+                <td><span style="color:var(--red)">Drops field</span></td>
+                <td><span class="tag tag-red">Rejected</span></td>
+            </tr>
         </tbody>
+    </table>
+
+    <div class="note">
+        <strong>Key finding:</strong> Gemini 3 Pro was initially measured at 30 RPM using a sync client. Switching to the native async client (<code>client.aio.models.generate_content</code>) with concurrency 200 yields 120&ndash;165 RPM &mdash; matching the original 49k image annotation throughput. The bottleneck was the test harness, not the model.
+    </div>
+</div>
+
+<!-- Robustness -->
+<h2>Script Robustness</h2>
+
+<div class="card">
+    <p>Both assignment scripts are built for unattended overnight runs:</p>
+    <table style="font-size:0.85rem;">
+        <tr><td style="width:200px;">Semaphore per-call</td><td>Released between retries &mdash; stuck calls don't block other work</td></tr>
+        <tr><td>Atomic checkpoints</td><td>Write to .tmp then <code>os.replace()</code> &mdash; crash-safe</td></tr>
+        <tr><td>Batched processing</td><td>500 images per batch, checkpoint between batches</td></tr>
+        <tr><td>Graceful shutdown</td><td>Ctrl-C saves progress, resume with <code>--resume</code></td></tr>
+        <tr><td>Circuit breaker</td><td>Pauses 2 min if &gt;50% error rate over 50 calls</td></tr>
+        <tr><td>Task deadline</td><td>120s max per image (all retries) &mdash; no infinite hangs</td></tr>
+        <tr><td>Resume</td><td><code>--resume</code> skips already-processed items, handles corrupted files</td></tr>
     </table>
 </div>
 
@@ -444,7 +435,7 @@
 <h2>Prompt 1: Caption &rarr; KEGG Assignment</h2>
 
 <div class="card">
-    <p>Sent for each of the 34,062 images that have a figure caption. The <code>{caption}</code> placeholder is replaced with the actual caption text (up to 1000 chars). The <code>{kegg_list}</code> placeholder is replaced with all 239 KEGG pathways shown below.</p>
+    <p>Sent for each of the 34,062 images with a figure caption. The <code>{caption}</code> placeholder is replaced with the actual caption text (up to 1000 chars). The <code>{kegg_list}</code> placeholder is replaced with all 239 KEGG pathways.</p>
 </div>
 
 <div class="prompt-block" id="prompt1">You are a biomedical pathway expert. Given a figure caption from a scientific paper,
@@ -493,7 +484,7 @@ CONFIDENCE SCALE (use strictly):
 <h2>Prompt 2: PubMed Metadata &rarr; KEGG Assignment</h2>
 
 <div class="card">
-    <p>Sent for each of the ~13,173 captionless images that have PubMed metadata. The placeholders are replaced with actual paper metadata. Abstract is truncated to 2000 chars. MeSH descriptors are comma-joined (qualifiers currently dropped). Keywords are comma-joined.</p>
+    <p>Sent for each of the 42,362 unique papers with PubMed metadata. Results fan out to all images from that paper. Abstract truncated to 2000 chars. MeSH descriptors comma-joined.</p>
 </div>
 
 <div class="prompt-block" id="prompt2">You are a biomedical pathway expert. A scientific paper contains pathway diagram figures,
@@ -544,7 +535,7 @@ CONFIDENCE SCALE (use strictly):
 <h2>Expected Output</h2>
 
 <div class="card">
-    <p>Each LLM call returns one JSON object per image. These get assembled into the intermediate assignment files, then merged into the final <code>metadata.csv</code>.</p>
+    <p>Each LLM call returns one JSON object. Caption assignments are keyed by filename (image-level). Metadata assignments are keyed by PMC ID (paper-level, fanned out to all images in <code>build_metadata.py</code>).</p>
 
     <h3>Per-image LLM response</h3>
 </div>
@@ -587,52 +578,37 @@ CONFIDENCE SCALE (use strictly):
 
 <span class="key">year</span>             &mdash; publication year</div>
 
-<!-- Model Comparison -->
-<h2>Model Comparison (pilot results)</h2>
+<!-- File Locations -->
+<h2>File Locations</h2>
 
 <div class="card">
-    <table>
+    <table style="font-size:0.85rem;">
         <thead>
-            <tr><th>Model</th><th>Pilot (20)</th><th>Scaled (100)</th><th>Cost / 34k</th><th>Status</th></tr>
+            <tr><th>File</th><th>Location</th><th>Records</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td>GPT-4o-mini</td>
-                <td>20/20</td>
-                <td>98/100, 0 errors</td>
-                <td>~$20</td>
-                <td><span class="tag tag-green">Ready</span></td>
-            </tr>
-            <tr>
-                <td>GPT-4o</td>
-                <td>20/20</td>
-                <td>&mdash;</td>
-                <td>~$340</td>
-                <td><span class="tag tag-blue">Pilot only</span></td>
-            </tr>
-            <tr>
-                <td>Gemini 3 Pro</td>
-                <td>20/20</td>
-                <td>Not tested</td>
-                <td>~$270</td>
-                <td><span class="tag tag-amber">Unknown at scale</span></td>
-            </tr>
+            <tr><td>Gemini annotations</td><td><code>~/work/gemini_cell_pathways/gemini3_annotations/full_49k_v2_2026-01-26_clean.jsonl</code></td><td>48,974</td></tr>
+            <tr><td>Figure captions</td><td><code>~/work/gemini_cell_pathways/data/pmc_caption_pathways_full.json</code></td><td>34,062</td></tr>
+            <tr><td>PubMed metadata</td><td><code>~/work/gemini_cell_pathways/data/pubmed_metadata_full.json</code></td><td>42,362</td></tr>
+            <tr><td>KEGG pathways</td><td><code>~/work/gemini_cell_pathways/data/kegg_human_pathways.json</code></td><td>239</td></tr>
+            <tr><td>Jaccard scores</td><td><code>~/work/gemini_cell_pathways/data/image_pathway_scores.csv</code></td><td>48,779</td></tr>
+            <tr><td colspan="3" style="border-bottom:2px solid var(--border);font-weight:600;padding-top:1rem;">Generated by this pipeline</td></tr>
+            <tr><td>Caption assignments</td><td><code>~/work/gemini-pathways-final/intermediate/caption_assignments.json</code></td><td>34,062</td></tr>
+            <tr><td>Metadata assignments</td><td><code>~/work/gemini-pathways-final/intermediate/metadata_assignments.json</code></td><td>42,362</td></tr>
+            <tr><td>Final edges</td><td><code>~/work/gemini-pathways-final/output/edges.csv</code></td><td>&mdash;</td></tr>
+            <tr><td>Final nodes</td><td><code>~/work/gemini-pathways-final/output/nodes.csv</code></td><td>&mdash;</td></tr>
+            <tr><td>Final metadata</td><td><code>~/work/gemini-pathways-final/output/metadata.csv</code></td><td>~48,779</td></tr>
         </tbody>
     </table>
-
-    <div class="note">
-        <strong>Open question:</strong> Gemini 3 Pro via Vertex AI has unknown rate limits for our project. 20-image pilots succeed but we have never completed a 100+ image run. We don't know if we'll get rate-blocked at 34k scale.
-    </div>
 </div>
 
 <footer>
-    <p>Part of the <a href="/research/gemini-pathways/">Gemini Pathways</a> project &mdash; Feb 2026</p>
+    <p>Part of the <a href="/research/gemini-pathways/">Gemini Pathways</a> project &mdash; Last updated Feb 10, 2026</p>
 </footer>
 
 </div>
 
 <script>
-// Load KEGG list
 fetch('kegg_list.txt')
     .then(r => r.text())
     .then(text => {
