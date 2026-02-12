@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary Statistics | Gemini Pathway Analysis</title>
+    <style>
+        :root {
+            --bg: #fafafa;
+            --surface: #ffffff;
+            --border: #e0e0e0;
+            --text: #333;
+            --text-muted: #666;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container { max-width: 960px; margin: 0 auto; }
+
+        header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border);
+        }
+        h1 { font-size: 2rem; font-weight: 600; margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-muted); font-size: 1.05rem; }
+
+        h2 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin: 2.5rem 0 1rem 0;
+        }
+        h2:first-of-type { margin-top: 0; }
+
+        h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem 0;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .card p:last-child { margin-bottom: 0; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        th, td {
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        th {
+            font-weight: 600;
+            background: var(--bg);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--text-muted);
+        }
+        td.num { text-align: right; font-variant-numeric: tabular-nums; }
+        tr:last-child td { border-bottom: none; }
+        tr.highlight td { background: var(--accent-light); font-weight: 500; }
+
+        .fig {
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        .fig img {
+            max-width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+        .fig-cap {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .scroll-table {
+            overflow-x: auto;
+        }
+
+        footer {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        code {
+            background: #f0f0f0;
+            padding: 0.1rem 0.35rem;
+            border-radius: 3px;
+            font-size: 0.88em;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Summary Statistics</h1>
+        <p class="subtitle">48,779 pathway diagram images &rarr; 1.4M edges, 1.4M nodes, 3 KEGG assignment signals</p>
+    </header>
+
+    <!-- Dataset Size -->
+    <h2>Dataset Size</h2>
+    <div class="stats-grid">
+        <div class="stat"><div class="stat-value">48,779</div><div class="stat-label">Images</div></div>
+        <div class="stat"><div class="stat-value">1.38M</div><div class="stat-label">Edges</div></div>
+        <div class="stat"><div class="stat-value">1.36M</div><div class="stat-label">Nodes</div></div>
+        <div class="stat"><div class="stat-value">249</div><div class="stat-label">KEGG Pathways Hit</div></div>
+    </div>
+
+    <!-- Per-Image Stats -->
+    <h2>Per-Image Stats</h2>
+    <div class="card">
+        <table>
+            <thead><tr><th></th><th>Nodes/Image</th><th>Edges/Image</th></tr></thead>
+            <tbody>
+                <tr><td>mean</td><td class="num">27.9</td><td class="num">28.3</td></tr>
+                <tr><td>std</td><td class="num">16.1</td><td class="num">16.0</td></tr>
+                <tr><td>min</td><td class="num">0</td><td class="num">0</td></tr>
+                <tr><td>25%</td><td class="num">16</td><td class="num">16</td></tr>
+                <tr><td>50%</td><td class="num">24</td><td class="num">25</td></tr>
+                <tr><td>75%</td><td class="num">35</td><td class="num">37</td></tr>
+                <tr><td>max</td><td class="num">135</td><td class="num">194</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="fig">
+        <img src="figures/images_over_time.png" alt="Images by year, average nodes and edges per image over time">
+        <div class="fig-cap">Left: image volume by publication year. Center/right: average graph complexity over time.</div>
+    </div>
+
+    <!-- Signal Coverage -->
+    <h2>Signal Coverage</h2>
+    <div class="card">
+        <p>Three independent KEGG pathway assignment signals:</p>
+        <p><strong>Jaccard (best-match)</strong> &mdash; gene-set overlap between image nodes and every KEGG pathway</p>
+        <p><strong>Caption KEGG</strong> &mdash; LLM assignment from figure caption</p>
+        <p><strong>Metadata KEGG</strong> &mdash; LLM assignment from paper title/abstract/MeSH</p>
+    </div>
+    <div class="card">
+        <table>
+            <thead><tr><th>Signal</th><th>Images</th><th>Coverage</th></tr></thead>
+            <tbody>
+                <tr><td>Jaccard (best-match)</td><td class="num">47,526</td><td class="num">97.4%</td></tr>
+                <tr><td>Caption KEGG</td><td class="num">32,299</td><td class="num">66.2%</td></tr>
+                <tr><td>Caption Jaccard</td><td class="num">29,662</td><td class="num">60.8%</td></tr>
+                <tr><td>Metadata KEGG</td><td class="num">46,577</td><td class="num">95.5%</td></tr>
+                <tr><td>Metadata Jaccard</td><td class="num">44,200</td><td class="num">90.6%</td></tr>
+                <tr class="highlight"><td>Caption OR Metadata</td><td class="num">47,719</td><td class="num">97.8%</td></tr>
+                <tr class="highlight"><td>Any signal</td><td class="num">48,747</td><td class="num">99.9%</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Signal Agreement -->
+    <h2>Signal Agreement</h2>
+    <div class="card">
+        <p>Pairwise agreement on KEGG pathway assignment (n&nbsp;=&nbsp;31,157 images with both caption and metadata):</p>
+        <table>
+            <thead><tr><th>Pair</th><th>Agree</th><th>Rate</th></tr></thead>
+            <tbody>
+                <tr><td>Caption = Metadata</td><td class="num">17,666</td><td class="num">56.7%</td></tr>
+                <tr><td>Caption = Best Jaccard</td><td class="num">9,799</td><td class="num">31.5%</td></tr>
+                <tr><td>Metadata = Best Jaccard</td><td class="num">7,584</td><td class="num">24.3%</td></tr>
+                <tr><td>All 3 agree</td><td class="num">6,687</td><td class="num">21.5%</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>Agreement by Confidence Tier</h3>
+    <div class="card">
+        <p>Caption&ndash;Metadata agreement stratified by confidence. At 1.0/1.0, agreement reaches 88.9%.</p>
+        <table>
+            <thead><tr><th>Caption Conf</th><th>Metadata Conf</th><th>n</th><th>Agree</th><th>Rate</th></tr></thead>
+            <tbody>
+                <tr><td class="num">1.0</td><td class="num">1.0</td><td class="num">5,390</td><td class="num">4,794</td><td class="num">88.9%</td></tr>
+                <tr><td class="num">1.0</td><td class="num">0.8</td><td class="num">6,415</td><td class="num">4,540</td><td class="num">70.8%</td></tr>
+                <tr><td class="num">1.0</td><td class="num">0.6</td><td class="num">2,459</td><td class="num">815</td><td class="num">33.1%</td></tr>
+                <tr><td class="num">0.8</td><td class="num">1.0</td><td class="num">822</td><td class="num">414</td><td class="num">50.4%</td></tr>
+                <tr><td class="num">0.8</td><td class="num">0.8</td><td class="num">4,001</td><td class="num">2,390</td><td class="num">59.7%</td></tr>
+                <tr><td class="num">0.8</td><td class="num">0.6</td><td class="num">2,826</td><td class="num">1,052</td><td class="num">37.2%</td></tr>
+                <tr><td class="num">0.6</td><td class="num">1.0</td><td class="num">158</td><td class="num">55</td><td class="num">34.8%</td></tr>
+                <tr><td class="num">0.6</td><td class="num">0.8</td><td class="num">592</td><td class="num">241</td><td class="num">40.7%</td></tr>
+                <tr><td class="num">0.6</td><td class="num">0.6</td><td class="num">825</td><td class="num">351</td><td class="num">42.5%</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Jaccard Score Distributions -->
+    <h2>Jaccard Score Distributions</h2>
+    <div class="card">
+        <table>
+            <thead><tr><th></th><th>Best-match</th><th>Caption</th><th>Metadata</th></tr></thead>
+            <tbody>
+                <tr><td>count</td><td class="num">47,684</td><td class="num">29,662</td><td class="num">44,200</td></tr>
+                <tr><td>mean</td><td class="num">0.093</td><td class="num">0.070</td><td class="num">0.053</td></tr>
+                <tr><td>std</td><td class="num">0.084</td><td class="num">0.088</td><td class="num">0.071</td></tr>
+                <tr><td>25%</td><td class="num">0.042</td><td class="num">0.019</td><td class="num">0.011</td></tr>
+                <tr><td>50%</td><td class="num">0.068</td><td class="num">0.043</td><td class="num">0.031</td></tr>
+                <tr><td>75%</td><td class="num">0.114</td><td class="num">0.084</td><td class="num">0.067</td></tr>
+                <tr><td>max</td><td class="num">0.957</td><td class="num">0.957</td><td class="num">0.938</td></tr>
+            </tbody>
+        </table>
+        <p>Best-match is highest by construction. Caption-assigned pathways have higher Jaccard than metadata-assigned, suggesting captions are more figure-specific.</p>
+    </div>
+
+    <div class="fig">
+        <img src="figures/jaccard_distributions.png" alt="Jaccard score distributions">
+        <div class="fig-cap">Jaccard score histograms for best-match, caption-assigned, and metadata-assigned pathways.</div>
+    </div>
+
+    <!-- Top 25 Genes -->
+    <h2>Top 25 Genes</h2>
+    <div class="card">
+        <p>PI3K/AKT/mTOR axis dominates. AKT and Akt counted separately (case-sensitive Gemini labels).</p>
+        <div class="scroll-table">
+        <table>
+            <thead><tr><th>#</th><th>Gene</th><th>Appearances</th><th></th><th>#</th><th>Gene</th><th>Appearances</th></tr></thead>
+            <tbody>
+                <tr><td>1</td><td>PI3K</td><td class="num">6,797</td><td></td><td>14</td><td>NF-kB</td><td class="num">2,771</td></tr>
+                <tr><td>2</td><td>AKT</td><td class="num">5,980</td><td></td><td>15</td><td>ERK1</td><td class="num">2,663</td></tr>
+                <tr><td>3</td><td>mTOR</td><td class="num">4,991</td><td></td><td>16</td><td>ERK2</td><td class="num">2,655</td></tr>
+                <tr><td>4</td><td>Akt</td><td class="num">4,290</td><td></td><td>17</td><td>TLR4</td><td class="num">2,636</td></tr>
+                <tr><td>5</td><td>ERK</td><td class="num">4,277</td><td></td><td>18</td><td>TRAF6</td><td class="num">2,360</td></tr>
+                <tr><td>6</td><td>PTEN</td><td class="num">3,627</td><td></td><td>19</td><td>MAPK</td><td class="num">2,310</td></tr>
+                <tr><td>7</td><td>JNK</td><td class="num">3,601</td><td></td><td>20</td><td>PKC</td><td class="num">2,289</td></tr>
+                <tr><td>8</td><td>IL-6</td><td class="num">3,277</td><td></td><td>21</td><td>MyD88</td><td class="num">2,282</td></tr>
+                <tr><td>9</td><td>STAT3</td><td class="num">3,134</td><td></td><td>22</td><td>PDK1</td><td class="num">2,199</td></tr>
+                <tr><td>10</td><td>p53</td><td class="num">3,115</td><td></td><td>23</td><td>beta-catenin</td><td class="num">2,164</td></tr>
+                <tr><td>11</td><td>Ras</td><td class="num">3,056</td><td></td><td>24</td><td>Wnt</td><td class="num">2,059</td></tr>
+                <tr><td>12</td><td>EGFR</td><td class="num">2,939</td><td></td><td>25</td><td>APC</td><td class="num">2,000</td></tr>
+                <tr><td>13</td><td>MEK</td><td class="num">2,842</td><td></td><td></td><td></td><td></td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="fig">
+        <img src="figures/top_genes_over_time.png" alt="Top 10 genes over time">
+        <div class="fig-cap">Top 10 most frequently extracted genes by publication year.</div>
+    </div>
+
+    <!-- Top 40 Pathways -->
+    <h2>Top 40 Pathways by Signal</h2>
+    <div class="card">
+        <p>Sorted by total count across all three signals. Jaccard favors smaller, specific pathways (ErbB, Prolactin) where gene overlap is high; LLM signals favor broader well-known pathways (PI3K-Akt, MAPK, JAK-STAT).</p>
+        <div class="scroll-table">
+        <table>
+            <thead><tr><th>Pathway</th><th>Caption</th><th>Metadata</th><th>Jaccard</th></tr></thead>
+            <tbody>
+                <tr><td>Toll-like receptor signaling</td><td class="num">1,497</td><td class="num">1,807</td><td class="num">2,182</td></tr>
+                <tr><td>Wnt signaling</td><td class="num">1,884</td><td class="num">2,303</td><td class="num">1,074</td></tr>
+                <tr><td>PI3K-Akt signaling</td><td class="num">1,777</td><td class="num">2,224</td><td class="num">44</td></tr>
+                <tr><td>TGF-beta signaling</td><td class="num">1,270</td><td class="num">1,699</td><td class="num">1,019</td></tr>
+                <tr><td>NF-kappa B signaling</td><td class="num">1,035</td><td class="num">1,437</td><td class="num">1,041</td></tr>
+                <tr><td>ErbB signaling</td><td class="num">453</td><td class="num">699</td><td class="num">2,160</td></tr>
+                <tr><td>MAPK signaling</td><td class="num">1,233</td><td class="num">1,668</td><td class="num">97</td></tr>
+                <tr><td>Apoptosis</td><td class="num">960</td><td class="num">1,548</td><td class="num">254</td></tr>
+                <tr><td>p53 signaling</td><td class="num">473</td><td class="num">669</td><td class="num">1,474</td></tr>
+                <tr><td>JAK-STAT signaling</td><td class="num">1,064</td><td class="num">1,243</td><td class="num">300</td></tr>
+                <tr><td>Apoptosis - multiple species</td><td class="num">4</td><td class="num">2</td><td class="num">2,475</td></tr>
+                <tr><td>mTOR signaling</td><td class="num">762</td><td class="num">1,162</td><td class="num">546</td></tr>
+                <tr><td>Hedgehog signaling</td><td class="num">426</td><td class="num">620</td><td class="num">927</td></tr>
+                <tr><td>Cell cycle</td><td class="num">620</td><td class="num">920</td><td class="num">391</td></tr>
+                <tr><td>VEGF signaling</td><td class="num">214</td><td class="num">383</td><td class="num">1,289</td></tr>
+                <tr><td>Cytosolic DNA-sensing</td><td class="num">380</td><td class="num">409</td><td class="num">1,001</td></tr>
+                <tr><td>RIG-I-like receptor signaling</td><td class="num">414</td><td class="num">469</td><td class="num">842</td></tr>
+                <tr><td>HIF-1 signaling</td><td class="num">390</td><td class="num">533</td><td class="num">800</td></tr>
+                <tr><td>Protein processing in ER</td><td class="num">569</td><td class="num">735</td><td class="num">380</td></tr>
+                <tr><td>Adipocytokine signaling</td><td class="num">232</td><td class="num">406</td><td class="num">1,001</td></tr>
+                <tr><td>Complement &amp; coagulation cascades</td><td class="num">359</td><td class="num">611</td><td class="num">608</td></tr>
+                <tr><td>Autophagy - animal</td><td class="num">548</td><td class="num">901</td><td class="num">65</td></tr>
+                <tr><td>Hippo signaling</td><td class="num">588</td><td class="num">707</td><td class="num">219</td></tr>
+                <tr><td>Insulin signaling</td><td class="num">468</td><td class="num">758</td><td class="num">284</td></tr>
+                <tr><td>NOD-like receptor signaling</td><td class="num">592</td><td class="num">684</td><td class="num">68</td></tr>
+                <tr><td>AMPK signaling</td><td class="num">372</td><td class="num">417</td><td class="num">549</td></tr>
+                <tr><td>Prolactin signaling</td><td class="num">28</td><td class="num">41</td><td class="num">1,241</td></tr>
+                <tr><td>Notch signaling</td><td class="num">361</td><td class="num">449</td><td class="num">487</td></tr>
+                <tr><td>IL-17 signaling</td><td class="num">110</td><td class="num">188</td><td class="num">987</td></tr>
+                <tr><td>Ferroptosis</td><td class="num">338</td><td class="num">384</td><td class="num">547</td></tr>
+                <tr><td>Th17 cell differentiation</td><td class="num">91</td><td class="num">156</td><td class="num">980</td></tr>
+                <tr><td>T cell receptor signaling</td><td class="num">359</td><td class="num">582</td><td class="num">253</td></tr>
+                <tr><td>Pluripotency signaling</td><td class="num">269</td><td class="num">578</td><td class="num">339</td></tr>
+                <tr><td>Glycolysis / Gluconeogenesis</td><td class="num">354</td><td class="num">559</td><td class="num">211</td></tr>
+                <tr><td>Autophagy - other</td><td class="num">7</td><td class="num">7</td><td class="num">1,095</td></tr>
+                <tr><td>TNF signaling</td><td class="num">258</td><td class="num">319</td><td class="num">426</td></tr>
+                <tr><td>Adherens junction</td><td class="num">65</td><td class="num">93</td><td class="num">838</td></tr>
+                <tr><td>PPAR signaling</td><td class="num">262</td><td class="num">460</td><td class="num">223</td></tr>
+                <tr><td>Fc epsilon RI signaling</td><td class="num">40</td><td class="num">67</td><td class="num">794</td></tr>
+                <tr><td>Regulation of actin cytoskeleton</td><td class="num">306</td><td class="num">513</td><td class="num">45</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <div class="fig">
+        <img src="figures/top_pathways_over_time.png" alt="Top 10 pathways over time">
+        <div class="fig-cap">Top 10 pathways (by metadata signal) over publication year.</div>
+    </div>
+
+    <!-- Full Distribution -->
+    <h2>Full Distribution &mdash; All 249 Pathways</h2>
+    <div class="card">
+        <p>249 KEGG pathways have at least one figure assigned by any signal:</p>
+        <table>
+            <thead><tr><th>Signal</th><th>Pathways with &ge;1 figure</th></tr></thead>
+            <tbody>
+                <tr><td>Caption</td><td class="num">229</td></tr>
+                <tr><td>Metadata</td><td class="num">240</td></tr>
+                <tr><td>Jaccard</td><td class="num">237</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="fig">
+        <img src="figures/full_pathway_distribution.png" alt="Full KEGG pathway distribution">
+        <div class="fig-cap">All 249 KEGG pathways with figure counts from each assignment signal.</div>
+    </div>
+
+    <footer>
+        <p><a href="/research/gemini-pathways/">&larr; Back to Gemini Pathways</a> &nbsp;|&nbsp; <a href="/research/">Research</a> &nbsp;|&nbsp; <a href="/">Home</a></p>
+        <p style="margin-top: 0.5rem;">Source: <code>notebooks/summary_stats.ipynb</code> &nbsp;|&nbsp; Updated: Feb 2026</p>
+    </footer>
+</div>
+</body>
+</html>
