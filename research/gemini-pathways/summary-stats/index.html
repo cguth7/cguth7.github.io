@@ -155,6 +155,60 @@
         <div class="stat"><div class="stat-value">249</div><div class="stat-label">KEGG Pathways Hit</div></div>
     </div>
 
+    <!-- Data Samples -->
+    <h2>Data Samples</h2>
+
+    <h3>metadata.csv</h3>
+    <div class="card">
+        <p>One row per image. KEGG assignments from three signals plus Gemini's own label.</p>
+        <div class="scroll-table">
+        <table>
+            <thead><tr><th>pmc_id</th><th>filename</th><th>fig</th><th>gemini_label</th><th>n_genes</th><th>jaccard_kegg_name</th><th>caption_kegg_name</th><th>metadata_kegg_name</th><th>year</th></tr></thead>
+            <tbody>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>Cell cycle</td><td class="num">2</td><td>Hippo signaling - multi spp</td><td>&mdash;</td><td>Ras signaling</td><td class="num">2017</td></tr>
+                <tr><td>PMC5795421</td><td>PMC5795421__F2.jpg</td><td>F2</td><td>MicroRNA biogenesis</td><td class="num">5</td><td>Nucleocytoplasmic transport</td><td>&mdash;</td><td>Viral life cycle - HIV-1</td><td class="num">2017</td></tr>
+                <tr><td>PMC6599049</td><td>PMC6599049__F6.jpg</td><td>F6</td><td>cGAS-STING signaling</td><td class="num">4</td><td>Cytosolic DNA-sensing</td><td>Cytosolic DNA-sensing</td><td>Cytosolic DNA-sensing</td><td class="num">2019</td></tr>
+                <tr><td>PMC4509066</td><td>PMC4509066__F2.jpg</td><td>F2</td><td>Apoptosis</td><td class="num">11</td><td>Apoptosis - multi spp</td><td>&mdash;</td><td>Apoptosis</td><td class="num">2015</td></tr>
+                <tr><td>PMC3309942</td><td>PMC3309942__F1.jpg</td><td>F1</td><td>RANK signaling</td><td class="num">6</td><td>NF-kappa B signaling</td><td>NF-kappa B signaling</td><td>NF-kappa B signaling</td><td class="num">2012</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <h3>edges.csv</h3>
+    <div class="card">
+        <p>One row per directed interaction extracted from a figure.</p>
+        <div class="scroll-table">
+        <table>
+            <thead><tr><th>pmc_id</th><th>filename</th><th>fig</th><th>source</th><th>target</th><th>interaction</th><th>uncertain</th></tr></thead>
+            <tbody>
+                <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>CASP3</td><td>PARP1</td><td>inhibition</td><td>False</td></tr>
+                <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>CASP3</td><td>Apoptosis</td><td>activation</td><td>False</td></tr>
+                <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>DNA Damage</td><td>ATM</td><td>activation</td><td>False</td></tr>
+                <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>ATM</td><td>TP53</td><td>activation</td><td>False</td></tr>
+                <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>TP53</td><td>Apoptosis</td><td>activation</td><td>True</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
+    <h3>nodes.csv</h3>
+    <div class="card">
+        <p>One row per node extracted from a figure. Genes mapped to Entrez IDs where possible.</p>
+        <div class="scroll-table">
+        <table>
+            <thead><tr><th>pmc_id</th><th>filename</th><th>fig</th><th>label</th><th>node_type</th><th>entrez_id</th><th>is_family_rep</th><th>notes</th></tr></thead>
+            <tbody>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>YAP1</td><td>gene</td><td class="num">10413</td><td>False</td><td></td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>ERK</td><td>gene</td><td>&mdash;</td><td>True</td><td>MAPK family</td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>PI3K</td><td>complex</td><td>&mdash;</td><td>True</td><td></td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>beta-catenin</td><td>gene</td><td class="num">1499</td><td>False</td><td>CTNNB1</td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>G0</td><td>phenotype</td><td>&mdash;</td><td>False</td><td>Quiescence</td></tr>
+            </tbody>
+        </table>
+        </div>
+    </div>
+
     <!-- Per-Image Stats -->
     <h2>Per-Image Stats</h2>
     <div class="card">
