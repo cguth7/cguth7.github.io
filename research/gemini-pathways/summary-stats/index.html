@@ -158,29 +158,29 @@
     <!-- Data Samples -->
     <h2>Data Samples</h2>
 
-    <h3>metadata.csv</h3>
+    <h3>metadata.csv <span style="font-weight:normal;color:var(--text-muted);font-size:0.85rem;">(20 columns)</span></h3>
     <div class="card">
-        <p>One row per image. KEGG assignments from three signals plus Gemini's own label.</p>
+        <p>One row per image. KEGG assignments from three independent signals plus Gemini's own label and related pathways.</p>
         <div class="scroll-table">
-        <table>
-            <thead><tr><th>pmc_id</th><th>filename</th><th>fig</th><th>gemini_label</th><th>n_genes</th><th>jaccard_kegg_name</th><th>caption_kegg_name</th><th>metadata_kegg_name</th><th>year</th></tr></thead>
+        <table style="font-size:0.8rem; white-space:nowrap;">
+            <thead><tr><th>pmc_id</th><th>filename</th><th>figure_number</th><th>gemini_label</th><th>gemini_related_pathways</th><th>n_genes</th><th>jaccard_kegg_id</th><th>jaccard_kegg_name</th><th>jaccard_score</th><th>caption_kegg_id</th><th>caption_kegg_name</th><th>caption_confidence</th><th>caption_reasoning</th><th>caption_jaccard</th><th>metadata_kegg_id</th><th>metadata_kegg_name</th><th>metadata_confidence</th><th>metadata_reasoning</th><th>metadata_jaccard</th><th>year</th></tr></thead>
             <tbody>
-                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>Cell cycle</td><td class="num">2</td><td>Hippo signaling - multi spp</td><td>&mdash;</td><td>Ras signaling</td><td class="num">2017</td></tr>
-                <tr><td>PMC5795421</td><td>PMC5795421__F2.jpg</td><td>F2</td><td>MicroRNA biogenesis</td><td class="num">5</td><td>Nucleocytoplasmic transport</td><td>&mdash;</td><td>Viral life cycle - HIV-1</td><td class="num">2017</td></tr>
-                <tr><td>PMC6599049</td><td>PMC6599049__F6.jpg</td><td>F6</td><td>cGAS-STING signaling</td><td class="num">4</td><td>Cytosolic DNA-sensing</td><td>Cytosolic DNA-sensing</td><td>Cytosolic DNA-sensing</td><td class="num">2019</td></tr>
-                <tr><td>PMC4509066</td><td>PMC4509066__F2.jpg</td><td>F2</td><td>Apoptosis</td><td class="num">11</td><td>Apoptosis - multi spp</td><td>&mdash;</td><td>Apoptosis</td><td class="num">2015</td></tr>
-                <tr><td>PMC3309942</td><td>PMC3309942__F1.jpg</td><td>F1</td><td>RANK signaling</td><td class="num">6</td><td>NF-kappa B signaling</td><td>NF-kappa B signaling</td><td>NF-kappa B signaling</td><td class="num">2012</td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>Cell cycle</td><td>MAPK/ERK signaling|Hippo signaling|PI3K-AKT signaling</td><td class="num">2</td><td>hsa04392</td><td>Hippo signaling pathway - multiple species</td><td class="num">0.03333</td><td></td><td></td><td></td><td></td><td></td><td>hsa04014</td><td>Ras signaling pathway</td><td class="num">0.6</td><td>The paper's keywords explicitly list KRAS, RAS&hellip;</td><td class="num">0.00000</td><td class="num">2017</td></tr>
+                <tr><td>PMC5795421</td><td>PMC5795421__F2.jpg</td><td>F2</td><td>MicroRNA biogenesis</td><td>RNA interference|Gene silencing|Post-transcriptional regulation</td><td class="num">5</td><td>hsa03013</td><td>Nucleocytoplasmic transport</td><td class="num">0.00893</td><td></td><td></td><td></td><td></td><td></td><td>hsa03250</td><td>Viral life cycle - HIV-1</td><td class="num">0.6</td><td>The paper discusses therapies to achieve an HI&hellip;</td><td class="num">0.00000</td><td class="num">2017</td></tr>
+                <tr><td>PMC6599049</td><td>PMC6599049__F6.jpg</td><td>F6</td><td>cGAS-STING signaling</td><td>Antiviral innate immunity|Mitochondrial signaling</td><td class="num">4</td><td>hsa04623</td><td>Cytosolic DNA-sensing pathway</td><td class="num">0.04819</td><td>hsa04623</td><td>Cytosolic DNA-sensing pathway</td><td class="num">0.9</td><td>The caption explicitly describes the mechanism&hellip;</td><td class="num">0.04819</td><td>hsa04623</td><td>Cytosolic DNA-sensing pathway</td><td class="num">0.9</td><td>The paper title and abstract explicitly attrib&hellip;</td><td class="num">0.04819</td><td class="num">2019</td></tr>
+                <tr><td>PMC4509066</td><td>PMC4509066__F2.jpg</td><td>F2</td><td>Apoptosis</td><td>Calcium signaling|MAPK signaling|G protein signaling</td><td class="num">11</td><td>hsa04215</td><td>Apoptosis - multiple species</td><td class="num">0.20000</td><td></td><td></td><td></td><td></td><td></td><td>hsa04210</td><td>Apoptosis</td><td class="num">0.8</td><td>The abstract explicitly states that the 'most&hellip;</td><td class="num">0.05755</td><td class="num">2015</td></tr>
+                <tr><td>PMC3309942</td><td>PMC3309942__F1.jpg</td><td>F1</td><td>RANK signaling</td><td>NF-kB signaling|Autophagy|MAPK signaling</td><td class="num">6</td><td>hsa04064</td><td>NF-kappa B signaling pathway</td><td class="num">0.02778</td><td>hsa04064</td><td>NF-kappa B signaling pathway</td><td class="num">1.0</td><td>The caption explicitly describes the role of p&hellip;</td><td class="num">0.02778</td><td>hsa04064</td><td>NF-kappa B signaling pathway</td><td class="num">0.8</td><td>The abstract details the role of p62 as a scaf&hellip;</td><td class="num">0.02778</td><td class="num">2012</td></tr>
             </tbody>
         </table>
         </div>
     </div>
 
-    <h3>edges.csv</h3>
+    <h3>edges.csv <span style="font-weight:normal;color:var(--text-muted);font-size:0.85rem;">(7 columns)</span></h3>
     <div class="card">
         <p>One row per directed interaction extracted from a figure.</p>
         <div class="scroll-table">
         <table>
-            <thead><tr><th>pmc_id</th><th>filename</th><th>fig</th><th>source</th><th>target</th><th>interaction</th><th>uncertain</th></tr></thead>
+            <thead><tr><th>pmc_id</th><th>filename</th><th>figure_number</th><th>source</th><th>target</th><th>interaction</th><th>uncertain</th></tr></thead>
             <tbody>
                 <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>CASP3</td><td>PARP1</td><td>inhibition</td><td>False</td></tr>
                 <tr><td>PMC8096095</td><td>PMC8096095__F5.jpg</td><td>F5</td><td>CASP3</td><td>Apoptosis</td><td>activation</td><td>False</td></tr>
@@ -192,18 +192,18 @@
         </div>
     </div>
 
-    <h3>nodes.csv</h3>
+    <h3>nodes.csv <span style="font-weight:normal;color:var(--text-muted);font-size:0.85rem;">(8 columns)</span></h3>
     <div class="card">
         <p>One row per node extracted from a figure. Genes mapped to Entrez IDs where possible.</p>
         <div class="scroll-table">
         <table>
-            <thead><tr><th>pmc_id</th><th>filename</th><th>fig</th><th>label</th><th>node_type</th><th>entrez_id</th><th>is_family_rep</th><th>notes</th></tr></thead>
+            <thead><tr><th>pmc_id</th><th>filename</th><th>figure_number</th><th>label</th><th>node_type</th><th>entrez_id</th><th>is_family_representative</th><th>notes</th></tr></thead>
             <tbody>
                 <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>YAP1</td><td>gene</td><td class="num">10413</td><td>False</td><td></td></tr>
-                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>ERK</td><td>gene</td><td>&mdash;</td><td>True</td><td>MAPK family</td></tr>
-                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>PI3K</td><td>complex</td><td>&mdash;</td><td>True</td><td></td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>ERK</td><td>gene</td><td></td><td>True</td><td>MAPK family</td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>PI3K</td><td>complex</td><td></td><td>True</td><td></td></tr>
                 <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>beta-catenin</td><td>gene</td><td class="num">1499</td><td>False</td><td>CTNNB1</td></tr>
-                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>G0</td><td>phenotype</td><td>&mdash;</td><td>False</td><td>Quiescence</td></tr>
+                <tr><td>PMC5403593</td><td>PMC5403593__F2.jpg</td><td>F2</td><td>G0</td><td>phenotype</td><td></td><td>False</td><td>Quiescence</td></tr>
             </tbody>
         </table>
         </div>
