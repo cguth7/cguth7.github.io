@@ -1,37 +1,515 @@
 [
   {
     "paper": "hu2019.pdf",
+    "model": "gpt-5.2",
     "total_score": 15,
     "quality_band": "Fair",
     "rubric_id": "downs_black",
     "items": [
-      {"id": 1, "label": "hypothesis_stated", "response": "yes", "evidence": "The Introduction clearly states the study investigates the therapeutic effects of BDNF modified hUC-MSCs in AD rats."},
-      {"id": 2, "label": "outcomes_described", "response": "yes", "evidence": "The outcomes, including spatial learning and memory improvement, are described in the Introduction and Methods."},
-      {"id": 3, "label": "patient_characteristics", "response": "yes", "evidence": "Subjects are described as adult male Sprague\u2013Dawley rats, with specified weights."},
-      {"id": 4, "label": "interventions_described", "response": "yes", "evidence": "Interventions, including BDNF-modified hUC-MSCs, are detailed under the Methods section."},
-      {"id": 5, "label": "confounders_described", "response": "no", "evidence": "The paper does not explicitly describe distributions of principal confounders across groups."},
-      {"id": 6, "label": "main_findings_clear", "response": "yes", "evidence": "Main findings with ratios and statistical significance are detailed in the Results section with figures."},
-      {"id": 7, "label": "random_variability", "response": "yes", "evidence": "SDs are reported for various measures, including Ach concentration (see Fig. 5)."},
-      {"id": 8, "label": "adverse_events", "response": "yes", "evidence": "No adverse events were expected in this preclinical study, and none are mentioned."},
-      {"id": 9, "label": "loss_to_followup", "response": "unable_to_determine", "evidence": "Loss to follow-up is not addressed in the paper."},
-      {"id": 10, "label": "exact_p_values", "response": "no", "evidence": "P-values are reported using thresholds (e.g., P < 0.05) rather than exact values."},
-      {"id": 11, "label": "subjects_representative", "response": "yes", "evidence": "The paper specifies the use of a commonly used rat model, the Sprague\u2013Dawley strain, standard in such experiments."},
-      {"id": 12, "label": "participants_representative", "response": "yes", "evidence": "Animal study design assumes no significant variation in recruitment."},
-      {"id": 13, "label": "setting_representative", "response": "yes", "evidence": "Describes typical laboratory conditions suitable for controlled experimental studies."},
-      {"id": 14, "label": "subjects_blinded", "response": "unable_to_determine", "evidence": "Blinding of subjects is not mentioned in the context of this animal study."},
-      {"id": 15, "label": "assessors_blinded", "response": "unable_to_determine", "evidence": "There is no mention of blinding of outcome assessors in the study."},
-      {"id": 16, "label": "data_dredging_acknowledged", "response": "unable_to_determine", "evidence": "Data dredging or post-hoc analyses are not addressed or acknowledged."},
-      {"id": 17, "label": "followup_adjusted", "response": "yes", "evidence": "All groups were assessed at the same timepoints following interventions."},
-      {"id": 18, "label": "appropriate_stats", "response": "yes", "evidence": "Statistical tests appropriate for data types are described, such as ANOVA for comparing group means."},
-      {"id": 19, "label": "compliance_reliable", "response": "unable_to_determine", "evidence": "There is no discussion of compliance within the scope of this preclinical model."},
-      {"id": 20, "label": "outcomes_valid", "response": "yes", "evidence": "Outcome measures, like Morris Water Maze test, are established and valid in the context of the study."},
-      {"id": 21, "label": "same_population", "response": "yes", "evidence": "All rat groups were sourced from the same supplier and kept under similar conditions."},
-      {"id": 22, "label": "same_time_period", "response": "yes", "evidence": "All subjects were likely recruited and studied over the same period, but exact timing is not clear."},
-      {"id": 23, "label": "randomized", "response": "no", "evidence": "The study is a preclinical trial with no mention of randomization."},
-      {"id": 24, "label": "allocation_concealed", "response": "no", "evidence": "There is no mention of allocation concealment, appropriate in this non-randomized study."},
-      {"id": 25, "label": "confounding_adjusted", "response": "no", "evidence": "There is no mention of statistical adjustment for confounders in this animal study."},
-      {"id": 26, "label": "losses_accounted", "response": "unable_to_determine", "evidence": "The paper does not report on losses, nor the handling of any potential losses."},
-      {"id": 27, "label": "sufficient_power", "response": "no", "evidence": "There is no mention of sample size calculation or power analysis to back the sample adequacy."}
+      {
+        "id": 1,
+        "label": "hypothesis_stated",
+        "response": "yes",
+        "evidence": "Intro: \"we investigated the therapeutic effects of transplantation with BDNF modified hUC-MSCs-derived cholinergic-like neurons in AD rats in this study.\""
+      },
+      {
+        "id": 2,
+        "label": "outcomes_described",
+        "response": "yes",
+        "evidence": "Abstract/Methods list outcomes: \"Morris water maze test, Western blotting, Immunohistochemistry, Immunofluorescence assay and TUNEL detection were performed.\""
+      },
+      {
+        "id": 3,
+        "label": "patient_characteristics",
+        "response": "yes",
+        "evidence": "Animals described: \"Adult male Sprague\u2013Dawley (SD) rats (250\u2013280g)... housed at...\" Group sizes: \"(n=6 for each group)\"."
+      },
+      {
+        "id": 4,
+        "label": "interventions_described",
+        "response": "yes",
+        "evidence": "Model + treatment detailed: \"1\u03bcl A\u03b21-42... injected into the right hippocampus\" then \"1\u03bcl cell suspension... 2\u00d7105/\u03bcl... at 0.5\u03bcl/min\" with coordinates."
+      },
+      {
+        "id": 5,
+        "label": "confounders_described",
+        "response": "no",
+        "evidence": "No baseline comparability table/variables across groups; only says rats were \"randomly divided into four groups\" without reporting distributions of potential confounders."
+      },
+      {
+        "id": 6,
+        "label": "main_findings_clear",
+        "response": "yes",
+        "evidence": "Quantified results reported with N and comparisons (e.g., MWM: \"N=6 for each group\"; multiple figures report mean\u00b1SD and group differences for biomarkers)."
+      },
+      {
+        "id": 7,
+        "label": "random_variability",
+        "response": "yes",
+        "evidence": "Stats section: \"result were presented as the mean \u00b1 standard deviation (SD)\"; multiple figure legends state \"Values were given as mean\u00b1SD\"."
+      },
+      {
+        "id": 8,
+        "label": "adverse_events",
+        "response": "no",
+        "evidence": "No reporting of adverse events/welfare outcomes after stereotaxic injections/transplantation; only procedural anesthesia/perfusion described."
+      },
+      {
+        "id": 9,
+        "label": "loss_to_followup",
+        "response": "unable_to_determine",
+        "evidence": "States group size \"n=6\" but does not report attrition/mortality or whether all animals completed 8-week follow-up and MWM."
+      },
+      {
+        "id": 10,
+        "label": "exact_p_values",
+        "response": "no",
+        "evidence": "Uses thresholds only (e.g., \"P < 0.05\", \"P < 0.01\"; figure legends use stars), no exact p-values reported."
+      },
+      {
+        "id": 11,
+        "label": "subjects_representative",
+        "response": "unable_to_determine",
+        "evidence": "Rats sourced from a breeding farm (\"qinglong mountain animal breeding farm\") but no info on sampling/representativeness beyond species/sex/weight."
+      },
+      {
+        "id": 12,
+        "label": "participants_representative",
+        "response": "yes",
+        "evidence": "Animal study; no consent/participation process relevant. Rats were obtained from a breeding farm and assigned to groups (no non-response)."
+      },
+      {
+        "id": 13,
+        "label": "setting_representative",
+        "response": "yes",
+        "evidence": "Standard preclinical setting and common assays: stereotaxic hippocampal injections, MWM, WB, IHC/IF, TUNEL (typical lab methods)."
+      },
+      {
+        "id": 14,
+        "label": "subjects_blinded",
+        "response": "no",
+        "evidence": "No statement that animals were blinded to treatment; procedures differ (cell transplantation vs none), so blinding would need to be described but isn't."
+      },
+      {
+        "id": 15,
+        "label": "assessors_blinded",
+        "response": "no",
+        "evidence": "No mention of blinded outcome assessment for MWM scoring, Western blot quantification, or histology counting (e.g., Image-Pro Plus)."
+      },
+      {
+        "id": 16,
+        "label": "data_dredging_acknowledged",
+        "response": "yes",
+        "evidence": "Outcomes/analyses pre-specified in abstract/methods (MWM, WB, IHC/IF, TUNEL, Ach kit) rather than presenting post-hoc analyses as primary."
+      },
+      {
+        "id": 17,
+        "label": "followup_adjusted",
+        "response": "yes",
+        "evidence": "Same follow-up for all: \"All the rats were undergone MWM test at 8weeks after transplantation\"; no variable follow-up lengths reported."
+      },
+      {
+        "id": 18,
+        "label": "appropriate_stats",
+        "response": "yes",
+        "evidence": "Methods: \"Student\u2019s t test\" for 2-group comparisons and \"one-way ANOVA... LSD posthoc test\" for multi-group; fits continuous outcomes (latency, protein levels)."
+      },
+      {
+        "id": 19,
+        "label": "compliance_reliable",
+        "response": "yes",
+        "evidence": "Intervention is single administration: stereotaxic injection of A\u03b2 and then \"1 \u03bcl cell suspension was injected\"; compliance not subject-dependent."
+      },
+      {
+        "id": 20,
+        "label": "outcomes_valid",
+        "response": "yes",
+        "evidence": "Uses established measures: \"Morris Water Maze test\" for spatial memory; standard biomarkers via WB/IHC/IF and apoptosis via \"TUNEL Apoptosis Detection Kit\"."
+      },
+      {
+        "id": 21,
+        "label": "same_population",
+        "response": "yes",
+        "evidence": "All rats from same source: \"Adult male Sprague\u2013Dawley (SD) rats... obtained from qinglong mountain animal breeding farm\" then randomized to groups."
+      },
+      {
+        "id": 22,
+        "label": "same_time_period",
+        "response": "unable_to_determine",
+        "evidence": "No recruitment dates or batching described for animals/cell prep; only procedural timing (2 weeks post A\u03b2; 8 weeks post transplant)."
+      },
+      {
+        "id": 23,
+        "label": "randomized",
+        "response": "yes",
+        "evidence": "Explicit randomization stated: \"AD rats were randomly divided into four groups (n=6 for each group)\"."
+      },
+      {
+        "id": 24,
+        "label": "allocation_concealed",
+        "response": "no",
+        "evidence": "No description of allocation concealment (no sealed envelopes/central assignment); only states \"randomly divided\"."
+      },
+      {
+        "id": 25,
+        "label": "confounding_adjusted",
+        "response": "unable_to_determine",
+        "evidence": "No ITT statement or adjustment/matching described; analyses are unadjusted ANOVA/t-tests, and no handling of potential confounders is reported."
+      },
+      {
+        "id": 26,
+        "label": "losses_accounted",
+        "response": "unable_to_determine",
+        "evidence": "Does not report whether any rats died/withdrew during the 8-week period; no CONSORT-style accounting of animals analyzed."
+      },
+      {
+        "id": 27,
+        "label": "sufficient_power",
+        "response": "no",
+        "evidence": "No sample size/power calculation reported; small groups noted (\"n=6 for each group\"), and limitations acknowledge dose-effect not studied."
+      }
+    ]
+  },
+  {
+    "paper": "hojjati2018.pdf",
+    "model": "gpt-5.2",
+    "total_score": 13,
+    "quality_band": "Poor",
+    "rubric_id": "downs_black",
+    "items": [
+      {
+        "id": 1,
+        "label": "hypothesis_stated",
+        "response": "yes",
+        "evidence": "Abstract: 'We investigated the performances of rs-fMRI and sMRI... for classifying... MCI-C from... MCI-NC.'"
+      },
+      {
+        "id": 2,
+        "label": "outcomes_described",
+        "response": "yes",
+        "evidence": "Methods/Overall procedure: 'trained and tested a support vector machine to classify MCI-C from MCI-NC' and report accuracy/sensitivity/specificity/AUC."
+      },
+      {
+        "id": 3,
+        "label": "patient_characteristics",
+        "response": "yes",
+        "evidence": "Table 1 gives N, sex, age, EMCI/LMCI, MMSE, CDR, FAQ; Methods 2.2 details conversion windows and scores plus exclusion ('excluded...converted from AD to MCI')."
+      },
+      {
+        "id": 4,
+        "label": "interventions_described",
+        "response": "yes",
+        "evidence": "Methods 2.3 describes rs-fMRI acquisition (TR/TE=3000/30ms etc.) and preprocessing; 2.3.2 FreeSurfer processing; comparison is sMRI vs rs-fMRI vs combined."
+      },
+      {
+        "id": 5,
+        "label": "confounders_described",
+        "response": "partially",
+        "evidence": "Table 1 reports baseline differences (sex, age, EMCI/LMCI, MMSE, FAQ with p-values) but no adjustment strategy for these confounders is described."
+      },
+      {
+        "id": 6,
+        "label": "main_findings_clear",
+        "response": "yes",
+        "evidence": "Table 2 reports accuracy/sensitivity/specificity/PPV/AUC for each model; Table 3 reports means\u00b1SD for key features in MCI-C vs MCI-NC with p-values."
+      },
+      {
+        "id": 7,
+        "label": "random_variability",
+        "response": "yes",
+        "evidence": "Table 1 gives age as mean\u00b1SD; Table 3 reports 'MCI-C(mean\u00b1STD)' and 'MCI-NC(mean\u00b1STD)' for selected features."
+      },
+      {
+        "id": 8,
+        "label": "adverse_events",
+        "response": "yes",
+        "evidence": "Imaging/ML observational study (rs-fMRI, sMRI) with no intervention; adverse events not expected (diagnostic prediction only)."
+      },
+      {
+        "id": 9,
+        "label": "loss_to_followup",
+        "response": "unable_to_determine",
+        "evidence": "Methods 2.2 defines MCI-NC as 'did not convert to AD after 36 months of follow-up' but does not report dropouts or characteristics of those lost."
+      },
+      {
+        "id": 10,
+        "label": "exact_p_values",
+        "response": "yes",
+        "evidence": "Table 1 provides exact p-values (e.g., EMCI/LMCI p=0.035; FAQ p=0.049); Table 3 reports p=1.58\u00d710\u22127 etc."
+      },
+      {
+        "id": 11,
+        "label": "subjects_representative",
+        "response": "unable_to_determine",
+        "evidence": "Subjects drawn from ADNI; selection notes 'all MCI-C and MCI-NC...who had rs-fMRI and sMRI data were included', but representativeness of ADNI to general MCI not established."
+      },
+      {
+        "id": 12,
+        "label": "participants_representative",
+        "response": "unable_to_determine",
+        "evidence": "No participation rate or comparison of participants vs non-participants is reported; only states data were selected from ADNI."
+      },
+      {
+        "id": 13,
+        "label": "setting_representative",
+        "response": "unable_to_determine",
+        "evidence": "Acquisition: '3-T Philips scanner' per ADNI protocol, but clinical setting/staff representativeness to typical care is not described."
+      },
+      {
+        "id": 14,
+        "label": "subjects_blinded",
+        "response": "no",
+        "evidence": "No mention of blinding subjects; rs-fMRI instructions: 'Participants were instructed to rest with their eyes open'\u2014group assignment (converter status) not blinded."
+      },
+      {
+        "id": 15,
+        "label": "assessors_blinded",
+        "response": "unable_to_determine",
+        "evidence": "Automated pipelines (DPARSF/SPM/FreeSurfer) are described, but no explicit statement that analysts/labeling were blinded to MCI-C vs MCI-NC."
+      },
+      {
+        "id": 16,
+        "label": "data_dredging_acknowledged",
+        "response": "no",
+        "evidence": "Multiple atlases, feature-selection (MRMR + SFC), and many classifier variants tested (Table 2), but paper does not label analyses as exploratory/post-hoc."
+      },
+      {
+        "id": 17,
+        "label": "followup_adjusted",
+        "response": "no",
+        "evidence": "Methods 2.2: MCI-C converted 'after 6\u201336 months' while MCI-NC had 36-month stability; no analysis adjusting for variable time-to-conversion is reported."
+      },
+      {
+        "id": 18,
+        "label": "appropriate_stats",
+        "response": "yes",
+        "evidence": "Uses SVM with k-fold CV and repeated subsampling for imbalance: 'random sub-sampling... repeated 1000 times' and reports AUC/accuracy; NBS with permutation testing (n=10,000)."
+      },
+      {
+        "id": 19,
+        "label": "compliance_reliable",
+        "response": "yes",
+        "evidence": "Single-session imaging exposures; rs-fMRI protocol specified ('rest with eyes open') and acquisition standardized by ADNI\u2014non-compliance unlikely to affect classifier training materially."
+      },
+      {
+        "id": 20,
+        "label": "outcomes_valid",
+        "response": "yes",
+        "evidence": "Outcome is conversion classification based on ADNI clinical diagnosis; imaging measures extracted with established tools (DPARSF/SPM12, FreeSurfer) with cited methods and ADNI protocol."
+      },
+      {
+        "id": 21,
+        "label": "same_population",
+        "response": "yes",
+        "evidence": "Both groups are from same ADNI source: 'Data...selected from...ADNI database' and includes '18 MCI-C and 62...MCI-NC...included in this study.'"
+      },
+      {
+        "id": 22,
+        "label": "same_time_period",
+        "response": "unable_to_determine",
+        "evidence": "No recruitment dates or enrollment period for the included ADNI participants are provided."
+      },
+      {
+        "id": 23,
+        "label": "randomized",
+        "response": "no",
+        "evidence": "Observational classification study with groups defined by outcome (conversion vs non-conversion); no random allocation described."
+      },
+      {
+        "id": 24,
+        "label": "allocation_concealed",
+        "response": "no",
+        "evidence": "Non-randomised observational design; no intervention assignment to conceal."
+      },
+      {
+        "id": 25,
+        "label": "confounding_adjusted",
+        "response": "no",
+        "evidence": "No multivariable adjustment/matching reported; analyses focus on SVM features and t-tests, while baseline differences exist (Table 1 e.g., EMCI/LMCI p=0.035)."
+      },
+      {
+        "id": 26,
+        "label": "losses_accounted",
+        "response": "unable_to_determine",
+        "evidence": "Study defines follow-up (MCI-NC stable 36 months) but does not report attrition numbers or how missing follow-up was handled."
+      },
+      {
+        "id": 27,
+        "label": "sufficient_power",
+        "response": "no",
+        "evidence": "No sample size/power calculation reported; sample is small and imbalanced (18 MCI-C vs 62 MCI-NC), handled via subsampling but not powered a priori."
+      }
+    ]
+  },
+  {
+    "paper": "hong2021.pdf",
+    "model": "gpt-5.2",
+    "total_score": 17,
+    "quality_band": "Fair",
+    "rubric_id": "downs_black",
+    "items": [
+      {
+        "id": 1,
+        "label": "hypothesis_stated",
+        "response": "yes",
+        "evidence": "Background: analyses 'assessed the hypothesis that variation in these three biomarker outcomes is (at least partially) genetically determined'."
+      },
+      {
+        "id": 2,
+        "label": "outcomes_described",
+        "response": "yes",
+        "evidence": "Methods: GWAS used 'log-transformed concentration of CSF NfL, CSF Ng, and CSF YKL-40 as dependent outcome variables.'"
+      },
+      {
+        "id": 3,
+        "label": "patient_characteristics",
+        "response": "no",
+        "evidence": "Table 1 reports age/sex and diagnosis counts, but no explicit inclusion/exclusion criteria are provided in the excerpt ('ascertainment procedures... described elsewhere')."
+      },
+      {
+        "id": 4,
+        "label": "interventions_described",
+        "response": "yes",
+        "evidence": "Exposure/conditions are genetic variants (GWAS) with specified genotyping and imputation: 'Infinium Global Screening Array... After QC and imputation... 7,778,465 SNPs'."
+      },
+      {
+        "id": 5,
+        "label": "confounders_described",
+        "response": "partially",
+        "evidence": "Confounders listed (sex, age, diagnosis, PCs) in Methods, but distributions by diagnostic group not fully shown beyond counts in Table 1."
+      },
+      {
+        "id": 6,
+        "label": "main_findings_clear",
+        "response": "no",
+        "evidence": "Results mainly report betas and P-values (e.g., Table 2) without providing group-wise biomarker means/SDs by genotype or diagnosis for checking analyses."
+      },
+      {
+        "id": 7,
+        "label": "random_variability",
+        "response": "yes",
+        "evidence": "Table 1 provides random variability for age (e.g., 'Mean age \u00b1 SD'), and regression outputs provide effect sizes (betas) with P-values."
+      },
+      {
+        "id": 8,
+        "label": "adverse_events",
+        "response": "yes",
+        "evidence": "Genetic association study with CSF assays; no intervention administered. Adverse events are not expected for GWAS/biomarker analysis."
+      },
+      {
+        "id": 9,
+        "label": "loss_to_followup",
+        "response": "no",
+        "evidence": "States 'Clinical follow-up data were available for 759 individuals' but does not describe characteristics of those without follow-up."
+      },
+      {
+        "id": 10,
+        "label": "exact_p_values",
+        "response": "yes",
+        "evidence": "Exact P-values are reported throughout (e.g., 'P = 3.85E-09', 'P=.0026', Table 2 lists specific P-values)."
+      },
+      {
+        "id": 11,
+        "label": "subjects_representative",
+        "response": "no",
+        "evidence": "Discussion notes sampling not representative: 'EMIF-AD MBD dataset was not designed to be \u201crepresentative\u201d of the general population'."
+      },
+      {
+        "id": 12,
+        "label": "participants_representative",
+        "response": "unable_to_determine",
+        "evidence": "No participation rate or comparison of participants vs non-participants is reported in the provided text."
+      },
+      {
+        "id": 13,
+        "label": "setting_representative",
+        "response": "yes",
+        "evidence": "Multi-center cohort: 'CSF specimens were collected... at each of the 11 EMIF-AD MBD participating sites' plus ADNI replication."
+      },
+      {
+        "id": 14,
+        "label": "subjects_blinded",
+        "response": "yes",
+        "evidence": "Subjects cannot be blinded to genotype; exposure is DNA variants. Biomarker levels measured from CSF samples independent of subject awareness."
+      },
+      {
+        "id": 15,
+        "label": "assessors_blinded",
+        "response": "unable_to_determine",
+        "evidence": "Biomarkers measured by ELISA/immunoassay, but no statement that lab personnel were blinded to diagnosis/genotype."
+      },
+      {
+        "id": 16,
+        "label": "data_dredging_acknowledged",
+        "response": "yes",
+        "evidence": "Exploratory framing: 'performed the first bona fide GWAS on CSF levels...' and post-GWAS analyses described separately ('FUMA... post-GWAS analyses')."
+      },
+      {
+        "id": 17,
+        "label": "followup_adjusted",
+        "response": "yes",
+        "evidence": "Primary outcomes are cross-sectional CSF biomarker levels; GWAS uses 'age at examination' and no time-to-event/follow-up modeling."
+      },
+      {
+        "id": 18,
+        "label": "appropriate_stats",
+        "response": "yes",
+        "evidence": "Methods use standard GWAS linear regression with covariates and log-transform: 'Linear regression... imputation-derived allele dosages... log-transformed concentration'."
+      },
+      {
+        "id": 19,
+        "label": "compliance_reliable",
+        "response": "yes",
+        "evidence": "No intervention requiring compliance; genotypes and CSF assays are objectively measured exposures/outcomes (ELISA/immunoassay)."
+      },
+      {
+        "id": 20,
+        "label": "outcomes_valid",
+        "response": "yes",
+        "evidence": "Validated assays specified: NfL 'NF-light ELISA, Uman Diagnostics'; YKL-40 'Quantikine ELISA kit (R&D Systems)'; Ng immunoassay described."
+      },
+      {
+        "id": 21,
+        "label": "same_population",
+        "response": "yes",
+        "evidence": "All EMIF groups drawn from same EMIF-AD MBD cohort with different baseline diagnoses: 'includes... with different cognitive diagnoses at baseline (NC, MCI, AD)'."
+      },
+      {
+        "id": 22,
+        "label": "same_time_period",
+        "response": "unable_to_determine",
+        "evidence": "No recruitment dates or time windows are provided for EMIF-AD MBD or ADNI in the excerpt."
+      },
+      {
+        "id": 23,
+        "label": "randomized",
+        "response": "no",
+        "evidence": "Observational GWAS with no assignment: 'performed genome-wide association studies (GWAS) using DNA and CSF samples' (no randomization mentioned)."
+      },
+      {
+        "id": 24,
+        "label": "allocation_concealed",
+        "response": "no",
+        "evidence": "Non-randomised observational design; no intervention allocation to conceal."
+      },
+      {
+        "id": 25,
+        "label": "confounding_adjusted",
+        "response": "yes",
+        "evidence": "Regression model adjusted for confounders: 'Covariates included... sex, age at examination, diagnostic groups... and... principal components (first five)'."
+      },
+      {
+        "id": 26,
+        "label": "losses_accounted",
+        "response": "yes",
+        "evidence": "Main analyses are cross-sectional GWAS of CSF biomarkers (Table 1 Ns per biomarker); follow-up not used in primary outcomes."
+      },
+      {
+        "id": 27,
+        "label": "sufficient_power",
+        "response": "no",
+        "evidence": "No sample size/power calculation reported; Discussion acknowledges limited power: 'samplesize... relatively modest... limiting our power to detect... small effects'."
+      }
     ]
   }
 ]
