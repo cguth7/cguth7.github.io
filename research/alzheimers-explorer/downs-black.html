@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Downs & Black Quality Assessment</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        header { background: #2c3e50; color: white; padding: 20px 0; margin-bottom: 20px; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 24px; font-weight: 600; }
+        header p { opacity: 0.8; font-size: 14px; margin-top: 4px; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); }
+        .nav-links a:hover { color: white; border-color: white; }
+        .nav-links a.active { color: white; border-color: white; background: rgba(255,255,255,0.1); }
+
+        .panel { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+        .summary-bar { display: flex; gap: 20px; flex-wrap: wrap; padding: 15px; background: #ecf0f1; border-radius: 6px; margin-bottom: 15px; }
+        .summary-item { font-size: 14px; }
+        .summary-item strong { color: #2c3e50; }
+
+        .paper-card { padding: 20px; margin-bottom: 20px; border: 1px solid #e0e0e0; border-radius: 8px; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .paper-header { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
+        .paper-name { font-size: 18px; font-weight: 600; color: #2c3e50; }
+        .score-badge { padding: 6px 16px; border-radius: 20px; font-weight: bold; font-size: 16px; color: white; }
+        .score-badge.excellent { background: #27ae60; }
+        .score-badge.good { background: #2ecc71; }
+        .score-badge.fair { background: #f39c12; }
+        .score-badge.poor { background: #e74c3c; }
+        .band-label { font-size: 13px; color: #7f8c8d; margin-left: 4px; }
+
+        .section-header { font-size: 14px; font-weight: 600; color: #2c3e50; padding: 10px 12px; background: #f8f9fa; border-radius: 4px; margin-top: 15px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .item-row { display: flex; align-items: flex-start; gap: 12px; padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+        .item-row:last-child { border-bottom: none; }
+        .item-id { min-width: 28px; color: #95a5a6; font-size: 13px; font-weight: 500; padding-top: 2px; }
+        .item-label { min-width: 200px; font-size: 13px; font-weight: 500; color: #2c3e50; padding-top: 2px; }
+        .item-response { min-width: 120px; }
+        .response-tag { display: inline-block; padding: 3px 10px; border-radius: 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+        .response-tag.yes { background: #d5f5e3; color: #1e8449; }
+        .response-tag.no { background: #fadbd8; color: #c0392b; }
+        .response-tag.partially { background: #fef9e7; color: #b7950b; }
+        .response-tag.unable_to_determine { background: #eaecee; color: #7f8c8d; font-size: 10px; }
+        .item-evidence { flex: 1; font-size: 12px; color: #666; font-style: italic; padding-top: 3px; }
+
+        .section-summary { display: flex; gap: 15px; padding: 8px 12px; margin-bottom: 5px; }
+        .section-stat { font-size: 12px; color: #7f8c8d; }
+        .section-stat strong { color: #2c3e50; }
+
+        .score-breakdown { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 6px; }
+        .breakdown-section { text-align: center; }
+        .breakdown-section .section-name { font-size: 11px; color: #7f8c8d; text-transform: uppercase; letter-spacing: 0.5px; }
+        .breakdown-section .section-score { font-size: 20px; font-weight: 700; color: #2c3e50; }
+        .breakdown-section .section-max { font-size: 12px; color: #bdc3c7; }
+
+        .bar-container { width: 100%; height: 8px; background: #ecf0f1; border-radius: 4px; margin-top: 10px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+
+        .legend { display: flex; gap: 15px; font-size: 12px; margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div>
+                <h1>Downs & Black Quality Assessment</h1>
+                <p>27-item validated checklist (Downs & Black, 1998) — higher score = better quality</p>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">v1 Integrity</a>
+                <a href="downs-black.html" class="active">Downs & Black</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <div class="summary-bar">
+                <div class="summary-item"><strong id="paperCount">0</strong> papers</div>
+                <div class="summary-item">Rubric: <strong>Downs & Black (1998)</strong></div>
+                <div class="summary-item">Items: <strong>27</strong></div>
+                <div class="summary-item">Max score: <strong>28</strong></div>
+            </div>
+            <div class="legend">
+                <span class="legend-item"><span class="legend-dot" style="background: #27ae60;"></span> Excellent (26-28)</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #2ecc71;"></span> Good (20-25)</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #f39c12;"></span> Fair (15-19)</span>
+                <span class="legend-item"><span class="legend-dot" style="background: #e74c3c;"></span> Poor (0-14)</span>
+            </div>
+        </div>
+
+        <div id="papersContainer"></div>
+    </div>
+
+    <script>
+        const SECTIONS = {
+            'REPORTING': { items: [1,2,3,4,5,6,7,8,9,10], max: 11 },
+            'EXTERNAL VALIDITY': { items: [11,12,13], max: 3 },
+            'INTERNAL VALIDITY — BIAS': { items: [14,15,16,17,18,19,20], max: 7 },
+            'INTERNAL VALIDITY — CONFOUNDING': { items: [21,22,23,24,25,26], max: 6 },
+            'POWER': { items: [27], max: 1 }
+        };
+
+        function scoreItem(item) {
+            if (item.id === 5) {
+                return { yes: 2, partially: 1, no: 0 }[item.response] || 0;
+            }
+            return item.response === 'yes' ? 1 : 0;
+        }
+
+        function getBarColor(ratio) {
+            if (ratio >= 0.85) return '#27ae60';
+            if (ratio >= 0.65) return '#2ecc71';
+            if (ratio >= 0.5) return '#f39c12';
+            return '#e74c3c';
+        }
+
+        function formatLabel(label) {
+            return label.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function renderPaper(paper) {
+            const itemMap = {};
+            paper.items.forEach(item => { itemMap[item.id] = item; });
+
+            let html = `
+                <div class="paper-card">
+                    <div class="paper-header">
+                        <span class="paper-name">${paper.paper}</span>
+                        <span class="score-badge ${paper.quality_band.toLowerCase()}">${paper.total_score}/28</span>
+                        <span class="band-label">${paper.quality_band}</span>
+                    </div>
+
+                    <div class="score-breakdown">`;
+
+            for (const [sectionName, section] of Object.entries(SECTIONS)) {
+                let sectionScore = 0;
+                section.items.forEach(id => { sectionScore += scoreItem(itemMap[id]); });
+                const ratio = sectionScore / section.max;
+                html += `
+                    <div class="breakdown-section">
+                        <div class="section-name">${sectionName}</div>
+                        <div class="section-score">${sectionScore}<span class="section-max">/${section.max}</span></div>
+                        <div class="bar-container"><div class="bar-fill" style="width: ${ratio * 100}%; background: ${getBarColor(ratio)};"></div></div>
+                    </div>`;
+            }
+
+            html += `</div>`;
+
+            for (const [sectionName, section] of Object.entries(SECTIONS)) {
+                let sectionScore = 0;
+                let yesCount = 0, noCount = 0, utdCount = 0;
+                section.items.forEach(id => {
+                    const item = itemMap[id];
+                    sectionScore += scoreItem(item);
+                    if (item.response === 'yes') yesCount++;
+                    else if (item.response === 'no') noCount++;
+                    else if (item.response === 'unable_to_determine') utdCount++;
+                    else if (item.response === 'partially') yesCount++;
+                });
+
+                html += `<div class="section-header">${sectionName} (${sectionScore}/${section.max})</div>`;
+                html += `<div class="section-summary">
+                    <span class="section-stat"><strong>${yesCount}</strong> yes</span>
+                    <span class="section-stat"><strong>${noCount}</strong> no</span>
+                    ${utdCount > 0 ? `<span class="section-stat"><strong>${utdCount}</strong> unclear</span>` : ''}
+                </div>`;
+
+                section.items.forEach(id => {
+                    const item = itemMap[id];
+                    const responseClass = item.response.replace(/ /g, '_');
+                    const displayResponse = item.response === 'unable_to_determine' ? 'unclear' : item.response;
+                    html += `
+                        <div class="item-row">
+                            <span class="item-id">${item.id}.</span>
+                            <span class="item-label">${formatLabel(item.label)}</span>
+                            <span class="item-response"><span class="response-tag ${responseClass}">${displayResponse}</span></span>
+                            <span class="item-evidence">${item.evidence}</span>
+                        </div>`;
+                });
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        async function loadData() {
+            try {
+                const resp = await fetch('data/downs_black.json');
+                if (!resp.ok) throw new Error('Failed to load: ' + resp.status);
+                const papers = await resp.json();
+                document.getElementById('paperCount').textContent = papers.length;
+
+                const container = document.getElementById('papersContainer');
+                papers.sort((a, b) => b.total_score - a.total_score);
+                container.innerHTML = papers.map(renderPaper).join('');
+            } catch (err) {
+                document.getElementById('papersContainer').innerHTML = `<div class="panel" style="color: #e74c3c;">Error: ${err.message}</div>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

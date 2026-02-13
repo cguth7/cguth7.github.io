@@ -1,0 +1,37 @@
+[
+  {
+    "paper": "hu2019.pdf",
+    "total_score": 15,
+    "quality_band": "Fair",
+    "rubric_id": "downs_black",
+    "items": [
+      {"id": 1, "label": "hypothesis_stated", "response": "yes", "evidence": "The Introduction clearly states the study investigates the therapeutic effects of BDNF modified hUC-MSCs in AD rats."},
+      {"id": 2, "label": "outcomes_described", "response": "yes", "evidence": "The outcomes, including spatial learning and memory improvement, are described in the Introduction and Methods."},
+      {"id": 3, "label": "patient_characteristics", "response": "yes", "evidence": "Subjects are described as adult male Sprague\u2013Dawley rats, with specified weights."},
+      {"id": 4, "label": "interventions_described", "response": "yes", "evidence": "Interventions, including BDNF-modified hUC-MSCs, are detailed under the Methods section."},
+      {"id": 5, "label": "confounders_described", "response": "no", "evidence": "The paper does not explicitly describe distributions of principal confounders across groups."},
+      {"id": 6, "label": "main_findings_clear", "response": "yes", "evidence": "Main findings with ratios and statistical significance are detailed in the Results section with figures."},
+      {"id": 7, "label": "random_variability", "response": "yes", "evidence": "SDs are reported for various measures, including Ach concentration (see Fig. 5)."},
+      {"id": 8, "label": "adverse_events", "response": "yes", "evidence": "No adverse events were expected in this preclinical study, and none are mentioned."},
+      {"id": 9, "label": "loss_to_followup", "response": "unable_to_determine", "evidence": "Loss to follow-up is not addressed in the paper."},
+      {"id": 10, "label": "exact_p_values", "response": "no", "evidence": "P-values are reported using thresholds (e.g., P < 0.05) rather than exact values."},
+      {"id": 11, "label": "subjects_representative", "response": "yes", "evidence": "The paper specifies the use of a commonly used rat model, the Sprague\u2013Dawley strain, standard in such experiments."},
+      {"id": 12, "label": "participants_representative", "response": "yes", "evidence": "Animal study design assumes no significant variation in recruitment."},
+      {"id": 13, "label": "setting_representative", "response": "yes", "evidence": "Describes typical laboratory conditions suitable for controlled experimental studies."},
+      {"id": 14, "label": "subjects_blinded", "response": "unable_to_determine", "evidence": "Blinding of subjects is not mentioned in the context of this animal study."},
+      {"id": 15, "label": "assessors_blinded", "response": "unable_to_determine", "evidence": "There is no mention of blinding of outcome assessors in the study."},
+      {"id": 16, "label": "data_dredging_acknowledged", "response": "unable_to_determine", "evidence": "Data dredging or post-hoc analyses are not addressed or acknowledged."},
+      {"id": 17, "label": "followup_adjusted", "response": "yes", "evidence": "All groups were assessed at the same timepoints following interventions."},
+      {"id": 18, "label": "appropriate_stats", "response": "yes", "evidence": "Statistical tests appropriate for data types are described, such as ANOVA for comparing group means."},
+      {"id": 19, "label": "compliance_reliable", "response": "unable_to_determine", "evidence": "There is no discussion of compliance within the scope of this preclinical model."},
+      {"id": 20, "label": "outcomes_valid", "response": "yes", "evidence": "Outcome measures, like Morris Water Maze test, are established and valid in the context of the study."},
+      {"id": 21, "label": "same_population", "response": "yes", "evidence": "All rat groups were sourced from the same supplier and kept under similar conditions."},
+      {"id": 22, "label": "same_time_period", "response": "yes", "evidence": "All subjects were likely recruited and studied over the same period, but exact timing is not clear."},
+      {"id": 23, "label": "randomized", "response": "no", "evidence": "The study is a preclinical trial with no mention of randomization."},
+      {"id": 24, "label": "allocation_concealed", "response": "no", "evidence": "There is no mention of allocation concealment, appropriate in this non-randomized study."},
+      {"id": 25, "label": "confounding_adjusted", "response": "no", "evidence": "There is no mention of statistical adjustment for confounders in this animal study."},
+      {"id": 26, "label": "losses_accounted", "response": "unable_to_determine", "evidence": "The paper does not report on losses, nor the handling of any potential losses."},
+      {"id": 27, "label": "sufficient_power", "response": "no", "evidence": "There is no mention of sample size calculation or power analysis to back the sample adequacy."}
+    ]
+  }
+]
