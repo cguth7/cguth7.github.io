@@ -44,7 +44,7 @@
 <div class="cards" id="stat-cards"></div>
 
 <div class="chart-container">
-  <h2>Distribution: Best-Match vs Random Jaccard</h2>
+  <h2>Distribution: All Four Signals vs Random Jaccard</h2>
   <div class="chart-wrap"><canvas id="histChart"></canvas></div>
 </div>
 
@@ -88,19 +88,26 @@ fetch('random-jaccard-data.json').then(r => r.json()).then(data => {
     <div class="stat-card"><div class="label">Real Wins</div><div class="value best">${(100 * data.real_wins / data.paired_count).toFixed(1)}%</div><div class="detail">${data.real_wins.toLocaleString()} of ${data.paired_count.toLocaleString()}</div></div>
   `;
 
-  // Histogram
-  const bmBins = data.best_match.histogram.bins;
-  const rdBins = data.random.histogram.bins;
-  const labels = bmBins.map(b => b.x.toFixed(2));
+  // Histogram — all 4 signals
+  const histSignals = [
+    { key: 'best_match', label: 'Best-Match Jaccard', bg: 'rgba(46,125,50,0.5)', border: 'rgba(46,125,50,1)' },
+    { key: 'caption',    label: 'Caption KEGG Jaccard', bg: 'rgba(52,168,83,0.5)', border: 'rgba(52,168,83,1)' },
+    { key: 'metadata',   label: 'Metadata KEGG Jaccard', bg: 'rgba(156,39,176,0.5)', border: 'rgba(156,39,176,1)' },
+    { key: 'random',     label: 'Random Jaccard', bg: 'rgba(198,40,40,0.5)', border: 'rgba(198,40,40,1)' },
+  ];
+  const labels = data.best_match.histogram.bins.map(b => b.x.toFixed(2));
 
   new Chart(document.getElementById('histChart'), {
     type: 'bar',
     data: {
       labels,
-      datasets: [
-        { label: 'Best-Match Jaccard', data: bmBins.map(b => b.count), backgroundColor: 'rgba(46,125,50,0.6)', borderColor: 'rgba(46,125,50,1)', borderWidth: 1 },
-        { label: 'Random Jaccard', data: rdBins.map(b => b.count), backgroundColor: 'rgba(198,40,40,0.6)', borderColor: 'rgba(198,40,40,1)', borderWidth: 1 }
-      ]
+      datasets: histSignals.map(s => ({
+        label: s.label,
+        data: data[s.key].histogram.bins.map(b => b.count),
+        backgroundColor: s.bg,
+        borderColor: s.border,
+        borderWidth: 1
+      }))
     },
     options: {
       responsive: true, maintainAspectRatio: false,
