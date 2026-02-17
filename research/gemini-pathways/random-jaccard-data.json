@@ -216,10 +216,10 @@
   },
   "caption": {
     "stats": {
-      "n": 47537,
-      "mean": 0.04341,
-      "median": 0.01538,
-      "nonzero_pct": 59.2,
+      "n": 29609,
+      "mean": 0.0697,
+      "median": 0.04321,
+      "nonzero_pct": 95.0,
       "max": 0.95652
     },
     "histogram": {
@@ -227,7 +227,7 @@
       "bins": [
         {
           "x": 0.0,
-          "count": 21748
+          "count": 3820
         },
         {
           "x": 0.01,
@@ -431,10 +431,10 @@
   },
   "metadata": {
     "stats": {
-      "n": 47537,
-      "mean": 0.04918,
-      "median": 0.02755,
-      "nonzero_pct": 80.4,
+      "n": 44100,
+      "mean": 0.05301,
+      "median": 0.0315,
+      "nonzero_pct": 86.7,
       "max": 0.9375
     },
     "histogram": {
@@ -442,7 +442,7 @@
       "bins": [
         {
           "x": 0.0,
-          "count": 13619
+          "count": 10182
         },
         {
           "x": 0.01,
@@ -878,15 +878,15 @@
     "diff_std": 0.08354
   },
   "caption_vs_random": {
-    "n": 31434,
+    "n": 29609,
     "signal_wins": 27126,
-    "random_wins": 1510,
-    "ties": 2798
+    "random_wins": 1037,
+    "ties": 1446
   },
   "metadata_vs_random": {
-    "n": 45392,
+    "n": 44100,
     "signal_wins": 36487,
-    "random_wins": 2681,
-    "ties": 6224
+    "random_wins": 2408,
+    "ties": 5205
   }
 }

@@ -188,8 +188,11 @@ fetch('random-jaccard-data.json').then(r => r.json()).then(data => {
 
   // Compare all 4 signals
   const signals = ['best_match', 'caption', 'metadata', 'random'];
-  const names = ['Best-Match', 'Caption KEGG', 'Metadata KEGG', 'Random'];
-  const colors = ['#2e7d32', '#34a853', '#9c27b0', '#c62828'];
+  const names = signals.map(s => {
+    const labels = { best_match: 'Best-Match', caption: 'Caption KEGG', metadata: 'Metadata KEGG', random: 'Random' };
+    return `${labels[s]} (n=${data[s].stats.n.toLocaleString()})`;
+  });
+  const colors = ['#1e88e5', '#ffa000', '#00c853', '#e53935'];
 
   new Chart(document.getElementById('compareChart'), {
     type: 'bar',
