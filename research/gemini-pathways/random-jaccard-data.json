@@ -876,5 +876,17 @@
     "cohens_d": 1.065,
     "diff_mean": 0.08894,
     "diff_std": 0.08354
+  },
+  "caption_vs_random": {
+    "n": 31434,
+    "signal_wins": 27126,
+    "random_wins": 1510,
+    "ties": 2798
+  },
+  "metadata_vs_random": {
+    "n": 45392,
+    "signal_wins": 36487,
+    "random_wins": 2681,
+    "ties": 6224
   }
 }

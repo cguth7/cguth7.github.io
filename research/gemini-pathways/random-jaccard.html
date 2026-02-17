@@ -49,10 +49,19 @@
 </div>
 
 <div class="chart-container">
-  <h2>Head-to-Head: Real vs Random (per image)</h2>
-  <p style="font-size:0.9em; color:#555; margin-bottom:12px;">For each image, does the best-match KEGG beat the randomly-assigned KEGG?</p>
+  <h2>Head-to-Head: Each Signal vs Random (per image)</h2>
+
+  <p style="font-size:0.9em; color:#555; margin-bottom:8px; margin-top:4px;"><strong>Best-Match</strong> vs Random <span style="color:#888; font-size:0.85em;">(n = <span id="bmN"></span>)</span></p>
   <div class="wins-bar" id="winsBar"></div>
   <div class="legend-row" id="winsLegend"></div>
+
+  <p style="font-size:0.9em; color:#555; margin-bottom:8px; margin-top:20px;"><strong>Caption KEGG</strong> vs Random <span style="color:#888; font-size:0.85em;">(n = <span id="capN"></span>, images with caption assignment)</span></p>
+  <div class="wins-bar" id="capWinsBar"></div>
+  <div class="legend-row" id="capWinsLegend"></div>
+
+  <p style="font-size:0.9em; color:#555; margin-bottom:8px; margin-top:20px;"><strong>Metadata KEGG</strong> vs Random <span style="color:#888; font-size:0.85em;">(n = <span id="metaN"></span>, images with metadata assignment)</span></p>
+  <div class="wins-bar" id="metaWinsBar"></div>
+  <div class="legend-row" id="metaWinsLegend"></div>
 </div>
 
 <div class="chart-container">
@@ -119,18 +128,38 @@ fetch('random-jaccard-data.json').then(r => r.json()).then(data => {
     }
   });
 
-  // Wins bar
-  const rw = data.real_wins, rn = data.random_wins, ti = data.ties, tot = data.paired_count;
-  document.getElementById('winsBar').innerHTML = `
-    <div class="real-win" style="width:${100*rw/tot}%">${(100*rw/tot).toFixed(1)}%</div>
-    <div class="tie" style="width:${100*ti/tot}%">${ti > 0 ? (100*ti/tot).toFixed(1)+'%' : ''}</div>
-    <div class="rand-win" style="width:${100*rn/tot}%">${rn > 0 ? (100*rn/tot).toFixed(1)+'%' : ''}</div>
-  `;
-  document.getElementById('winsLegend').innerHTML = `
-    <span>Real wins: ${rw.toLocaleString()}</span>
-    <span>Ties: ${ti.toLocaleString()}</span>
-    <span>Random wins: ${rn.toLocaleString()}</span>
-  `;
+  // Wins bars helper
+  function renderWinsBar(barId, legendId, nId, sw, rw, ti, tot) {
+    if (nId) document.getElementById(nId).textContent = tot.toLocaleString();
+    document.getElementById(barId).innerHTML = `
+      <div class="real-win" style="width:${100*sw/tot}%">${(100*sw/tot).toFixed(1)}%</div>
+      <div class="tie" style="width:${100*ti/tot}%">${ti > 0 ? (100*ti/tot).toFixed(1)+'%' : ''}</div>
+      <div class="rand-win" style="width:${100*rw/tot}%">${rw > 0 ? (100*rw/tot).toFixed(1)+'%' : ''}</div>
+    `;
+    document.getElementById(legendId).innerHTML = `
+      <span>Signal wins: ${sw.toLocaleString()}</span>
+      <span>Ties: ${ti.toLocaleString()}</span>
+      <span>Random wins: ${rw.toLocaleString()}</span>
+    `;
+  }
+
+  // Best-match vs random
+  renderWinsBar('winsBar', 'winsLegend', 'bmN',
+    data.real_wins, data.random_wins, data.ties, data.paired_count);
+
+  // Caption vs random
+  if (data.caption_vs_random) {
+    const c = data.caption_vs_random;
+    renderWinsBar('capWinsBar', 'capWinsLegend', 'capN',
+      c.signal_wins, c.random_wins, c.ties, c.n);
+  }
+
+  // Metadata vs random
+  if (data.metadata_vs_random) {
+    const m = data.metadata_vs_random;
+    renderWinsBar('metaWinsBar', 'metaWinsLegend', 'metaN',
+      m.signal_wins, m.random_wins, m.ties, m.n);
+  }
 
   // Statistical tests table
   if (data.tests) {
