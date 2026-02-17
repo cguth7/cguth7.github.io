@@ -90,10 +90,10 @@ fetch('random-jaccard-data.json').then(r => r.json()).then(data => {
 
   // Histogram — all 4 signals
   const histSignals = [
-    { key: 'best_match', label: 'Best-Match Jaccard', bg: 'rgba(46,125,50,0.5)', border: 'rgba(46,125,50,1)' },
-    { key: 'caption',    label: 'Caption KEGG Jaccard', bg: 'rgba(52,168,83,0.5)', border: 'rgba(52,168,83,1)' },
-    { key: 'metadata',   label: 'Metadata KEGG Jaccard', bg: 'rgba(156,39,176,0.5)', border: 'rgba(156,39,176,1)' },
-    { key: 'random',     label: 'Random Jaccard', bg: 'rgba(198,40,40,0.5)', border: 'rgba(198,40,40,1)' },
+    { key: 'best_match', label: 'Best-Match Jaccard', bg: 'rgba(30,136,229,0.55)', border: 'rgba(30,136,229,1)' },
+    { key: 'caption',    label: 'Caption KEGG Jaccard', bg: 'rgba(255,160,0,0.55)', border: 'rgba(255,160,0,1)' },
+    { key: 'metadata',   label: 'Metadata KEGG Jaccard', bg: 'rgba(0,200,83,0.55)', border: 'rgba(0,200,83,1)' },
+    { key: 'random',     label: 'Random Jaccard', bg: 'rgba(229,57,53,0.55)', border: 'rgba(229,57,53,1)' },
   ];
   const labels = data.best_match.histogram.bins.map(b => b.x.toFixed(2));
 
