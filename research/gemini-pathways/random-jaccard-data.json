@@ -862,5 +862,19 @@
   "paired_count": 47411,
   "real_wins": 47200,
   "random_wins": 0,
-  "ties": 211
+  "ties": 211,
+  "tests": {
+    "n": 47537,
+    "paired_t": {
+      "t_stat": 232.1,
+      "p_value": "0.00e+00"
+    },
+    "wilcoxon": {
+      "w_stat": 1113943600.0,
+      "p_value": "0.00e+00"
+    },
+    "cohens_d": 1.065,
+    "diff_mean": 0.08894,
+    "diff_std": 0.08354
+  }
 }

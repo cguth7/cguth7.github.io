@@ -29,6 +29,11 @@
   .note { font-size: 0.82em; color: #888; margin-top: 16px; line-height: 1.5; }
   a { color: #1565c0; }
   .back { margin-bottom: 16px; font-size: 0.85em; }
+  .test-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 0.9em; }
+  .test-table th { text-align: left; padding: 8px 12px; border-bottom: 2px solid #ddd; color: #555; font-weight: 600; }
+  .test-table td { padding: 8px 12px; border-bottom: 1px solid #eee; }
+  .test-table .mono { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.9em; }
+  .test-table .sig { color: #2e7d32; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -48,6 +53,15 @@
   <p style="font-size:0.9em; color:#555; margin-bottom:12px;">For each image, does the best-match KEGG beat the randomly-assigned KEGG?</p>
   <div class="wins-bar" id="winsBar"></div>
   <div class="legend-row" id="winsLegend"></div>
+</div>
+
+<div class="chart-container">
+  <h2>Statistical Tests</h2>
+  <p style="font-size:0.9em; color:#555; margin-bottom:12px;">Paired tests (n = 47,537): does the real best-match Jaccard significantly exceed the random baseline?</p>
+  <table class="test-table" id="testTable">
+    <thead><tr><th>Test</th><th>Statistic</th><th>p-value</th><th>Interpretation</th></tr></thead>
+    <tbody id="testBody"></tbody>
+  </table>
 </div>
 
 <div class="chart-container">
@@ -110,6 +124,31 @@ fetch('random-jaccard-data.json').then(r => r.json()).then(data => {
     <span>Ties: ${ti.toLocaleString()}</span>
     <span>Random wins: ${rn.toLocaleString()}</span>
   `;
+
+  // Statistical tests table
+  if (data.tests) {
+    const t = data.tests;
+    document.getElementById('testBody').innerHTML = `
+      <tr>
+        <td><strong>Paired t-test</strong></td>
+        <td class="mono">t = ${t.paired_t.t_stat}</td>
+        <td class="sig">p ${t.paired_t.p_value === '0.00e+00' ? '< 1e-300' : '= ' + t.paired_t.p_value}</td>
+        <td>Mean difference = ${t.diff_mean.toFixed(4)} (SE = ${(t.diff_std / Math.sqrt(t.n)).toFixed(5)})</td>
+      </tr>
+      <tr>
+        <td><strong>Wilcoxon signed-rank</strong></td>
+        <td class="mono">W = ${t.wilcoxon.w_stat.toLocaleString()}</td>
+        <td class="sig">p ${t.wilcoxon.p_value === '0.00e+00' ? '< 1e-300' : '= ' + t.wilcoxon.p_value}</td>
+        <td>Non-parametric; robust to skew</td>
+      </tr>
+      <tr>
+        <td><strong>Cohen's d</strong></td>
+        <td class="mono">d = ${t.cohens_d}</td>
+        <td></td>
+        <td>${t.cohens_d >= 0.8 ? 'Large effect' : t.cohens_d >= 0.5 ? 'Medium effect' : 'Small effect'} (>0.8 = large)</td>
+      </tr>
+    `;
+  }
 
   // Compare all 4 signals
   const signals = ['best_match', 'caption', 'metadata', 'random'];
