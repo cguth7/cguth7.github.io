@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality Scoring Validation — Flagged vs Clean Papers</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; line-height: 1.5; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        header { background: #2c3e50; color: white; padding: 20px 0; margin-bottom: 20px; }
+        header .container { display: flex; justify-content: space-between; align-items: center; }
+        header h1 { font-size: 24px; font-weight: 600; }
+        header p { opacity: 0.8; font-size: 14px; margin-top: 4px; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3); }
+        .nav-links a:hover { color: white; border-color: white; }
+        .nav-links a.active { color: white; border-color: white; background: rgba(255,255,255,0.1); }
+
+        .panel { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .panel h2 { font-size: 16px; color: #2c3e50; margin-bottom: 12px; }
+
+        .overview-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+        .overview-table th { text-align: left; padding: 10px 12px; background: #f8f9fa; border-bottom: 2px solid #dee2e6; color: #2c3e50; font-weight: 600; cursor: pointer; user-select: none; }
+        .overview-table th:hover { background: #eef1f5; }
+        .overview-table th .sort-arrow { font-size: 10px; margin-left: 4px; opacity: 0.4; }
+        .overview-table th.sorted .sort-arrow { opacity: 1; }
+        .overview-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+        .overview-table tr:hover { background: #f8f9fa; }
+        .overview-table tr.active { background: #eaf2ff; }
+
+        .score-pill { display: inline-block; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 12px; color: white; }
+        .pill-excellent { background: #27ae60; }
+        .pill-good { background: #2ecc71; }
+        .pill-fair { background: #f39c12; }
+        .pill-poor { background: #e74c3c; }
+
+        .v2-bar, .db-bar { display: inline-block; height: 16px; border-radius: 3px; vertical-align: middle; }
+        .v2-bar { background: #3498db; }
+        .db-bar { background: #27ae60; }
+
+        /* Scatter plot canvas */
+        .scatter-container { text-align: center; margin-bottom: 20px; }
+        #scatterCanvas { border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); background: white; }
+        .scatter-caption { font-size: 12px; color: #7f8c8d; margin-top: 8px; }
+
+        /* Detail panel */
+        .detail-panel { display: none; }
+        .detail-panel.visible { display: block; }
+
+        .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } }
+
+        .detail-card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-top: 4px solid; }
+        .detail-card.v2 { border-color: #3498db; }
+        .detail-card.db { border-color: #27ae60; }
+        .detail-card h3 { font-size: 15px; margin-bottom: 12px; }
+        .detail-card h3 .tag { font-size: 12px; padding: 2px 8px; border-radius: 10px; color: white; margin-left: 8px; font-weight: 500; }
+        .detail-card h3 .tag.v2 { background: #3498db; }
+        .detail-card h3 .tag.db { background: #27ae60; }
+
+        .criterion { padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+        .criterion:last-child { border-bottom: none; }
+        .criterion-header { display: flex; justify-content: space-between; align-items: center; }
+        .criterion-name { font-size: 13px; font-weight: 600; color: #2c3e50; }
+        .criterion-score { font-size: 14px; font-weight: 700; }
+        .criterion-reasoning { font-size: 12px; color: #666; margin-top: 4px; font-style: italic; }
+
+        .item-row { display: flex; align-items: flex-start; gap: 8px; padding: 8px 0; border-bottom: 1px solid #f0f0f0; font-size: 13px; }
+        .item-row:last-child { border-bottom: none; }
+        .item-id { min-width: 24px; color: #95a5a6; font-weight: 500; }
+        .item-label { min-width: 160px; font-weight: 500; color: #2c3e50; }
+        .item-response { min-width: 80px; }
+        .response-tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+        .response-tag.yes { background: #d5f5e3; color: #1e8449; }
+        .response-tag.no { background: #fadbd8; color: #c0392b; }
+        .response-tag.partially { background: #fef9e7; color: #b7950b; }
+        .response-tag.unable_to_determine { background: #eaecee; color: #7f8c8d; font-size: 10px; }
+        .response-tag.not_applicable { background: #d6dbdf; color: #566573; font-size: 10px; }
+        .item-evidence { flex: 1; font-size: 11px; color: #888; font-style: italic; }
+
+        .section-header { font-size: 12px; font-weight: 600; color: #2c3e50; padding: 8px 0 4px; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid #eee; margin-top: 12px; }
+
+        .close-btn { float: right; background: none; border: 1px solid #ccc; border-radius: 4px; padding: 4px 12px; cursor: pointer; color: #666; font-size: 13px; }
+        .close-btn:hover { background: #f0f0f0; }
+
+        .paper-title { font-size: 18px; font-weight: 600; color: #2c3e50; margin-bottom: 15px; }
+
+        .legend { display: flex; gap: 20px; font-size: 13px; padding: 12px; background: #f8f9fa; border-radius: 4px; margin-bottom: 15px; }
+        .legend-item { display: flex; align-items: center; gap: 6px; }
+        .legend-swatch { width: 14px; height: 14px; border-radius: 3px; }
+
+        .summary-text { font-size: 12px; color: #555; margin-top: 10px; padding: 10px; background: #f8f9fa; border-radius: 4px; font-style: italic; }
+
+        /* Flag badges */
+        .flag-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; text-transform: uppercase; margin-left: 4px; }
+        .flag-retracted { background: #e74c3c; color: white; }
+        .flag-problematic { background: #e67e22; color: white; }
+        .flag-duplication { background: #f39c12; color: white; }
+        .flag-pubpeer { background: #8e44ad; color: white; }
+        .flag-sloppiness { background: #d4ac0d; color: white; }
+        .flag-unclear { background: #95a5a6; color: white; }
+        .flag-clean { background: #27ae60; color: white; }
+
+        .flagged-row { background: #fdf2f2 !important; }
+        .flagged-row:hover { background: #fbe8e8 !important; }
+
+        /* Stats banner */
+        .stats-banner { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+        .stat-card { background: white; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card .stat-value { font-size: 28px; font-weight: 700; color: #2c3e50; }
+        .stat-card .stat-label { font-size: 12px; color: #7f8c8d; margin-top: 4px; }
+        .stat-card.flagged { border-top: 3px solid #e74c3c; }
+        .stat-card.clean { border-top: 3px solid #27ae60; }
+        .stat-card.diff { border-top: 3px solid #3498db; }
+    </style>
+</head>
+<body>
+<script src="data/comparison.js"></script>
+    <header>
+        <div class="container">
+            <div>
+                <h1>Quality Scoring Validation — Flagged vs Clean</h1>
+                <p>Comparing quality scores for papers with known integrity flags (retracted, image duplication, PubPeer) vs clean papers</p>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Overview</a>
+                <a href="integrity.html">v1 Integrity</a>
+                <a href="downs-black.html">Downs & Black</a>
+                <a href="comparison.html" class="active">Comparison</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="panel">
+            <div id="statsBanner" class="stats-banner"></div>
+
+            <div class="legend">
+                <span class="legend-item"><span class="legend-swatch" style="background: #3498db;"></span> v2 Quality Score (higher = better)</span>
+                <span class="legend-item"><span class="legend-swatch" style="background: #27ae60;"></span> Downs & Black (higher = better)</span>
+                <span class="legend-item"><span class="legend-swatch" style="background: #e74c3c;"></span> Flagged paper</span>
+            </div>
+
+            <div class="scatter-container">
+                <canvas id="scatterCanvas" width="700" height="450"></canvas>
+                <p class="scatter-caption" id="scatterCaption"></p>
+            </div>
+
+            <table class="overview-table">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Paper <span class="sort-arrow">&#9650;</span></th>
+                        <th data-sort="flags">Flags <span class="sort-arrow">&#9650;</span></th>
+                        <th data-sort="v2" class="sorted">v2 Quality <span class="sort-arrow">&#9660;</span></th>
+                        <th style="width:100px;"></th>
+                        <th data-sort="db">D&B Quality <span class="sort-arrow">&#9650;</span></th>
+                        <th style="width:100px;"></th>
+                        <th data-sort="band">D&B Band <span class="sort-arrow">&#9650;</span></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+
+        <div id="detailPanel" class="detail-panel"></div>
+    </div>
+
+    <script>
+        const DB_SECTIONS = {
+            'Reporting': [1,2,3,4,5,6,7,8,9,10],
+            'External Validity': [11,12,13],
+            'Internal Validity — Bias': [14,15,16,17,18,19,20],
+            'Internal Validity — Confounding': [21,22,23,24,25,26],
+            'Power': [27]
+        };
+
+        const V2_DIM_LABELS = {
+            'study_design': 'Study Design',
+            'claims_vs_evidence': 'Claims vs Evidence',
+            'statistical_reporting': 'Statistical Reporting',
+            'methodological_transparency': 'Methods Transparency',
+            'data_code_availability': 'Data/Code Availability'
+        };
+
+        let DATA = [];
+        let sortKey = 'v2';
+        let sortAsc = false;
+
+        function pillClass(band) {
+            return 'pill-' + band.toLowerCase();
+        }
+
+        function formatLabel(label) {
+            return label.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        }
+
+        function v2Color(score) {
+            if (score >= 7) return '#27ae60';
+            if (score >= 5) return '#f39c12';
+            return '#e74c3c';
+        }
+
+        // Pearson correlation
+        function pearsonR(xs, ys) {
+            const n = xs.length;
+            const mx = xs.reduce((a, b) => a + b, 0) / n;
+            const my = ys.reduce((a, b) => a + b, 0) / n;
+            let num = 0, dx2 = 0, dy2 = 0;
+            for (let i = 0; i < n; i++) {
+                const dx = xs[i] - mx, dy = ys[i] - my;
+                num += dx * dy;
+                dx2 += dx * dx;
+                dy2 += dy * dy;
+            }
+            return num / Math.sqrt(dx2 * dy2);
+        }
+
+        function drawScatter() {
+            const canvas = document.getElementById('scatterCanvas');
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            const pad = { top: 30, right: 30, bottom: 50, left: 60 };
+            const pw = W - pad.left - pad.right;
+            const ph = H - pad.top - pad.bottom;
+
+            ctx.clearRect(0, 0, W, H);
+
+            // Only plot scoreable papers
+            const pts = DATA.filter(p => p.scoreable !== false);
+
+            const xs = pts.map(p => p.v2_avg);
+            const ys = pts.map(p => p.db_pct * 100);
+
+            const xMin = 1, xMax = 10;
+            const yMin = 0, yMax = 100;
+
+            const toX = v => pad.left + (v - xMin) / (xMax - xMin) * pw;
+            const toY = v => pad.top + ph - (v - yMin) / (yMax - yMin) * ph;
+
+            // Grid
+            ctx.strokeStyle = '#eee';
+            ctx.lineWidth = 1;
+            for (let x = 2; x <= 9; x++) {
+                ctx.beginPath(); ctx.moveTo(toX(x), pad.top); ctx.lineTo(toX(x), pad.top + ph); ctx.stroke();
+            }
+            for (let y = 10; y <= 90; y += 10) {
+                ctx.beginPath(); ctx.moveTo(pad.left, toY(y)); ctx.lineTo(pad.left + pw, toY(y)); ctx.stroke();
+            }
+
+            // Axes
+            ctx.strokeStyle = '#bdc3c7';
+            ctx.lineWidth = 2;
+            ctx.beginPath(); ctx.moveTo(pad.left, pad.top + ph); ctx.lineTo(pad.left + pw, pad.top + ph); ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(pad.left, pad.top); ctx.lineTo(pad.left, pad.top + ph); ctx.stroke();
+
+            // Axis labels
+            ctx.fillStyle = '#7f8c8d';
+            ctx.font = '12px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            for (let x = 2; x <= 9; x++) {
+                ctx.fillText(x, toX(x), pad.top + ph + 20);
+            }
+            ctx.textAlign = 'right';
+            for (let y = 0; y <= 100; y += 20) {
+                ctx.fillText(y + '%', pad.left - 8, toY(y) + 4);
+            }
+
+            // Axis titles
+            ctx.fillStyle = '#2c3e50';
+            ctx.font = '13px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('v2 Quality Score (higher = better)', pad.left + pw / 2, H - 8);
+            ctx.save();
+            ctx.translate(16, pad.top + ph / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText('D&B Quality %', 0, 0);
+            ctx.restore();
+
+            // Regression line
+            const r = pearsonR(xs, ys);
+            const n = xs.length;
+            const mx = xs.reduce((a, b) => a + b, 0) / n;
+            const my = ys.reduce((a, b) => a + b, 0) / n;
+            const slope = r * (Math.sqrt(ys.reduce((s, y) => s + (y - my) ** 2, 0) / n) / Math.sqrt(xs.reduce((s, x) => s + (x - mx) ** 2, 0) / n));
+            const intercept = my - slope * mx;
+
+            ctx.strokeStyle = 'rgba(52, 152, 219, 0.3)';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([6, 4]);
+            ctx.beginPath();
+            ctx.moveTo(toX(xMin), toY(slope * xMin + intercept));
+            ctx.lineTo(toX(xMax), toY(slope * xMax + intercept));
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Points — clean first, then flagged on top
+            const cleanPts = pts.filter(p => !isFlagged(p));
+            const flaggedPts = pts.filter(p => isFlagged(p));
+
+            cleanPts.forEach(p => {
+                const x = toX(p.v2_avg);
+                const y = toY(p.db_pct * 100);
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, Math.PI * 2);
+                ctx.fillStyle = '#3498db';
+                ctx.fill();
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+
+            flaggedPts.forEach(p => {
+                const x = toX(p.v2_avg);
+                const y = toY(p.db_pct * 100);
+                // Red diamond for flagged
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(Math.PI / 4);
+                ctx.fillStyle = '#e74c3c';
+                ctx.fillRect(-6, -6, 12, 12);
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-6, -6, 12, 12);
+                ctx.restore();
+                // Label
+                ctx.fillStyle = '#c0392b';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'left';
+                const label = p.paper.replace('.pdf','').replace(/@/g,'/');
+                ctx.fillText(label.length > 12 ? label.slice(0,12)+'…' : label, x + 10, y + 4);
+            });
+
+            // Caption
+            const notScoreable = DATA.filter(p => p.scoreable === false).length;
+            document.getElementById('scatterCaption').textContent =
+                `r = ${r.toFixed(2)} (n=${n} scoreable papers${notScoreable ? ', ' + notScoreable + ' non-empirical excluded' : ''}). Both axes: higher = better quality.`;
+        }
+
+        function isFlagged(p) {
+            return p.flags && p.flags.length > 0;
+        }
+
+        function flagBadges(flags) {
+            if (!flags || flags.length === 0) return '<span class="flag-badge flag-clean">clean</span>';
+            return flags.map(f => `<span class="flag-badge flag-${f}">${f}</span>`).join(' ');
+        }
+
+        function getSortValue(p, key) {
+            switch (key) {
+                case 'name': return p.paper;
+                case 'v2': return p.v2_avg;
+                case 'db': return p.db_pct;
+                case 'band': return ['Poor','Fair','Good','Excellent'].indexOf(p.db_band);
+                case 'flags': return isFlagged(p) ? 1 : 0;
+                default: return 0;
+            }
+        }
+
+        function renderStats() {
+            const scoreable = DATA.filter(p => p.scoreable !== false);
+            const flagged = scoreable.filter(p => isFlagged(p));
+            const clean = scoreable.filter(p => !isFlagged(p));
+
+            const avg = arr => arr.reduce((a, b) => a + b, 0) / arr.length;
+            const fv2 = avg(flagged.map(p => p.v2_avg));
+            const cv2 = avg(clean.map(p => p.v2_avg));
+            const fdb = avg(flagged.map(p => p.db_pct)) * 100;
+            const cdb = avg(clean.map(p => p.db_pct)) * 100;
+
+            document.getElementById('statsBanner').innerHTML = `
+                <div class="stat-card flagged">
+                    <div class="stat-value">${fv2.toFixed(1)} <small style="font-size:14px;color:#7f8c8d;">/ 10</small></div>
+                    <div class="stat-label">Flagged Mean v2 (n=${flagged.length})</div>
+                    <div style="font-size:12px;color:#7f8c8d;margin-top:4px;">D&B: ${fdb.toFixed(0)}%</div>
+                </div>
+                <div class="stat-card clean">
+                    <div class="stat-value">${cv2.toFixed(1)} <small style="font-size:14px;color:#7f8c8d;">/ 10</small></div>
+                    <div class="stat-label">Clean Mean v2 (n=${clean.length})</div>
+                    <div style="font-size:12px;color:#7f8c8d;margin-top:4px;">D&B: ${cdb.toFixed(0)}%</div>
+                </div>
+                <div class="stat-card diff">
+                    <div class="stat-value">${(cv2 - fv2).toFixed(1)} <small style="font-size:14px;color:#7f8c8d;">pts</small></div>
+                    <div class="stat-label">Gap (clean − flagged)</div>
+                    <div style="font-size:12px;color:#7f8c8d;margin-top:4px;">D&B gap: ${(cdb - fdb).toFixed(0)}pp</div>
+                </div>
+            `;
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            const scoreable = DATA.filter(p => p.scoreable !== false);
+            const notScoreable = DATA.filter(p => p.scoreable === false);
+
+            const sorted = [...scoreable].sort((a, b) => {
+                const va = getSortValue(a, sortKey);
+                const vb = getSortValue(b, sortKey);
+                const cmp = va < vb ? -1 : va > vb ? 1 : 0;
+                return sortAsc ? cmp : -cmp;
+            });
+
+            let html = sorted.map(p => {
+                const v2Pct = (p.v2_avg / 10 * 100);
+                const dbPct = (p.db_pct * 100);
+                const name = p.paper.replace('.pdf', '').replace(/@/g, '/');
+                const rowClass = isFlagged(p) ? 'flagged-row' : '';
+                return `
+                    <tr onclick="selectPaper('${p.paper}')" style="cursor:pointer;" id="row-${CSS.escape(p.paper)}" class="${rowClass}">
+                        <td><strong>${name}</strong></td>
+                        <td>${flagBadges(p.flags)}</td>
+                        <td>${p.v2_avg.toFixed(1)} / 10</td>
+                        <td><span class="v2-bar" style="width:${v2Pct}px;"></span></td>
+                        <td>${p.db_score}/${p.db_applicable} (${Math.round(dbPct)}%)</td>
+                        <td><span class="db-bar" style="width:${dbPct}px;"></span></td>
+                        <td><span class="score-pill ${pillClass(p.db_band)}">${p.db_band}</span></td>
+                    </tr>`;
+            }).join('');
+
+            if (notScoreable.length > 0) {
+                html += `<tr><td colspan="7" style="padding:16px 12px 8px;font-weight:600;color:#95a5a6;font-size:13px;border-top:2px solid #eee;">
+                    NOT SCOREABLE — ${notScoreable.length} non-empirical paper${notScoreable.length > 1 ? 's' : ''} excluded</td></tr>`;
+                notScoreable.forEach(p => {
+                    const name = p.paper.replace('.pdf', '').replace(/@/g, '/');
+                    html += `
+                        <tr style="opacity:0.5;">
+                            <td><strong>${name}</strong></td>
+                            <td><span class="flag-badge" style="background:#95a5a6;color:white;">${p.paper_type || 'N/A'}</span></td>
+                            <td colspan="4" style="font-size:12px;color:#95a5a6;font-style:italic;">${p.not_scoreable_reason || ''}</td>
+                            <td></td>
+                        </tr>`;
+                });
+            }
+
+            tbody.innerHTML = html;
+        }
+
+        function selectPaper(paperName) {
+            const p = DATA.find(d => d.paper === paperName);
+            if (!p) return;
+
+            document.querySelectorAll('.overview-table tr').forEach(r => r.classList.remove('active'));
+            const row = document.getElementById('row-' + CSS.escape(paperName));
+            if (row) row.classList.add('active');
+
+            const panel = document.getElementById('detailPanel');
+            panel.classList.add('visible');
+
+            const name = p.paper.replace('.pdf', '').replace(/@/g, '/');
+
+            const flagHtml = isFlagged(p)
+                ? `<div style="margin-bottom:12px;">${flagBadges(p.flags)}</div>`
+                : `<div style="margin-bottom:12px;">${flagBadges([])}</div>`;
+            const typeHtml = p.paper_type ? `<span style="font-size:13px;color:#7f8c8d;margin-left:8px;">(${p.paper_type})</span>` : '';
+
+            let html = `
+                <div class="paper-title">${name} ${typeHtml} <button class="close-btn" onclick="closeDetail()">Close</button></div>
+                ${flagHtml}
+                <div class="detail-grid">`;
+
+            // V2 card
+            html += `<div class="detail-card v2">
+                <h3>v2 Quality Score <span class="tag v2">${p.v2_avg.toFixed(1)} / 10</span></h3>`;
+
+            if (p.v2_scores) {
+                for (const [key, val] of Object.entries(p.v2_scores)) {
+                    const score = val.score;
+                    const label = V2_DIM_LABELS[key] || formatLabel(key);
+                    if (score === null) {
+                        html += `
+                            <div class="criterion">
+                                <div class="criterion-header">
+                                    <span class="criterion-name">${label}</span>
+                                    <span class="criterion-score" style="color:#95a5a6;">N/A</span>
+                                </div>
+                                <div class="criterion-reasoning">${val.reasoning || ''}</div>
+                            </div>`;
+                    } else {
+                        const color = v2Color(score);
+                        html += `
+                            <div class="criterion">
+                                <div class="criterion-header">
+                                    <span class="criterion-name">${label}</span>
+                                    <span class="criterion-score" style="color:${color};">${score.toFixed(1)}</span>
+                                </div>
+                                <div class="criterion-reasoning">${val.reasoning || ''}</div>
+                            </div>`;
+                    }
+                }
+            }
+            if (p.v2_summary) {
+                html += `<div class="summary-text">${p.v2_summary}</div>`;
+            }
+            html += `</div>`;
+
+            // D&B card
+            html += `<div class="detail-card db">
+                <h3>Downs & Black <span class="tag db">${p.db_score}/${p.db_applicable} = ${Math.round(p.db_pct * 100)}%</span></h3>`;
+
+            const itemMap = {};
+            p.db_items.forEach(item => { itemMap[item.id] = item; });
+
+            for (const [sectionName, itemIds] of Object.entries(DB_SECTIONS)) {
+                html += `<div class="section-header">${sectionName}</div>`;
+                itemIds.forEach(id => {
+                    const item = itemMap[id];
+                    if (!item) return;
+                    const responseClass = item.response.replace(/ /g, '_');
+                    let displayResponse = item.response;
+                    if (displayResponse === 'unable_to_determine') displayResponse = 'unclear';
+                    if (displayResponse === 'not_applicable') displayResponse = 'N/A';
+                    html += `
+                        <div class="item-row">
+                            <span class="item-id">${item.id}.</span>
+                            <span class="item-label">${formatLabel(item.label)}</span>
+                            <span class="item-response"><span class="response-tag ${responseClass}">${displayResponse}</span></span>
+                            <span class="item-evidence">${item.evidence}</span>
+                        </div>`;
+                });
+            }
+            html += `</div></div>`;
+
+            panel.innerHTML = html;
+            panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeDetail() {
+            document.getElementById('detailPanel').classList.remove('visible');
+            document.querySelectorAll('.overview-table tr').forEach(r => r.classList.remove('active'));
+        }
+
+        // Column sorting
+        document.addEventListener('click', e => {
+            const th = e.target.closest('th[data-sort]');
+            if (!th) return;
+            const key = th.dataset.sort;
+            if (sortKey === key) {
+                sortAsc = !sortAsc;
+            } else {
+                sortKey = key;
+                sortAsc = key === 'name';
+            }
+            document.querySelectorAll('.overview-table th').forEach(h => {
+                h.classList.remove('sorted');
+                h.querySelector('.sort-arrow').textContent = '\u25B2';
+            });
+            th.classList.add('sorted');
+            th.querySelector('.sort-arrow').textContent = sortAsc ? '\u25B2' : '\u25BC';
+            renderTable();
+        });
+
+        function init() {
+            try {
+                DATA = INLINE_DATA;
+                renderStats();
+                renderTable();
+                drawScatter();
+            } catch (err) {
+                document.getElementById('tableBody').innerHTML = `<tr><td colspan="7" style="color:#e74c3c;">Error: ${err.message}</td></tr>`;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

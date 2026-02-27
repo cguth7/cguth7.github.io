@@ -3,603 +3,410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alzheimer's Paper Integrity Explorer</title>
+    <title>Alzheimer's Paper Quality Scoring | Charlie Guthmann</title>
+    <link rel="stylesheet" href="../templates/research.css">
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f7fa; color: #333; line-height: 1.5; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
-        header { background: #2c3e50; color: white; padding: 20px 0; margin-bottom: 20px; }
-        header h1 { font-size: 24px; font-weight: 600; }
-        header p { opacity: 0.8; font-size: 14px; margin-top: 4px; }
-
-        .panel { background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .panel h2 { font-size: 16px; font-weight: 600; margin-bottom: 15px; color: #2c3e50; }
-
-        .summary-bar { display: flex; gap: 20px; flex-wrap: wrap; padding: 15px; background: #ecf0f1; border-radius: 6px; margin-bottom: 15px; }
-        .summary-item { font-size: 14px; }
-        .summary-item strong { color: #2c3e50; }
-
-        .sliders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; }
-        .slider-row { display: flex; align-items: center; gap: 10px; }
-        .slider-row label { min-width: 180px; font-size: 13px; font-weight: 500; }
-        .slider-row input[type="range"] { flex: 1; cursor: pointer; }
-        .slider-row .value { min-width: 40px; text-align: right; font-weight: bold; color: #3498db; }
-
-        .controls { display: flex; gap: 10px; margin-top: 15px; }
-        .controls button { padding: 8px 16px; border-radius: 5px; border: 1px solid #bdc3c7; background: white; cursor: pointer; font-size: 13px; }
-        .controls button:hover { background: #ecf0f1; }
-        .controls button.primary { background: #27ae60; color: white; border-color: #27ae60; }
-
-        .results-list { margin-top: 10px; }
-        .result-card { padding: 15px; margin-bottom: 15px; border: 1px solid #e0e0e0; border-radius: 6px; border-left: 4px solid #3498db; }
-        .result-card.high { border-left-color: #e74c3c; background: #fdf2f2; }
-        .result-card.moderate { border-left-color: #f39c12; }
-        .result-card.low { border-left-color: #27ae60; }
-
-        /* Tab system for each paper */
-        .paper-tabs { display: flex; gap: 0; margin-top: 12px; border-bottom: 2px solid #e0e0e0; }
-        .paper-tab { padding: 10px 20px; cursor: pointer; border: 1px solid transparent; border-bottom: none; border-radius: 6px 6px 0 0; font-size: 13px; font-weight: 500; color: #7f8c8d; background: #f8f9fa; margin-bottom: -2px; }
-        .paper-tab:hover { background: #ecf0f1; }
-        .paper-tab.active { background: white; border-color: #e0e0e0; color: #2c3e50; border-bottom: 2px solid white; }
-        .paper-tab .tab-badge { background: #3498db; color: white; padding: 2px 6px; border-radius: 8px; font-size: 11px; margin-left: 6px; }
-        .paper-tab.image-tab .tab-badge { background: #9b59b6; }
-        .paper-tab-content { display: none; padding: 15px 0; }
-        .paper-tab-content.active { display: block; }
-
-        .result-header { display: flex; align-items: flex-start; gap: 12px; }
-        .result-rank { color: #7f8c8d; font-weight: bold; min-width: 30px; }
-        .result-score { display: inline-block; padding: 4px 12px; border-radius: 12px; font-weight: bold; font-size: 14px; color: white; }
-        .result-score.high { background: #e74c3c; }
-        .result-score.moderate { background: #f39c12; }
-        .result-score.low { background: #27ae60; }
-
-        .result-title { flex: 1; font-weight: 500; color: #2980b9; text-decoration: none; }
-        .result-title:hover { text-decoration: underline; }
-        .result-reasoning { margin-top: 10px; font-size: 13px; color: #555; font-style: italic; padding: 10px; background: #f8f9fa; border-radius: 4px; }
-
-        .criteria-toggle { margin-top: 10px; }
-        .criteria-toggle summary { cursor: pointer; color: #3498db; font-size: 13px; }
-        .criteria-list { margin-top: 10px; border: 1px solid #e0e0e0; border-radius: 4px; }
-        .criterion-item { padding: 10px 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: flex-start; }
-        .criterion-item:last-child { border-bottom: none; }
-        .criterion-name { font-weight: 500; font-size: 13px; }
-        .criterion-score { padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: bold; color: white; }
-        .criterion-reasoning { font-size: 12px; color: #666; margin-top: 4px; }
-
-        .rank-change { font-size: 12px; margin-left: 5px; }
-        .rank-change.up { color: #27ae60; }
-        .rank-change.down { color: #e74c3c; }
-
-        .legend { display: flex; gap: 15px; font-size: 12px; margin-top: 15px; padding: 10px; background: #f8f9fa; border-radius: 4px; }
-        .legend-item { display: flex; align-items: center; gap: 5px; }
-        .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
-
-        #loadingMsg { text-align: center; padding: 40px; color: #7f8c8d; }
-        #errorMsg { text-align: center; padding: 40px; color: #e74c3c; display: none; }
-
-        .rubric-toggle { margin-top: 15px; }
-        .rubric-toggle summary { cursor: pointer; color: #3498db; font-size: 14px; font-weight: 500; }
-        .rubric-content { margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 6px; }
-        .rubric-item { margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid #e0e0e0; }
-        .rubric-item:last-of-type { margin-bottom: 10px; padding-bottom: 10px; }
-        .rubric-item h4 { font-size: 14px; color: #2c3e50; margin-bottom: 8px; }
-        .rubric-item ul { margin: 0; padding-left: 20px; font-size: 13px; color: #555; }
-        .rubric-item li { margin-bottom: 3px; }
-        .weight-badge { background: #3498db; color: white; font-size: 11px; padding: 2px 6px; border-radius: 10px; margin-left: 8px; font-weight: normal; }
-        .score-guide { font-size: 13px; color: #7f8c8d; padding-top: 10px; border-top: 1px solid #e0e0e0; }
-        .raw-prompt-toggle { margin-top: 15px; padding-top: 15px; border-top: 1px solid #e0e0e0; }
-        .raw-prompt-toggle summary { cursor: pointer; color: #7f8c8d; font-size: 13px; }
-        .raw-prompt { margin-top: 10px; padding: 15px; background: #2c3e50; color: #ecf0f1; border-radius: 6px; font-size: 12px; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word; max-height: 400px; overflow-y: auto; }
-
-        /* Image Analysis Styles */
-        .image-analysis-toggle { margin-top: 10px; }
-        .image-analysis-toggle summary { cursor: pointer; color: #9b59b6; font-size: 13px; font-weight: 500; }
-        .image-analysis-toggle summary .badge { background: #27ae60; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; }
-        .image-analysis-toggle summary .badge.has-flags { background: #e74c3c; }
-        .image-analysis-content { margin-top: 15px; }
-        .image-summary { padding: 12px; background: #f0fff0; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #27ae60; }
-        .image-summary.has-flags { background: #fff5f5; border-left-color: #e74c3c; }
-        .image-summary-status { font-weight: bold; font-size: 14px; }
-        .image-summary-status.clean { color: #27ae60; }
-        .image-summary-status.flagged { color: #e74c3c; }
-
-        .image-gallery { display: flex; flex-direction: column; gap: 15px; }
-        .image-card { display: flex; gap: 15px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e0e0e0; }
-        .image-card.flagged { background: #fff5f5; border-color: #e74c3c; border-width: 2px; }
-        .image-card.skipped { opacity: 0.5; }
-        .image-card img { max-width: 300px; max-height: 400px; border-radius: 4px; border: 1px solid #ddd; object-fit: contain; background: white; cursor: pointer; transition: transform 0.2s; }
-        .image-card img:hover { transform: scale(1.02); }
-        .image-card-details { flex: 1; min-width: 200px; }
-        .image-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-        .image-card-title { font-weight: 600; font-size: 14px; color: #2c3e50; }
-        .image-card-category { background: #3498db; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; text-transform: capitalize; }
-        .image-card-category.skipped { background: #95a5a6; }
-        .flag-badge { background: #e74c3c; color: white; padding: 2px 8px; border-radius: 10px; font-size: 11px; margin-left: 8px; }
-        .image-card-findings { font-size: 13px; color: #555; line-height: 1.5; }
-        .image-card-findings.flagged { color: #c0392b; font-weight: 500; }
-
-        /* Image modal for enlarged view */
-        .image-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center; cursor: zoom-out; }
-        .image-modal.active { display: flex; }
-        .image-modal img { max-width: 95%; max-height: 95%; object-fit: contain; }
-
-        @media (max-width: 768px) {
-            .image-card { flex-direction: column; }
-            .image-card img { max-width: 100%; }
+        .nav-bar { display: flex; gap: 12px; margin-top: 1rem; flex-wrap: wrap; }
+        .nav-bar a {
+            color: #2563eb; text-decoration: none; font-size: 14px; padding: 6px 16px;
+            border-radius: 6px; border: 1px solid #2563eb; transition: all 0.2s;
         }
+        .nav-bar a:hover { background: #2563eb; color: white; }
+        .nav-bar a.active { background: #2563eb; color: white; }
+
+        .methodology-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 1.5rem 0; }
+        @media (max-width: 768px) { .methodology-grid { grid-template-columns: 1fr; } }
+
+        .method-card {
+            background: white; border-radius: 8px; padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); border-top: 4px solid;
+        }
+        .method-card.vector1 { border-color: #16a34a; }
+        .method-card.vector2 { border-color: #2563eb; }
+        .method-card.validation { border-color: #9333ea; }
+        .method-card.extraction { border-color: #ca8a04; }
+
+        .method-card h3 { font-size: 1.1rem; margin-bottom: 0.75rem; }
+        .method-card p, .method-card li { font-size: 0.95rem; color: #444; }
+        .method-card ul { padding-left: 1.25rem; margin-top: 0.5rem; }
+        .method-card li { margin-bottom: 0.25rem; }
+
+        .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+        .tag-green { background: #dcfce7; color: #166534; }
+        .tag-blue { background: #dbeafe; color: #1e40af; }
+        .tag-purple { background: #f3e8ff; color: #6b21a8; }
+        .tag-yellow { background: #fef9c3; color: #854d0e; }
+        .tag-red { background: #fee2e2; color: #991b1b; }
+
+        .timeline { margin: 1.5rem 0; }
+        .timeline-item {
+            display: flex; gap: 1rem; padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        .timeline-item:last-child { border-bottom: none; }
+        .timeline-date { min-width: 100px; font-weight: 600; color: #666; font-size: 0.9rem; }
+        .timeline-content { flex: 1; }
+        .timeline-content strong { color: #1a1a1a; }
+
+        .rubric-table { margin: 1rem 0; }
+        .rubric-table td:first-child { font-weight: 600; white-space: nowrap; }
+        .rubric-table td:last-child { font-size: 0.9rem; color: #555; }
+
+        .extraction-example {
+            background: #1e293b; color: #e2e8f0; padding: 1rem 1.25rem;
+            border-radius: 6px; font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem; line-height: 1.6; margin: 1rem 0; overflow-x: auto;
+        }
+        .extraction-example .flagged { color: #f87171; }
+        .extraction-example .clean { color: #4ade80; }
+        .extraction-example .dim { color: #64748b; }
+
+        .explorer-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 1.5rem 0; }
+        @media (max-width: 768px) { .explorer-cards { grid-template-columns: 1fr; } }
+        .explorer-card {
+            background: white; border-radius: 8px; padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1); text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s; cursor: pointer; text-decoration: none; color: inherit;
+        }
+        .explorer-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .explorer-card h3 { margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .explorer-card p { font-size: 0.9rem; color: #666; }
+        .explorer-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+
+        .gap-viz { display: flex; align-items: center; gap: 1rem; margin: 1rem 0; padding: 1rem; background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .gap-bar { flex: 1; height: 32px; border-radius: 4px; position: relative; }
+        .gap-fill { height: 100%; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.9rem; }
+        .gap-label { min-width: 140px; font-size: 0.9rem; font-weight: 500; }
     </style>
 </head>
 <body>
     <header>
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <div>
-                <h1>Alzheimer's Paper Integrity Explorer</h1>
-                <p>Adjust criterion weights to re-rank papers by integrity indicators (higher score = more concerns)</p>
-            </div>
-            <div style="display: flex; gap: 15px;">
-                <a href="index.html" style="color: white; text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; border: 1px solid white; background: rgba(255,255,255,0.1);">v1 Integrity</a>
-                <a href="downs-black.html" style="color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; padding: 4px 12px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.3);">Downs & Black</a>
-            </div>
+        <h1>Alzheimer's Paper Quality Scoring</h1>
+        <p class="subtitle">Automated assessment of reporting quality and methodological transparency across 129 Alzheimer's research papers using LLM-based rubric scoring</p>
+        <nav class="breadcrumb">
+            <a href="/">Home</a> / <a href="/research">Research</a> / <span>Alzheimer's Quality Scoring</span>
+        </nav>
+        <div class="nav-bar">
+            <a href="index.html" class="active">Overview</a>
+            <a href="integrity.html">v1 Integrity Explorer</a>
+            <a href="downs-black.html">Downs & Black</a>
+            <a href="comparison.html">Flagged vs Clean Validation</a>
         </div>
     </header>
 
-    <div class="container">
-        <div class="panel" id="summaryPanel" style="display: none;">
-            <div class="summary-bar">
-                <div class="summary-item"><strong id="paperCount">0</strong> papers</div>
-                <div class="summary-item"><strong id="criteriaCount">0</strong> criteria</div>
-                <div class="summary-item">Model: <strong id="modelName">-</strong></div>
-                <div class="summary-item">Run: <strong id="runDate">-</strong></div>
+    <main>
+        <!-- Stats Overview -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">65</div>
+                <div class="stat-label">Papers Scored (v2)</div>
             </div>
-            <details class="rubric-toggle">
-                <summary>View Scoring Rubric</summary>
-                <div class="rubric-content">
-                    <p style="margin-bottom: 15px; color: #555;">Each paper is scored 1-10 on four criteria. <strong>Higher scores = more concerns.</strong> Image manipulation is flagged separately.</p>
+            <div class="stat-card">
+                <div class="stat-value">0.98</div>
+                <div class="stat-label">GABRIEL Correlation</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">p=.0006</div>
+                <div class="stat-label">Flagged vs Clean Gap</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">129</div>
+                <div class="stat-label">Total Papers (Target)</div>
+            </div>
+        </section>
 
-                    <div class="rubric-item">
-                        <h4>Sample Size Red Flags <span class="weight-badge">25%</span></h4>
-                        <ul>
-                            <li>Is N suspiciously small for the claims made?</li>
-                            <li>Are there unexplained dropouts or exclusions?</li>
-                            <li>Is power analysis mentioned?</li>
-                            <li>Are subgroup analyses adequately powered?</li>
-                        </ul>
-                    </div>
+        <!-- Key Finding -->
+        <div class="key-finding">
+            <h3>Key Finding</h3>
+            <p>Papers flagged by Imagetwin for integrity issues (retracted, image duplication, PubPeer comments) score <strong>significantly lower</strong> on both scoring vectors than clean papers. The gap is driven by statistical reporting quality and claims-vs-evidence alignment (p&lt;0.0001 and p=0.0006 respectively). This was independently validated by OpenAI's GABRIEL framework with 0.98 Spearman correlation.</p>
+        </div>
 
-                    <div class="rubric-item">
-                        <h4>Statistical Reporting Gaps <span class="weight-badge">30%</span></h4>
-                        <ul>
-                            <li>Are p-values suspiciously round (.05, .01, .001)?</li>
-                            <li>Is there evidence of p-hacking (clustering near .05)?</li>
-                            <li>Are confidence intervals reported?</li>
-                            <li>Multiple comparison corrections applied?</li>
-                            <li>Are effect sizes reported?</li>
-                        </ul>
-                    </div>
+        <!-- What This Is -->
+        <section>
+            <h2>What This Is</h2>
+            <p>This project builds an automated, continuous quality measure for Alzheimer's research papers. The goal is <strong>not</strong> fraud detection &mdash; it's measuring <em>reporting quality heterogeneity</em> for use as a variable in economics-of-science regressions.</p>
+            <p style="margin-top: 0.75rem;">Each paper is scored by an LLM (GPT-4o) against two complementary rubrics. The scores are validated against known integrity flags from <a href="https://www.imagetwin.com/" target="_blank">Imagetwin</a>'s ground truth dataset (retracted papers, image duplications, PubPeer flags).</p>
+        </section>
 
-                    <div class="rubric-item">
-                        <h4>Methodology Opacity <span class="weight-badge">30%</span></h4>
-                        <ul>
-                            <li>Are methods described in enough detail to replicate?</li>
-                            <li>Are protocols/code available or referenced?</li>
-                            <li>Is pre-registration mentioned?</li>
-                            <li>Are randomization/blinding procedures clear?</li>
-                        </ul>
-                    </div>
-
-                    <div class="rubric-item">
-                        <h4>Data Inaccessibility <span class="weight-badge">15%</span></h4>
-                        <ul>
-                            <li>Is raw data available or mentioned?</li>
-                            <li>Are supplementary materials provided/referenced?</li>
-                            <li>Is there a data sharing statement?</li>
-                            <li>Are analysis scripts available?</li>
-                        </ul>
-                    </div>
-
-                    <div class="rubric-item" style="background: #fff3cd; border-left: 3px solid #ffc107;">
-                        <h4>Image Flagging <span class="weight-badge" style="background: #ffc107; color: #333;">Not Scored</span></h4>
-                        <p style="margin: 0; font-size: 13px;">Potential manipulation (duplicated bands, splicing, suspicious uniformity) is flagged separately, not included in score.</p>
-                    </div>
-
-                    <div class="score-guide">
-                        <strong>Score Guide:</strong> 1-3 = Low concern | 4-6 = Moderate | 7-10 = High concern
-                    </div>
-
-                    <details class="raw-prompt-toggle">
-                        <summary>View Raw LLM Prompt</summary>
-                        <pre class="raw-prompt" id="rawPrompt">Loading...</pre>
-                    </details>
+        <!-- Methodology -->
+        <section>
+            <h2>Scoring Methodology</h2>
+            <div class="methodology-grid">
+                <div class="method-card vector1">
+                    <h3><span class="tag tag-green">Vector 1</span> Downs & Black (1998)</h3>
+                    <p>Validated 27-item binary checklist with 10,000+ citations. Covers reporting, external validity, internal validity (bias + confounding), and statistical power.</p>
+                    <ul>
+                        <li>Score: 0&ndash;28 (item 5 allows 0/1/2)</li>
+                        <li>NA-adjusted: inapplicable items excluded from denominator</li>
+                        <li>Bands: Excellent (&ge;90%), Good (&ge;70%), Fair (&ge;50%), Poor (&lt;50%)</li>
+                    </ul>
                 </div>
-            </details>
-        </div>
-
-        <div class="panel" id="slidersPanel" style="display: none;">
-            <h2>Criterion Weights</h2>
-            <p style="font-size: 13px; color: #7f8c8d; margin-bottom: 15px;">Adjust weights to change how criteria contribute to the total score. Higher weight = more influence.</p>
-            <div class="sliders-grid" id="sliderContainer"></div>
-            <div class="controls">
-                <button onclick="resetWeights()">Reset to Default</button>
-                <button onclick="exportCSV()" class="primary">Export CSV</button>
+                <div class="method-card vector2">
+                    <h3><span class="tag tag-blue">Vector 2</span> Custom Quality Dimensions</h3>
+                    <p>Five scored dimensions (1&ndash;10 each) designed to catch what checklists miss &mdash; the <em>quality</em> of reporting, not just its presence.</p>
+                    <ul>
+                        <li><strong>Study Design</strong> &mdash; rigor of experimental/analytical approach</li>
+                        <li><strong>Claims vs Evidence</strong> &mdash; proportionality of conclusions</li>
+                        <li><strong>Statistical Reporting</strong> &mdash; exact p-values, CIs, corrections</li>
+                        <li><strong>Methods Transparency</strong> &mdash; replicability of protocols</li>
+                        <li><strong>Data/Code Availability</strong> &mdash; open science practices</li>
+                    </ul>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="panel" id="resultsPanel" style="display: none;">
-            <h2>Rankings <span style="font-weight: normal; color: #7f8c8d; font-size: 14px;">(Higher score = More concerns)</span></h2>
-            <div class="results-list" id="resultsList"></div>
-            <div class="legend">
-                <span class="legend-item"><span class="legend-dot" style="background: #e74c3c;"></span> High concern (>=7)</span>
-                <span class="legend-item"><span class="legend-dot" style="background: #f39c12;"></span> Moderate (4-7)</span>
-                <span class="legend-item"><span class="legend-dot" style="background: #27ae60;"></span> Low concern (<4)</span>
+        <!-- Validation -->
+        <section>
+            <h2>Validation Results</h2>
+            <p>Scored 59 papers (scoreable empirical studies out of 65 total). Papers are labeled as "flagged" or "clean" based on Imagetwin's independent integrity assessments.</p>
+
+            <div style="margin: 1.5rem 0;">
+                <h3 style="font-size: 1rem; margin-bottom: 0.75rem;">v2 Quality Score &mdash; Flagged vs Clean</h3>
+                <div class="gap-viz">
+                    <span class="gap-label" style="color: #dc2626;">Flagged papers</span>
+                    <div class="gap-bar" style="background: #fee2e2;">
+                        <div class="gap-fill" style="width: 48%; background: #dc2626;">4.8</div>
+                    </div>
+                </div>
+                <div class="gap-viz">
+                    <span class="gap-label" style="color: #16a34a;">Clean papers</span>
+                    <div class="gap-bar" style="background: #dcfce7;">
+                        <div class="gap-fill" style="width: 62%; background: #16a34a;">6.2</div>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <div id="loadingMsg">Loading data...</div>
-        <div id="errorMsg"></div>
-    </div>
+            <div class="table-wrapper" style="margin-top: 1.5rem;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th>Test</th>
+                            <th>p-value</th>
+                            <th>Interpretation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>v2 Quality (overall)</td>
+                            <td>Welch's t-test</td>
+                            <td><strong>p = 0.0006</strong></td>
+                            <td>Flagged papers score significantly lower</td>
+                        </tr>
+                        <tr>
+                            <td>Downs & Black</td>
+                            <td>Welch's t-test</td>
+                            <td><strong>p = 0.0088</strong></td>
+                            <td>Flagged papers score significantly lower</td>
+                        </tr>
+                        <tr>
+                            <td>Statistical Reporting (v2)</td>
+                            <td>Welch's t-test</td>
+                            <td><strong>p &lt; 0.0001</strong></td>
+                            <td>Strongest individual dimension</td>
+                        </tr>
+                        <tr>
+                            <td>Claims vs Evidence (v2)</td>
+                            <td>Welch's t-test</td>
+                            <td><strong>p = 0.0006</strong></td>
+                            <td>Second strongest dimension</td>
+                        </tr>
+                        <tr>
+                            <td>GABRIEL correlation</td>
+                            <td>Spearman</td>
+                            <td><strong>r = 0.98</strong></td>
+                            <td>Independent validation (no shared prompt DNA)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
 
-    <!-- Image Modal for enlarged view -->
-    <div class="image-modal" id="imageModal" onclick="closeImageModal()">
-        <img src="" alt="Enlarged view" id="modalImage">
-    </div>
+        <!-- Figures -->
+        <section class="figure-section">
+            <h2>Figures</h2>
+            <div class="figure">
+                <img src="fig4_scatter.png" alt="v2 Quality vs Downs & Black scatter plot">
+                <p class="caption"><strong>Figure 1:</strong> Scatter plot comparing v2 Quality Score (x-axis) with Downs & Black percentage (y-axis) for all scoreable papers. Red diamonds = flagged papers. Blue circles = clean papers. Dashed line = linear regression fit. Both measures correlate and flagged papers cluster in the lower-left quadrant.</p>
+            </div>
+            <div class="figure">
+                <img src="fig1_overall_scores.png" alt="Overall score distribution">
+                <p class="caption"><strong>Figure 2:</strong> Distribution of overall weighted integrity scores across all scored papers, showing the spread of quality.</p>
+            </div>
+            <div class="figure">
+                <img src="fig2_v2_dimensions.png" alt="v2 dimension breakdown">
+                <p class="caption"><strong>Figure 3:</strong> Breakdown of v2 quality scores by dimension. Statistical reporting and claims-vs-evidence show the largest spread, indicating these dimensions drive the flagged/clean separation.</p>
+            </div>
+            <div class="figure">
+                <img src="fig3_db_items.png" alt="Downs & Black item-level analysis">
+                <p class="caption"><strong>Figure 4:</strong> Item-level Downs & Black responses across papers, showing which reporting standards are most commonly met or missed.</p>
+            </div>
+        </section>
 
-    <script>
-        const DATA_URL = 'data/rankings.json';
-        const PROMPT_URL = 'data/prompt.txt';
-        const EXCLUDED_CRITERIA = ['Figure/Image Concerns']; // Filtered out, not part of scoring
-        let promptLoaded = false;
+        <!-- Rubric Architecture -->
+        <section>
+            <h2>Rubric Architecture (v2)</h2>
+            <p>The v2 rubric uses type-specific routing &mdash; papers are classified by study type, then scored against the appropriate reporting guideline and risk-of-bias tool.</p>
+            <div class="table-wrapper" style="margin-top: 1rem;">
+                <table class="rubric-table">
+                    <thead>
+                        <tr>
+                            <th>Paper Type</th>
+                            <th>Reporting Checklist</th>
+                            <th>Risk of Bias Tool</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Animal</td><td>ARRIVE 2.0 Essential 10</td><td>SYRCLE</td></tr>
+                        <tr><td>ML / Prediction</td><td>TRIPOD+AI</td><td>PROBAST</td></tr>
+                        <tr><td>Observational</td><td>STROBE</td><td>Newcastle-Ottawa Scale</td></tr>
+                        <tr><td>GWAS</td><td>STREGA</td><td>Custom (8 domains)</td></tr>
+                        <tr><td>Clinical Trial</td><td>CONSORT</td><td>Cochrane RoB 2</td></tr>
+                        <tr><td>Review</td><td>PRISMA</td><td>AMSTAR 2</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p style="margin-top: 0.75rem; font-size: 0.95rem; color: #555;">Plus 8 cross-cutting flags applied to all papers: claims proportionality, round p-values, missing CIs, no limitations discussion, baseline imbalance, contradictory results, funding/COI silence.</p>
+        </section>
 
-        let data = null;
-        let weights = {};
-        let defaultWeights = {};
-        let previousRanks = {};
-        let criteria = [];
+        <!-- LLM Extraction -->
+        <section>
+            <h2>LLM Data Extraction</h2>
+            <p>Since the quality gap is driven by statistical reporting, we tested structured extraction of every statistical test from each paper.</p>
 
-        async function loadData() {
-            try {
-                const resp = await fetch(DATA_URL);
-                if (!resp.ok) throw new Error('Failed to load data: ' + resp.status);
-                const json = await resp.json();
-                initializeData(json);
-            } catch (err) {
-                document.getElementById('loadingMsg').style.display = 'none';
-                document.getElementById('errorMsg').textContent = 'Error loading data: ' + err.message;
-                document.getElementById('errorMsg').style.display = 'block';
-            }
-        }
+            <div class="methodology-grid">
+                <div class="method-card" style="border-color: #dc2626;">
+                    <h3><span class="tag tag-red">Flagged</span> zakaria2015 (animal)</h3>
+                    <div class="extraction-example">
+                        <span class="dim"># 12 tests, all Student's t-test (should be ANOVA)</span><br>
+                        <span class="flagged">Student's t-test: ROS  | LPS vs ctrl | p&lt;0.001</span><br>
+                        <span class="flagged">Student's t-test: viab | LPS vs ctrl | p&lt;0.05</span><br>
+                        <span class="flagged">Student's t-test: Abeta| LPS vs ctrl | p&lt;0.001</span><br>
+                        <span class="dim"># 100% significant, 0% exact p-values, no correction</span>
+                    </div>
+                </div>
+                <div class="method-card" style="border-color: #16a34a;">
+                    <h3><span class="tag tag-green">Clean</span> hong2021 (GWAS)</h3>
+                    <div class="extraction-example">
+                        <span class="dim"># 17 tests, all exact p-values, Bonferroni corrected</span><br>
+                        <span class="clean">Linear reg GWAS: NfL | discovery | p=2.62e-07</span><br>
+                        <span class="clean">Linear reg:      NfL | replica   | p=0.0026</span><br>
+                        <span class="clean">Meta-analysis:   NfL | combined  | p=3.85e-09</span><br>
+                        <span class="dim"># 76% significant (reports null results)</span>
+                    </div>
+                </div>
+            </div>
+            <p style="margin-top: 0.75rem; font-size: 0.95rem; color: #555;">Quality scores are stable across runs (&plusmn;0.5 points). Test counts vary due to counting conventions (ANOVA omnibus + post-hocs). The LLM consistently identifies the same tests and p-values.</p>
+        </section>
 
-        function initializeData(json) {
-            data = json;
-            criteria = data.metadata.criteria
-                .map(c => c.name)
-                .filter(name => !EXCLUDED_CRITERIA.includes(name));
+        <!-- GABRIEL Validation -->
+        <section>
+            <h2>GABRIEL Independent Validation</h2>
+            <p><a href="https://github.com/openai/GABRIEL" target="_blank">GABRIEL</a> (Shleifer et al., "GPT as a Measurement Tool") is OpenAI's framework for using LLMs as measurement instruments. We tested it as an independent validation of our scoring approach.</p>
+            <div class="methodology-grid">
+                <div class="method-card validation">
+                    <h3>What Worked</h3>
+                    <ul>
+                        <li><strong>rate</strong> &mdash; 0.98 Spearman correlation with our custom prompt on statistical reporting. Validates the rubric measures something real, not a prompt artifact.</li>
+                    </ul>
+                </div>
+                <div class="method-card" style="border-color: #64748b;">
+                    <h3>What Didn't</h3>
+                    <ul>
+                        <li><strong>extract</strong> &mdash; Designed for short entities, returned title/author summaries instead of quality attributes</li>
+                        <li><strong>discover</strong> &mdash; Surfaced paper-type confounds rather than quality differences ($0.80/paper vs our $0.03)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
 
-            // Initialize weights from metadata (excluding filtered criteria)
-            weights = {};
-            defaultWeights = {};
-            data.metadata.criteria
-                .filter(c => !EXCLUDED_CRITERIA.includes(c.name))
-                .forEach(c => {
-                    const w = Math.round(c.weight * 100);
-                    weights[c.name] = w;
-                    defaultWeights[c.name] = w;
-                });
+        <!-- Interactive Explorers -->
+        <section>
+            <h2>Interactive Explorers</h2>
+            <div class="explorer-cards">
+                <a href="integrity.html" class="explorer-card">
+                    <div class="explorer-icon">&#9878;</div>
+                    <h3>v1 Integrity Explorer</h3>
+                    <p>Adjustable criterion weights to re-rank 40 papers by integrity indicators. Includes image analysis tabs.</p>
+                </a>
+                <a href="downs-black.html" class="explorer-card">
+                    <div class="explorer-icon">&#9745;</div>
+                    <h3>Downs & Black Assessment</h3>
+                    <p>27-item validated checklist results with section breakdowns and item-level evidence.</p>
+                </a>
+                <a href="comparison.html" class="explorer-card">
+                    <div class="explorer-icon">&#9881;</div>
+                    <h3>Flagged vs Clean Validation</h3>
+                    <p>Side-by-side comparison with scatter plot, sortable table, and drilldown into both scoring vectors.</p>
+                </a>
+            </div>
+        </section>
 
-            // Update summary
-            document.getElementById('paperCount').textContent = data.papers.length;
-            document.getElementById('criteriaCount').textContent = criteria.length;
-            document.getElementById('modelName').textContent = data.metadata.model || '-';
-            document.getElementById('runDate').textContent = data.metadata.run_date ? new Date(data.metadata.run_date).toLocaleDateString() : '-';
+        <!-- Progress / Next Steps -->
+        <section>
+            <h2>Progress & Next Steps</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-green">Done</span></span>
+                    <div class="timeline-content">
+                        <strong>v1 integrity rubric</strong> &mdash; 40 papers scored with 4-criterion custom rubric + image analysis
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-green">Done</span></span>
+                    <div class="timeline-content">
+                        <strong>v2 scoring vectors</strong> &mdash; Downs & Black + 5-dimension quality scores on 65 papers
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-green">Done</span></span>
+                    <div class="timeline-content">
+                        <strong>Validation</strong> &mdash; Significant flagged/clean gap (p=0.0006), GABRIEL correlation (r=0.98)
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-green">Done</span></span>
+                    <div class="timeline-content">
+                        <strong>LLM extraction pilot</strong> &mdash; Structured test/claim extraction from 6 calibration papers
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-green">Done</span></span>
+                    <div class="timeline-content">
+                        <strong>v2 rubric architecture</strong> &mdash; Type-specific routing with 6 reporting checklists + 6 RoB tools
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-yellow">Next</span></span>
+                    <div class="timeline-content">
+                        <strong>Scale run</strong> &mdash; Score all 129 papers with v2 rubrics (~$8 at GPT-4o)
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <span class="timeline-date"><span class="tag tag-yellow">Next</span></span>
+                    <div class="timeline-content">
+                        <strong>Regression integration</strong> &mdash; Export quality scores as variables for economics-of-science models
+                    </div>
+                </div>
+            </div>
+        </section>
 
-            // Show panels
-            document.getElementById('loadingMsg').style.display = 'none';
-            document.getElementById('summaryPanel').style.display = 'block';
-            document.getElementById('slidersPanel').style.display = 'block';
-            document.getElementById('resultsPanel').style.display = 'block';
+        <!-- Stack -->
+        <section class="methods">
+            <h2>Stack</h2>
+            <pre><code>Python, OpenAI API (GPT-4o for testing, GPT-5.2 for scale)
+pdfplumber (PDF text extraction)
+Downs & Black (1998) — validated 27-item checklist
+ARRIVE, STROBE, CONSORT, TRIPOD+AI, STREGA, PRISMA — reporting guidelines
+SYRCLE, NOS, RoB 2, PROBAST, AMSTAR 2 — risk-of-bias tools
+GABRIEL (OpenAI) — independent validation framework
+Imagetwin — ground truth integrity flags</code></pre>
+        </section>
+    </main>
 
-            buildSliders();
-            previousRanks = {};
-            recomputeAndRender();
-        }
-
-        function buildSliders() {
-            const container = document.getElementById('sliderContainer');
-            container.innerHTML = '';
-
-            criteria.forEach(criterion => {
-                const row = document.createElement('div');
-                row.className = 'slider-row';
-
-                const label = document.createElement('label');
-                label.textContent = criterion;
-
-                const slider = document.createElement('input');
-                slider.type = 'range';
-                slider.min = '0';
-                slider.max = '100';
-                slider.value = weights[criterion];
-                slider.dataset.criterion = criterion;
-
-                const valDisplay = document.createElement('span');
-                valDisplay.className = 'value';
-                valDisplay.textContent = slider.value;
-                valDisplay.id = 'val-' + criterion.replace(/\s+/g, '-');
-
-                slider.addEventListener('input', () => {
-                    weights[criterion] = parseInt(slider.value);
-                    valDisplay.textContent = slider.value;
-                    recomputeAndRender();
-                });
-
-                row.appendChild(label);
-                row.appendChild(slider);
-                row.appendChild(valDisplay);
-                container.appendChild(row);
-            });
-        }
-
-        function resetWeights() {
-            criteria.forEach(c => { weights[c] = defaultWeights[c]; });
-            document.querySelectorAll('#sliderContainer input[type="range"]').forEach(slider => {
-                const c = slider.dataset.criterion;
-                slider.value = defaultWeights[c];
-                const valId = 'val-' + c.replace(/\s+/g, '-');
-                document.getElementById(valId).textContent = defaultWeights[c];
-            });
-            recomputeAndRender();
-        }
-
-        function computeWeightedScore(paper) {
-            let weightedSum = 0;
-            let totalWeight = 0;
-
-            for (const [name, critData] of Object.entries(paper.criterion_scores || {})) {
-                const w = weights[name] || 0;
-                if (w <= 0) continue;
-                const score = typeof critData === 'object' ? critData.score : critData;
-                weightedSum += score * w;
-                totalWeight += w;
-            }
-
-            return totalWeight > 0 ? weightedSum / totalWeight : 0;
-        }
-
-        function getScoreClass(score) {
-            if (score >= 7) return 'high';
-            if (score >= 4) return 'moderate';
-            return 'low';
-        }
-
-        function getScoreColor(score) {
-            if (score >= 7) return '#e74c3c';
-            if (score >= 4) return '#f39c12';
-            return '#27ae60';
-        }
-
-        function recomputeAndRender() {
-            if (!data) return;
-
-            const prevRanks = {...previousRanks};
-
-            const scored = data.papers.map(paper => ({
-                ...paper,
-                weighted_score: computeWeightedScore(paper)
-            }));
-
-            scored.sort((a, b) => b.weighted_score - a.weighted_score);
-
-            if (Object.keys(prevRanks).length > 0) {
-                previousRanks = {};
-                scored.forEach((p, i) => { previousRanks[p.filename] = i + 1; });
-            } else {
-                scored.forEach((p, i) => { previousRanks[p.filename] = i + 1; });
-            }
-
-            renderResults(scored, prevRanks);
-        }
-
-        function openImageModal(src) {
-            const modal = document.getElementById('imageModal');
-            const modalImg = document.getElementById('modalImage');
-            modalImg.src = src;
-            modal.classList.add('active');
-        }
-
-        function closeImageModal() {
-            document.getElementById('imageModal').classList.remove('active');
-        }
-
-        // Close modal on escape key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') closeImageModal();
-        });
-
-        // Tab switching
-        function switchTab(paperId, tabName) {
-            // Hide all tab contents for this paper
-            document.querySelectorAll(`#${paperId} .paper-tab-content`).forEach(el => el.classList.remove('active'));
-            document.querySelectorAll(`#${paperId} .paper-tab`).forEach(el => el.classList.remove('active'));
-            // Show selected tab
-            document.querySelector(`#${paperId} .paper-tab-content.${tabName}-content`).classList.add('active');
-            document.querySelector(`#${paperId} .paper-tab.${tabName}-tab`).classList.add('active');
-        }
-
-        function renderResults(scored, prevRanks) {
-            const container = document.getElementById('resultsList');
-            let html = '';
-
-            scored.forEach((paper, idx) => {
-                const rank = idx + 1;
-                const score = paper.weighted_score;
-                const scoreClass = getScoreClass(score);
-                const paperId = `paper-${idx}`;
-
-                let rankChangeHtml = '';
-                if (prevRanks[paper.filename] !== undefined) {
-                    const diff = prevRanks[paper.filename] - rank;
-                    if (diff > 0) {
-                        rankChangeHtml = `<span class="rank-change up">^${diff}</span>`;
-                    } else if (diff < 0) {
-                        rankChangeHtml = `<span class="rank-change down">v${Math.abs(diff)}</span>`;
-                    }
-                }
-
-                // Build text analysis content (excluding filtered criteria)
-                let criteriaHtml = '';
-                for (const [name, critData] of Object.entries(paper.criterion_scores || {})) {
-                    if (EXCLUDED_CRITERIA.includes(name)) continue;
-                    const cScore = typeof critData === 'object' ? critData.score : critData;
-                    const cReasoning = typeof critData === 'object' ? critData.reasoning : '';
-                    const cColor = getScoreColor(cScore);
-                    criteriaHtml += `
-                        <div class="criterion-item">
-                            <div>
-                                <div class="criterion-name">${name}</div>
-                                ${cReasoning ? `<div class="criterion-reasoning">${cReasoning}</div>` : ''}
-                            </div>
-                            <span class="criterion-score" style="background: ${cColor};">${cScore.toFixed(1)}</span>
-                        </div>`;
-                }
-
-                // Build image analysis content (binary flags, not scores)
-                let imageTabHtml = '';
-                let imageContentHtml = '<p style="color: #7f8c8d;">No image analysis available for this paper.</p>';
-                const ia = paper.image_analysis;
-
-                if (ia && ia.images) {
-                    const flagCount = ia.flag_count || 0;
-                    const hasFlags = flagCount > 0;
-                    const scientificImages = ia.images.filter(img => img.is_scientific);
-
-                    let imagesHtml = '';
-                    ia.images.forEach((img, i) => {
-                        const isScientific = img.is_scientific;
-                        const isFlagged = img.flagged;
-                        const imgSrc = img.image_base64 ? `data:image/jpeg;base64,${img.image_base64}` : '';
-
-                        // Skip non-scientific images in display (just show count)
-                        if (!isScientific) return;
-
-                        imagesHtml += `
-                            <div class="image-card ${isFlagged ? 'flagged' : ''}">
-                                ${imgSrc ? `<img src="${imgSrc}" alt="Figure ${i + 1}" onclick="openImageModal(this.src)">` : '<div style="width:200px;height:200px;background:#eee;display:flex;align-items:center;justify-content:center;border-radius:4px;">No preview</div>'}
-                                <div class="image-card-details">
-                                    <div class="image-card-header">
-                                        <span class="image-card-title">Figure (page ${img.page || '?'})</span>
-                                        ${isFlagged ? '<span class="flag-badge">FLAGGED</span>' : ''}
-                                    </div>
-                                    ${img.category ? `<span class="image-card-category">${img.category.replace(/_/g, ' ')}</span>` : ''}
-                                    <p class="image-card-findings ${isFlagged ? 'flagged' : ''}">${isFlagged ? img.finding : 'No issues detected.'}</p>
-                                </div>
-                            </div>`;
-                    });
-
-                    const skippedCount = ia.images.length - scientificImages.length;
-                    const badgeClass = hasFlags ? 'has-flags' : '';
-                    const badgeText = hasFlags ? `${flagCount} FLAG${flagCount > 1 ? 'S' : ''}` : 'Clean';
-                    imageTabHtml = `<span class="tab-badge ${badgeClass}">${badgeText}</span>`;
-
-                    const summaryClass = hasFlags ? 'has-flags' : '';
-                    const statusClass = hasFlags ? 'flagged' : 'clean';
-                    const statusText = hasFlags ? `${flagCount} potential issue(s) flagged` : 'No manipulation detected';
-
-                    imageContentHtml = `
-                        <div class="image-summary ${summaryClass}">
-                            <span class="image-summary-status ${statusClass}">${statusText}</span>
-                            <p style="font-size: 13px; color: #666; margin-top: 5px;">${scientificImages.length} scientific figure(s) analyzed${skippedCount > 0 ? `, ${skippedCount} non-scientific image(s) skipped` : ''}</p>
-                        </div>
-                        ${imagesHtml ? `<div class="image-gallery">${imagesHtml}</div>` : '<p style="color: #7f8c8d;">No scientific figures found in this paper.</p>'}`;
-                }
-
-                // Convert filename to DOI link
-                const doi = paper.filename.replace('.pdf', '').replace(/@/g, '/');
-                const doiUrl = 'https://doi.org/' + doi;
-
-                html += `
-                    <div class="result-card ${scoreClass}" id="${paperId}">
-                        <div class="result-header">
-                            <span class="result-rank">${rank}.${rankChangeHtml}</span>
-                            <span class="result-score ${scoreClass}">${score.toFixed(2)}</span>
-                            <a href="${doiUrl}" target="_blank" class="result-title">${paper.filename}</a>
-                        </div>
-                        ${paper.overall_reasoning ? `<div class="result-reasoning">${paper.overall_reasoning}</div>` : ''}
-
-                        <div class="paper-tabs">
-                            <div class="paper-tab text-tab active" onclick="switchTab('${paperId}', 'text')">
-                                Text Analysis <span class="tab-badge">${Object.keys(paper.criterion_scores || {}).filter(k => !EXCLUDED_CRITERIA.includes(k)).length}</span>
-                            </div>
-                            <div class="paper-tab image-tab" onclick="switchTab('${paperId}', 'image')">
-                                Image Analysis ${imageTabHtml}
-                            </div>
-                        </div>
-
-                        <div class="paper-tab-content text-content active">
-                            <div class="criteria-list">${criteriaHtml}</div>
-                        </div>
-
-                        <div class="paper-tab-content image-content">
-                            ${imageContentHtml}
-                        </div>
-                    </div>`;
-            });
-
-            container.innerHTML = html;
-        }
-
-        function exportCSV() {
-            if (!data) return;
-
-            const scored = data.papers.map(paper => ({
-                ...paper,
-                weighted_score: computeWeightedScore(paper)
-            }));
-            scored.sort((a, b) => b.weighted_score - a.weighted_score);
-
-            let csv = 'rank,filename,weighted_score';
-            criteria.forEach(c => { csv += ',' + c.replace(/,/g, ';'); });
-            csv += '\n';
-
-            scored.forEach((paper, idx) => {
-                csv += `${idx + 1},"${paper.filename}",${paper.weighted_score.toFixed(2)}`;
-                criteria.forEach(c => {
-                    const cData = paper.criterion_scores[c];
-                    const score = cData ? (typeof cData === 'object' ? cData.score : cData) : '';
-                    csv += ',' + score;
-                });
-                csv += '\n';
-            });
-
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'integrity_scores_reranked.csv';
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        // Load raw prompt when toggle is opened
-        async function loadPrompt() {
-            if (promptLoaded) return;
-            try {
-                const resp = await fetch(PROMPT_URL);
-                if (!resp.ok) throw new Error('Failed to load prompt');
-                const text = await resp.text();
-                document.getElementById('rawPrompt').textContent = text;
-                promptLoaded = true;
-            } catch (err) {
-                document.getElementById('rawPrompt').textContent = 'Error loading prompt: ' + err.message;
-            }
-        }
-
-        // Load data on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            // Load prompt when toggle is opened
-            document.querySelector('.raw-prompt-toggle').addEventListener('toggle', (e) => {
-                if (e.target.open) loadPrompt();
-            });
-        });
-    </script>
+    <footer>
+        <p><a href="/research">&larr; Back to Research</a></p>
+        <p class="meta">Last updated: <time datetime="2026-02-27">February 27, 2026</time></p>
+    </footer>
 </body>
 </html>
