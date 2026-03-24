@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charlie Guthmann - Resume</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fff;
+            color: #1a1a1a;
+            line-height: 1.5;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+
+        /* Header */
+        header { text-align: center; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 2px solid #1a1a1a; }
+        h1 { font-size: 1.8rem; letter-spacing: -0.5px; margin-bottom: 6px; }
+        .contact { font-size: 0.9rem; color: #444; }
+        .contact a { color: #444; text-decoration: none; }
+
+        /* Sections */
+        section { margin-bottom: 20px; }
+        h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 4px;
+            margin-bottom: 12px;
+        }
+
+        /* Entries */
+        .entry { margin-bottom: 14px; }
+        .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .entry-title { font-weight: 700; font-size: 0.95rem; }
+        .entry-location { font-size: 0.85rem; color: #666; }
+        .entry-sub {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 4px;
+        }
+        .entry-role { font-style: italic; font-size: 0.9rem; }
+        .entry-date { font-size: 0.85rem; color: #666; }
+
+        ul { padding-left: 20px; }
+        li { font-size: 0.88rem; margin-bottom: 3px; }
+
+        /* Education */
+        .gpa { font-size: 0.88rem; margin-top: 2px; }
+
+        /* Skills */
+        .skills-list { font-size: 0.88rem; }
+
+        /* Print */
+        @media print {
+            body { padding: 0; max-width: 100%; }
+            @page { margin: 0.5in; }
+        }
+
+        @media (max-width: 500px) {
+            .entry-header, .entry-sub { flex-direction: column; }
+            .entry-location, .entry-date { margin-top: 2px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Charlie Guthmann</h1>
+    <div class="contact">
+        <a href="mailto:charliejguthmann@gmail.com">charliejguthmann@gmail.com</a>
+    </div>
+</header>
+
+<section>
+    <h2>Education</h2>
+    <div class="entry">
+        <div class="entry-header">
+            <span class="entry-title">Northwestern University</span>
+            <span class="entry-location">Evanston, IL</span>
+        </div>
+        <div class="entry-sub">
+            <span class="entry-role">BA in Economics | BA in Mathematics</span>
+            <span class="entry-date">September 2018 &ndash; June 2022</span>
+        </div>
+        <div class="gpa">GPA: 3.65</div>
+    </div>
+</section>
+
+<section>
+    <h2>Work Experience</h2>
+
+    <div class="entry">
+        <div class="entry-header">
+            <span class="entry-title">Data Innovation Lab</span>
+            <span class="entry-location">Philadelphia, PA</span>
+        </div>
+        <div class="entry-sub">
+            <span class="entry-role">Pre-Doctoral Research Assistant</span>
+            <span class="entry-date">May 2025 &ndash; Present</span>
+        </div>
+        <ul>
+            <li>Used Gemini 3 Pro to digitize 49K biomedical pathway diagrams into a structured database of 1.3M gene interactions, processing images at scale with async concurrency.</li>
+            <li>Compared GPT-4o-mini, 4o, and 5.2 to validate pathway labels against PubMed Central figure captions, identifying error rates and recommending the most cost-effective model for a 34K-image production run.</li>
+            <li>Constructed a 148M-observation panel linking patent text to GWAS genetic discoveries across 7M gene-disease pairs; ran difference-in-differences and event study analyses to estimate effects of public genomic research on pharmaceutical patenting.</li>
+            <li>Extended the analysis to value GWAS spillovers using FDA Orange Book drug patents and KPSS market-based patent valuations, following Azoulay et al. (2019).</li>
+        </ul>
+    </div>
+
+    <div class="entry">
+        <div class="entry-header">
+            <span class="entry-title">Akuna Capital</span>
+            <span class="entry-location">Chicago, IL</span>
+        </div>
+        <div class="entry-sub">
+            <span class="entry-role">Junior Trader</span>
+            <span class="entry-date">August 2023 &ndash; June 2024</span>
+        </div>
+        <ul>
+            <li>Automated CME expiration processes for crypto and agricultural teams, saving significant daily and weekly time.</li>
+            <li>Assisted in transitioning crypto engine parametrization from Excel to a Python-based service, improving flexibility and reducing lag.</li>
+            <li>Developed Jupyter notebooks with pandas for Akuna's Bond Desk to analyze historical event data and enhance vol predictions.</li>
+            <li>Built Grafana dashboards with SQL to help traders monitor market conditions and system settings.</li>
+            <li>Screen traded with rates, agriculture, and crypto teams, managing system reliability and identifying relative value bets in option chains.</li>
+            <li>Managed portfolios to maintain risk limits during expiry and major events, navigating large charm positions when necessary.</li>
+        </ul>
+    </div>
+</section>
+
+<section>
+    <h2>Leadership Experience</h2>
+
+    <div class="entry">
+        <div class="entry-header">
+            <span class="entry-title">Ledge iPhone App</span>
+        </div>
+        <div class="entry-sub">
+            <span class="entry-role">Co-Founder</span>
+            <span class="entry-date">June 2024 &ndash; May 2025</span>
+        </div>
+        <ul>
+            <li>Designed and implemented a scalable Flask API alongside a robust database schema hosted on AWS to store data.</li>
+            <li>Quickly iterated through many different designs and features based on customer feedback and analytics.</li>
+            <li>Used SwiftUI and MapKit to create a geospatial frontend.</li>
+        </ul>
+    </div>
+
+    <div class="entry">
+        <div class="entry-header">
+            <span class="entry-title">Effective Altruism Northwestern</span>
+        </div>
+        <div class="entry-sub">
+            <span class="entry-role">Co-Founder and President</span>
+            <span class="entry-date">January 2019 &ndash; March 2021</span>
+        </div>
+        <ul>
+            <li>Created club website; used to recruit 200+ listserv members, promote speaker events, and facilitate one-on-one discussions concerning how to maximize career impact.</li>
+        </ul>
+    </div>
+</section>
+
+<section>
+    <h2>Skills</h2>
+    <div class="skills-list">
+        <strong>Computer:</strong> Python + Data Libraries (Pandas, NumPy, Matplotlib, etc.), SQL, Stata, VBA, Excel, Google Suite, Swift, Amazon Web Services (EC2, S3), Flask, HTML, REST APIs
+    </div>
+</section>
+
+</body>
+</html>
