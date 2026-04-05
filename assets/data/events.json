@@ -1,7 +1,7 @@
 {
-  "generated": "2026-04-05T18:15:34.986009",
+  "generated": "2026-04-05T18:35:09.501120",
   "week": "2026-04-05 to 2026-04-12",
-  "total": 173,
+  "total": 220,
   "events": [
     {
       "name": "UNIVERSAL THEME PARKS: THE EXHIBITION at The Franklin Institute",
@@ -49,6 +49,15 @@
       "url": "https://www.universitycity.org/event/easter-at-calvary-church/"
     },
     {
+      "name": "(Daily) Shaun the Sheep\u2122: Flock This Way Exhibit",
+      "date": "2026-04-05",
+      "time": "08:00",
+      "venue": "Please Touch Museum",
+      "category": "Exhibit",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-shaun-the-sheeps-flock-this-way-exhibit/2026-04-05/"
+    },
+    {
       "name": "SHOP THE SOUTHEAST ASIAN MARKET AT FDR PARK",
       "date": "2026-04-05",
       "time": "10:00",
@@ -67,6 +76,87 @@
       "url": "https://campusphilly.org/event/open-streets-west-walnut-by-center-city-district/"
     },
     {
+      "name": "Spring Break 2026 at the Museum of the American Revolution",
+      "date": "2026-04-05",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/spring-break-2026-at-the-museum-of-the-american-revolution/2026-04-05/"
+    },
+    {
+      "name": "Bunny Brunch at Philadelphia Zoo",
+      "date": "2026-04-05",
+      "time": "10:00",
+      "venue": "Philadelphia Zoo",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/bunny-brunch-at-philadelphia-zoo-2/2026-04-05/"
+    },
+    {
+      "name": "Easter Brunch at Elmwood Park Zoo",
+      "date": "2026-04-05",
+      "time": "10:00",
+      "venue": "Elmwood Park Zoo",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/easter-brunch-at-elmwood-park-zoo-2/2026-04-05/"
+    },
+    {
+      "name": "Elmo\u2019s Eggstravaganza at Sesame Place",
+      "date": "2026-04-05",
+      "time": "10:00",
+      "venue": "Sesame Place",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/elmos-eggstravaganza-at-sesame-place/2026-04-05/"
+    },
+    {
+      "name": "Southeast Asian Market in FDR Park",
+      "date": "2026-04-05",
+      "time": "10:00",
+      "venue": "FDR Park",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/southeast-asian-market-in-fdr-park/2026-04-05/"
+    },
+    {
+      "name": "Passover at Sesame Place",
+      "date": "2026-04-05",
+      "time": "10:00",
+      "venue": "Sesame Place",
+      "category": "Passover",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/passover-at-sesame-place/2026-04-05/"
+    },
+    {
+      "name": "Easter Sunday Brunch at Philmont Country Club",
+      "date": "2026-04-05",
+      "time": "11:00",
+      "venue": "Philmont Country Club",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/easter-sunday-brunch-at-philmont-country-club/"
+    },
+    {
+      "name": "Philadelphia Easter Signature Brunch Cruise",
+      "date": "2026-04-05",
+      "time": "12:00",
+      "venue": "City Cruises Philadelphia \u2013 Penn\u2019s Landing",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/philadelphia-easter-signature-brunch-cruise-2/"
+    },
+    {
+      "name": "Family Funday with PopUpPlay",
+      "date": "2026-04-05",
+      "time": "13:00",
+      "venue": "Spruce Street Harbor Park",
+      "category": "Class or Workshop",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/family-funday-with-popupplay/2026-04-05/"
+    },
+    {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
       "date": "2026-04-05",
       "time": "14:00",
@@ -83,6 +173,15 @@
       "category": "Hockey",
       "source": "Ticketmaster",
       "url": "https://www.ticketmaster.com/philadelphia-flyers-vs-boston-bruins-philadelphia-pennsylvania-04-05-2026/event/300062EFA99834C2"
+    },
+    {
+      "name": "City Cruises Philadelphia Easter Dinner Cruise",
+      "date": "2026-04-05",
+      "time": "17:00",
+      "venue": "City Cruises Philadelphia \u2013 Penn\u2019s Landing",
+      "category": "Easter",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/city-cruises-philadelphia-easter-dinner-cruise/"
     },
     {
       "name": "UNIVERSAL THEME PARKS: THE EXHIBITION at The Franklin Institute",
@@ -112,6 +211,69 @@
       "url": "https://campusphilly.org/event/meanwhile-in-philly-otaku-a-retrospective/2026-04-06/"
     },
     {
+      "name": "Daily: On the Land, In the Sea Exhibition",
+      "date": "2026-04-06",
+      "time": "00:00",
+      "venue": "Courtyard by Marriott Philadelphia South at The Navy Yard",
+      "category": "Arts & Crafts",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/on-the-land-in-the-sea-exhibition/2026-04-06/"
+    },
+    {
+      "name": "Day-Off Camp",
+      "date": "2026-04-06",
+      "time": "08:00",
+      "venue": "The Schuylkill Center for Environmental Education",
+      "category": "Children",
+      "source": "Schuylkill Center",
+      "url": "https://schuylkillcenter.org/event/day-off-camp46/"
+    },
+    {
+      "name": "(Daily) Botany of Nations at The Academy of Natural Sciences",
+      "date": "2026-04-06",
+      "time": "10:00",
+      "venue": "The Academy of Natural Sciences",
+      "category": "Exhibit",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-botany-of-nations-at-the-academy-of-natural-sciences/2026-04-06/"
+    },
+    {
+      "name": "(Daily) The Declaration\u2019s Journey at the Museum of the American Revolution",
+      "date": "2026-04-06",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-the-declarations-journey-at-the-museum-of-the-american-revolution/2026-04-06/"
+    },
+    {
+      "name": "Spring Break 2026 at the Museum of the American Revolution",
+      "date": "2026-04-06",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/spring-break-2026-at-the-museum-of-the-american-revolution/2026-04-06/"
+    },
+    {
+      "name": "Elmo\u2019s Eggstravaganza at Sesame Place",
+      "date": "2026-04-06",
+      "time": "10:00",
+      "venue": "Sesame Place",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/elmos-eggstravaganza-at-sesame-place/2026-04-06/"
+    },
+    {
+      "name": "Passover at Sesame Place",
+      "date": "2026-04-06",
+      "time": "10:00",
+      "venue": "Sesame Place",
+      "category": "Passover",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/passover-at-sesame-place/2026-04-06/"
+    },
+    {
       "name": "Baby  Toddler Storytime!",
       "date": "2026-04-06",
       "time": "10:30 A.M.",
@@ -119,6 +281,15 @@
       "category": "Library",
       "source": "Free Library",
       "url": "https://libwww.freelibrary.org/calendar/event/163787"
+    },
+    {
+      "name": "Dance Together with The Philadelphia Dance Academy",
+      "date": "2026-04-06",
+      "time": "11:00",
+      "venue": "Charles Santore Library",
+      "category": "Class or Workshop",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/dance-together-with-the-philadelphia-dance-academy/2026-04-06/"
     },
     {
       "name": "Councilwoman Cindy Bass' Staff Satellite Office Hours",
@@ -200,6 +371,33 @@
       "category": "",
       "source": "Campus Philly",
       "url": "https://campusphilly.org/event/asian-arts-initiative-no-arena-making-a-movement-exhibition/2026-04-06/"
+    },
+    {
+      "name": "Rock to the Future Lyric Lab",
+      "date": "2026-04-06",
+      "time": "16:00",
+      "venue": "One Art Community Center",
+      "category": "Class or Workshop",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/rock-to-the-future-lyric-lab/2026-04-06/"
+    },
+    {
+      "name": "Twilight Tales Family Story Time at Lucien E. Blackwell West Philadelphia Regional Library",
+      "date": "2026-04-06",
+      "time": "17:00",
+      "venue": "Lucien E. Blackwell West Philadelphia Regional Library",
+      "category": "At the library",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/twilight-tales-family-story-time-at-lucien-e-blackwell-west-philadelphia-regional-library/2026-04-06/"
+    },
+    {
+      "name": "SNBL General Meeting",
+      "date": "2026-04-06",
+      "time": "18:30",
+      "venue": "Firm Hope Baptist Church",
+      "category": "Civic Association Meetings",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/snbl-general-meeting/2026-04-06/"
     },
     {
       "name": "Bleed From Within - The Zenith Tour - North America",
@@ -508,6 +706,42 @@
       "url": "https://campusphilly.org/event/meanwhile-in-philly-otaku-a-retrospective/2026-04-07/"
     },
     {
+      "name": "(Daily) Shaun the Sheep\u2122: Flock This Way Exhibit",
+      "date": "2026-04-07",
+      "time": "08:00",
+      "venue": "Please Touch Museum",
+      "category": "Exhibit",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-shaun-the-sheeps-flock-this-way-exhibit/2026-04-07/"
+    },
+    {
+      "name": "Sprouts",
+      "date": "2026-04-07",
+      "time": "09:30",
+      "venue": "The Schuylkill Center for Environmental Education",
+      "category": "Children",
+      "source": "Schuylkill Center",
+      "url": "https://schuylkillcenter.org/event/sprouts-131/"
+    },
+    {
+      "name": "(Daily) The Declaration\u2019s Journey at the Museum of the American Revolution",
+      "date": "2026-04-07",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-the-declarations-journey-at-the-museum-of-the-american-revolution/2026-04-07/"
+    },
+    {
+      "name": "Spring Break 2026 at the Museum of the American Revolution",
+      "date": "2026-04-07",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/spring-break-2026-at-the-museum-of-the-american-revolution/2026-04-07/"
+    },
+    {
       "name": "Philadelphia Chamber Music Society Children's Concert",
       "date": "2026-04-07",
       "time": "10:30 A.M.",
@@ -515,6 +749,15 @@
       "category": "Library",
       "source": "Free Library",
       "url": "https://libwww.freelibrary.org/calendar/event/163230"
+    },
+    {
+      "name": "Ministry of Awe",
+      "date": "2026-04-07",
+      "time": "11:00",
+      "venue": "Ministry of Awe",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/ministry-of-awe/2026-04-07/"
     },
     {
       "name": "A History of Personal Hygiene in Modern France",
@@ -542,6 +785,42 @@
       "category": "",
       "source": "Campus Philly",
       "url": "https://campusphilly.org/event/asian-arts-initiative-no-arena-making-a-movement-exhibition/2026-04-07/"
+    },
+    {
+      "name": "Kids Can Bake at Cecil B. Moore Library",
+      "date": "2026-04-07",
+      "time": "16:00",
+      "venue": "Cecil B. Moore Library",
+      "category": "At the library",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/kids-can-bake-at-cecil-b-moore-library-3/2026-04-07/"
+    },
+    {
+      "name": "First-Time Homebuyer Workshops (Remote)",
+      "date": "2026-04-07",
+      "time": "16:00",
+      "venue": "",
+      "category": "Homebuyer Workshops",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/first-time-homebuyer-workshops-remote/2026-04-07/"
+    },
+    {
+      "name": "Land Stewards Rights w/ Iglesias Gardens",
+      "date": "2026-04-07",
+      "time": "17:00",
+      "venue": "Kensington Engagement Center",
+      "category": "Co-Creating a GreenPrint for Kensington",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/tomato-and-pepper-101-from-seed-to-harvest/"
+    },
+    {
+      "name": "Yoga On The Pier",
+      "date": "2026-04-07",
+      "time": "18:00",
+      "venue": "Pennypack on the Delaware",
+      "category": "Class or Workshop",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/yoga-on-the-pier/2026-04-07/"
     },
     {
       "name": "Cardi B - Little Miss Drama Tour",
@@ -706,6 +985,42 @@
       "url": "https://campusphilly.org/event/meanwhile-in-philly-otaku-a-retrospective/2026-04-08/"
     },
     {
+      "name": "Daily: On the Land, In the Sea Exhibition",
+      "date": "2026-04-08",
+      "time": "00:00",
+      "venue": "Courtyard by Marriott Philadelphia South at The Navy Yard",
+      "category": "Arts & Crafts",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/on-the-land-in-the-sea-exhibition/2026-04-08/"
+    },
+    {
+      "name": "(Daily) Botany of Nations at The Academy of Natural Sciences",
+      "date": "2026-04-08",
+      "time": "10:00",
+      "venue": "The Academy of Natural Sciences",
+      "category": "Exhibit",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-botany-of-nations-at-the-academy-of-natural-sciences/2026-04-08/"
+    },
+    {
+      "name": "Spring Break 2026 at the Museum of the American Revolution",
+      "date": "2026-04-08",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/spring-break-2026-at-the-museum-of-the-american-revolution/2026-04-08/"
+    },
+    {
+      "name": "Ministry of Awe",
+      "date": "2026-04-08",
+      "time": "11:00",
+      "venue": "Ministry of Awe",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/ministry-of-awe/2026-04-08/"
+    },
+    {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
       "date": "2026-04-08",
       "time": "14:00",
@@ -713,6 +1028,33 @@
       "category": "",
       "source": "Campus Philly",
       "url": "https://campusphilly.org/event/asian-arts-initiative-no-arena-making-a-movement-exhibition/2026-04-08/"
+    },
+    {
+      "name": "Tusculum Garden Open Hours",
+      "date": "2026-04-08",
+      "time": "14:00",
+      "venue": "Tusculum Gateway Garden",
+      "category": "NKCDC Garden",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/tusculum-garden-open-hours/2026-04-08/"
+    },
+    {
+      "name": "Read to a Therapy Dog at Parkway Central Library",
+      "date": "2026-04-08",
+      "time": "16:00",
+      "venue": "Parkway Central Library",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/read-to-a-therapy-dog-at-parkway-central-library/2026-04-08/"
+    },
+    {
+      "name": "SOPO General Meeting",
+      "date": "2026-04-08",
+      "time": "19:00",
+      "venue": "Veteran Boxers Association Ring 1",
+      "category": "Civic Association Meetings",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/sopo-general-meeting/2026-04-08/"
     },
     {
       "name": "Duncecap, Samurai Banana, Nahreally , Gen Of The Cosmos , Zilla Rocca, Alikho Igama",
@@ -805,6 +1147,42 @@
       "url": "https://campusphilly.org/event/the-contrast-americas-first-comedy-revived/2026-04-09/"
     },
     {
+      "name": "(Daily) Shaun the Sheep\u2122: Flock This Way Exhibit",
+      "date": "2026-04-09",
+      "time": "08:00",
+      "venue": "Please Touch Museum",
+      "category": "Exhibit",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-shaun-the-sheeps-flock-this-way-exhibit/2026-04-09/"
+    },
+    {
+      "name": "Sprouts",
+      "date": "2026-04-09",
+      "time": "09:30",
+      "venue": "The Schuylkill Center for Environmental Education",
+      "category": "Children",
+      "source": "Schuylkill Center",
+      "url": "https://schuylkillcenter.org/event/sprouts-132/"
+    },
+    {
+      "name": "(Daily) The Declaration\u2019s Journey at the Museum of the American Revolution",
+      "date": "2026-04-09",
+      "time": "10:00",
+      "venue": "Museum of the American Revolution",
+      "category": "Community Event",
+      "source": "Philly Family",
+      "url": "https://phillyfamily.com/event/daily-the-declarations-journey-at-the-museum-of-the-american-revolution/2026-04-09/"
+    },
+    {
+      "name": "Native Planters",
+      "date": "2026-04-09",
+      "time": "10:00",
+      "venue": "The Schuylkill Center for Environmental Education",
+      "category": "Free",
+      "source": "Schuylkill Center",
+      "url": "https://schuylkillcenter.org/event/nativeplantersapril2026/"
+    },
+    {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
       "date": "2026-04-09",
       "time": "14:00",
@@ -821,6 +1199,15 @@
       "category": "",
       "source": "Campus Philly",
       "url": "https://campusphilly.org/event/the-academy-of-natural-sciences-of-drexel-university-confluence-film-festival/2026-04-09/"
+    },
+    {
+      "name": "April Open House",
+      "date": "2026-04-09",
+      "time": "18:00",
+      "venue": "NextFab",
+      "category": "",
+      "source": "NextFab",
+      "url": "https://nextfab.com/event/april-open-house-2026/"
     },
     {
       "name": "2026 Books and Brews",
@@ -949,13 +1336,13 @@
       "url": "https://campusphilly.org/event/the-contrast-americas-first-comedy-revived/2026-04-10/"
     },
     {
-      "name": "Philadelphia Orchestra Mozart???s Requiem",
+      "name": "Senator Saval Satellite Office Hours",
       "date": "2026-04-10",
-      "time": "14:00",
-      "venue": "Marian Anderson Hall - Kimmel Center",
-      "category": "Other",
-      "source": "Ticketmaster",
-      "url": "https://www.ticketmaster.com/event/Z7r9jZ1A7_Pqa"
+      "time": "09:00",
+      "venue": "2515 Frankford Avenue",
+      "category": "",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/senator-saval-satellite-office-hours/2026-04-10/"
     },
     {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
@@ -965,6 +1352,15 @@
       "category": "",
       "source": "Campus Philly",
       "url": "https://campusphilly.org/event/asian-arts-initiative-no-arena-making-a-movement-exhibition/2026-04-10/"
+    },
+    {
+      "name": "Philadelphia Orchestra Mozart???s Requiem",
+      "date": "2026-04-10",
+      "time": "14:00",
+      "venue": "Marian Anderson Hall - Kimmel Center",
+      "category": "Other",
+      "source": "Ticketmaster",
+      "url": "https://www.ticketmaster.com/event/Z7r9jZ1A7_Pqa"
     },
     {
       "name": "Philly Night Out: A History of Fireworks at the Science History Institute",
@@ -994,6 +1390,15 @@
       "url": "https://www.ticketmaster.com/event/Z7r9jZ1A7Q8bp"
     },
     {
+      "name": "Revitalize and Renew: Spring Restorative Yoga Workshop",
+      "date": "2026-04-10",
+      "time": "19:00",
+      "venue": "Studio 34",
+      "category": "",
+      "source": "University City",
+      "url": "https://www.universitycity.org/event/revitalize-and-renew-spring-restorative-yoga-workshop/"
+    },
+    {
       "name": "SWMRS",
       "date": "2026-04-10",
       "time": "19:00",
@@ -1012,13 +1417,13 @@
       "url": "https://www.ticketmaster.com/the-wonder-years-philadelphia-pennsylvania-04-10-2026/event/0200637AEB3EE93B"
     },
     {
-      "name": "Revitalize and Renew: Spring Restorative Yoga Workshop",
+      "name": "Science After Hours: Rhythm & Booms at The Franklin Institute",
       "date": "2026-04-10",
-      "time": "19:00",
-      "venue": "Studio 34",
+      "time": "19:30",
+      "venue": "The Franklin Institute",
       "category": "",
-      "source": "University City",
-      "url": "https://www.universitycity.org/event/revitalize-and-renew-spring-restorative-yoga-workshop/"
+      "source": "Campus Philly",
+      "url": "https://campusphilly.org/event/science-after-hours-rhythm-booms-at-the-franklin-institute/"
     },
     {
       "name": "Bob Moses & Cannons: Afterglow Tour",
@@ -1037,15 +1442,6 @@
       "category": "Comedy",
       "source": "Ticketmaster",
       "url": "https://www.ticketmaster.com/trae-crowder-philadelphia-pennsylvania-04-10-2026/event/0200638C113CD717"
-    },
-    {
-      "name": "Science After Hours: Rhythm & Booms at The Franklin Institute",
-      "date": "2026-04-10",
-      "time": "19:30",
-      "venue": "The Franklin Institute",
-      "category": "",
-      "source": "Campus Philly",
-      "url": "https://campusphilly.org/event/science-after-hours-rhythm-booms-at-the-franklin-institute/"
     },
     {
       "name": "Snow Tha Product",
@@ -1210,6 +1606,15 @@
       "url": "https://www.universitycity.org/event/uhuhu-health-festival-flea-market/"
     },
     {
+      "name": "Philly Spring Cleanup 2026",
+      "date": "2026-04-11",
+      "time": "09:00",
+      "venue": "",
+      "category": "",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/43960/"
+    },
+    {
       "name": "SOLD OUT Horticulture Volunteer Day",
       "date": "2026-04-11",
       "time": "09:30",
@@ -1255,13 +1660,13 @@
       "url": "https://libwww.freelibrary.org/calendar/event/164358"
     },
     {
-      "name": "Big Wig Beyhive Brunch Brunch: The Ultimate Drag Experience",
+      "name": "McPherson Garden Discovery Path: Community Planting in Action",
       "date": "2026-04-11",
-      "time": "12:00",
-      "venue": "Punch Line Philly",
-      "category": "Performance Art",
-      "source": "Ticketmaster",
-      "url": "https://www.ticketmaster.com/big-wig-beyhive-brunch-brunch-the-philadelphia-pennsylvania-04-11-2026/event/02006387F91CF559"
+      "time": "11:00",
+      "venue": "",
+      "category": "Co-Creating a GreenPrint for Kensington",
+      "source": "NKCDC",
+      "url": "https://nkcdc.org/event/mcpherson-garden-discovery-path-community-planting-in-action/"
     },
     {
       "name": "Photo Weaving workshop",
@@ -1271,6 +1676,15 @@
       "category": "Arts & Performance",
       "source": "Bartram's Garden",
       "url": "https://www.bartramsgarden.org/event/photoweaving2026/"
+    },
+    {
+      "name": "Big Wig Beyhive Brunch Brunch: The Ultimate Drag Experience",
+      "date": "2026-04-11",
+      "time": "12:00",
+      "venue": "Punch Line Philly",
+      "category": "Performance Art",
+      "source": "Ticketmaster",
+      "url": "https://www.ticketmaster.com/big-wig-beyhive-brunch-brunch-the-philadelphia-pennsylvania-04-11-2026/event/02006387F91CF559"
     },
     {
       "name": "Adults Ballroom Dance Class at Musicopia",
@@ -1471,6 +1885,15 @@
       "url": "https://libwww.freelibrary.org/calendar/event/163941"
     },
     {
+      "name": "Coffee & Crafts",
+      "date": "2026-04-12",
+      "time": "12:00",
+      "venue": "NextFab",
+      "category": "",
+      "source": "NextFab",
+      "url": "https://nextfab.com/event/coffee-crafts/"
+    },
+    {
       "name": "Philadelphia Phillies vs Arizona Diamondbacks: Citizens Phanatic Birthday",
       "date": "2026-04-12",
       "time": "13:35",
@@ -1478,6 +1901,15 @@
       "category": "Baseball",
       "source": "Ticketmaster",
       "url": "https://www.ticketmaster.com/event/Z7r9jZ1A7Q8bb"
+    },
+    {
+      "name": "Climate Resilience Plan Community Workshop",
+      "date": "2026-04-12",
+      "time": "14:00",
+      "venue": "Coach House",
+      "category": "Free Community Events",
+      "source": "Bartram's Garden",
+      "url": "https://www.bartramsgarden.org/event/climateresiliencephlwkshp/"
     },
     {
       "name": "Philadelphia Orchestra Mozart???s Requiem",
@@ -1496,15 +1928,6 @@
       "category": "Rock",
       "source": "Ticketmaster",
       "url": "https://www.ticketweb.com/event/metalcore-matinee-collective-effort-nyc-nikki-lopez-philly-tickets/14823463"
-    },
-    {
-      "name": "Climate Resilience Plan Community Workshop",
-      "date": "2026-04-12",
-      "time": "14:00",
-      "venue": "Coach House",
-      "category": "Free Community Events",
-      "source": "Bartram's Garden",
-      "url": "https://www.bartramsgarden.org/event/climateresiliencephlwkshp/"
     },
     {
       "name": "Philadelphia 76ers vs. Milwaukee Bucks",
