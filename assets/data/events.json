@@ -1,8 +1,134 @@
 {
-  "generated": "2026-04-05T18:35:09.501120",
+  "generated": "2026-04-05T18:50:20.299980",
   "week": "2026-04-05 to 2026-04-12",
-  "total": 220,
+  "total": 254,
   "events": [
+    {
+      "name": "Entryways: Xenobia Bailey (Through Aug. 9)",
+      "date": "2026-01-01",
+      "time": "12:00am",
+      "venue": "Institute of Contemporary Art, 118 S. 36th St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://icaphila.org/exhibitions/entryways-xenobia-bailey/"
+    },
+    {
+      "name": "Re/Make History: Crafting the Past with 21st-Century Tech",
+      "date": "2026-01-14",
+      "time": "12:00am",
+      "venue": "Penn Museum, 3260 South St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/exhibits/re-make-history-crafting-past"
+    },
+    {
+      "name": "Nursing the Revolution ",
+      "date": "2026-01-22",
+      "time": "12:00am",
+      "venue": "Fagin Hall, 418 Curie Blvd.",
+      "category": "America 250",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/exhibits/nursing-revolution"
+    },
+    {
+      "name": "Weitzman Lecture Series (Through April 23)",
+      "date": "2026-01-22",
+      "time": "12:00am",
+      "venue": "Various locations",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://www.design.upenn.edu/post/spring-2026-lecture-series-opens-january-22"
+    },
+    {
+      "name": "Phil Parmet: Haitian Revolution",
+      "date": "2026-01-26",
+      "time": "12:00am",
+      "venue": "Van Pelt-Dietrich Library, 3420 Walnut St.",
+      "category": "America 250",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/exhibits/phil-parmet-haitian-revolution"
+    },
+    {
+      "name": "Exhibit: Collecting the New Irascibles\u2013Art in the 1980s",
+      "date": "2026-01-28",
+      "time": "12:00am",
+      "venue": "Fisher Fine Arts Library, 220 S. 34th St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://arthurrossgallery.org/event/collecting-the-new-irascibles-art-in-the-19\u2026"
+    },
+    {
+      "name": "Exhibit: A World in the Making\u2013The Shakers",
+      "date": "2026-01-31",
+      "time": "12:00am",
+      "venue": "Institute of Contemporary Art, 118 S. 36th St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://icaphila.org/exhibitions/the-shakers-a-world-in-the-making/"
+    },
+    {
+      "name": "Philadelphia and Bicentennial Discontent",
+      "date": "2026-02-09",
+      "time": "12:00am",
+      "venue": "Van Pelt-Dietrich Library, 3420 Walnut St.",
+      "category": "America 250",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/exhibits/celebrate-or-demonstrate"
+    },
+    {
+      "name": "France, Haiti, and Philadelphia in a Revolutionary Age",
+      "date": "2026-02-26",
+      "time": "12:00am",
+      "venue": "Van Pelt-Dietrich Library, 3420 Walnut St.",
+      "category": "America 250",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/exhibits/time-right-all-wrongs"
+    },
+    {
+      "name": "Ancient Egypt in Watercolors",
+      "date": "2026-02-28",
+      "time": "12:00am",
+      "venue": "Penn Museum, 3260 South St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://www.penn.museum/on-view/galleries-exhibitions/ancient-egypt-in-watercol\u2026"
+    },
+    {
+      "name": "Exhibit: \u2018in case of fire, speak\u2019 (Through July 6)",
+      "date": "2026-03-19",
+      "time": "12:00am",
+      "venue": "Annenberg Center, 3680 Walnut St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://sachsarts.org/event/in-case-of-fire-speak-artphilly-exhibition/"
+    },
+    {
+      "name": "Advance Registration for Fall Term",
+      "date": "2026-03-23",
+      "time": "12:00am",
+      "venue": "",
+      "category": "Academic Calendar",
+      "source": "Penn Today",
+      "url": ""
+    },
+    {
+      "name": "Allison Zuckerman: Remixed and Reclaimed",
+      "date": "2026-03-28",
+      "time": "12:00am",
+      "venue": "Fisher Fine Arts Library, 220 S. 34th St.",
+      "category": "Exhibits",
+      "source": "Penn Today",
+      "url": "https://arthurrossgallery.org/event/allison-zuckerman-remixed-and-reclaimed/"
+    },
+    {
+      "name": "2026 AI Month at Penn",
+      "date": "2026-04-01",
+      "time": "12:00am",
+      "venue": "Various locations",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://ai.upenn.edu/welcome-ai-month-penn"
+    },
     {
       "name": "UNIVERSAL THEME PARKS: THE EXHIBITION at The Franklin Institute",
       "date": "2026-04-05",
@@ -362,6 +488,15 @@
       "category": "Library",
       "source": "Free Library",
       "url": "https://libwww.freelibrary.org/calendar/event/163665"
+    },
+    {
+      "name": "Homelessness, Housing Insecurity, and Aging",
+      "date": "2026-04-06",
+      "time": "12:00pm",
+      "venue": "McNeil Building, 3718 Locust Walk",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://www.pop.upenn.edu/events/2026/04/06/growing-issue-homelessnesshousing-i\u2026"
     },
     {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
@@ -778,6 +913,24 @@
       "url": "https://libwww.freelibrary.org/calendar/event/164637"
     },
     {
+      "name": "Public Policy in Practice: Patrick J. Murphy",
+      "date": "2026-04-07",
+      "time": "12:00pm",
+      "venue": "Virtual",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://www.fels.upenn.edu/news-events/fels-public-policy-practice-speaker-seri\u2026"
+    },
+    {
+      "name": "Behind Bars, Beyond Health: Equity & Incarceration in America",
+      "date": "2026-04-07",
+      "time": "12:00pm",
+      "venue": "Hybrid; Colonial Penn Center, 3641 Locust Walk",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://ldi.upenn.edu/events/behind-bars-beyond-health-equity-and-incarceration\u2026"
+    },
+    {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
       "date": "2026-04-07",
       "time": "14:00",
@@ -940,6 +1093,24 @@
       "url": "https://libwww.freelibrary.org/calendar/event/162990"
     },
     {
+      "name": "The Making of America\u2019s Iran Policy",
+      "date": "2026-04-07",
+      "time": "5:30pm",
+      "venue": "Perry World House, 3803 Locust Walk",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://perryworldhouse.upenn.edu/events/enduring-hostility-a-book-talk-on-the-\u2026"
+    },
+    {
+      "name": "Julia Vinograd: Between Spirit and Stone",
+      "date": "2026-04-07",
+      "time": "6:00pm",
+      "venue": "Kelly Writers House, 3805 Locust Walk",
+      "category": "Screenings",
+      "source": "Penn Today",
+      "url": "https://writing.upenn.edu/wh/calendar/0426.php"
+    },
+    {
       "name": "One Book One Philadelphia Kickoff Event: A Conversation with Celeste Ng",
       "date": "2026-04-07",
       "time": "6:30 P.M.",
@@ -1012,6 +1183,15 @@
       "url": "https://phillyfamily.com/event/spring-break-2026-at-the-museum-of-the-american-revolution/2026-04-08/"
     },
     {
+      "name": "AI in Action: Insights from PASS Practitioners",
+      "date": "2026-04-08",
+      "time": "10:00am",
+      "venue": "Graduate School of Education, 3700 Walnut St.",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://www.gse.upenn.edu/events/ai-action-insights-pass-practitioners"
+    },
+    {
       "name": "Ministry of Awe",
       "date": "2026-04-08",
       "time": "11:00",
@@ -1019,6 +1199,15 @@
       "category": "Community Event",
       "source": "Philly Family",
       "url": "https://phillyfamily.com/event/ministry-of-awe/2026-04-08/"
+    },
+    {
+      "name": "PAACH Mural Unveiling 2026",
+      "date": "2026-04-08",
+      "time": "12:00pm",
+      "venue": "The ARCH, 3601 Locust Walk",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://upenn.co1.qualtrics.com/jfe/form/SV_25eZm0157mt2gl0"
     },
     {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
@@ -1093,6 +1282,15 @@
       "url": "https://www.ticketmaster.com/voxtrot-philadelphia-pennsylvania-04-08-2026/event/02006378EA66BA4D"
     },
     {
+      "name": "\u20184 Little Girls\u2019 Documentary",
+      "date": "2026-04-08",
+      "time": "5:00pm",
+      "venue": "Huntsman Hall, 3730 Walnut St.",
+      "category": "Screenings",
+      "source": "Penn Today",
+      "url": "https://africana.sas.upenn.edu/events/2026/04/08/screening-4-little-girls-docum\u2026"
+    },
+    {
       "name": "Revolutionary Science, Revolutionary Scientist: Benjamin Franklin's Scientific Innovations with Professor Thomas Twardowski",
       "date": "2026-04-08",
       "time": "6:00 P.M.",
@@ -1100,6 +1298,15 @@
       "category": "Library",
       "source": "Free Library",
       "url": "https://libwww.freelibrary.org/calendar/event/163369"
+    },
+    {
+      "name": "How to Care about Bonaire: Screening & Discussion",
+      "date": "2026-04-08",
+      "time": "6:00pm",
+      "venue": "Perry World House, 3803 Locust Walk",
+      "category": "Screenings",
+      "source": "Penn Today",
+      "url": "https://perryworldhouse.upenn.edu/events/how-to-care-about-bonaire-penn-premier\u2026"
     },
     {
       "name": "Chanda Prescod-Weinstein The Edge of Space-Time",
@@ -1181,6 +1388,51 @@
       "category": "Free",
       "source": "Schuylkill Center",
       "url": "https://schuylkillcenter.org/event/nativeplantersapril2026/"
+    },
+    {
+      "name": "The Revolutionary Age: France, Haiti, and America",
+      "date": "2026-04-09",
+      "time": "12:00am",
+      "venue": "Van Pelt-Dietrich Library, 3420 Walnut St.",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/events/revolutionary-age-france-haiti"
+    },
+    {
+      "name": "Center on Digital Culture and Society 2026 Symposium",
+      "date": "2026-04-09",
+      "time": "12:00am",
+      "venue": "Annenberg School for Communication, 3620 Walnut St.",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://www.asc.upenn.edu/news-events/events/center-digital-culture-and-society\u2026"
+    },
+    {
+      "name": "Coffee with a Codex: Astronomy in Arabic",
+      "date": "2026-04-09",
+      "time": "12:00pm",
+      "venue": "Virtual",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://www.library.upenn.edu/events/coffee-codex-astronomy-arabic"
+    },
+    {
+      "name": "How AI is Changing the Future of Cities",
+      "date": "2026-04-09",
+      "time": "12:00pm",
+      "venue": "Fisher Fine Arts Library, 220 S. 34th St.",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://www.design.upenn.edu/events/death-distance-redux-how-ai-changing-future\u2026"
+    },
+    {
+      "name": "AI Month: Learning AI Image Enhancement",
+      "date": "2026-04-09",
+      "time": "12:00pm",
+      "venue": "Penn Museum, 3260 South St.",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://ai.upenn.edu/crowned-snake-chnoubis-learning-ai-image-enhancement"
     },
     {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
@@ -1300,6 +1552,24 @@
       "url": "https://libwww.freelibrary.org/calendar/event/166573"
     },
     {
+      "name": "AI Month: Are We Being Deskilled by AI?",
+      "date": "2026-04-09",
+      "time": "2:30pm",
+      "venue": "Virtual",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://ai.wharton.upenn.edu/events-hq/a1WVr00000FPxgzMAD/"
+    },
+    {
+      "name": "The Abele Lecture: Hazel Ruth Edwards",
+      "date": "2026-04-09",
+      "time": "6:30pm",
+      "venue": "Fisher Fine Arts Library, 220 S. 34th St.",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://www.design.upenn.edu/events/abele-lecture-hazel-ruth-edwards"
+    },
+    {
       "name": "UNIVERSAL THEME PARKS: THE EXHIBITION at The Franklin Institute",
       "date": "2026-04-10",
       "time": "00:00",
@@ -1343,6 +1613,15 @@
       "category": "",
       "source": "NKCDC",
       "url": "https://nkcdc.org/event/senator-saval-satellite-office-hours/2026-04-10/"
+    },
+    {
+      "name": "Human-Centered AI: The Future of Design",
+      "date": "2026-04-10",
+      "time": "12:00pm",
+      "venue": "Meyerson Hall, 210 S. 34 St.",
+      "category": "Talks",
+      "source": "Penn Today",
+      "url": "https://www.design.upenn.edu/events/human-centered-ai-storytelling-space-and-fu\u2026"
     },
     {
       "name": "Asian Arts Initiative \u2013 No Arena: Making a Movement Exhibition",
@@ -1669,6 +1948,15 @@
       "url": "https://nkcdc.org/event/mcpherson-garden-discovery-path-community-planting-in-action/"
     },
     {
+      "name": "Shrubs For All Seasons",
+      "date": "2026-04-11",
+      "time": "11:00am",
+      "venue": "Morris Arboretum & Gardens, 100 E. Northwestern Ave.",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://www.morrisarboretum.org/see-do/events/shrubs-all-seasons"
+    },
+    {
       "name": "Photo Weaving workshop",
       "date": "2026-04-11",
       "time": "12:00",
@@ -1885,6 +2173,15 @@
       "url": "https://libwww.freelibrary.org/calendar/event/163941"
     },
     {
+      "name": "Penn Live Arts: Ukulele Orchestra of Great Britain",
+      "date": "2026-04-11",
+      "time": "7:30pm",
+      "venue": "Annenberg Center, 3680 Walnut St.",
+      "category": "Music",
+      "source": "Penn Today",
+      "url": "https://pennlivearts.org/event/UkuleleOrchestra"
+    },
+    {
       "name": "Coffee & Crafts",
       "date": "2026-04-12",
       "time": "12:00",
@@ -1982,6 +2279,15 @@
       "category": "Comedy",
       "source": "Ticketmaster",
       "url": "https://www.ticketmaster.com/mo-gilligan-the-mo-you-know-philadelphia-pennsylvania-04-12-2026/event/020063323F8297FE"
+    },
+    {
+      "name": "Opening Celebration: Remixed and Reclaimed",
+      "date": "2026-04-12",
+      "time": "2:00pm",
+      "venue": "Annenberg Center, 3680 Walnut St.",
+      "category": "Special Events",
+      "source": "Penn Today",
+      "url": "https://arthurrossgallery.org/event/opening-celebration-for-allison-zuckerman-r\u2026"
     }
   ]
 }
