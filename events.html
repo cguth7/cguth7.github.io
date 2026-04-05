@@ -21,30 +21,52 @@ layout: null
     .pill:hover { border-color: #666; color: #ddd; }
     .pill.active { background: #2a4a2a; border-color: #4a8a4a; color: #8f8; }
     .count { color: #888; font-size: 0.85rem; margin-bottom: 12px; }
-    table { width: 100%; border-collapse: collapse; }
-    th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #333; color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; user-select: none; position: sticky; top: 0; background: #0a0a0a; }
-    th:hover { color: #fff; }
-    th .arrow { margin-left: 4px; font-size: 0.7rem; }
-    td { padding: 10px 12px; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; vertical-align: top; }
-    tr:hover { background: #111; }
+
+    .event-card { border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: background 0.1s; }
+    .event-card:hover { background: #111; }
+    .event-row { display: grid; grid-template-columns: 100px 70px 1fr 200px auto auto; align-items: center; padding: 10px 12px; gap: 12px; }
     .event-name a { color: #7ab8ff; text-decoration: none; }
     .event-name a:hover { text-decoration: underline; }
     .event-name span { color: #e0e0e0; }
-    .venue { color: #bbb; }
-    .source { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+    .venue { color: #bbb; font-size: 0.9rem; }
+    .date { white-space: nowrap; font-size: 0.9rem; }
+    .time { white-space: nowrap; color: #aaa; font-size: 0.9rem; }
+    .category { color: #999; font-size: 0.8rem; }
+    .source { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
     .source-ticketmaster { background: #1a2a3a; color: #6ab0f3; }
     .source-campus-philly { background: #2a1a3a; color: #b38af3; }
     .source-university-city { background: #1a3a2a; color: #6af3a0; }
-    .source-bartrams-garden { background: #2a3a1a; color: #a0f36a; }
+    .source-bartram-s-garden { background: #2a3a1a; color: #a0f36a; }
     .source-free-library { background: #3a2a1a; color: #f3b06a; }
-    .date { white-space: nowrap; }
-    .time { white-space: nowrap; color: #aaa; }
-    .category { color: #999; font-size: 0.85rem; }
+    .source-penn-today { background: #1a2a2a; color: #6ad0d0; }
+    .source-philly-family { background: #3a1a2a; color: #f36a9a; }
+    .source-nkcdc { background: #2a2a1a; color: #d0d06a; }
+    .source-schuylkill-center { background: #1a3a1a; color: #6af36a; }
+    .source-nextfab { background: #2a1a2a; color: #d06af3; }
+    .cost-tag { font-size: 0.75rem; padding: 1px 6px; border-radius: 8px; background: #1a2a1a; color: #6a6; white-space: nowrap; }
+    .cost-tag.paid { background: #2a2a1a; color: #cc6; }
+
+    .event-detail { display: none; padding: 0 12px 16px 12px; }
+    .event-detail.open { display: flex; gap: 16px; }
+    .event-detail-img { width: 200px; min-width: 200px; height: 130px; object-fit: cover; border-radius: 6px; background: #1a1a1a; }
+    .event-detail-body { flex: 1; min-width: 0; }
+    .event-detail-desc { color: #bbb; font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; max-height: 100px; overflow: hidden; }
+    .event-detail-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.8rem; color: #888; }
+    .event-detail-meta span { display: flex; align-items: center; gap: 4px; }
+    .expand-icon { color: #555; font-size: 0.7rem; margin-left: auto; transition: transform 0.15s; }
+    .event-card.expanded .expand-icon { transform: rotate(90deg); }
+
+    .header-row { display: grid; grid-template-columns: 100px 70px 1fr 200px auto auto; padding: 10px 12px; gap: 12px; border-bottom: 2px solid #333; position: sticky; top: 0; background: #0a0a0a; z-index: 10; }
+    .header-row span { color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; user-select: none; }
+    .header-row span:hover { color: #fff; }
+
     @media (max-width: 768px) {
       .controls { flex-direction: column; }
       .controls input { width: 100%; }
-      td, th { padding: 8px 6px; font-size: 0.8rem; }
+      .event-row { grid-template-columns: 75px 55px 1fr; font-size: 0.8rem; padding: 8px 6px; gap: 6px; }
       .hide-mobile { display: none; }
+      .event-detail.open { flex-direction: column; }
+      .event-detail-img { width: 100%; height: 160px; }
     }
   </style>
 </head>
@@ -53,7 +75,7 @@ layout: null
   <div class="subtitle" id="meta"></div>
 
   <div class="controls">
-    <input type="text" id="search" placeholder="Search events, venues...">
+    <input type="text" id="search" placeholder="Search events, venues, descriptions...">
     <select id="day-filter">
       <option value="">All days</option>
     </select>
@@ -71,19 +93,15 @@ layout: null
   <div class="pill-bar" id="source-pills"></div>
   <div class="count" id="count"></div>
 
-  <table>
-    <thead>
-      <tr>
-        <th data-sort="date">Date <span class="arrow">▲</span></th>
-        <th data-sort="time">Time <span class="arrow"></span></th>
-        <th data-sort="name">Event <span class="arrow"></span></th>
-        <th data-sort="venue">Venue <span class="arrow"></span></th>
-        <th data-sort="category" class="hide-mobile">Category <span class="arrow"></span></th>
-        <th data-sort="source" class="hide-mobile">Source <span class="arrow"></span></th>
-      </tr>
-    </thead>
-    <tbody id="events-body"></tbody>
-  </table>
+  <div class="header-row">
+    <span data-sort="date">Date</span>
+    <span data-sort="time">Time</span>
+    <span>Event</span>
+    <span class="hide-mobile">Venue</span>
+    <span class="hide-mobile">Info</span>
+    <span></span>
+  </div>
+  <div id="events-list"></div>
 
   <script>
     let allEvents = [];
@@ -99,10 +117,10 @@ layout: null
     }
 
     function formatTime(timeStr) {
-      if (!timeStr || timeStr.length < 5) return timeStr || '';
-      // Handle "HH:MM" 24h format
+      if (!timeStr || timeStr.length < 3) return '';
       if (timeStr.match(/^\d{2}:\d{2}$/)) {
         const [h, m] = timeStr.split(':').map(Number);
+        if (h === 0 && m === 0) return '';
         const ampm = h >= 12 ? 'pm' : 'am';
         const h12 = h % 12 || 12;
         return `${h12}:${m.toString().padStart(2,'0')}${ampm}`;
@@ -114,6 +132,16 @@ layout: null
       return 'source-' + source.toLowerCase().replace(/[^a-z]+/g, '-').replace(/(^-|-$)/g, '');
     }
 
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function truncate(str, len) {
+      if (!str || str.length <= len) return str || '';
+      return str.substring(0, len) + '...';
+    }
+
     function render() {
       const search = document.getElementById('search').value.toLowerCase();
       const dayFilter = document.getElementById('day-filter').value;
@@ -123,8 +151,10 @@ layout: null
         if (search && !(
           e.name.toLowerCase().includes(search) ||
           e.venue.toLowerCase().includes(search) ||
-          e.category.toLowerCase().includes(search) ||
-          e.source.toLowerCase().includes(search)
+          (e.category || '').toLowerCase().includes(search) ||
+          e.source.toLowerCase().includes(search) ||
+          (e.description || '').toLowerCase().includes(search) ||
+          (e.organizer || '').toLowerCase().includes(search)
         )) return false;
         if (dayFilter && e.date !== dayFilter) return false;
         if (sourceFilter && e.source !== sourceFilter) return false;
@@ -145,24 +175,74 @@ layout: null
 
       document.getElementById('count').textContent = `${filtered.length} of ${allEvents.length} events`;
 
-      const tbody = document.getElementById('events-body');
-      tbody.innerHTML = filtered.map(e => {
+      const list = document.getElementById('events-list');
+      list.innerHTML = filtered.map((e, i) => {
         const nameCell = e.url
-          ? `<a href="${e.url}" target="_blank" rel="noopener">${e.name}</a>`
-          : `<span>${e.name}</span>`;
-        return `<tr>
-          <td class="date">${formatDate(e.date)}</td>
-          <td class="time">${formatTime(e.time)}</td>
-          <td class="event-name">${nameCell}</td>
-          <td class="venue">${e.venue}</td>
-          <td class="category hide-mobile">${e.category}</td>
-          <td class="hide-mobile"><span class="source ${sourceClass(e.source)}">${e.source}</span></td>
-        </tr>`;
+          ? `<a href="${escapeHtml(e.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHtml(e.name)}</a>`
+          : `<span>${escapeHtml(e.name)}</span>`;
+
+        const costHtml = e.cost
+          ? `<span class="cost-tag ${e.cost === 'Free' ? '' : 'paid'}">${escapeHtml(e.cost)}</span>`
+          : '';
+
+        const hasDetail = e.description || e.image;
+        const expandIcon = hasDetail ? `<span class="expand-icon">&#9654;</span>` : '';
+
+        const imgHtml = e.image
+          ? `<img class="event-detail-img" src="${escapeHtml(e.image)}" alt="" loading="lazy" onerror="this.style.display='none'">`
+          : '';
+
+        const addressParts = [e.address, e.city, e.zip].filter(Boolean);
+        const addressHtml = addressParts.length
+          ? `<span>&#128205; ${escapeHtml(addressParts.join(', '))}</span>` : '';
+
+        const orgHtml = e.organizer
+          ? `<span>&#127915; ${escapeHtml(e.organizer)}</span>` : '';
+
+        const catHtml = e.category
+          ? `<span>&#127991; ${escapeHtml(e.category)}</span>` : '';
+
+        return `
+          <div class="event-card" data-idx="${i}" onclick="toggleDetail(this)">
+            <div class="event-row">
+              <span class="date">${formatDate(e.date)}</span>
+              <span class="time">${formatTime(e.time)}</span>
+              <span class="event-name">${nameCell} ${costHtml}</span>
+              <span class="venue hide-mobile">${escapeHtml(e.venue)}</span>
+              <span class="hide-mobile"><span class="source ${sourceClass(e.source)}">${escapeHtml(e.source)}</span></span>
+              ${expandIcon}
+            </div>
+            <div class="event-detail">
+              ${imgHtml}
+              <div class="event-detail-body">
+                <div class="event-detail-desc">${escapeHtml(truncate(e.description, 300))}</div>
+                <div class="event-detail-meta">
+                  ${catHtml}
+                  ${orgHtml}
+                  ${addressHtml}
+                  ${e.venue ? `<span>&#127970; ${escapeHtml(e.venue)}</span>` : ''}
+                </div>
+              </div>
+            </div>
+          </div>`;
       }).join('');
     }
 
+    function toggleDetail(card) {
+      const detail = card.querySelector('.event-detail');
+      const isOpen = detail.classList.contains('open');
+      // Close all others
+      document.querySelectorAll('.event-detail.open').forEach(d => {
+        d.classList.remove('open');
+        d.closest('.event-card').classList.remove('expanded');
+      });
+      if (!isOpen) {
+        detail.classList.add('open');
+        card.classList.add('expanded');
+      }
+    }
+
     function initControls() {
-      // Day filter
       const days = [...new Set(allEvents.map(e => e.date))].sort();
       const daySelect = document.getElementById('day-filter');
       days.forEach(d => {
@@ -172,7 +252,6 @@ layout: null
         daySelect.appendChild(opt);
       });
 
-      // Source filter
       const sources = [...new Set(allEvents.map(e => e.source))].sort();
       const srcSelect = document.getElementById('source-filter');
       sources.forEach(s => {
@@ -183,7 +262,6 @@ layout: null
         srcSelect.appendChild(opt);
       });
 
-      // Source pills
       const pillBar = document.getElementById('source-pills');
       sources.forEach(s => {
         const pill = document.createElement('span');
@@ -203,7 +281,6 @@ layout: null
         pillBar.appendChild(pill);
       });
 
-      // Search
       document.getElementById('search').addEventListener('input', render);
       document.getElementById('day-filter').addEventListener('change', render);
       document.getElementById('source-filter').addEventListener('change', render);
@@ -213,35 +290,31 @@ layout: null
         render();
       });
 
-      // Column header sorting
-      document.querySelectorAll('th[data-sort]').forEach(th => {
-        th.addEventListener('click', () => {
-          const key = th.dataset.sort;
+      document.querySelectorAll('.header-row span[data-sort]').forEach(el => {
+        el.addEventListener('click', () => {
+          const key = el.dataset.sort;
           if (currentSort.key === key) {
             currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
           } else {
             currentSort = { key, dir: 'asc' };
           }
-          document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
-          th.querySelector('.arrow').textContent = currentSort.dir === 'asc' ? '▲' : '▼';
           render();
         });
       });
     }
 
-    // Load data
     fetch('/assets/data/events.json')
       .then(r => r.json())
       .then(data => {
         allEvents = data.events;
         document.getElementById('meta').textContent =
-          `${data.total} events · ${data.week} · Updated ${new Date(data.generated).toLocaleDateString()}`;
+          `${data.total} events from 10 sources · ${data.week} · Updated ${new Date(data.generated).toLocaleDateString()}`;
         initControls();
         render();
       })
       .catch(err => {
-        document.getElementById('events-body').innerHTML =
-          `<tr><td colspan="6" style="color:#f66;padding:20px">Failed to load events data: ${err.message}</td></tr>`;
+        document.getElementById('events-list').innerHTML =
+          `<div style="color:#f66;padding:20px">Failed to load events data: ${err.message}</div>`;
       });
   </script>
 </body>
