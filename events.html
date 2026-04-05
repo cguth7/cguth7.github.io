@@ -11,27 +11,55 @@ layout: null
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; padding: 20px; max-width: 1200px; margin: 0 auto; }
     h1 { font-size: 1.8rem; margin-bottom: 4px; color: #fff; }
-    .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
-    .controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+    .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 16px; }
+
+    /* Controls */
+    .controls { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; align-items: center; }
     .controls input { background: #1a1a1a; border: 1px solid #333; color: #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; width: 260px; }
     .controls input::placeholder { color: #666; }
     .controls select { background: #1a1a1a; border: 1px solid #333; color: #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; }
-    .pill-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+
+    /* Source pills */
+    .pill-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
     .pill { background: #1a1a1a; border: 1px solid #333; color: #aaa; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; }
     .pill:hover { border-color: #666; color: #ddd; }
     .pill.active { background: #2a4a2a; border-color: #4a8a4a; color: #8f8; }
+
+    /* Weight sliders */
+    .sliders-panel { background: #111; border: 1px solid #222; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+    .sliders-panel h3 { font-size: 0.85rem; color: #aaa; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .sliders-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .slider-item { display: flex; flex-direction: column; gap: 4px; }
+    .slider-label { font-size: 0.8rem; color: #bbb; display: flex; justify-content: space-between; }
+    .slider-label .val { color: #8f8; font-weight: 600; }
+    input[type="range"] { -webkit-appearance: none; width: 100%; height: 4px; background: #333; border-radius: 2px; outline: none; }
+    input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; width: 14px; height: 14px; background: #6af36a; border-radius: 50%; cursor: pointer; }
+
+    /* Interest tags */
+    .tag-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+    .tag { background: #1a1a1a; border: 1px solid #333; color: #888; padding: 3px 10px; border-radius: 12px; font-size: 0.75rem; cursor: pointer; transition: all 0.15s; }
+    .tag:hover { border-color: #666; color: #bbb; }
+    .tag.active { background: #1a2a3a; border-color: #4a8aaa; color: #8cf; }
+
     .count { color: #888; font-size: 0.85rem; margin-bottom: 12px; }
 
+    /* Event cards */
     .event-card { border-bottom: 1px solid #1a1a1a; cursor: pointer; transition: background 0.1s; }
     .event-card:hover { background: #111; }
-    .event-row { display: grid; grid-template-columns: 100px 70px 1fr 200px auto auto; align-items: center; padding: 10px 12px; gap: 12px; }
-    .event-name a { color: #7ab8ff; text-decoration: none; }
+    .event-row { display: grid; grid-template-columns: 40px 95px 60px 1fr 180px auto; align-items: center; padding: 8px 12px; gap: 10px; }
+    .rank { font-size: 1rem; font-weight: 700; color: #555; text-align: center; }
+    .rank.top3 { color: #6af36a; }
+    .rank.top10 { color: #a0d06a; }
+    .event-name a { color: #7ab8ff; text-decoration: none; font-size: 0.9rem; }
     .event-name a:hover { text-decoration: underline; }
-    .event-name span { color: #e0e0e0; }
-    .venue { color: #bbb; font-size: 0.9rem; }
-    .date { white-space: nowrap; font-size: 0.9rem; }
-    .time { white-space: nowrap; color: #aaa; font-size: 0.9rem; }
-    .category { color: #999; font-size: 0.8rem; }
+    .event-name span { color: #e0e0e0; font-size: 0.9rem; }
+    .venue { color: #bbb; font-size: 0.85rem; }
+    .date { white-space: nowrap; font-size: 0.85rem; }
+    .time { white-space: nowrap; color: #aaa; font-size: 0.85rem; }
+    .score-bar { display: flex; gap: 3px; align-items: center; }
+    .score-pip { width: 6px; height: 16px; border-radius: 2px; }
+
+    /* Source colors */
     .source { font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
     .source-ticketmaster { background: #1a2a3a; color: #6ab0f3; }
     .source-campus-philly { background: #2a1a3a; color: #b38af3; }
@@ -43,30 +71,32 @@ layout: null
     .source-nkcdc { background: #2a2a1a; color: #d0d06a; }
     .source-schuylkill-center { background: #1a3a1a; color: #6af36a; }
     .source-nextfab { background: #2a1a2a; color: #d06af3; }
-    .cost-tag { font-size: 0.75rem; padding: 1px 6px; border-radius: 8px; background: #1a2a1a; color: #6a6; white-space: nowrap; }
-    .cost-tag.paid { background: #2a2a1a; color: #cc6; }
 
-    .event-detail { display: none; padding: 0 12px 16px 12px; }
+    /* Detail panel */
+    .event-detail { display: none; padding: 0 12px 16px 52px; }
     .event-detail.open { display: flex; gap: 16px; }
-    .event-detail-img { width: 200px; min-width: 200px; height: 130px; object-fit: cover; border-radius: 6px; background: #1a1a1a; }
+    .event-detail-img { width: 180px; min-width: 180px; height: 120px; object-fit: cover; border-radius: 6px; background: #1a1a1a; }
     .event-detail-body { flex: 1; min-width: 0; }
-    .event-detail-desc { color: #bbb; font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; max-height: 100px; overflow: hidden; }
-    .event-detail-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 0.8rem; color: #888; }
-    .event-detail-meta span { display: flex; align-items: center; gap: 4px; }
+    .event-detail-desc { color: #bbb; font-size: 0.85rem; line-height: 1.5; margin-bottom: 8px; max-height: 80px; overflow: hidden; }
+    .event-detail-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.78rem; color: #888; margin-bottom: 8px; }
+    .scores-breakdown { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 6px; }
+    .score-chip { font-size: 0.72rem; padding: 2px 8px; border-radius: 10px; background: #1a1a1a; border: 1px solid #2a2a2a; }
+    .score-chip .dim-label { color: #888; }
+    .score-chip .dim-score { color: #6af36a; font-weight: 600; margin-left: 4px; }
+    .score-chip .dim-reason { color: #666; font-style: italic; margin-left: 4px; }
+    .total-score { font-size: 0.9rem; font-weight: 700; padding: 2px 10px; border-radius: 10px; }
+
     .expand-icon { color: #555; font-size: 0.7rem; margin-left: auto; transition: transform 0.15s; }
     .event-card.expanded .expand-icon { transform: rotate(90deg); }
-
-    .header-row { display: grid; grid-template-columns: 100px 70px 1fr 200px auto auto; padding: 10px 12px; gap: 12px; border-bottom: 2px solid #333; position: sticky; top: 0; background: #0a0a0a; z-index: 10; }
-    .header-row span { color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; user-select: none; }
-    .header-row span:hover { color: #fff; }
 
     @media (max-width: 768px) {
       .controls { flex-direction: column; }
       .controls input { width: 100%; }
-      .event-row { grid-template-columns: 75px 55px 1fr; font-size: 0.8rem; padding: 8px 6px; gap: 6px; }
+      .event-row { grid-template-columns: 30px 70px 50px 1fr; font-size: 0.8rem; padding: 8px 6px; gap: 4px; }
       .hide-mobile { display: none; }
-      .event-detail.open { flex-direction: column; }
-      .event-detail-img { width: 100%; height: 160px; }
+      .event-detail.open { flex-direction: column; padding-left: 12px; }
+      .event-detail-img { width: 100%; height: 140px; }
+      .sliders-grid { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
@@ -74,73 +104,156 @@ layout: null
   <h1>Philly Events This Week</h1>
   <div class="subtitle" id="meta"></div>
 
-  <div class="controls">
-    <input type="text" id="search" placeholder="Search events, venues, descriptions...">
-    <select id="day-filter">
-      <option value="">All days</option>
-    </select>
-    <select id="source-filter">
-      <option value="">All sources</option>
-    </select>
-    <select id="sort-select">
-      <option value="date-asc">Date (soonest)</option>
-      <option value="date-desc">Date (latest)</option>
-      <option value="name-asc">Name (A-Z)</option>
-      <option value="venue-asc">Venue (A-Z)</option>
-    </select>
+  <div class="sliders-panel">
+    <h3>Ranking Weights — drag to personalize</h3>
+    <div class="sliders-grid" id="sliders"></div>
+    <div style="margin-top:10px">
+      <span style="font-size:0.78rem;color:#888;">Your interests:</span>
+      <div class="tag-bar" id="interest-tags"></div>
+    </div>
   </div>
 
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search events, venues, descriptions...">
+    <select id="day-filter"><option value="">All days</option></select>
+    <select id="source-filter"><option value="">All sources</option></select>
+  </div>
   <div class="pill-bar" id="source-pills"></div>
   <div class="count" id="count"></div>
 
-  <div class="header-row">
-    <span data-sort="date">Date</span>
-    <span data-sort="time">Time</span>
-    <span>Event</span>
-    <span class="hide-mobile">Venue</span>
-    <span class="hide-mobile">Info</span>
-    <span></span>
-  </div>
   <div id="events-list"></div>
 
   <script>
     let allEvents = [];
-    let currentSort = { key: 'date', dir: 'asc' };
+    let scoringMeta = {};
+    let weights = {};
     let activeSources = new Set();
+    let activeTags = new Set();
 
-    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
     const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
-    function formatDate(dateStr) {
-      const d = new Date(dateStr + 'T12:00:00');
+    // Default user location: center city
+    const userLat = 39.9526, userLng = -75.1652;
+
+    function formatDate(ds) {
+      const d = new Date(ds + 'T12:00:00');
       return `${dayNames[d.getDay()]} ${monthNames[d.getMonth()]} ${d.getDate()}`;
     }
-
-    function formatTime(timeStr) {
-      if (!timeStr || timeStr.length < 3) return '';
-      if (timeStr.match(/^\d{2}:\d{2}$/)) {
-        const [h, m] = timeStr.split(':').map(Number);
-        if (h === 0 && m === 0) return '';
-        const ampm = h >= 12 ? 'pm' : 'am';
-        const h12 = h % 12 || 12;
-        return `${h12}:${m.toString().padStart(2,'0')}${ampm}`;
+    function formatTime(t) {
+      if (!t || t.length < 3) return '';
+      if (t.match(/^\d{2}:\d{2}$/)) {
+        const [h,m] = t.split(':').map(Number);
+        if (h===0 && m===0) return '';
+        return `${h%12||12}:${String(m).padStart(2,'0')}${h>=12?'pm':'am'}`;
       }
-      return timeStr;
+      return t;
+    }
+    function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function trunc(s,n) { return (!s||s.length<=n)?s||'':s.substring(0,n)+'...'; }
+    function sourceClass(s) { return 'source-'+s.toLowerCase().replace(/[^a-z]+/g,'-').replace(/(^-|-$)/g,''); }
+
+    // ── Scoring ──
+
+    const TAG_KEYWORDS = {
+      ai:['ai','artificial intelligence','machine learning','llm','gpt','neural'],
+      tech:['hackathon','codefest','coding','software','startup','makerspace','nextfab','3d print','tech'],
+      community:['community','neighborhood','volunteer','civic','meeting','cleanup','garden'],
+      music:['concert','dj','band','orchestra','live music','tour','album','music'],
+      outdoors:['park','garden','bird','hike','trail','outdoor','nature','walk'],
+      food:['brews','brewing','food','cooking','restaurant','market','farmers','brunch'],
+      arts:['art','gallery','museum','exhibit','painting','sculpture','theater','theatre','dance','craft'],
+      comedy:['comedy','standup','stand-up','comedian','open mic','improv'],
+      sports:['phillies','76ers','flyers','eagles','wings','basketball','hockey','baseball','sports'],
+      wellness:['yoga','meditation','fitness','wellness','health'],
+      learning:['workshop','class','lecture','talk','seminar','symposium','panel','science'],
+      social:['brunch','social','mixer','networking','happy hour','party'],
+      nightlife:['21+','nightclub','dj','club','late night','noto'],
+      family:['kids','children','family','toddler','storytime','baby'],
+      science:['science','research','physics','biology','geology','astronomy'],
+      activism:['activism','justice','policy','civic','democracy','rights'],
+      crafts:['craft','sewing','knitting','weaving','fiber','clay','pottery','woodwork'],
+      film:['film','movie','screening','cinema','documentary'],
+    };
+
+    function computeInterestScore(e) {
+      if (activeTags.size === 0) return 5;
+      const text = `${e.name} ${e.description||''} ${e.category||''} ${e.venue||''}`.toLowerCase();
+      let matched = 0;
+      activeTags.forEach(tag => {
+        const kws = TAG_KEYWORDS[tag] || [tag];
+        if (kws.some(kw => text.includes(kw))) matched++;
+      });
+      return Math.min(10, Math.round((matched / activeTags.size) * 12) + 1);
     }
 
-    function sourceClass(source) {
-      return 'source-' + source.toLowerCase().replace(/[^a-z]+/g, '-').replace(/(^-|-$)/g, '');
+    function haversine(lat1,lng1,lat2,lng2) {
+      const R=6371, toRad=n=>n*Math.PI/180;
+      const dlat=toRad(lat2-lat1), dlng=toRad(lng2-lng1);
+      const a=Math.sin(dlat/2)**2+Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dlng/2)**2;
+      return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
     }
 
-    function escapeHtml(str) {
-      if (!str) return '';
-      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    function computeEffortScore(e) {
+      let score = 8;
+      // Distance
+      if (e.lat && e.lng) {
+        const d = haversine(userLat, userLng, parseFloat(e.lat), parseFloat(e.lng));
+        if (d > 15) score -= 4;
+        else if (d > 8) score -= 3;
+        else if (d > 4) score -= 2;
+        else if (d > 2) score -= 1;
+        else score += 1; // walkable bonus
+      }
+      // Cost
+      const cost = e.cost || '';
+      if (cost.toLowerCase() === 'free') score += 1;
+      else if (cost) {
+        const nums = cost.match(/\d+/g);
+        if (nums) {
+          const price = parseInt(nums[0]);
+          if (price > 60) score -= 3;
+          else if (price > 35) score -= 2;
+          else if (price > 15) score -= 1;
+        }
+      }
+      return Math.max(1, Math.min(10, score));
     }
 
-    function truncate(str, len) {
-      if (!str || str.length <= len) return str || '';
-      return str.substring(0, len) + '...';
+    function computeTotalScore(e) {
+      const s = e.scores || {};
+      const social = (s.social_quality||{}).score || 5;
+      const serend = (s.serendipity||{}).score || 5;
+      const unique = (s.uniqueness||{}).score || 5;
+      const commun = (s.community_building||{}).score || 5;
+      const interest = computeInterestScore(e);
+      const effort = computeEffortScore(e);
+
+      return (
+        social * weights.social_quality +
+        serend * weights.serendipity +
+        unique * weights.uniqueness +
+        commun * weights.community_building +
+        interest * weights.interest_alignment +
+        effort * weights.effort_to_value
+      );
     }
+
+    function scoreToBg(score) {
+      if (score >= 8) return '#2a4a2a';
+      if (score >= 6) return '#2a3a2a';
+      if (score >= 4) return '#2a2a1a';
+      return '#2a1a1a';
+    }
+
+    function scoreToColor(score) {
+      if (score >= 8) return '#6af36a';
+      if (score >= 6) return '#a0d06a';
+      if (score >= 4) return '#d0d06a';
+      return '#d06a6a';
+    }
+
+    // ── Render ──
 
     function render() {
       const search = document.getElementById('search').value.toLowerCase();
@@ -150,11 +263,10 @@ layout: null
       let filtered = allEvents.filter(e => {
         if (search && !(
           e.name.toLowerCase().includes(search) ||
-          e.venue.toLowerCase().includes(search) ||
-          (e.category || '').toLowerCase().includes(search) ||
+          (e.venue||'').toLowerCase().includes(search) ||
+          (e.category||'').toLowerCase().includes(search) ||
           e.source.toLowerCase().includes(search) ||
-          (e.description || '').toLowerCase().includes(search) ||
-          (e.organizer || '').toLowerCase().includes(search)
+          (e.description||'').toLowerCase().includes(search)
         )) return false;
         if (dayFilter && e.date !== dayFilter) return false;
         if (sourceFilter && e.source !== sourceFilter) return false;
@@ -162,66 +274,66 @@ layout: null
         return true;
       });
 
-      filtered.sort((a, b) => {
-        let va = a[currentSort.key] || '';
-        let vb = b[currentSort.key] || '';
-        if (currentSort.key === 'date') {
-          va = a.date + ' ' + (a.time || '99:99');
-          vb = b.date + ' ' + (b.time || '99:99');
-        }
-        const cmp = va.localeCompare(vb);
-        return currentSort.dir === 'asc' ? cmp : -cmp;
-      });
+      // Compute and sort by total score
+      filtered.forEach(e => { e._total = computeTotalScore(e); });
+      filtered.sort((a,b) => b._total - a._total);
 
       document.getElementById('count').textContent = `${filtered.length} of ${allEvents.length} events`;
 
       const list = document.getElementById('events-list');
-      list.innerHTML = filtered.map((e, i) => {
+      list.innerHTML = filtered.map((e, rank) => {
+        const s = e.scores || {};
+        const social = (s.social_quality||{}).score||5;
+        const serend = (s.serendipity||{}).score||5;
+        const unique = (s.uniqueness||{}).score||5;
+        const commun = (s.community_building||{}).score||5;
+        const interest = computeInterestScore(e);
+        const effort = computeEffortScore(e);
+        const total = e._total;
+
+        const rankClass = rank < 3 ? 'top3' : rank < 10 ? 'top10' : '';
         const nameCell = e.url
-          ? `<a href="${escapeHtml(e.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${escapeHtml(e.name)}</a>`
-          : `<span>${escapeHtml(e.name)}</span>`;
+          ? `<a href="${esc(e.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(e.name)}</a>`
+          : `<span>${esc(e.name)}</span>`;
 
-        const costHtml = e.cost
-          ? `<span class="cost-tag ${e.cost === 'Free' ? '' : 'paid'}">${escapeHtml(e.cost)}</span>`
-          : '';
+        const imgHtml = e.image ? `<img class="event-detail-img" src="${esc(e.image)}" alt="" loading="lazy" onerror="this.style.display='none'">` : '';
 
-        const hasDetail = e.description || e.image;
-        const expandIcon = hasDetail ? `<span class="expand-icon">&#9654;</span>` : '';
+        const dims = [
+          {l:'Social', s:social, r:(s.social_quality||{}).reason},
+          {l:'Serendipity', s:serend, r:(s.serendipity||{}).reason},
+          {l:'Uniqueness', s:unique, r:(s.uniqueness||{}).reason},
+          {l:'Community', s:commun, r:(s.community_building||{}).reason},
+          {l:'Interest', s:interest, r:''},
+          {l:'Effort/Value', s:effort, r:''},
+        ];
+        const chipsHtml = dims.map(d =>
+          `<span class="score-chip"><span class="dim-label">${d.l}</span><span class="dim-score" style="color:${scoreToColor(d.s)}">${d.s}</span>${d.r?`<span class="dim-reason">${esc(trunc(d.r,60))}</span>`:''}</span>`
+        ).join('');
 
-        const imgHtml = e.image
-          ? `<img class="event-detail-img" src="${escapeHtml(e.image)}" alt="" loading="lazy" onerror="this.style.display='none'">`
-          : '';
-
-        const addressParts = [e.address, e.city, e.zip].filter(Boolean);
-        const addressHtml = addressParts.length
-          ? `<span>&#128205; ${escapeHtml(addressParts.join(', '))}</span>` : '';
-
-        const orgHtml = e.organizer
-          ? `<span>&#127915; ${escapeHtml(e.organizer)}</span>` : '';
-
-        const catHtml = e.category
-          ? `<span>&#127991; ${escapeHtml(e.category)}</span>` : '';
+        const addrParts = [e.address, e.city, e.zip].filter(Boolean);
 
         return `
-          <div class="event-card" data-idx="${i}" onclick="toggleDetail(this)">
+          <div class="event-card" onclick="toggleDetail(this)">
             <div class="event-row">
+              <span class="rank ${rankClass}">${rank+1}</span>
               <span class="date">${formatDate(e.date)}</span>
               <span class="time">${formatTime(e.time)}</span>
-              <span class="event-name">${nameCell} ${costHtml}</span>
-              <span class="venue hide-mobile">${escapeHtml(e.venue)}</span>
-              <span class="hide-mobile"><span class="source ${sourceClass(e.source)}">${escapeHtml(e.source)}</span></span>
-              ${expandIcon}
+              <span class="event-name">${nameCell}</span>
+              <span class="venue hide-mobile">${esc(e.venue)}</span>
+              <span class="total-score" style="background:${scoreToBg(total)};color:${scoreToColor(total)}">${total.toFixed(1)}</span>
             </div>
             <div class="event-detail">
               ${imgHtml}
               <div class="event-detail-body">
-                <div class="event-detail-desc">${escapeHtml(truncate(e.description, 300))}</div>
+                <div class="event-detail-desc">${esc(trunc(e.description,300))}</div>
                 <div class="event-detail-meta">
-                  ${catHtml}
-                  ${orgHtml}
-                  ${addressHtml}
-                  ${e.venue ? `<span>&#127970; ${escapeHtml(e.venue)}</span>` : ''}
+                  ${e.venue?`<span>&#127970; ${esc(e.venue)}</span>`:''}
+                  ${addrParts.length?`<span>&#128205; ${esc(addrParts.join(', '))}</span>`:''}
+                  ${e.organizer?`<span>&#127915; ${esc(e.organizer)}</span>`:''}
+                  ${e.cost?`<span>&#128176; ${esc(e.cost)}</span>`:''}
+                  <span class="source ${sourceClass(e.source)}">${esc(e.source)}</span>
                 </div>
+                <div class="scores-breakdown">${chipsHtml}</div>
               </div>
             </div>
           </div>`;
@@ -231,7 +343,6 @@ layout: null
     function toggleDetail(card) {
       const detail = card.querySelector('.event-detail');
       const isOpen = detail.classList.contains('open');
-      // Close all others
       document.querySelectorAll('.event-detail.open').forEach(d => {
         d.classList.remove('open');
         d.closest('.event-card').classList.remove('expanded');
@@ -242,40 +353,67 @@ layout: null
       }
     }
 
+    // ── Init ──
+
+    function initSliders() {
+      const dims = scoringMeta.dimensions || {};
+      const container = document.getElementById('sliders');
+      const defaultW = scoringMeta.default_weights || {};
+
+      Object.entries(dims).forEach(([key, dim]) => {
+        weights[key] = defaultW[key] || 0.15;
+        const item = document.createElement('div');
+        item.className = 'slider-item';
+        item.innerHTML = `
+          <div class="slider-label">
+            <span>${dim.label} <span style="color:#666;font-size:0.7rem">(${dim.description})</span></span>
+            <span class="val" id="val-${key}">${Math.round(weights[key]*100)}%</span>
+          </div>
+          <input type="range" min="0" max="50" value="${Math.round(weights[key]*100)}" id="slider-${key}">
+        `;
+        container.appendChild(item);
+        item.querySelector('input').addEventListener('input', (ev) => {
+          weights[key] = parseInt(ev.target.value) / 100;
+          document.getElementById(`val-${key}`).textContent = `${ev.target.value}%`;
+          render();
+        });
+      });
+    }
+
+    function initTags() {
+      const tags = scoringMeta.available_tags || [];
+      const container = document.getElementById('interest-tags');
+      tags.forEach(tag => {
+        const el = document.createElement('span');
+        el.className = 'tag';
+        el.textContent = tag;
+        el.addEventListener('click', () => {
+          if (activeTags.has(tag)) { activeTags.delete(tag); el.classList.remove('active'); }
+          else { activeTags.add(tag); el.classList.add('active'); }
+          render();
+        });
+        container.appendChild(el);
+      });
+    }
+
     function initControls() {
       const days = [...new Set(allEvents.map(e => e.date))].sort();
       const daySelect = document.getElementById('day-filter');
-      days.forEach(d => {
-        const opt = document.createElement('option');
-        opt.value = d;
-        opt.textContent = formatDate(d);
-        daySelect.appendChild(opt);
-      });
+      days.forEach(d => { const o=document.createElement('option'); o.value=d; o.textContent=formatDate(d); daySelect.appendChild(o); });
 
       const sources = [...new Set(allEvents.map(e => e.source))].sort();
       const srcSelect = document.getElementById('source-filter');
-      sources.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s;
-        const count = allEvents.filter(e => e.source === s).length;
-        opt.textContent = `${s} (${count})`;
-        srcSelect.appendChild(opt);
-      });
+      sources.forEach(s => { const o=document.createElement('option'); o.value=s; const c=allEvents.filter(e=>e.source===s).length; o.textContent=`${s} (${c})`; srcSelect.appendChild(o); });
 
       const pillBar = document.getElementById('source-pills');
       sources.forEach(s => {
         const pill = document.createElement('span');
         pill.className = 'pill';
-        const count = allEvents.filter(e => e.source === s).length;
-        pill.textContent = `${s} (${count})`;
+        const c = allEvents.filter(e=>e.source===s).length;
+        pill.textContent = `${s} (${c})`;
         pill.addEventListener('click', () => {
-          if (activeSources.has(s)) {
-            activeSources.delete(s);
-            pill.classList.remove('active');
-          } else {
-            activeSources.add(s);
-            pill.classList.add('active');
-          }
+          if (activeSources.has(s)) { activeSources.delete(s); pill.classList.remove('active'); }
+          else { activeSources.add(s); pill.classList.add('active'); }
           render();
         });
         pillBar.appendChild(pill);
@@ -284,31 +422,19 @@ layout: null
       document.getElementById('search').addEventListener('input', render);
       document.getElementById('day-filter').addEventListener('change', render);
       document.getElementById('source-filter').addEventListener('change', render);
-      document.getElementById('sort-select').addEventListener('change', (e) => {
-        const [key, dir] = e.target.value.split('-');
-        currentSort = { key, dir };
-        render();
-      });
-
-      document.querySelectorAll('.header-row span[data-sort]').forEach(el => {
-        el.addEventListener('click', () => {
-          const key = el.dataset.sort;
-          if (currentSort.key === key) {
-            currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
-          } else {
-            currentSort = { key, dir: 'asc' };
-          }
-          render();
-        });
-      });
     }
+
+    // ── Load ──
 
     fetch('/assets/data/events.json')
       .then(r => r.json())
       .then(data => {
         allEvents = data.events;
+        scoringMeta = data.scoring || {};
         document.getElementById('meta').textContent =
           `${data.total} events from 10 sources · ${data.week} · Updated ${new Date(data.generated).toLocaleDateString()}`;
+        initSliders();
+        initTags();
         initControls();
         render();
       })
