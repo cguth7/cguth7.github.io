@@ -1,0 +1,248 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Philly Events This Week</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0a0a0a; color: #e0e0e0; padding: 20px; max-width: 1200px; margin: 0 auto; }
+    h1 { font-size: 1.8rem; margin-bottom: 4px; color: #fff; }
+    .subtitle { color: #888; font-size: 0.9rem; margin-bottom: 20px; }
+    .controls { display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; align-items: center; }
+    .controls input { background: #1a1a1a; border: 1px solid #333; color: #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; width: 260px; }
+    .controls input::placeholder { color: #666; }
+    .controls select { background: #1a1a1a; border: 1px solid #333; color: #e0e0e0; padding: 8px 12px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; }
+    .pill-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 16px; }
+    .pill { background: #1a1a1a; border: 1px solid #333; color: #aaa; padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; transition: all 0.15s; }
+    .pill:hover { border-color: #666; color: #ddd; }
+    .pill.active { background: #2a4a2a; border-color: #4a8a4a; color: #8f8; }
+    .count { color: #888; font-size: 0.85rem; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; padding: 10px 12px; border-bottom: 2px solid #333; color: #aaa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; user-select: none; position: sticky; top: 0; background: #0a0a0a; }
+    th:hover { color: #fff; }
+    th .arrow { margin-left: 4px; font-size: 0.7rem; }
+    td { padding: 10px 12px; border-bottom: 1px solid #1a1a1a; font-size: 0.9rem; vertical-align: top; }
+    tr:hover { background: #111; }
+    .event-name a { color: #7ab8ff; text-decoration: none; }
+    .event-name a:hover { text-decoration: underline; }
+    .event-name span { color: #e0e0e0; }
+    .venue { color: #bbb; }
+    .source { font-size: 0.75rem; padding: 2px 8px; border-radius: 10px; white-space: nowrap; }
+    .source-ticketmaster { background: #1a2a3a; color: #6ab0f3; }
+    .source-campus-philly { background: #2a1a3a; color: #b38af3; }
+    .source-university-city { background: #1a3a2a; color: #6af3a0; }
+    .source-bartrams-garden { background: #2a3a1a; color: #a0f36a; }
+    .source-free-library { background: #3a2a1a; color: #f3b06a; }
+    .date { white-space: nowrap; }
+    .time { white-space: nowrap; color: #aaa; }
+    .category { color: #999; font-size: 0.85rem; }
+    @media (max-width: 768px) {
+      .controls { flex-direction: column; }
+      .controls input { width: 100%; }
+      td, th { padding: 8px 6px; font-size: 0.8rem; }
+      .hide-mobile { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Philly Events This Week</h1>
+  <div class="subtitle" id="meta"></div>
+
+  <div class="controls">
+    <input type="text" id="search" placeholder="Search events, venues...">
+    <select id="day-filter">
+      <option value="">All days</option>
+    </select>
+    <select id="source-filter">
+      <option value="">All sources</option>
+    </select>
+    <select id="sort-select">
+      <option value="date-asc">Date (soonest)</option>
+      <option value="date-desc">Date (latest)</option>
+      <option value="name-asc">Name (A-Z)</option>
+      <option value="venue-asc">Venue (A-Z)</option>
+    </select>
+  </div>
+
+  <div class="pill-bar" id="source-pills"></div>
+  <div class="count" id="count"></div>
+
+  <table>
+    <thead>
+      <tr>
+        <th data-sort="date">Date <span class="arrow">▲</span></th>
+        <th data-sort="time">Time <span class="arrow"></span></th>
+        <th data-sort="name">Event <span class="arrow"></span></th>
+        <th data-sort="venue">Venue <span class="arrow"></span></th>
+        <th data-sort="category" class="hide-mobile">Category <span class="arrow"></span></th>
+        <th data-sort="source" class="hide-mobile">Source <span class="arrow"></span></th>
+      </tr>
+    </thead>
+    <tbody id="events-body"></tbody>
+  </table>
+
+  <script>
+    let allEvents = [];
+    let currentSort = { key: 'date', dir: 'asc' };
+    let activeSources = new Set();
+
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    function formatDate(dateStr) {
+      const d = new Date(dateStr + 'T12:00:00');
+      return `${dayNames[d.getDay()]} ${monthNames[d.getMonth()]} ${d.getDate()}`;
+    }
+
+    function formatTime(timeStr) {
+      if (!timeStr || timeStr.length < 5) return timeStr || '';
+      // Handle "HH:MM" 24h format
+      if (timeStr.match(/^\d{2}:\d{2}$/)) {
+        const [h, m] = timeStr.split(':').map(Number);
+        const ampm = h >= 12 ? 'pm' : 'am';
+        const h12 = h % 12 || 12;
+        return `${h12}:${m.toString().padStart(2,'0')}${ampm}`;
+      }
+      return timeStr;
+    }
+
+    function sourceClass(source) {
+      return 'source-' + source.toLowerCase().replace(/[^a-z]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function render() {
+      const search = document.getElementById('search').value.toLowerCase();
+      const dayFilter = document.getElementById('day-filter').value;
+      const sourceFilter = document.getElementById('source-filter').value;
+
+      let filtered = allEvents.filter(e => {
+        if (search && !(
+          e.name.toLowerCase().includes(search) ||
+          e.venue.toLowerCase().includes(search) ||
+          e.category.toLowerCase().includes(search) ||
+          e.source.toLowerCase().includes(search)
+        )) return false;
+        if (dayFilter && e.date !== dayFilter) return false;
+        if (sourceFilter && e.source !== sourceFilter) return false;
+        if (activeSources.size > 0 && !activeSources.has(e.source)) return false;
+        return true;
+      });
+
+      filtered.sort((a, b) => {
+        let va = a[currentSort.key] || '';
+        let vb = b[currentSort.key] || '';
+        if (currentSort.key === 'date') {
+          va = a.date + ' ' + (a.time || '99:99');
+          vb = b.date + ' ' + (b.time || '99:99');
+        }
+        const cmp = va.localeCompare(vb);
+        return currentSort.dir === 'asc' ? cmp : -cmp;
+      });
+
+      document.getElementById('count').textContent = `${filtered.length} of ${allEvents.length} events`;
+
+      const tbody = document.getElementById('events-body');
+      tbody.innerHTML = filtered.map(e => {
+        const nameCell = e.url
+          ? `<a href="${e.url}" target="_blank" rel="noopener">${e.name}</a>`
+          : `<span>${e.name}</span>`;
+        return `<tr>
+          <td class="date">${formatDate(e.date)}</td>
+          <td class="time">${formatTime(e.time)}</td>
+          <td class="event-name">${nameCell}</td>
+          <td class="venue">${e.venue}</td>
+          <td class="category hide-mobile">${e.category}</td>
+          <td class="hide-mobile"><span class="source ${sourceClass(e.source)}">${e.source}</span></td>
+        </tr>`;
+      }).join('');
+    }
+
+    function initControls() {
+      // Day filter
+      const days = [...new Set(allEvents.map(e => e.date))].sort();
+      const daySelect = document.getElementById('day-filter');
+      days.forEach(d => {
+        const opt = document.createElement('option');
+        opt.value = d;
+        opt.textContent = formatDate(d);
+        daySelect.appendChild(opt);
+      });
+
+      // Source filter
+      const sources = [...new Set(allEvents.map(e => e.source))].sort();
+      const srcSelect = document.getElementById('source-filter');
+      sources.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s;
+        const count = allEvents.filter(e => e.source === s).length;
+        opt.textContent = `${s} (${count})`;
+        srcSelect.appendChild(opt);
+      });
+
+      // Source pills
+      const pillBar = document.getElementById('source-pills');
+      sources.forEach(s => {
+        const pill = document.createElement('span');
+        pill.className = 'pill';
+        const count = allEvents.filter(e => e.source === s).length;
+        pill.textContent = `${s} (${count})`;
+        pill.addEventListener('click', () => {
+          if (activeSources.has(s)) {
+            activeSources.delete(s);
+            pill.classList.remove('active');
+          } else {
+            activeSources.add(s);
+            pill.classList.add('active');
+          }
+          render();
+        });
+        pillBar.appendChild(pill);
+      });
+
+      // Search
+      document.getElementById('search').addEventListener('input', render);
+      document.getElementById('day-filter').addEventListener('change', render);
+      document.getElementById('source-filter').addEventListener('change', render);
+      document.getElementById('sort-select').addEventListener('change', (e) => {
+        const [key, dir] = e.target.value.split('-');
+        currentSort = { key, dir };
+        render();
+      });
+
+      // Column header sorting
+      document.querySelectorAll('th[data-sort]').forEach(th => {
+        th.addEventListener('click', () => {
+          const key = th.dataset.sort;
+          if (currentSort.key === key) {
+            currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+          } else {
+            currentSort = { key, dir: 'asc' };
+          }
+          document.querySelectorAll('th .arrow').forEach(a => a.textContent = '');
+          th.querySelector('.arrow').textContent = currentSort.dir === 'asc' ? '▲' : '▼';
+          render();
+        });
+      });
+    }
+
+    // Load data
+    fetch('data/events.json')
+      .then(r => r.json())
+      .then(data => {
+        allEvents = data.events;
+        document.getElementById('meta').textContent =
+          `${data.total} events · ${data.week} · Updated ${new Date(data.generated).toLocaleDateString()}`;
+        initControls();
+        render();
+      })
+      .catch(err => {
+        document.getElementById('events-body').innerHTML =
+          `<tr><td colspan="6" style="color:#f66;padding:20px">Failed to load events data: ${err.message}</td></tr>`;
+      });
+  </script>
+</body>
+</html>
