@@ -117,6 +117,9 @@ layout: null
     <input type="text" id="search" placeholder="Search events, venues, descriptions...">
     <select id="day-filter"><option value="">All days</option></select>
     <select id="source-filter"><option value="">All sources</option></select>
+    <label style="display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.85rem;color:#aaa;">
+      <input type="checkbox" id="free-filter" style="cursor:pointer;"> Free only
+    </label>
   </div>
   <div class="pill-bar" id="source-pills"></div>
   <div class="count" id="count"></div>
@@ -229,13 +232,24 @@ layout: null
       const interest = computeInterestScore(e);
       const effort = computeEffortScore(e);
 
+      // Normalize weights so they always sum to 1.0 → score is always out of 10
+      const raw = {
+        social_quality: weights.social_quality || 0,
+        serendipity: weights.serendipity || 0,
+        uniqueness: weights.uniqueness || 0,
+        community_building: weights.community_building || 0,
+        interest_alignment: weights.interest_alignment || 0,
+        effort_to_value: weights.effort_to_value || 0,
+      };
+      const sum = Object.values(raw).reduce((a,b) => a+b, 0) || 1;
+
       return (
-        social * weights.social_quality +
-        serend * weights.serendipity +
-        unique * weights.uniqueness +
-        commun * weights.community_building +
-        interest * weights.interest_alignment +
-        effort * weights.effort_to_value
+        social * (raw.social_quality / sum) +
+        serend * (raw.serendipity / sum) +
+        unique * (raw.uniqueness / sum) +
+        commun * (raw.community_building / sum) +
+        interest * (raw.interest_alignment / sum) +
+        effort * (raw.effort_to_value / sum)
       );
     }
 
@@ -259,8 +273,14 @@ layout: null
       const search = document.getElementById('search').value.toLowerCase();
       const dayFilter = document.getElementById('day-filter').value;
       const sourceFilter = document.getElementById('source-filter').value;
+      const freeOnly = document.getElementById('free-filter').checked;
 
       let filtered = allEvents.filter(e => {
+        if (freeOnly) {
+          const cost = (e.cost||'').toLowerCase();
+          // Keep if: explicitly free, empty cost, or no cost info
+          if (cost && cost !== 'free' && cost !== '' && !cost.includes('free')) return false;
+        }
         if (search && !(
           e.name.toLowerCase().includes(search) ||
           (e.venue||'').toLowerCase().includes(search) ||
@@ -355,6 +375,15 @@ layout: null
 
     // ── Init ──
 
+    function updateSliderLabels() {
+      const sum = Object.values(weights).reduce((a,b) => a+b, 0) || 1;
+      Object.keys(weights).forEach(key => {
+        const pct = Math.round((weights[key] / sum) * 100);
+        const el = document.getElementById(`val-${key}`);
+        if (el) el.textContent = `${pct}%`;
+      });
+    }
+
     function initSliders() {
       const dims = scoringMeta.dimensions || {};
       const container = document.getElementById('sliders');
@@ -374,10 +403,11 @@ layout: null
         container.appendChild(item);
         item.querySelector('input').addEventListener('input', (ev) => {
           weights[key] = parseInt(ev.target.value) / 100;
-          document.getElementById(`val-${key}`).textContent = `${ev.target.value}%`;
+          updateSliderLabels();
           render();
         });
       });
+      updateSliderLabels(); // show normalized values on init
     }
 
     function initTags() {
@@ -422,6 +452,7 @@ layout: null
       document.getElementById('search').addEventListener('input', render);
       document.getElementById('day-filter').addEventListener('change', render);
       document.getElementById('source-filter').addEventListener('change', render);
+      document.getElementById('free-filter').addEventListener('change', render);
     }
 
     // ── Load ──
