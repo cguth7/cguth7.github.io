@@ -67,6 +67,39 @@ permalink: /events_v2/
   .s-8 { background: #62b04c; color: #fff; }
   .s-9 { background: #2f9243; color: #fff; }
   .empty { padding: 24px; color: var(--text-2); }
+  details.rubric { margin: 0; padding: 0; border-bottom: 1px solid var(--border);
+                   background: var(--panel); }
+  details.rubric > summary { padding: 10px 28px; cursor: pointer; user-select: none;
+                             font-size: 13px; color: var(--text-2); list-style: none;
+                             display: flex; align-items: center; gap: 8px; }
+  details.rubric > summary::-webkit-details-marker { display: none; }
+  details.rubric > summary::before { content: "▸"; font-size: 10px;
+                                     transition: transform 0.15s; color: var(--text-2); }
+  details.rubric[open] > summary::before { transform: rotate(90deg); }
+  details.rubric > summary:hover { color: var(--text); }
+  .rubric-body { padding: 12px 28px 22px; font-size: 13px; color: var(--text); }
+  .rubric-body h3 { margin: 16px 0 6px; font-size: 13px; color: var(--accent);
+                    text-transform: uppercase; letter-spacing: 0.04em; }
+  .rubric-body h3:first-child { margin-top: 0; }
+  .rubric-body p { margin: 4px 0 8px; color: var(--text-2); line-height: 1.5; }
+  .rubric-body dl { margin: 0 0 8px; display: grid;
+                    grid-template-columns: 160px 1fr; row-gap: 6px; column-gap: 12px; }
+  .rubric-body dt { color: var(--text); font-weight: 600; }
+  .rubric-body dd { margin: 0; color: var(--text-2); }
+  .rubric-body code { background: var(--panel-2); padding: 1px 5px; border-radius: 3px;
+                      font-size: 12px; color: var(--text); }
+  .rubric-body ul.calib { list-style: none; padding: 0; margin: 0;
+                          display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; }
+  .rubric-body ul.calib li { font-size: 12px; color: var(--text-2);
+                             padding: 3px 0; }
+  .rubric-body ul.calib b { color: var(--text); font-weight: 600; }
+  .rubric-body table.weights { font-size: 12px; border-collapse: collapse;
+                               margin-top: 4px; }
+  .rubric-body table.weights td { padding: 3px 12px 3px 0; border: 0;
+                                  color: var(--text-2); }
+  .rubric-body table.weights td:first-child { color: var(--text); font-weight: 500; }
+  .rubric-body table.weights td:nth-child(2) { color: var(--accent);
+                                                font-variant-numeric: tabular-nums; }
 </style>
 </head>
 <body>
@@ -79,6 +112,107 @@ permalink: /events_v2/
   </div>
   <div class="meta" id="head-meta" style="margin-top:6px"></div>
 </header>
+
+<details class="rubric">
+  <summary>Scoring rubric &amp; methodology</summary>
+  <div class="rubric-body">
+    <p>
+      Each event in the 2-week window is scored by <code>gpt-5.2</code> on five
+      <b>universal</b> dimensions (1–10). Universal means the scores describe the
+      event itself — they're the same for every viewer. Two additional
+      <b>per-user</b> dimensions exist in the schema but are not used in this
+      page's ranking yet.
+    </p>
+
+    <h3>Universal dimensions</h3>
+    <dl>
+      <dt>Social Quality</dt>
+      <dd>Will attendees actually interact with each other, or just sit in an
+          audience? Bring-your-friends events (Parks on Tap, Open Streets,
+          concerts) score moderate even if lively — interaction stays inside
+          friend groups, not across strangers.</dd>
+      <dt>Serendipity</dt>
+      <dd>How diverse is the crowd, and how likely is an unexpected interesting
+          encounter? Outdoor public events (parks, streets, plazas) and walk-up
+          third spaces score higher; private ticketed indoor seating scores
+          lower.</dd>
+      <dt>Uniqueness</dt>
+      <dd>Is this a rare one-time event or something that happens regularly?</dd>
+      <dt>Community Building</dt>
+      <dd>Does attending build something durable — group membership, recurring
+          civic relationship, local reputation? Worship services and
+          intra-congregation events cap at 5 (they build congregation
+          cohesion, not cross-cutting civic ties). Cultural events that happen
+          to be hosted at a religious venue are not capped.</dd>
+      <dt>Solo-friendliness</dt>
+      <dd>Can a stranger show up <i>alone</i> and meet new people? <b>1–3</b> =
+          bring friends (beer garden, concert, festival, Parks on Tap, Open
+          Streets). <b>4–6</b> = neutral. <b>7–10</b> = built for strangers to
+          meet (running club, civic meeting, volunteer day, hackathon, book
+          club, structured class with regulars). The cue: is there structure or
+          a shared activity that gives strangers an easy reason to talk?</dd>
+    </dl>
+
+    <h3>Default weights (this page)</h3>
+    <table class="weights" id="weights-table"></table>
+
+    <h3>Description quality flag</h3>
+    <p>
+      The <b>D</b> column shows the LLM's read on the source data:
+      <span class="desc-dot desc-rich">●</span> rich (detailed body text),
+      <span class="desc-dot desc-thin">●</span> thin (a line or two),
+      <span class="desc-dot desc-missing">●</span> missing (title only). When a
+      dot is red, take the scores with a grain of salt — the LLM was working
+      from the event title alone.
+    </p>
+
+    <h3>Recurring series</h3>
+    <p>
+      Events that share the same title within a source and occur three or more
+      times in the window are collapsed to a single row. The <code>+N more</code>
+      pill (hover for dates) shows the additional occurrences.
+    </p>
+
+    <h3>Calibration anchors fed to the LLM</h3>
+    <ul class="calib">
+      <li><b>Orchestra concert:</b> S2 R3 U5 C2 solo2</li>
+      <li><b>Neighborhood flea market:</b> S7 R7 U4 C6 solo5</li>
+      <li><b>Hackathon:</b> S8 R8 U6 C7 solo9</li>
+      <li><b>Weekly toddler storytime:</b> S5 R3 U2 C5 solo3</li>
+      <li><b>One-time author talk:</b> S4 R5 U8 C3 solo5</li>
+      <li><b>Makerspace open house:</b> S8 R7 U5 C8 solo8</li>
+      <li><b>Music festival:</b> S6 R7 U8 C3 solo3</li>
+      <li><b>Civic meeting:</b> S7 R4 U2 C10 solo9</li>
+      <li><b>Civic-orgs activities fair:</b> S9 R8 U6 C9 solo10</li>
+      <li><b>Volunteer cleanup day:</b> S9 R7 U6 C10 solo9</li>
+      <li><b>Parks on Tap:</b> S5 R8 U4 C5 solo2</li>
+      <li><b>Open Streets:</b> S5 R8 U5 C5 solo3</li>
+      <li><b>Block party permit:</b> S5 R6 U4 C6 solo3</li>
+      <li><b>Running club:</b> S8 R5 U2 C9 solo10</li>
+      <li><b>Book club:</b> S8 R4 U3 C8 solo9</li>
+      <li><b>Sunday worship service:</b> S4 R3 U2 C5 solo4</li>
+      <li><b>Bible study / small group:</b> S6 R3 U2 C5 solo6</li>
+    </ul>
+
+    <h3>Per-user dimensions (not in current ranking)</h3>
+    <dl>
+      <dt>Interest Match</dt>
+      <dd>Tag overlap with user-selected interests. Not yet wired into this
+          page — needs a tag picker.</dd>
+      <dt>Value for Price</dt>
+      <dd>Is the event priced fairly for what you get? Distance is intentionally
+          excluded — everything here is Center City or near it.</dd>
+    </dl>
+
+    <h3>What's intentionally not included</h3>
+    <p>
+      No distance term (CC-only). Worship services are capped on community
+      building. Block-party permits scraped from OpenDataPhilly are scored
+      conservatively — many are private and we have no way to distinguish from
+      the permit record alone.
+    </p>
+  </div>
+</details>
 
 <div class="toolbar">
   <span class="label">Going alone?</span>
@@ -189,6 +323,22 @@ permalink: /events_v2/
     });
   });
 
+  function renderWeights(weights) {
+    const dimLabels = {
+      social_quality: 'Social Quality',
+      serendipity: 'Serendipity',
+      uniqueness: 'Uniqueness',
+      community_building: 'Community Building',
+      solo_friendliness: 'Solo-friendliness',
+    };
+    const entries = Object.entries(weights || {})
+      .sort((a, b) => b[1] - a[1]);
+    const tbl = document.getElementById('weights-table');
+    tbl.innerHTML = entries.map(([k, v]) =>
+      `<tr><td>${dimLabels[k] || k}</td><td>${(v * 100).toFixed(1)}%</td></tr>`
+    ).join('');
+  }
+
   fetch('/assets/data/events_v2.json')
     .then(r => r.json())
     .then(d => {
@@ -196,6 +346,7 @@ permalink: /events_v2/
       const gen = d.generated ? new Date(d.generated).toLocaleString() : '?';
       document.getElementById('head-meta').textContent =
         `${d.total} ranked events · window ${d.window} · scored ${gen}`;
+      renderWeights(d.weights);
       render();
     })
     .catch(err => {
