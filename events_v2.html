@@ -67,6 +67,19 @@ permalink: /events_v2/
   .s-8 { background: #62b04c; color: #fff; }
   .s-9 { background: #2f9243; color: #fff; }
   .empty { padding: 24px; color: var(--text-2); }
+  tr.row-main { cursor: pointer; }
+  tr.row-main:hover td.event-cell::after {
+    content: " ▾"; color: var(--text-2); font-size: 10px;
+  }
+  tr.row-main.expanded td.event-cell::after {
+    content: " ▴"; color: var(--text-2); font-size: 10px;
+  }
+  tr.row-detail { display: none; background: var(--panel); }
+  tr.row-detail.expanded { display: table-row; }
+  tr.row-detail td { padding: 12px 16px 16px; color: var(--text-2);
+                     font-size: 13px; line-height: 1.55; border-bottom: 1px solid var(--border); }
+  .row-detail .desc-text { max-width: 760px; white-space: pre-wrap; }
+  .row-detail .no-desc { color: var(--text-2); font-style: italic; }
   details.rubric { margin: 0; padding: 0; border-bottom: 1px solid var(--border);
                    background: var(--panel); }
   details.rubric > summary { padding: 10px 28px; cursor: pointer; user-select: none;
@@ -294,14 +307,19 @@ permalink: /events_v2/
         ? ` <span class="recur-pill" title="${esc((e.recurrence_dates || []).join(', '))}">+${e.recurrence_count - 1} more</span>`
         : '';
       const nameCell = e.url
-        ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.name)}</a>${recur}`
+        ? `<a href="${esc(e.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(e.name)}</a>${recur}`
         : esc(e.name) + recur;
-      return `<tr>
+      const descBody = e.description && e.description.trim()
+        ? `<div class="desc-text">${esc(e.description)}</div>`
+        : `<div class="no-desc">No description scraped for this event. ${
+            e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">Open the source page →</a>` : ''
+          }</div>`;
+      return `<tr class="row-main" data-idx="${i}">
         <td class="rank">${i+1}</td>
         <td class="score">${e.rank_score.toFixed(2)}</td>
         <td>${descDot(e.description_quality)}</td>
         <td class="when">${esc(e.date)}${e.time ? ' '+esc(e.time) : ''}</td>
-        <td>${nameCell}</td>
+        <td class="event-cell">${nameCell}</td>
         <td>${esc(e.venue || '')}</td>
         <td><span class="source-pill">${esc(e.source)}</span></td>
         ${dim('social_quality')}
@@ -309,9 +327,20 @@ permalink: /events_v2/
         ${dim('uniqueness')}
         ${dim('community_building')}
         ${dim('solo_friendliness')}
+      </tr>
+      <tr class="row-detail" data-idx="${i}">
+        <td colspan="12">${descBody}</td>
       </tr>`;
     }).join('');
     body.innerHTML = rows;
+    body.querySelectorAll('tr.row-main').forEach(row => {
+      row.addEventListener('click', () => {
+        const idx = row.dataset.idx;
+        const detail = body.querySelector(`tr.row-detail[data-idx="${idx}"]`);
+        const open = detail.classList.toggle('expanded');
+        row.classList.toggle('expanded', open);
+      });
+    });
   }
 
   document.querySelectorAll('#solo-toggle button').forEach(b => {
