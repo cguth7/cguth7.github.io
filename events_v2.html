@@ -1,0 +1,207 @@
+---
+layout: null
+permalink: /events_v2/
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Philly events v2 — ranked</title>
+<style>
+  :root {
+    --bg: #0f0f10;
+    --panel: #161618;
+    --panel-2: #1c1c1f;
+    --border: #2a2a2e;
+    --text: #e7e7ea;
+    --text-2: #9a9aa3;
+    --accent: #6ab0f3;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+         font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+  header { padding: 22px 28px 14px; border-bottom: 1px solid var(--border); }
+  header h1 { margin: 0 0 4px; font-size: 22px; }
+  header .meta { color: var(--text-2); font-size: 12px; }
+  header .meta a { color: var(--accent); text-decoration: none; }
+  .toolbar { display: flex; flex-wrap: wrap; gap: 14px; align-items: center;
+             padding: 12px 28px; border-bottom: 1px solid var(--border); }
+  .seg { display: inline-flex; background: var(--panel); border: 1px solid var(--border);
+         border-radius: 8px; overflow: hidden; }
+  .seg button { background: transparent; border: 0; color: var(--text-2);
+                padding: 6px 12px; font-size: 12px; cursor: pointer; }
+  .seg button.active { background: var(--panel-2); color: var(--text); }
+  .seg button:hover { color: var(--text); }
+  .label { color: var(--text-2); font-size: 12px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { position: sticky; top: 0; background: var(--panel); color: var(--text-2);
+             font-weight: 600; text-align: left; padding: 10px 8px;
+             border-bottom: 1px solid var(--border); font-size: 11px;
+             text-transform: uppercase; letter-spacing: 0.05em; }
+  tbody td { padding: 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tbody tr:hover { background: var(--panel); }
+  td.rank { width: 40px; color: var(--text-2); text-align: right; font-variant-numeric: tabular-nums; }
+  td.score { font-weight: 700; font-variant-numeric: tabular-nums; }
+  td.when { white-space: nowrap; color: var(--text-2); font-variant-numeric: tabular-nums; }
+  td.dim { text-align: center; width: 38px; font-weight: 600;
+           font-variant-numeric: tabular-nums; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .source-pill { display: inline-block; font-size: 10px; padding: 2px 7px;
+                 border-radius: 10px; background: var(--panel-2); color: var(--text-2);
+                 border: 1px solid var(--border); white-space: nowrap; }
+  .recur-pill { display: inline-block; margin-left: 6px; font-size: 10px;
+                padding: 2px 6px; border-radius: 8px; background: #2a2a3a;
+                color: #b5b5cc; cursor: help; }
+  .desc-dot { font-size: 13px; cursor: help; }
+  .desc-rich { color: #62b04c; }
+  .desc-thin { color: #ddb84a; }
+  .desc-missing { color: #c43d3d; }
+  /* Heatmap */
+  .s-1 { background: #c43d3d; color: #fff; }
+  .s-3 { background: #e07a4c; color: #fff; }
+  .s-5 { background: #ddb84a; color: #1c1c1c; }
+  .s-6 { background: #c6c247; color: #1c1c1c; }
+  .s-7 { background: #99c14a; color: #1c1c1c; }
+  .s-8 { background: #62b04c; color: #fff; }
+  .s-9 { background: #2f9243; color: #fff; }
+  .empty { padding: 24px; color: var(--text-2); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Philly events — ranked v2</h1>
+  <div class="meta">
+    LLM-scored events on 5 universal dimensions. Recurring series collapsed.
+    Sister page to <a href="/events/">events v1</a>.
+    Raw data: <a href="/assets/data/events_v2.json">events_v2.json</a>
+  </div>
+  <div class="meta" id="head-meta" style="margin-top:6px"></div>
+</header>
+
+<div class="toolbar">
+  <span class="label">Going alone?</span>
+  <div class="seg" id="solo-toggle">
+    <button class="active" data-solo="all">All</button>
+    <button data-solo="solo">Solo OK (≥7)</button>
+    <button data-solo="friends">Bring friends (≤4)</button>
+  </div>
+  <span class="label" style="margin-left:auto;font-size:11px">
+    Heatmap: red = low, green = high
+  </span>
+</div>
+
+<table>
+<thead>
+<tr>
+  <th>#</th>
+  <th>Score</th>
+  <th title="Description quality: rich / thin / missing">D</th>
+  <th>When</th>
+  <th>Event</th>
+  <th>Venue</th>
+  <th>Source</th>
+  <th title="Social Quality — will attendees interact?">Soc</th>
+  <th title="Serendipity — chance of unexpected encounters">Ser</th>
+  <th title="Uniqueness — one-time vs recurring">Uni</th>
+  <th title="Community Building — does attending build something durable?">Com</th>
+  <th title="Solo-friendliness — can a stranger show up alone and meet people?">Solo</th>
+</tr>
+</thead>
+<tbody id="body">
+  <tr><td colspan="12" class="empty">Loading…</td></tr>
+</tbody>
+</table>
+
+<script>
+  let DATA = null;
+  let soloFilter = 'all';
+
+  const esc = (s) => s == null ? '' : String(s).replace(/[&<>"']/g,
+    c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  function cellClass(n) {
+    if (n == null) return '';
+    if (n <= 2) return 's-1';
+    if (n <= 4) return 's-3';
+    if (n <= 5) return 's-5';
+    if (n <= 6) return 's-6';
+    if (n <= 7) return 's-7';
+    if (n <= 8) return 's-8';
+    return 's-9';
+  }
+  const descDot = (q) => ({
+    rich:    '<span class="desc-dot desc-rich" title="Rich description">●</span>',
+    thin:    '<span class="desc-dot desc-thin" title="Thin description">●</span>',
+    missing: '<span class="desc-dot desc-missing" title="No description — score based on title only">●</span>',
+  }[q] || '');
+
+  function render() {
+    const body = document.getElementById('body');
+    let events = DATA.events.slice();
+    if (soloFilter === 'solo') {
+      events = events.filter(e => (e.scores.solo_friendliness?.score ?? 0) >= 7);
+    } else if (soloFilter === 'friends') {
+      events = events.filter(e => (e.scores.solo_friendliness?.score ?? 99) <= 4);
+    }
+    if (!events.length) {
+      body.innerHTML = '<tr><td colspan="12" class="empty">No events match this filter.</td></tr>';
+      return;
+    }
+    const rows = events.map((e, i) => {
+      const s = e.scores || {};
+      const dim = (k) => {
+        const v = s[k];
+        if (!v) return '<td class="dim"></td>';
+        return `<td class="dim ${cellClass(v.score)}" title="${esc(v.reason)}">${v.score}</td>`;
+      };
+      const recur = e.recurrence_collapsed
+        ? ` <span class="recur-pill" title="${esc((e.recurrence_dates || []).join(', '))}">+${e.recurrence_count - 1} more</span>`
+        : '';
+      const nameCell = e.url
+        ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.name)}</a>${recur}`
+        : esc(e.name) + recur;
+      return `<tr>
+        <td class="rank">${i+1}</td>
+        <td class="score">${e.rank_score.toFixed(2)}</td>
+        <td>${descDot(e.description_quality)}</td>
+        <td class="when">${esc(e.date)}${e.time ? ' '+esc(e.time) : ''}</td>
+        <td>${nameCell}</td>
+        <td>${esc(e.venue || '')}</td>
+        <td><span class="source-pill">${esc(e.source)}</span></td>
+        ${dim('social_quality')}
+        ${dim('serendipity')}
+        ${dim('uniqueness')}
+        ${dim('community_building')}
+        ${dim('solo_friendliness')}
+      </tr>`;
+    }).join('');
+    body.innerHTML = rows;
+  }
+
+  document.querySelectorAll('#solo-toggle button').forEach(b => {
+    b.addEventListener('click', () => {
+      document.querySelectorAll('#solo-toggle button').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      soloFilter = b.dataset.solo;
+      render();
+    });
+  });
+
+  fetch('/assets/data/events_v2.json')
+    .then(r => r.json())
+    .then(d => {
+      DATA = d;
+      const gen = d.generated ? new Date(d.generated).toLocaleString() : '?';
+      document.getElementById('head-meta').textContent =
+        `${d.total} ranked events · window ${d.window} · scored ${gen}`;
+      render();
+    })
+    .catch(err => {
+      document.getElementById('body').innerHTML =
+        `<tr><td colspan="12" class="empty">Failed to load events_v2.json: ${err}</td></tr>`;
+    });
+</script>
+</body>
+</html>
