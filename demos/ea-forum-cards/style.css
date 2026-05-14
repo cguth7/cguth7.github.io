@@ -176,7 +176,17 @@ blockquote {
   background: #fafaf7;
 }
 .top-detail { margin: 8px 0 0; }
-.top-detail + .top-detail { margin-top: 6px; }
+/* Two adjacent dropdowns: no gap between, share a border edge */
+.top-detail + .top-detail {
+  margin-top: 0;
+  border-top: none;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.top-detail:has(+ .top-detail) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 .top-detail > summary {
   padding: 12px 14px;
   display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
@@ -188,7 +198,8 @@ blockquote {
   font-size: 12.5px; color: #666; font-weight: 400;
 }
 .top-detail[open] > summary { border-bottom: 1px solid #eee; }
-.grid { margin-top: 20px; }
+/* match the inter-card gap (.grid uses gap: 12px) */
+.grid { margin-top: 12px; }
 .rubric > summary {
   cursor: pointer; padding: 10px 14px; font-size: 13px; color: #444;
   font-weight: 500; list-style: none;
