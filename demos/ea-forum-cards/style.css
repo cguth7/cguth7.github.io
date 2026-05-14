@@ -54,8 +54,51 @@ body {
   font-size: 16px; line-height: 1;
 }
 .chip {
-  display: inline-block; cursor: help;
+  position: relative; display: inline-block; cursor: help;
 }
+/* CSS-only tooltip that pops up instantly on hover */
+.chip:hover::after {
+  content: attr(title);
+  position: absolute; bottom: 130%; left: 50%;
+  transform: translateX(-50%);
+  background: #222; color: #fff;
+  padding: 3px 7px; border-radius: 4px;
+  font-size: 11px; white-space: nowrap;
+  pointer-events: none; z-index: 100;
+}
+.chip:hover::before {
+  content: ""; position: absolute; bottom: 118%; left: 50%;
+  transform: translateX(-50%);
+  border: 4px solid transparent; border-top-color: #222;
+  pointer-events: none; z-index: 100;
+}
+
+/* Emoji legend body */
+.legend-body { padding: 4px 14px 14px; }
+.legend-section { margin: 14px 0; }
+.legend-section:first-child { margin-top: 6px; }
+.legend-header {
+  font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em;
+  font-weight: 600; margin: 0 0 6px;
+}
+.legend-rows {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 4px 16px;
+}
+.legend-row {
+  display: grid; grid-template-columns: 24px 1fr;
+  align-items: baseline; gap: 6px;
+  font-size: 12.5px; padding: 2px 0;
+}
+.legend-emoji { font-size: 16px; line-height: 1; }
+.legend-label { color: #333; }
+.legend-key {
+  display: none;  /* dim key hidden by default; reveal on hover of row */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 10.5px; color: #888;
+}
+.legend-row:hover .legend-key { display: inline; }
 
 .card {
   background: white; border: 1px solid #ddd; border-radius: 10px;
