@@ -49,6 +49,13 @@ body {
 .mini-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
 .mini-meta { color: #777; font-size: 12px; }
 .mini-top { color: #7e3f8f; font-size: 12px; margin-top: 4px; }
+.mini-chips {
+  display: flex; gap: 4px; margin-top: 6px;
+  font-size: 16px; line-height: 1;
+}
+.chip {
+  display: inline-block; cursor: help;
+}
 
 .card {
   background: white; border: 1px solid #ddd; border-radius: 10px;
