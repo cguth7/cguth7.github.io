@@ -1,0 +1,243 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The City Library · How it works</title>
+<style>
+  :root{
+    --bg:#12100e; --panel:#1b1813; --panel2:#211d16; --border:#2e2a22;
+    --text:#e8e2d6; --muted:#9a9080; --faint:#6b6357;
+    --brass:#d8ab4e; --brass-dim:#9c7c38; --green:#86b06a; --red:#d27a55; --blue:#6fa8c8;
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --mono:ui-monospace,'SF Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--brass);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* nav */
+  nav{position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;
+      padding:13px 26px;background:rgba(18,16,14,.86);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
+  nav .brand{font-family:var(--serif);font-size:1.05rem;color:#f3ecdd;display:flex;align-items:baseline;gap:10px}
+  nav .brand small{font-family:var(--mono);font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--brass)}
+  nav .links{display:flex;gap:18px;font-size:.85rem}
+  nav .links a{color:var(--muted)} nav .links a:hover{color:var(--text);text-decoration:none}
+
+  .wrap{max-width:920px;margin:0 auto;padding:0 26px}
+
+  /* hero */
+  header.hero{padding:80px 0 56px;border-bottom:1px solid var(--border);
+    background:radial-gradient(900px 380px at 50% -120px,rgba(216,171,78,.10),transparent)}
+  .hero .kicker{font-family:var(--mono);font-size:.7rem;letter-spacing:3px;text-transform:uppercase;color:var(--brass);margin-bottom:18px}
+  .hero h1{font-family:var(--serif);font-weight:600;font-size:clamp(2.1rem,5vw,3.4rem);line-height:1.08;color:#f5efe2;letter-spacing:.3px;max-width:16ch}
+  .hero .lede{font-size:1.12rem;color:#cfc6b5;margin-top:22px;max-width:60ch}
+  .hero .lede b{color:var(--text);font-weight:600}
+
+  /* sections */
+  section{padding:54px 0;border-bottom:1px solid var(--border)}
+  .mark{font-family:var(--mono);font-size:.68rem;letter-spacing:2px;color:var(--faint);text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .mark::before{content:'';width:26px;height:1px;background:var(--brass-dim)}
+  h2{font-family:var(--serif);font-size:1.7rem;color:#f1ead9;margin-bottom:16px;letter-spacing:.2px}
+  section p{color:#cabfae;max-width:64ch;margin-bottom:14px}
+  section p b{color:var(--text)}
+  em{color:var(--brass);font-style:italic}
+
+  /* triad cards (charter/catalog/agent) */
+  .triad{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px}
+  .tri{background:var(--panel);border:1px solid var(--border);border-top:2px solid var(--brass-dim);border-radius:9px;padding:18px 18px 20px}
+  .tri .n{font-family:var(--mono);font-size:.62rem;color:var(--brass);letter-spacing:1.5px;text-transform:uppercase}
+  .tri h3{font-family:var(--serif);font-size:1.15rem;color:#f1ead9;margin:7px 0 8px}
+  .tri p{font-size:.9rem;color:var(--muted);max-width:none;margin:0}
+
+  /* intake band */
+  .intake{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:8px}
+  .chip{font-family:var(--mono);font-size:.74rem;border:1px solid var(--border);background:var(--panel2);color:var(--muted);padding:7px 13px;border-radius:7px}
+  .chip b{color:var(--text)}
+  .arrow{color:var(--brass-dim);font-size:1.1rem}
+
+  /* staff / pipeline */
+  .staff{display:flex;flex-direction:column;gap:14px;margin-top:24px}
+  .desk{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:20px 22px;position:relative;overflow:hidden}
+  .desk.active{border-left:3px solid var(--brass)}
+  .desk.soon{border-left:3px solid #34302a;opacity:.78}
+  .desk .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .desk .role{font-family:var(--serif);font-size:1.3rem;color:#f3ecdd}
+  .desk .role span{font-family:var(--sans);font-size:.78rem;color:var(--muted);font-weight:400}
+  .desk .state{font-family:var(--mono);font-size:.6rem;letter-spacing:1.5px;text-transform:uppercase;padding:4px 9px;border-radius:20px}
+  .state.on{background:rgba(216,171,78,.15);color:var(--brass)}
+  .state.off{background:#262219;color:var(--faint)}
+  .desk .owns{font-family:var(--mono);font-size:.76rem;color:var(--blue);margin:10px 0 12px}
+  .desk .owns::before{content:'owns ';color:var(--faint)}
+  .desk .charter{color:#cabfae;font-size:.95rem;max-width:64ch}
+  .desk .scorecard{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+  .kpi{background:var(--panel2);border:1px solid var(--border);border-radius:7px;padding:8px 13px;min-width:78px}
+  .kpi .v{font-family:var(--mono);font-size:1.15rem;color:var(--brass);line-height:1}
+  .kpi.dim .v{color:var(--muted)}
+  .kpi .l{font-size:.66rem;color:var(--faint);text-transform:uppercase;letter-spacing:.5px;margin-top:5px}
+  .flowdown{display:flex;justify-content:center;color:var(--brass-dim);font-size:1.3rem;line-height:.6}
+
+  /* principles */
+  .principles{display:grid;grid-template-columns:1fr 1fr;gap:16px 28px;margin-top:22px}
+  .pr{display:flex;gap:13px}
+  .pr .dot{flex:none;width:8px;height:8px;border-radius:50%;background:var(--brass);margin-top:9px}
+  .pr h4{font-family:var(--serif);font-size:1.02rem;color:#eee4d2;margin-bottom:3px}
+  .pr p{font-size:.88rem;color:var(--muted);margin:0;max-width:none}
+
+  /* roadmap */
+  .road{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+  .rcol h4{font-family:var(--mono);font-size:.7rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}
+  .rcol.live h4{color:var(--green)} .rcol.next h4{color:var(--muted)}
+  .rcol ul{list-style:none} .rcol li{padding:7px 0 7px 22px;position:relative;color:#cabfae;font-size:.92rem;border-bottom:1px solid #211e18}
+  .rcol.live li::before{content:'✓';position:absolute;left:0;color:var(--green)}
+  .rcol.next li::before{content:'→';position:absolute;left:0;color:var(--faint)}
+
+  footer{padding:40px 0 70px;color:var(--faint);font-size:.82rem}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  @media(max-width:720px){.triad,.principles,.road{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="brand">Philadelphia <small>City Library</small></div>
+  <div class="links">
+    <a href="#staff">The Staff</a>
+    <a href="#how">Intake</a>
+    <a href="./">Enter the library →</a>
+  </div>
+</nav>
+
+<header class="hero"><div class="wrap">
+  <div class="kicker">How it works · onboarding</div>
+  <h1>An engine for knowing a city.</h1>
+  <p class="lede">A city's real life is scattered across flyers on telephone poles, half-dead HTML calendars, library RSS feeds, and warehouse Instagram stories. This is the system that <b>gathers it, structures it, and keeps it true</b> — part walking the streets, part AI doing the parsing no human has time for. The metaphor is a physical library: a catalog of everything happening, kept by a small staff. <b>Each member of that staff is a person, a database, and an AI agent at the same time.</b></p>
+</div></header>
+
+<section id="idea"><div class="wrap">
+  <div class="mark">№ 01 — The core idea</div>
+  <h2>Databases that are also jobs</h2>
+  <p>Most software hides its data in tables nobody looks at. Here the data <em>is</em> the product, and every table has an owner — a role with a clear charter. A role isn't just a database schema and it isn't just a job description. It's three things bound together:</p>
+  <div class="triad">
+    <div class="tri"><div class="n">the charter</div><h3>A job</h3><p>A plain-language description of what this role is accountable for, and where its work ends and the next begins.</p></div>
+    <div class="tri"><div class="n">the catalog</div><h3>A database</h3><p>The one table this role is the sole authority on. If it's wrong, that's this role's responsibility to fix.</p></div>
+    <div class="tri"><div class="n">the instructions</div><h3>An agent</h3><p>The operating steps a Claude reads to <em>become</em> this role and do a scoped shift — discover, verify, build, score.</p></div>
+  </div>
+  <p style="margin-top:24px">So the page you're reading is the beginning of an onboarding doc for all three audiences at once: <b>you</b>, so you understand the machine; <b>a collaborator</b>, so they can take a desk; and <b>an agent</b>, so it can pick up a charter and work.</p>
+</div></section>
+
+<section id="how"><div class="wrap">
+  <div class="mark">№ 02 — How knowledge gets in</div>
+  <h2>The front of the pipeline is the hardest part</h2>
+  <p>In the AI era, parsing an event off a webpage is nearly free. The hard, valuable work is <b>identification</b> — knowing the venue or calendar exists at all. Google and Yelp already have the bars. The edge is the invisible ~20%: churches that rent their halls, pop-ups, underground rooms, a flyer stapled to a pole. That gap is the whole point.</p>
+  <div class="intake">
+    <span class="chip">🚶 <b>Field</b> — flyers, walking</span><span class="arrow">→</span>
+    <span class="chip">🔌 <b>API</b> — Eventbrite, Humanitix, Ticketmaster</span><span class="arrow">→</span>
+    <span class="chip">🌐 <b>Website</b> — scrape per source</span><span class="arrow">→</span>
+    <span class="chip">✍️ <b>Manual</b> — IG, word of mouth</span>
+    <span class="arrow">⇒</span><span class="chip" style="border-color:var(--brass-dim);color:var(--brass)">the catalog</span>
+  </div>
+</div></section>
+
+<section id="staff"><div class="wrap">
+  <div class="mark">№ 03 — The staff</div>
+  <h2>Four desks, one pipeline</h2>
+  <p>Knowledge flows top to bottom. Each desk takes the one before it as input and hands cleaner work to the next. Two desks are open today; two are framed and waiting. The live numbers below are pulled from the catalog as it stands right now.</p>
+
+  <div class="staff">
+    <div class="desk active">
+      <div class="head"><div class="role">The Librarian <span>· Venue &amp; Source</span></div><div class="state on">open</div></div>
+      <div class="owns">venues · sources</div>
+      <p class="charter">Keeps the official lists. Discovers new venues and ground-truth calendars, removes duplicates, verifies what's real, and decides whether a place actually hosts events. The question this desk answers: <em>what exists, and can we trust it?</em></p>
+      <div class="scorecard">
+        <div class="kpi"><div class="v" id="k-venues">—</div><div class="l">venues</div></div>
+        <div class="kpi"><div class="v" id="k-sources">—</div><div class="l">sources</div></div>
+        <div class="kpi"><div class="v" id="k-geo">—</div><div class="l">need geocode</div></div>
+        <div class="kpi"><div class="v" id="k-flyers">—</div><div class="l">from field</div></div>
+      </div>
+    </div>
+    <div class="flowdown">↓</div>
+
+    <div class="desk active">
+      <div class="head"><div class="role">The Pipeline Builder</div><div class="state on">open</div></div>
+      <div class="owns">sources.scraper_status · scraper code</div>
+      <p class="charter">Takes each source from the Librarian and gets events flowing: finds the API or website, writes a scraper, or marks the source <em>difficult</em> with notes on why. Owns the health of every feed — what's built, planned, broken, or not yet attempted.</p>
+      <div class="scorecard">
+        <div class="kpi"><div class="v" id="k-built">—</div><div class="l">built</div></div>
+        <div class="kpi"><div class="v" id="k-planned">—</div><div class="l">planned</div></div>
+        <div class="kpi"><div class="v" id="k-broken">—</div><div class="l">broken</div></div>
+        <div class="kpi dim"><div class="v" id="k-none">—</div><div class="l">none yet</div></div>
+      </div>
+    </div>
+    <div class="flowdown">↓</div>
+
+    <div class="desk soon">
+      <div class="head"><div class="role">The Rater</div><div class="state off">coming soon</div></div>
+      <div class="owns">events.scores</div>
+      <p class="charter">Scores every event on universal, person-independent dimensions — social quality, serendipity, uniqueness, community-building — so the good stuff can rise. Per-person fit is computed later, on top of these.</p>
+      <div class="scorecard"><div class="kpi"><div class="v" id="k-scored">—</div><div class="l">events scored</div></div></div>
+    </div>
+    <div class="flowdown">↓</div>
+
+    <div class="desk soon">
+      <div class="head"><div class="role">The Filterer</div><div class="state off">coming soon</div></div>
+      <div class="owns">curated views</div>
+      <p class="charter">Signal versus noise. Turns the scored catalog into a short, trustworthy list worth the wizard's actual evening — the last desk before it reaches a person.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="principles"><div class="wrap">
+  <div class="mark">№ 04 — Operating principles</div>
+  <h2>The rules the staff work by</h2>
+  <div class="principles">
+    <div class="pr"><div class="dot"></div><div><h4>Data is the truth, HTML is the lens</h4><p>The catalog lives in a database. Every page — including this one — is a view rendered over it, never a separate copy.</p></div></div>
+    <div class="pr"><div class="dot"></div><div><h4>Everything carries provenance</h4><p>Each record knows where it came from, when it was last seen, and who vouches for it — scraper, agent, or human.</p></div></div>
+    <div class="pr"><div class="dot"></div><div><h4>Agents are first-class staff</h4><p>Anything you can see, an agent can see; any desk you can work, an agent can work. The job page is also the prompt.</p></div></div>
+    <div class="pr"><div class="dot"></div><div><h4>City-agnostic code, city-specific data</h4><p>The machine is built in Philadelphia and moves to New York by swapping the catalog, not the code.</p></div></div>
+  </div>
+</div></section>
+
+<section id="road"><div class="wrap">
+  <div class="mark">№ 05 — Where it stands</div>
+  <h2>Live today, and what's next</h2>
+  <div class="road">
+    <div class="rcol live"><h4>Open now</h4><ul>
+      <li>Catalog database — venues, sources, events</li>
+      <li>The Reading Room (browse the catalog)</li>
+      <li>The Pipeline Builder's board</li>
+      <li>Field intake — flyers structured into events</li>
+    </ul></div>
+    <div class="rcol next"><h4>Next</h4><ul>
+      <li>The Librarian's desk — verify &amp; geocode</li>
+      <li>A Staff index with live scorecards per role</li>
+      <li>The Rater — universal event scoring at scale</li>
+      <li>The Filterer, then a map, then New York</li>
+    </ul></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <span>Philadelphia · City Library — a city-wizard system</span>
+  <span><a href="./">Enter the library →</a></span>
+</div></footer>
+
+<script>
+fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
+  const set=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  const m=d.meta||{};
+  set('k-venues',m.venues); set('k-sources',m.sources); set('k-flyers',m.flyers);
+  set('k-geo',(d.venues||[]).filter(v=>v.lat==null).length);
+  const by={built:0,planned:0,broken:0,none:0};
+  (d.sources||[]).forEach(s=>{by[s.scraper_status]=(by[s.scraper_status]||0)+1;});
+  set('k-built',by.built); set('k-planned',by.planned); set('k-broken',by.broken); set('k-none',by.none);
+  set('k-scored',(d.events||[]).filter(e=>e.quality!=null).length);
+}).catch(()=>{});
+</script>
+</body>
+</html>
