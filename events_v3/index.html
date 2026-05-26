@@ -176,6 +176,29 @@ layout: null
   .hp-bqfeed .tag{font-size:.52rem;padding:1px 5px}
   .hp-bqnosrc{font-style:italic;color:#6f6757}
 
+  /* source filter */
+  .srcbtn{background:var(--panel2);border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;font-family:var(--sans);white-space:nowrap}
+  .srcbtn:hover{border-color:var(--brass-dim);color:var(--text)}
+  .srcbtn.active{border-color:var(--brass);color:var(--brass);background:rgba(216,171,78,.12)}
+  .srcpanel{position:fixed;z-index:700;top:0;right:0;width:300px;max-width:88vw;height:100%;
+    background:var(--panel2);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgba(0,0,0,.45);
+    transform:translateX(104%);transition:transform .22s ease;display:flex;flex-direction:column}
+  .srcpanel.show{transform:translateX(0)}
+  .srcpanel .sph{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .srcpanel .sph h3{font-family:var(--serif);font-size:1.05rem;color:#f1ead9}
+  .srcpanel .spx{color:var(--faint);cursor:pointer;font-size:1.2rem;line-height:1}
+  .srcpanel .spx:hover{color:var(--text)}
+  .srcpanel .spbulk{display:flex;gap:8px;padding:9px 16px;border-bottom:1px solid var(--border)}
+  .srcpanel .spbulk button{flex:1;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:5px;border-radius:6px;font-size:.74rem;cursor:pointer;font-family:var(--sans)}
+  .srcpanel .spbulk button:hover{border-color:var(--brass-dim);color:var(--text)}
+  .srcpanel .splist{overflow-y:auto;flex:1;padding:4px 0}
+  .srcrow{display:flex;align-items:center;gap:9px;padding:7px 16px;cursor:pointer;font-size:.84rem;color:var(--text)}
+  .srcrow:hover{background:var(--panel)}
+  .srcrow input{accent-color:var(--brass);width:15px;height:15px;cursor:pointer;flex:none}
+  .srcrow .sn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .srcrow.off .sn{color:var(--faint);text-decoration:line-through}
+  .srcrow .scnt{font-family:var(--mono);font-size:.72rem;color:var(--brass)}
+
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
 </head>
@@ -196,11 +219,19 @@ layout: null
 <div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal" id="modal"></div>
 </div>
+<div class="srcpanel" id="srcpanel"></div>
 
 <script>
 let DB={events:[],venues:[],sources:[],meta:{}};
 let mode='reader', axis='venueType', path=[], query='';
 const srcById={}, venById={};
+
+// source toggles: ids in hiddenSrc are hidden everywhere. Persisted locally.
+let hiddenSrc=new Set();
+try{const s=localStorage.getItem('hiddenSrc');if(s)hiddenSrc=new Set(JSON.parse(s));}catch(e){}
+function saveHidden(){try{localStorage.setItem('hiddenSrc',JSON.stringify([...hiddenSrc]));}catch(e){}}
+function visEvents(){return hiddenSrc.size?DB.events.filter(e=>!hiddenSrc.has(e.source_id)):DB.events;}
+function srcChip(){const n=hiddenSrc.size;return `<span class="srcbtn ${n?'active':''}" onclick="toggleSrcPanel()">Sources${n?` · ${n} off`:''} ▾</span>`;}
 
 const AXES={
   calendar:{label:'Calendar', levels:[{id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
@@ -247,7 +278,7 @@ function render(){
   if(mode==='builder'){renderBuilder();return;}
   renderCrumbs();
   const ax=AXES[axis];
-  let evs=DB.events.slice();
+  let evs=visEvents().slice();
   if(query){evs=evs.filter(e=>(e.name||'').toLowerCase().includes(query)||(e.venue||'').toLowerCase().includes(query));}
   // apply path filters
   path.forEach((k,i)=>{evs=evs.filter(e=>ax.levels[i].of(e).some(g=>String(g.key)===String(k)));});
@@ -276,13 +307,15 @@ function renderSubbar(){
       + hoods.map(h=>pill(h, h.replace(' - Lower Kensington',''))).join('')
       + `</div>`
       + `<span class="pill chev" onclick="cycleHood(1)" title="next (→)">›</span>`
-      + `<span style="color:var(--faint);font-size:.74rem;white-space:nowrap;padding-left:8px">${geo.length}/${DB.venues.length} geo</span>`;
+      + `<span style="color:var(--faint);font-size:.74rem;white-space:nowrap;padding-left:8px">${geo.length}/${DB.venues.length} geo</span>`
+      + srcChip();
     return;
   }
   let h=`<span class="axis-label">Shelve by</span>`;
   for(const [k,v] of Object.entries(AXES))
     h+=`<span class="pill ${k===axis?'on':''}" onclick="setAxis('${k}')">${v.label}</span>`;
   h+=`<input class="search" id="q" placeholder="search events…" value="${esc(query)}" oninput="query=this.value.toLowerCase();render()">`;
+  h+=srcChip();
   sb.innerHTML=h;
   const q=document.getElementById('q'); if(q&&query){q.focus();q.setSelectionRange(q.value.length,q.value.length);}
 }
@@ -373,8 +406,11 @@ function renderMap(){
   document.getElementById('crumbs').innerHTML='';
   document.getElementById('main').innerHTML='<div id="map"></div><div id="hoodpanel"></div>';
   const evByV={};
-  DB.events.forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
-  const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected');
+  visEvents().forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
+  // hide candidate venues whose only events came from a hidden source; keep all
+  // verified/curated venues regardless (they're the library proper).
+  const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected'
+    && ((evByV[v.id]&&evByV[v.id].length) || v.status!=='candidate'));
   setTimeout(()=>{
     if(_map){_map.remove();_map=null;}
     _markers=[]; _maskLayer=null; _hoodLayer=null;
@@ -501,7 +537,7 @@ function renderHoodPanel(){
   const feat=(_zone!=='all'&&_hoods)?_hoods.features.find(f=>f.properties.name===_zone):null;
   if(!feat){ el.classList.remove('show'); return; }
   const inHood=new Set(DB.venues.filter(v=>v.lat!=null&&pointInHood(v.lat,v.lng,feat)).map(v=>v.id));
-  const evs=DB.events.filter(e=>inHood.has(e.venue_id))
+  const evs=visEvents().filter(e=>inHood.has(e.venue_id))
     .sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||((a.time||'').localeCompare(b.time||'')));
   const rows=evs.length?evs.map(e=>`<div class="hp-ev" onclick="openModal(${e.id})">
       <div class="hp-when">${fmtDate(e.date)}${e.time?` · ${e.time}`:''}</div>
@@ -535,6 +571,24 @@ function cycleHood(dir){
   i=(i+dir+hoods.length)%hoods.length;
   setZone(hoods[i]);
 }
+
+function toggleSrcPanel(){
+  const el=document.getElementById('srcpanel');
+  if(el.classList.contains('show')){el.classList.remove('show');}
+  else{renderSrcPanel();el.classList.add('show');}
+}
+function renderSrcPanel(){
+  const el=document.getElementById('srcpanel');
+  const srcs=DB.sources.filter(s=>s.event_count>0).sort((a,b)=>b.event_count-a.event_count);
+  el.innerHTML=`<div class="sph"><h3>Show sources</h3><span class="spx" onclick="toggleSrcPanel()">✕</span></div>
+    <div class="spbulk"><button onclick="setAllSrc(true)">All on</button><button onclick="setAllSrc(false)">All off</button></div>
+    <div class="splist">`+srcs.map(s=>{
+      const off=hiddenSrc.has(s.id);
+      return `<label class="srcrow ${off?'off':''}"><input type="checkbox" ${off?'':'checked'} onchange="toggleSrc('${s.id}')"><span class="sn">${esc(s.name)}</span><span class="scnt">${s.event_count}</span></label>`;
+    }).join('')+`</div>`;
+}
+function toggleSrc(id){hiddenSrc.has(id)?hiddenSrc.delete(id):hiddenSrc.add(id);saveHidden();renderSrcPanel();render();}
+function setAllSrc(on){if(on)hiddenSrc.clear();else DB.sources.forEach(s=>{if(s.event_count>0)hiddenSrc.add(s.id);});saveHidden();renderSrcPanel();render();}
 
 function openModal(id){
   const e=DB.events.find(x=>x.id===id);if(!e)return;
