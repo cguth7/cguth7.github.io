@@ -250,7 +250,11 @@ let _map=null, _hoods=null, _hoodLayer=null, _maskLayer=null, _markers=[], _zone
 const MASK_OUTER=[[39.80,-75.35],[39.80,-74.90],[40.20,-74.90],[40.20,-75.35]];
 const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
   cafe:'#86b06a',warehouse:'#d2557a',museum:'#c77d4a',library:'#79b8e0',park:'#8fbf6a',
-  market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',other:'#9a9080'};
+  market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',makerspace:'#4ec9d2',
+  restaurant:'#e0a04e',university:'#7e9bd8',school:'#a8bce8',fitness:'#5fc987',
+  hotel:'#c8a0d8',coworking:'#9aa6b2',event_space:'#d99ab0',club:'#b06ad0',
+  stadium:'#d65a5a',attraction:'#e0c84e',bookstore:'#9aae6a',community_center:'#6ac4c0',
+  other:'#9a9080'};
 const KIND_DOT=k=>`<i class="hp-bqdot" style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>`;
 
 function cats(e){
@@ -297,7 +301,7 @@ function renderSubbar(){
     return;
   }
   if(mode==='map'){
-    const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected');
+    const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected'&&!v.maybe_fake);
     const hoods=_hoods?_hoods.features.map(f=>f.properties.name):[];
     const pill=(z,label)=>`<span class="pill zonepill ${z===_zone?'on':''}" onclick="setZone('${z}')">${esc(label)}</span>`;
     sb.innerHTML=`<span class="axis-label">Hood</span>`
@@ -389,16 +393,19 @@ function renderBuilder(){
       </div>`).join('')}</div></div>`).join('')+'</div>';
 }
 
-// size = #events, brightness = best event rating, color = kind, dashed ring = candidate
-function venuePin(kind,count,quality,candidate){
+// One property, one meaning: color = venue kind · size = # visible upcoming
+// events · brightness = rating (z-scored vs venues on screen; dim = unrated) ·
+// ring: solid = we scrape it (working pipeline). No-pipeline venues are the
+// build queue — amber dashed ring, a fixed minimum size so they never hide.
+function venuePin(kind,count,opacity,hasPipe){
   const c=KIND_COLORS[kind]||KIND_COLORS.other;
-  const d=Math.round(count>0?Math.min(12+Math.sqrt(count)*4.2,32):9);
-  const op=(quality!=null?(0.45+0.055*quality):0.4).toFixed(2);
-  const fill=candidate?'transparent':c;
-  const border=candidate?`2px dashed ${c}`:'2px solid #0e0c09';
-  const glow=candidate?'none':`0 0 0 1.5px ${c}aa,0 2px 5px rgba(0,0,0,.5)`;
+  let d=Math.round(count>0?Math.min(12+Math.sqrt(count)*4.2,32):9);
+  if(!hasPipe) d=Math.max(d,16);
+  const border=hasPipe?'2px solid #0e0c09':'2px dashed #f2b84a';
+  const op=hasPipe?opacity.toFixed(2):Math.max(opacity,0.6).toFixed(2);
+  const glow=hasPipe?`0 0 0 1.5px ${c}aa,0 2px 5px rgba(0,0,0,.5)`:'0 0 0 1.5px #f2b84a66,0 1px 4px rgba(0,0,0,.55)';
   return L.divIcon({className:'vpin',iconSize:[d,d],iconAnchor:[d/2,d/2],
-    html:`<div style="width:${d}px;height:${d}px;border-radius:50%;background:${fill};opacity:${op};border:${border};box-shadow:${glow}"></div>`});
+    html:`<div style="width:${d}px;height:${d}px;border-radius:50%;background:${c};opacity:${op};border:${border};box-shadow:${glow}"></div>`});
 }
 function closePopThenModal(id){if(_map)_map.closePopup();openModal(id);}
 
@@ -407,10 +414,19 @@ function renderMap(){
   document.getElementById('main').innerHTML='<div id="map"></div><div id="hoodpanel"></div>';
   const evByV={};
   visEvents().forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
-  // hide candidate venues whose only events came from a hidden source; keep all
-  // verified/curated venues regardless (they're the library proper).
-  const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected'
-    && ((evByV[v.id]&&evByV[v.id].length) || v.status!=='candidate'));
+  // The map IS the venue catalog: every real venue we can place shows, always.
+  // Source toggles never remove a pin — they only change a pin's size/brightness
+  // and what its popup lists (an event-level filter, not a venue-level one).
+  // maybe_fake venues (online/"TBA"/bare addresses) are kept out of the map.
+  const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected'&&!v.maybe_fake);
+  // Brightness is a z-score of each venue's best rating vs. the venues on screen,
+  // so "bright" means well-rated relative to this view, not an absolute 0–10.
+  const allMaxQ=geo.map(v=>{const qs=(evByV[v.id]||[]).map(e=>e.quality).filter(q=>q!=null);
+    return qs.length?Math.max(...qs):null;}).filter(q=>q!=null);
+  const qMean=allMaxQ.length?allMaxQ.reduce((a,b)=>a+b,0)/allMaxQ.length:0;
+  const qSd=allMaxQ.length>1?Math.sqrt(allMaxQ.reduce((a,b)=>a+(b-qMean)**2,0)/allMaxQ.length):0;
+  // unrated venues sink to a dim floor; rated venues scale up from there.
+  const opacityForQ=q=>q==null?0.3:(qSd===0?0.7:Math.max(0.45,Math.min(1,0.6+0.2*(q-qMean)/qSd)));
   setTimeout(()=>{
     if(_map){_map.remove();_map=null;}
     _markers=[]; _maskLayer=null; _hoodLayer=null;
@@ -422,22 +438,21 @@ function renderMap(){
       const evs=(evByV[v.id]||[]).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
       const qs=evs.map(e=>e.quality).filter(q=>q!=null);
       const maxQ=qs.length?Math.max(...qs):null;
-      const cand=v.status==='candidate';
+      const hasPipe=v.pipeline&&v.pipeline!=='none';
       const list=evs.slice(0,6).map(e=>
         `<a onclick="closePopThenModal(${e.id})" style="display:block;color:#7ab8ff;cursor:pointer;font-size:.8rem;margin:3px 0;text-decoration:none">${esc(e.name)} <span style="color:#7a7264">${e.date?fmtDate(e.date):''}</span></a>`).join('');
       const more=evs.length>6?`<div style="color:#7a7264;font-size:.74rem;margin-top:3px">+${evs.length-6} more</div>`:'';
       const hosts=v.hosts_events&&v.hosts_events!=='unknown'?` · hosts: ${v.hosts_events}`:'';
-      const tag=cand?` · <span style="color:#d8ab4e">candidate</span> (${esc(v.verified_by||'?')})`:'';
       const pipe=v.pipeline==='none'?` · <span style="color:#cc7a5a">⚠ no pipeline</span>`
                  :v.pipeline&&v.pipeline!=='built'?` · <span style="color:#cc7a5a">pipeline: ${v.pipeline}</span>`:'';
-      const best=maxQ!=null?` · top ${maxQ}`:'';
+      const best=maxQ!=null?` · top ${maxQ}`:` · <span style="color:#7a7264">unrated</span>`;
       const feedRows=(v.feeds||[]).map(f=>{
         const nm=f.url?`<a href="${f.url}" target="_blank" rel="noopener" style="color:#9bc6ff;text-decoration:none">${esc(f.name)}</a>`:esc(f.name);
         return `<div class="popup-feed"><span class="tag t-${f.scraper_status}">${f.scraper_status}</span> ${f.primary?'★ ':''}${nm} <span style="color:#6f6757">· ${esc(f.usefulness)}</span></div>`;
       }).join('');
       const feedsBlock=feedRows?`<div class="popup-feeds"><div class="popup-feeds-h">events posted at</div>${feedRows}</div>`:'';
-      const mk=L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,maxQ,cand)})
-        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${best}${hosts}${pipe}${tag}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events yet</div>'}${more}${feedsBlock}`);
+      const mk=L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,opacityForQ(maxQ),hasPipe)})
+        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} upcoming${best}${hosts}${pipe}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no upcoming events</div>'}${more}${feedsBlock}`);
       _markers.push({marker:mk,lat:v.lat,lng:v.lng});
     });
     applyZone();
@@ -449,7 +464,7 @@ function renderMap(){
       const el=L.DomUtil.create('div','maplegend');
       el.innerHTML='<div class="lgt">Venue type</div>'
         + kinds.map(k=>`<div class="lgr"><i style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>${k.replace('_',' ')}</div>`).join('')
-        + '<div class="lgnote">larger = more events<br>brighter = higher-rated<br>◌ dashed = candidate<br>⚠ in popup = no pipeline</div>';
+        + '<div class="lgnote">larger = more upcoming events<br>brighter = higher-rated (relative) · dim = unrated<br>solid ring = we scrape it<br><span style="color:#f2b84a">⬡ amber dashed</span> = no pipeline yet (build queue)</div>';
       L.DomEvent.disableClickPropagation(el);
       return el;
     };
@@ -593,13 +608,23 @@ function setAllSrc(on){if(on)hiddenSrc.clear();else DB.sources.forEach(s=>{if(s.
 function openModal(id){
   const e=DB.events.find(x=>x.id===id);if(!e)return;
   const src=srcById[e.source_id]||{};
-  const DIM={social_quality:'Social quality',serendipity:'Serendipity',uniqueness:'Uniqueness',community_building:'Community'};
-  let scoreH='';
-  if(e.scores){scoreH='<div class="scores">'+Object.entries(DIM).map(([k,lab])=>{
-    const d=e.scores[k];if(!d)return '';
-    return `<div class="sc"><span class="lab">${lab}</span><span style="font-family:var(--mono);color:var(--brass)">${d.score}/10</span>
+  // ranking dims in weight order (each shows its current weight %)
+  const DIM={social_quality:'Social quality',serendipity:'Serendipity',solo_friendliness:'Solo-friendliness',community_building:'Community',uniqueness:'Uniqueness',value_for_price:'Value for price'};
+  const W=DB.weights||{};
+  const row=(k,lab,wpct)=>{const d=e.scores[k];if(!d)return '';
+    return `<div class="sc"><span class="lab">${lab}${wpct!=null?` <span style="color:var(--faint);font-size:.68rem">${wpct}%</span>`:''}</span><span style="font-family:var(--mono);color:var(--brass)">${d.score}/10</span>
       <span class="bar"><i style="width:${d.score*10}%"></i></span>
-      ${d.reason?`<span class="rs">${esc(d.reason)}</span>`:''}</div>`;}).join('')+'</div>';}
+      ${d.reason?`<span class="rs">${esc(d.reason)}</span>`:''}</div>`;};
+  let scoreH='';
+  if(e.scores){
+    const dq=e.description_quality, dqc={rich:'#86b06a',thin:'#d8ab4e',missing:'#cc5a5a'}[dq]||'#7a7264';
+    const head=`<div style="display:flex;align-items:center;gap:10px;margin:14px 0 9px">
+      ${e.quality!=null?`<span style="font-family:var(--mono);font-size:1.5rem;color:var(--brass)">${e.quality}<span style="font-size:.55em;color:var(--faint)">/10</span></span>`:''}
+      <span style="font-size:.7rem;color:var(--faint)">weighted composite</span>
+      ${dq?`<span title="how much source text the LLM had" style="margin-left:auto;font-size:.72rem;color:var(--faint);display:flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:50%;background:${dqc};display:inline-block"></i>desc: ${dq}</span>`:''}</div>`;
+    const univ=Object.entries(DIM).map(([k,lab])=>row(k,lab,W[k]!=null?Math.round(W[k]*100):null)).join('');
+    scoreH='<div class="scores">'+head+univ+'</div>';
+  }
   document.getElementById('modal').innerHTML=`
     <span class="x" onclick="closeModal()">✕</span>
     <h2>${esc(e.name)}</h2>
