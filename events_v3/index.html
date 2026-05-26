@@ -130,6 +130,11 @@ layout: null
   .popup-meta{font-family:var(--mono);font-size:.68rem;color:var(--brass);margin-bottom:8px;letter-spacing:.3px}
   .lg{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)}
   .lg i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .maplegend{background:rgba(20,17,13,.92);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,.4);line-height:1.5}
+  .maplegend .lgt{font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brass);margin-bottom:6px}
+  .maplegend .lgr{display:flex;align-items:center;gap:7px;color:var(--muted)}
+  .maplegend .lgr i{width:10px;height:10px;border-radius:50%}
+  .maplegend .lgnote{margin-top:8px;padding-top:7px;border-top:1px solid var(--border);color:var(--faint);font-size:.7rem}
 
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
@@ -173,8 +178,8 @@ const AXES={
 let _map=null;
 const BBOX={latMin:39.943,latMax:39.962,lngMin:-75.180,lngMax:-75.140};
 const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
-  cafe:'#86b06a',warehouse:'#d2557a',museum:'#c8a04a',library:'#aaccff',park:'#7fae6a',
-  market:'#e0b84e',garden:'#8fbf7a',other:'#9a9080'};
+  cafe:'#86b06a',warehouse:'#d2557a',museum:'#c77d4a',library:'#79b8e0',park:'#8fbf6a',
+  market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',other:'#9a9080'};
 
 function cats(e){
   if(!e.category) return ['Uncategorized'];
@@ -221,10 +226,11 @@ function renderSubbar(){
   }
   if(mode==='map'){
     const geo=DB.venues.filter(v=>v.lat!=null);
-    const kinds=[...new Set(geo.map(v=>v.kind))].sort();
+    const cand=geo.filter(v=>v.status==='candidate').length;
     sb.innerHTML=`<span class="axis-label">Venues</span>`
-      + kinds.map(k=>`<span class="lg"><i style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>${k}</span>`).join('')
-      + `<span style="margin-left:auto;color:var(--faint);font-size:.76rem">${geo.length}/${DB.venues.length} geocoded · dashed box = Center City</span>`;
+      + `<span class="pill" style="cursor:default">${geo.length}/${DB.venues.length} geocoded</span>`
+      + `<span class="pill" style="cursor:default">${cand} candidates</span>`
+      + `<span style="margin-left:auto;color:var(--faint);font-size:.76rem">color = type · size = #events · brightness = rating · dashed box = Center City</span>`;
     return;
   }
   let h=`<span class="axis-label">Shelve by</span>`;
@@ -304,10 +310,16 @@ function renderBuilder(){
       </div>`).join('')}</div></div>`).join('')+'</div>';
 }
 
-function venuePin(kind){
+// size = #events, brightness = best event rating, color = kind, dashed ring = candidate
+function venuePin(kind,count,quality,candidate){
   const c=KIND_COLORS[kind]||KIND_COLORS.other;
-  return L.divIcon({className:'vpin',iconSize:[16,16],iconAnchor:[8,8],
-    html:`<div style="background:${c};width:16px;height:16px;border-radius:50%;border:2px solid #0e0c09;box-shadow:0 0 0 1.5px ${c},0 2px 5px rgba(0,0,0,.5)"></div>`});
+  const d=Math.round(count>0?Math.min(12+Math.sqrt(count)*4.2,32):9);
+  const op=(quality!=null?(0.45+0.055*quality):0.4).toFixed(2);
+  const fill=candidate?'transparent':c;
+  const border=candidate?`2px dashed ${c}`:'2px solid #0e0c09';
+  const glow=candidate?'none':`0 0 0 1.5px ${c}aa,0 2px 5px rgba(0,0,0,.5)`;
+  return L.divIcon({className:'vpin',iconSize:[d,d],iconAnchor:[d/2,d/2],
+    html:`<div style="width:${d}px;height:${d}px;border-radius:50%;background:${fill};opacity:${op};border:${border};box-shadow:${glow}"></div>`});
 }
 function closePopThenModal(id){if(_map)_map.closePopup();openModal(id);}
 
@@ -327,16 +339,34 @@ function renderMap(){
     const pts=[];
     geo.forEach(v=>{
       const evs=(evByV[v.id]||[]).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
+      const qs=evs.map(e=>e.quality).filter(q=>q!=null);
+      const maxQ=qs.length?Math.max(...qs):null;
+      const cand=v.status==='candidate';
       const list=evs.slice(0,6).map(e=>
         `<a onclick="closePopThenModal(${e.id})" style="display:block;color:#7ab8ff;cursor:pointer;font-size:.8rem;margin:3px 0;text-decoration:none">${esc(e.name)} <span style="color:#7a7264">${e.date?fmtDate(e.date):''}</span></a>`).join('');
       const more=evs.length>6?`<div style="color:#7a7264;font-size:.74rem;margin-top:3px">+${evs.length-6} more</div>`:'';
       const hosts=v.hosts_events&&v.hosts_events!=='unknown'?` · hosts: ${v.hosts_events}`:'';
-      L.marker([v.lat,v.lng],{icon:venuePin(v.kind)}).addTo(_map)
-        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${hosts}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events</div>'}${more}`);
+      const tag=cand?` · <span style="color:#d8ab4e">candidate</span> (${esc(v.verified_by||'?')})`:'';
+      const best=maxQ!=null?` · top ${maxQ}`:'';
+      L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,maxQ,cand)}).addTo(_map)
+        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${best}${hosts}${tag}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events yet</div>'}${more}`);
       pts.push([v.lat,v.lng]);
     });
     if(pts.length)_map.fitBounds(pts,{padding:[45,45]});
     else _map.setView([(BBOX.latMin+BBOX.latMax)/2,(BBOX.lngMin+BBOX.lngMax)/2],14);
+
+    // on-map key
+    const kinds=[...new Set(geo.map(v=>v.kind))].sort();
+    const key=L.control({position:'bottomleft'});
+    key.onAdd=()=>{
+      const el=L.DomUtil.create('div','maplegend');
+      el.innerHTML='<div class="lgt">Venue type</div>'
+        + kinds.map(k=>`<div class="lgr"><i style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>${k.replace('_',' ')}</div>`).join('')
+        + '<div class="lgnote">larger = more events<br>brighter = higher-rated<br>◌ dashed = candidate</div>';
+      L.DomEvent.disableClickPropagation(el);
+      return el;
+    };
+    key.addTo(_map);
   },40);
 }
 
