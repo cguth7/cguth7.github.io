@@ -50,7 +50,7 @@ layout: null
   .crumbs .sep{color:var(--faint)}
 
   /* content */
-  main{flex:1;overflow-y:auto;padding:18px 22px 60px}
+  main{flex:1;overflow-y:auto;padding:18px 22px 60px;position:relative}
 
   /* shelves */
   .shelves{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
@@ -143,6 +143,23 @@ layout: null
   .leaflet-tooltip.hoodtip{background:#1b1813;border:1px solid var(--brass-dim);color:var(--brass);font-family:var(--mono);font-size:.7rem;box-shadow:0 2px 8px rgba(0,0,0,.5)}
   .leaflet-tooltip.hoodtip::before{border-top-color:var(--brass-dim)}
   .leaflet-interactive{cursor:pointer}
+  /* focus-mode hood panel */
+  #hoodpanel{position:absolute;top:0;right:0;bottom:0;width:330px;max-width:82%;z-index:600;
+    background:rgba(18,16,13,.97);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgba(0,0,0,.4);
+    transform:translateX(104%);transition:transform .26s ease;display:flex;flex-direction:column;overflow:hidden}
+  #hoodpanel.show{transform:translateX(0)}
+  .hp-head{padding:15px 17px;border-bottom:1px solid var(--border);position:relative;flex:none}
+  .hp-title{font-family:var(--serif);font-size:1.3rem;color:#f3ecdd;line-height:1.2;padding-right:22px}
+  .hp-sub{font-family:var(--mono);font-size:.64rem;color:var(--brass);letter-spacing:1.2px;text-transform:uppercase;margin-top:4px}
+  .hp-x{position:absolute;top:13px;right:15px;color:var(--faint);cursor:pointer;font-size:1.15rem;line-height:1}
+  .hp-x:hover{color:var(--text)}
+  .hp-list{overflow-y:auto;flex:1}
+  .hp-ev{padding:11px 17px;border-bottom:1px solid #211e18;cursor:pointer;transition:.1s}
+  .hp-ev:hover{background:var(--panel)}
+  .hp-when{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+  .hp-name{color:var(--text);font-size:.9rem;margin:3px 0 2px;line-height:1.3}
+  .hp-venue{color:var(--faint);font-size:.78rem}
+  .hp-empty{padding:26px 17px;color:var(--muted);font-style:italic;font-size:.85rem}
 
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
@@ -338,7 +355,7 @@ function closePopThenModal(id){if(_map)_map.closePopup();openModal(id);}
 
 function renderMap(){
   document.getElementById('crumbs').innerHTML='';
-  document.getElementById('main').innerHTML='<div id="map"></div>';
+  document.getElementById('main').innerHTML='<div id="map"></div><div id="hoodpanel"></div>';
   const evByV={};
   DB.events.forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
   const geo=DB.venues.filter(v=>v.lat!=null);
@@ -449,8 +466,31 @@ function applyZone(){
   if(_hoodLayer) _hoodLayer.eachLayer(l=>{
     if(!focused||l.feature.properties.name===_zone) b.extend(l.getBounds());
   });
-  if(b.isValid()) _map.fitBounds(b,{padding:focused?[24,24]:[30,30]});
-  else _map.setView([39.953,-75.163],13);
+  if(b.isValid()){
+    // in focus, leave room on the right for the event panel
+    if(focused) _map.fitBounds(b,{paddingTopLeft:[28,28],paddingBottomRight:[matchMedia('(max-width:680px)').matches?28:350,28]});
+    else _map.fitBounds(b,{padding:[30,30]});
+  } else _map.setView([39.953,-75.163],13);
+  renderHoodPanel();
+}
+function renderHoodPanel(){
+  const el=document.getElementById('hoodpanel'); if(!el) return;
+  const feat=(_zone!=='all'&&_hoods)?_hoods.features.find(f=>f.properties.name===_zone):null;
+  if(!feat){ el.classList.remove('show'); return; }
+  const inHood=new Set(DB.venues.filter(v=>v.lat!=null&&pointInHood(v.lat,v.lng,feat)).map(v=>v.id));
+  const evs=DB.events.filter(e=>inHood.has(e.venue_id))
+    .sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||((a.time||'').localeCompare(b.time||'')));
+  const rows=evs.length?evs.map(e=>`<div class="hp-ev" onclick="openModal(${e.id})">
+      <div class="hp-when">${fmtDate(e.date)}${e.time?` · ${e.time}`:''}</div>
+      <div class="hp-name">${esc(e.name)}</div>
+      <div class="hp-venue">${esc(e.venue||'')}${e.discovered_via==='flyer'?' <span class="badge b-flyer">flyer</span>':''}</div>
+    </div>`).join('')
+    :'<div class="hp-empty">No dated events mapped in this neighborhood yet.</div>';
+  el.innerHTML=`<div class="hp-head"><div class="hp-title">${esc(_zone.replace(' - Lower Kensington',''))}</div>
+    <div class="hp-sub">${evs.length} event${evs.length!==1?'s':''} · chronological</div>
+    <span class="hp-x" onclick="setZone('all')" title="back to full map">✕</span></div>
+    <div class="hp-list">${rows}</div>`;
+  el.classList.add('show');
 }
 function setZone(z){ _zone=z; renderSubbar(); applyZone(); }
 function cycleHood(dir){
