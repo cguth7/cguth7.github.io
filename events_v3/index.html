@@ -135,6 +135,10 @@ layout: null
   .maplegend .lgr{display:flex;align-items:center;gap:7px;color:var(--muted)}
   .maplegend .lgr i{width:10px;height:10px;border-radius:50%}
   .maplegend .lgnote{margin-top:8px;padding-top:7px;border-top:1px solid var(--border);color:var(--faint);font-size:.7rem}
+  .zonestrip{display:flex;gap:6px;overflow-x:auto;flex:1;padding-bottom:3px;scrollbar-width:thin}
+  .zonestrip::-webkit-scrollbar{height:5px}
+  .zonestrip::-webkit-scrollbar-thumb{background:#33302a;border-radius:3px}
+  .zonepill{white-space:nowrap}
 
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
@@ -175,8 +179,7 @@ const AXES={
      {id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
 };
 
-let _map=null;
-const BBOX={latMin:39.943,latMax:39.962,lngMin:-75.180,lngMax:-75.140};
+let _map=null, _hoods=null, _hoodLayer=null, _zone='all';
 const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
   cafe:'#86b06a',warehouse:'#d2557a',museum:'#c77d4a',library:'#79b8e0',park:'#8fbf6a',
   market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',other:'#9a9080'};
@@ -226,11 +229,12 @@ function renderSubbar(){
   }
   if(mode==='map'){
     const geo=DB.venues.filter(v=>v.lat!=null);
-    const cand=geo.filter(v=>v.status==='candidate').length;
-    sb.innerHTML=`<span class="axis-label">Venues</span>`
-      + `<span class="pill" style="cursor:default">${geo.length}/${DB.venues.length} geocoded</span>`
-      + `<span class="pill" style="cursor:default">${cand} candidates</span>`
-      + `<span style="margin-left:auto;color:var(--faint);font-size:.76rem">color = type · size = #events · brightness = rating · dashed box = Center City</span>`;
+    const hoods=_hoods?_hoods.features.map(f=>f.properties.name):[];
+    const pill=(z,label)=>`<span class="pill zonepill ${z===_zone?'on':''}" onclick="setZone('${z}')">${esc(label)}</span>`;
+    sb.innerHTML=`<span class="axis-label">Hood</span><div class="zonestrip">`
+      + pill('all','All · middle Philly')
+      + hoods.map(h=>pill(h, h.replace(' - Lower Kensington',''))).join('')
+      + `</div><span style="color:var(--faint);font-size:.74rem;white-space:nowrap;padding-left:8px">${geo.length}/${DB.venues.length} geocoded</span>`;
     return;
   }
   let h=`<span class="axis-label">Shelve by</span>`;
@@ -334,8 +338,7 @@ function renderMap(){
     _map=L.map('map',{zoomControl:true,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
       {subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(_map);
-    L.rectangle([[BBOX.latMin,BBOX.lngMin],[BBOX.latMax,BBOX.lngMax]],
-      {color:'#9c7c38',weight:1,fill:false,dashArray:'4 4'}).addTo(_map);
+    drawHoods();
     const pts=[];
     geo.forEach(v=>{
       const evs=(evByV[v.id]||[]).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
@@ -352,8 +355,7 @@ function renderMap(){
         .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${best}${hosts}${tag}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events yet</div>'}${more}`);
       pts.push([v.lat,v.lng]);
     });
-    if(pts.length)_map.fitBounds(pts,{padding:[45,45]});
-    else _map.setView([(BBOX.latMin+BBOX.latMax)/2,(BBOX.lngMin+BBOX.lngMax)/2],14);
+    applyZone();
 
     // on-map key
     const kinds=[...new Set(geo.map(v=>v.kind))].sort();
@@ -368,6 +370,32 @@ function renderMap(){
     };
     key.addTo(_map);
   },40);
+}
+
+function hoodStyle(f){
+  const active=(_zone==='all')||f.properties.name===_zone;
+  return {color:active?'#d8ab4e':'#4a4234', weight:active?1.6:0.7,
+    fill:true, fillColor:'#d8ab4e', fillOpacity:(_zone!=='all'&&active)?0.08:0.02,
+    dashArray:active?null:'2 4'};
+}
+function drawHoods(){
+  if(!_hoods||!_map) return;
+  _hoodLayer=L.geoJSON(_hoods,{style:hoodStyle,interactive:false}).addTo(_map);
+  _hoodLayer.bringToBack();
+}
+function applyZone(){
+  if(!_map) return;
+  if(_hoodLayer) _hoodLayer.setStyle(hoodStyle);
+  const b=L.latLngBounds([]);
+  if(_hoodLayer) _hoodLayer.eachLayer(l=>{
+    if(_zone==='all'||l.feature.properties.name===_zone) b.extend(l.getBounds());
+  });
+  if(b.isValid()) _map.fitBounds(b,{padding:[30,30]});
+  else _map.setView([39.953,-75.163],13);
+}
+function setZone(z){
+  _zone=z; renderSubbar();
+  applyZone();
 }
 
 function openModal(id){
@@ -393,7 +421,15 @@ function openModal(id){
   document.getElementById('overlay').classList.add('show');
 }
 function closeModal(){document.getElementById('overlay').classList.remove('show');}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(mode==='map'&&_hoods&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){
+    const list=['all',..._hoods.features.map(f=>f.properties.name)];
+    let i=list.indexOf(_zone);
+    i=(i+(e.key==='ArrowRight'?1:-1)+list.length)%list.length;
+    setZone(list[i]);
+  }
+});
 
 fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
   DB=d;
@@ -406,6 +442,10 @@ fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
      <span><b>${m.scrapers_built}</b>/${m.sources} scrapers</span>`;
   render();
 }).catch(e=>{document.getElementById('main').innerHTML='<div class="empty">Could not load data.json — '+e.message+'</div>';});
+
+fetch('./philly_hoods.geojson?v='+Date.now()).then(r=>r.json()).then(h=>{
+  _hoods=h; if(mode==='map')render();
+}).catch(()=>{});
 </script>
 </body>
 </html>
