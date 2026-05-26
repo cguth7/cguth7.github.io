@@ -1,0 +1,312 @@
+---
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Philadelphia · City Library</title>
+<style>
+  :root{
+    --bg:#12100e; --panel:#1b1813; --panel2:#211d16; --border:#2e2a22;
+    --text:#e8e2d6; --muted:#9a9080; --faint:#6b6357;
+    --brass:#d8ab4e; --brass-dim:#9c7c38; --green:#86b06a; --red:#d27a55; --blue:#6fa8c8;
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --mono:ui-monospace,'SF Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+  /* header */
+  header{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:linear-gradient(180deg,#1a1611,#141109)}
+  .brand{display:flex;align-items:baseline;gap:12px}
+  .brand h1{font-family:var(--serif);font-weight:600;font-size:1.4rem;letter-spacing:.3px;color:#f3ecdd}
+  .brand .sub{font-family:var(--mono);font-size:.7rem;color:var(--brass);text-transform:uppercase;letter-spacing:2px}
+  .stats{display:flex;gap:18px;font-size:.8rem;color:var(--muted)}
+  .stats b{color:var(--text);font-weight:600}
+  .stats .flyer b{color:var(--brass)}
+  .modes{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .modes button{background:transparent;border:none;color:var(--muted);padding:7px 16px;font-family:var(--sans);font-size:.82rem;cursor:pointer;transition:.15s}
+  .modes button.on{background:var(--brass);color:#1a140a;font-weight:600}
+
+  /* subbar */
+  .subbar{padding:11px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel)}
+  .axis-label{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--faint);margin-right:2px}
+  .pill{background:var(--panel2);border:1px solid var(--border);color:var(--muted);padding:5px 13px;border-radius:18px;font-size:.8rem;cursor:pointer;transition:.15s}
+  .pill:hover{border-color:var(--brass-dim);color:var(--text)}
+  .pill.on{background:rgba(216,171,78,.14);border-color:var(--brass);color:var(--brass)}
+  .search{margin-left:auto;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:.85rem;width:230px;font-family:var(--sans)}
+  .search::placeholder{color:var(--faint)}
+
+  /* breadcrumb */
+  .crumbs{padding:10px 22px 0;display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+  .crumbs a{color:var(--brass);cursor:pointer;text-decoration:none}
+  .crumbs a:hover{text-decoration:underline}
+  .crumbs .sep{color:var(--faint)}
+
+  /* content */
+  main{flex:1;overflow-y:auto;padding:18px 22px 60px}
+
+  /* shelves */
+  .shelves{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .shelf{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--brass-dim);border-radius:8px;padding:15px 16px;cursor:pointer;transition:.14s;position:relative}
+  .shelf:hover{border-color:var(--brass);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .shelf .call{font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:1px;text-transform:uppercase}
+  .shelf .name{font-family:var(--serif);font-size:1.08rem;color:#f1ead9;margin:6px 0 10px;line-height:1.25}
+  .shelf .foot{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted)}
+  .shelf .cnt{font-family:var(--mono);color:var(--brass)}
+
+  /* event list */
+  .evlist{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .ev{display:grid;grid-template-columns:96px 1fr 200px 86px;gap:12px;align-items:center;padding:11px 15px;border-bottom:1px solid var(--border);cursor:pointer;transition:.1s}
+  .ev:last-child{border-bottom:none}
+  .ev:hover{background:var(--panel)}
+  .ev .when{font-family:var(--mono);font-size:.74rem;color:var(--muted);line-height:1.4}
+  .ev .when .t{color:var(--faint)}
+  .ev .title{font-size:.92rem;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ev .venue{font-size:.8rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .badge{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:4px;border:1px solid}
+  .b-flyer{color:var(--brass);border-color:var(--brass-dim);background:rgba(216,171,78,.1)}
+  .b-api{color:var(--blue);border-color:#3a5666;background:rgba(111,168,200,.08)}
+  .b-website{color:var(--muted);border-color:var(--border)}
+  .b-manual{color:var(--red);border-color:#5a382c;background:rgba(210,122,85,.08)}
+  .pips{display:flex;gap:3px;justify-content:flex-end;align-items:center}
+  .pip{width:6px;height:15px;border-radius:1px;background:#33302a}
+  .pip.on{background:var(--brass)}
+  .qnum{font-family:var(--mono);font-size:.72rem;color:var(--brass);width:30px;text-align:right}
+
+  /* builder mode */
+  .pipeline{display:flex;flex-direction:column;gap:22px}
+  .pcol h2{font-family:var(--serif);font-size:1.05rem;margin-bottom:3px;display:flex;align-items:center;gap:9px}
+  .pcol .dot{width:9px;height:9px;border-radius:50%}
+  .pcol .hint{font-size:.78rem;color:var(--muted);margin-bottom:11px}
+  .scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:11px}
+  .scard{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 15px}
+  .scard .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .scard .nm{font-family:var(--serif);font-size:1rem;color:#f1ead9}
+  .scard .ec{font-family:var(--mono);font-size:.74rem;color:var(--brass)}
+  .scard .row{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;align-items:center}
+  .scard .kind{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+  .scard a{color:var(--blue);font-size:.76rem;text-decoration:none;margin-top:8px;display:inline-block}
+  .scard a:hover{text-decoration:underline}
+  .tag{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:4px}
+  .t-built{background:rgba(134,176,106,.16);color:var(--green)}
+  .t-planned{background:rgba(216,171,78,.16);color:var(--brass)}
+  .t-broken{background:rgba(210,122,85,.16);color:var(--red)}
+  .t-none{background:#262219;color:var(--muted)}
+  .t-api{background:rgba(111,168,200,.14);color:var(--blue)}
+  .t-noapi{background:#262219;color:var(--faint)}
+
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(8,6,4,.72);display:none;align-items:center;justify-content:center;z-index:50;padding:24px;backdrop-filter:blur(3px)}
+  .overlay.show{display:flex}
+  .modal{background:var(--panel2);border:1px solid var(--border);border-top:3px solid var(--brass);border-radius:10px;max-width:620px;width:100%;max-height:85vh;overflow-y:auto;padding:24px 26px}
+  .modal .x{float:right;color:var(--faint);cursor:pointer;font-size:1.3rem;line-height:1}
+  .modal h2{font-family:var(--serif);font-size:1.4rem;color:#f3ecdd;margin-bottom:6px;line-height:1.25}
+  .modal .m-meta{font-size:.85rem;color:var(--muted);margin-bottom:4px}
+  .modal .m-meta .k{color:var(--faint)}
+  .modal .desc{font-size:.88rem;line-height:1.55;color:#cfc6b5;margin:14px 0;border-top:1px solid var(--border);padding-top:14px}
+  .modal .scores{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .sc{display:grid;grid-template-columns:130px 60px 1fr;gap:10px;align-items:center;font-size:.8rem}
+  .sc .lab{color:var(--muted)}
+  .sc .bar{height:6px;background:#2a2620;border-radius:3px;overflow:hidden}
+  .sc .bar i{display:block;height:100%;background:var(--brass)}
+  .sc .rs{grid-column:1/-1;font-size:.76rem;color:var(--faint);font-style:italic;margin-top:-4px}
+  .modal .golink{display:inline-block;margin-top:16px;color:#1a140a;background:var(--brass);padding:8px 16px;border-radius:7px;text-decoration:none;font-size:.85rem;font-weight:600}
+  .empty{color:var(--muted);text-align:center;padding:50px;font-style:italic}
+  @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><h1>Philadelphia</h1><span class="sub">City Library</span></div>
+  <div class="stats" id="stats"></div>
+  <div class="modes">
+    <button id="m-reader" class="on" onclick="setMode('reader')">Reader</button>
+    <button id="m-builder" onclick="setMode('builder')">Builder</button>
+  </div>
+</header>
+<div class="subbar" id="subbar"></div>
+<div class="crumbs" id="crumbs"></div>
+<main id="main"><div class="empty">Loading the stacks…</div></main>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+
+<script>
+let DB={events:[],venues:[],sources:[],meta:{}};
+let mode='reader', axis='venueType', path=[], query='';
+const srcById={}, venById={};
+
+const AXES={
+  calendar:{label:'Calendar', levels:[{id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
+  venueType:{label:'Venue type', levels:[
+     {id:'kind', of:e=>[{key:e.venue_kind||'other', label:e.venue_kind||'other'}]},
+     {id:'venue', of:e=>[{key:e.venue_id||'_', label:e.venue||'TBD'}]}]},
+  venue:{label:'Venue', levels:[{id:'venue', of:e=>[{key:e.venue_id||'_', label:e.venue||'TBD'}]}]},
+  category:{label:'Category', levels:[{id:'cat', of:e=>cats(e).map(c=>({key:c,label:c}))}]},
+  date:{label:'Date', levels:[{id:'date', of:e=>[{key:e.date||'_undated', label:fmtDate(e.date)}]}]},
+  discovery:{label:'How found', levels:[
+     {id:'via', of:e=>[{key:e.discovered_via, label:e.discovered_via}]},
+     {id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
+};
+
+function cats(e){
+  if(!e.category) return ['Uncategorized'];
+  const parts=e.category.split(',').map(s=>s.trim()).filter(Boolean);
+  return parts.length?[...new Set(parts)]:['Uncategorized'];
+}
+function fmtDate(d){if(!d)return 'Undated';const dt=new Date(d+'T00:00');return dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function setMode(m){mode=m;path=[];query='';
+  document.getElementById('m-reader').classList.toggle('on',m==='reader');
+  document.getElementById('m-builder').classList.toggle('on',m==='builder');
+  render();}
+function setAxis(a){axis=a;path=[];render();}
+function drill(key){path.push(key);render();}
+function crumbTo(i){path=path.slice(0,i);render();}
+
+function render(){
+  renderSubbar();
+  if(mode==='builder'){renderBuilder();return;}
+  renderCrumbs();
+  const ax=AXES[axis];
+  let evs=DB.events.slice();
+  if(query){evs=evs.filter(e=>(e.name||'').toLowerCase().includes(query)||(e.venue||'').toLowerCase().includes(query));}
+  // apply path filters
+  path.forEach((k,i)=>{evs=evs.filter(e=>ax.levels[i].of(e).some(g=>String(g.key)===String(k)));});
+  const lvl=path.length;
+  if(query || lvl>=ax.levels.length){renderEvents(evs);}
+  else{renderShelves(evs, ax.levels[lvl]);}
+}
+
+function renderSubbar(){
+  const sb=document.getElementById('subbar');
+  if(mode==='builder'){
+    sb.innerHTML=`<span class="axis-label">Pipeline</span>
+      <span class="pill" style="cursor:default">ground-truth calendars → API? → scraper</span>
+      <span class="tag t-built" style="margin-left:auto">built</span>
+      <span class="tag t-planned">planned</span><span class="tag t-broken">broken</span><span class="tag t-none">none</span>`;
+    return;
+  }
+  let h=`<span class="axis-label">Shelve by</span>`;
+  for(const [k,v] of Object.entries(AXES))
+    h+=`<span class="pill ${k===axis?'on':''}" onclick="setAxis('${k}')">${v.label}</span>`;
+  h+=`<input class="search" id="q" placeholder="search events…" value="${esc(query)}" oninput="query=this.value.toLowerCase();render()">`;
+  sb.innerHTML=h;
+  const q=document.getElementById('q'); if(q&&query){q.focus();q.setSelectionRange(q.value.length,q.value.length);}
+}
+
+function renderCrumbs(){
+  const c=document.getElementById('crumbs'), ax=AXES[axis];
+  let h=`<a onclick="crumbTo(0)">${ax.label}</a>`;
+  path.forEach((k,i)=>{
+    const lbl=lastLabels[i]||k;
+    h+=`<span class="sep">›</span>`+(i<path.length-1?`<a onclick="crumbTo(${i+1})">${esc(lbl)}</a>`:`<span>${esc(lbl)}</span>`);
+  });
+  c.innerHTML=path.length?h:'';
+}
+
+let lastLabels=[];
+function renderShelves(evs, level){
+  const groups={};
+  evs.forEach(e=>level.of(e).forEach(g=>{
+    (groups[g.key]=groups[g.key]||{label:g.label,items:[],q:[]}).items.push(e);
+    if(e.quality!=null)groups[g.key].q.push(e.quality);
+  }));
+  const arr=Object.entries(groups).sort((a,b)=>b[1].items.length-a[1].items.length);
+  const m=document.getElementById('main');
+  if(!arr.length){m.innerHTML='<div class="empty">Nothing on this shelf.</div>';return;}
+  lastLabels=lastLabels.slice(0,path.length);
+  m.innerHTML='<div class="shelves">'+arr.map(([k,g])=>{
+    const avg=g.q.length?(g.q.reduce((a,b)=>a+b,0)/g.q.length).toFixed(1):'—';
+    return `<div class="shelf" onclick='shelfClick(${JSON.stringify(k)},${JSON.stringify(g.label)})'>
+      <div class="call">${esc(level.id)}</div>
+      <div class="name">${esc(g.label)}</div>
+      <div class="foot"><span>avg quality ${avg}</span><span class="cnt">${g.items.length} ▸</span></div>
+    </div>`;}).join('')+'</div>';
+}
+function shelfClick(k,label){lastLabels[path.length]=label;drill(k);}
+
+function renderEvents(evs){
+  evs.sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||((b.quality||0)-(a.quality||0)));
+  const m=document.getElementById('main');
+  if(!evs.length){m.innerHTML='<div class="empty">No events here.</div>';return;}
+  m.innerHTML='<div class="evlist">'+evs.map(e=>{
+    const q=e.quality!=null?Math.round(e.quality):0;
+    let pips='';for(let i=1;i<=10;i++)pips+=`<span class="pip ${i<=q?'on':''}"></span>`;
+    const via=e.discovered_via;
+    return `<div class="ev" onclick="openModal(${e.id})">
+      <div class="when">${fmtDate(e.date)}${e.time?`<br><span class="t">${e.time}</span>`:''}</div>
+      <div class="title">${esc(e.name)} ${via==='flyer'?'<span class="badge b-flyer">flyer</span>':''}</div>
+      <div class="venue">${esc(e.venue||'—')}</div>
+      <div class="pips">${pips}<span class="qnum">${e.quality!=null?e.quality:''}</span></div>
+    </div>`;}).join('')+'</div>';
+}
+
+function renderBuilder(){
+  document.getElementById('crumbs').innerHTML='';
+  const order=[['built','#86b06a','Scraper built — flowing into the library'],
+               ['planned','#d8ab4e','Has an API; scraper not built yet — next targets'],
+               ['broken','#d27a55','Was working, now broken — needs a fix'],
+               ['none','#9a9080','Website-only or manual — hardest, most alpha']];
+  const by={};DB.sources.forEach(s=>(by[s.scraper_status]=by[s.scraper_status]||[]).push(s));
+  const m=document.getElementById('main');
+  m.innerHTML='<div class="pipeline">'+order.filter(([k])=>by[k]).map(([k,col,hint])=>`
+    <div class="pcol"><h2><span class="dot" style="background:${col}"></span>${k}
+      <span class="ec" style="color:${col};font-family:var(--mono);font-size:.8rem">(${by[k].length})</span></h2>
+    <div class="hint">${hint}</div>
+    <div class="scards">${by[k].sort((a,b)=>b.event_count-a.event_count).map(s=>`
+      <div class="scard"><div class="top"><span class="nm">${esc(s.name)}</span><span class="ec">${s.event_count} ev</span></div>
+        <div class="row"><span class="kind">${esc(s.kind)}</span>
+          <span class="tag ${s.has_api?'t-api':'t-noapi'}">${s.has_api?'API':'no api'}</span>
+          <span class="tag t-${s.scraper_status}">${s.scraper_status}</span></div>
+        ${s.scraper_ref?`<div class="kind" style="margin-top:7px;color:var(--faint)">${esc(s.scraper_ref)}</div>`:''}
+        ${s.website?`<a href="${esc(s.website)}" target="_blank" rel="noopener">${esc(s.website.replace(/^https?:\/\//,''))} ↗</a>`:''}
+      </div>`).join('')}</div></div>`).join('')+'</div>';
+}
+
+function openModal(id){
+  const e=DB.events.find(x=>x.id===id);if(!e)return;
+  const src=srcById[e.source_id]||{};
+  const DIM={social_quality:'Social quality',serendipity:'Serendipity',uniqueness:'Uniqueness',community_building:'Community'};
+  let scoreH='';
+  if(e.scores){scoreH='<div class="scores">'+Object.entries(DIM).map(([k,lab])=>{
+    const d=e.scores[k];if(!d)return '';
+    return `<div class="sc"><span class="lab">${lab}</span><span style="font-family:var(--mono);color:var(--brass)">${d.score}/10</span>
+      <span class="bar"><i style="width:${d.score*10}%"></i></span>
+      ${d.reason?`<span class="rs">${esc(d.reason)}</span>`:''}</div>`;}).join('')+'</div>';}
+  document.getElementById('modal').innerHTML=`
+    <span class="x" onclick="closeModal()">✕</span>
+    <h2>${esc(e.name)}</h2>
+    <div class="m-meta"><span class="k">when</span> ${fmtDate(e.date)}${e.time?' · '+e.time:''}</div>
+    <div class="m-meta"><span class="k">where</span> ${esc(e.venue||'TBD')}${e.venue_kind?` <span style="color:var(--faint)">(${e.venue_kind})</span>`:''}</div>
+    <div class="m-meta"><span class="k">calendar</span> ${esc(src.name||'?')} <span class="tag t-${src.scraper_status||'none'}" style="margin-left:4px">${src.scraper_status||'?'}</span></div>
+    <div class="m-meta"><span class="k">found via</span> <span class="badge b-${e.discovered_via}">${e.discovered_via}</span> ${e.cost?'· '+esc(e.cost):''} ${e.category?'· '+esc(e.category):''}</div>
+    ${e.description?`<div class="desc">${esc(e.description)}</div>`:''}
+    ${scoreH}
+    ${e.url?`<a class="golink" href="${esc(e.url)}" target="_blank" rel="noopener">Open source page ↗</a>`:''}`;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('show');}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
+  DB=d;
+  d.sources.forEach(s=>srcById[s.id]=s);
+  d.venues.forEach(v=>venById[v.id]=v);
+  const m=d.meta;
+  document.getElementById('stats').innerHTML=
+    `<span><b>${m.events}</b> events</span><span><b>${m.venues}</b> venues</span>
+     <span><b>${m.sources}</b> calendars</span><span class="flyer"><b>${m.flyers}</b> from flyers</span>
+     <span><b>${m.scrapers_built}</b>/${m.sources} scrapers</span>`;
+  render();
+}).catch(e=>{document.getElementById('main').innerHTML='<div class="empty">Could not load data.json — '+e.message+'</div>';});
+</script>
+</body>
+</html>
