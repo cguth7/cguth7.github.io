@@ -128,6 +128,10 @@ layout: null
   .leaflet-popup-content{margin:12px 14px;min-width:210px;max-width:280px}
   .popup-title{font-family:var(--serif);font-weight:600;font-size:1.02rem;color:#f1ead9;margin-bottom:4px;line-height:1.25}
   .popup-meta{font-family:var(--mono);font-size:.68rem;color:var(--brass);margin-bottom:8px;letter-spacing:.3px}
+  .popup-feeds{margin-top:8px;border-top:1px solid #2a2620;padding-top:6px}
+  .popup-feeds-h{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:#7a7264;margin-bottom:4px}
+  .popup-feed{font-size:.76rem;margin:3px 0;color:#a89e8e;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .popup-feed .tag{font-size:.52rem;padding:1px 5px}
   .lg{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)}
   .lg i{width:9px;height:9px;border-radius:50%;display:inline-block}
   .maplegend{background:rgba(20,17,13,.92);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,.4);line-height:1.5}
@@ -160,6 +164,17 @@ layout: null
   .hp-name{color:var(--text);font-size:.9rem;margin:3px 0 2px;line-height:1.3}
   .hp-venue{color:var(--faint);font-size:.78rem}
   .hp-empty{padding:26px 17px;color:var(--muted);font-style:italic;font-size:.85rem}
+  .hp-bqhead{padding:13px 17px 7px;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
+    text-transform:uppercase;color:#cc7a5a;border-top:1px solid #211e18;margin-top:6px}
+  .hp-bq{padding:7px 17px;font-size:.83rem;color:var(--faint);border-bottom:1px solid #1c1914}
+  .hp-bqtop{display:flex;align-items:center;gap:8px}
+  .hp-bqdot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;opacity:.85}
+  .hp-bqn{color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hp-bqk{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+  .hp-bqfeed{margin:3px 0 0 16px;font-size:.74rem;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .hp-bqfeed a{color:#9bc6ff;text-decoration:none}
+  .hp-bqfeed .tag{font-size:.52rem;padding:1px 5px}
+  .hp-bqnosrc{font-style:italic;color:#6f6757}
 
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
@@ -205,6 +220,7 @@ const MASK_OUTER=[[39.80,-75.35],[39.80,-74.90],[40.20,-74.90],[40.20,-75.35]];
 const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
   cafe:'#86b06a',warehouse:'#d2557a',museum:'#c77d4a',library:'#79b8e0',park:'#8fbf6a',
   market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',other:'#9a9080'};
+const KIND_DOT=k=>`<i class="hp-bqdot" style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>`;
 
 function cats(e){
   if(!e.category) return ['Uncategorized'];
@@ -250,7 +266,7 @@ function renderSubbar(){
     return;
   }
   if(mode==='map'){
-    const geo=DB.venues.filter(v=>v.lat!=null);
+    const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected');
     const hoods=_hoods?_hoods.features.map(f=>f.properties.name):[];
     const pill=(z,label)=>`<span class="pill zonepill ${z===_zone?'on':''}" onclick="setZone('${z}')">${esc(label)}</span>`;
     sb.innerHTML=`<span class="axis-label">Hood</span>`
@@ -358,7 +374,7 @@ function renderMap(){
   document.getElementById('main').innerHTML='<div id="map"></div><div id="hoodpanel"></div>';
   const evByV={};
   DB.events.forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
-  const geo=DB.venues.filter(v=>v.lat!=null);
+  const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected');
   setTimeout(()=>{
     if(_map){_map.remove();_map=null;}
     _markers=[]; _maskLayer=null; _hoodLayer=null;
@@ -376,9 +392,16 @@ function renderMap(){
       const more=evs.length>6?`<div style="color:#7a7264;font-size:.74rem;margin-top:3px">+${evs.length-6} more</div>`:'';
       const hosts=v.hosts_events&&v.hosts_events!=='unknown'?` · hosts: ${v.hosts_events}`:'';
       const tag=cand?` · <span style="color:#d8ab4e">candidate</span> (${esc(v.verified_by||'?')})`:'';
+      const pipe=v.pipeline==='none'?` · <span style="color:#cc7a5a">⚠ no pipeline</span>`
+                 :v.pipeline&&v.pipeline!=='built'?` · <span style="color:#cc7a5a">pipeline: ${v.pipeline}</span>`:'';
       const best=maxQ!=null?` · top ${maxQ}`:'';
+      const feedRows=(v.feeds||[]).map(f=>{
+        const nm=f.url?`<a href="${f.url}" target="_blank" rel="noopener" style="color:#9bc6ff;text-decoration:none">${esc(f.name)}</a>`:esc(f.name);
+        return `<div class="popup-feed"><span class="tag t-${f.scraper_status}">${f.scraper_status}</span> ${f.primary?'★ ':''}${nm} <span style="color:#6f6757">· ${esc(f.usefulness)}</span></div>`;
+      }).join('');
+      const feedsBlock=feedRows?`<div class="popup-feeds"><div class="popup-feeds-h">events posted at</div>${feedRows}</div>`:'';
       const mk=L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,maxQ,cand)})
-        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${best}${hosts}${tag}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events yet</div>'}${more}`);
+        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${best}${hosts}${pipe}${tag}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events yet</div>'}${more}${feedsBlock}`);
       _markers.push({marker:mk,lat:v.lat,lng:v.lng});
     });
     applyZone();
@@ -390,7 +413,7 @@ function renderMap(){
       const el=L.DomUtil.create('div','maplegend');
       el.innerHTML='<div class="lgt">Venue type</div>'
         + kinds.map(k=>`<div class="lgr"><i style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>${k.replace('_',' ')}</div>`).join('')
-        + '<div class="lgnote">larger = more events<br>brighter = higher-rated<br>◌ dashed = candidate</div>';
+        + '<div class="lgnote">larger = more events<br>brighter = higher-rated<br>◌ dashed = candidate<br>⚠ in popup = no pipeline</div>';
       L.DomEvent.disableClickPropagation(el);
       return el;
     };
@@ -486,10 +509,21 @@ function renderHoodPanel(){
       <div class="hp-venue">${esc(e.venue||'')}${e.discovered_via==='flyer'?' <span class="badge b-flyer">flyer</span>':''}</div>
     </div>`).join('')
     :'<div class="hp-empty">No dated events mapped in this neighborhood yet.</div>';
+  // Venues we know here but have no pipeline feeding events yet — the build queue.
+  const noPipe=DB.venues.filter(v=>inHood.has(v.id)&&v.pipeline==='none'&&v.status!=='rejected')
+    .sort((a,b)=>a.name.localeCompare(b.name));
+  const buildQueue=noPipe.length?`<div class="hp-bqhead">${noPipe.length} venue${noPipe.length!==1?'s':''} · no pipeline yet</div>`
+    +noPipe.map(v=>{
+      const pf=(v.feeds||[]).find(f=>f.primary)||(v.feeds||[])[0];
+      const feed=pf
+        ?`<div class="hp-bqfeed">${pf.url?`<a href="${pf.url}" target="_blank" rel="noopener">${esc(pf.name)}</a>`:esc(pf.name)} <span class="tag t-${pf.scraper_status}">${pf.scraper_status}</span></div>`
+        :`<div class="hp-bqfeed hp-bqnosrc">no source found yet</div>`;
+      return `<div class="hp-bq"><div class="hp-bqtop">${KIND_DOT(v.kind)}<span class="hp-bqn">${esc(v.name)}</span><span class="hp-bqk">${esc(v.kind)}</span></div>${feed}</div>`;
+    }).join(''):'';
   el.innerHTML=`<div class="hp-head"><div class="hp-title">${esc(_zone.replace(' - Lower Kensington',''))}</div>
     <div class="hp-sub">${evs.length} event${evs.length!==1?'s':''} · chronological</div>
     <span class="hp-x" onclick="setZone('all')" title="back to full map">✕</span></div>
-    <div class="hp-list">${rows}</div>`;
+    <div class="hp-list">${rows}${buildQueue}</div>`;
   el.classList.add('show');
 }
 function setZone(z){ _zone=z; renderSubbar(); applyZone(); }
