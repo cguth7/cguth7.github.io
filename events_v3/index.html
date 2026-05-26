@@ -7,6 +7,8 @@ layout: null
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Philadelphia · City Library</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#12100e; --panel:#1b1813; --panel2:#211d16; --border:#2e2a22;
@@ -117,6 +119,18 @@ layout: null
   .sc .rs{grid-column:1/-1;font-size:.76rem;color:var(--faint);font-style:italic;margin-top:-4px}
   .modal .golink{display:inline-block;margin-top:16px;color:#1a140a;background:var(--brass);padding:8px 16px;border-radius:7px;text-decoration:none;font-size:.85rem;font-weight:600}
   .empty{color:var(--muted);text-align:center;padding:50px;font-style:italic}
+
+  /* map */
+  #map{width:100%;height:100%}
+  .leaflet-container{background:#0e0c09;font-family:var(--sans)}
+  .leaflet-popup-content-wrapper{background:#1b1813;color:#e8e2d6;border:1px solid #2e2a22;border-radius:9px}
+  .leaflet-popup-tip{background:#1b1813;border:1px solid #2e2a22}
+  .leaflet-popup-content{margin:12px 14px;min-width:210px;max-width:280px}
+  .popup-title{font-family:var(--serif);font-weight:600;font-size:1.02rem;color:#f1ead9;margin-bottom:4px;line-height:1.25}
+  .popup-meta{font-family:var(--mono);font-size:.68rem;color:var(--brass);margin-bottom:8px;letter-spacing:.3px}
+  .lg{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)}
+  .lg i{width:9px;height:9px;border-radius:50%;display:inline-block}
+
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
 </head>
@@ -127,6 +141,7 @@ layout: null
   <div class="modes">
     <button id="m-reader" class="on" onclick="setMode('reader')">Reader</button>
     <button id="m-builder" onclick="setMode('builder')">Builder</button>
+    <button id="m-map" onclick="setMode('map')">Map</button>
   </div>
 </header>
 <div class="subbar" id="subbar"></div>
@@ -155,6 +170,12 @@ const AXES={
      {id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
 };
 
+let _map=null;
+const BBOX={latMin:39.943,latMax:39.962,lngMin:-75.180,lngMax:-75.140};
+const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
+  cafe:'#86b06a',warehouse:'#d2557a',museum:'#c8a04a',library:'#aaccff',park:'#7fae6a',
+  market:'#e0b84e',garden:'#8fbf7a',other:'#9a9080'};
+
 function cats(e){
   if(!e.category) return ['Uncategorized'];
   const parts=e.category.split(',').map(s=>s.trim()).filter(Boolean);
@@ -166,13 +187,17 @@ function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>'
 function setMode(m){mode=m;path=[];query='';
   document.getElementById('m-reader').classList.toggle('on',m==='reader');
   document.getElementById('m-builder').classList.toggle('on',m==='builder');
+  document.getElementById('m-map').classList.toggle('on',m==='map');
   render();}
 function setAxis(a){axis=a;path=[];render();}
 function drill(key){path.push(key);render();}
 function crumbTo(i){path=path.slice(0,i);render();}
 
 function render(){
+  if(mode!=='map' && _map){_map.remove();_map=null;}
+  document.getElementById('main').style.padding = mode==='map'?'0':'';
   renderSubbar();
+  if(mode==='map'){renderMap();return;}
   if(mode==='builder'){renderBuilder();return;}
   renderCrumbs();
   const ax=AXES[axis];
@@ -192,6 +217,14 @@ function renderSubbar(){
       <span class="pill" style="cursor:default">ground-truth calendars → API? → scraper</span>
       <span class="tag t-built" style="margin-left:auto">built</span>
       <span class="tag t-planned">planned</span><span class="tag t-broken">broken</span><span class="tag t-none">none</span>`;
+    return;
+  }
+  if(mode==='map'){
+    const geo=DB.venues.filter(v=>v.lat!=null);
+    const kinds=[...new Set(geo.map(v=>v.kind))].sort();
+    sb.innerHTML=`<span class="axis-label">Venues</span>`
+      + kinds.map(k=>`<span class="lg"><i style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>${k}</span>`).join('')
+      + `<span style="margin-left:auto;color:var(--faint);font-size:.76rem">${geo.length}/${DB.venues.length} geocoded · dashed box = Center City</span>`;
     return;
   }
   let h=`<span class="axis-label">Shelve by</span>`;
@@ -269,6 +302,42 @@ function renderBuilder(){
         ${s.scraper_ref?`<div class="kind" style="margin-top:7px;color:var(--faint)">${esc(s.scraper_ref)}</div>`:''}
         ${s.website?`<a href="${esc(s.website)}" target="_blank" rel="noopener">${esc(s.website.replace(/^https?:\/\//,''))} ↗</a>`:''}
       </div>`).join('')}</div></div>`).join('')+'</div>';
+}
+
+function venuePin(kind){
+  const c=KIND_COLORS[kind]||KIND_COLORS.other;
+  return L.divIcon({className:'vpin',iconSize:[16,16],iconAnchor:[8,8],
+    html:`<div style="background:${c};width:16px;height:16px;border-radius:50%;border:2px solid #0e0c09;box-shadow:0 0 0 1.5px ${c},0 2px 5px rgba(0,0,0,.5)"></div>`});
+}
+function closePopThenModal(id){if(_map)_map.closePopup();openModal(id);}
+
+function renderMap(){
+  document.getElementById('crumbs').innerHTML='';
+  document.getElementById('main').innerHTML='<div id="map"></div>';
+  const evByV={};
+  DB.events.forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
+  const geo=DB.venues.filter(v=>v.lat!=null);
+  setTimeout(()=>{
+    if(_map){_map.remove();_map=null;}
+    _map=L.map('map',{zoomControl:true,scrollWheelZoom:true});
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      {subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(_map);
+    L.rectangle([[BBOX.latMin,BBOX.lngMin],[BBOX.latMax,BBOX.lngMax]],
+      {color:'#9c7c38',weight:1,fill:false,dashArray:'4 4'}).addTo(_map);
+    const pts=[];
+    geo.forEach(v=>{
+      const evs=(evByV[v.id]||[]).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
+      const list=evs.slice(0,6).map(e=>
+        `<a onclick="closePopThenModal(${e.id})" style="display:block;color:#7ab8ff;cursor:pointer;font-size:.8rem;margin:3px 0;text-decoration:none">${esc(e.name)} <span style="color:#7a7264">${e.date?fmtDate(e.date):''}</span></a>`).join('');
+      const more=evs.length>6?`<div style="color:#7a7264;font-size:.74rem;margin-top:3px">+${evs.length-6} more</div>`:'';
+      const hosts=v.hosts_events&&v.hosts_events!=='unknown'?` · hosts: ${v.hosts_events}`:'';
+      L.marker([v.lat,v.lng],{icon:venuePin(v.kind)}).addTo(_map)
+        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${hosts}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events</div>'}${more}`);
+      pts.push([v.lat,v.lng]);
+    });
+    if(pts.length)_map.fitBounds(pts,{padding:[45,45]});
+    else _map.setView([(BBOX.latMin+BBOX.latMax)/2,(BBOX.lngMin+BBOX.lngMax)/2],14);
+  },40);
 }
 
 function openModal(id){
