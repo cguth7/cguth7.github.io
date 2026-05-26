@@ -139,6 +139,10 @@ layout: null
   .zonestrip::-webkit-scrollbar{height:5px}
   .zonestrip::-webkit-scrollbar-thumb{background:#33302a;border-radius:3px}
   .zonepill{white-space:nowrap}
+  .chev{cursor:pointer;font-weight:700;padding:5px 11px}
+  .leaflet-tooltip.hoodtip{background:#1b1813;border:1px solid var(--brass-dim);color:var(--brass);font-family:var(--mono);font-size:.7rem;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .leaflet-tooltip.hoodtip::before{border-top-color:var(--brass-dim)}
+  .leaflet-interactive{cursor:pointer}
 
   @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
 </style>
@@ -179,7 +183,8 @@ const AXES={
      {id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
 };
 
-let _map=null, _hoods=null, _hoodLayer=null, _zone='all';
+let _map=null, _hoods=null, _hoodLayer=null, _maskLayer=null, _markers=[], _zone='all';
+const MASK_OUTER=[[39.80,-75.35],[39.80,-74.90],[40.20,-74.90],[40.20,-75.35]];
 const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
   cafe:'#86b06a',warehouse:'#d2557a',museum:'#c77d4a',library:'#79b8e0',park:'#8fbf6a',
   market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',other:'#9a9080'};
@@ -231,10 +236,14 @@ function renderSubbar(){
     const geo=DB.venues.filter(v=>v.lat!=null);
     const hoods=_hoods?_hoods.features.map(f=>f.properties.name):[];
     const pill=(z,label)=>`<span class="pill zonepill ${z===_zone?'on':''}" onclick="setZone('${z}')">${esc(label)}</span>`;
-    sb.innerHTML=`<span class="axis-label">Hood</span><div class="zonestrip">`
-      + pill('all','All · middle Philly')
+    sb.innerHTML=`<span class="axis-label">Hood</span>`
+      + `<span class="pill chev" onclick="cycleHood(-1)" title="prev (←)">‹</span>`
+      + `<div class="zonestrip">`
+      + pill('all','◹ All · middle Philly')
       + hoods.map(h=>pill(h, h.replace(' - Lower Kensington',''))).join('')
-      + `</div><span style="color:var(--faint);font-size:.74rem;white-space:nowrap;padding-left:8px">${geo.length}/${DB.venues.length} geocoded</span>`;
+      + `</div>`
+      + `<span class="pill chev" onclick="cycleHood(1)" title="next (→)">›</span>`
+      + `<span style="color:var(--faint);font-size:.74rem;white-space:nowrap;padding-left:8px">${geo.length}/${DB.venues.length} geo</span>`;
     return;
   }
   let h=`<span class="axis-label">Shelve by</span>`;
@@ -335,11 +344,11 @@ function renderMap(){
   const geo=DB.venues.filter(v=>v.lat!=null);
   setTimeout(()=>{
     if(_map){_map.remove();_map=null;}
+    _markers=[]; _maskLayer=null; _hoodLayer=null;
     _map=L.map('map',{zoomControl:true,scrollWheelZoom:true});
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
       {subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(_map);
     drawHoods();
-    const pts=[];
     geo.forEach(v=>{
       const evs=(evByV[v.id]||[]).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
       const qs=evs.map(e=>e.quality).filter(q=>q!=null);
@@ -351,9 +360,9 @@ function renderMap(){
       const hosts=v.hosts_events&&v.hosts_events!=='unknown'?` · hosts: ${v.hosts_events}`:'';
       const tag=cand?` · <span style="color:#d8ab4e">candidate</span> (${esc(v.verified_by||'?')})`:'';
       const best=maxQ!=null?` · top ${maxQ}`:'';
-      L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,maxQ,cand)}).addTo(_map)
+      const mk=L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,maxQ,cand)})
         .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} event${evs.length!==1?'s':''}${best}${hosts}${tag}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no listed events yet</div>'}${more}`);
-      pts.push([v.lat,v.lng]);
+      _markers.push({marker:mk,lat:v.lat,lng:v.lng});
     });
     applyZone();
 
@@ -380,22 +389,77 @@ function hoodStyle(f){
 }
 function drawHoods(){
   if(!_hoods||!_map) return;
-  _hoodLayer=L.geoJSON(_hoods,{style:hoodStyle,interactive:false}).addTo(_map);
+  _hoodLayer=L.geoJSON(_hoods,{
+    style:hoodStyle,
+    onEachFeature:(f,layer)=>{
+      layer.on('click',()=>setZone(f.properties.name));   // click a hood → focus it
+      layer.on('mouseover',function(){ if(_zone==='all') this.setStyle({weight:2,color:'#e7c266',fillOpacity:.06}); });
+      layer.on('mouseout',()=>_hoodLayer.setStyle(hoodStyle));
+      layer.bindTooltip(f.properties.name,{sticky:true,direction:'top',className:'hoodtip',opacity:1});
+    }
+  }).addTo(_map);
   _hoodLayer.bringToBack();
 }
+
+// ray-cast point-in-polygon on GeoJSON [lng,lat] rings
+function pointInRing(lat,lng,ring){
+  let inside=false;
+  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+    if(((yi>lat)!=(yj>lat))&&(lng<(xj-xi)*(lat-yi)/(yj-yi)+xi)) inside=!inside;
+  }
+  return inside;
+}
+function pointInHood(lat,lng,f){
+  const g=f.geometry;
+  if(g.type==='Polygon') return pointInRing(lat,lng,g.coordinates[0]);
+  if(g.type==='MultiPolygon') return g.coordinates.some(p=>pointInRing(lat,lng,p[0]));
+  return false;
+}
+function hoodHoles(f){
+  const g=f.geometry;
+  if(g.type==='Polygon') return [g.coordinates[0]];
+  if(g.type==='MultiPolygon') return g.coordinates.map(p=>p[0]);
+  return [];
+}
+const flipRing=r=>r.map(c=>[c[1],c[0]]);
+
 function applyZone(){
   if(!_map) return;
   if(_hoodLayer) _hoodLayer.setStyle(hoodStyle);
+  const focused=_zone!=='all';
+  const feat=focused&&_hoods?_hoods.features.find(f=>f.properties.name===_zone):null;
+
+  // mask everything outside the focused hood
+  if(_maskLayer){_map.removeLayer(_maskLayer);_maskLayer=null;}
+  if(feat){
+    const holes=hoodHoles(feat).map(flipRing);
+    _maskLayer=L.polygon([MASK_OUTER,...holes],
+      {stroke:false,fillColor:'#0a0807',fillOpacity:.84,interactive:false}).addTo(_map);
+  }
+
+  // show all pins in overview; only the hood's pins in focus
+  _markers.forEach(({marker,lat,lng})=>{
+    const show=!feat||pointInHood(lat,lng,feat);
+    if(show){ if(!_map.hasLayer(marker)) marker.addTo(_map); }
+    else if(_map.hasLayer(marker)) _map.removeLayer(marker);
+  });
+
   const b=L.latLngBounds([]);
   if(_hoodLayer) _hoodLayer.eachLayer(l=>{
-    if(_zone==='all'||l.feature.properties.name===_zone) b.extend(l.getBounds());
+    if(!focused||l.feature.properties.name===_zone) b.extend(l.getBounds());
   });
-  if(b.isValid()) _map.fitBounds(b,{padding:[30,30]});
+  if(b.isValid()) _map.fitBounds(b,{padding:focused?[24,24]:[30,30]});
   else _map.setView([39.953,-75.163],13);
 }
-function setZone(z){
-  _zone=z; renderSubbar();
-  applyZone();
+function setZone(z){ _zone=z; renderSubbar(); applyZone(); }
+function cycleHood(dir){
+  if(!_hoods) return;
+  const hoods=_hoods.features.map(f=>f.properties.name);
+  if(_zone==='all'){ setZone(hoods[dir>0?0:hoods.length-1]); return; }
+  let i=hoods.indexOf(_zone);
+  i=(i+dir+hoods.length)%hoods.length;
+  setZone(hoods[i]);
 }
 
 function openModal(id){
@@ -424,10 +488,7 @@ function closeModal(){document.getElementById('overlay').classList.remove('show'
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape')closeModal();
   if(mode==='map'&&_hoods&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){
-    const list=['all',..._hoods.features.map(f=>f.properties.name)];
-    let i=list.indexOf(_zone);
-    i=(i+(e.key==='ArrowRight'?1:-1)+list.length)%list.length;
-    setZone(list[i]);
+    cycleHood(e.key==='ArrowRight'?1:-1);
   }
 });
 
