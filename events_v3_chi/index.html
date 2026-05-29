@@ -1,0 +1,683 @@
+---
+layout: null
+permalink: /events_v3_chi/index.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicago · City Library</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+  :root{
+    --bg:#12100e; --panel:#1b1813; --panel2:#211d16; --border:#2e2a22;
+    --text:#e8e2d6; --muted:#9a9080; --faint:#6b6357;
+    --brass:#d8ab4e; --brass-dim:#9c7c38; --green:#86b06a; --red:#d27a55; --blue:#6fa8c8;
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --mono:ui-monospace,'SF Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);display:flex;flex-direction:column;height:100vh;overflow:hidden}
+
+  /* header */
+  header{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;background:linear-gradient(180deg,#1a1611,#141109)}
+  .brand{display:flex;align-items:baseline;gap:12px}
+  .brand h1{font-family:var(--serif);font-weight:600;font-size:1.4rem;letter-spacing:.3px;color:#f3ecdd}
+  .brand .sub{font-family:var(--mono);font-size:.7rem;color:var(--brass);text-transform:uppercase;letter-spacing:2px}
+  .stats{display:flex;gap:18px;font-size:.8rem;color:var(--muted)}
+  .stats b{color:var(--text);font-weight:600}
+  .stats .flyer b{color:var(--brass)}
+  .modes{display:flex;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .modes button{background:transparent;border:none;color:var(--muted);padding:7px 16px;font-family:var(--sans);font-size:.82rem;cursor:pointer;transition:.15s}
+  .modes button.on{background:var(--brass);color:#1a140a;font-weight:600}
+
+  /* subbar */
+  .subbar{padding:11px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-wrap:wrap;background:var(--panel)}
+  .axis-label{font-family:var(--mono);font-size:.66rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--faint);margin-right:2px}
+  .pill{background:var(--panel2);border:1px solid var(--border);color:var(--muted);padding:5px 13px;border-radius:18px;font-size:.8rem;cursor:pointer;transition:.15s}
+  .pill:hover{border-color:var(--brass-dim);color:var(--text)}
+  .pill.on{background:rgba(216,171,78,.14);border-color:var(--brass);color:var(--brass)}
+  .search{margin-left:auto;background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:7px 12px;border-radius:8px;font-size:.85rem;width:230px;font-family:var(--sans)}
+  .search::placeholder{color:var(--faint)}
+
+  /* breadcrumb */
+  .crumbs{padding:10px 22px 0;display:flex;align-items:center;gap:8px;font-size:.82rem;color:var(--muted);flex-wrap:wrap}
+  .crumbs a{color:var(--brass);cursor:pointer;text-decoration:none}
+  .crumbs a:hover{text-decoration:underline}
+  .crumbs .sep{color:var(--faint)}
+
+  /* content */
+  main{flex:1;overflow-y:auto;padding:18px 22px 60px;position:relative}
+
+  /* shelves */
+  .shelves{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+  .shelf{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--brass-dim);border-radius:8px;padding:15px 16px;cursor:pointer;transition:.14s;position:relative}
+  .shelf:hover{border-color:var(--brass);transform:translateY(-2px);box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .shelf .call{font-family:var(--mono);font-size:.62rem;color:var(--faint);letter-spacing:1px;text-transform:uppercase}
+  .shelf .name{font-family:var(--serif);font-size:1.08rem;color:#f1ead9;margin:6px 0 10px;line-height:1.25}
+  .shelf .foot{display:flex;justify-content:space-between;align-items:center;font-size:.78rem;color:var(--muted)}
+  .shelf .cnt{font-family:var(--mono);color:var(--brass)}
+
+  /* event list */
+  .evlist{display:flex;flex-direction:column;border:1px solid var(--border);border-radius:8px;overflow:hidden}
+  .ev{display:grid;grid-template-columns:96px 1fr 200px 86px;gap:12px;align-items:center;padding:11px 15px;border-bottom:1px solid var(--border);cursor:pointer;transition:.1s}
+  .ev:last-child{border-bottom:none}
+  .ev:hover{background:var(--panel)}
+  .ev .when{font-family:var(--mono);font-size:.74rem;color:var(--muted);line-height:1.4}
+  .ev .when .t{color:var(--faint)}
+  .ev .title{font-size:.92rem;color:var(--text);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .ev .venue{font-size:.8rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .badge{font-family:var(--mono);font-size:.58rem;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:4px;border:1px solid}
+  .b-flyer{color:var(--brass);border-color:var(--brass-dim);background:rgba(216,171,78,.1)}
+  .b-api{color:var(--blue);border-color:#3a5666;background:rgba(111,168,200,.08)}
+  .b-website{color:var(--muted);border-color:var(--border)}
+  .b-manual{color:var(--red);border-color:#5a382c;background:rgba(210,122,85,.08)}
+  .pips{display:flex;gap:3px;justify-content:flex-end;align-items:center}
+  .pip{width:6px;height:15px;border-radius:1px;background:#33302a}
+  .pip.on{background:var(--brass)}
+  .qnum{font-family:var(--mono);font-size:.72rem;color:var(--brass);width:30px;text-align:right}
+
+  /* builder mode */
+  .pipeline{display:flex;flex-direction:column;gap:22px}
+  .pcol h2{font-family:var(--serif);font-size:1.05rem;margin-bottom:3px;display:flex;align-items:center;gap:9px}
+  .pcol .dot{width:9px;height:9px;border-radius:50%}
+  .pcol .hint{font-size:.78rem;color:var(--muted);margin-bottom:11px}
+  .scards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:11px}
+  .scard{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:13px 15px}
+  .scard .top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+  .scard .nm{font-family:var(--serif);font-size:1rem;color:#f1ead9}
+  .scard .ec{font-family:var(--mono);font-size:.74rem;color:var(--brass)}
+  .scard .row{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap;align-items:center}
+  .scard .kind{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+  .scard a{color:var(--blue);font-size:.76rem;text-decoration:none;margin-top:8px;display:inline-block}
+  .scard a:hover{text-decoration:underline}
+  .tag{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;border-radius:4px}
+  .t-built{background:rgba(134,176,106,.16);color:var(--green)}
+  .t-planned{background:rgba(216,171,78,.16);color:var(--brass)}
+  .t-broken{background:rgba(210,122,85,.16);color:var(--red)}
+  .t-none{background:#262219;color:var(--muted)}
+  .t-api{background:rgba(111,168,200,.14);color:var(--blue)}
+  .t-noapi{background:#262219;color:var(--faint)}
+
+  /* modal */
+  .overlay{position:fixed;inset:0;background:rgba(8,6,4,.72);display:none;align-items:center;justify-content:center;z-index:50;padding:24px;backdrop-filter:blur(3px)}
+  .overlay.show{display:flex}
+  .modal{background:var(--panel2);border:1px solid var(--border);border-top:3px solid var(--brass);border-radius:10px;max-width:620px;width:100%;max-height:85vh;overflow-y:auto;padding:24px 26px}
+  .modal .x{float:right;color:var(--faint);cursor:pointer;font-size:1.3rem;line-height:1}
+  .modal h2{font-family:var(--serif);font-size:1.4rem;color:#f3ecdd;margin-bottom:6px;line-height:1.25}
+  .modal .m-meta{font-size:.85rem;color:var(--muted);margin-bottom:4px}
+  .modal .m-meta .k{color:var(--faint)}
+  .modal .desc{font-size:.88rem;line-height:1.55;color:#cfc6b5;margin:14px 0;border-top:1px solid var(--border);padding-top:14px}
+  .modal .scores{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+  .sc{display:grid;grid-template-columns:130px 60px 1fr;gap:10px;align-items:center;font-size:.8rem}
+  .sc .lab{color:var(--muted)}
+  .sc .bar{height:6px;background:#2a2620;border-radius:3px;overflow:hidden}
+  .sc .bar i{display:block;height:100%;background:var(--brass)}
+  .sc .rs{grid-column:1/-1;font-size:.76rem;color:var(--faint);font-style:italic;margin-top:-4px}
+  .modal .golink{display:inline-block;margin-top:16px;color:#1a140a;background:var(--brass);padding:8px 16px;border-radius:7px;text-decoration:none;font-size:.85rem;font-weight:600}
+  .empty{color:var(--muted);text-align:center;padding:50px;font-style:italic}
+
+  /* map */
+  #map{width:100%;height:100%}
+  .leaflet-container{background:#0e0c09;font-family:var(--sans)}
+  .leaflet-popup-content-wrapper{background:#1b1813;color:#e8e2d6;border:1px solid #2e2a22;border-radius:9px}
+  .leaflet-popup-tip{background:#1b1813;border:1px solid #2e2a22}
+  .leaflet-popup-content{margin:12px 14px;min-width:210px;max-width:280px}
+  .popup-title{font-family:var(--serif);font-weight:600;font-size:1.02rem;color:#f1ead9;margin-bottom:4px;line-height:1.25}
+  .popup-meta{font-family:var(--mono);font-size:.68rem;color:var(--brass);margin-bottom:8px;letter-spacing:.3px}
+  .popup-feeds{margin-top:8px;border-top:1px solid #2a2620;padding-top:6px}
+  .popup-feeds-h{font-family:var(--mono);font-size:.6rem;text-transform:uppercase;letter-spacing:.06em;color:#7a7264;margin-bottom:4px}
+  .popup-feed{font-size:.76rem;margin:3px 0;color:#a89e8e;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+  .popup-feed .tag{font-size:.52rem;padding:1px 5px}
+  .lg{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;color:var(--muted)}
+  .lg i{width:9px;height:9px;border-radius:50%;display:inline-block}
+  .maplegend{background:rgba(20,17,13,.92);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:.76rem;color:var(--text);box-shadow:0 4px 14px rgba(0,0,0,.4);line-height:1.5}
+  .maplegend .lgt{font-family:var(--mono);font-size:.62rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--brass);margin-bottom:6px}
+  .maplegend .lgr{display:flex;align-items:center;gap:7px;color:var(--muted)}
+  .maplegend .lgr i{width:10px;height:10px;border-radius:50%}
+  .maplegend .lgnote{margin-top:8px;padding-top:7px;border-top:1px solid var(--border);color:var(--faint);font-size:.7rem}
+  .zonestrip{display:flex;gap:6px;overflow-x:auto;flex:1;padding-bottom:3px;scrollbar-width:thin}
+  .zonestrip::-webkit-scrollbar{height:5px}
+  .zonestrip::-webkit-scrollbar-thumb{background:#33302a;border-radius:3px}
+  .zonepill{white-space:nowrap}
+  .chev{cursor:pointer;font-weight:700;padding:5px 11px}
+  .leaflet-tooltip.hoodtip{background:#1b1813;border:1px solid var(--brass-dim);color:var(--brass);font-family:var(--mono);font-size:.7rem;box-shadow:0 2px 8px rgba(0,0,0,.5)}
+  .leaflet-tooltip.hoodtip::before{border-top-color:var(--brass-dim)}
+  .leaflet-interactive{cursor:pointer}
+  /* focus-mode hood panel */
+  #hoodpanel{position:absolute;top:0;right:0;bottom:0;width:330px;max-width:82%;z-index:600;
+    background:rgba(18,16,13,.97);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgba(0,0,0,.4);
+    transform:translateX(104%);transition:transform .26s ease;display:flex;flex-direction:column;overflow:hidden}
+  #hoodpanel.show{transform:translateX(0)}
+  .hp-head{padding:15px 17px;border-bottom:1px solid var(--border);position:relative;flex:none}
+  .hp-title{font-family:var(--serif);font-size:1.3rem;color:#f3ecdd;line-height:1.2;padding-right:22px}
+  .hp-sub{font-family:var(--mono);font-size:.64rem;color:var(--brass);letter-spacing:1.2px;text-transform:uppercase;margin-top:4px}
+  .hp-x{position:absolute;top:13px;right:15px;color:var(--faint);cursor:pointer;font-size:1.15rem;line-height:1}
+  .hp-x:hover{color:var(--text)}
+  .hp-list{overflow-y:auto;flex:1}
+  .hp-ev{padding:11px 17px;border-bottom:1px solid #211e18;cursor:pointer;transition:.1s}
+  .hp-ev:hover{background:var(--panel)}
+  .hp-when{font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+  .hp-name{color:var(--text);font-size:.9rem;margin:3px 0 2px;line-height:1.3}
+  .hp-venue{color:var(--faint);font-size:.78rem}
+  .hp-empty{padding:26px 17px;color:var(--muted);font-style:italic;font-size:.85rem}
+  .hp-bqhead{padding:13px 17px 7px;font-family:var(--mono);font-size:.66rem;letter-spacing:.06em;
+    text-transform:uppercase;color:#cc7a5a;border-top:1px solid #211e18;margin-top:6px}
+  .hp-bq{padding:7px 17px;font-size:.83rem;color:var(--faint);border-bottom:1px solid #1c1914}
+  .hp-bqtop{display:flex;align-items:center;gap:8px}
+  .hp-bqdot{width:8px;height:8px;border-radius:50%;flex:0 0 auto;opacity:.85}
+  .hp-bqn{color:var(--text);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .hp-bqk{font-family:var(--mono);font-size:.66rem;color:var(--muted)}
+  .hp-bqfeed{margin:3px 0 0 16px;font-size:.74rem;color:var(--muted);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .hp-bqfeed a{color:#9bc6ff;text-decoration:none}
+  .hp-bqfeed .tag{font-size:.52rem;padding:1px 5px}
+  .hp-bqnosrc{font-style:italic;color:#6f6757}
+
+  /* source filter */
+  .srcbtn{background:var(--panel2);border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:8px;font-size:.8rem;cursor:pointer;font-family:var(--sans);white-space:nowrap}
+  .srcbtn:hover{border-color:var(--brass-dim);color:var(--text)}
+  .srcbtn.active{border-color:var(--brass);color:var(--brass);background:rgba(216,171,78,.12)}
+  .srcpanel{position:fixed;z-index:700;top:0;right:0;width:300px;max-width:88vw;height:100%;
+    background:var(--panel2);border-left:1px solid var(--border);box-shadow:-8px 0 24px rgba(0,0,0,.45);
+    transform:translateX(104%);transition:transform .22s ease;display:flex;flex-direction:column}
+  .srcpanel.show{transform:translateX(0)}
+  .srcpanel .sph{padding:14px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+  .srcpanel .sph h3{font-family:var(--serif);font-size:1.05rem;color:#f1ead9}
+  .srcpanel .spx{color:var(--faint);cursor:pointer;font-size:1.2rem;line-height:1}
+  .srcpanel .spx:hover{color:var(--text)}
+  .srcpanel .spbulk{display:flex;gap:8px;padding:9px 16px;border-bottom:1px solid var(--border)}
+  .srcpanel .spbulk button{flex:1;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:5px;border-radius:6px;font-size:.74rem;cursor:pointer;font-family:var(--sans)}
+  .srcpanel .spbulk button:hover{border-color:var(--brass-dim);color:var(--text)}
+  .srcpanel .splist{overflow-y:auto;flex:1;padding:4px 0}
+  .srcrow{display:flex;align-items:center;gap:9px;padding:7px 16px;cursor:pointer;font-size:.84rem;color:var(--text)}
+  .srcrow:hover{background:var(--panel)}
+  .srcrow input{accent-color:var(--brass);width:15px;height:15px;cursor:pointer;flex:none}
+  .srcrow .sn{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .srcrow.off .sn{color:var(--faint);text-decoration:line-through}
+  .srcrow .scnt{font-family:var(--mono);font-size:.72rem;color:var(--brass)}
+
+  @media(max-width:680px){.ev{grid-template-columns:80px 1fr 70px}.ev .venue{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand"><h1>Chicago</h1><span class="sub">City Library</span><a href="./events.html" style="font-family:var(--mono);font-size:.64rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:3px 9px;border-radius:14px;letter-spacing:.5px">all events ↗</a><a href="../events_v3/system.html" style="font-family:var(--mono);font-size:.64rem;color:var(--muted);text-decoration:none;border:1px solid var(--border);padding:3px 9px;border-radius:14px;letter-spacing:.5px">how it works ↗</a></div>
+  <div class="stats" id="stats"></div>
+  <div class="modes">
+    <button id="m-reader" class="on" onclick="setMode('reader')">Reader</button>
+    <button id="m-builder" onclick="setMode('builder')">Builder</button>
+    <button id="m-map" onclick="setMode('map')">Map</button>
+  </div>
+</header>
+<div class="subbar" id="subbar"></div>
+<div class="crumbs" id="crumbs"></div>
+<main id="main"><div class="empty">Loading the stacks…</div></main>
+
+<div class="overlay" id="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modal"></div>
+</div>
+<div class="srcpanel" id="srcpanel"></div>
+
+<script>
+let DB={events:[],venues:[],sources:[],meta:{}};
+let mode='reader', axis='venueType', path=[], query='';
+const srcById={}, venById={};
+
+// source toggles: ids in hiddenSrc are hidden everywhere. Persisted locally.
+let hiddenSrc=new Set();
+try{const s=localStorage.getItem('hiddenSrc');if(s)hiddenSrc=new Set(JSON.parse(s));}catch(e){}
+function saveHidden(){try{localStorage.setItem('hiddenSrc',JSON.stringify([...hiddenSrc]));}catch(e){}}
+function visEvents(){return hiddenSrc.size?DB.events.filter(e=>!hiddenSrc.has(e.source_id)):DB.events;}
+function srcChip(){const n=hiddenSrc.size;return `<span class="srcbtn ${n?'active':''}" onclick="toggleSrcPanel()">Sources${n?` · ${n} off`:''} ▾</span>`;}
+
+const AXES={
+  calendar:{label:'Calendar', levels:[{id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
+  venueType:{label:'Venue type', levels:[
+     {id:'kind', of:e=>[{key:e.venue_kind||'other', label:e.venue_kind||'other'}]},
+     {id:'venue', of:e=>[{key:e.venue_id||'_', label:e.venue||'TBD'}]}]},
+  venue:{label:'Venue', levels:[{id:'venue', of:e=>[{key:e.venue_id||'_', label:e.venue||'TBD'}]}]},
+  category:{label:'Category', levels:[{id:'cat', of:e=>cats(e).map(c=>({key:c,label:c}))}]},
+  date:{label:'Date', levels:[{id:'date', of:e=>[{key:e.date||'_undated', label:fmtDate(e.date)}]}]},
+  discovery:{label:'How found', levels:[
+     {id:'via', of:e=>[{key:e.discovered_via, label:e.discovered_via}]},
+     {id:'src', of:e=>[{key:e.source_id, label:(srcById[e.source_id]||{}).name||'?'}]}]},
+};
+
+let _map=null, _hoods=null, _hoodLayer=null, _maskLayer=null, _markers=[], _zone='all';
+const MASK_OUTER=[[39.80,-75.35],[39.80,-74.90],[40.20,-74.90],[40.20,-75.35]];
+const KIND_COLORS={theater:'#d8ab4e',bar:'#e0784e',church:'#9b8cff',gallery:'#6fb0c8',
+  cafe:'#86b06a',warehouse:'#d2557a',museum:'#c77d4a',library:'#79b8e0',park:'#8fbf6a',
+  market:'#d98cc0',garden:'#8fbf7a',rec_center:'#5fc9a0',makerspace:'#4ec9d2',
+  restaurant:'#e0a04e',university:'#7e9bd8',school:'#a8bce8',fitness:'#5fc987',
+  hotel:'#c8a0d8',coworking:'#9aa6b2',event_space:'#d99ab0',club:'#b06ad0',
+  stadium:'#d65a5a',attraction:'#e0c84e',bookstore:'#9aae6a',community_center:'#6ac4c0',
+  other:'#9a9080'};
+const KIND_EMOJI={theater:'🎭',bar:'🍺',church:'⛪',gallery:'🖼️',cafe:'☕',
+  warehouse:'🏭',makerspace:'🛠️',museum:'🏛️',library:'📚',park:'🌳',market:'🛒',
+  garden:'🌷',rec_center:'🏀',restaurant:'🍽️',university:'🎓',school:'🏫',
+  fitness:'🏋️',hotel:'🏨',coworking:'💼',event_space:'🎪',club:'🪩',stadium:'🏟️',
+  attraction:'🎡',bookstore:'📖',community_center:'🏘️',other:'📍'};
+const KIND_DOT=k=>`<i class="hp-bqdot" style="background:${KIND_COLORS[k]||KIND_COLORS.other}"></i>`;
+
+function cats(e){
+  if(!e.category) return ['Uncategorized'];
+  const parts=e.category.split(',').map(s=>s.trim()).filter(Boolean);
+  return parts.length?[...new Set(parts)]:['Uncategorized'];
+}
+function fmtDate(d){if(!d)return 'Undated';const dt=new Date(d+'T00:00');return dt.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})}
+function esc(s){return (s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+
+function setMode(m){mode=m;path=[];query='';
+  document.getElementById('m-reader').classList.toggle('on',m==='reader');
+  document.getElementById('m-builder').classList.toggle('on',m==='builder');
+  document.getElementById('m-map').classList.toggle('on',m==='map');
+  render();}
+function setAxis(a){axis=a;path=[];render();}
+function drill(key){path.push(key);render();}
+function crumbTo(i){path=path.slice(0,i);render();}
+
+function render(){
+  if(mode!=='map' && _map){_map.remove();_map=null;}
+  document.getElementById('main').style.padding = mode==='map'?'0':'';
+  renderSubbar();
+  if(mode==='map'){renderMap();return;}
+  if(mode==='builder'){renderBuilder();return;}
+  renderCrumbs();
+  const ax=AXES[axis];
+  let evs=visEvents().slice();
+  if(query){evs=evs.filter(e=>(e.name||'').toLowerCase().includes(query)||(e.venue||'').toLowerCase().includes(query));}
+  // apply path filters
+  path.forEach((k,i)=>{evs=evs.filter(e=>ax.levels[i].of(e).some(g=>String(g.key)===String(k)));});
+  const lvl=path.length;
+  if(query || lvl>=ax.levels.length){renderEvents(evs);}
+  else{renderShelves(evs, ax.levels[lvl]);}
+}
+
+function renderSubbar(){
+  const sb=document.getElementById('subbar');
+  if(mode==='builder'){
+    sb.innerHTML=`<span class="axis-label">Pipeline</span>
+      <span class="pill" style="cursor:default">ground-truth calendars → API? → scraper</span>
+      <span class="tag t-built" style="margin-left:auto">built</span>
+      <span class="tag t-planned">planned</span><span class="tag t-broken">broken</span><span class="tag t-none">none</span>`;
+    return;
+  }
+  if(mode==='map'){
+    const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected'&&!v.maybe_fake);
+    const hoods=_hoods?_hoods.features.map(f=>f.properties.name):[];
+    const pill=(z,label)=>`<span class="pill zonepill ${z===_zone?'on':''}" onclick="setZone('${z}')">${esc(label)}</span>`;
+    sb.innerHTML=`<span class="axis-label">Hood</span>`
+      + `<span class="pill chev" onclick="cycleHood(-1)" title="prev (←)">‹</span>`
+      + `<div class="zonestrip">`
+      + pill('all','◹ All · North + downtown Chicago')
+      + hoods.map(h=>pill(h, h.replace(' - Lower Kensington',''))).join('')
+      + `</div>`
+      + `<span class="pill chev" onclick="cycleHood(1)" title="next (→)">›</span>`
+      + `<span style="color:var(--faint);font-size:.74rem;white-space:nowrap;padding-left:8px">${geo.length}/${DB.venues.length} geo</span>`
+      + srcChip();
+    return;
+  }
+  let h=`<span class="axis-label">Shelve by</span>`;
+  for(const [k,v] of Object.entries(AXES))
+    h+=`<span class="pill ${k===axis?'on':''}" onclick="setAxis('${k}')">${v.label}</span>`;
+  h+=`<input class="search" id="q" placeholder="search events…" value="${esc(query)}" oninput="query=this.value.toLowerCase();render()">`;
+  h+=srcChip();
+  sb.innerHTML=h;
+  const q=document.getElementById('q'); if(q&&query){q.focus();q.setSelectionRange(q.value.length,q.value.length);}
+}
+
+function renderCrumbs(){
+  const c=document.getElementById('crumbs'), ax=AXES[axis];
+  let h=`<a onclick="crumbTo(0)">${ax.label}</a>`;
+  path.forEach((k,i)=>{
+    const lbl=lastLabels[i]||k;
+    h+=`<span class="sep">›</span>`+(i<path.length-1?`<a onclick="crumbTo(${i+1})">${esc(lbl)}</a>`:`<span>${esc(lbl)}</span>`);
+  });
+  c.innerHTML=path.length?h:'';
+}
+
+let lastLabels=[];
+function renderShelves(evs, level){
+  const groups={};
+  evs.forEach(e=>level.of(e).forEach(g=>{
+    (groups[g.key]=groups[g.key]||{label:g.label,items:[],q:[]}).items.push(e);
+    if(e.quality!=null)groups[g.key].q.push(e.quality);
+  }));
+  const arr=Object.entries(groups).sort((a,b)=>b[1].items.length-a[1].items.length);
+  const m=document.getElementById('main');
+  if(!arr.length){m.innerHTML='<div class="empty">Nothing on this shelf.</div>';return;}
+  lastLabels=lastLabels.slice(0,path.length);
+  m.innerHTML='<div class="shelves">'+arr.map(([k,g])=>{
+    const avg=g.q.length?(g.q.reduce((a,b)=>a+b,0)/g.q.length).toFixed(1):'—';
+    return `<div class="shelf" onclick='shelfClick(${JSON.stringify(k)},${JSON.stringify(g.label)})'>
+      <div class="call">${esc(level.id)}</div>
+      <div class="name">${esc(g.label)}</div>
+      <div class="foot"><span>avg quality ${avg}</span><span class="cnt">${g.items.length} ▸</span></div>
+    </div>`;}).join('')+'</div>';
+}
+function shelfClick(k,label){lastLabels[path.length]=label;drill(k);}
+
+function renderEvents(evs){
+  evs.sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||((b.quality||0)-(a.quality||0)));
+  const m=document.getElementById('main');
+  if(!evs.length){m.innerHTML='<div class="empty">No events here.</div>';return;}
+  m.innerHTML='<div class="evlist">'+evs.map(e=>{
+    const q=e.quality!=null?Math.round(e.quality):0;
+    let pips='';for(let i=1;i<=10;i++)pips+=`<span class="pip ${i<=q?'on':''}"></span>`;
+    const via=e.discovered_via;
+    return `<div class="ev" onclick="openModal(${e.id})">
+      <div class="when">${fmtDate(e.date)}${e.time?`<br><span class="t">${e.time}</span>`:''}</div>
+      <div class="title">${esc(e.name)} ${via==='flyer'?'<span class="badge b-flyer">flyer</span>':''}</div>
+      <div class="venue">${esc(e.venue||'—')}</div>
+      <div class="pips">${pips}<span class="qnum">${e.quality!=null?e.quality:''}</span></div>
+    </div>`;}).join('')+'</div>';
+}
+
+function renderBuilder(){
+  document.getElementById('crumbs').innerHTML='';
+  const order=[['built','#86b06a','Scraper built — flowing into the library'],
+               ['planned','#d8ab4e','Has an API; scraper not built yet — next targets'],
+               ['broken','#d27a55','Was working, now broken — needs a fix'],
+               ['none','#9a9080','Website-only or manual — hardest, most alpha']];
+  const by={};DB.sources.forEach(s=>(by[s.scraper_status]=by[s.scraper_status]||[]).push(s));
+  const m=document.getElementById('main');
+  m.innerHTML='<div class="pipeline">'+order.filter(([k])=>by[k]).map(([k,col,hint])=>`
+    <div class="pcol"><h2><span class="dot" style="background:${col}"></span>${k}
+      <span class="ec" style="color:${col};font-family:var(--mono);font-size:.8rem">(${by[k].length})</span></h2>
+    <div class="hint">${hint}</div>
+    <div class="scards">${by[k].sort((a,b)=>b.event_count-a.event_count).map(s=>`
+      <div class="scard"><div class="top"><span class="nm">${esc(s.name)}</span><span class="ec">${s.event_count} ev</span></div>
+        <div class="row"><span class="kind">${esc(s.kind)}</span>
+          <span class="tag ${s.has_api?'t-api':'t-noapi'}">${s.has_api?'API':'no api'}</span>
+          <span class="tag t-${s.scraper_status}">${s.scraper_status}</span></div>
+        ${s.scraper_ref?`<div class="kind" style="margin-top:7px;color:var(--faint)">${esc(s.scraper_ref)}</div>`:''}
+        ${s.website?`<a href="${esc(s.website)}" target="_blank" rel="noopener">${esc(s.website.replace(/^https?:\/\//,''))} ↗</a>`:''}
+      </div>`).join('')}</div></div>`).join('')+'</div>';
+}
+
+// emoji = venue kind · size = # upcoming events · background HUE = score
+// (red→green, null=grey unrated) · background ALPHA = # events (redundant with
+// size, fine) · ring: solid = we scrape it, amber dashed + min size = build queue.
+function venuePin(kind,count,scoreNorm,hasPipe){
+  const emoji=KIND_EMOJI[kind]||KIND_EMOJI.other;
+  let d=Math.round(count>0?Math.min(20+Math.sqrt(count)*4.6,46):16);
+  if(!hasPipe) d=Math.max(d,22);
+  const a=Math.max(0.25,Math.min(0.92,0.30+0.11*Math.sqrt(count)));   // more events -> brighter fill
+  const bg=scoreNorm==null?`rgba(120,114,104,${a})`                   // unrated -> grey
+    :`hsla(${Math.round(scoreNorm*120)},62%,46%,${a})`;               // 0=red .. 120=green
+  const border=hasPipe?'1.5px solid rgba(0,0,0,.55)':'2px dashed #f2b84a';
+  const glow=hasPipe?'0 1px 4px rgba(0,0,0,.5)':'0 0 0 1.5px #f2b84a55,0 1px 4px rgba(0,0,0,.6)';
+  return L.divIcon({className:'vpin',iconSize:[d,d],iconAnchor:[d/2,d/2],
+    html:`<div style="width:${d}px;height:${d}px;border-radius:50%;background:${bg};border:${border};box-shadow:${glow};display:flex;align-items:center;justify-content:center;font-size:${Math.round(d*0.58)}px;line-height:1">${emoji}</div>`});
+}
+function closePopThenModal(id){if(_map)_map.closePopup();openModal(id);}
+
+function renderMap(){
+  document.getElementById('crumbs').innerHTML='';
+  document.getElementById('main').innerHTML='<div id="map"></div><div id="hoodpanel"></div>';
+  const evByV={};
+  visEvents().forEach(e=>{if(e.venue_id)(evByV[e.venue_id]=evByV[e.venue_id]||[]).push(e);});
+  // The map IS the venue catalog: every real venue we can place shows, always.
+  // Source toggles never remove a pin — they only change a pin's size/brightness
+  // and what its popup lists (an event-level filter, not a venue-level one).
+  // maybe_fake venues (online/"TBA"/bare addresses) are kept out of the map.
+  const geo=DB.venues.filter(v=>v.lat!=null&&v.status!=='rejected'&&!v.maybe_fake);
+  // Brightness rewards a venue that is EITHER consistently good (high MEAN event
+  // rating) OR has a standout (high TOP rating). Each is z-scored across the venues
+  // on screen; we take the better of the two, then map it SUPERLINEARLY so the
+  // strongest places really pop and the middle stays muted.
+  const vstat=v=>{const qs=(evByV[v.id]||[]).map(e=>e.quality).filter(q=>q!=null);
+    return qs.length?{mean:qs.reduce((a,b)=>a+b,0)/qs.length,top:Math.max(...qs)}:null;};
+  const stats=geo.map(vstat).filter(Boolean);
+  const distOf=key=>{const xs=stats.map(s=>s[key]);const m=xs.length?xs.reduce((a,b)=>a+b,0)/xs.length:0;
+    return {m,sd:xs.length>1?Math.sqrt(xs.reduce((a,b)=>a+(b-m)**2,0)/xs.length):0};};
+  const Dmean=distOf('mean'), Dtop=distOf('top');
+  const zof=(x,d)=>d.sd===0?0:(x-d.m)/d.sd;
+  // 0..1 score for the red->green ramp (null = unrated). Superlinear so the
+  // strongest venues read as vivid green and the middle stays muddy.
+  const scoreNormV=v=>{const s=vstat(v); if(!s) return null;
+    const z=Math.max(zof(s.mean,Dmean),zof(s.top,Dtop));          // best of mean/top
+    const t=Math.max(0,Math.min(1,(z+1.4)/3.4));                 // z in [-1.4,2] -> [0,1]
+    return Math.pow(t,1.9);};                                     // superlinear lift
+  setTimeout(()=>{
+    if(_map){_map.remove();_map=null;}
+    _markers=[]; _maskLayer=null; _hoodLayer=null;
+    _map=L.map('map',{zoomControl:true,scrollWheelZoom:true});
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      {subdomains:'abcd',maxZoom:19,attribution:'© OpenStreetMap contributors © CARTO'}).addTo(_map);
+    drawHoods();
+    geo.forEach(v=>{
+      const evs=(evByV[v.id]||[]).sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999'));
+      const qs=evs.map(e=>e.quality).filter(q=>q!=null);
+      const maxQ=qs.length?Math.max(...qs):null;
+      const hasPipe=v.pipeline&&v.pipeline!=='none';
+      const list=evs.slice(0,6).map(e=>
+        `<a onclick="closePopThenModal(${e.id})" style="display:block;color:#7ab8ff;cursor:pointer;font-size:.8rem;margin:3px 0;text-decoration:none">${esc(e.name)} <span style="color:#7a7264">${e.date?fmtDate(e.date):''}</span></a>`).join('');
+      const more=evs.length>6?`<div style="color:#7a7264;font-size:.74rem;margin-top:3px">+${evs.length-6} more</div>`:'';
+      const hosts=v.hosts_events&&v.hosts_events!=='unknown'?` · hosts: ${v.hosts_events}`:'';
+      const pipe=v.pipeline==='none'?` · <span style="color:#cc7a5a">⚠ no pipeline</span>`
+                 :v.pipeline&&v.pipeline!=='built'?` · <span style="color:#cc7a5a">pipeline: ${v.pipeline}</span>`:'';
+      const best=maxQ!=null?` · top ${maxQ} · avg ${(qs.reduce((a,b)=>a+b,0)/qs.length).toFixed(1)}`:` · <span style="color:#7a7264">unrated</span>`;
+      const feedRows=(v.feeds||[]).map(f=>{
+        const nm=f.url?`<a href="${f.url}" target="_blank" rel="noopener" style="color:#9bc6ff;text-decoration:none">${esc(f.name)}</a>`:esc(f.name);
+        return `<div class="popup-feed"><span class="tag t-${f.scraper_status}">${f.scraper_status}</span> ${f.primary?'★ ':''}${nm} <span style="color:#6f6757">· ${esc(f.usefulness)}</span></div>`;
+      }).join('');
+      const feedsBlock=feedRows?`<div class="popup-feeds"><div class="popup-feeds-h">events posted at</div>${feedRows}</div>`:'';
+      const mk=L.marker([v.lat,v.lng],{icon:venuePin(v.kind,evs.length,scoreNormV(v),hasPipe)})
+        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${evs.length} upcoming${best}${hosts}${pipe}</div>${list||'<div style="color:#7a7264;font-size:.8rem">no upcoming events</div>'}${more}${feedsBlock}`);
+      _markers.push({marker:mk,lat:v.lat,lng:v.lng});
+    });
+    applyZone();
+
+    // on-map key
+    const kinds=[...new Set(geo.map(v=>v.kind))].sort();
+    const key=L.control({position:'bottomleft'});
+    key.onAdd=()=>{
+      const el=L.DomUtil.create('div','maplegend');
+      el.innerHTML='<div class="lgt">Venue type</div>'
+        + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;max-height:190px;overflow:auto">'
+        + kinds.map(k=>`<div style="font-size:.66rem;color:#b8b0a4;white-space:nowrap">${KIND_EMOJI[k]||KIND_EMOJI.other} ${k.replace(/_/g,' ')}</div>`).join('')
+        + '</div>'
+        + '<div class="lgnote">larger / brighter fill = more upcoming events<br><span style="color:#c43d3d">●</span>→<span style="color:#2f9243">●</span> background = lower→higher rated · grey = unrated<br>solid ring = we scrape it<br><span style="color:#f2b84a">⬡ dashed</span> = no pipeline (build queue)</div>';
+      L.DomEvent.disableClickPropagation(el);
+      return el;
+    };
+    key.addTo(_map);
+  },40);
+}
+
+function hoodStyle(f){
+  const active=(_zone==='all')||f.properties.name===_zone;
+  return {color:active?'#d8ab4e':'#4a4234', weight:active?1.6:0.7,
+    fill:true, fillColor:'#d8ab4e', fillOpacity:(_zone!=='all'&&active)?0.08:0.02,
+    dashArray:active?null:'2 4'};
+}
+function drawHoods(){
+  if(!_hoods||!_map) return;
+  _hoodLayer=L.geoJSON(_hoods,{
+    style:hoodStyle,
+    onEachFeature:(f,layer)=>{
+      layer.on('click',()=>setZone(f.properties.name));   // click a hood → focus it
+      layer.on('mouseover',function(){ if(_zone==='all') this.setStyle({weight:2,color:'#e7c266',fillOpacity:.06}); });
+      layer.on('mouseout',()=>_hoodLayer.setStyle(hoodStyle));
+      layer.bindTooltip(f.properties.name,{sticky:true,direction:'top',className:'hoodtip',opacity:1});
+    }
+  }).addTo(_map);
+  _hoodLayer.bringToBack();
+}
+
+// ray-cast point-in-polygon on GeoJSON [lng,lat] rings
+function pointInRing(lat,lng,ring){
+  let inside=false;
+  for(let i=0,j=ring.length-1;i<ring.length;j=i++){
+    const xi=ring[i][0],yi=ring[i][1],xj=ring[j][0],yj=ring[j][1];
+    if(((yi>lat)!=(yj>lat))&&(lng<(xj-xi)*(lat-yi)/(yj-yi)+xi)) inside=!inside;
+  }
+  return inside;
+}
+function pointInHood(lat,lng,f){
+  const g=f.geometry;
+  if(g.type==='Polygon') return pointInRing(lat,lng,g.coordinates[0]);
+  if(g.type==='MultiPolygon') return g.coordinates.some(p=>pointInRing(lat,lng,p[0]));
+  return false;
+}
+function hoodHoles(f){
+  const g=f.geometry;
+  if(g.type==='Polygon') return [g.coordinates[0]];
+  if(g.type==='MultiPolygon') return g.coordinates.map(p=>p[0]);
+  return [];
+}
+const flipRing=r=>r.map(c=>[c[1],c[0]]);
+
+function applyZone(){
+  if(!_map) return;
+  if(_hoodLayer) _hoodLayer.setStyle(hoodStyle);
+  const focused=_zone!=='all';
+  const feat=focused&&_hoods?_hoods.features.find(f=>f.properties.name===_zone):null;
+
+  // mask everything outside the focused hood
+  if(_maskLayer){_map.removeLayer(_maskLayer);_maskLayer=null;}
+  if(feat){
+    const holes=hoodHoles(feat).map(flipRing);
+    _maskLayer=L.polygon([MASK_OUTER,...holes],
+      {stroke:false,fillColor:'#0a0807',fillOpacity:.84,interactive:false}).addTo(_map);
+  }
+
+  // show all pins in overview; only the hood's pins in focus
+  _markers.forEach(({marker,lat,lng})=>{
+    const show=!feat||pointInHood(lat,lng,feat);
+    if(show){ if(!_map.hasLayer(marker)) marker.addTo(_map); }
+    else if(_map.hasLayer(marker)) _map.removeLayer(marker);
+  });
+
+  const b=L.latLngBounds([]);
+  if(_hoodLayer) _hoodLayer.eachLayer(l=>{
+    if(!focused||l.feature.properties.name===_zone) b.extend(l.getBounds());
+  });
+  if(b.isValid()){
+    // in focus, leave room on the right for the event panel
+    if(focused) _map.fitBounds(b,{paddingTopLeft:[28,28],paddingBottomRight:[matchMedia('(max-width:680px)').matches?28:350,28]});
+    else _map.fitBounds(b,{padding:[30,30]});
+  } else _map.setView([41.92,-87.68],12);
+  renderHoodPanel();
+}
+function renderHoodPanel(){
+  const el=document.getElementById('hoodpanel'); if(!el) return;
+  const feat=(_zone!=='all'&&_hoods)?_hoods.features.find(f=>f.properties.name===_zone):null;
+  if(!feat){ el.classList.remove('show'); return; }
+  const inHood=new Set(DB.venues.filter(v=>v.lat!=null&&pointInHood(v.lat,v.lng,feat)).map(v=>v.id));
+  const evs=visEvents().filter(e=>inHood.has(e.venue_id))
+    .sort((a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||((a.time||'').localeCompare(b.time||'')));
+  const rows=evs.length?evs.map(e=>`<div class="hp-ev" onclick="openModal(${e.id})">
+      <div class="hp-when">${fmtDate(e.date)}${e.time?` · ${e.time}`:''}</div>
+      <div class="hp-name">${esc(e.name)}</div>
+      <div class="hp-venue">${esc(e.venue||'')}${e.discovered_via==='flyer'?' <span class="badge b-flyer">flyer</span>':''}</div>
+    </div>`).join('')
+    :'<div class="hp-empty">No dated events mapped in this neighborhood yet.</div>';
+  // Venues we know here but have no pipeline feeding events yet — the build queue.
+  const noPipe=DB.venues.filter(v=>inHood.has(v.id)&&v.pipeline==='none'&&v.status!=='rejected')
+    .sort((a,b)=>a.name.localeCompare(b.name));
+  const buildQueue=noPipe.length?`<div class="hp-bqhead">${noPipe.length} venue${noPipe.length!==1?'s':''} · no pipeline yet</div>`
+    +noPipe.map(v=>{
+      const pf=(v.feeds||[]).find(f=>f.primary)||(v.feeds||[])[0];
+      const feed=pf
+        ?`<div class="hp-bqfeed">${pf.url?`<a href="${pf.url}" target="_blank" rel="noopener">${esc(pf.name)}</a>`:esc(pf.name)} <span class="tag t-${pf.scraper_status}">${pf.scraper_status}</span></div>`
+        :`<div class="hp-bqfeed hp-bqnosrc">no source found yet</div>`;
+      return `<div class="hp-bq"><div class="hp-bqtop">${KIND_DOT(v.kind)}<span class="hp-bqn">${esc(v.name)}</span><span class="hp-bqk">${esc(v.kind)}</span></div>${feed}</div>`;
+    }).join(''):'';
+  el.innerHTML=`<div class="hp-head"><div class="hp-title">${esc(_zone.replace(' - Lower Kensington',''))}</div>
+    <div class="hp-sub">${evs.length} event${evs.length!==1?'s':''} · chronological</div>
+    <span class="hp-x" onclick="setZone('all')" title="back to full map">✕</span></div>
+    <div class="hp-list">${rows}${buildQueue}</div>`;
+  el.classList.add('show');
+}
+function setZone(z){ _zone=z; renderSubbar(); applyZone(); }
+function cycleHood(dir){
+  if(!_hoods) return;
+  const hoods=_hoods.features.map(f=>f.properties.name);
+  if(_zone==='all'){ setZone(hoods[dir>0?0:hoods.length-1]); return; }
+  let i=hoods.indexOf(_zone);
+  i=(i+dir+hoods.length)%hoods.length;
+  setZone(hoods[i]);
+}
+
+function toggleSrcPanel(){
+  const el=document.getElementById('srcpanel');
+  if(el.classList.contains('show')){el.classList.remove('show');}
+  else{renderSrcPanel();el.classList.add('show');}
+}
+function renderSrcPanel(){
+  const el=document.getElementById('srcpanel');
+  const srcs=DB.sources.filter(s=>s.event_count>0).sort((a,b)=>b.event_count-a.event_count);
+  el.innerHTML=`<div class="sph"><h3>Show sources</h3><span class="spx" onclick="toggleSrcPanel()">✕</span></div>
+    <div class="spbulk"><button onclick="setAllSrc(true)">All on</button><button onclick="setAllSrc(false)">All off</button></div>
+    <div class="splist">`+srcs.map(s=>{
+      const off=hiddenSrc.has(s.id);
+      return `<label class="srcrow ${off?'off':''}"><input type="checkbox" ${off?'':'checked'} onchange="toggleSrc('${s.id}')"><span class="sn">${esc(s.name)}</span><span class="scnt">${s.event_count}</span></label>`;
+    }).join('')+`</div>`;
+}
+function toggleSrc(id){hiddenSrc.has(id)?hiddenSrc.delete(id):hiddenSrc.add(id);saveHidden();renderSrcPanel();render();}
+function setAllSrc(on){if(on)hiddenSrc.clear();else DB.sources.forEach(s=>{if(s.event_count>0)hiddenSrc.add(s.id);});saveHidden();renderSrcPanel();render();}
+
+function openModal(id){
+  const e=DB.events.find(x=>x.id===id);if(!e)return;
+  const src=srcById[e.source_id]||{};
+  // ranking dims in weight order (each shows its current weight %)
+  const DIM={social_quality:'Social quality',serendipity:'Serendipity',solo_friendliness:'Solo-friendliness',community_building:'Community',uniqueness:'Uniqueness',value_for_price:'Value for price'};
+  const W=DB.weights||{};
+  const row=(k,lab,wpct)=>{const d=e.scores[k];if(!d)return '';
+    return `<div class="sc"><span class="lab">${lab}${wpct!=null?` <span style="color:var(--faint);font-size:.68rem">${wpct}%</span>`:''}</span><span style="font-family:var(--mono);color:var(--brass)">${d.score}/10</span>
+      <span class="bar"><i style="width:${d.score*10}%"></i></span>
+      ${d.reason?`<span class="rs">${esc(d.reason)}</span>`:''}</div>`;};
+  let scoreH='';
+  if(e.scores){
+    const dq=e.description_quality, dqc={rich:'#86b06a',thin:'#d8ab4e',missing:'#cc5a5a'}[dq]||'#7a7264';
+    const head=`<div style="display:flex;align-items:center;gap:10px;margin:14px 0 9px">
+      ${e.quality!=null?`<span style="font-family:var(--mono);font-size:1.5rem;color:var(--brass)">${e.quality}<span style="font-size:.55em;color:var(--faint)">/10</span></span>`:''}
+      <span style="font-size:.7rem;color:var(--faint)">weighted composite</span>
+      ${dq?`<span title="how much source text the LLM had" style="margin-left:auto;font-size:.72rem;color:var(--faint);display:flex;align-items:center;gap:5px"><i style="width:8px;height:8px;border-radius:50%;background:${dqc};display:inline-block"></i>desc: ${dq}</span>`:''}</div>`;
+    const univ=Object.entries(DIM).map(([k,lab])=>row(k,lab,W[k]!=null?Math.round(W[k]*100):null)).join('');
+    scoreH='<div class="scores">'+head+univ+'</div>';
+  }
+  document.getElementById('modal').innerHTML=`
+    <span class="x" onclick="closeModal()">✕</span>
+    <h2>${esc(e.name)}</h2>
+    <div class="m-meta"><span class="k">when</span> ${fmtDate(e.date)}${e.time?' · '+e.time:''}</div>
+    <div class="m-meta"><span class="k">where</span> ${esc(e.venue||'TBD')}${e.venue_kind?` <span style="color:var(--faint)">(${e.venue_kind})</span>`:''}</div>
+    <div class="m-meta"><span class="k">calendar</span> ${esc(src.name||'?')} <span class="tag t-${src.scraper_status||'none'}" style="margin-left:4px">${src.scraper_status||'?'}</span></div>
+    <div class="m-meta"><span class="k">found via</span> <span class="badge b-${e.discovered_via}">${e.discovered_via}</span> ${e.cost?'· '+esc(e.cost):''} ${e.category?'· '+esc(e.category):''}</div>
+    ${e.description?`<div class="desc">${esc(e.description)}</div>`:''}
+    ${scoreH}
+    ${e.url?`<a class="golink" href="${esc(e.url)}" target="_blank" rel="noopener">Open source page ↗</a>`:''}`;
+  document.getElementById('overlay').classList.add('show');
+}
+function closeModal(){document.getElementById('overlay').classList.remove('show');}
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape')closeModal();
+  if(mode==='map'&&_hoods&&(e.key==='ArrowRight'||e.key==='ArrowLeft')){
+    cycleHood(e.key==='ArrowRight'?1:-1);
+  }
+});
+
+fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
+  DB=d;
+  d.sources.forEach(s=>srcById[s.id]=s);
+  d.venues.forEach(v=>venById[v.id]=v);
+  const m=d.meta;
+  document.getElementById('stats').innerHTML=
+    `<span><b>${m.events}</b> events</span><span><b>${m.venues}</b> venues</span>
+     <span><b>${m.sources}</b> calendars</span><span class="flyer"><b>${m.flyers}</b> from flyers</span>
+     <span><b>${m.scrapers_built}</b>/${m.sources} scrapers</span>`;
+  render();
+}).catch(e=>{document.getElementById('main').innerHTML='<div class="empty">Could not load data.json — '+e.message+'</div>';});
+
+fetch('./chicago_hoods.geojson?v='+Date.now()).then(r=>r.json()).then(h=>{
+  _hoods=h; if(mode==='map')render();
+}).catch(()=>{});
+</script>
+</body>
+</html>
