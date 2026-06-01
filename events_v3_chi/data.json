@@ -1,5 +1,5 @@
 {
-  "generated": "2026-06-01T02:21:26.779645",
+  "generated": "2026-06-01T02:25:19.038300",
   "city": "Chicago",
   "weights": {
     "social_quality": 0.237,
@@ -4769,9 +4769,13 @@
         "solo_friendliness": {
           "score": 7,
           "reason": "It explicitly invites people without partners and the shared activity (two-step) makes it easier to meet others."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "A $5 cover for a live, participatory dance night is generally strong value compared with typical nightlife pricing."
         }
       },
-      "quality": 5.6,
+      "quality": 5.9,
       "score_category": "nightlife",
       "description_quality": "thin"
     },
@@ -4817,9 +4821,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "You can attend alone, but without built-in structure it\u2019s hard to meet new people beyond brief bar chat."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical modest cover or no cover for a local band at a bar, the entertainment value is usually fair."
         }
       },
-      "quality": 3.4,
+      "quality": 3.7,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -4865,9 +4873,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "You can attend alone, but without built-in structure to meet people, it generally functions as a bring-your-friends night out."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical bar-cover or low ticket price for a local band, live music usually offers reasonable value even though the exact cost is unknown."
         }
       },
-      "quality": 3.6,
+      "quality": 3.8,
       "score_category": "music",
       "description_quality": "rich"
     },
@@ -4913,9 +4925,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "You can comfortably attend alone, but without structured activities it\u2019s hit-or-miss to meet new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "If priced like a typical small-venue show (low-to-moderate cover), live music at a bar is generally fair value."
         }
       },
-      "quality": 3.9,
+      "quality": 4.2,
       "score_category": "music",
       "description_quality": "rich"
     },
@@ -4961,9 +4977,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "You can attend alone, but there\u2019s no built-in structure that makes it easy for strangers to meet beyond casual bar chatter."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical small-venue cover charge, a three-act local lineup usually provides solid value for the cost."
         }
       },
-      "quality": 3.8,
+      "quality": 4.0,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -5009,9 +5029,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "You can attend alone comfortably, but there\u2019s little built-in structure to help strangers meet beyond small talk at the bar."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Free entry for a multi-act live music bill is strong value for what you get."
         }
       },
-      "quality": 3.6,
+      "quality": 4.0,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -5057,9 +5081,13 @@
         "solo_friendliness": {
           "score": 7,
           "reason": "Showing up alone is normal at open mics, and there are easy conversation starters (the lineup, performers, and sign-up process)."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Free admission with a full evening of entertainment and a high performer count is excellent value (even assuming you\u2019ll buy a drink)."
         }
       },
-      "quality": 5.6,
+      "quality": 5.8,
       "score_category": "comedy",
       "description_quality": "rich"
     },
@@ -5105,9 +5133,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "Going alone is feasible, but the format is mostly passive listening with few natural prompts for meeting new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical small-club pricing (often $10\u2013$20 or modest cover), a multi-act live set is generally a fair value."
         }
       },
-      "quality": 3.9,
+      "quality": 4.1,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -5153,9 +5185,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "Showing up alone is feasible, but there\u2019s little built-in structure to help strangers meet beyond incidental bar chatter."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical small-venue cover ($10\u2013$20), multiple bands in a known music venue is usually a fair value."
         }
       },
-      "quality": 3.8,
+      "quality": 4.0,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -5201,9 +5237,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "Showing up alone is normal at a bar show, but there\u2019s little built-in structure to help strangers meet beyond casual bar chat."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical Cole's Bar cover pricing for a multi-band lineup, it\u2019s usually a fair value for live music even without details."
         }
       },
-      "quality": 4.0,
+      "quality": 4.2,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -5249,9 +5289,13 @@
         "solo_friendliness": {
           "score": 6,
           "reason": "Showing up alone is normal for open gallery hours and there are easy conversation starters, but no built-in structure to ensure meeting people."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "Open hours at community arts venues are often free or low-cost, which is typically a strong value for a casual cultural outing."
         }
       },
-      "quality": 4.6,
+      "quality": 4.9,
       "score_category": "visual_arts",
       "description_quality": "missing"
     },
@@ -5297,9 +5341,13 @@
         "solo_friendliness": {
           "score": 6,
           "reason": "Showing up alone is normal and there are easy conversation starters (the work, the artists), though there\u2019s no built-in structure to meet people."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "Exhibition openings at community art venues are often free or low-cost, which is generally strong value for a public cultural event."
         }
       },
-      "quality": 5.2,
+      "quality": 5.6,
       "score_category": "visual_arts",
       "description_quality": "missing"
     },
@@ -5345,9 +5393,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is normal for concerts, but there are few built-in prompts to meet new people beyond casual mingling."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Similar Comfort Station shows are often low-cost or donation-based, which is typically a strong value for live original music."
         }
       },
-      "quality": 4.5,
+      "quality": 4.7,
       "score_category": "music",
       "description_quality": "rich"
     },
@@ -5393,9 +5445,13 @@
         "solo_friendliness": {
           "score": 6,
           "reason": "It\u2019s easy and normal to attend a screening alone, and the shared discussion topic can spark conversation, but there\u2019s no built-in mechanism to meet others."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "Given that it appears to be a free or low-cost programmed screening with an instructor-led discussion and filmmaker Q&A, the value is strong."
         }
       },
-      "quality": 5.1,
+      "quality": 5.3,
       "score_category": "film",
       "description_quality": "rich"
     },
@@ -5441,9 +5497,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is normal for small shows, but there\u2019s no built-in activity that makes talking to strangers easy."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "These venue series are typically low-cost or donation-based for substantial live, curated programming, so the expected value is good."
         }
       },
-      "quality": 4.8,
+      "quality": 4.9,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -5489,9 +5549,13 @@
         "solo_friendliness": {
           "score": 7,
           "reason": "Workshops with guided discussion and Q&A give solo attendees an easy, legitimate way to participate and talk to others."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "Library partner programs like this are typically free and provide practical, high-stakes information, making the expected value strong."
         }
       },
-      "quality": 5.7,
+      "quality": 5.8,
       "score_category": "class",
       "description_quality": "rich"
     },
@@ -5537,9 +5601,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "A caregiver can attend without knowing anyone, but it\u2019s not structured for adults to meet new people beyond brief conversation."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Library children\u2019s programming is typically free and offers solid value through guided literacy, art, and hands-on activities."
         }
       },
-      "quality": 4.4,
+      "quality": 4.7,
       "score_category": "family",
       "description_quality": "rich"
     },
@@ -5585,9 +5653,13 @@
         "solo_friendliness": {
           "score": 8,
           "reason": "The structured shared activities (crafts/games) make it easy for a tween to attend alone and have a built-in reason to interact."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Library tween programs are typically free and include materials/activities plus snacks, making the expected value high."
         }
       },
-      "quality": 6.3,
+      "quality": 6.4,
       "score_category": "hobby",
       "description_quality": "thin"
     },
@@ -5633,9 +5705,13 @@
         "solo_friendliness": {
           "score": 8,
           "reason": "The shared structure of learning/playing cards makes it easy for someone to show up alone and be seated with others."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Library clubs are typically free and offer several hours of organized social play and learning for little to no cost."
         }
       },
-      "quality": 6.7,
+      "quality": 6.8,
       "score_category": "hobby",
       "description_quality": "thin"
     },
@@ -5681,9 +5757,13 @@
         "solo_friendliness": {
           "score": 9,
           "reason": "The shared reading topic and facilitated discussion make it easy for someone to show up alone and participate immediately."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Library book clubs are typically free and provide a substantial experience (discussion plus access to the selection) for little to no cost."
         }
       },
-      "quality": 6.8,
+      "quality": 6.9,
       "score_category": "hobby",
       "description_quality": "rich"
     },
@@ -5729,9 +5809,13 @@
         "solo_friendliness": {
           "score": 9,
           "reason": "Shared hands-on activity with an explicit invitation to learn from others makes it very easy for a newcomer to show up alone and join in."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "Library crafting meetups are typically free and offer solid value via shared knowledge and social connection (even though cost isn\u2019t listed)."
         }
       },
-      "quality": 6.9,
+      "quality": 7.0,
       "score_category": "hobby",
       "description_quality": "rich"
     },
@@ -5777,9 +5861,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "You can attend alone as a caregiver, but the structure doesn\u2019t strongly prompt conversations with new adults beyond brief small talk."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "This is very likely a free, high-quality public program (live music plus bilingual songs and reading) offering strong value."
         }
       },
-      "quality": 3.9,
+      "quality": 4.2,
       "score_category": "family",
       "description_quality": "rich"
     },
@@ -5825,6 +5913,10 @@
         "solo_friendliness": {
           "score": 7,
           "reason": "You can comfortably attend alone because the main activity is shared but not partner-dependent, though there\u2019s limited structure that prompts introductions."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Cost is unspecified but events like this are typically modestly ticketed and usually feel fair given the curated DJs, space, and consistent programming."
         }
       },
       "quality": 5.6,
@@ -5873,6 +5965,10 @@
         "solo_friendliness": {
           "score": 8,
           "reason": "Meetings provide built-in structure and a clear shared purpose, making it easy for someone attending alone to join conversations."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "This type of community meeting is typically free and offers meaningful input and networking value even without formal programming."
         }
       },
       "quality": 6.7,
@@ -5921,9 +6017,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is socially easy at a performance, but there\u2019s little built-in structure to meet new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical small-theater ticket pricing, a curated night of multiple short plays is usually a fair value."
         }
       },
-      "quality": 3.9,
+      "quality": 4.1,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -5969,9 +6069,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is normal for theater, but there\u2019s little built-in structure to help strangers meet each other."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Assuming typical small-theater ticket pricing, a live casted cabaret with audience interaction is generally a fair value."
         }
       },
-      "quality": 3.9,
+      "quality": 4.2,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6017,9 +6121,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Going alone is socially acceptable at theatre, but there\u2019s little built-in structure to meet new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Live theatre typically offers solid value if tickets are in the usual mid-range for storefront venues, though price is unknown."
         }
       },
-      "quality": 3.0,
+      "quality": 3.3,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6065,9 +6173,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Going alone is socially acceptable and easy logistically, but there\u2019s little built-in structure for meeting new people."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Assuming typical Chicago storefront-theatre pricing, a full staged classic production is usually a solid value for a standard ticket."
         }
       },
-      "quality": 3.4,
+      "quality": 3.8,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6113,9 +6225,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "It\u2019s easy to attend alone, but there\u2019s little built-in structure for meeting new people during the event."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical small-theatre pricing, a curated evening of original dance works is generally a fair value even if not free."
         }
       },
-      "quality": 3.3,
+      "quality": 3.5,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6161,9 +6277,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is easy and normal for theatre, but it doesn\u2019t inherently create openings to meet new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical small-theatre ticket pricing, a curated evening of multiple short plays is usually a fair value for the time and production effort."
         }
       },
-      "quality": 4.2,
+      "quality": 4.3,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6209,6 +6329,10 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "You can attend alone comfortably, but there\u2019s little built-in structure that makes it easy to meet new people."
+        },
+        "value_for_price": {
+          "score": 5,
+          "reason": "Improv showcases are typically reasonably priced, but a mandatory two-item minimum raises the all-in cost and can reduce perceived value."
         }
       },
       "quality": 4.8,
@@ -6257,9 +6381,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Going alone is socially acceptable and easy logistically, but there\u2019s no structure that helps strangers meet."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming standard Chicago showcase pricing, a hosted multi-comic lineup at a reputable venue is usually a fair entertainment value."
         }
       },
-      "quality": 3.2,
+      "quality": 3.5,
       "score_category": "comedy",
       "description_quality": "thin"
     },
@@ -6305,9 +6433,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "It\u2019s easy to attend alone without feeling out of place, but there\u2019s little structure that helps solo attendees meet others."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical small-theater ticket pricing, a full staged classic drama generally offers fair value for the time and production effort."
         }
       },
-      "quality": 3.2,
+      "quality": 3.4,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6353,9 +6485,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Going alone is practical and normal for theater, but the format doesn\u2019t provide built-in structure for meeting new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical small-theater pricing, a curated evening of original contemporary dance generally offers fair value."
         }
       },
-      "quality": 3.3,
+      "quality": 3.5,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6401,9 +6537,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Showing up alone is socially acceptable at theatre, but there\u2019s little built-in structure that helps solo attendees meet others."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Assuming typical small-theatre ticket pricing, a curated slate of multiple short plays and local collaboration is usually a solid value."
         }
       },
-      "quality": 3.5,
+      "quality": 3.8,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6449,9 +6589,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Going alone is normal for theater, but there\u2019s little built-in structure to help solo attendees meet others."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Live theater usually offers solid value if priced in the typical ~$25\u2013$45 range for storefront productions, though the exact cost is unknown."
         }
       },
-      "quality": 3.3,
+      "quality": 3.7,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6497,9 +6641,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is socially acceptable for a performance, but there\u2019s little built-in structure to help solo attendees meet others."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "With cost unspecified, a typical small-theater contemporary dance ticket is usually moderately priced and generally fair for a curated live performance."
         }
       },
-      "quality": 3.4,
+      "quality": 3.7,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6545,9 +6693,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "It\u2019s easy to attend alone, but there\u2019s little built-in structure that helps solo attendees meet others."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Assuming standard storefront-theater pricing, a full staged production at The Den Theatre is usually a solid value for the cost."
         }
       },
-      "quality": 3.3,
+      "quality": 3.6,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6593,9 +6745,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "It\u2019s easy to attend alone, but there\u2019s little built-in structure for meeting new people beyond casual lobby conversation."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming typical storefront-theater pricing, a full-length professional stage production is usually a fair value."
         }
       },
-      "quality": 3.3,
+      "quality": 3.5,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -6641,9 +6797,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "You can show up alone and enjoy the music, but there\u2019s little built-in structure to make meeting new people easy."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical low/no cover for a bar DJ set, it\u2019s generally fair value for several hours of music and atmosphere."
         }
       },
-      "quality": 3.9,
+      "quality": 4.2,
       "score_category": "nightlife",
       "description_quality": "missing"
     },
@@ -6689,9 +6849,13 @@
         "solo_friendliness": {
           "score": 3,
           "reason": "Showing up alone is feasible, but without structure it\u2019s hard to meet new people beyond casual bar interactions."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical modest cover or no cover for a DJ set, the entertainment value is usually fair for the price."
         }
       },
-      "quality": 3.3,
+      "quality": 3.6,
       "score_category": "nightlife",
       "description_quality": "missing"
     },
@@ -6737,9 +6901,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "You can show up alone and blend in, but there\u2019s little structure that makes it easy to meet new people beyond brief bar-floor interactions."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical modest cover (or none) for a neighborhood DJ night, it\u2019s usually a fair trade for several hours of music and dancing."
         }
       },
-      "quality": 3.6,
+      "quality": 3.9,
       "score_category": "nightlife",
       "description_quality": "missing"
     },
@@ -6785,9 +6953,13 @@
         "solo_friendliness": {
           "score": 7,
           "reason": "Showing up alone is normal and the shared structure (the jam) gives an easy reason to introduce yourself, especially if you play."
+        },
+        "value_for_price": {
+          "score": 9,
+          "reason": "No cover for a hosted house-band set plus a late-night open jam is strong value for typical Chicago club pricing."
         }
       },
-      "quality": 6.5,
+      "quality": 6.7,
       "score_category": "music",
       "description_quality": "rich"
     },
@@ -6833,9 +7005,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Showing up alone is normal for live jazz, but there\u2019s no built-in structure that makes it easy to meet new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical small-venue jazz cover, a high-skill live set is usually a fair value even without pricing listed."
         }
       },
-      "quality": 3.9,
+      "quality": 4.2,
       "score_category": "music",
       "description_quality": "rich"
     },
@@ -6881,9 +7057,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Going alone is feasible at a DJ night, but there\u2019s no built-in mechanism that makes meeting new people easy."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical modest cover for a neighborhood venue, a high-energy DJ night is generally fair value if production is solid."
         }
       },
-      "quality": 3.9,
+      "quality": 4.1,
       "score_category": "nightlife",
       "description_quality": "thin"
     },
@@ -6929,9 +7109,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "You can attend alone and enjoy the music, but there are few natural prompts to meet strangers beyond incidental bar conversation."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical Whistler/DJ-night cover, a multi-genre set is usually a fair value for a night out."
         }
       },
-      "quality": 4.2,
+      "quality": 4.4,
       "score_category": "nightlife",
       "description_quality": "thin"
     },
@@ -6977,9 +7161,13 @@
         "solo_friendliness": {
           "score": 5,
           "reason": "Showing up alone is normal at a DJ night, but there\u2019s little structure that makes meeting new people easy."
+        },
+        "value_for_price": {
+          "score": 7,
+          "reason": "Assuming typical Whistler DJ-night pricing (often low or no cover), the entertainment value is generally strong for the cost."
         }
       },
-      "quality": 4.1,
+      "quality": 4.5,
       "score_category": "nightlife",
       "description_quality": "rich"
     },
@@ -7025,9 +7213,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Someone can attend alone comfortably, but without structured mingling it\u2019s only moderately easy to meet new people."
+        },
+        "value_for_price": {
+          "score": 6,
+          "reason": "Assuming a typical small-venue cover (often modest) for multiple performers, the entertainment value is likely fair even though the exact cost is unknown."
         }
       },
-      "quality": 4.4,
+      "quality": 4.6,
       "score_category": "music",
       "description_quality": "thin"
     },
@@ -7073,9 +7265,13 @@
         "solo_friendliness": {
           "score": 7,
           "reason": "A structured group class makes it comfortable to attend alone and provides easy conversation starters before and after."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "These park-district yoga series are typically free or low-cost, offering strong value for a guided outdoor class."
         }
       },
-      "quality": 5.3,
+      "quality": 5.5,
       "score_category": "wellness",
       "description_quality": "rich"
     },
@@ -7121,6 +7317,10 @@
         "solo_friendliness": {
           "score": 8,
           "reason": "A shared topic/activity (gardening and local park stewardship) gives an easy reason for newcomers to introduce themselves and join in."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "This type of neighborhood meeting is usually free and offers solid value through advice, connections, and local involvement."
         }
       },
       "quality": 6.7,
@@ -7169,9 +7369,13 @@
         "solo_friendliness": {
           "score": 9,
           "reason": "Showing up alone is easy because the shared task provides immediate structure and a clear way to meet people."
+        },
+        "value_for_price": {
+          "score": 8,
+          "reason": "Volunteer garden days are typically free and offer meaningful impact and social connection for the time invested."
         }
       },
-      "quality": 7.4,
+      "quality": 7.3,
       "score_category": "community",
       "description_quality": "thin"
     },
@@ -7217,9 +7421,13 @@
         "solo_friendliness": {
           "score": 4,
           "reason": "Showing up alone is easy and comfortable, but there\u2019s no structured activity that naturally prompts talking with new people."
+        },
+        "value_for_price": {
+          "score": 10,
+          "reason": "A professional-quality performing arts event offered free to the public is exceptional value."
         }
       },
-      "quality": 4.9,
+      "quality": 5.4,
       "score_category": "performing_arts",
       "description_quality": "rich"
     },
@@ -7265,9 +7473,13 @@
         "solo_friendliness": {
           "score": 8,
           "reason": "The structured lesson and shared activity make it easy to attend alone and still have natural reasons to talk and dance with others."
+        },
+        "value_for_price": {
+          "score": 10,
+          "reason": "A free instructor-led lesson plus social dancing is excellent value with no cost barrier."
         }
       },
-      "quality": 7.3,
+      "quality": 7.6,
       "score_category": "class",
       "description_quality": "rich"
     }
