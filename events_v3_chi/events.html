@@ -31,6 +31,22 @@ permalink: /events_v3_chi/events.html
   .seg button.active{background:var(--panel-2);color:var(--text);}
   .seg button:hover{color:var(--text);}
   .label{color:var(--text-2);font-size:12px;}
+  /* date-range slider (dual handle) */
+  .daterange{display:flex;align-items:center;gap:10px;}
+  .daterange .rng-wrap{position:relative;width:220px;height:22px;}
+  .daterange .rng-track{position:absolute;top:9px;left:0;right:0;height:4px;
+       background:var(--border);border-radius:2px;}
+  .daterange .rng-fill{position:absolute;top:9px;height:4px;background:var(--accent);
+       border-radius:2px;}
+  .daterange input[type=range]{position:absolute;top:0;left:0;width:100%;height:22px;
+       margin:0;background:none;pointer-events:none;-webkit-appearance:none;appearance:none;}
+  .daterange input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+       width:15px;height:15px;border-radius:50%;background:var(--accent);border:2px solid var(--bg);
+       cursor:pointer;pointer-events:auto;margin-top:0;}
+  .daterange input[type=range]::-moz-range-thumb{width:15px;height:15px;border-radius:50%;
+       background:var(--accent);border:2px solid var(--bg);cursor:pointer;pointer-events:auto;}
+  .daterange .rng-label{color:var(--text);font-size:12px;font-variant-numeric:tabular-nums;
+       white-space:nowrap;min-width:148px;}
   table{width:100%;border-collapse:collapse;font-size:13px;}
   thead th{position:sticky;top:0;background:var(--panel);color:var(--text-2);
            font-weight:600;text-align:left;padding:10px 8px;
@@ -140,6 +156,16 @@ permalink: /events_v3_chi/events.html
     <button data-solo="solo">Solo OK (≥7)</button>
     <button data-solo="friends">Bring friends (≤4)</button>
   </div>
+  <span class="label" style="margin-left:18px">Dates</span>
+  <div class="daterange" id="date-range">
+    <div class="rng-wrap">
+      <div class="rng-track"></div>
+      <div class="rng-fill" id="rng-fill"></div>
+      <input type="range" id="rng-min" min="0" max="0" value="0" step="1" />
+      <input type="range" id="rng-max" min="0" max="0" value="0" step="1" />
+    </div>
+    <span class="rng-label" id="rng-label">—</span>
+  </div>
   <span class="label" style="margin-left:auto;font-size:11px">heatmap: red = low, green = high</span>
 </div>
 
@@ -167,6 +193,9 @@ permalink: /events_v3_chi/events.html
     solo_friendliness:'Solo-friendliness',value_for_price:'Value for Price'};
 
   let DATA=null, srcById={}, sortMode='score', soloFilter='all';
+  let DATES=[], dMin=0, dMax=0;  // DATES = sorted distinct event dates; dMin/dMax = selected index range
+  const fmtDate=(iso)=>{if(!iso)return'';const[y,m,d]=iso.split('-').map(Number);
+    return new Date(y,m-1,d).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});};
   const esc=(s)=>s==null?'':String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const cellClass=(n)=>n==null?'':n<=2?'s-1':n<=4?'s-3':n<=5?'s-5':n<=6?'s-6':n<=7?'s-7':n<=8?'s-8':'s-9';
   const descDot=(q)=>({rich:'<span class="desc-dot desc-rich" title="rich">●</span>',
@@ -178,6 +207,8 @@ permalink: /events_v3_chi/events.html
     let events=DATA.events.filter(e=>e.scores);
     if(soloFilter==='solo') events=events.filter(e=>(e.scores.solo_friendliness?.score??0)>=7);
     else if(soloFilter==='friends') events=events.filter(e=>(e.scores.solo_friendliness?.score??99)<=4);
+    if(DATES.length){const lo=DATES[dMin],hi=DATES[dMax];
+      events=events.filter(e=>e.date&&e.date>=lo&&e.date<=hi);}
     events.sort(sortMode==='date'
       ? (a,b)=>(a.date||'9999').localeCompare(b.date||'9999')||((b.quality||0)-(a.quality||0))
       : (a,b)=>((b.quality||0)-(a.quality||0))||(a.date||'9999').localeCompare(b.date||'9999'));
@@ -216,6 +247,26 @@ permalink: /events_v3_chi/events.html
   bindSeg('sort-toggle',b=>sortMode=b.dataset.sort);
   bindSeg('solo-toggle',b=>soloFilter=b.dataset.solo);
 
+  function setupDateRange(){
+    DATES=[...new Set(DATA.events.filter(e=>e.date).map(e=>e.date))].sort();
+    const rMin=document.getElementById('rng-min'), rMax=document.getElementById('rng-max');
+    const wrap=document.getElementById('date-range');
+    if(DATES.length<2){wrap.style.display='none';return;}  // nothing to slide
+    dMin=0; dMax=DATES.length-1;
+    [rMin,rMax].forEach(r=>{r.min=0;r.max=DATES.length-1;});
+    rMin.value=dMin; rMax.value=dMax;
+    function paint(){
+      const fill=document.getElementById('rng-fill'), n=DATES.length-1;
+      fill.style.left=(dMin/n*100)+'%';
+      fill.style.width=((dMax-dMin)/n*100)+'%';
+      document.getElementById('rng-label').textContent=
+        (dMin===dMax)?fmtDate(DATES[dMin]):fmtDate(DATES[dMin])+' – '+fmtDate(DATES[dMax]);
+    }
+    rMin.addEventListener('input',()=>{dMin=Math.min(+rMin.value,dMax);rMin.value=dMin;paint();render();});
+    rMax.addEventListener('input',()=>{dMax=Math.max(+rMax.value,dMin);rMax.value=dMax;paint();render();});
+    paint();
+  }
+
   function renderWeights(w){
     const entries=Object.entries(w||{}).sort((a,b)=>b[1]-a[1]);
     document.getElementById('weights-table').innerHTML=entries.map(([k,v])=>
@@ -228,6 +279,7 @@ permalink: /events_v3_chi/events.html
     document.getElementById('head-meta').innerHTML=
       `${d.meta.scored} scored upcoming events · ${d.city} · generated ${gen}`;
     renderWeights(d.weights);
+    setupDateRange();
     render();
   }).catch(err=>{document.getElementById('body').innerHTML=
     `<tr><td colspan="13" class="empty">Failed to load data.json: ${err}</td></tr>`;});
