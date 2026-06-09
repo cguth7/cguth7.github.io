@@ -1,0 +1,120 @@
+---
+layout: null
+permalink: /events_v3_chi/about.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicago · how this works</title>
+<style>
+  :root{
+    --bg:#12100e; --panel:#1b1813; --border:#2e2a22;
+    --text:#e8e2d6; --muted:#9a9080; --faint:#6b6357; --brass:#d8ab4e;
+    --green:#86b06a; --blue:#6fa8c8;
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --mono:ui-monospace,'SF Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6}
+  header{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:14px;background:linear-gradient(180deg,#1a1611,#141109)}
+  header h1{font-family:var(--serif);font-size:1.35rem;color:#f3ecdd;font-weight:600}
+  header a{font-family:var(--mono);font-size:.68rem;color:var(--brass);text-decoration:none;border:1px solid #9c7c38;padding:4px 11px;border-radius:14px;margin-left:auto}
+  main{max-width:760px;margin:0 auto;padding:34px 22px 80px}
+  h2{font-family:var(--serif);font-size:1.25rem;color:#f3ecdd;margin:34px 0 10px}
+  h2:first-child{margin-top:0}
+  p{color:var(--muted);margin:10px 0;font-size:.95rem}
+  p b,li b{color:var(--text)}
+  ul{margin:10px 0 10px 22px;color:var(--muted);font-size:.95rem}
+  li{margin:6px 0}
+  .stat-strip{display:flex;gap:26px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:16px 20px;margin:18px 0}
+  .stat-strip div{font-size:.82rem;color:var(--muted)}
+  .stat-strip b{display:block;font-family:var(--mono);font-size:1.4rem;color:var(--brass)}
+  .dim{font-family:var(--mono);color:var(--brass);font-size:.85rem}
+  code{font-family:var(--mono);font-size:.84em;background:#211d16;padding:1px 6px;border-radius:4px;color:var(--text)}
+  .cadge{font-family:var(--mono);font-size:.66rem;color:var(--green);border:1px solid #3a4a32;background:rgba(134,176,106,.1);padding:1px 7px;border-radius:9px}
+  .footer-note{margin-top:40px;padding-top:16px;border-top:1px solid var(--border);font-size:.8rem;color:var(--faint)}
+  a{color:var(--brass)}
+</style>
+</head>
+<body>
+<header><h1>How this works</h1><a href="./index.html">← back to the map</a></header>
+<main>
+
+<h2>The idea</h2>
+<p>Finding things to do in a city is a solved problem if you want a stadium
+concert. It is an unsolved problem if you want the weekly knitting circle, the
+mycology club, the civic meeting — the recurring, cheap, show-up-alone events
+where strangers become regulars and regulars become friends. Those live on
+hundreds of separate venue calendars, library systems, parks feeds, and
+Instagram accounts that no one aggregates well.</p>
+<p>This site is the visible end of an engine that tries to pull
+<b>every event in the city</b> into one place and judge each one for
+<b>community potential</b> — not hype.</p>
+
+<div class="stat-strip" id="stats"><div>loading live stats…</div></div>
+
+<h2>Where the events come from</h2>
+<p>A registry of every event-emitting place we know about (venues, organizers,
+aggregators), each connected to the channel where it actually posts. Scrapers
+are built <b>per platform</b>, not per venue — one adapter for The Events
+Calendar covers every WordPress site running it; one Squarespace adapter covers
+every Squarespace venue. Every pipeline must pass a live test before it counts
+as built, and a maintenance job re-checks the fleet so dead feeds get marked
+dead instead of silently lying.</p>
+
+<h2>How events are scored</h2>
+<p>Each event is rated 1–10 by an LLM on six dimensions that describe the event
+itself, the same for every viewer:</p>
+<ul>
+  <li><span class="dim">social quality</span> — will attendees interact, or sit in an audience?</li>
+  <li><span class="dim">serendipity</span> — crowd diversity; odds of an unexpected encounter</li>
+  <li><span class="dim">solo-friendliness</span> — can a stranger show up alone and meet people?</li>
+  <li><span class="dim">community building</span> — does going regularly build something durable?</li>
+  <li><span class="dim">uniqueness</span> — rare one-off vs. a regular thing</li>
+  <li><span class="dim">value for price</span> — fair for what you get; free counts in its favor</li>
+</ul>
+<p>The score you see is a weighted composite. The weights are editable without
+re-scoring anything, which means different <i>personas</i> (a frugal
+community-seeker weighs things differently than a novelty-hunter) cost nothing
+to add.</p>
+
+<h2>Why <span class="cadge">↻ joinable</span> matters most</h2>
+<p>Community is not a property of an event — it's a property of
+<b>repetition</b>. You don't make friends at an event; you make them the fourth
+time you show up to the same weekly thing and the regulars recognize you. So
+the engine detects recurring series from pure date math (a weekly bridge club
+has 7-day gaps; a theater run has nightly ones — only the first is something
+you can <i>join</i>) and the map and list both have a ↻ Joinable filter that
+shows only those.</p>
+
+<h2>What's honestly missing</h2>
+<p>Coverage is measured, not assumed — and it isn't complete. Most of what's
+missing lives on Instagram and paper flyers: run clubs, DIY shows, mutual-aid
+dinners. That's the next frontier. Costs are also only as good as the source
+data; most venue calendars don't publish prices, so "free only" undercounts
+free events.</p>
+
+<div class="footer-note">
+  Surfaces: <a href="./index.html">the map</a> · <a href="./events.html">ranked list</a>.
+  Internal (data-nerd) views: <a href="./tables.html">raw tables</a> ·
+  <a href="./roles.html">the staff of roles</a> that runs the engine.
+</div>
+</main>
+<script>
+fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
+  const joinable=(d.series||[]).filter(s=>['weekly','biweekly','monthly'].includes(s.cadence)).length;
+  const free=d.events.filter(e=>e.is_free===true).length;
+  document.getElementById('stats').innerHTML=
+    `<div><b>${d.meta.events}</b>upcoming events</div>
+     <div><b>${d.meta.venues}</b>venues tracked</div>
+     <div><b>${d.meta.scrapers_built}</b>live pipelines</div>
+     <div><b>${joinable}</b>joinable series</div>
+     <div><b>${free}</b>known-free events</div>
+     <div><b>${new Date(d.generated).toLocaleDateString()}</b>last updated</div>`;
+}).catch(()=>{document.getElementById('stats').innerHTML='<div>stats unavailable</div>';});
+</script>
+</body>
+</html>

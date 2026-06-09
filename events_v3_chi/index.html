@@ -145,7 +145,8 @@ permalink: /events_v3_chi/index.html
     knitting circle, a monthly civic meeting) are flagged as <span class="cadge">↻ joinable</span>,
     because community comes from showing up to the same thing twice.
     Click a neighborhood to focus it; click a pin for its calendar.
-    The <a href="./events.html">ranked list</a> has the same data as a sortable table.
+    The <a href="./events.html">ranked list</a> has the same data as a sortable table,
+    and <a href="./about.html">how this works</a> explains the engine behind it.
   </div>
 </details>
 
@@ -154,6 +155,7 @@ permalink: /events_v3_chi/index.html
   <span class="toggle" id="f-free" onclick="flip('free')">Free only</span>
   <span class="toggle" id="f-solo" onclick="flip('solo')">Solo-friendly</span>
   <span class="toggle" id="f-join" onclick="flip('join')">↻ Joinable (recurring)</span>
+  <span class="toggle" id="f-quiet" onclick="flip('quiet')" title="venues we know about that have no matching events — the coverage frontier">Quiet venues</span>
   <span class="flabel" style="margin-left:8px">Min score</span>
   <span class="slider"><input type="range" id="f-minq" min="0" max="9" value="0" step="1" oninput="setMinQ(this.value)"><span class="val" id="minq-val">any</span></span>
   <span class="flabel" style="margin-left:8px">Dates</span>
@@ -184,7 +186,7 @@ permalink: /events_v3_chi/index.html
 let DB={events:[],venues:[],sources:[],series:[],meta:{}};
 const venById={}, serById={};
 let _map=null,_hoods=null,_hoodLayer=null,_maskLayer=null,_markers=[],_zone='all';
-let F={free:false,solo:false,join:false,minQ:0};
+let F={free:false,solo:false,join:false,quiet:false,minQ:0};
 let DATES=[],dMin=0,dMax=0;
 const MASK_OUTER=[[41.4,-88.4],[41.4,-87.0],[42.4,-87.0],[42.4,-88.4]];
 const JOINABLE=new Set(['weekly','biweekly','monthly']);
@@ -277,6 +279,18 @@ function buildMarkers(){
     const mk=L.marker([v.lat,v.lng],{icon:venuePin(v.kind,list.length,norm)})
       .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · ${list.length} matching${best}</div>${rows}${more}`);
     _markers.push({marker:mk,lat:v.lat,lng:v.lng});
+  }
+  // quiet venues: known places with NO matching events — the coverage frontier.
+  // Off by default (consumer surface); the toggle is the catalog/builder view.
+  if(F.quiet){
+    const emoji=k=>KIND_EMOJI[k]||KIND_EMOJI.other;
+    DB.venues.filter(v=>v.lat!=null&&!evByV[v.id]).forEach(v=>{
+      const mk=L.marker([v.lat,v.lng],{icon:L.divIcon({className:'vpin',iconSize:[15,15],iconAnchor:[8,8],
+        html:`<div style="width:15px;height:15px;border-radius:50%;background:rgba(120,114,104,.22);border:1.5px dashed #8a7d5e;display:flex;align-items:center;justify-content:center;font-size:8px;line-height:1;opacity:.75">${emoji(v.kind)}</div>`})})
+        .bindPopup(`<div class="popup-title">${esc(v.name)}</div><div class="popup-meta">${esc(v.kind)} · no matching events${v.pipeline==='none'?' · no pipeline yet':''}</div>`
+          +(v.website?`<a href="${esc(v.website)}" target="_blank" rel="noopener" style="color:#7ab8ff;font-size:.78rem;text-decoration:none">${esc(v.website.replace(/^https?:\/\//,''))} ↗</a>`:''));
+      _markers.push({marker:mk,lat:v.lat,lng:v.lng});
+    });
   }
   applyZone();
 }
@@ -426,7 +440,8 @@ fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
     el.innerHTML='<div class="lgt">Reading the map</div>'
       +'<div class="lgnote">pin size + brightness = more matching events<br>'
       +'<span style="color:#c43d3d">●</span>→<span style="color:#2f9243">●</span> = lower→higher rated · grey = unrated<br>'
-      +'<span class="cadge">↻</span> = recurring — joinable</div>';
+      +'<span class="cadge">↻</span> = recurring — joinable<br>'
+      +'<span style="color:#8a7d5e">◌ dashed</span> = quiet venue (toggle in filter bar)</div>';
     L.DomEvent.disableClickPropagation(el);return el;};
   key.addTo(_map);
   fetch('./chicago_hoods.geojson?v='+Date.now()).then(r=>r.json()).then(h=>{
