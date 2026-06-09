@@ -1,0 +1,244 @@
+---
+layout: null
+permalink: /events_v3_chi/system.html
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicago · system manual</title>
+<style>
+  :root{
+    --bg:#12100e; --panel:#1b1813; --panel2:#211d16; --border:#2e2a22;
+    --text:#e8e2d6; --muted:#9a9080; --faint:#6b6357; --brass:#d8ab4e;
+    --green:#86b06a; --red:#d27a55; --blue:#6fa8c8; --purple:#9b8cff;
+    --serif:Georgia,'Iowan Old Style','Times New Roman',serif;
+    --mono:ui-monospace,'SF Mono',Menlo,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--sans);background:var(--bg);color:var(--text);line-height:1.6}
+  header{padding:14px 22px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:14px;background:linear-gradient(180deg,#1a1611,#141109);position:sticky;top:0;z-index:10}
+  header h1{font-family:var(--serif);font-size:1.3rem;color:#f3ecdd;font-weight:600}
+  header .sub{font-size:.75rem;color:var(--muted)}
+  header a{font-family:var(--mono);font-size:.66rem;color:var(--brass);text-decoration:none;border:1px solid #9c7c38;padding:4px 10px;border-radius:14px;margin-left:auto;white-space:nowrap}
+  main{max-width:880px;margin:0 auto;padding:30px 22px 90px}
+  h2{font-family:var(--serif);font-size:1.3rem;color:#f3ecdd;margin:42px 0 10px;padding-top:10px;border-top:1px solid var(--border)}
+  h2:first-of-type{margin-top:0;border-top:none}
+  h3{font-size:.95rem;color:var(--brass);margin:20px 0 6px;font-family:var(--mono);font-weight:500;letter-spacing:.4px}
+  p,li{color:var(--muted);font-size:.92rem}
+  p{margin:8px 0}
+  ul{margin:8px 0 8px 22px}
+  li{margin:5px 0}
+  b{color:var(--text)}
+  code{font-family:var(--mono);font-size:.84em;background:var(--panel2);padding:1px 6px;border-radius:4px;color:var(--text)}
+  pre{font-family:var(--mono);font-size:.78rem;background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 16px;overflow-x:auto;color:var(--muted);line-height:1.7;margin:12px 0}
+  pre b{color:var(--brass)}
+  table{width:100%;border-collapse:collapse;font-size:.8rem;margin:10px 0}
+  th{font-family:var(--mono);font-size:.62rem;text-transform:uppercase;letter-spacing:.08em;color:var(--faint);text-align:left;padding:7px 9px;border-bottom:1px solid var(--border)}
+  td{padding:6px 9px;border-bottom:1px solid #221e17;color:var(--muted);vertical-align:top}
+  td:first-child{font-family:var(--mono);color:var(--text);white-space:nowrap;font-size:.78rem}
+  .flag{font-family:var(--mono);font-size:.6rem;padding:1px 7px;border-radius:8px;white-space:nowrap}
+  .f-live{background:rgba(134,176,106,.15);color:var(--green)}
+  .f-frozen{background:rgba(216,171,78,.15);color:var(--brass)}
+  .f-dead{background:rgba(210,122,85,.15);color:var(--red)}
+  .f-derived{background:rgba(111,168,200,.15);color:var(--blue)}
+  .rolecard{background:var(--panel);border:1px solid var(--border);border-left:3px solid var(--brass);border-radius:8px;padding:13px 16px;margin:10px 0}
+  .rolecard .rn{font-family:var(--serif);font-size:1.02rem;color:#f1ead9}
+  .rolecard .rj{font-size:.84rem;color:var(--muted);margin:4px 0}
+  .rolecard .ro{font-family:var(--mono);font-size:.7rem;color:var(--faint)}
+  .rolecard .ro b{color:var(--brass);font-weight:500}
+  .toc{background:var(--panel);border:1px solid var(--border);border-radius:8px;padding:14px 18px;font-size:.85rem;margin-bottom:6px}
+  .toc a{color:var(--brass);text-decoration:none;margin-right:16px;white-space:nowrap}
+  .note{border-left:3px solid var(--blue);background:rgba(111,168,200,.06);padding:9px 14px;border-radius:0 8px 8px 0;margin:12px 0;font-size:.86rem;color:var(--muted)}
+  a{color:var(--brass)}
+</style>
+</head>
+<body>
+<header>
+  <h1>System manual</h1><span class="sub">the engine behind the map — schema v2 + v3 plumbing, 2026-06-09</span>
+  <a href="./about.html">← how it works (the friendly version)</a>
+</header>
+<main>
+
+<div class="toc">
+  <a href="#funnel">the funnel</a> <a href="#tables">tables</a>
+  <a href="#plumbing">plumbing</a> <a href="#steps">a lead's life</a>
+  <a href="#roles">roles</a> <a href="#true">keeping it true</a>
+  <a href="#pointers">repo pointers</a>
+</div>
+
+<h2 id="funnel">The funnel at a glance</h2>
+<pre>
+TEJ (leads)        SCOUT (triage)          MAX (build)             machines
+───────────        ──────────────          ───────────             ────────
+knows the city ──► reads the site ───────► writes/points the  ──►  ingest.py  ─► events
+add_venue_lead     GO: planned + doc       adapter, runs the       (+ series      │
+add_source_lead    NO-GO: none + why       LIVE GATE,              derive,        ▼
+connect_coverage                           build_source            cost parse)  RATER ─► event_scores
+                                                                                  │
+        STEWARD re-probes the fleet, re-derives drifted flags ◄───────────────────┘
+                                                                   export.py ─► data.json ─► this site
+</pre>
+<p>Three independent axes, never conflated: <b>discovery</b> (how we learned a
+thing exists — provenance columns), <b>extraction</b> (sources + the coverage
+bridge — can we hear it?), <b>monitoring</b> (do we want it? — and an event's
+visibility is always <i>derived</i> from these, never stored).</p>
+
+<h2 id="tables">The tables</h2>
+<p>SQLite (<code>chicago.db</code>), SQLAlchemy 2.0 models in
+<code>models.py</code>. Every status flag carries an honesty grade:
+<span class="flag f-live">LIVE</span> has a writer and is current ·
+<span class="flag f-frozen">FROZEN</span> set once at seed, never recomputed ·
+<span class="flag f-dead">DEAD</span> no writer, don't trust ·
+<span class="flag f-derived">DERIVED</span> recomputed from other rows.
+The fourth failure mode we learned the hard way: <b>DRIFTED</b> — has a writer
+that never re-runs. The Steward exists to hunt those.</p>
+
+<h3>pipeline_sources — one row per scrapeable endpoint</h3>
+<table>
+<tr><th>column</th><th>meaning</th><th>grade</th></tr>
+<tr><td>adapter</td><td>transport type (tribe_wp, squarespace, wix, ical, html_jsonld, bibliocommons, localist, do312, ticketmaster_api, …) — one adapter per <i>platform</i>, reused across hundreds of venues</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>url</td><td><b>THE scrape endpoint.</b> What the build gate probes is what ingest scrapes — by construction, since the 06-09 fix</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>status</td><td>none → planned → built. Only the gated operators mint <code>built</code>; a fresh lead caps at planned</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>health</td><td>stamped at build by the live gate: ok · no_events · http_error · parse_error (+ health_detail with the actual error)</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>is_aggregator</td><td>one endpoint fanning out to many venues (parks feed) vs a single-owner calendar</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>discovered_via/by</td><td>provenance, write-once (aggregator · websearch · llm_recall · manual). Added 06-09; older rows NULL</td><td><span class="flag f-live">LIVE</span></td></tr>
+</table>
+
+<h3>source_coverage — the M:N bridge (source ⇄ venue/group)</h3>
+<table>
+<tr><th>column</th><th>meaning</th><th>grade</th></tr>
+<tr><td>is_primary</td><td>this source is the target's canonical feed (the dedup signal)</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>adoption</td><td>adopted (curated) vs discovered (firehose found it — the vetting queue)</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>target_page_url</td><td>the target's page ON that source (an Eventbrite /o/ page). Never a scrape endpoint</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>routing_key</td><td>aggregator→target join key (park slug) ingest routes by — no name matching</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>usefulness</td><td>an LLM guess at seed, never recomputed from yield</td><td><span class="flag f-frozen">FROZEN</span></td></tr>
+</table>
+<div class="note">The old single <code>url</code> column carried three meanings
+(target page / routing slug / scrape endpoint) and produced a silent-zero bug:
+a source could pass the gate yet ingest scraped a stale homepage. Split on
+2026-06-09; the endpoint now lives only on the source row.</div>
+
+<h3>venues / groups — the where and the who</h3>
+<table>
+<tr><th>column</th><th>meaning</th><th>grade</th></tr>
+<tr><td>status</td><td>candidate → verified. <code>verify_target</code> is the only writer, fired when a working source proves the place is real and hosting</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>monitored</td><td>"do we want it?" — true iff a dedicated source with status=built AND health=ok feeds it, or it's verified. Re-derived by the Steward; the leads_inbox view lists everything monitored=0</td><td><span class="flag f-derived">DERIVED</span></td></tr>
+<tr><td>discovered_via/by</td><td>provenance, write-once</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>hosts_events</td><td>LLM guess at seed; should one day derive from real yield</td><td><span class="flag f-frozen">FROZEN</span></td></tr>
+<tr><td>maybe_fake</td><td>no writer anywhere</td><td><span class="flag f-dead">DEAD</span></td></tr>
+</table>
+
+<h3>events — the payload</h3>
+<table>
+<tr><th>column</th><th>meaning</th><th>grade</th></tr>
+<tr><td>dedupe_key</td><td><code>venue|date|name-slug</code> — re-ingests bump last_seen, never duplicate</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>cost / cost_min_cents / is_free</td><td>raw source text kept verbatim + deterministic parse at ingest (fact only — "library events are probably free" is persona-layer inference, never stored)</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td>series_id</td><td>stamped by series derivation after every ingest</td><td><span class="flag f-derived">DERIVED</span></td></tr>
+<tr><td>lifecycle</td><td>active · past · gone (vanished from its source — likely cancelled). Never deleted</td><td><span class="flag f-live">LIVE</span></td></tr>
+<tr><td><i>visibility</i></td><td><b>not a column.</b> <code>is_visible(event) ⇔ source built ∧ venue monitored ∧ group monitored</code>, computed every read</td><td><span class="flag f-derived">DERIVED</span></td></tr>
+</table>
+
+<h3>series — recurring clusters, first-class</h3>
+<table>
+<tr><th>column</th><th>meaning</th><th>grade</th></tr>
+<tr><td>id</td><td><code>venue|normalized-name</code> (episode/volume numbers stripped, so "Footholds Vol. 7" clusters with "Vol. 8")</td><td><span class="flag f-derived">DERIVED</span></td></tr>
+<tr><td>cadence</td><td>median gap between distinct dates: ≤3d = <b>run</b> (a play — see once) · ~7d weekly · ~14d biweekly · ~28d monthly. Pure date math, no LLM</td><td><span class="flag f-derived">DERIVED</span></td></tr>
+</table>
+
+<h3>event_scores — append-only judgment</h3>
+<p>One row per (event, scoring run); newest wins on export; history is never
+deleted (the rows are the expensive asset). Six 1–10 dims + a weighted
+composite. <b>Series inherit:</b> the scorer rates a series once (recurrence
+noted in the prompt) and writes that row to every unscored instance — a
+14-week knitting circle costs one LLM call. Re-weighting (weights.json) never
+requires re-scoring.</p>
+
+<h2 id="plumbing">The plumbing — operators are the only writes</h2>
+<p>The durable layer is mutated <b>only</b> through <code>operators.py</code> —
+idempotent, never drop, no raw SQL, no JSON seeds. The allowlist a role gets is
+its job description:</p>
+<table>
+<tr><th>operator</th><th>does</th><th>callers</th></tr>
+<tr><td>add_venue_lead / add_group_lead</td><td>mint a candidate (fills fields only on create)</td><td>Tej</td></tr>
+<tr><td>add_source_lead</td><td>register an endpoint; known adapter → planned, never built</td><td>Tej, Scout</td></tr>
+<tr><td>update_venue_fields / update_source_fields</td><td>patch attrs post-mint (a passed value deliberately overwrites). update_source_fields refuses adapter/url on a built source — that would falsify the build</td><td>any</td></tr>
+<tr><td>probe_source_live</td><td><b>THE BUILD GATE</b> — run the real adapter, classify ok/no_events/http_error/parse_error. Pure, writes nothing</td><td>Max, Steward</td></tr>
+<tr><td>mark_source_built</td><td>flip to built, gated — always re-runs the probe and stamps health honestly (built-but-failing is visible, never silent)</td><td>Max; Steward re-stamps</td></tr>
+<tr><td>build_source</td><td>atomic happy path: gate + coverage + verify_target (iff health=ok) + decide_monitored</td><td>Max</td></tr>
+<tr><td>set_source_status</td><td>the honest downgrade (NO-GO at triage; rot at maintenance) — reason goes in notes</td><td>Scout, Max, Steward</td></tr>
+<tr><td>connect_coverage</td><td>link source ⇄ target (idempotent on the triple)</td><td>Tej, Max</td></tr>
+<tr><td>verify_target</td><td>candidate → verified; only fired on proof (a working source)</td><td>via build_source</td></tr>
+<tr><td>decide_monitored</td><td>owns venue.monitored: built+ok dedicated source, or verified</td><td>via build_source; Steward</td></tr>
+</table>
+
+<h2 id="steps">A lead's life (the Empty Bottle worked example — real, 2026-06-09)</h2>
+<pre>
+1  TEJ    add_venue_lead("Empty Bottle", …)  +  add_source_lead(platform_guess="squarespace")
+          └ guessed wrong — and that's fine, because:
+2  SCOUT  reads the site: the Squarespace is an empty shell; the real feed is
+          Ticketmaster Discovery v2 (96 events). Corrects the source row, writes
+          docs/sources/empty-bottle-….md, verdict GO (status=planned).
+          (Same pass: Rainbo Club → honest NO-GO, "15 events ever, dead since 2024".)
+3  MAX    ports scrape_ticketmaster into scrapers.py, smoke-tests live,
+          build_source(…) → gate passes (77 valid) → built/ok, venue verified+monitored
+4  INGEST ingest.py --source empty-bottle-… → 65 Event rows (cost parsed: $16.17, free, …)
+          → series derived → "RATER HANDOFF: N unscored" printed
+5  RATER  scores the new events (announced first — it spends money); series inherit
+6  EXPORT export.py → data.json → the <a href="./index.html">map</a> & <a href="./events.html">list</a> you're using
+</pre>
+
+<h2 id="roles">The roles — a staff, not a script</h2>
+<p>A role = a charter (<code>.claude/agents/&lt;name&gt;.md</code>) + a scoped
+operator allowlist. The scoping is the safety: an AI employee's worst failure
+mode is confidently fabricating state, and here the fabrications are
+structurally impossible — Tej can't fake a built pipeline, Scout can't build,
+<code>built</code> is earned from a live probe, not a claim.</p>
+<div class="rolecard"><div class="rn">Tej — Head of Leads</div>
+<div class="rj">Turns knowledge of the city into candidate rows. Industrial move: mining aggregator <i>directories</i> (Do312's venue index alone seeded 150 venues + 151 ready sources in one run).</div>
+<div class="ro">operators: <b>add_*_lead · connect_coverage</b></div></div>
+<div class="rolecard"><div class="rn">Scout — Source Researcher</div>
+<div class="rj">The triage gate. Reads the site, sniffs the platform, writes the source doc, says GO or an honest NO-GO with the reason. Most sites aren't worth scraping; saying so is the deliverable.</div>
+<div class="ro">operators: <b>add_source_lead (→planned) · set_source_status</b></div></div>
+<div class="rolecard"><div class="rn">Max — Head of Scraping</div>
+<div class="rj">Writes/points adapters, runs the live gate, flips sources to built. The only role that builds — and bounded: scrapes are hard-capped, long jobs stay in the main loop.</div>
+<div class="ro">operators: <b>mark_source_built · build_source · verify_target · connect_coverage</b></div></div>
+<div class="rolecard"><div class="rn">Rater — Head of Rating</div>
+<div class="rj">Scores events (six universal dims), sanity-checks the ordering, tunes weights.json. Spends money, so runs are announced. Scores series once; instances inherit.</div>
+<div class="ro">owns: <b>event_scores · data/weights.json</b></div></div>
+<div class="rolecard"><div class="rn">Steward — Maintenance</div>
+<div class="rj">The role that keeps things TRUE. Re-probes every built source, re-derives drifted flags, downgrades honestly. Report-first; --fix applies via operators. Born after an audit found 34/45 monitored venues drifted.</div>
+<div class="ro">tool: <b>steward.py</b> · operators: <b>probe · re-stamp · set_source_status · decide_monitored</b></div></div>
+<p>The missing manager is deliberately thin: <code>leads_inbox</code> (a SQL
+view of every un-built row) is the work queue, and coverage-per-hood is the
+KPI. Dispatch is a query, not an agent — for now.</p>
+
+<h2 id="true">Keeping it true</h2>
+<ul>
+  <li><b>Test suites</b> — <code>tests.py</code> in the engine (in-memory DB,
+  stub adapters exercising the real gate) and in thirdplace. Zero deps, no
+  network. They caught three real bugs on their first runs (a built-but-failing
+  source still monitored its venue; "#3" never clustering; "doors at 8" parsing
+  as $8).</li>
+  <li><b>The Steward</b> — probe drift + flag drift on a schedule.</li>
+  <li><b>The recall harness</b> (<code>thirdplace/evalrecall.py</code>) — the
+  denominator for "almost all events": manually sweep one neighborhood for one
+  weekend, freeze the list, measure what the pipeline caught and which channel
+  the misses live on (expected answer: Instagram — the next frontier).</li>
+</ul>
+
+<h2 id="pointers">Repo pointers (the deeper layer)</h2>
+<ul>
+  <li><code>reality/README.md</code> — orientation; <code>docs/vision.md</code> — the thesis</li>
+  <li><code>event_wizard_chicago/CLAUDE.md</code> — the model + run commands</li>
+  <li><code>docs/roles.md</code> + <code>docs/leads-pipeline.md</code> — role charters context + the operator contract & flag audit</li>
+  <li><code>docs/sources/&lt;id&gt;.md</code> — one page per source: platform, endpoint, gotchas, verdicts, build log</li>
+  <li><code>docs/plans/2026-06-09-engine-v3-spec.md</code> — the rebuild spec; <code>docs/research/2026-06-09-e2e-pipeline-audit.md</code> — the live audit that drove it</li>
+  <li>On this site: <a href="./tables.html">raw tables</a> · <a href="./roles.html">roles board</a> · <a href="./about.html">the friendly version</a></li>
+</ul>
+
+</main>
+</body>
+</html>
