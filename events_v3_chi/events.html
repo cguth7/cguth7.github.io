@@ -63,6 +63,10 @@ permalink: /events_v3_chi/events.html
   a:hover{text-decoration:underline;}
   .source-pill{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;
                background:var(--panel-2);color:var(--text-2);border:1px solid var(--border);white-space:nowrap;}
+  .cadge{font-size:10px;color:#86b06a;border:1px solid #3a4a32;background:rgba(134,176,106,.1);
+         padding:1px 6px;border-radius:9px;white-space:nowrap;}
+  .freebadge{font-size:10px;color:#6fa8c8;border:1px solid #34495a;background:rgba(111,168,200,.1);
+         padding:1px 6px;border-radius:9px;}
   .desc-dot{font-size:13px;cursor:help;}
   .desc-rich{color:#62b04c;} .desc-thin{color:#ddb84a;} .desc-missing{color:#c43d3d;}
   .s-1{background:#c43d3d;color:#fff;} .s-3{background:#e07a4c;color:#fff;}
@@ -102,7 +106,7 @@ permalink: /events_v3_chi/events.html
 <header>
   <h1>Chicago · all events</h1>
   <div class="meta" id="head-meta"></div>
-  <div class="nav"><a href="./index.html">← map &amp; reader</a></div>
+  <div class="nav"><a href="./index.html">← map</a></div>
 </header>
 
 <details class="rubric">
@@ -156,6 +160,22 @@ permalink: /events_v3_chi/events.html
     <button data-solo="solo">Solo OK (≥7)</button>
     <button data-solo="friends">Bring friends (≤4)</button>
   </div>
+  <span class="label" style="margin-left:18px">Cost</span>
+  <div class="seg" id="free-toggle">
+    <button class="active" data-free="all">All</button>
+    <button data-free="free">Free</button>
+  </div>
+  <span class="label" style="margin-left:18px">Recurs</span>
+  <div class="seg" id="join-toggle">
+    <button class="active" data-join="all">All</button>
+    <button data-join="join" title="weekly / biweekly / monthly — show up twice and you're a regular">↻ Joinable</button>
+  </div>
+  <select id="cat-select" class="seg" style="padding:6px 10px;background:var(--panel);color:var(--text-2);border:1px solid var(--border);border-radius:8px;font-size:12px">
+    <option value="">All categories</option>
+  </select>
+  <select id="hood-select" class="seg" style="padding:6px 10px;background:var(--panel);color:var(--text-2);border:1px solid var(--border);border-radius:8px;font-size:12px">
+    <option value="">All hoods</option>
+  </select>
   <span class="label" style="margin-left:18px">Dates</span>
   <div class="daterange" id="date-range">
     <div class="rng-wrap">
@@ -192,7 +212,9 @@ permalink: /events_v3_chi/events.html
     uniqueness:'Uniqueness',community_building:'Community Building',
     solo_friendliness:'Solo-friendliness',value_for_price:'Value for Price'};
 
-  let DATA=null, srcById={}, sortMode='score', soloFilter='all';
+  let DATA=null, srcById={}, serById={}, hoodByVenue={}, sortMode='score', soloFilter='all';
+  let freeFilter='all', joinFilter='all', catFilter='', hoodFilter='';
+  const JOINABLE=new Set(['weekly','biweekly','monthly']);
   let DATES=[], dMin=0, dMax=0;  // DATES = sorted distinct event dates; dMin/dMax = selected index range
   const fmtDate=(iso)=>{if(!iso)return'';const[y,m,d]=iso.split('-').map(Number);
     return new Date(y,m-1,d).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});};
@@ -207,6 +229,11 @@ permalink: /events_v3_chi/events.html
     let events=DATA.events.filter(e=>e.scores);
     if(soloFilter==='solo') events=events.filter(e=>(e.scores.solo_friendliness?.score??0)>=7);
     else if(soloFilter==='friends') events=events.filter(e=>(e.scores.solo_friendliness?.score??99)<=4);
+    if(freeFilter==='free') events=events.filter(e=>e.is_free===true);
+    if(joinFilter==='join') events=events.filter(e=>{
+      const sr=e.series_id&&serById[e.series_id];return sr&&JOINABLE.has(sr.cadence);});
+    if(catFilter) events=events.filter(e=>(e.score_category||e.category||'')===catFilter);
+    if(hoodFilter) events=events.filter(e=>hoodByVenue[e.venue_id]===hoodFilter);
     if(DATES.length){const lo=DATES[dMin],hi=DATES[dMax];
       events=events.filter(e=>e.date&&e.date>=lo&&e.date<=hi);}
     events.sort(sortMode==='date'
@@ -218,6 +245,9 @@ permalink: /events_v3_chi/events.html
       const dim=(k)=>{const v=s[k];return v?`<td class="dim ${cellClass(v.score)}" title="${esc(v.reason)}">${v.score}</td>`:'<td class="dim"></td>';};
       const emoji=KIND_EMOJI[e.venue_kind]||KIND_EMOJI.other;
       const nameCell=e.url?`<a href="${esc(e.url)}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${esc(e.name)}</a>`:esc(e.name);
+      const sr=e.series_id&&serById[e.series_id];
+      const badges=(sr&&JOINABLE.has(sr.cadence)?` <span class="cadge">↻ ${sr.cadence} ×${sr.n_dates}</span>`:'')
+        +(e.is_free?' <span class="freebadge">free</span>':'');
       const descBody=e.description&&e.description.trim()
         ?`<div class="desc-text">${esc(e.description)}</div>`
         :`<div class="no-desc">No description scraped.${e.url?` <a href="${esc(e.url)}" target="_blank" rel="noopener">Open source →</a>`:''}</div>`;
@@ -227,7 +257,7 @@ permalink: /events_v3_chi/events.html
         <td class="score">${e.quality!=null?e.quality.toFixed(1):'—'}</td>
         <td>${descDot(e.description_quality)}</td>
         <td class="when">${esc(e.date||'')}${e.time?' '+esc(e.time):''}</td>
-        <td class="event-cell">${nameCell}</td>
+        <td class="event-cell">${nameCell}${badges}</td>
         <td class="venue"><span class="emoji" title="${esc(e.venue_kind||'')}">${emoji}</span>${esc(e.venue||'')}</td>
         <td><span class="source-pill">${esc(src?src.name:(e.source_id||''))}</span></td>
         ${dim('social_quality')}${dim('serendipity')}${dim('uniqueness')}${dim('community_building')}${dim('solo_friendliness')}${dim('value_for_price')}
@@ -246,6 +276,10 @@ permalink: /events_v3_chi/events.html
   }));}
   bindSeg('sort-toggle',b=>sortMode=b.dataset.sort);
   bindSeg('solo-toggle',b=>soloFilter=b.dataset.solo);
+  bindSeg('free-toggle',b=>freeFilter=b.dataset.free);
+  bindSeg('join-toggle',b=>joinFilter=b.dataset.join);
+  document.getElementById('cat-select').addEventListener('change',e=>{catFilter=e.target.value;render();});
+  document.getElementById('hood-select').addEventListener('change',e=>{hoodFilter=e.target.value;render();});
 
   function setupDateRange(){
     DATES=[...new Set(DATA.events.filter(e=>e.date).map(e=>e.date))].sort();
@@ -275,9 +309,19 @@ permalink: /events_v3_chi/events.html
 
   fetch('./data.json?v='+Date.now()).then(r=>r.json()).then(d=>{
     DATA=d; (d.sources||[]).forEach(s=>srcById[s.id]=s);
+    (d.series||[]).forEach(s=>serById[s.id]=s);
+    (d.venues||[]).forEach(v=>{if(v.neighborhood)hoodByVenue[v.id]=v.neighborhood;});
+    const cats=[...new Set(d.events.map(e=>e.score_category||e.category).filter(Boolean))].sort();
+    document.getElementById('cat-select').innerHTML='<option value="">All categories</option>'
+      +cats.map(c=>`<option value="${esc(c)}">${esc(c)}</option>`).join('');
+    const hoods=[...new Set(Object.values(hoodByVenue))].sort();
+    document.getElementById('hood-select').innerHTML='<option value="">All hoods</option>'
+      +hoods.map(h=>`<option value="${esc(h)}">${esc(h)}</option>`).join('');
     const gen=d.generated?new Date(d.generated).toLocaleString():'?';
+    const unscored=d.meta.events-d.meta.scored;
     document.getElementById('head-meta').innerHTML=
-      `${d.meta.scored} scored upcoming events · ${d.city} · generated ${gen}`;
+      `${d.meta.scored} scored upcoming events · ${d.city} · generated ${gen}`
+      +(unscored>0?` · <span title="newly-ingested events await the next scoring run">${unscored} unscored hidden</span>`:'');
     renderWeights(d.weights);
     setupDateRange();
     render();
