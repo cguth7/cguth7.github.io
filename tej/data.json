@@ -1,0 +1,119 @@
+{
+  "name": "Tej Chethik",
+  "tagline": "Emmy-winning documentary filmmaker. Chicagoan. Knower of an alarming number of facts about streets.",
+  "tej_facts": [
+    "Emmy Award-winning documentary filmmaker based in Chicago.",
+    "Has worked with Kartemquin Films, Kindling Group, and WTTW — Chicago's PBS station.",
+    "Screen credits include The Big Payback (2023) and Ozona (2022).",
+    "Serves on the Canary Screening Committee at the True/False Film Fest.",
+    "Directed and wrote 'The Manhattan Project: A Turning Point' — a Chicago Metro History Fair finalist and Illinois State History Fair award winner.",
+    "Has logged 188 books on Goodreads, which is 188 more than most people."
+  ],
+  "facts": [
+    {
+      "category": "history",
+      "title": "The Wild Onion City",
+      "text": "\"Chicago\" comes from shikaakwa, the Miami-Illinois word for the wild onion (or garlic) that grew thick along the riverbanks. The city is literally named after a smelly plant, and it owns that."
+    },
+    {
+      "category": "history",
+      "title": "Founded by DuSable",
+      "text": "Chicago's first permanent non-Indigenous settler was Jean Baptiste Point du Sable, a Black trader of Haitian descent who built a thriving trading post at the mouth of the river in the 1780s."
+    },
+    {
+      "category": "history",
+      "title": "The river runs backwards",
+      "text": "In 1900, Chicago reversed its entire river so sewage would flow toward the Mississippi instead of into its own drinking water. St. Louis, suddenly downstream of Chicago's plumbing, sued all the way to the Supreme Court — and lost."
+    },
+    {
+      "category": "history",
+      "title": "A city jacked out of the mud",
+      "text": "In the 1850s–60s, Chicago raised its entire downtown by as much as 14 feet to install sewers. Whole brick buildings went up on jackscrews — the five-story Briggs House hotel was lifted while guests stayed inside. A young George Pullman made his name doing it."
+    },
+    {
+      "category": "history",
+      "title": "Streeterville is a scam that worked",
+      "text": "In 1886, showman George 'Cap' Streeter ran his steamboat aground on a sandbar near downtown, declared the accumulating landfill the independent 'District of Lake Michigan,' and sold lots off it for decades. The neighborhood is still named after him."
+    },
+    {
+      "category": "history",
+      "title": "Birthplace of the skyscraper",
+      "text": "After the 1871 fire flattened the city, Chicago rebuilt up: the Home Insurance Building (1885) is widely considered the world's first skyscraper, thanks to its steel-frame skeleton."
+    },
+    {
+      "category": "history",
+      "title": "Deep Tunnel",
+      "text": "Beneath the city runs TARP, the 'Deep Tunnel' — 109 miles of tunnels up to 33 feet wide, one of the largest civil engineering projects on Earth. Construction started in 1975 and it's still being finished."
+    },
+    {
+      "category": "transit",
+      "title": "The L is ancient (and proud of it)",
+      "text": "The first 'L' train ran on June 6, 1892, pulled by a steam locomotive from 39th Street to Congress. Parts of that original South Side structure still carry Green Line trains today."
+    },
+    {
+      "category": "transit",
+      "title": "The Alley L",
+      "text": "The first elevated line was nicknamed the 'Alley L' because it was built over alleys instead of streets — that way the railroad didn't have to compensate property owners whose frontage it darkened. Chicago: finding the loophole since 1892."
+    },
+    {
+      "category": "transit",
+      "title": "Cable car capital of the world",
+      "text": "Forget San Francisco — Chicago once ran the largest cable car system on the planet, with more than 40 miles of track and 1,500 cars. The whole thing was gone by 1906, replaced by electric trolleys."
+    },
+    {
+      "category": "transit",
+      "title": "The Loop and its villain",
+      "text": "The Union Loop elevated was completed in 1897 by traction tycoon Charles Yerkes, a man so widely despised he eventually left for London — where he helped build the Underground. Chicago kept the Loop; literature kept him as the model for Dreiser's ruthless financier Frank Cowperwood."
+    },
+    {
+      "category": "transit",
+      "title": "The White City had the first electric L",
+      "text": "The 1893 World's Columbian Exposition ran the first electric elevated railway in the United States, shuttling fairgoers around the fairgrounds at a then-dazzling pace."
+    },
+    {
+      "category": "transit",
+      "title": "Trains all night",
+      "text": "The Red and Blue Lines run 24 hours a day, 365 days a year — making Chicago one of the only cities in the world with truly round-the-clock rapid transit."
+    },
+    {
+      "category": "streets",
+      "title": "1,900 miles of alleys",
+      "text": "Chicago has more alleys than any city in the world — roughly 1,900 miles of them. Laid end to end they'd reach Phoenix. New York, famously, has almost none, which is why their trash lives on the sidewalk."
+    },
+    {
+      "category": "streets",
+      "title": "The grid is a coordinate system",
+      "text": "Every address in Chicago counts out from the corner of State & Madison — point (0,0). Eight blocks to the mile, 800 address numbers per mile. Give a Chicagoan any address and they can triangulate it like a GPS."
+    },
+    {
+      "category": "streets",
+      "title": "Wacker Drive is three streets tall",
+      "text": "Wacker Drive is a multilevel sandwich: Upper Wacker for traffic and views, Lower Wacker for deliveries and Batman chase scenes (The Dark Knight filmed there), and in places a third level — Lower Lower Wacker."
+    },
+    {
+      "category": "streets",
+      "title": "Western Avenue goes on forever",
+      "text": "Western Avenue runs about 24 miles without leaving the city — the longest continuous street in Chicago, and one of the longest urban streets anywhere in the world."
+    },
+    {
+      "category": "streets",
+      "title": "A street made of wood",
+      "text": "Roslyn Place in Lincoln Park is still paved with wooden blocks — one of the last wooden-block streets in America, a survivor from the era when Chicago paved miles of streets with cedar."
+    },
+    {
+      "category": "streets",
+      "title": "Milwaukee Avenue is older than the grid",
+      "text": "Milwaukee Avenue slashes diagonally across the grid because it follows an Indigenous trail that predates the city entirely. The grid had to yield to the path — not the other way around."
+    },
+    {
+      "category": "streets",
+      "title": "The Pedway",
+      "text": "Beneath and between the Loop's buildings runs the Pedway — 40+ blocks of underground and indoor pedestrian passages, so you can cross downtown in January without ever feeling the wind."
+    },
+    {
+      "category": "streets",
+      "title": "2,000 honorary streets",
+      "text": "Those brown 'honorary' street signs? Chicago has more than 2,000 of them, honoring everyone from Muddy Waters to neighborhood priests. The brown sign changes nothing legally — it's pure Chicago sentiment bolted to a pole."
+    }
+  ]
+}
