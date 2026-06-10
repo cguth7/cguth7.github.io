@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tej Chethik · Honorary Mayor of Chicago Facts</title>
+<style>
+  :root {
+    --flag-blue: #B3DDF2;
+    --flag-red: #FF0000;
+    --cta-red: #c60c30;
+    --cta-blue: #00a1de;
+    --cta-green: #009b3a;
+    --cta-brown: #62361b;
+    --ink: #1a1a1a;
+    --paper: #fdfcf8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+
+  /* ===== Chicago flag header ===== */
+  .flag { width: 100%; }
+  .flag .stripe { height: 18px; background: var(--flag-blue); }
+  .flag .white { background: white; padding: 10px 0; text-align: center; letter-spacing: 18px; font-size: 26px; color: var(--flag-red); user-select: none; }
+
+  /* ===== Station sign hero ===== */
+  .hero {
+    background: #1f1f1f;
+    color: white;
+    text-align: center;
+    padding: 48px 20px 40px;
+  }
+  .hero .station-sign {
+    display: inline-block;
+    border: 4px solid white;
+    border-radius: 6px;
+    padding: 18px 36px;
+    background: #2d2d2d;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 7vw, 64px);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: 800;
+  }
+  .hero .sub {
+    margin-top: 8px;
+    color: #cfcfcf;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  .hero .tagline { margin-top: 22px; font-size: 18px; color: #eee; max-width: 640px; margin-left: auto; margin-right: auto; }
+  .hero .lines { margin-top: 18px; display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .hero .line-dot { width: 18px; height: 18px; border-radius: 50%; display: inline-block; border: 2px solid white; }
+
+  /* ===== Arrival board ===== */
+  .board-wrap { background: #1f1f1f; padding: 0 20px 56px; text-align: center; }
+  .board {
+    display: inline-block;
+    background: #000;
+    border: 3px solid #444;
+    border-radius: 8px;
+    padding: 22px 28px;
+    max-width: 680px;
+    width: 100%;
+    text-align: left;
+  }
+  .board .route { color: #ffb612; font-size: 13px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px; font-family: 'Courier New', monospace; }
+  .board .fact-title { color: #ffb612; font-size: 20px; font-weight: 700; font-family: 'Courier New', monospace; margin-bottom: 8px; }
+  .board .fact-text { color: #ffd97a; font-size: 15px; font-family: 'Courier New', monospace; min-height: 70px; }
+  .board-btn {
+    margin-top: 18px;
+    background: var(--cta-red);
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    padding: 14px 28px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  .board-btn:hover { transform: scale(1.04); }
+  .board-btn:active { transform: scale(0.97); }
+
+  /* ===== Sections ===== */
+  .container { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+  section { padding: 56px 0; }
+  h2 {
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+  .section-sub { color: #666; margin-bottom: 28px; }
+  .star { color: var(--flag-red); }
+
+  /* ===== Tej dossier ===== */
+  .dossier { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+  .dossier .card {
+    background: white;
+    border: 2px solid var(--ink);
+    border-radius: 8px;
+    padding: 16px 18px;
+    box-shadow: 4px 4px 0 var(--flag-blue);
+    font-size: 15px;
+  }
+
+  /* ===== Filters ===== */
+  .filters { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; }
+  .filter-btn {
+    border: 2px solid var(--ink);
+    background: white;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+  }
+  .filter-btn .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; }
+  .filter-btn.active { background: var(--ink); color: white; }
+
+  /* ===== Fact line (train stops) ===== */
+  .factline { position: relative; padding-left: 36px; }
+  .factline::before {
+    content: '';
+    position: absolute;
+    left: 11px; top: 8px; bottom: 8px;
+    width: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to bottom, var(--cta-red), var(--cta-blue), var(--cta-green));
+  }
+  .stop { position: relative; padding: 0 0 30px 8px; }
+  .stop::before {
+    content: '';
+    position: absolute;
+    left: -33px; top: 6px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: white;
+    border: 4px solid var(--ink);
+  }
+  .stop[data-category="history"]::before { border-color: var(--cta-red); }
+  .stop[data-category="transit"]::before { border-color: var(--cta-blue); }
+  .stop[data-category="streets"]::before { border-color: var(--cta-green); }
+  .stop .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin-bottom: 6px;
+  }
+  .stop[data-category="history"] .badge { background: var(--cta-red); }
+  .stop[data-category="transit"] .badge { background: var(--cta-blue); }
+  .stop[data-category="streets"] .badge { background: var(--cta-green); }
+  .stop h3 { font-size: 20px; margin-bottom: 4px; }
+  .stop p { color: #333; font-size: 15.5px; max-width: 680px; }
+  .stop.hidden { display: none; }
+
+  /* ===== Footer ===== */
+  footer {
+    background: #1f1f1f;
+    color: #aaa;
+    text-align: center;
+    padding: 36px 20px;
+    font-size: 14px;
+  }
+  footer a { color: var(--flag-blue); }
+  .loading { text-align: center; color: #888; padding: 40px 0; }
+</style>
+</head>
+<body>
+
+  <!-- Chicago flag -->
+  <div class="flag">
+    <div class="stripe"></div>
+    <div class="white">✶ ✶ ✶ ✶</div>
+    <div class="stripe"></div>
+  </div>
+
+  <!-- Hero: CTA station sign -->
+  <div class="hero">
+    <div class="station-sign">
+      <h1 id="hero-name">Tej Chethik</h1>
+      <div class="sub">This is Tej. Doors open on the left at Tej.</div>
+    </div>
+    <p class="tagline" id="hero-tagline"></p>
+    <div class="lines">
+      <span class="line-dot" style="background:#c60c30"></span>
+      <span class="line-dot" style="background:#00a1de"></span>
+      <span class="line-dot" style="background:#62361b"></span>
+      <span class="line-dot" style="background:#009b3a"></span>
+      <span class="line-dot" style="background:#f9461c"></span>
+      <span class="line-dot" style="background:#522398"></span>
+      <span class="line-dot" style="background:#e27ea6"></span>
+      <span class="line-dot" style="background:#f9e300"></span>
+    </div>
+  </div>
+
+  <!-- Arrival board: random fact -->
+  <div class="board-wrap">
+    <div class="board">
+      <div class="route">Tej Line &nbsp;·&nbsp; toward Knowledge &nbsp;·&nbsp; <span id="board-eta">Due</span></div>
+      <div class="fact-title" id="board-title">Press the button for an incoming fact</div>
+      <div class="fact-text" id="board-text">Chicago history, transit, and street facts arriving every few seconds or whenever you press the button, whichever comes first.</div>
+    </div>
+    <br>
+    <button class="board-btn" id="random-btn">🚃 Next fact, please</button>
+  </div>
+
+  <!-- Tej dossier -->
+  <section>
+    <div class="container">
+      <h2><span class="star">✶</span> The Tej Dossier</h2>
+      <p class="section-sub">Verified facts about the man himself.</p>
+      <div class="dossier" id="dossier"></div>
+    </div>
+  </section>
+
+  <!-- Fact line -->
+  <section style="background:white; border-top: 4px solid var(--flag-blue); border-bottom: 4px solid var(--flag-blue);">
+    <div class="container">
+      <h2><span class="star">✶</span> The Tej Line</h2>
+      <p class="section-sub">Every stop is a Chicago fact Tej would absolutely tell you about, unprompted, and you'd be glad he did.</p>
+      <div class="filters" id="filters">
+        <button class="filter-btn active" data-filter="all">All stops</button>
+        <button class="filter-btn" data-filter="history"><span class="dot" style="background:var(--cta-red)"></span>History</button>
+        <button class="filter-btn" data-filter="transit"><span class="dot" style="background:var(--cta-blue)"></span>Transit</button>
+        <button class="filter-btn" data-filter="streets"><span class="dot" style="background:var(--cta-green)"></span>Streets</button>
+      </div>
+      <div class="factline" id="factline"><div class="loading">Train approaching…</div></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>✶ ✶ ✶ ✶</p>
+    <p>Made with love (and 1,900 miles of alleys) in honor of Tej Chethik.</p>
+    <p><a href="/">← back to cguth7.github.io</a></p>
+  </footer>
+
+<script>
+let FACTS = [];
+
+fetch('data.json')
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(data => {
+    FACTS = data.facts;
+    document.getElementById('hero-tagline').textContent = data.tagline;
+
+    const dossier = document.getElementById('dossier');
+    data.tej_facts.forEach(f => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = f;
+      dossier.appendChild(card);
+    });
+
+    const line = document.getElementById('factline');
+    line.innerHTML = '';
+    data.facts.forEach(f => {
+      const stop = document.createElement('div');
+      stop.className = 'stop';
+      stop.dataset.category = f.category;
+      stop.innerHTML = '<span class="badge">' + f.category + '</span>' +
+        '<h3></h3><p></p>';
+      stop.querySelector('h3').textContent = f.title;
+      stop.querySelector('p').textContent = f.text;
+      line.appendChild(stop);
+    });
+  })
+  .catch(err => {
+    document.getElementById('factline').innerHTML =
+      '<div class="loading">Signal problems on the Tej Line (' + err.message + '). Try refreshing.</div>';
+  });
+
+// Random fact board
+let lastIdx = -1;
+document.getElementById('random-btn').addEventListener('click', () => {
+  if (!FACTS.length) return;
+  let idx;
+  do { idx = Math.floor(Math.random() * FACTS.length); } while (idx === lastIdx && FACTS.length > 1);
+  lastIdx = idx;
+  const f = FACTS[idx];
+  const title = document.getElementById('board-title');
+  const text = document.getElementById('board-text');
+  const eta = document.getElementById('board-eta');
+  eta.textContent = (1 + Math.floor(Math.random() * 9)) + ' min';
+  title.textContent = '';
+  text.textContent = '';
+  // teletype effect
+  let t = f.title, b = f.text, i = 0, j = 0;
+  const typeTitle = setInterval(() => {
+    title.textContent = t.slice(0, ++i);
+    if (i >= t.length) {
+      clearInterval(typeTitle);
+      const typeBody = setInterval(() => {
+        text.textContent = b.slice(0, j += 3);
+        if (j >= b.length) clearInterval(typeBody);
+      }, 12);
+    }
+  }, 25);
+});
+
+// Filters
+document.getElementById('filters').addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const filter = btn.dataset.filter;
+  document.querySelectorAll('.stop').forEach(s => {
+    s.classList.toggle('hidden', filter !== 'all' && s.dataset.category !== filter);
+  });
+});
+</script>
+</body>
+</html>
