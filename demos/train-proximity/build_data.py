@@ -3,26 +3,28 @@
 Build data files for the Chicago Train Proximity map.
 
 Outputs (written next to this script):
-  - tracts.geojson : Chicago 2020 census tracts w/ population, community area,
-                     drive-to-work share, precomputed centroid
-  - data.json      : CTA stations (+ planned Red Line Extension), community-area
-                     commute stats, citywide aggregates, metadata
-  - lines.geojson  : CTA rail line geometry + planned RLE alignment
+  - blocks.json  : every populated 2020 census block in Chicago
+                   [lat, lng, pop, communityAreaIndex] + community-area stats
+  - data.json    : CTA stations (+ planned Red Line Extension), citywide
+                   totals, metadata
+  - lines.geojson: CTA rail line geometry + planned RLE alignment
 
 Sources (all fetched from public GitHub mirrors; see SOURCES below):
+  - Block population: official PL 94-171 2020 redistricting file for Illinois
+    (City of Chicago's Census2020-redistricting repo). Blocks are selected by
+    PLACE == 14000 (City of Chicago), so membership is exact, and each block
+    carries its Census internal point (INTPTLAT/INTPTLON). Sums to 2,746,388.
   - CTA 'L' stops: City of Chicago data portal export (8pix-ypme), 2025-06-27
   - CTA rail lines: City of Chicago "CTA - 'L' (Rail) Lines" GeoJSON (2023)
-  - Tract boundaries: Census cartographic boundary files, 2020, 500k, Illinois
-  - Tract population: Cook County DPH ACS 5-yr age/sex by tract (2016-2020,
-    2020 tract vintage) - males + females summed
   - Community areas: Chicago community area boundaries (77 areas)
   - Commute mode / vehicles: CMAP Community Data Snapshots 2023 (ACS 5-yr)
 
-Run: python3 build_data.py   (downloads sources to .cache/ on first run)
+Run: python3 build_data.py   (downloads sources to .cache/ on first run;
+the block file is a 25 MB gzip)
 """
 import csv
+import gzip
 import json
-import math
 import os
 import urllib.request
 
@@ -32,8 +34,7 @@ CACHE = os.path.join(HERE, '.cache')
 SOURCES = {
     'stops.csv': 'https://raw.githubusercontent.com/smblackwll/MachineLearningProject/ebcd28a83afbbb6e79e4e627fbc04f6e357fe87b/CTA_-_System_Information_-_List_of__L__Stops_20250627.csv',
     'lines.geojson': 'https://raw.githubusercontent.com/declankra/chitrack-api-web/main/public/cta_lines_detailed.geojson',
-    'il_tracts.json': 'https://raw.githubusercontent.com/loganpowell/census-geojson/master/GeoJSON/500k/2020/17/tract.json',
-    'agesex.csv': 'https://raw.githubusercontent.com/Cook-County-Department-of-Public-Health/ccdph-data-sets/main/acs/acs-5yr-age-sex-by-tract.csv',
+    'il_blocks.csv.gz': 'https://raw.githubusercontent.com/Chicago/Census2020-redistricting/main/data/il2020.pl_COMBINED_BLOCK.csv.gz',
     'comm_areas.geojson': 'https://raw.githubusercontent.com/Crains-Chicago/where-to-buy/master/data/final/community_areas.geojson',
     'cmap_ca.csv': 'https://raw.githubusercontent.com/annacobb412/TNC-EV-Incentive-Analysis/main/Community_Area_profiles_2023.csv',
 }
@@ -58,60 +59,33 @@ def fetch(name):
     return path
 
 
-def ring_centroid_area(ring):
-    """Signed area (deg^2) and centroid of one linear ring [[lng,lat],...]."""
-    a = cx = cy = 0.0
-    for i in range(len(ring) - 1):
-        x0, y0 = ring[i]
-        x1, y1 = ring[i + 1]
-        cross = x0 * y1 - x1 * y0
-        a += cross
-        cx += (x0 + x1) * cross
-        cy += (y0 + y1) * cross
-    a /= 2.0
-    if abs(a) < 1e-12:
-        return 0.0, ring[0][0], ring[0][1]
-    return a, cx / (6 * a), cy / (6 * a)
-
-
-def geom_centroid(geom):
-    """Area-weighted centroid of a Polygon/MultiPolygon (holes subtract)."""
+def geom_rings(geom):
     polys = geom['coordinates'] if geom['type'] == 'MultiPolygon' else [geom['coordinates']]
-    tot = cx = cy = 0.0
     for poly in polys:
         for ring in poly:
-            a, x, y = ring_centroid_area(ring)
-            tot += a
-            cx += x * a
-            cy += y * a
-    if tot == 0:
-        ring = polys[0][0]
-        return ring[0][0], ring[0][1]
-    return cx / tot, cy / tot
+            yield ring
+
+
+def geom_bbox(geom):
+    xs, ys = [], []
+    for ring in geom_rings(geom):
+        for x, y in ring:
+            xs.append(x)
+            ys.append(y)
+    return min(xs), min(ys), max(xs), max(ys)
 
 
 def point_in_geom(lng, lat, geom):
     """Even-odd ray cast over every ring (holes handled by parity)."""
-    polys = geom['coordinates'] if geom['type'] == 'MultiPolygon' else [geom['coordinates']]
     inside = False
-    for poly in polys:
-        for ring in poly:
-            for i in range(len(ring) - 1):
-                x0, y0 = ring[i]
-                x1, y1 = ring[i + 1]
-                if (y0 > lat) != (y1 > lat):
-                    xint = x0 + (lat - y0) * (x1 - x0) / (y1 - y0)
-                    if xint > lng:
-                        inside = not inside
+    for ring in geom_rings(geom):
+        for i in range(len(ring) - 1):
+            x0, y0 = ring[i]
+            x1, y1 = ring[i + 1]
+            if (y0 > lat) != (y1 > lat):
+                if x0 + (lat - y0) * (x1 - x0) / (y1 - y0) > lng:
+                    inside = not inside
     return inside
-
-
-def round_coords(obj, nd=5):
-    if isinstance(obj, float):
-        return round(obj, nd)
-    if isinstance(obj, list):
-        return [round_coords(v, nd) for v in obj]
-    return obj
 
 
 def main():
@@ -125,64 +99,51 @@ def main():
         cmap[r['GEOG'].upper()] = {
             'name': r['GEOG'],
             'pop2020': int(float(r['2020_POP'])),
-            'drive': (float(r['DROVE_AL']) + float(r['CARPOOL'])) / tot_comm,
-            'transit': float(r['TRANSIT']) / tot_comm,
-            'walkBike': float(r['WALK_BIKE']) / tot_comm,
-            'wfh': float(r['WORK_AT_HOME']) / float(r['TOT_WRKR16OV']),
-            'noVeh': float(r['NO_VEH']) / tot_hh,
+            'drive': round((float(r['DROVE_AL']) + float(r['CARPOOL'])) / tot_comm, 4),
+            'transit': round(float(r['TRANSIT']) / tot_comm, 4),
+            'walkBike': round(float(r['WALK_BIKE']) / tot_comm, 4),
+            'wfh': round(float(r['WORK_AT_HOME']) / float(r['TOT_WRKR16OV']), 4),
+            'noVeh': round(float(r['NO_VEH']) / tot_hh, 4),
         }
-    ca_stats = {}
-    for f in cas:
-        key = f['properties']['community'].upper()
-        ca_stats[key] = cmap[name_fix.get(key, key)]
+    for ca in cas:
+        key = ca['properties']['community'].upper()
+        ca['_stats'] = cmap[name_fix.get(key, key)]
+        ca['_bbox'] = geom_bbox(ca['geometry'])
+        # rough centroid for nearest-CA fallback
+        ring = max(geom_rings(ca['geometry']), key=len)
+        ca['_cx'] = sum(p[0] for p in ring) / len(ring)
+        ca['_cy'] = sum(p[1] for p in ring) / len(ring)
+    ca_list = [ca['_stats'] for ca in cas]
 
-    # ---- tract population ---------------------------------------------------
-    pop = {}
-    for r in csv.DictReader(open(fetch('agesex.csv'))):
-        g = r['GEOID_tract'].strip('"')
-        pop[g] = pop.get(g, 0) + int(r['Total'])
+    def ca_index(lng, lat):
+        for i, ca in enumerate(cas):
+            x0, y0, x1, y1 = ca['_bbox']
+            if x0 <= lng <= x1 and y0 <= lat <= y1 and point_in_geom(lng, lat, ca['geometry']):
+                return i
+        # simplified polygons leave slivers along borders: snap to nearest CA
+        return min(range(len(cas)),
+                   key=lambda i: (cas[i]['_cx'] - lng) ** 2 + (cas[i]['_cy'] - lat) ** 2)
 
-    # ---- tracts: filter Cook -> Chicago (centroid in a community area) ------
-    il = json.load(open(fetch('il_tracts.json')))['features']
-    out_feats = []
+    # ---- blocks: official PL 94-171, PLACE 14000 = City of Chicago ----------
+    blocks = []
     city_pop = 0
-    for f in il:
-        p = f['properties']
-        if p['COUNTYFP'] != '031':
-            continue
-        lng, lat = geom_centroid(f['geometry'])
-        ca_name = None
-        for ca in cas:
-            if point_in_geom(lng, lat, ca['geometry']):
-                ca_name = ca['properties']['community'].upper()
-                break
-        if ca_name is None:
-            continue  # Cook County tract outside Chicago
-        tract_pop = pop.get(p['GEOID'], 0)
-        city_pop += tract_pop
-        st = ca_stats[ca_name]
-        out_feats.append({
-            'type': 'Feature',
-            'properties': {
-                'id': p['GEOID'],
-                'name': p['NAMELSAD'],
-                'pop': tract_pop,
-                'ca': st['name'],
-                'drive': round(st['drive'], 4),
-                'transit': round(st['transit'], 4),
-                'noVeh': round(st['noVeh'], 4),
-                'sqmi': round(p['ALAND'] / 2589988.11, 4),
-                'cLat': round(lat, 6),
-                'cLng': round(lng, 6),
-            },
-            'geometry': {'type': f['geometry']['type'],
-                         'coordinates': round_coords(f['geometry']['coordinates'])},
-        })
-    print('Chicago tracts:', len(out_feats), 'population:', city_pop)
+    n_blocks_total = 0
+    with gzip.open(fetch('il_blocks.csv.gz'), 'rt') as fh:
+        for r in csv.DictReader(fh):
+            if r['PLACE'] != '14000':
+                continue
+            n_blocks_total += 1
+            pop = int(r['POP100'])
+            city_pop += pop
+            if pop == 0:
+                continue  # parks, industry, water: no people, no effect on sums
+            lat = float(r['INTPTLAT'])
+            lng = float(r['INTPTLON'])
+            blocks.append([round(lat, 5), round(lng, 5), pop, ca_index(lng, lat)])
+    print(f'Chicago blocks: {n_blocks_total} total, {len(blocks)} populated, pop {city_pop}')
 
-    with open(os.path.join(HERE, 'tracts.geojson'), 'w') as fh:
-        json.dump({'type': 'FeatureCollection', 'features': out_feats}, fh,
-                  separators=(',', ':'))
+    with open(os.path.join(HERE, 'blocks.json'), 'w') as fh:
+        json.dump({'cas': ca_list, 'blocks': blocks}, fh, separators=(',', ':'))
 
     # ---- stations -----------------------------------------------------------
     stations = {}
@@ -217,7 +178,6 @@ def main():
         'properties': {'LINES': 'Red Line Extension (planned)', 'LEGEND': 'RLE'},
         'geometry': {'type': 'LineString', 'coordinates': rle_path},
     })
-
     with open(os.path.join(HERE, 'lines.geojson'), 'w') as fh:
         json.dump(lines, fh, separators=(',', ':'))
 
@@ -225,22 +185,20 @@ def main():
     data = {
         'generated': '2026-06-10',
         'cityPop': city_pop,
-        'nTracts': len(out_feats),
+        'nBlocks': n_blocks_total,
+        'nBlocksPopulated': len(blocks),
         'stations': station_list,
-        'commAreas': {v['name']: {k: (round(val, 4) if isinstance(val, float) else val)
-                                  for k, val in v.items() if k != 'name'}
-                      for v in ca_stats.values()},
         'sources': SOURCES,
         'notes': {
-            'population': 'ACS 2016-2020 5-yr totals per 2020 census tract (Cook County DPH), male+female summed.',
-            'commute': 'CMAP Community Data Snapshots 2023 (ACS 5-yr) per community area. drive = (drove alone + carpool) / total commuters.',
+            'population': 'Official 2020 decennial census (PL 94-171) population per block; blocks selected by PLACE=14000 so city membership is exact. People are placed at each block\'s Census internal point.',
+            'commute': 'CMAP Community Data Snapshots 2023 (ACS 5-yr) per community area. drive = (drove alone + carpool) / total commuters. Blocks inherit their community area\'s share.',
             'rle': 'Red Line Extension station coordinates approximate, from CTA preferred-alignment maps. Target opening ~2030.',
-            'method': 'Tracts assigned to Chicago / community areas by polygon centroid. Distances are tract-centroid to station, straight line.',
+            'method': 'Distances are block internal point to station, straight line.',
         },
     }
     with open(os.path.join(HERE, 'data.json'), 'w') as fh:
         json.dump(data, fh, separators=(',', ':'))
-    print('wrote tracts.geojson, lines.geojson, data.json')
+    print('wrote blocks.json, lines.geojson, data.json')
 
 
 if __name__ == '__main__':
