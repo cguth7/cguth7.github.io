@@ -36,8 +36,9 @@
     background: var(--panel); border-right: 1px solid var(--border);
     padding: 14px; font-size: 0.85rem;
   }
-  #map { flex: 1; background: #0d0b07; }
-  .ctl { margin-bottom: 16px; }
+  #mapbox { flex: 1; position: relative; }
+  #map { position: absolute; inset: 0; background: #0d0b07; }
+  .ctl { margin-bottom: 14px; }
   .ctl label { display: flex; justify-content: space-between; color: var(--muted); margin-bottom: 4px; }
   .ctl label b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
   input[type=range] { width: 100%; accent-color: var(--brass); }
@@ -66,13 +67,11 @@
     display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7rem;
     color: #fff; margin: 1px 2px 1px 0; font-weight: 600;
   }
-  /* leaflet dark popups */
-  .leaflet-popup-content-wrapper, .leaflet-tooltip {
+  .leaflet-popup-content-wrapper {
     background: var(--panel2); color: var(--text); border: 1px solid var(--border);
     box-shadow: 0 4px 16px rgba(0,0,0,0.6);
   }
   .leaflet-popup-tip { background: var(--panel2); }
-  .leaflet-tooltip:before { display: none; }
   .leaflet-popup-content { margin: 12px 14px; font-size: 0.82rem; line-height: 1.5; }
   .pp h4 { margin: 0 0 4px; color: var(--brass-bright); font-size: 0.95rem; }
   .pp .row { display: flex; justify-content: space-between; gap: 16px; }
@@ -80,14 +79,21 @@
   .pp .row span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
   .pp hr { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
   .pp .planned-badge { color: #ffb454; font-weight: 700; font-size: 0.72rem; letter-spacing: 1px; }
+  #blockTip {
+    position: absolute; z-index: 1200; pointer-events: none; display: none;
+    background: rgba(38,32,23,0.95); border: 1px solid var(--border); border-radius: 6px;
+    padding: 5px 9px; font-size: 0.74rem; color: var(--text); white-space: nowrap;
+    transform: translate(12px, -50%);
+  }
   #legend {
     position: absolute; bottom: 18px; right: 12px; z-index: 1000;
     background: rgba(29,24,16,0.92); border: 1px solid var(--border); border-radius: 8px;
-    padding: 10px 12px; font-size: 0.72rem; color: var(--muted); width: 190px;
+    padding: 10px 12px; font-size: 0.72rem; color: var(--muted); width: 200px;
   }
   #legend .bar { height: 10px; border-radius: 4px; margin: 6px 0 2px;
     background: linear-gradient(to right, #16120b, #6b5524, #d4a843, #ffd166); }
   #legend .ends { display: flex; justify-content: space-between; }
+  #legend .sizes { margin-top: 8px; border-top: 1px solid var(--border); padding-top: 6px; }
   #loading {
     position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
     background: var(--bg); z-index: 2000; color: var(--brass); font-size: 0.95rem;
@@ -95,24 +101,33 @@
   @media (max-width: 760px) {
     #wrap { flex-direction: column; }
     #sidebar { width: 100%; min-width: 0; max-height: 45vh; order: 2; }
-    #map { min-height: 55vh; order: 1; }
+    #mapbox { min-height: 55vh; order: 1; }
   }
 </style>
 </head>
 <body>
 <header>
   <h1>Chicago &times; the &lsquo;L&rsquo;</h1>
-  <span class="sub">how close are people to a train stop? &middot; exponential-decay BOTEC</span>
+  <span class="sub">every populated census block vs. the nearest train stop &middot; exponential-decay BOTEC</span>
   <a href="/">&larr; home</a>
 </header>
 <div id="wrap">
   <div id="sidebar">
     <div class="ctl">
-      <label>color tracts by</label>
+      <label>color blocks by</label>
       <select id="metric">
         <option value="weight">proximity weight &nbsp;e^(−d/λ)</option>
         <option value="people">transit-weighted people &nbsp;pop · e^(−d/λ)</option>
         <option value="carfree">car-free transit demand &nbsp;pop · e^(−d/λ) · (1−drive)</option>
+      </select>
+      <div class="hint" style="margin-top:4px">dot size = block population (2020 census). brighter = closer to a train.</div>
+    </div>
+    <div class="ctl">
+      <label>size stations by</label>
+      <select id="sizing">
+        <option value="weighted">weighted catchment &nbsp;Σ pop·e^(−d/λ)</option>
+        <option value="primary">primary catchment &nbsp;(nearest-stop population)</option>
+        <option value="uniform">uniform (small)</option>
       </select>
     </div>
     <div class="ctl">
@@ -130,7 +145,7 @@
 
     <div class="stats">
       <h3>citywide BOTEC</h3>
-      <div class="stat"><span class="k">population (791 tracts)</span><span class="v" id="sPop">—</span></div>
+      <div class="stat"><span class="k">2020 census population</span><span class="v" id="sPop">—</span></div>
       <div class="stat"><span class="k">within &frac12; mi of a stop</span><span class="v" id="sHalf">—</span></div>
       <div class="stat"><span class="k">within 1 mi of a stop</span><span class="v" id="sOne">—</span></div>
       <div class="stat"><span class="k">transit-weighted pop &Sigma; pop·w</span><span class="v" id="sW">—</span></div>
@@ -140,30 +155,34 @@
         <div class="stat delta"><span class="k">RLE: weighted-pop gain</span><span class="v" id="sRleW">—</span></div>
       </div>
     </div>
-    <div class="hint">click a <b>station</b> for its catchment, or a <b>tract</b> for its numbers. brighter = closer to a train.</div>
+    <div class="hint">click a <b>station</b> for its catchment, or any <b>block dot</b> for its numbers.</div>
 
     <details>
       <summary>full BOTEC: assumptions &amp; sources</summary>
       <ol>
-        <li><b>Atomic unit:</b> 2020 census tracts (791 with centroid inside a Chicago community area). Each tract&rsquo;s people are treated as living at its area-weighted centroid.</li>
-        <li><b>Population:</b> ACS 2016&ndash;2020 5-yr totals per tract (Cook County Dept. of Public Health mirror), male+female summed. Sums to ~2.69M, vs 2.746M in the 2020 decennial count &mdash; centroid clipping + ACS noise explains the gap.</li>
-        <li><b>Distance:</b> straight-line (haversine) tract centroid &rarr; station. No street network, no entrances; real walks are ~1.2&ndash;1.4&times; longer.</li>
-        <li><b>Exponential weight:</b> w = e<sup>&minus;d/&lambda;</sup>. Default &lambda; = 0.5 mi &asymp; a 10-minute walk; transit ridership literature usually shows steep decay past 0.5 mi for rail walk-access.</li>
-        <li><b>Driving share:</b> per community area from CMAP Community Data Snapshots 2023 (ACS 5-yr, table B08301-equivalent): (drove alone + carpool) &divide; commuters. Tracts inherit their community area&rsquo;s share; the slider scales all areas uniformly. Commute mode &ne; all trips &mdash; treat as a proxy for car orientation.</li>
+        <li><b>Atomic unit:</b> 2020 census <b>blocks</b> &mdash; 38,816 in Chicago, 33,801 with anyone living on them. Official PL&nbsp;94-171 redistricting counts; the block totals sum to Chicago&rsquo;s exact 2020 population of 2,746,388. Each block&rsquo;s people sit at its Census-defined internal point (blocks are about the size of&hellip; a city block, so within-block error is tiny).</li>
+        <li><b>City membership:</b> blocks selected by the Census PLACE code for Chicago (14000) &mdash; exact, no boundary clipping.</li>
+        <li><b>Distance:</b> straight-line block point &rarr; station. No street network, no station entrances; real walks run ~1.2&ndash;1.4&times; longer.</li>
+        <li><b>Exponential weight:</b> w = e<sup>&minus;d/&lambda;</sup>. Default &lambda; = 0.5 mi &asymp; a 10-minute walk; rail walk-access ridership decays steeply past 0.5 mi in most transit literature.</li>
+        <li><b>Driving share:</b> per community area from CMAP Community Data Snapshots 2023 (ACS 5-yr): (drove alone + carpool) &divide; commuters. Blocks inherit their community area&rsquo;s share (assigned by point-in-polygon); the slider scales all areas uniformly. Commute mode &ne; all trips &mdash; a proxy for car orientation.</li>
         <li><b>Stations:</b> 144 current CTA &lsquo;L&rsquo; stations (City portal export, June 2025, incl. Damen/Lake) + 4 planned Red Line Extension stations (103rd, 111th, Michigan Ave, 130th; coordinates approximated from CTA preferred-alignment maps; target ~2030).</li>
-        <li><b>Double counting:</b> per-station &ldquo;weighted catchment&rdquo; counts a tract toward every nearby station; &ldquo;primary catchment&rdquo; assigns each tract only to its nearest station.</li>
-        <li><b>Sources:</b> tract boundaries <a href="https://github.com/loganpowell/census-geojson">census-geojson</a> (Census 500k cartographic files); stops &amp; rail lines City of Chicago data portal via GitHub mirrors; population <a href="https://github.com/Cook-County-Department-of-Public-Health/ccdph-data-sets">ccdph-data-sets</a>; commute <a href="https://cmap.illinois.gov/data/community-data-snapshots/">CMAP snapshots</a>. Regenerate with <code>build_data.py</code>.</li>
+        <li><b>Catchments:</b> &ldquo;weighted&rdquo; counts every block toward every station (people near two stops count twice; truncated past 6 mi where the weight is &lt;5% even at &lambda;=2). &ldquo;Primary&rdquo; assigns each block only to its single nearest station &mdash; no double counting, so the per-station numbers sum to the city total.</li>
+        <li><b>Sources:</b> block population <a href="https://github.com/Chicago/Census2020-redistricting">Chicago/Census2020-redistricting</a> (official PL&nbsp;94-171 file); stops &amp; rail lines City of Chicago data portal via GitHub mirrors; commute <a href="https://cmap.illinois.gov/data/community-data-snapshots/">CMAP snapshots</a>. Regenerate with <code>build_data.py</code>.</li>
       </ol>
     </details>
   </div>
-  <div id="map"></div>
+  <div id="mapbox">
+    <div id="map"></div>
+    <div id="blockTip"></div>
+    <div id="legend">
+      <div id="legendTitle">proximity weight e^(−d/λ)</div>
+      <div class="bar"></div>
+      <div class="ends"><span id="legLo">far</span><span id="legHi">at the stop</span></div>
+      <div class="sizes">block dot size = population<br>station size = <span id="legSizing">weighted catchment</span></div>
+    </div>
+    <div id="loading">loading 33,801 blocks &amp; 148 stations&hellip;</div>
+  </div>
 </div>
-<div id="legend">
-  <div id="legendTitle">proximity weight e^(−d/λ)</div>
-  <div class="bar"></div>
-  <div class="ends"><span id="legLo">far</span><span id="legHi">at the stop</span></div>
-</div>
-<div id="loading">loading tracts &amp; trains&hellip;</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
@@ -174,139 +193,195 @@ const LINE_COLORS = {
   Purple: '#522398', Yellow: '#f9e300', Pink: '#e27ea6', Orange: '#f9461c',
 };
 
-const state = { lam: 0.5, drv: 1.0, rle: true, metric: 'weight' };
-let tracts = [];        // {props, layer, dExist, nearExist, dAll, nearAll}
-let stations = [];      // from data.json (existing + planned)
-let cityDriveBase = 0;  // pop-weighted citywide drive share
+const state = { lam: 0.5, drv: 1.0, rle: true, metric: 'weight', sizing: 'weighted' };
+
+// block data (typed arrays, filled in init)
+let NB = 0;
+let bLat, bLng, bPop, bCa;          // per block
+let bDExist, bIExist, bDAll, bIAll; // nearest-station distance/index per block
+let bPx, bPy;                        // last drawn screen coords (for hit tests)
+let cas = [];                        // community-area stats
+let stations = [];
+let nbr = [];                        // per station: {idx: Uint32Array, d: Float32Array} within 6 mi
+let cityDriveBase = 0, cityPop = 0;
+let canvas, ctx, map;
 
 const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(2) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : Math.round(n).toLocaleString();
 const pct = x => (100 * x).toFixed(0) + '%';
 
-function hav(lat1, lng1, lat2, lng2) { // miles
-  const R = 3958.8, toR = Math.PI / 180;
-  const dLat = (lat2 - lat1) * toR, dLng = (lng2 - lng1) * toR;
-  const a = Math.sin(dLat / 2) ** 2 +
-    Math.cos(lat1 * toR) * Math.cos(lat2 * toR) * Math.sin(dLng / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(a));
-}
+// equirectangular projection in miles (fine at city scale)
+const LAT0 = 41.84, LNG0 = -87.68;
+const KY = 69.055, KX = 69.172 * Math.cos(LAT0 * Math.PI / 180);
+const mx = lng => (lng - LNG0) * KX;
+const my = lat => (lat - LAT0) * KY;
 
-// dark -> brass -> bright ramp, t in [0,1]
-function ramp(t) {
+// dark -> brass -> bright ramp, precomputed in 64 bins
+const RAMP_N = 64;
+const RAMP = (() => {
   const stops = [[22,18,11], [107,85,36], [212,168,67], [255,209,102]];
-  const x = Math.max(0, Math.min(1, t)) * (stops.length - 1);
-  const i = Math.min(stops.length - 2, Math.floor(x)), f = x - i;
-  const c = stops[i].map((v, k) => Math.round(v + f * (stops[i + 1][k] - v)));
-  return `rgb(${c[0]},${c[1]},${c[2]})`;
-}
+  const out = [];
+  for (let b = 0; b < RAMP_N; b++) {
+    const x = (b / (RAMP_N - 1)) * (stops.length - 1);
+    const i = Math.min(stops.length - 2, Math.floor(x)), f = x - i;
+    const c = stops[i].map((v, k) => Math.round(v + f * (stops[i + 1][k] - v)));
+    out.push(`rgb(${c[0]},${c[1]},${c[2]})`);
+  }
+  return out;
+})();
 
-const map = L.map('map', { zoomSnap: 0.25 }).setView([41.84, -87.68], 11);
+map = L.map('map', { zoomSnap: 0.25 }).setView([41.84, -87.68], 10.75);
 L.tileLayer('https://{s}.basemap.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
   attribution: '&copy; OpenStreetMap, &copy; CARTO', subdomains: 'abcd', maxZoom: 18,
 }).addTo(map);
 
 Promise.all([
   fetch('data.json').then(r => r.json()),
-  fetch('tracts.geojson').then(r => r.json()),
+  fetch('blocks.json').then(r => r.json()),
   fetch('lines.geojson').then(r => r.json()),
 ]).then(init).catch(e => {
   document.getElementById('loading').textContent = 'failed to load data: ' + e;
 });
 
-function init([data, tractsGj, linesGj]) {
+function init([data, blockData, linesGj]) {
   stations = data.stations;
+  cas = blockData.cas;
+  cityPop = data.cityPop;
 
-  // --- rail lines ---
+  // ---- typed block arrays ----
+  const B = blockData.blocks;
+  NB = B.length;
+  bLat = new Float64Array(NB); bLng = new Float64Array(NB);
+  bPop = new Int32Array(NB);   bCa = new Uint8Array(NB);
+  bDExist = new Float32Array(NB); bIExist = new Int16Array(NB);
+  bDAll = new Float32Array(NB);   bIAll = new Int16Array(NB);
+  bPx = new Float32Array(NB);  bPy = new Float32Array(NB);
+  for (let i = 0; i < NB; i++) {
+    bLat[i] = B[i][0]; bLng[i] = B[i][1]; bPop[i] = B[i][2]; bCa[i] = B[i][3];
+  }
+
+  // ---- nearest station + neighbor lists (one pass, ~5M distance checks) ----
+  const NS = stations.length;
+  const sx = new Float64Array(NS), sy = new Float64Array(NS);
+  const planned = new Uint8Array(NS);
+  stations.forEach((s, j) => { sx[j] = mx(s.lng); sy[j] = my(s.lat); planned[j] = s.planned ? 1 : 0; });
+  const CUTOFF = 6; // mi; weight < 5% there even at lambda = 2
+  const nIdx = Array.from({ length: NS }, () => []);
+  const nD = Array.from({ length: NS }, () => []);
+  for (let i = 0; i < NB; i++) {
+    const x = mx(bLng[i]), y = my(bLat[i]);
+    let dE = 1e9, iE = -1, dA = 1e9, iA = -1;
+    for (let j = 0; j < NS; j++) {
+      const dx = x - sx[j], dy = y - sy[j];
+      const d = Math.sqrt(dx * dx + dy * dy);
+      if (d < dA) { dA = d; iA = j; }
+      if (!planned[j] && d < dE) { dE = d; iE = j; }
+      if (d <= CUTOFF) { nIdx[j].push(i); nD[j].push(d); }
+    }
+    bDExist[i] = dE; bIExist[i] = iE; bDAll[i] = dA; bIAll[i] = iA;
+  }
+  nbr = nIdx.map((idx, j) => ({ idx: Uint32Array.from(idx), d: Float32Array.from(nD[j]) }));
+
+  // ---- rail lines ----
   L.geoJSON(linesGj, {
     style: f => {
-      const txt = f.properties.LINES || '';
       if (f.properties.LEGEND === 'RLE')
         return { color: LINE_COLORS.Red, weight: 3, dashArray: '6 6', opacity: 0.9 };
+      const txt = f.properties.LINES || '';
       const names = Object.keys(LINE_COLORS).filter(n => txt.includes(n));
       return { color: names.length === 1 ? LINE_COLORS[names[0]] : '#9aa0a6', weight: 2.5, opacity: 0.85 };
     },
     interactive: false,
   }).addTo(map);
 
-  // --- tracts ---
-  const tractLayer = L.geoJSON(tractsGj, {
-    style: { color: '#000', weight: 0.4, opacity: 0.35, fillOpacity: 0.78, fillColor: '#16120b' },
-    onEachFeature: (f, layer) => {
-      const p = f.properties;
-      const t = { p, layer, dExist: 1e9, nearExist: null, dAll: 1e9, nearAll: null };
-      layer.on('click', () => layer.bindPopup(tractPopup(t), { maxWidth: 290 }).openPopup());
-      layer.bindTooltip(() => `${t.p.name} · ${fmt(t.p.pop)} ppl · ${nearD(t).toFixed(2)} mi to ${nearS(t).name}`,
-        { sticky: true, direction: 'top', opacity: 0.95 });
-      tracts.push(t);
-    },
-  }).addTo(map);
-  map.fitBounds(tractLayer.getBounds().pad(0.02));
+  // ---- block canvas ----
+  canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:absolute;inset:0;z-index:390;pointer-events:none;';
+  map.getContainer().appendChild(canvas);
+  ctx = canvas.getContext('2d');
+  map.on('move zoom zoomend resize viewreset', drawBlocks);
 
-  // --- nearest-station precompute (one pass; sliders only restyle) ---
-  for (const t of tracts) {
-    for (const s of stations) {
-      const d = hav(t.p.cLat, t.p.cLng, s.lat, s.lng);
-      if (d < t.dAll) { t.dAll = d; t.nearAll = s; }
-      if (!s.planned && d < t.dExist) { t.dExist = d; t.nearExist = s; }
-    }
-  }
-
-  // --- stations ---
-  for (const s of stations) {
+  // ---- stations ----
+  stations.forEach((s, j) => {
     const single = s.lines.length === 1 ? LINE_COLORS[s.lines[0]] : '#f5f0e6';
     const m = L.circleMarker([s.lat, s.lng], {
-      radius: s.planned ? 7 : 5.5,
+      radius: 5,
       color: s.planned ? '#ffb454' : '#0d0b07',
-      weight: s.planned ? 2.5 : 1.5,
+      weight: s.planned ? 2 : 1.2,
       dashArray: s.planned ? '3 3' : null,
       fillColor: single, fillOpacity: 0.95, pane: 'markerPane',
     }).addTo(map);
-    m.on('click', () => m.bindPopup(stationPopup(s), { maxWidth: 300 }).openPopup());
+    m.bindTooltip(s.name, { direction: 'top', opacity: 0.9 });
+    m.on('click', () => m.bindPopup(stationPopup(s, j), { maxWidth: 310 }).openPopup());
     s._marker = m;
-  }
+  });
+
+  // ---- block click + hover ----
+  map.on('click', e => {
+    const i = hitBlock(e.containerPoint.x, e.containerPoint.y, 14);
+    if (i >= 0) L.popup({ maxWidth: 290 }).setLatLng([bLat[i], bLng[i]]).setContent(blockPopup(i)).openOn(map);
+  });
+  const tip = document.getElementById('blockTip');
+  map.getContainer().addEventListener('mousemove', ev => {
+    const r = map.getContainer().getBoundingClientRect();
+    const x = ev.clientX - r.left, y = ev.clientY - r.top;
+    const i = hitBlock(x, y, 9);
+    if (i < 0) { tip.style.display = 'none'; return; }
+    const s = state.rle ? stations[bIAll[i]] : stations[bIExist[i]];
+    const d = state.rle ? bDAll[i] : bDExist[i];
+    tip.textContent = `${bPop[i]} people · ${cas[bCa[i]].name} · ${d.toFixed(2)} mi to ${s.name}`;
+    tip.style.left = x + 'px'; tip.style.top = y + 'px'; tip.style.display = 'block';
+  });
+  map.getContainer().addEventListener('mouseleave', () => { tip.style.display = 'none'; });
 
   // pop-weighted citywide drive share
-  let dw = 0, dp = 0;
-  for (const t of tracts) { dw += t.p.pop * t.p.drive; dp += t.p.pop; }
-  cityDriveBase = dw / dp;
+  let dw = 0;
+  for (let i = 0; i < NB; i++) dw += bPop[i] * cas[bCa[i]].drive;
+  cityDriveBase = dw / cityPop;
   document.getElementById('cityDrv').textContent = pct(cityDriveBase);
-  document.getElementById('sPop').textContent = fmt(dp);
+  document.getElementById('sPop').textContent = cityPop.toLocaleString();
 
+  map.fitBounds([[41.64, -87.95], [42.03, -87.52]]);
   wireControls();
   render();
   document.getElementById('loading').remove();
 }
 
-const nearD = t => state.rle ? t.dAll : t.dExist;
-const nearS = t => state.rle ? t.nearAll : t.nearExist;
-const weight = t => Math.exp(-nearD(t) / state.lam);
-const carFreeFactor = t => Math.max(0, 1 - t.p.drive * state.drv);
+const blockD = i => state.rle ? bDAll[i] : bDExist[i];
+const blockNearest = i => state.rle ? bIAll[i] : bIExist[i];
+const carFreeFactor = i => Math.max(0, 1 - cas[bCa[i]].drive * state.drv);
+
+// per-render cache of color-bin per block
+let binCache = new Uint8Array(0);
 
 function render() {
-  // metric values + normalization
-  let maxV = 0;
-  const vals = tracts.map(t => {
-    const w = weight(t);
-    let v = w;
-    if (state.metric === 'people') v = t.p.pop * w;
-    if (state.metric === 'carfree') v = t.p.pop * w * carFreeFactor(t);
-    if (v > maxV) maxV = v;
-    return v;
-  });
-  tracts.forEach((t, i) => {
-    const v = state.metric === 'weight' ? vals[i] : Math.sqrt(vals[i] / (maxV || 1));
-    t.layer.setStyle({ fillColor: ramp(v) });
-  });
+  if (binCache.length !== NB) binCache = new Uint8Array(NB);
 
-  // citywide stats — both scenarios so we can show the RLE delta
+  // ---- block color bins ----
+  let maxV = 0;
+  const vals = new Float32Array(NB);
+  for (let i = 0; i < NB; i++) {
+    const w = Math.exp(-blockD(i) / state.lam);
+    let v = w;
+    if (state.metric === 'people') v = bPop[i] * w;
+    else if (state.metric === 'carfree') v = bPop[i] * w * carFreeFactor(i);
+    vals[i] = v;
+    if (v > maxV) maxV = v;
+  }
+  for (let i = 0; i < NB; i++) {
+    const t = state.metric === 'weight' ? vals[i] : Math.sqrt(vals[i] / (maxV || 1));
+    binCache[i] = Math.min(RAMP_N - 1, (t * RAMP_N) | 0);
+  }
+
+  // ---- citywide stats (both scenarios for the RLE delta) ----
   const agg = useRle => {
     let half = 0, one = 0, w = 0, cf = 0;
-    for (const t of tracts) {
-      const d = useRle ? t.dAll : t.dExist;
+    for (let i = 0; i < NB; i++) {
+      const d = useRle ? bDAll[i] : bDExist[i];
       const wt = Math.exp(-d / state.lam);
-      if (d <= 0.5) half += t.p.pop;
-      if (d <= 1.0) one += t.p.pop;
-      w += t.p.pop * wt;
-      cf += t.p.pop * wt * carFreeFactor(t);
+      if (d <= 0.5) half += bPop[i];
+      if (d <= 1.0) one += bPop[i];
+      w += bPop[i] * wt;
+      cf += bPop[i] * wt * carFreeFactor(i);
     }
     return { half, one, w, cf };
   };
@@ -321,9 +396,18 @@ function render() {
     document.getElementById('sRleW').textContent = '+' + fmt(cur.w - base.w);
   }
 
-  // planned stations dim when excluded
-  for (const s of stations) if (s.planned && s._marker)
-    s._marker.setStyle({ opacity: state.rle ? 1 : 0.25, fillOpacity: state.rle ? 0.95 : 0.15 });
+  // ---- station sizes ----
+  const catch_ = stationCatchments();
+  let maxC = 0;
+  stations.forEach((s, j) => { if ((!s.planned || state.rle) && catch_[j] > maxC) maxC = catch_[j]; });
+  stations.forEach((s, j) => {
+    const off = s.planned && !state.rle;
+    let r = 5;
+    if (state.sizing !== 'uniform' && maxC > 0)
+      r = 2.5 + 14 * Math.sqrt(catch_[j] / maxC);
+    s._marker.setStyle({ opacity: off ? 0.3 : 1, fillOpacity: off ? 0.15 : 0.9 });
+    s._marker.setRadius(off ? 3.5 : r);
+  });
 
   document.getElementById('legendTitle').textContent = {
     weight: 'proximity weight e^(−d/λ)',
@@ -332,6 +416,80 @@ function render() {
   }[state.metric];
   document.getElementById('legHi').textContent = state.metric === 'weight' ? 'at the stop' : 'most';
   document.getElementById('legLo').textContent = state.metric === 'weight' ? `${(2 * state.lam).toFixed(1)}+ mi` : 'least';
+  document.getElementById('legSizing').textContent = {
+    weighted: 'weighted catchment', primary: 'primary catchment', uniform: 'uniform',
+  }[state.sizing];
+
+  drawBlocks();
+}
+
+// catchment per station for the current sizing mode (also used by popups)
+function stationCatchments() {
+  const out = new Float64Array(stations.length);
+  if (state.sizing === 'primary') {
+    for (let i = 0; i < NB; i++) out[blockNearest(i)] += bPop[i];
+  } else if (state.sizing === 'weighted') {
+    for (let j = 0; j < stations.length; j++) {
+      const { idx, d } = nbr[j];
+      let sum = 0;
+      for (let k = 0; k < idx.length; k++) sum += bPop[idx[k]] * Math.exp(-d[k] / state.lam);
+      out[j] = sum;
+    }
+  }
+  return out;
+}
+
+function drawBlocks() {
+  if (!ctx) return;
+  const size = map.getSize();
+  const dpr = window.devicePixelRatio || 1;
+  if (canvas.width !== size.x * dpr || canvas.height !== size.y * dpr) {
+    canvas.width = size.x * dpr; canvas.height = size.y * dpr;
+    canvas.style.width = size.x + 'px'; canvas.style.height = size.y + 'px';
+  }
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.clearRect(0, 0, size.x, size.y);
+
+  const zoom = map.getZoom();
+  const base = 1.1 * Math.pow(2, zoom - 11);
+  // screen coords via linear fit (equirect): exact enough across the city
+  const p0 = map.latLngToContainerPoint([LAT0, LNG0]);
+  const p1 = map.latLngToContainerPoint([LAT0 + 0.1, LNG0 + 0.1]);
+  const fx = (p1.x - p0.x) / 0.1, fy = (p1.y - p0.y) / 0.1;
+
+  // group by color bin to minimize fillStyle churn
+  const groups = Array.from({ length: RAMP_N }, () => []);
+  for (let i = 0; i < NB; i++) {
+    const x = p0.x + (bLng[i] - LNG0) * fx;
+    const y = p0.y + (bLat[i] - LAT0) * fy;
+    bPx[i] = x; bPy[i] = y;
+    if (x < -20 || y < -20 || x > size.x + 20 || y > size.y + 20) continue;
+    groups[binCache[i] || 0].push(i);
+  }
+  ctx.globalAlpha = 0.85;
+  for (let b = 0; b < RAMP_N; b++) {
+    const g = groups[b];
+    if (!g.length) continue;
+    ctx.fillStyle = RAMP[b];
+    ctx.beginPath();
+    for (const i of g) {
+      const r = Math.min(base * 3, Math.max(0.9, base * (0.45 + Math.sqrt(bPop[i]) / 26)));
+      ctx.moveTo(bPx[i] + r, bPy[i]);
+      ctx.arc(bPx[i], bPy[i], r, 0, 6.2832);
+    }
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+}
+
+function hitBlock(x, y, maxPx) {
+  let best = -1, bestD = maxPx * maxPx;
+  for (let i = 0; i < NB; i++) {
+    const dx = bPx[i] - x, dy = bPy[i] - y;
+    const d = dx * dx + dy * dy;
+    if (d < bestD) { bestD = d; best = i; }
+  }
+  return best;
 }
 
 function chips(lines) {
@@ -339,16 +497,19 @@ function chips(lines) {
     `<span class="chip" style="background:${LINE_COLORS[l]};${l === 'Yellow' ? 'color:#222;' : ''}">${l}</span>`).join('');
 }
 
-function stationPopup(s) {
-  // catchment: distances from every tract to THIS station
-  let q = 0, h = 0, o = 0, wsum = 0, prim = 0, primCF = 0;
-  for (const t of tracts) {
-    const d = hav(t.p.cLat, t.p.cLng, s.lat, s.lng);
-    if (d <= 0.25) q += t.p.pop;
-    if (d <= 0.5) h += t.p.pop;
-    if (d <= 1.0) o += t.p.pop;
-    wsum += t.p.pop * Math.exp(-d / state.lam);
-    if (nearS(t) === s) { prim += t.p.pop; primCF += t.p.pop * carFreeFactor(t); }
+function stationPopup(s, j) {
+  let q = 0, h = 0, o = 0, wsum = 0;
+  const { idx, d } = nbr[j];
+  for (let k = 0; k < idx.length; k++) {
+    const p = bPop[idx[k]], dd = d[k];
+    if (dd <= 0.25) q += p;
+    if (dd <= 0.5) h += p;
+    if (dd <= 1.0) o += p;
+    wsum += p * Math.exp(-dd / state.lam);
+  }
+  let prim = 0, primCF = 0;
+  for (let i = 0; i < NB; i++) if (blockNearest(i) === j) {
+    prim += bPop[i]; primCF += bPop[i] * carFreeFactor(i);
   }
   const note = s.planned && !state.rle
     ? `<hr><span class="hint">excluded from map shading — toggle the RLE on.</span>` : '';
@@ -368,22 +529,21 @@ function stationPopup(s) {
   </div>`;
 }
 
-function tractPopup(t) {
-  const s = nearS(t), d = nearD(t), w = weight(t);
-  const dens = t.p.sqmi > 0 ? t.p.pop / t.p.sqmi : 0;
+function blockPopup(i) {
+  const j = blockNearest(i), s = stations[j];
+  const d = blockD(i), w = Math.exp(-d / state.lam);
+  const ca = cas[bCa[i]];
   return `<div class="pp">
-    <h4>${t.p.name}</h4>
-    <div class="hint">${t.p.ca}</div>
+    <h4>${bPop[i].toLocaleString()} people on this block</h4>
+    <div class="hint">${ca.name} · 2020 census block</div>
     <hr>
-    <div class="row"><span>population</span><span>${fmt(t.p.pop)}</span></div>
-    <div class="row"><span>density</span><span>${fmt(dens)}/mi²</span></div>
     <div class="row"><span>nearest stop</span><span>${s.name}</span></div>
     <div class="row"><span>distance</span><span>${d.toFixed(2)} mi</span></div>
     <div class="row"><span>proximity weight e^(−d/λ)</span><span>${w.toFixed(2)}</span></div>
     <hr>
-    <div class="row"><span>drives to work (${t.p.ca.toLowerCase()})</span><span>${pct(t.p.drive)}</span></div>
-    <div class="row"><span>takes transit</span><span>${pct(t.p.transit)}</span></div>
-    <div class="row"><span>households w/o a car</span><span>${pct(t.p.noVeh)}</span></div>
+    <div class="row"><span>drives to work (${ca.name.toLowerCase()})</span><span>${pct(ca.drive)}</span></div>
+    <div class="row"><span>takes transit</span><span>${pct(ca.transit)}</span></div>
+    <div class="row"><span>households w/o a car</span><span>${pct(ca.noVeh)}</span></div>
   </div>`;
 }
 
@@ -403,6 +563,7 @@ function wireControls() {
   });
   document.getElementById('rle').addEventListener('change', e => { state.rle = e.target.checked; queue(); });
   document.getElementById('metric').addEventListener('change', e => { state.metric = e.target.value; queue(); });
+  document.getElementById('sizing').addEventListener('change', e => { state.sizing = e.target.value; queue(); });
 }
 </script>
 </body>
