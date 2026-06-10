@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chicago × the 'L' — Train Proximity BOTEC</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root {
+    --bg: #14110b;
+    --panel: #1d1810;
+    --panel2: #262017;
+    --border: #3a3122;
+    --brass: #d4a843;
+    --brass-bright: #ffd166;
+    --text: #e8e0cf;
+    --muted: #9a8f76;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--text);
+    display: flex; flex-direction: column;
+  }
+  header {
+    padding: 10px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+  }
+  header h1 { font-size: 1.05rem; margin: 0; color: var(--brass-bright); font-weight: 600; }
+  header .sub { color: var(--muted); font-size: 0.8rem; }
+  header a { color: var(--brass); text-decoration: none; font-size: 0.8rem; margin-left: auto; }
+  #wrap { flex: 1; display: flex; min-height: 0; }
+  #sidebar {
+    width: 320px; min-width: 320px; overflow-y: auto;
+    background: var(--panel); border-right: 1px solid var(--border);
+    padding: 14px; font-size: 0.85rem;
+  }
+  #map { flex: 1; background: #0d0b07; }
+  .ctl { margin-bottom: 16px; }
+  .ctl label { display: flex; justify-content: space-between; color: var(--muted); margin-bottom: 4px; }
+  .ctl label b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
+  input[type=range] { width: 100%; accent-color: var(--brass); }
+  .toggle-row { display: flex; align-items: center; gap: 8px; margin: 10px 0; cursor: pointer; }
+  .toggle-row input { accent-color: var(--brass); width: 16px; height: 16px; }
+  select {
+    width: 100%; background: var(--panel2); color: var(--text);
+    border: 1px solid var(--border); border-radius: 6px; padding: 6px;
+  }
+  .stats {
+    background: var(--panel2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; margin: 14px 0;
+  }
+  .stats h3 { margin: 0 0 8px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--brass); }
+  .stat { display: flex; justify-content: space-between; padding: 3px 0; gap: 8px; }
+  .stat .k { color: var(--muted); }
+  .stat .v { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
+  .stat.delta .v { color: #7fd98a; }
+  .hint { color: var(--muted); font-size: 0.75rem; line-height: 1.45; }
+  details { margin-top: 14px; border-top: 1px solid var(--border); padding-top: 10px; }
+  summary { cursor: pointer; color: var(--brass); font-weight: 600; }
+  details ol { padding-left: 18px; line-height: 1.5; color: var(--muted); font-size: 0.78rem; }
+  details li { margin-bottom: 6px; }
+  details a { color: var(--brass); }
+  .chip {
+    display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 0.7rem;
+    color: #fff; margin: 1px 2px 1px 0; font-weight: 600;
+  }
+  /* leaflet dark popups */
+  .leaflet-popup-content-wrapper, .leaflet-tooltip {
+    background: var(--panel2); color: var(--text); border: 1px solid var(--border);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.6);
+  }
+  .leaflet-popup-tip { background: var(--panel2); }
+  .leaflet-tooltip:before { display: none; }
+  .leaflet-popup-content { margin: 12px 14px; font-size: 0.82rem; line-height: 1.5; }
+  .pp h4 { margin: 0 0 4px; color: var(--brass-bright); font-size: 0.95rem; }
+  .pp .row { display: flex; justify-content: space-between; gap: 16px; }
+  .pp .row span:first-child { color: var(--muted); }
+  .pp .row span:last-child { font-variant-numeric: tabular-nums; font-weight: 600; }
+  .pp hr { border: none; border-top: 1px solid var(--border); margin: 6px 0; }
+  .pp .planned-badge { color: #ffb454; font-weight: 700; font-size: 0.72rem; letter-spacing: 1px; }
+  #legend {
+    position: absolute; bottom: 18px; right: 12px; z-index: 1000;
+    background: rgba(29,24,16,0.92); border: 1px solid var(--border); border-radius: 8px;
+    padding: 10px 12px; font-size: 0.72rem; color: var(--muted); width: 190px;
+  }
+  #legend .bar { height: 10px; border-radius: 4px; margin: 6px 0 2px;
+    background: linear-gradient(to right, #16120b, #6b5524, #d4a843, #ffd166); }
+  #legend .ends { display: flex; justify-content: space-between; }
+  #loading {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: var(--bg); z-index: 2000; color: var(--brass); font-size: 0.95rem;
+  }
+  @media (max-width: 760px) {
+    #wrap { flex-direction: column; }
+    #sidebar { width: 100%; min-width: 0; max-height: 45vh; order: 2; }
+    #map { min-height: 55vh; order: 1; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Chicago &times; the &lsquo;L&rsquo;</h1>
+  <span class="sub">how close are people to a train stop? &middot; exponential-decay BOTEC</span>
+  <a href="/">&larr; home</a>
+</header>
+<div id="wrap">
+  <div id="sidebar">
+    <div class="ctl">
+      <label>color tracts by</label>
+      <select id="metric">
+        <option value="weight">proximity weight &nbsp;e^(−d/λ)</option>
+        <option value="people">transit-weighted people &nbsp;pop · e^(−d/λ)</option>
+        <option value="carfree">car-free transit demand &nbsp;pop · e^(−d/λ) · (1−drive)</option>
+      </select>
+    </div>
+    <div class="ctl">
+      <label>decay length λ <b id="lamV">0.50 mi</b></label>
+      <input type="range" id="lam" min="0.1" max="2" step="0.05" value="0.5">
+      <div class="hint">weight falls to 1/e (37%) at λ miles from the nearest stop, 13% at 2λ.</div>
+    </div>
+    <div class="ctl">
+      <label>driving adjustment <b id="drvV">100%</b></label>
+      <input type="range" id="drv" min="0" max="150" step="5" value="100">
+      <div class="hint">scales each neighborhood&rsquo;s ACS drive-to-work share (drove alone + carpool). citywide baseline: <b id="cityDrv">—</b>.</div>
+    </div>
+    <label class="toggle-row"><input type="checkbox" id="rle" checked>
+      include planned Red Line Extension (95th &rarr; 130th, ~2030)</label>
+
+    <div class="stats">
+      <h3>citywide BOTEC</h3>
+      <div class="stat"><span class="k">population (791 tracts)</span><span class="v" id="sPop">—</span></div>
+      <div class="stat"><span class="k">within &frac12; mi of a stop</span><span class="v" id="sHalf">—</span></div>
+      <div class="stat"><span class="k">within 1 mi of a stop</span><span class="v" id="sOne">—</span></div>
+      <div class="stat"><span class="k">transit-weighted pop &Sigma; pop·w</span><span class="v" id="sW">—</span></div>
+      <div class="stat"><span class="k">&hellip;after removing drivers</span><span class="v" id="sCF">—</span></div>
+      <div id="rleDeltas" style="display:none">
+        <div class="stat delta"><span class="k">RLE: newly within &frac12; mi</span><span class="v" id="sRleHalf">—</span></div>
+        <div class="stat delta"><span class="k">RLE: weighted-pop gain</span><span class="v" id="sRleW">—</span></div>
+      </div>
+    </div>
+    <div class="hint">click a <b>station</b> for its catchment, or a <b>tract</b> for its numbers. brighter = closer to a train.</div>
+
+    <details>
+      <summary>full BOTEC: assumptions &amp; sources</summary>
+      <ol>
+        <li><b>Atomic unit:</b> 2020 census tracts (791 with centroid inside a Chicago community area). Each tract&rsquo;s people are treated as living at its area-weighted centroid.</li>
+        <li><b>Population:</b> ACS 2016&ndash;2020 5-yr totals per tract (Cook County Dept. of Public Health mirror), male+female summed. Sums to ~2.69M, vs 2.746M in the 2020 decennial count &mdash; centroid clipping + ACS noise explains the gap.</li>
+        <li><b>Distance:</b> straight-line (haversine) tract centroid &rarr; station. No street network, no entrances; real walks are ~1.2&ndash;1.4&times; longer.</li>
+        <li><b>Exponential weight:</b> w = e<sup>&minus;d/&lambda;</sup>. Default &lambda; = 0.5 mi &asymp; a 10-minute walk; transit ridership literature usually shows steep decay past 0.5 mi for rail walk-access.</li>
+        <li><b>Driving share:</b> per community area from CMAP Community Data Snapshots 2023 (ACS 5-yr, table B08301-equivalent): (drove alone + carpool) &divide; commuters. Tracts inherit their community area&rsquo;s share; the slider scales all areas uniformly. Commute mode &ne; all trips &mdash; treat as a proxy for car orientation.</li>
+        <li><b>Stations:</b> 144 current CTA &lsquo;L&rsquo; stations (City portal export, June 2025, incl. Damen/Lake) + 4 planned Red Line Extension stations (103rd, 111th, Michigan Ave, 130th; coordinates approximated from CTA preferred-alignment maps; target ~2030).</li>
+        <li><b>Double counting:</b> per-station &ldquo;weighted catchment&rdquo; counts a tract toward every nearby station; &ldquo;primary catchment&rdquo; assigns each tract only to its nearest station.</li>
+        <li><b>Sources:</b> tract boundaries <a href="https://github.com/loganpowell/census-geojson">census-geojson</a> (Census 500k cartographic files); stops &amp; rail lines City of Chicago data portal via GitHub mirrors; population <a href="https://github.com/Cook-County-Department-of-Public-Health/ccdph-data-sets">ccdph-data-sets</a>; commute <a href="https://cmap.illinois.gov/data/community-data-snapshots/">CMAP snapshots</a>. Regenerate with <code>build_data.py</code>.</li>
+      </ol>
+    </details>
+  </div>
+  <div id="map"></div>
+</div>
+<div id="legend">
+  <div id="legendTitle">proximity weight e^(−d/λ)</div>
+  <div class="bar"></div>
+  <div class="ends"><span id="legLo">far</span><span id="legHi">at the stop</span></div>
+</div>
+<div id="loading">loading tracts &amp; trains&hellip;</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+'use strict';
+
+const LINE_COLORS = {
+  Red: '#c60c30', Blue: '#00a1de', Green: '#009b3a', Brown: '#62361b',
+  Purple: '#522398', Yellow: '#f9e300', Pink: '#e27ea6', Orange: '#f9461c',
+};
+
+const state = { lam: 0.5, drv: 1.0, rle: true, metric: 'weight' };
+let tracts = [];        // {props, layer, dExist, nearExist, dAll, nearAll}
+let stations = [];      // from data.json (existing + planned)
+let cityDriveBase = 0;  // pop-weighted citywide drive share
+
+const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(2) + 'M' : n >= 1e4 ? Math.round(n / 1e3) + 'k' : Math.round(n).toLocaleString();
+const pct = x => (100 * x).toFixed(0) + '%';
+
+function hav(lat1, lng1, lat2, lng2) { // miles
+  const R = 3958.8, toR = Math.PI / 180;
+  const dLat = (lat2 - lat1) * toR, dLng = (lng2 - lng1) * toR;
+  const a = Math.sin(dLat / 2) ** 2 +
+    Math.cos(lat1 * toR) * Math.cos(lat2 * toR) * Math.sin(dLng / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+// dark -> brass -> bright ramp, t in [0,1]
+function ramp(t) {
+  const stops = [[22,18,11], [107,85,36], [212,168,67], [255,209,102]];
+  const x = Math.max(0, Math.min(1, t)) * (stops.length - 1);
+  const i = Math.min(stops.length - 2, Math.floor(x)), f = x - i;
+  const c = stops[i].map((v, k) => Math.round(v + f * (stops[i + 1][k] - v)));
+  return `rgb(${c[0]},${c[1]},${c[2]})`;
+}
+
+const map = L.map('map', { zoomSnap: 0.25 }).setView([41.84, -87.68], 11);
+L.tileLayer('https://{s}.basemap.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap, &copy; CARTO', subdomains: 'abcd', maxZoom: 18,
+}).addTo(map);
+
+Promise.all([
+  fetch('data.json').then(r => r.json()),
+  fetch('tracts.geojson').then(r => r.json()),
+  fetch('lines.geojson').then(r => r.json()),
+]).then(init).catch(e => {
+  document.getElementById('loading').textContent = 'failed to load data: ' + e;
+});
+
+function init([data, tractsGj, linesGj]) {
+  stations = data.stations;
+
+  // --- rail lines ---
+  L.geoJSON(linesGj, {
+    style: f => {
+      const txt = f.properties.LINES || '';
+      if (f.properties.LEGEND === 'RLE')
+        return { color: LINE_COLORS.Red, weight: 3, dashArray: '6 6', opacity: 0.9 };
+      const names = Object.keys(LINE_COLORS).filter(n => txt.includes(n));
+      return { color: names.length === 1 ? LINE_COLORS[names[0]] : '#9aa0a6', weight: 2.5, opacity: 0.85 };
+    },
+    interactive: false,
+  }).addTo(map);
+
+  // --- tracts ---
+  const tractLayer = L.geoJSON(tractsGj, {
+    style: { color: '#000', weight: 0.4, opacity: 0.35, fillOpacity: 0.78, fillColor: '#16120b' },
+    onEachFeature: (f, layer) => {
+      const p = f.properties;
+      const t = { p, layer, dExist: 1e9, nearExist: null, dAll: 1e9, nearAll: null };
+      layer.on('click', () => layer.bindPopup(tractPopup(t), { maxWidth: 290 }).openPopup());
+      layer.bindTooltip(() => `${t.p.name} · ${fmt(t.p.pop)} ppl · ${nearD(t).toFixed(2)} mi to ${nearS(t).name}`,
+        { sticky: true, direction: 'top', opacity: 0.95 });
+      tracts.push(t);
+    },
+  }).addTo(map);
+  map.fitBounds(tractLayer.getBounds().pad(0.02));
+
+  // --- nearest-station precompute (one pass; sliders only restyle) ---
+  for (const t of tracts) {
+    for (const s of stations) {
+      const d = hav(t.p.cLat, t.p.cLng, s.lat, s.lng);
+      if (d < t.dAll) { t.dAll = d; t.nearAll = s; }
+      if (!s.planned && d < t.dExist) { t.dExist = d; t.nearExist = s; }
+    }
+  }
+
+  // --- stations ---
+  for (const s of stations) {
+    const single = s.lines.length === 1 ? LINE_COLORS[s.lines[0]] : '#f5f0e6';
+    const m = L.circleMarker([s.lat, s.lng], {
+      radius: s.planned ? 7 : 5.5,
+      color: s.planned ? '#ffb454' : '#0d0b07',
+      weight: s.planned ? 2.5 : 1.5,
+      dashArray: s.planned ? '3 3' : null,
+      fillColor: single, fillOpacity: 0.95, pane: 'markerPane',
+    }).addTo(map);
+    m.on('click', () => m.bindPopup(stationPopup(s), { maxWidth: 300 }).openPopup());
+    s._marker = m;
+  }
+
+  // pop-weighted citywide drive share
+  let dw = 0, dp = 0;
+  for (const t of tracts) { dw += t.p.pop * t.p.drive; dp += t.p.pop; }
+  cityDriveBase = dw / dp;
+  document.getElementById('cityDrv').textContent = pct(cityDriveBase);
+  document.getElementById('sPop').textContent = fmt(dp);
+
+  wireControls();
+  render();
+  document.getElementById('loading').remove();
+}
+
+const nearD = t => state.rle ? t.dAll : t.dExist;
+const nearS = t => state.rle ? t.nearAll : t.nearExist;
+const weight = t => Math.exp(-nearD(t) / state.lam);
+const carFreeFactor = t => Math.max(0, 1 - t.p.drive * state.drv);
+
+function render() {
+  // metric values + normalization
+  let maxV = 0;
+  const vals = tracts.map(t => {
+    const w = weight(t);
+    let v = w;
+    if (state.metric === 'people') v = t.p.pop * w;
+    if (state.metric === 'carfree') v = t.p.pop * w * carFreeFactor(t);
+    if (v > maxV) maxV = v;
+    return v;
+  });
+  tracts.forEach((t, i) => {
+    const v = state.metric === 'weight' ? vals[i] : Math.sqrt(vals[i] / (maxV || 1));
+    t.layer.setStyle({ fillColor: ramp(v) });
+  });
+
+  // citywide stats — both scenarios so we can show the RLE delta
+  const agg = useRle => {
+    let half = 0, one = 0, w = 0, cf = 0;
+    for (const t of tracts) {
+      const d = useRle ? t.dAll : t.dExist;
+      const wt = Math.exp(-d / state.lam);
+      if (d <= 0.5) half += t.p.pop;
+      if (d <= 1.0) one += t.p.pop;
+      w += t.p.pop * wt;
+      cf += t.p.pop * wt * carFreeFactor(t);
+    }
+    return { half, one, w, cf };
+  };
+  const cur = agg(state.rle), base = state.rle ? agg(false) : cur;
+  document.getElementById('sHalf').textContent = fmt(cur.half);
+  document.getElementById('sOne').textContent = fmt(cur.one);
+  document.getElementById('sW').textContent = fmt(cur.w);
+  document.getElementById('sCF').textContent = fmt(cur.cf);
+  document.getElementById('rleDeltas').style.display = state.rle ? '' : 'none';
+  if (state.rle) {
+    document.getElementById('sRleHalf').textContent = '+' + fmt(cur.half - base.half);
+    document.getElementById('sRleW').textContent = '+' + fmt(cur.w - base.w);
+  }
+
+  // planned stations dim when excluded
+  for (const s of stations) if (s.planned && s._marker)
+    s._marker.setStyle({ opacity: state.rle ? 1 : 0.25, fillOpacity: state.rle ? 0.95 : 0.15 });
+
+  document.getElementById('legendTitle').textContent = {
+    weight: 'proximity weight e^(−d/λ)',
+    people: 'transit-weighted people (√ scale)',
+    carfree: 'car-free transit demand (√ scale)',
+  }[state.metric];
+  document.getElementById('legHi').textContent = state.metric === 'weight' ? 'at the stop' : 'most';
+  document.getElementById('legLo').textContent = state.metric === 'weight' ? `${(2 * state.lam).toFixed(1)}+ mi` : 'least';
+}
+
+function chips(lines) {
+  return lines.map(l =>
+    `<span class="chip" style="background:${LINE_COLORS[l]};${l === 'Yellow' ? 'color:#222;' : ''}">${l}</span>`).join('');
+}
+
+function stationPopup(s) {
+  // catchment: distances from every tract to THIS station
+  let q = 0, h = 0, o = 0, wsum = 0, prim = 0, primCF = 0;
+  for (const t of tracts) {
+    const d = hav(t.p.cLat, t.p.cLng, s.lat, s.lng);
+    if (d <= 0.25) q += t.p.pop;
+    if (d <= 0.5) h += t.p.pop;
+    if (d <= 1.0) o += t.p.pop;
+    wsum += t.p.pop * Math.exp(-d / state.lam);
+    if (nearS(t) === s) { prim += t.p.pop; primCF += t.p.pop * carFreeFactor(t); }
+  }
+  const note = s.planned && !state.rle
+    ? `<hr><span class="hint">excluded from map shading — toggle the RLE on.</span>` : '';
+  return `<div class="pp">
+    ${s.planned ? '<div class="planned-badge">PLANNED · RED LINE EXTENSION · ~2030</div>' : ''}
+    <h4>${s.name}</h4>
+    <div>${chips(s.lines)} ${s.ada ? '<span class="chip" style="background:#2e6da4">ADA ♿</span>' : ''}</div>
+    <hr>
+    <div class="row"><span>people within ¼ mi</span><span>${fmt(q)}</span></div>
+    <div class="row"><span>people within ½ mi</span><span>${fmt(h)}</span></div>
+    <div class="row"><span>people within 1 mi</span><span>${fmt(o)}</span></div>
+    <div class="row"><span>weighted catchment Σ pop·e^(−d/λ)</span><span>${fmt(wsum)}</span></div>
+    <hr>
+    <div class="row"><span>primary catchment (nearest stop = here)</span><span>${fmt(prim)}</span></div>
+    <div class="row"><span>…non-drivers, at current slider</span><span>${fmt(primCF)}</span></div>
+    ${note}
+  </div>`;
+}
+
+function tractPopup(t) {
+  const s = nearS(t), d = nearD(t), w = weight(t);
+  const dens = t.p.sqmi > 0 ? t.p.pop / t.p.sqmi : 0;
+  return `<div class="pp">
+    <h4>${t.p.name}</h4>
+    <div class="hint">${t.p.ca}</div>
+    <hr>
+    <div class="row"><span>population</span><span>${fmt(t.p.pop)}</span></div>
+    <div class="row"><span>density</span><span>${fmt(dens)}/mi²</span></div>
+    <div class="row"><span>nearest stop</span><span>${s.name}</span></div>
+    <div class="row"><span>distance</span><span>${d.toFixed(2)} mi</span></div>
+    <div class="row"><span>proximity weight e^(−d/λ)</span><span>${w.toFixed(2)}</span></div>
+    <hr>
+    <div class="row"><span>drives to work (${t.p.ca.toLowerCase()})</span><span>${pct(t.p.drive)}</span></div>
+    <div class="row"><span>takes transit</span><span>${pct(t.p.transit)}</span></div>
+    <div class="row"><span>households w/o a car</span><span>${pct(t.p.noVeh)}</span></div>
+  </div>`;
+}
+
+function wireControls() {
+  const lam = document.getElementById('lam'), drv = document.getElementById('drv');
+  let raf = null;
+  const queue = () => { if (!raf) raf = requestAnimationFrame(() => { raf = null; render(); }); };
+  lam.addEventListener('input', () => {
+    state.lam = +lam.value;
+    document.getElementById('lamV').textContent = state.lam.toFixed(2) + ' mi';
+    queue();
+  });
+  drv.addEventListener('input', () => {
+    state.drv = +drv.value / 100;
+    document.getElementById('drvV').textContent = drv.value + '%';
+    queue();
+  });
+  document.getElementById('rle').addEventListener('change', e => { state.rle = e.target.checked; queue(); });
+  document.getElementById('metric').addEventListener('change', e => { state.metric = e.target.value; queue(); });
+}
+</script>
+</body>
+</html>
