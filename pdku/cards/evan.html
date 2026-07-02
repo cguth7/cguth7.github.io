@@ -1,0 +1,211 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Evan — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}* { box-sizing: border-box; }
+body {
+  margin: 0;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  background: linear-gradient(180deg, #2b0f24 0%, #5c1a3d 42%, #a24a5b 68%, #e0a458 100%);
+  background-size: 100% 140%;
+  animation: dusk 14s ease-in-out infinite alternate;
+  font-family: 'DM Serif Display', serif;
+  color: #f7ecd9;
+}
+@keyframes dusk {
+  0% { background-position: 0 0%; }
+  100% { background-position: 0 12%; }
+}
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  padding: 14px 16px 0 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.frame {
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212,175,55,0.55);
+  pointer-events: none;
+}
+.corner {
+  position: absolute;
+  font-size: 15px;
+  color: #d4af37;
+  opacity: 0.85;
+  z-index: 5;
+}
+.tl { top: 8px; left: 10px; }
+.tr { top: 8px; right: 10px; transform: scaleX(-1); }
+.bl { bottom: 8px; left: 10px; transform: scaleY(-1); }
+.br { bottom: 8px; right: 10px; transform: scale(-1,-1); }
+
+.emoji-row {
+  margin-top: 10px;
+  font-size: 20px;
+  letter-spacing: 6px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
+.name {
+  margin: 10px 0 0 0;
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 400;
+  background: linear-gradient(180deg, #fbe7a1, #d4af37 60%, #a9791c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+}
+
+.archetype {
+  margin-top: 4px;
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f0d9a8;
+}
+
+.divider {
+  margin: 9px 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d4af37;
+  font-size: 11px;
+}
+.divider::before, .divider::after {
+  content: &quot;&quot;;
+  width: 46px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d4af37);
+}
+.divider::after { background: linear-gradient(90deg, #d4af37, transparent); }
+
+.tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  line-height: 1.15;
+  color: #f7ecd9;
+  margin: 0 6px;
+  max-width: 250px;
+}
+
+.meter-wrap {
+  margin-top: 14px;
+  width: 220px;
+}
+.meter-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  color: #f0d9a8;
+  display: flex;
+  justify-content: space-between;
+}
+.meter {
+  margin-top: 3px;
+  width: 100%;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(0,0,0,0.35);
+  border: 1px solid rgba(212,175,55,0.5);
+  overflow: hidden;
+}
+.meter-fill {
+  height: 100%;
+  width: 91%;
+  background: linear-gradient(90deg, #d98fa1, #d4af37);
+}
+
+.vintage-tag {
+  margin-top: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 1px;
+  color: rgba(247,236,217,0.85);
+}
+
+.vineyard {
+  position: relative;
+  margin-top: auto;
+  width: 300px;
+  height: 108px;
+  left: -16px;
+  overflow: hidden;
+}
+.hill {
+  position: absolute;
+  bottom: -40px;
+  width: 380px;
+  height: 160px;
+  border-radius: 50% 50% 0 0 / 70% 70% 0 0;
+}
+.hill1 {
+  left: -60px;
+  background: #3c1530;
+  opacity: 0.9;
+}
+.hill2 {
+  left: -20px;
+  bottom: -60px;
+  width: 340px;
+  background: #24101f;
+}
+.grapes {
+  position: absolute;
+  bottom: 14px;
+  left: 122px;
+  width: 60px;
+  height: 46px;
+}
+.grapes span {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #e3b8c9, #6c1f4a 70%, #3c0f2b);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+.grapes span:nth-child(1) { left: 0px; top: 0px; }
+.grapes span:nth-child(2) { left: 13px; top: 0px; }
+.grapes span:nth-child(3) { left: 26px; top: 0px; }
+.grapes span:nth-child(4) { left: 6px; top: 11px; }
+.grapes span:nth-child(5) { left: 19px; top: 11px; }
+.grapes span:nth-child(6) { left: 12px; top: 22px; }
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;frame&quot;></div>
+  <div class=&quot;corner tl&quot;>❧</div>
+  <div class=&quot;corner tr&quot;>❧</div>
+  <div class=&quot;corner bl&quot;>❧</div>
+  <div class=&quot;corner br&quot;>❧</div>
+
+  <div class=&quot;emoji-row&quot;>🍷 🎻 🌹 🗣️ 🧵</div>
+
+  <h1 class=&quot;name&quot;>Evan</h1>
+  <div class=&quot;archetype&quot;>The Baroque Curator</div>
+
+  <div class=&quot;divider&quot;>❦</div>
+
+  <p class=&quot;tagline&quot;>&quot;Convince me — I'm very convincible, and I crave perspective.&quot;</p>
+
+  <div class=&quot;meter-wrap&quot;>
+    <div class=&quot;meter-label&quot;><span>OPEN TO PERSUASION</span><span>91%</span></div>
+    <div class=&quot;meter&quot;><div class=&quot;meter-fill&quot;></div></div>
+  </div>
+
+  <div class=&quot;vintage-tag&quot;>NIAGARA-ON-THE-LAKE · VINTAGE 2006</div>
+
+  <div class=&quot;vineyard&quot;>
+    <div class=&quot;hill hill2&quot;></div>
+    <div class=&quot;hill hill1&quot;></div>
+    <div class=&quot;grapes&quot;>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Evan</h3><div class="arch">The Baroque Curator</div></div><div class="emj">🍷 🎻 🌹 🗣️ 🧵</div><div class="tag">“Twenty years old, wide open — go ahead, try and convince me.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:50%'></i></span><span class='sv'>50</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:80%'></i></span><span class='sv'>80</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:70%'></i></span><span class='sv'>70</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:20%'></i></span><span class='sv'>20</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:60%'></i></span><span class='sv'>60</span></div></div><div class="meta">🇬🇧 ❓ Agnostic · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-tonchi">Tonchi (Trinidad Matta-Schilling)</a></div><div class="bnwhy">Young indie-taste debaters—both national-caliber arguers with niche music/philosophy leanings.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-aryeh">Aryeh</a></div><div class="bnwhy">Evan targets &#x27;queer leftists&#x27;; Aryeh is a right-of-center Twitter brawler—made for debate.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

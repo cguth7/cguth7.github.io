@@ -1,0 +1,272 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Tess — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #23323a;
+}
+.card {
+  width: 300px;
+  height: 420px;
+  padding: 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(0deg, rgba(31,92,120,0.07) 0 1px, transparent 1px 20px),
+    repeating-linear-gradient(90deg, rgba(31,92,120,0.07) 0 1px, transparent 1px 20px),
+    linear-gradient(165deg, #f6f1e6 0%, #f2ecdd 42%, #dcebf1 100%);
+}
+.corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid #1f5c78;
+  opacity: 0.55;
+}
+.corner.tl { top: 7px; left: 7px; border-right: none; border-bottom: none; }
+.corner.tr { top: 7px; right: 7px; border-left: none; border-bottom: none; }
+.corner.bl { bottom: 7px; left: 7px; border-right: none; border-top: none; }
+.corner.br { bottom: 7px; right: 7px; border-left: none; border-top: none; }
+
+.emoji-row {
+  height: 30px;
+  font-size: 22px;
+  line-height: 30px;
+  letter-spacing: 3px;
+  text-align: center;
+  z-index: 1;
+}
+
+.name {
+  height: 38px;
+  font-size: 32px;
+  line-height: 38px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
+  z-index: 1;
+}
+.name::after {
+  content: '';
+  display: block;
+  width: 46px;
+  height: 2px;
+  background: #c07f3f;
+  margin: 3px auto 0;
+}
+
+.archetype {
+  height: 22px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  line-height: 18px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 1px 12px;
+  border: 1px dashed #1f5c78;
+  color: #1f5c78;
+  background: rgba(31,92,120,0.06);
+  border-radius: 2px;
+  z-index: 1;
+}
+
+.bridge-section {
+  width: 100%;
+  height: 82px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 1;
+}
+.bridge-wrap {
+  width: 100%;
+  height: 62px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+.tower {
+  width: 24px;
+  height: 100%;
+  border-radius: 3px 3px 1px 1px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+.tower-left {
+  background: linear-gradient(180deg, #e0ac6e, #a5703a);
+}
+.tower-right {
+  background: linear-gradient(180deg, #5fb0d6, #1f5c78);
+  animation: pulse-safety 3s ease-in-out infinite;
+}
+@keyframes pulse-safety {
+  0%, 100% { box-shadow: 0 0 5px rgba(79,163,201,0.45), inset 0 0 0 1px rgba(0,0,0,0.12); }
+  50% { box-shadow: 0 0 13px rgba(79,163,201,0.85), inset 0 0 0 1px rgba(0,0,0,0.12); }
+}
+.truss {
+  flex: 1;
+  height: 34px;
+  margin: 0 5px 8px 5px;
+  border-top: 2px solid #1f5c78;
+  border-bottom: 2px solid #c07f3f;
+  background:
+    repeating-linear-gradient(115deg, transparent 0 9px, #1f5c78 9px 11px),
+    repeating-linear-gradient(65deg, transparent 0 9px, #c07f3f 9px 11px);
+  opacity: 0.85;
+}
+.tower-labels {
+  width: 100%;
+  height: 14px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 1px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  opacity: 0.65;
+}
+
+.tagline-wrap {
+  width: 100%;
+  height: 62px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+.tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  line-height: 1.18;
+  text-align: center;
+  padding: 0 12px;
+  color: #23323a;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transform: rotate(-0.6deg);
+}
+
+.title-block {
+  width: 100%;
+  height: 76px;
+  box-sizing: border-box;
+  border: 1px solid #1f5c78;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.45);
+  padding: 7px 9px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  z-index: 1;
+}
+.tb-left {
+  flex: 1;
+  min-width: 0;
+}
+.tb-loc {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  opacity: 0.8;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 5px;
+}
+.meter-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6.5px;
+  width: 64px;
+  letter-spacing: 0.3px;
+  flex-shrink: 0;
+}
+.meter-bar {
+  flex: 1;
+  height: 5px;
+  background: rgba(0,0,0,0.09);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.meter-fill {
+  height: 100%;
+  border-radius: 2px;
+}
+.meter-fill.det { width: 88%; background: #1f5c78; }
+.meter-fill.con { width: 32%; background: #c07f3f; }
+
+.stamp {
+  font-family: 'Special Elite', monospace;
+  font-size: 12px;
+  color: #a63b3b;
+  border: 2px solid #a63b3b;
+  padding: 3px 7px;
+  border-radius: 4px;
+  transform: rotate(-9deg);
+  opacity: 0.82;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+</style></head><body>
+<div class=&quot;card&quot;>
+  <div class=&quot;corner tl&quot;></div>
+  <div class=&quot;corner tr&quot;></div>
+  <div class=&quot;corner bl&quot;></div>
+  <div class=&quot;corner br&quot;></div>
+
+  <div class=&quot;emoji-row&quot;>🌉 🛡️ 🥚 🧶 🛁 🦘</div>
+
+  <div class=&quot;name&quot;>Tess</div>
+  <div class=&quot;archetype&quot;>The Bridge Engineer</div>
+
+  <div class=&quot;bridge-section&quot;>
+    <div class=&quot;bridge-wrap&quot;>
+      <div class=&quot;tower tower-left&quot;></div>
+      <div class=&quot;truss&quot;></div>
+      <div class=&quot;tower tower-right&quot;></div>
+    </div>
+    <div class=&quot;tower-labels&quot;>
+      <span>Stanford C.E.</span>
+      <span>AI Safety</span>
+    </div>
+  </div>
+
+  <div class=&quot;tagline-wrap&quot;>
+    <div class=&quot;tagline&quot;>&quot;Structural engineer by training, safety-pilled by choice, bad at consistency without a deadline.&quot;</div>
+  </div>
+
+  <div class=&quot;title-block&quot;>
+    <div class=&quot;tb-left&quot;>
+      <div class=&quot;tb-loc&quot;>Berkeley, CA · nr. Lighthaven</div>
+      <div class=&quot;meter&quot;>
+        <span class=&quot;meter-label&quot;>DETERMINATION</span>
+        <div class=&quot;meter-bar&quot;><div class=&quot;meter-fill det&quot;></div></div>
+      </div>
+      <div class=&quot;meter&quot;>
+        <span class=&quot;meter-label&quot;>CONSISTENCY*</span>
+        <div class=&quot;meter-bar&quot;><div class=&quot;meter-fill con&quot;></div></div>
+      </div>
+    </div>
+    <div class=&quot;stamp&quot;></div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Tess</h3><div class="arch">The Bridge Engineer</div><div class="handle">@thegartsy</div></div><div class="emj">🌉 🛡️ 🥚 🧶 🛁 🦘</div><div class="tag">“Structural engineer by training, safety-pilled by choice, bad at consistency without a deadline.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:60%'></i></span><span class='sv'>60</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:80%'></i></span><span class='sv'>80</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:65%'></i></span><span class='sv'>65</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:60%'></i></span><span class='sv'>60</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:35%'></i></span><span class='sv'>35</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:50%'></i></span><span class='sv'>50</span></div></div><div class="meta">🇺🇸 🛡️ Safety-concerned · 💀 Loses to the kangaroo</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-beck">Beck</a></div><div class="bnwhy">Berkeley/Lighthaven-adjacent AI-safety women pivoting from technical careers into public communication.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-evelyn-parker">Evelyn Parker (Evie)</a></div><div class="bnwhy">Mutual—Tess&#x27;s earnest AI-safety seriousness (avoids short-form) vs Evelyn&#x27;s polished pro-AI influencer optimism.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

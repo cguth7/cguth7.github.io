@@ -1,0 +1,258 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Avi (Avalon) — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:300px;height:420px;overflow:hidden;background:#2b2a22;}
+:root{
+  --bg-a:#fff6e0;
+  --bg-b:#f3f6d6;
+  --bg-c:#dcefc4;
+  --accent:#4c7a3a;
+  --accent-dark:#345226;
+  --secondary:#ff9466;
+  --gold:#e8b74b;
+  --text:#3a2e1f;
+}
+.card{
+  width:300px;height:420px;
+  font-family:'Fraunces',serif;
+  color:var(--text);
+  position:relative;
+}
+.foilframe{
+  width:100%;height:100%;
+  box-sizing:border-box;
+  padding:6px;
+  border-radius:18px;
+  background:linear-gradient(120deg,#e8b74b,#fff3c4,#ff9466,#e8b74b,#c9e28a,#e8b74b);
+  background-size:300% 300%;
+  animation:shimmer 7s linear infinite;
+  box-shadow:0 0 0 1px rgba(0,0,0,.25),0 6px 16px rgba(0,0,0,.35);
+}
+@keyframes shimmer{
+  0%{background-position:0% 50%;}
+  100%{background-position:100% 50%;}
+}
+.inner{
+  width:100%;height:100%;
+  box-sizing:border-box;
+  border-radius:13px;
+  background:linear-gradient(160deg,var(--bg-a) 0%,var(--bg-b) 50%,var(--bg-c) 100%);
+  border:2px solid var(--accent-dark);
+  padding:8px 11px 9px;
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+  position:relative;
+  overflow:hidden;
+}
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:7px;
+  letter-spacing:1.5px;
+  color:var(--accent-dark);
+  opacity:.75;
+  text-transform:uppercase;
+}
+.gem{
+  color:var(--secondary);
+  font-size:11px;
+  text-shadow:0 0 4px rgba(255,148,102,.6);
+}
+.name{
+  text-align:center;
+  font-size:25px;
+  font-weight:700;
+  line-height:1;
+  color:var(--text);
+  letter-spacing:.5px;
+}
+.name em{
+  display:block;
+  font-style:italic;
+  font-weight:500;
+  font-size:14px;
+  color:var(--secondary);
+  margin-top:2px;
+}
+.emoji-row{
+  text-align:center;
+  font-size:17px;
+  letter-spacing:5px;
+  line-height:1;
+}
+.art{
+  position:relative;
+  height:128px;
+  border-radius:10px;
+  overflow:hidden;
+  background:linear-gradient(180deg,#fdeec0 0%,#f4e6a8 40%,#cfe6a0 100%);
+  border:2px solid var(--accent-dark);
+  box-shadow:inset 0 2px 6px rgba(0,0,0,.15);
+}
+.sun{
+  position:absolute;
+  top:-18px;right:-14px;
+  width:56px;height:56px;
+  border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#fff4cf,var(--gold) 65%,#d99a2b 100%);
+  box-shadow:0 0 18px 4px rgba(232,183,75,.55);
+}
+.minicard{
+  position:absolute;
+  top:8px;left:8px;
+  width:22px;height:30px;
+  background:linear-gradient(160deg,#fdfdfd,#e4d9b8);
+  border:1.5px solid var(--accent-dark);
+  border-radius:4px;
+  transform:rotate(-12deg);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;
+  box-shadow:1px 2px 3px rgba(0,0,0,.25);
+}
+.hill-back{
+  position:absolute;
+  bottom:-10px;left:-15%;
+  width:130%;height:60px;
+  border-radius:50% 50% 0 0;
+  background:#8fbf5e;
+  opacity:.8;
+}
+.hill-front{
+  position:absolute;
+  bottom:-14px;left:-20%;
+  width:140%;height:44px;
+  border-radius:50% 50% 0 0;
+  background:var(--accent);
+}
+.plant{
+  position:absolute;
+  bottom:6px;
+  width:5px;height:26px;
+  background:var(--accent-dark);
+  border-radius:3px;
+  transform-origin:bottom center;
+  animation:sway 3.6s ease-in-out infinite;
+}
+.plant::before{
+  content:&quot;&quot;;
+  position:absolute;
+  top:-4px;left:-6px;
+  width:16px;height:10px;
+  background:#cdeb8f;
+  border:1px solid var(--accent-dark);
+  border-radius:60% 40% 60% 40%;
+  transform:rotate(-20deg);
+}
+.plant::after{
+  content:&quot;&quot;;
+  position:absolute;
+  top:2px;right:-7px;
+  width:14px;height:9px;
+  background:#a9d977;
+  border:1px solid var(--accent-dark);
+  border-radius:60% 40% 60% 40%;
+  transform:rotate(25deg);
+}
+.p1{left:22px;animation-delay:0s;}
+.p2{left:58px;height:20px;animation-delay:.5s;}
+.p3{right:26px;height:23px;animation-delay:1.1s;}
+@keyframes sway{
+  0%,100%{transform:rotate(-4deg);}
+  50%{transform:rotate(4deg);}
+}
+.paw{
+  position:absolute;
+  bottom:8px;left:130px;
+  width:20px;height:16px;
+}
+.paw span{
+  position:absolute;
+  background:var(--accent-dark);
+  opacity:.55;
+  border-radius:50%;
+}
+.paw span:nth-child(1){width:6px;height:6px;bottom:0;left:6px;}
+.paw span:nth-child(2){width:4px;height:4px;bottom:8px;left:0;}
+.paw span:nth-child(3){width:4px;height:4px;bottom:10px;left:7px;}
+.paw span:nth-child(4){width:4px;height:4px;bottom:8px;left:14px;}
+.stat-chip{
+  position:absolute;
+  bottom:6px;right:8px;
+  background:rgba(58,46,31,.85);
+  color:#fdf4dc;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:8px;
+  letter-spacing:.5px;
+  padding:3px 6px;
+  border-radius:20px;
+  border:1px solid var(--gold);
+}
+.archetype{
+  text-align:center;
+  font-family:'Rajdhani',sans-serif;
+  font-weight:700;
+  font-size:13px;
+  letter-spacing:2.5px;
+  text-transform:uppercase;
+  color:#fff;
+  background:linear-gradient(90deg,var(--accent-dark),var(--accent));
+  border-radius:5px;
+  padding:3px 0;
+}
+.tagline{
+  flex:1;
+  min-height:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-family:'Caveat',cursive;
+  font-size:19px;
+  line-height:1.15;
+  color:var(--text);
+  padding:0 6px;
+}
+.footer{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+  font-family:'Space Grotesk',sans-serif;
+  font-size:7.5px;
+  letter-spacing:1px;
+  color:var(--accent-dark);
+  border-top:1px dashed var(--accent);
+  padding-top:4px;
+  text-transform:uppercase;
+}
+.footer .dot{opacity:.5;}
+.footer .rarity{color:var(--secondary);font-weight:700;}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;foilframe&quot;>
+    <div class=&quot;inner&quot;>
+      <div class=&quot;topbar&quot;>
+        <span>Set · PDKU Bootcamp</span>
+        <span class=&quot;gem&quot;>◆</span>
+      </div>
+      <div class=&quot;name&quot;>AVI<em>&quot;Avalon&quot;</em></div>
+      <div class=&quot;emoji-row&quot;>🌿 🎥 🐾 🃏 🎤 ✨</div>
+      <div class=&quot;art&quot;>
+        <div class=&quot;sun&quot;></div>
+        <div class=&quot;minicard&quot;>🃏</div>
+        <div class=&quot;hill-back&quot;></div>
+        <div class=&quot;hill-front&quot;></div>
+        <div class=&quot;plant p1&quot;></div>
+        <div class=&quot;plant p2&quot;></div>
+        <div class=&quot;plant p3&quot;></div>
+        <div class=&quot;paw&quot;><span></span><span></span><span></span><span></span></div>
+        <div class=&quot;stat-chip&quot;>🌿 FORAGER</div>
+      </div>
+      <div class=&quot;archetype&quot;>The Backyard Forager</div>
+      <div class=&quot;tagline&quot;>&quot;One backyard, zero chill — let's start that PDKU band!!&quot;</div>
+      <div class=&quot;footer&quot;>
+        <span>Est. 2017</span><span class=&quot;dot&quot;>•</span><span>ASD Eats</span><span class=&quot;dot&quot;>•</span>
+      </div>
+    </div>
+  </div>
+</div></body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Avi (Avalon)</h3><div class="arch">The Backyard Forager</div><div class="handle">@avalonwarren / @avalonwarrenn</div></div><div class="emj">🌿 🎥 🐾 🃏 🎤 ✨</div><div class="tag">“One backyard, zero chill — let&#x27;s start that PDKU band!! 🌿✨”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:30%'></i></span><span class='sv'>30</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:85%'></i></span><span class='sv'>85</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:92%'></i></span><span class='sv'>92</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:18%'></i></span><span class='sv'>18</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:66%'></i></span><span class='sv'>66</span></div></div><div class="meta">🌐 ❓ Agnostic · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-avisha">Avisha</a></div><div class="bnwhy">Hobby-maximalist gamers-and-singers—competitive card games, board games, singing and &#x27;let&#x27;s start a band&#x27; energy on both sides.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-camden">Camden</a></div><div class="bnwhy">Avi&#x27;s bubbly mainstream pop content vs Camden&#x27;s abrasive underground hyperpop/math-rock/metal.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

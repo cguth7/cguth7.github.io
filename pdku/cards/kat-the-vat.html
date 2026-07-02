@@ -1,0 +1,244 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Kat the Vat — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}*, *::before, *::after { box-sizing: border-box; }
+
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 18px 18px, rgba(46,230,255,0.16) 1.5px, transparent 2px) 0 0/22px 22px,
+    linear-gradient(160deg, #0b0217 0%, #1a0b2e 55%, #260c3c 100%);
+  font-family: 'IBM Plex Mono', monospace;
+  color: #f4ecff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 14px 12px;
+}
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 2px, transparent 4px);
+  animation: scan 6s linear infinite;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+}
+@keyframes scan {
+  0% { background-position: 0 0; }
+  100% { background-position: 0 40px; }
+}
+
+.frame {
+  position: absolute;
+  inset: 6px;
+  border: 2px solid rgba(255,46,136,0.55);
+  outline: 1px solid rgba(46,230,255,0.35);
+  outline-offset: 3px;
+  pointer-events: none;
+  animation: pulseframe 3.4s ease-in-out infinite;
+}
+@keyframes pulseframe {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,46,136,0.25) inset; }
+  50% { box-shadow: 0 0 14px rgba(46,230,255,0.35) inset; }
+}
+
+.tape {
+  position: absolute;
+  top: 6px;
+  background: rgba(244,236,255,0.14);
+  border: 1px dashed rgba(244,236,255,0.5);
+  padding: 3px 8px;
+  font-size: 8px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #d9c9ff;
+  white-space: nowrap;
+}
+.tape-left { left: -14px; transform: rotate(-9deg); }
+.tape-right { right: -18px; transform: rotate(7deg); }
+
+.emoji-row {
+  margin-top: 26px;
+  font-size: 21px;
+  letter-spacing: 7px;
+  text-align: center;
+  text-shadow: 0 0 10px rgba(255,46,136,0.55);
+  z-index: 1;
+}
+
+.name {
+  font-family: 'Bungee', 'Archivo Black', sans-serif;
+  text-align: center;
+  font-size: 30px;
+  line-height: 0.98;
+  letter-spacing: 1px;
+  margin-top: 12px;
+  text-transform: uppercase;
+  color: #fff7fd;
+  text-shadow:
+    2px 0 0 rgba(255,46,136,0.75),
+    -2px 0 0 rgba(46,230,255,0.75),
+    0 0 18px rgba(255,46,136,0.35);
+  animation: glitchflick 4.5s infinite;
+  z-index: 1;
+}
+@keyframes glitchflick {
+  0%, 92%, 100% { text-shadow: 2px 0 0 rgba(255,46,136,0.75), -2px 0 0 rgba(46,230,255,0.75), 0 0 18px rgba(255,46,136,0.35); }
+  93% { text-shadow: -3px 1px 0 rgba(46,230,255,0.85), 3px -1px 0 rgba(255,46,136,0.85), 0 0 8px rgba(46,230,255,0.5); }
+  95% { text-shadow: 2px 0 0 rgba(255,46,136,0.75), -2px 0 0 rgba(46,230,255,0.75), 0 0 18px rgba(255,46,136,0.35); }
+}
+
+.archetype-badge {
+  margin-top: 12px;
+  background: linear-gradient(90deg, #ff2e88, #2ee6ff);
+  color: #12021f;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(255,46,136,0.45);
+  z-index: 1;
+  white-space: nowrap;
+}
+
+.tagline {
+  margin-top: 13px;
+  padding: 0 12px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #d9c9ff;
+  font-style: italic;
+  z-index: 1;
+}
+
+.network {
+  margin-top: 14px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  z-index: 1;
+}
+.node {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2ee6ff;
+  box-shadow: 0 0 6px #2ee6ff;
+  flex-shrink: 0;
+}
+.node.alt { background: #ff2e88; box-shadow: 0 0 6px #ff2e88; }
+.link {
+  width: 22px;
+  height: 1px;
+  background: rgba(217,201,255,0.5);
+}
+
+.tattoo-note {
+  position: absolute;
+  bottom: 46px;
+  right: 18px;
+  font-family: 'Caveat', cursive;
+  font-size: 13px;
+  color: rgba(255,46,136,0.65);
+  transform: rotate(-8deg);
+  z-index: 1;
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 6px;
+  z-index: 1;
+}
+
+.stamp {
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+  border: 2px solid rgba(46,230,255,0.7);
+  border-radius: 50%;
+  outline: 1px solid rgba(46,230,255,0.35);
+  outline-offset: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 7.5px;
+  letter-spacing: 0.5px;
+  line-height: 1.25;
+  color: #9be7ff;
+  text-transform: uppercase;
+  transform: rotate(-7deg);
+  font-weight: 600;
+}
+
+.barcode {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 30px;
+  margin-top: 3px;
+  justify-content: flex-end;
+}
+.barcode span {
+  width: 2px;
+  background: rgba(244,236,255,0.55);
+}
+.barcode span:nth-child(1){height:18px;}
+.barcode span:nth-child(2){height:28px;}
+.barcode span:nth-child(3){height:12px;}
+.barcode span:nth-child(4){height:24px;}
+.barcode span:nth-child(5){height:16px;}
+.barcode span:nth-child(6){height:26px;}
+.barcode span:nth-child(7){height:10px;}
+.barcode span:nth-child(8){height:20px;}
+
+.since {
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: #d9c9ff;
+  text-align: right;
+  line-height: 1.5;
+  text-transform: uppercase;
+}</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;scanlines&quot;></div>
+  <div class=&quot;frame&quot;></div>
+  <div class=&quot;tape tape-left&quot;>cyberian since 4</div>
+  <div class=&quot;tape tape-right&quot;>thu 2nd · id-form</div>
+
+  <div class=&quot;emoji-row&quot;>🎭 🌀 📹 🧬 🏆</div>
+
+  <div class=&quot;name&quot;>Kat the<br>Vat</div>
+
+  <div class=&quot;archetype-badge&quot;>The Kayfabe Weaver</div>
+
+  <div class=&quot;tagline&quot;>&quot;y'all wanna build a fake team<br>that's actually real? let's go.&quot;</div>
+
+  <div class=&quot;network&quot;>
+    <span class=&quot;node&quot;></span><span class=&quot;link&quot;></span>
+    <span class=&quot;node alt&quot;></span><span class=&quot;link&quot;></span>
+    <span class=&quot;node&quot;></span><span class=&quot;link&quot;></span>
+    <span class=&quot;node alt&quot;></span>
+  </div>
+
+  <div class=&quot;tattoo-note&quot;>imagine peeing 💧</div>
+
+  <div class=&quot;footer&quot;>
+    <div class=&quot;stamp&quot;>ARG /<br>DAO<br>plur builder</div>
+    <div class=&quot;since&quot;>
+      video since age 8
+      <div class=&quot;barcode&quot;>
+        <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Kat the Vat</h3><div class="arch">The Kayfabe Weaver</div></div><div class="emj">🎭 🌀 📹 🧬 🏆</div><div class="tag">“&quot;y&#x27;all wanna build a fake team that&#x27;s actually real? let&#x27;s go.&quot;”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:50%'></i></span><span class='sv'>50</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:93%'></i></span><span class='sv'>93</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:78%'></i></span><span class='sv'>78</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:62%'></i></span><span class='sv'>62</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:91%'></i></span><span class='sv'>91</span></div></div><div class="meta">🇺🇸 ❓ Agnostic · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-isabel">Isabel (isa)</a></div><div class="bnwhy">Online-native experimental builders—ARGs/DAOs/kayfabe meets vibe-coded AI spectacle.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-tanner-hurst">Tanner Hurst</a></div><div class="bnwhy">Kat&#x27;s terminally-online kayfabe chaos vs Tanner&#x27;s grounded, meditative deep-time fossil-hunting.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

@@ -1,0 +1,276 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Savannah Raisor — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  position: relative;
+  background: #1c1330;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* base desert-night wash: indigo top into muted rose/amber base */
+.bg-base {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(120% 70% at 50% 0%, #2c1b3a 0%, #1c1330 55%, #170f26 100%);
+}
+
+/* corporate graph-paper grid, fading out toward the bottom (the world she left) */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(245,234,217,0.09) 0px, rgba(245,234,217,0.09) 1px, transparent 1px, transparent 24px),
+    repeating-linear-gradient(90deg, rgba(245,234,217,0.09) 0px, rgba(245,234,217,0.09) 1px, transparent 1px, transparent 24px);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 62%);
+  mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 62%);
+}
+
+/* painterly bokeh blobs, the art world she stepped into */
+.blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(26px);
+  opacity: 0.55;
+}
+.blob-1 { width: 150px; height: 150px; left: -40px; bottom: -30px; background: #ff6f91; }
+.blob-2 { width: 130px; height: 130px; right: -35px; bottom: 30px; background: #ffb454; opacity: 0.4; }
+.blob-3 { width: 110px; height: 110px; right: 10px; top: 200px; background: #2dd9c4; opacity: 0.28; }
+
+/* film-grain scanlines for the photographer/filmmaker in her */
+.grain {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, transparent 1px, transparent 3px);
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+}
+
+/* faint aperture ring, top right - the camera she's bringing */
+.aperture {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px dashed rgba(245,234,217,0.25);
+}
+.aperture::before {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: 10px;
+  border-radius: 50%;
+  border: 1px solid rgba(245,234,217,0.18);
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  box-shadow: inset 0 0 60px 18px rgba(10, 6, 18, 0.55);
+}
+
+/* outer neon card edge, vegas-sign flicker, subtle */
+.neon-border {
+  position: absolute;
+  inset: 4px;
+  border-radius: 12px;
+  border: 1px solid rgba(45, 217, 196, 0.55);
+  box-shadow: 0 0 10px rgba(45, 217, 196, 0.35), inset 0 0 10px rgba(255, 111, 145, 0.15);
+  animation: flicker 5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes flicker {
+  0%, 92%, 100% { opacity: 1; }
+  94% { opacity: 0.6; }
+  96% { opacity: 0.95; }
+}
+
+.card {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 100%;
+  padding: 14px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  color: #f5ead9;
+}
+
+.emoji-row {
+  font-size: 19px;
+  letter-spacing: 6px;
+  line-height: 1;
+  text-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.08;
+  margin-top: 8px;
+  color: #f5ead9;
+  text-shadow: 0 0 14px rgba(45, 217, 196, 0.55), 0 0 2px rgba(255,255,255,0.4);
+}
+
+.archetype {
+  display: inline-block;
+  margin-top: 7px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: #1c1330;
+  background: linear-gradient(90deg, #2dd9c4, #ffb454);
+  padding: 3px 9px;
+  border-radius: 3px;
+  font-weight: 600;
+}
+
+.location {
+  margin-top: 8px;
+  font-size: 9.5px;
+  letter-spacing: 0.6px;
+  color: #cbb8d8;
+  text-transform: uppercase;
+}
+.location b { color: #ffb454; font-weight: 600; }
+
+.tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  line-height: 1.22;
+  margin-top: 10px;
+  color: #ffe3c2;
+}
+.tagline::before { content: &quot;\201C&quot;; }
+.tagline::after { content: &quot;\201D&quot;; }
+
+.sprockets {
+  display: flex;
+  gap: 6px;
+  margin: 12px 0 10px;
+}
+.sprockets span {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: rgba(245,234,217,0.3);
+  flex: none;
+}
+.sprockets .line {
+  flex: 1;
+  height: 1px;
+  background: rgba(245,234,217,0.22);
+  margin-top: 2px;
+}
+
+.gauge-label {
+  font-size: 9px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: #cbb8d8;
+  display: flex;
+  justify-content: space-between;
+}
+.gauge-label span:last-child { color: #ffb454; }
+
+.gauge-track {
+  position: relative;
+  margin-top: 5px;
+  height: 7px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ff6f91, #cbb8d8 48%, #2dd9c4 100%);
+}
+.gauge-track .marker {
+  position: absolute;
+  top: -3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #f5ead9;
+  box-shadow: 0 0 8px rgba(245,234,217,0.9), 0 0 0 2px #1c1330;
+}
+.gauge-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: 7.5px;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+  color: rgba(245,234,217,0.55);
+  text-transform: uppercase;
+}
+
+.footer-row {
+  margin-top: auto;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.chip {
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid rgba(245,234,217,0.35);
+  border-radius: 20px;
+  padding: 4px 8px;
+  color: #f5ead9;
+  white-space: nowrap;
+}
+.chip.alt {
+  border-color: rgba(45,217,196,0.6);
+  color: #2dd9c4;
+}
+</style></head><body><div class=&quot;frame&quot;>
+  <div class=&quot;bg-base&quot;></div>
+  <div class=&quot;bg-grid&quot;></div>
+  <div class=&quot;blob blob-1&quot;></div>
+  <div class=&quot;blob blob-2&quot;></div>
+  <div class=&quot;blob blob-3&quot;></div>
+  <div class=&quot;aperture&quot;></div>
+  <div class=&quot;grain&quot;></div>
+  <div class=&quot;vignette&quot;></div>
+  <div class=&quot;neon-border&quot;></div>
+</div>
+
+<div class=&quot;card&quot;>
+  <div class=&quot;emoji-row&quot;>🎨 📊 👻 🦘 📸</div>
+
+  <div class=&quot;name&quot;>Savannah<br/>Raisor</div>
+
+  <div class=&quot;archetype&quot;>The Nuance Alchemist</div>
+
+  <div class=&quot;location&quot;>Las Vegas &amp;middot; ex-<b>SoCal</b> / <b>Denver</b></div>
+
+  <div class=&quot;tagline&quot;>Left the spreadsheets for paint splatters</div>
+
+  <div class=&quot;sprockets&quot;>
+    <span></span><span></span><span></span>
+    <div class=&quot;line&quot;></div>
+    <span></span><span></span><span></span>
+  </div>
+
+  <div class=&quot;gauge-label&quot;><span>Ban It</span><span>Nuance Meter</span><span>Hype It</span></div>
+  <div class=&quot;gauge-track&quot;><div class=&quot;marker&quot;></div></div>
+  <div class=&quot;gauge-ticks&quot;><span>r/nuancedtakes</span><span>owner &amp;amp; operator</span></div>
+
+  <div class=&quot;footer-row&quot;>
+    <div class=&quot;chip&quot;>Analyst &amp;rarr; Filmmaker</div>
+    <div class=&quot;chip alt&quot;>Kangaroo: Win</div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Savannah Raisor</h3><div class="arch">The Nuance Alchemist</div><div class="handle">@savannah_raisor</div></div><div class="emj">🎨 📊 👻 🦘 📸</div><div class="tag">“Left the spreadsheets for paint splatters. Still fluent in nuance and kangaroo telepathy.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:42%'></i></span><span class='sv'>42</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:55%'></i></span><span class='sv'>55</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:87%'></i></span><span class='sv'>87</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:64%'></i></span><span class='sv'>64</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:34%'></i></span><span class='sv'>34</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:61%'></i></span><span class='sv'>61</span></div></div><div class="meta">🇺🇸 ⚖️ Nuanced · 🥊 Beats the kangaroo</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-francesca-pixelsurfer">Francesca (pixel surfer)</a></div><div class="bnwhy">Both quit corporate/tech to make art centered on wellbeing (mental-health films; surf/music).</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-christian-gonzalez-capizzi">Christian Gonzalez-Capizzi</a></div><div class="bnwhy">Savannah&#x27;s introspective mental-health vulnerability art vs Christian&#x27;s breezy UFC-bro bravado.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

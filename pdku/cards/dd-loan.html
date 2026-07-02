@@ -1,0 +1,255 @@
+<!doctype html><html><head><meta charset='utf-8'><title>DD (Loan) — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}* { box-sizing: border-box; }
+
+body {
+  width: 300px;
+  height: 420px;
+  margin: 0;
+  overflow: hidden;
+  background: #0b0a16;
+  font-family: 'Space Grotesk', sans-serif;
+  color: #f5eefc;
+}
+
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(255,47,176,0.30), transparent 42%),
+    radial-gradient(circle at 90% 12%, rgba(46,230,200,0.22), transparent 40%),
+    linear-gradient(160deg, #0b0a16 0%, #1a0f2e 55%, #12081d 100%);
+  border: 2px solid #2ee6c8;
+  box-shadow: inset 0 0 0 1px rgba(255,47,176,0.4), 0 0 22px rgba(46,230,200,0.35);
+  overflow: hidden;
+  padding: 12px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* PCB trace grid */
+.pcb-traces {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(0deg, transparent 95%, rgba(46,230,200,0.14) 95%, rgba(46,230,200,0.14) 100%),
+    linear-gradient(90deg, transparent 95%, rgba(255,47,176,0.10) 95%, rgba(255,47,176,0.10) 100%);
+  background-size: 30px 30px, 30px 30px;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* holo sheen sweep */
+.holo-sheen {
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.10) 45%, rgba(178,38,255,0.18) 50%, rgba(46,230,200,0.14) 55%, transparent 65%);
+  animation: sheen 7s ease-in-out infinite;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+@keyframes sheen {
+  0% { transform: translateX(-20%) translateY(-10%); }
+  50% { transform: translateX(10%) translateY(6%); }
+  100% { transform: translateX(-20%) translateY(-10%); }
+}
+
+.rarity {
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  transform: rotate(40deg);
+  background: linear-gradient(90deg, #ff2fb0, #b026ff);
+  color: #0b0a16;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  padding: 2px 34px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.4);
+  z-index: 5;
+}
+
+.emoji-row {
+  position: relative;
+  z-index: 2;
+  font-size: 19px;
+  letter-spacing: 4px;
+  margin-top: 4px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 0 6px rgba(46,230,200,0.5));
+}
+
+.name {
+  position: relative;
+  z-index: 2;
+  font-family: 'Bungee', cursive;
+  font-size: 27px;
+  line-height: 1;
+  color: #fff;
+  text-shadow: 0 0 8px #ff2fb0, 0 0 18px rgba(178,38,255,0.6);
+  letter-spacing: 1px;
+}
+
+.nick {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  color: #2ee6c8;
+  letter-spacing: 1px;
+  margin-top: 2px;
+  text-shadow: none;
+}
+
+.archetype {
+  position: relative;
+  z-index: 2;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  color: #ffd6f0;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.deck {
+  position: relative;
+  z-index: 2;
+  width: 236px;
+  height: 118px;
+  margin-top: 12px;
+  background: linear-gradient(160deg, #241533, #170c22);
+  border: 1.5px solid rgba(46,230,200,0.6);
+  border-radius: 8px;
+  box-shadow: 0 0 14px rgba(178,38,255,0.25), inset 0 0 12px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.deck-screen {
+  width: 172px;
+  height: 52px;
+  background: #050308;
+  border: 1px solid rgba(46,230,200,0.5);
+  border-radius: 3px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 10px rgba(46,230,200,0.5) inset;
+}
+.deck-screen::before {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(46,230,200,0.16) 0px, rgba(46,230,200,0.16) 1px, transparent 1px, transparent 3px);
+}
+.deck-screen .scan {
+  position: absolute;
+  left: 0; right: 0;
+  height: 10px;
+  background: linear-gradient(180deg, transparent, rgba(255,47,176,0.55), transparent);
+  animation: scan 2.6s linear infinite;
+}
+@keyframes scan {
+  0% { top: -10px; }
+  100% { top: 52px; }
+}
+
+.deck-buttons {
+  display: flex;
+  gap: 10px;
+}
+.deck-buttons span {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px currentColor;
+}
+.deck-buttons span:nth-child(1) { background: #ff2fb0; color: #ff2fb0; }
+.deck-buttons span:nth-child(2) { background: #2ee6c8; color: #2ee6c8; }
+.deck-buttons span:nth-child(3) { background: #b026ff; color: #b026ff; }
+
+.patch {
+  position: absolute;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  color: #0b0a16;
+  transform: rotate(var(--r, 0deg));
+  box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+}
+.patch-1 { background: #2ee6c8; top: -9px; left: -8px; --r: -8deg; }
+.patch-2 { background: #ffd166; bottom: -9px; left: 4px; --r: 6deg; }
+.patch-3 { background: #ff2fb0; bottom: -10px; right: -6px; --r: -6deg; color: #fff; }
+.patch-4 { background: #b026ff; top: -8px; right: 6px; --r: 7deg; color: #fff; }
+
+.tagline {
+  position: relative;
+  z-index: 2;
+  margin-top: 18px;
+  font-size: 11px;
+  line-height: 1.35;
+  text-align: center;
+  color: #f0e6fb;
+  font-style: italic;
+  padding: 0 4px;
+}
+
+.stat-footer {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  margin-top: auto;
+  display: flex;
+  gap: 10px;
+  padding-top: 6px;
+}
+.stat { flex: 1; }
+.stat span {
+  display: block;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 1px;
+  color: #2ee6c8;
+  margin-bottom: 3px;
+}
+.bar {
+  width: 100%;
+  height: 5px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid rgba(46,230,200,0.3);
+}
+.bar div {
+  height: 100%;
+  background: linear-gradient(90deg, #ff2fb0, #b026ff, #2ee6c8);
+}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;pcb-traces&quot;></div>
+  <div class=&quot;holo-sheen&quot;></div>
+  
+  <div class=&quot;emoji-row&quot;>🔌 🧵 🪩 🧘 💜 🦎</div>
+  <div class=&quot;name&quot;>DD<span class=&quot;nick&quot;>LOAN · SEATTLE (VIA VIETNAM)</span></div>
+  <div class=&quot;archetype&quot;>// THE VINYL CIRCUIT WITCH //</div>
+  <div class=&quot;deck&quot;>
+    <div class=&quot;patch patch-1&quot;>NLP</div>
+    <div class=&quot;patch patch-4&quot;>GHG</div>
+    <div class=&quot;deck-screen&quot;><div class=&quot;scan&quot;></div></div>
+    <div class=&quot;deck-buttons&quot;><span></span><span></span><span></span></div>
+    <div class=&quot;patch patch-2&quot;>SEA</div>
+    <div class=&quot;patch patch-3&quot;>HCI × KINK</div>
+  </div>
+  <div class=&quot;tagline&quot;>&quot;escaped the big tech rat race to thrift a cyberdeck — why fight when we can love?&quot;</div>
+  <div class=&quot;stat-footer&quot;>
+    <div class=&quot;stat&quot;><span>CREATIVE</span><div class=&quot;bar&quot;><div style=&quot;width:88%&quot;></div></div></div>
+    <div class=&quot;stat&quot;><span>CHAOS</span><div class=&quot;bar&quot;><div style=&quot;width:75%&quot;></div></div></div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>DD (Loan)</h3><div class="arch">The Vinyl Circuit Witch</div></div><div class="emj">🔌 🧵 🪩 🧘 💜 🦘</div><div class="tag">“&quot;escaped the big tech rat race to thrift a cyberdeck — why fight when we can love?&quot;”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:35%'></i></span><span class='sv'>35</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:80%'></i></span><span class='sv'>80</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:88%'></i></span><span class='sv'>88</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:82%'></i></span><span class='sv'>82</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:45%'></i></span><span class='sv'>45</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:75%'></i></span><span class='sv'>75</span></div></div><div class="meta">🇻🇳 ❓ Agnostic · 🏳️ Refuses/evades</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-messier-mara">messier (Mara Masaeva)</a></div><div class="bnwhy">NLP/ML women who became playful creative-technologist makers.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-matthew">Matthew</a></div><div class="bnwhy">DD&#x27;s richly eclectic globe-trotting, kink-researching maker life vs Matthew&#x27;s instant-noodle, low-specificity &#x27;consistency.&#x27;</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

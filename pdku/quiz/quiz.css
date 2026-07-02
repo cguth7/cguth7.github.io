@@ -1,0 +1,46 @@
+
+:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38;--accent:#9db4ff}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 50% -10%,#1c1c2e,#0d0d14);
+  color:var(--ink);font-family:'Space Grotesk',system-ui,sans-serif;min-height:100vh}
+.qhdr{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--line)}
+.qhdr .qtitle{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1.5px;flex:1;text-align:center}
+.qhdr .qback{color:var(--dim);text-decoration:none;font-weight:600;font-size:14px;white-space:nowrap}
+.qhdr .qback:hover{color:var(--ink)}
+.qhdr .qspacer{width:52px}
+main#quiz{max-width:640px;margin:0 auto;padding:20px 18px 60px}
+.qbar{height:6px;background:#20202e;border-radius:6px;overflow:hidden}
+.qbarfill{height:100%;width:0;background:linear-gradient(90deg,#7b7bff,#c86bff);transition:width .3s}
+.qstat{display:flex;justify-content:space-between;color:var(--dim);font-size:13px;margin:8px 2px 14px}
+.qstage{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:14px}
+#map{height:340px;border-radius:12px;overflow:hidden;margin-bottom:16px;background:#0b0b12}
+.qpin{font-size:30px;line-height:1;text-align:center;filter:drop-shadow(0 3px 5px rgba(0,0,0,.7))}
+.qprompt{font-family:'DM Serif Display',serif;font-size:23px;line-height:1.3;text-align:center}
+.qprompt b{color:var(--accent)}
+.qcount{display:inline-block;margin-left:6px;font-family:'Space Grotesk',sans-serif;font-size:15px;
+  color:var(--dim);background:#20202e;border:1px solid var(--line);border-radius:20px;padding:2px 10px;vertical-align:middle}
+.qsub{color:var(--dim);font-size:14px;text-align:center;margin-top:8px}
+.qanswer{position:relative}
+#guess{width:100%;padding:14px 16px;font:inherit;font-size:16px;background:#20202e;color:var(--ink);
+  border:1px solid var(--line);border-radius:12px;outline:none}
+#guess:focus{border-color:var(--accent)}
+#guess:disabled{opacity:.6}
+.qsuggest{position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--panel);
+  border:1px solid var(--line);border-radius:12px;z-index:5;max-height:280px;overflow-y:auto;
+  box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.qsuggest:empty{display:none}
+.qsuggest div{padding:11px 16px;cursor:pointer;font-size:15px}
+.qsuggest div.hi,.qsuggest div:hover{background:#2a2a3e}
+.qfeedback{min-height:26px;text-align:center;font-size:15px;margin:14px 0;font-weight:600}
+.qfeedback.good{color:#7fe0a0}.qfeedback.bad{color:#f28fa0}
+.qcontrols{display:flex;justify-content:space-between;gap:10px}
+.qbtn{background:var(--ink);color:#0d0d14;border:0;border-radius:22px;padding:11px 24px;
+  cursor:pointer;font:inherit;font-weight:700;font-size:15px;text-decoration:none;display:inline-block}
+.qbtn.ghost{background:none;border:1px solid var(--line);color:var(--dim)}
+.qend{text-align:center;padding:30px 10px}
+.qend .qsub{color:var(--dim);text-transform:uppercase;letter-spacing:1.5px;font-size:13px}
+.qend .qbig{font-family:'Bebas Neue',sans-serif;font-size:64px;letter-spacing:2px;margin:6px 0}
+.qend .qmsg{color:var(--dim);font-size:16px;margin-bottom:20px}
+.qend .qbtn{margin:0 6px}
+.leaflet-container{background:#0b0b12;font-family:inherit}
+.leaflet-control-attribution{font-size:10px}

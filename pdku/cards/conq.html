@@ -1,0 +1,146 @@
+<!doctype html><html><head><meta charset='utf-8'><title>conq — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}*{box-sizing:border-box;margin:0;padding:0;}
+body{width:300px;height:420px;overflow:hidden;font-family:'Fraunces',serif;background:#f2e6c9;}
+.card{
+  position:relative;
+  width:300px;height:420px;
+  padding:15px 16px 12px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  background:
+    repeating-linear-gradient(to bottom, rgba(194,42,31,0.07) 0px, rgba(194,42,31,0.07) 1px, transparent 1px, transparent 27px),
+    radial-gradient(ellipse at 20% 0%, #f8efd8 0%, #f2e6c9 55%, #e9d9ae 100%);
+  border:2px solid #8a6a3d;
+  box-shadow: inset 0 0 0 5px #f2e6c9, inset 0 0 0 6px #b08c52;
+  overflow:hidden;
+}
+.card::before{
+  content:&quot;&quot;;
+  position:absolute;top:0;bottom:0;left:38px;width:1px;
+  background:rgba(194,42,31,0.28);
+}
+.hole{
+  position:absolute;top:13px;left:14px;width:11px;height:11px;border-radius:50%;
+  background:#e9d9ae;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.6);
+  border:1px dashed #b08c52;
+}
+.rec{
+  position:absolute;top:14px;right:14px;
+  display:flex;align-items:center;gap:4px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;font-weight:700;
+  letter-spacing:1px;color:#c22a1f;text-transform:uppercase;
+}
+.dot{
+  width:6px;height:6px;border-radius:50%;background:#c22a1f;
+  animation:pulse 1.8s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.25;}}
+.emoji-row{
+  margin-top:20px;
+  font-size:22px;letter-spacing:5px;
+}
+.name{
+  margin-top:10px;
+  font-family:'Fraunces',serif;font-weight:700;font-size:34px;
+  letter-spacing:1px;color:#2a2118;line-height:1;
+}
+.handle{
+  margin-top:3px;
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:#8a6a3d;
+  letter-spacing:1px;
+}
+.ribbon{
+  margin-top:12px;
+  background:#c22a1f;color:#f8efd8;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:11px;
+  letter-spacing:1.4px;text-transform:uppercase;
+  padding:6px 12px;
+  transform:rotate(-1deg);
+  box-shadow:0 2px 4px rgba(0,0,0,0.25);
+  max-width:250px;
+}
+.tagline{
+  margin-top:12px;
+  font-family:'Fraunces',serif;font-style:italic;font-size:13.5px;
+  line-height:1.4;color:#3a2c1c;
+  padding:0 6px;
+}
+.progress-label{
+  margin-top:14px;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;
+  text-transform:uppercase;color:#8a6a3d;
+}
+.progress-bar{
+  margin-top:5px;
+  display:flex;gap:3px;width:220px;
+}
+.progress-bar span{
+  flex:1;height:5px;border-radius:3px;background:rgba(138,106,61,0.3);
+}
+.progress-bar span.active{
+  background:#c22a1f;
+}
+.stamps{
+  margin-top:14px;
+  display:flex;gap:6px;flex-wrap:wrap;justify-content:center;
+}
+.stamp{
+  font-family:'IBM Plex Mono',monospace;font-size:8.5px;font-weight:700;
+  border:1px solid #8a6a3d;border-radius:3px;
+  padding:2px 5px;color:#5c4527;
+  transform:rotate(var(--r,0deg));
+  background:rgba(255,255,255,0.25);
+}
+.stamp:nth-child(1){--r:-4deg;}
+.stamp:nth-child(2){--r:3deg;}
+.stamp:nth-child(3){--r:-2deg;}
+.stamp:nth-child(4){--r:4deg;}
+.stamp:nth-child(5){--r:-3deg;}
+.footer{
+  margin-top:auto;
+  padding-top:12px;
+  width:100%;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.eth-stamp{
+  width:46px;height:46px;border-radius:50%;
+  border:1.5px dashed #c22a1f;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:8px;
+  color:#c22a1f;line-height:1.2;text-align:center;
+  transform:rotate(-9deg);
+  mix-blend-mode:multiply;
+}
+.doom-meter{
+  flex:1;margin-left:12px;text-align:left;
+}
+.doom-label{
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:1px;
+  text-transform:uppercase;color:#8a6a3d;display:block;margin-bottom:3px;
+}
+.doom-bar{
+  width:100%;height:6px;border-radius:3px;background:rgba(138,106,61,0.25);overflow:hidden;
+}
+.doom-fill{
+  width:72%;height:100%;
+  background:linear-gradient(90deg,#c9962a,#c22a1f);
+}</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;hole&quot;></div>
+  <div class=&quot;rec&quot;><span class=&quot;dot&quot;></span>REC</div>
+  <div class=&quot;emoji-row&quot;>📚 🎬 🇨🇭 ⏳ ✒️</div>
+  <div class=&quot;name&quot;>CONQ</div>
+  <div class=&quot;handle&quot;>@serialsevens</div>
+  <div class=&quot;ribbon&quot;>The Cannibal Media Poet</div>
+  <div class=&quot;tagline&quot;>&quot;Read every book, fell for Reels, now memorizing poems before the apocalypse.&quot;</div>
+  <div class=&quot;progress-label&quot;>Book Snob &amp;rarr; Reels Convert</div>
+  <div class=&quot;progress-bar&quot;><span></span><span></span><span class=&quot;active&quot;></span><span class=&quot;active&quot;></span><span class=&quot;active&quot;></span></div>
+  <div class=&quot;stamps&quot;>
+    <span class=&quot;stamp&quot;>SC</span><span class=&quot;stamp&quot;>NL</span><span class=&quot;stamp&quot;>ZA</span><span class=&quot;stamp&quot;>HK</span><span class=&quot;stamp&quot;>CH</span>
+  </div>
+  <div class=&quot;footer&quot;>
+    <div class=&quot;eth-stamp&quot;>ETH<br>ZÜRICH</div>
+    <div class=&quot;doom-meter&quot;>
+      <span class=&quot;doom-label&quot;>p(doom)</span>
+      <div class=&quot;doom-bar&quot;><div class=&quot;doom-fill&quot;></div></div>
+    </div>
+  </div>
+</div></body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>conq</h3><div class="arch">The Cannibal Media Poet</div><div class="handle">@serialsevens</div></div><div class="emj">📚 🎬 🇨🇭 ⏳ ✒️</div><div class="tag">“Read every book, fell for Reels, now memorizing poems before the apocalypse.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:72%'></i></span><span class='sv'>72</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:55%'></i></span><span class='sv'>55</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:92%'></i></span><span class='sv'>92</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:70%'></i></span><span class='sv'>70</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:56%'></i></span><span class='sv'>56</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:52%'></i></span><span class='sv'>52</span></div></div><div class="meta">🇨🇭 ☠️ Doomer · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-jeredino-lavagnino">Jeredino Lavagnino</a></div><div class="bnwhy">Bookish Substack/Neocities essayists and Inkhaven/Lighthaven alumni pivoting from prose to video.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-avi-avalon">Avi (Avalon)</a></div><div class="bnwhy">conq&#x27;s doomer, poetry-memorizing gravity vs Avi&#x27;s carefree vibe-coding fun-app bubbliness.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

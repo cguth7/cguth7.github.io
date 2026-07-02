@@ -1,0 +1,88 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Beck — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden;}
+body{font-family:'Fraunces',serif;background:#f5ead9;}
+
+.card{
+  width:300px;height:420px;position:relative;
+  display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#f0e6d6 0%,#f7ecdb 45%,#f9f0e2 100%);
+  color:#2e2620;
+  box-shadow:inset 0 0 0 2px rgba(60,81,99,0.35);
+}
+
+.header{position:relative;height:92px;overflow:hidden;background:linear-gradient(180deg,#c3d8e3 0%,#e7c79c 100%);flex-shrink:0;}
+
+.emoji-row{position:relative;z-index:3;display:flex;justify-content:center;gap:8px;padding:7px 0;font-size:15px;background:rgba(35,30,25,0.30);letter-spacing:1px;}
+
+.peaks{position:absolute;left:0;right:0;bottom:0;height:46px;z-index:1;
+  background:linear-gradient(135deg,#3c5163 0%,#4d6a78 50%,#3c5163 100%);
+  clip-path:polygon(0% 100%,0% 55%,10% 30%,18% 48%,28% 15%,38% 42%,50% 8%,60% 38%,70% 20%,80% 45%,90% 25%,100% 50%,100% 100%);
+  opacity:0.88;
+}
+
+.aurora{position:absolute;left:0;right:0;top:16px;height:40px;z-index:2;
+  background:linear-gradient(90deg, rgba(139,224,190,0) 0%, rgba(139,224,190,0.55) 20%, rgba(158,191,255,0.5) 45%, rgba(203,163,255,0.5) 65%, rgba(139,224,190,0) 90%);
+  filter:blur(4px);mix-blend-mode:screen;
+  animation:drift 9s ease-in-out infinite alternate;
+}
+
+@keyframes drift{0%{transform:translateX(-14px);opacity:0.5;}100%{transform:translateX(14px);opacity:0.9;}}
+
+.badge-wrap{position:relative;display:flex;flex-direction:column;align-items:center;margin-top:-37px;z-index:4;flex-shrink:0;}
+
+.badge{
+  width:74px;height:74px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #f0a561, #c9721f 70%, #a6591a 100%);
+  border:3px dashed #fff3e2;
+  box-shadow:0 3px 8px rgba(0,0,0,0.25), inset 0 0 0 5px rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;font-size:30px;
+}
+
+.ribbon{
+  margin-top:-6px;background:#3c5163;color:#f7ecdb;
+  font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.7px;
+  padding:3px 10px;border-radius:2px;box-shadow:0 2px 3px rgba(0,0,0,0.2);
+  white-space:nowrap;text-transform:uppercase;
+}
+
+.body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 18px 0;text-align:center;overflow:hidden;}
+
+.name{margin:4px 0 2px;font-size:30px;letter-spacing:2px;font-weight:700;color:#2e2620;}
+
+.archetype{font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:1.5px;text-transform:uppercase;color:#a6591a;margin-bottom:10px;}
+
+.tagline{font-style:italic;font-size:12.5px;line-height:1.4;color:#4a3f34;margin:0 0 10px;max-width:250px;}
+
+.divider{width:60px;height:2px;background:linear-gradient(90deg,transparent,#a6591a,transparent);margin-bottom:10px;}
+
+.pills{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-bottom:2px;}
+.pills span{font-family:'IBM Plex Mono',monospace;font-size:8px;letter-spacing:0.5px;border:1px solid #7d95a3;color:#3c5163;padding:3px 7px;border-radius:10px;background:rgba(255,255,255,0.55);}
+
+.footer{display:flex;justify-content:space-between;align-items:center;padding:8px 16px 12px;font-family:'IBM Plex Mono',monospace;font-size:8.5px;color:#4a3f34;flex-shrink:0;}
+.loc{opacity:0.85;}
+.rarity{background:#3c5163;color:#f7ecdb;padding:2px 8px;border-radius:3px;letter-spacing:1px;font-weight:600;}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;header&quot;>
+    <div class=&quot;emoji-row&quot;>🍳 🌫️ 🏔️ 🎙️ 🧭</div>
+    <div class=&quot;aurora&quot;></div>
+    <div class=&quot;peaks&quot;></div>
+  </div>
+  <div class=&quot;badge-wrap&quot;>
+    <div class=&quot;badge&quot;>🔥</div>
+    <div class=&quot;ribbon&quot;>Constellation Kitchen</div>
+  </div>
+  <div class=&quot;body&quot;>
+    <h1 class=&quot;name&quot;>BECK</h1>
+    <div class=&quot;archetype&quot;>The Hearth Comms Lead</div>
+    <p class=&quot;tagline&quot;>&quot;Not racing — just here with snacks, comms, and a coat for the fog.&quot;</p>
+    <div class=&quot;divider&quot;></div>
+    <div class=&quot;pills&quot;>
+      <span>COMMS</span><span>CAMPAIGNS</span><span>KITCHEN</span><span>X-RISK</span>
+    </div>
+  </div>
+  <div class=&quot;footer&quot;>
+    <span class=&quot;loc&quot;>📍 Berkeley · AK roots</span>
+    
+  </div>
+</div></body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Beck</h3><div class="arch">The Hearth Comms Lead</div></div><div class="emj">🍳 🌫️ 🏔️ 🎙️ 🧭</div><div class="tag">“Not racing — just here with snacks, comms, and a coat for the fog.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:62%'></i></span><span class='sv'>62</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:25%'></i></span><span class='sv'>25</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:55%'></i></span><span class='sv'>55</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:75%'></i></span><span class='sv'>75</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:15%'></i></span><span class='sv'>15</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:35%'></i></span><span class='sv'>35</span></div></div><div class="meta">🇺🇸 🛡️ Safety-concerned · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-caitlin-yardley">Caitlin Yardley</a></div><div class="bnwhy">Professional AI-safety communicators who each &#x27;recovered&#x27; from a prior career (chef/campaigns; journalism).</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-brenda-godinez">Brenda Godinez</a></div><div class="bnwhy">Beck does MIRI x-risk comms; Brenda is all-in on AI &#x27;for fun.&#x27;</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

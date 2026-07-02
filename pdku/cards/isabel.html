@@ -1,0 +1,171 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Isabel (isa) — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; overflow: hidden; background: #1a1f3d; }
+
+.card {
+  width: 300px;
+  height: 420px;
+  position: relative;
+  overflow: hidden;
+  padding: 14px 16px 12px;
+  background: linear-gradient(155deg, #ff9466 0%, #c9598a 32%, #5b3b8c 60%, #1a1f3d 100%);
+  font-family: 'Space Grotesk', sans-serif;
+  color: #fdf3e7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card::before {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: -20px;
+  background: repeating-linear-gradient(45deg, rgba(255,255,255,0.06) 0 10px, transparent 10px 20px);
+  pointer-events: none;
+  animation: shimmer 7s linear infinite;
+}
+
+.card::after {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: 6px;
+  border: 1.5px solid rgba(244,213,141,0.55);
+  box-shadow: inset 0 0 0 4px rgba(0,0,0,0.15);
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translate(0,0); }
+  100% { transform: translate(28px, 28px); }
+}
+
+.emoji-row {
+  font-size: 19px;
+  letter-spacing: 4px;
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  z-index: 2;
+}
+
+.shield-wrap {
+  position: relative;
+  width: 112px;
+  height: 118px;
+  margin: 2px 0 10px;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.shield {
+  width: 100%;
+  height: 100%;
+  clip-path: polygon(50% 0%, 100% 16%, 100% 55%, 50% 100%, 0% 55%, 0% 16%);
+  background: conic-gradient(from 90deg, #10a37f 0% 25%, #4285f4 25% 50%, #e7e7e7 50% 75%, #da7756 75% 100%);
+  border: 3px solid #f4d58d;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.45), inset 0 0 0 2px rgba(0,0,0,0.25);
+}
+
+.swords {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+}
+
+.name {
+  font-family: 'Cinzel', serif;
+  font-size: 27px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 0 18px rgba(244,213,141,0.35);
+  margin-bottom: 6px;
+  z-index: 2;
+}
+
+.archetype {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  border: 1px solid rgba(244,213,141,0.7);
+  border-radius: 20px;
+  padding: 4px 14px;
+  background: rgba(0,0,0,0.22);
+  margin-bottom: 10px;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.tagline {
+  font-size: 12.5px;
+  line-height: 1.4;
+  text-align: center;
+  font-style: italic;
+  color: #fdf3e7;
+  opacity: 0.95;
+  padding: 0 6px;
+  z-index: 2;
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.route {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.5px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px;
+  padding: 3px 10px;
+}
+
+.meter {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.3);
+}
+.meter span { flex: 1; }
+.m1 { background: #10a37f; }
+.m2 { background: #4285f4; }
+.m3 { background: #e7e7e7; }
+.m4 { background: #da7756; }
+
+.credit {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.6px;
+  opacity: 0.75;
+}</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;emoji-row&quot;>🏰 ⚔️ 🤖 🦘 ✨</div>
+
+  <div class=&quot;shield-wrap&quot;>
+    <div class=&quot;shield&quot;></div>
+    <div class=&quot;swords&quot;>⚔️</div>
+  </div>
+
+  <div class=&quot;name&quot;>Isabel</div>
+  <div class=&quot;archetype&quot;>The Battle Sim Herald</div>
+  <div class=&quot;tagline&quot;>&quot;pro ai, anti asi — four models enter the arena, i just make it pretty. still wouldn't fight a kangaroo.&quot;</div>
+
+  <div class=&quot;footer&quot;>
+    <div class=&quot;route&quot;>🇦🇺 australia → 🇸🇬 singapore</div>
+    <div class=&quot;meter&quot;>
+      <span class=&quot;m1&quot;></span><span class=&quot;m2&quot;></span><span class=&quot;m3&quot;></span><span class=&quot;m4&quot;></span>
+    </div>
+    <div class=&quot;credit&quot;>napole0n.ai · creative technologist</div>
+  </div>
+</div></body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Isabel (isa)</h3><div class="arch">The Battle Sim Herald</div><div class="handle">@artificial.isabel</div></div><div class="emj">🏰 ⚔️ 🤖 🦘 ✨</div><div class="tag">“pro ai, anti asi — four models enter the arena, i just make it pretty”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:45%'></i></span><span class='sv'>45</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:90%'></i></span><span class='sv'>90</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:75%'></i></span><span class='sv'>75</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:65%'></i></span><span class='sv'>65</span></div></div><div class="meta">🇬🇧 🤖 Pro-AI, anti-ASI · 🏳️ Refuses/evades</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-messier-mara">messier (Mara Masaeva)</a></div><div class="bnwhy">AI creative-technologists steeped in CCRU/accelerationist theory and AI-art building.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-brogan-woodman">Brogan (Art Chad)</a></div><div class="bnwhy">Isabel&#x27;s playful pro-AI spectacle vs Brogan&#x27;s dead-internet-theory safety worry.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

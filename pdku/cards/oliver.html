@@ -1,0 +1,201 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Oliver — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}* { box-sizing: border-box; }
+body { margin: 0; width: 300px; height: 420px; overflow: hidden; }
+
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  background:
+    radial-gradient(circle at 78% 8%, rgba(255,138,61,0.35), transparent 45%),
+    radial-gradient(circle at 15% 95%, rgba(255,46,136,0.28), transparent 50%),
+    linear-gradient(160deg, #12081f 0%, #0a0712 55%, #0b0b12 100%);
+  color: #f5f0ff;
+  font-family: 'Syne', sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-floor {
+  position: absolute;
+  left: -20%;
+  right: -20%;
+  bottom: -30px;
+  height: 150px;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.08) 0 1px, transparent 1px 18px);
+  transform: perspective(220px) rotateX(58deg);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.orb {
+  position: absolute;
+  top: -34px;
+  right: -34px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, #fff 0%, #ff9a5a 18%, #ff2e88 46%, #3a0a3f 78%, #0a0712 100%);
+  box-shadow: 0 0 40px rgba(255,46,136,0.55), 0 0 80px rgba(255,138,61,0.25);
+  animation: pulse 4.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.06); opacity: 1; }
+}
+
+.filmstrip {
+  height: 12px;
+  width: 100%;
+  background-color: #050308;
+  background-image: radial-gradient(circle, #2a2135 2.6px, transparent 3px);
+  background-size: 18px 12px;
+  background-position: 9px center;
+  flex-shrink: 0;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  padding: 14px 18px 12px;
+  display: flex;
+  flex-direction: column;
+}
+
+.emoji-row {
+  font-size: 21px;
+  letter-spacing: 4px;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.name {
+  margin: 0;
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: 1px;
+  background: linear-gradient(95deg, #ffffff 10%, #ffcf9e 45%, #ff2e88 90%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-transform: uppercase;
+}
+
+.archetype {
+  display: inline-block;
+  margin-top: 8px;
+  align-self: flex-start;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #ffcf9e;
+  border: 1px solid rgba(255,207,158,0.5);
+  border-radius: 3px;
+  padding: 3px 8px;
+  background: rgba(255,46,136,0.08);
+}
+
+.tagline {
+  margin: 12px 0 0;
+  font-size: 13.5px;
+  line-height: 1.42;
+  font-style: italic;
+  color: #e6dcff;
+  border-left: 2px solid #ff2e88;
+  padding-left: 9px;
+}
+
+.stats {
+  margin-top: auto;
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-row .label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #b8a9d9;
+  width: 58px;
+  flex-shrink: 0;
+}
+
+.bar {
+  flex: 1;
+  height: 5px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #ff8a3d, #ff2e88);
+}
+
+.fill.chaos { background: linear-gradient(90deg, #7a5cff, #ff2e88); }
+
+.footer {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px dashed rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: #b8a9d9;
+}
+
+.badge-kangaroo {
+  background: rgba(255,46,136,0.15);
+  border: 1px solid rgba(255,46,136,0.4);
+  color: #ffb3d6;
+  border-radius: 3px;
+  padding: 2px 6px;
+  white-space: nowrap;
+}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;grid-floor&quot;></div>
+  <div class=&quot;orb&quot;></div>
+  <div class=&quot;filmstrip&quot;></div>
+  <div class=&quot;content&quot;>
+    <div class=&quot;emoji-row&quot;>🎬 🌀 🌇 🤖 🦘</div>
+    <h1 class=&quot;name&quot;>Oliver</h1>
+    <div class=&quot;archetype&quot;>The Mumbo Jumbo Mage</div>
+    <p class=&quot;tagline&quot;>&quot;Kangaroo had no chance. I deleted that mf.&quot;</p>
+    <div class=&quot;stats&quot;>
+      <div class=&quot;stat-row&quot;>
+        <span class=&quot;label&quot;>CREATIVE</span>
+        <div class=&quot;bar&quot;><div class=&quot;fill&quot; style=&quot;width:88%&quot;></div></div>
+      </div>
+      <div class=&quot;stat-row&quot;>
+        <span class=&quot;label&quot;>CHAOS</span>
+        <div class=&quot;bar&quot;><div class=&quot;fill chaos&quot; style=&quot;width:60%&quot;></div></div>
+      </div>
+    </div>
+    <div class=&quot;footer&quot;>
+      <span>📍 LA · MOTION GFX</span>
+      <span class=&quot;badge-kangaroo&quot;>🦘 DELETED</span>
+    </div>
+  </div>
+  <div class=&quot;filmstrip&quot;></div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Oliver</h3><div class="arch">The Mumbo Jumbo Mage</div></div><div class="emj">🎬 🌀 🌇 🤖 🦘</div><div class="tag">“Kangaroo had no chance. I deleted that mf.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:42%'></i></span><span class='sv'>42</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:55%'></i></span><span class='sv'>55</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:88%'></i></span><span class='sv'>88</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:70%'></i></span><span class='sv'>70</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:65%'></i></span><span class='sv'>65</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:60%'></i></span><span class='sv'>60</span></div></div><div class="meta">🇺🇸 ❓ Agnostic · 🥊 Beats the kangaroo</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-aron-fromm">Aron Fromm</a></div><div class="bnwhy">Mutual—LA animators making short films for festivals.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-gai">Gai</a></div><div class="bnwhy">Oliver&#x27;s polished 3D AI-themed motion graphics vs Gai&#x27;s hand-drawn, off-grid, pre-AI animation.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

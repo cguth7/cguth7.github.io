@@ -1,0 +1,182 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Jennifer — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}
+* { box-sizing: border-box; }
+body {
+  width: 300px; height: 420px; margin: 0; overflow: hidden;
+  font-family: 'Fraunces', serif;
+  background:
+    radial-gradient(circle at 15% 12%, rgba(255,255,255,0.25), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(90,60,30,0.15), transparent 45%),
+    repeating-linear-gradient(115deg, rgba(120,80,40,0.04) 0px, rgba(120,80,40,0.04) 2px, transparent 2px, transparent 6px),
+    linear-gradient(160deg, #ecdcb9 0%, #dcc191 55%, #cfaf7d 100%);
+  color: #3c2c1e;
+  position: relative;
+}
+
+.card {
+  position: absolute;
+  inset: 9px;
+  border: 2px dashed #b5773f;
+  border-radius: 10px;
+  background: rgba(255,250,238,0.18);
+  box-shadow: inset 0 0 0 6px rgba(255,250,238,0.22);
+}
+
+.tape {
+  position: absolute;
+  width: 68px; height: 24px;
+  background: repeating-linear-gradient(100deg, rgba(230,213,150,0.85) 0px, rgba(230,213,150,0.85) 4px, rgba(210,190,130,0.85) 4px, rgba(210,190,130,0.85) 8px);
+  opacity: 0.82;
+  box-shadow: 0 1px 3px rgba(60,40,20,0.35);
+}
+.tape-tl { top: -6px; left: -10px; transform: rotate(-38deg); }
+.tape-br { bottom: -6px; right: -10px; transform: rotate(-38deg); }
+
+.emoji-row {
+  position: absolute; top: 20px; left: 0; right: 0;
+  display: flex; justify-content: center; gap: 10px;
+  font-size: 22px;
+  animation: bob 4.5s ease-in-out infinite;
+}
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+.name-wrap {
+  position: absolute; top: 66px; left: 0; right: 0;
+  text-align: center; padding: 0 18px;
+}
+.name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 34px;
+  color: #3c2c1e;
+  letter-spacing: 0.5px;
+  line-height: 1;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.35);
+}
+.location {
+  font-family: 'Special Elite', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #6b5233;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+.stamp {
+  position: absolute;
+  top: 150px; left: 50%;
+  transform: translateX(-50%) rotate(-6deg);
+  width: 190px; height: 78px;
+  border: 3px double #c15b3c;
+  border-radius: 50% / 42%;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  color: #c15b3c;
+  animation: stampwiggle 6s ease-in-out infinite;
+  background: rgba(255,250,238,0.12);
+}
+@keyframes stampwiggle {
+  0%, 100% { transform: translateX(-50%) rotate(-6deg); }
+  50% { transform: translateX(-50%) rotate(-4deg); }
+}
+.stamp-label {
+  font-family: 'Special Elite', monospace;
+  font-size: 8px;
+  letter-spacing: 3px;
+  opacity: 0.85;
+}
+.stamp-archetype {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+  text-align: center;
+  line-height: 1.1;
+}
+
+.tagline {
+  position: absolute;
+  top: 246px; left: 22px; right: 22px;
+  text-align: center;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  line-height: 1.25;
+  color: #4a3722;
+}
+
+.divider {
+  position: absolute;
+  top: 322px; left: 30px; right: 30px;
+  height: 1px;
+  background: repeating-linear-gradient(90deg, #b5773f 0px, #b5773f 6px, transparent 6px, transparent 11px);
+}
+
+.stats {
+  position: absolute;
+  top: 334px; left: 26px; right: 26px;
+  display: flex; justify-content: space-between;
+  font-family: 'Special Elite', monospace;
+  font-size: 9px;
+  color: #5a4327;
+}
+.stat-block { text-align: center; }
+.stat-num { font-family: 'Fraunces', serif; font-weight: 700; font-size: 17px; color: #7c8f5f; display: block; }
+
+.footer {
+  position: absolute;
+  bottom: 14px; left: 0; right: 0;
+  display: flex; justify-content: center; align-items: center; gap: 8px;
+}
+.rarity-tag {
+  font-family: 'Special Elite', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #f4ead2;
+  background: #8a5a35;
+  padding: 3px 10px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+}
+.thread {
+  font-size: 12px;
+  color: #7c8f5f;
+}
+</style></head><body><div class=&quot;card&quot;></div>
+<div class=&quot;tape tape-tl&quot;></div>
+<div class=&quot;tape tape-br&quot;></div>
+
+<div class=&quot;emoji-row&quot;>
+  <span>🪵</span><span>✂️</span><span>🧶</span><span>🎨</span><span>🌍</span>
+</div>
+
+<div class=&quot;name-wrap&quot;>
+  <div class=&quot;name&quot;>Jennifer</div>
+  <div class=&quot;location&quot;>Oakland, CA · currently abroad</div>
+</div>
+
+<div class=&quot;stamp&quot;>
+  <div class=&quot;stamp-label&quot;>MAKER'S MARK</div>
+  <div class=&quot;stamp-archetype&quot;>The Analog<br/>Artisan</div>
+</div>
+
+<div class=&quot;tagline&quot;>&quot;Hello Lovlies! Let's make crazy cool shit with our hands.&quot;</div>
+
+<div class=&quot;divider&quot;></div>
+
+<div class=&quot;stats&quot;>
+  <div class=&quot;stat-block&quot;><span class=&quot;stat-num&quot;>92</span>CREATE</div>
+  <div class=&quot;stat-block&quot;><span class=&quot;stat-num&quot;>74</span>SOCIAL</div>
+  <div class=&quot;stat-block&quot;><span class=&quot;stat-num&quot;>58</span>CHAOS</div>
+  <div class=&quot;stat-block&quot;><span class=&quot;stat-num&quot;>18</span>TECH</div>
+</div>
+
+<div class=&quot;footer&quot;>
+  <span class=&quot;thread&quot;>🧵</span>
+  
+  <span class=&quot;thread&quot;>🧵</span>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Jennifer</h3><div class="arch">The Analog Artisan</div><div class="handle">jenalden637</div></div><div class="emj">🪵 ✂️ 🧶 🎨 🌍</div><div class="tag">“Hello Lovlies! Made of glue, wood, and zero video experience — let&#x27;s make crazy cool shit.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:48%'></i></span><span class='sv'>48</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:18%'></i></span><span class='sv'>18</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:92%'></i></span><span class='sv'>92</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:74%'></i></span><span class='sv'>74</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:14%'></i></span><span class='sv'>14</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:58%'></i></span><span class='sv'>58</span></div></div><div class="meta">🇺🇸 ❓ Agnostic · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-azmyth">Azmyth</a></div><div class="bnwhy">Analog physical-craft makers—handmade objects and handmade cloaks.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-kat-the-vat">Kat the Vat</a></div><div class="bnwhy">Jennifer makes tactile objects with zero video experience; Kat&#x27;s been a terminally-online video-maker &#x27;since age 8.&#x27;</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

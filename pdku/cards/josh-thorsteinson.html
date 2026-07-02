@@ -1,0 +1,278 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Josh Thorsteinson — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}* { box-sizing: border-box; }
+body {
+  width: 300px;
+  height: 420px;
+  margin: 0;
+  overflow: hidden;
+  background: #0a0710;
+  font-family: 'Syne', sans-serif;
+}
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 60% at 50% 0%, rgba(254,44,85,0.28), rgba(10,7,16,0) 60%),
+    radial-gradient(140% 70% at 50% 100%, rgba(37,244,238,0.16), rgba(10,7,16,0) 65%),
+    linear-gradient(180deg, #0a0710 0%, #140a20 45%, #1c0e2c 75%, #12081c 100%);
+  color: #f3eef7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* warning tape edge */
+.tape {
+  width: 100%;
+  height: 7px;
+  flex: none;
+  background: repeating-linear-gradient(
+    45deg,
+    #fe2c55 0px, #fe2c55 10px,
+    #12081c 10px, #12081c 20px
+  );
+  opacity: 0.85;
+}
+
+/* faint CRT scanlines over everything */
+.scan {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.025) 0px,
+    rgba(255,255,255,0.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+.topbar {
+  width: 100%;
+  padding: 9px 14px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: #ff8fa3;
+  flex: none;
+}
+.rec {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.rec-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fe2c55;
+  box-shadow: 0 0 6px #fe2c55;
+  animation: pulse 1.6s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.8); }
+}
+.loc { color: #7fe9e4; }
+
+.emoji-row {
+  margin-top: 12px;
+  font-size: 25px;
+  letter-spacing: 4px;
+  flex: none;
+  filter: drop-shadow(0 0 6px rgba(0,0,0,0.5));
+}
+
+.archetype {
+  margin-top: 10px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #25f4ee;
+  border: 1px solid rgba(37,244,238,0.5);
+  border-radius: 20px;
+  padding: 4px 12px;
+  background: rgba(37,244,238,0.06);
+  flex: none;
+}
+
+.name {
+  margin: 12px 0 0 0;
+  padding: 0 44px 0 14px;
+  text-align: center;
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 24px;
+  line-height: 1.12;
+  letter-spacing: 0.5px;
+  flex: none;
+  color: #fefdfd;
+  text-shadow:
+    -2px 0 0 rgba(37,244,238,0.75),
+    2px 1px 0 rgba(254,44,85,0.75);
+}
+
+.handle {
+  margin-top: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  color: #a89bb8;
+  flex: none;
+}
+
+.tagline {
+  margin-top: 12px;
+  padding: 0 46px 0 20px;
+  text-align: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #e8dff0;
+  flex: none;
+}
+
+.pivot {
+  width: 100%;
+  padding: 0 20px 0 20px;
+  margin-top: 16px;
+  flex: none;
+}
+.pivot-labels {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 6.5px;
+  letter-spacing: 0.5px;
+  color: #ff8fa3;
+  text-transform: uppercase;
+}
+.pivot-labels span:last-child { color: #7fe9e4; }
+.pivot-track {
+  position: relative;
+  margin-top: 5px;
+  width: 100%;
+  height: 5px;
+  border-radius: 4px;
+  background: rgba(255,255,255,0.08);
+  overflow: visible;
+}
+.pivot-fill {
+  height: 100%;
+  width: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #fe2c55, #b23a7a 55%, #25f4ee);
+}
+.pivot-dot {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 8px #25f4ee, 0 0 2px #fff;
+  transform: translate(-100%, -50%);
+}
+
+.rail {
+  position: absolute;
+  right: 8px;
+  bottom: 78px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  color: #d9cee6;
+  gap: 2px;
+}
+.badge .ic {
+  font-size: 15px;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.6));
+}
+
+.footer {
+  margin-top: auto;
+  width: 100%;
+  padding: 0 14px 12px 14px;
+  flex: none;
+}
+.scrubber {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.15);
+  border-radius: 2px;
+  margin-bottom: 8px;
+}
+.scrub-fill {
+  position: absolute;
+  left: 0; top: 0;
+  height: 100%;
+  width: 38%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #fe2c55, #25f4ee);
+}
+.foot-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rarity {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #fe2c55;
+  border: 1px solid rgba(254,44,85,0.5);
+  padding: 2px 8px;
+  border-radius: 3px;
+}
+.pdoom-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  color: #7fe9e4;
+  letter-spacing: 0.5px;
+}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;scan&quot;></div>
+  <div class=&quot;tape&quot;></div>
+  <div class=&quot;topbar&quot;>
+    <div class=&quot;rec&quot;><div class=&quot;rec-dot&quot;></div>p(doom) LIVE</div>
+    <div class=&quot;loc&quot;>YVR, CA</div>
+  </div>
+  <div class=&quot;emoji-row&quot;>⏳📱😨🎓🍁</div>
+  <div class=&quot;archetype&quot;>The Doomscroll Prophet</div>
+  <div class=&quot;name&quot;>Josh<br>Thorsteinson</div>
+  <div class=&quot;handle&quot;>@joshthor_</div>
+  <div class=&quot;tagline&quot;>&quot;Scared of AI killing everyone since 2022. Excited to meet you guys!&quot;</div>
+  <div class=&quot;pivot&quot;>
+    <div class=&quot;pivot-labels&quot;><span>AI SAFETY RESEARCH</span><span>FOR YOU PAGE</span></div>
+    <div class=&quot;pivot-track&quot;><div class=&quot;pivot-fill&quot;></div><div class=&quot;pivot-dot&quot;></div></div>
+  </div>
+  <div class=&quot;rail&quot;>
+    <div class=&quot;badge&quot;><span class=&quot;ic&quot;>⏳</span>88%</div>
+    <div class=&quot;badge&quot;><span class=&quot;ic&quot;>🎓</span>UBC</div>
+    <div class=&quot;badge&quot;><span class=&quot;ic&quot;>🎬</span>FYP</div>
+  </div>
+  <div class=&quot;footer&quot;>
+    <div class=&quot;scrubber&quot;><div class=&quot;scrub-fill&quot;></div></div>
+    <div class=&quot;foot-row&quot;>
+      
+      <span class=&quot;pdoom-tag&quot;>EX-GOVERNANCE RESEARCHER</span>
+    </div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Josh Thorsteinson</h3><div class="arch">The Doomscroll Prophet</div><div class="handle">joshthor_</div></div><div class="emj">⏳ 📱 😨 🎓 🍁</div><div class="tag">“Scared of AI since 2022. Now I just make the TikToks about it.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:88%'></i></span><span class='sv'>88</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:55%'></i></span><span class='sv'>55</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:62%'></i></span><span class='sv'>62</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:68%'></i></span><span class='sv'>68</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:58%'></i></span><span class='sv'>58</span></div></div><div class="meta">🇬🇧 ☠️ Doomer · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-emily">Emily</a></div><div class="bnwhy">Mutual—doomer AI-safety organizers who became creators.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-christian-gonzalez-capizzi">Christian Gonzalez-Capizzi</a></div><div class="bnwhy">Josh&#x27;s anxious AI-doom earnestness vs Christian&#x27;s breezy ex-ML agnostic who walked away.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

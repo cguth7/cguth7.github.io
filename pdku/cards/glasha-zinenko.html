@@ -1,0 +1,257 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Glasha Zinenko — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  background: #0a1c2e;
+}
+
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 15% 8%, rgba(159,212,240,0.16) 0%, transparent 38%),
+    radial-gradient(circle at 85% 4%, rgba(226,83,44,0.14) 0%, transparent 35%),
+    linear-gradient(165deg, #081627 0%, #123252 45%, #1d4a70 100%);
+  font-family: 'Fraunces', serif;
+  color: #f4f8fb;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 13px 15px 10px;
+}
+
+/* frost speckle texture */
+.card::before {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255,255,255,0.35) 1px, transparent 1.5px),
+    radial-gradient(rgba(255,255,255,0.2) 1px, transparent 1.5px);
+  background-size: 38px 38px, 23px 23px;
+  background-position: 4px 6px, 18px 30px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* inner frozen-glass border */
+.card::after {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(159,212,240,0.35);
+  border-radius: 6px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.corner {
+  position: absolute;
+  font-size: 12px;
+  opacity: 0.45;
+  color: #9fd4f0;
+  z-index: 2;
+}
+.corner.tl { top: 10px; left: 12px; }
+.corner.tr { top: 10px; right: 12px; }
+
+.waterfall {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 46px;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(159,212,240,0.22) 0px,
+    rgba(159,212,240,0.05) 3px,
+    rgba(159,212,240,0.22) 6px
+  );
+  background-size: 100% 22px;
+  animation: fall 3.5s linear infinite;
+  mask-image: linear-gradient(180deg, transparent, rgba(0,0,0,0.9));
+  -webkit-mask-image: linear-gradient(180deg, transparent, rgba(0,0,0,0.9));
+}
+@keyframes fall {
+  from { background-position-y: 0px; }
+  to { background-position-y: 22px; }
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.emoji-row {
+  font-size: 19px;
+  letter-spacing: 3px;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+}
+
+.name {
+  font-family: 'Fraunces', serif;
+  font-weight: 700;
+  font-size: 25px;
+  line-height: 1.05;
+  text-align: center;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(226,83,44,0.35);
+  margin-bottom: 10px;
+}
+
+.stamp {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 2px dashed rgba(226,83,44,0.85);
+  background: radial-gradient(circle, rgba(226,83,44,0.14) 0%, rgba(226,83,44,0.02) 70%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: rotate(-9deg);
+  margin: -4px 0 10px;
+  box-shadow: 0 0 0 3px rgba(226,83,44,0.08);
+}
+
+.stamp span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #e2532c;
+  text-align: center;
+  line-height: 1.35;
+  padding: 0 8px;
+}
+
+.tagline {
+  font-family: 'IBM Plex Mono', monospace;
+  font-style: italic;
+  font-size: 10.5px;
+  line-height: 1.4;
+  text-align: center;
+  color: #dfeefb;
+  max-width: 250px;
+  margin-bottom: 12px;
+}
+
+.gauge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.dial {
+  position: relative;
+  width: 104px;
+  height: 52px;
+  border-radius: 104px 104px 0 0;
+  overflow: hidden;
+  background: conic-gradient(from 270deg at 50% 100%,
+    #e2532c 0deg 60deg,
+    #e0a458 60deg 120deg,
+    #9fd4f0 120deg 180deg);
+  box-shadow: 0 0 0 1px rgba(244,248,251,0.25);
+}
+
+.needle {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 2px;
+  height: 46px;
+  background: #f4f8fb;
+  transform-origin: bottom center;
+  transform: translateX(-50%) rotate(14deg);
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.4);
+}
+
+.pivot {
+  position: absolute;
+  left: 50%;
+  bottom: -4px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #f4f8fb;
+  transform: translateX(-50%);
+  border: 1px solid #123252;
+}
+
+.gauge-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1.2px;
+  color: #9fd4f0;
+  text-transform: uppercase;
+  margin-top: 5px;
+  opacity: 0.85;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(159,212,240,0.25);
+  padding-top: 7px;
+  margin-top: auto;
+}
+
+.origin {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 0.6px;
+  color: #9fd4f0;
+  text-transform: uppercase;
+}
+
+.rarity {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8px;
+  letter-spacing: 1px;
+  color: #e2532c;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;waterfall&quot;></div>
+  <span class=&quot;corner tl&quot;>❄</span>
+  <span class=&quot;corner tr&quot;>❄</span>
+  <div class=&quot;content&quot;>
+    <div class=&quot;emoji-row&quot;>🪆 ❄️ 📊 🦘 🎓</div>
+    <div class=&quot;name&quot;>Glasha<br>Zinenko</div>
+    <div class=&quot;stamp&quot;><span>The Calibrated<br>Defector</span></div>
+    <div class=&quot;tagline&quot;>&quot;Escaped a dictatorship, survived a 3.98 GPA, now debugging your p(doom) priors.&quot;</div>
+    <div class=&quot;gauge&quot;>
+      <div class=&quot;dial&quot;>
+        <div class=&quot;needle&quot;></div>
+        <div class=&quot;pivot&quot;></div>
+      </div>
+      <div class=&quot;gauge-label&quot;>Calibration: In Progress</div>
+    </div>
+    <div class=&quot;footer&quot;>
+      <span class=&quot;origin&quot;>Moscow → Buffalo, NY</span>
+      
+    </div>
+  </div>
+</div>
+</body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Glasha Zinenko</h3><div class="arch">The Calibrated Defector</div></div><div class="emj">🪆 ❄️ 📊 🦘 🎓</div><div class="tag">“Escaped a dictatorship, survived a 3.98 GPA, now debugging your p(doom) priors.”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:60%'></i></span><span class='sv'>60</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:22%'></i></span><span class='sv'>22</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:55%'></i></span><span class='sv'>55</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:62%'></i></span><span class='sv'>62</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:60%'></i></span><span class='sv'>60</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:42%'></i></span><span class='sv'>42</span></div></div><div class="meta">🇷🇺 ⚖️ Nuanced · 🏳️ Refuses/evades</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-jessiah">Jessiah</a></div><div class="bnwhy">Literature-and-philosophy intellectuals who apply epistemology to the real world.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-aryeh">Aryeh</a></div><div class="bnwhy">Glasha, the nuanced anti-authoritarian dissident, vs Aryeh, the flippant right-of-center culture-war troll.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

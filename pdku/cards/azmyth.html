@@ -1,0 +1,250 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Azmyth — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  font-family: 'Cinzel', serif;
+  background: #1b1035;
+}
+.card {
+  position: relative;
+  width: 300px;
+  height: 420px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 82% 8%, rgba(242,193,78,0.16) 0%, rgba(242,193,78,0) 40%),
+    linear-gradient(160deg, #180c30 0%, #2c1a4f 35%, #4a2a6b 68%, #6a3670 100%);
+  border: 3px solid #f2c14e;
+  outline: 1px solid rgba(245,236,255,0.5);
+  outline-offset: -7px;
+}
+
+/* stars */
+.stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.6px 1.6px at 20px 30px, #f5ecff 100%, transparent 100%),
+    radial-gradient(1.4px 1.4px at 70px 90px, #f5ecff 100%, transparent 100%),
+    radial-gradient(1.8px 1.8px at 130px 40px, #f5ecff 100%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 200px 70px, #7de8d0 100%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 250px 130px, #f5ecff 100%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 40px 150px, #f2c14e 100%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 270px 30px, #f5ecff 100%, transparent 100%),
+    radial-gradient(1.4px 1.4px at 100px 200px, #f5ecff 100%, transparent 100%),
+    radial-gradient(1.3px 1.3px at 230px 190px, #f5ecff 100%, transparent 100%);
+  background-repeat: no-repeat;
+  animation: twinkle 4.5s ease-in-out infinite alternate;
+  opacity: 0.85;
+}
+@keyframes twinkle {
+  0% { opacity: 0.45; }
+  50% { opacity: 0.95; }
+  100% { opacity: 0.55; }
+}
+
+/* moon */
+.moon {
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #f9edc9;
+  box-shadow: 0 0 14px 3px rgba(249,237,201,0.55);
+  z-index: 0;
+}
+.moon::after {
+  content: '';
+  position: absolute;
+  top: -3px;
+  right: 7px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #241241;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 12px 10px 10px;
+}
+
+.emoji-row {
+  font-size: 21px;
+  letter-spacing: 4px;
+  text-align: center;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.5));
+}
+
+.cloak-wrap {
+  position: relative;
+  width: 100%;
+  height: 158px;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cloak {
+  position: absolute;
+  width: 76%;
+  height: 100%;
+  top: 0;
+  clip-path: polygon(50% 0%, 80% 14%, 94% 100%, 6% 100%, 20% 14%);
+  background: linear-gradient(135deg, #6b3aa0, #b158c9, #d46bd6, #7de8d0, #f2c14e, #6b3aa0);
+  background-size: 320% 320%;
+  animation: shimmer 9s ease-in-out infinite alternate;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.45);
+  opacity: 0.92;
+}
+@keyframes shimmer {
+  0% { background-position: 0% 30%; }
+  100% { background-position: 100% 70%; }
+}
+.cloak::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% 0%, 80% 14%, 94% 100%, 6% 100%, 20% 14%);
+  background: repeating-linear-gradient(115deg, rgba(255,255,255,0.10) 0px, rgba(255,255,255,0.10) 2px, transparent 2px, transparent 9px);
+}
+
+.name-plate {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 8px 10px 0;
+}
+.name {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  font-size: 27px;
+  letter-spacing: 2.5px;
+  color: #fff8e8;
+  text-shadow: 0 0 10px rgba(242,193,78,0.85), 0 2px 4px rgba(0,0,0,0.6);
+  margin: 0;
+}
+.handle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  color: #f9edc9;
+  opacity: 0.9;
+  margin-top: 2px;
+}
+
+.archetype {
+  margin-top: 6px;
+  padding: 4px 14px;
+  border: 1px solid #f2c14e;
+  border-radius: 999px;
+  color: #f2c14e;
+  font-size: 11px;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  background: rgba(242,193,78,0.08);
+  white-space: nowrap;
+}
+
+.tagline {
+  font-family: 'Caveat', cursive;
+  font-size: 18px;
+  line-height: 1.15;
+  color: #f5ecff;
+  text-align: center;
+  margin: 8px 6px 0;
+  padding: 0 2px;
+}
+
+.tags {
+  margin-top: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  padding: 8px 4px 0;
+}
+.tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7.5px;
+  letter-spacing: 0.5px;
+  color: #1b1035;
+  background: #7de8d0;
+  padding: 2.5px 6px;
+  border-radius: 4px;
+  opacity: 0.92;
+}
+
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(245,236,255,0.25);
+}
+.loc {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 0.5px;
+  color: #cbb7e6;
+}
+.rarity {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 8.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #f2c14e;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.gem {
+  width: 8px;
+  height: 8px;
+  background: linear-gradient(135deg, #f2c14e, #d46bd6);
+  transform: rotate(45deg);
+  box-shadow: 0 0 5px rgba(242,193,78,0.8);
+}
+</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;stars&quot;></div>
+  <div class=&quot;moon&quot;></div>
+  <div class=&quot;content&quot;>
+    <div class=&quot;emoji-row&quot;>🪄 🎭 💃 🌙 ✨ 🌊</div>
+
+    <div class=&quot;cloak-wrap&quot;>
+      <div class=&quot;cloak&quot;></div>
+      <div class=&quot;name-plate&quot;>
+        <p class=&quot;name&quot;>AZMYTH</p>
+        <div class=&quot;handle&quot;>MYSTICLOAK &amp;middot; BAY AREA</div>
+      </div>
+    </div>
+
+    <div class=&quot;archetype&quot;>The Ritual Cloakweaver</div>
+
+    <div class=&quot;tagline&quot;>&quot;HI KIDS! Wove Mysticloak, ran late from Butoh, here to bond with y'all forever ✨&quot;</div>
+
+    <div class=&quot;tags&quot;>
+      <span class=&quot;tag&quot;>CIRCLING</span>
+      <span class=&quot;tag&quot;>BUTOH</span>
+      <span class=&quot;tag&quot;>FAN SPIN</span>
+      <span class=&quot;tag&quot;>DJ</span>
+      <span class=&quot;tag&quot;>MIME</span>
+    </div>
+
+    <div class=&quot;footer&quot;>
+      <span class=&quot;loc&quot;>STAFF &amp;amp; FELLOW</span></span>
+    </div>
+  </div>
+</div></body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Azmyth</h3><div class="arch">The Ritual Cloakweaver</div><div class="handle">Mysticloak</div></div><div class="emj">🪄 🎭 💃 🌙 ✨ 🌊</div><div class="tag">“HI KIDS! Wove Mysticloak, ran late from Butoh, here to bond with y&#x27;all forever ✨”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:38%'></i></span><span class='sv'>38</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:10%'></i></span><span class='sv'>10</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:96%'></i></span><span class='sv'>96</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:92%'></i></span><span class='sv'>92</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:12%'></i></span><span class='sv'>12</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:78%'></i></span><span class='sv'>78</span></div></div><div class="meta">🇺🇸 ❓ Agnostic · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-tyler-alterman">Tyler Alterman</a></div><div class="bnwhy">Embodied-community facilitators—circling and contact improv, both orbiting the rationalist-adjacent scene.</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-charlie-guthmann">Charlie Guthmann</a></div><div class="bnwhy">Azmyth&#x27;s magic-cloak, butoh whimsy vs Charlie&#x27;s EA/trading/progress-studies quant rationalism.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>

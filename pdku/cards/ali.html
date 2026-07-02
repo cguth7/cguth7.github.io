@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset='utf-8'><title>Ali — PDKU card</title><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&family=IBM+Plex+Mono&family=Playfair+Display&family=Bebas+Neue&family=VT323&family=Cinzel&family=Rajdhani&family=Press+Start+2P&family=DM+Serif+Display&family=Orbitron&family=Lora&family=Archivo+Black&family=Silkscreen&family=Special+Elite&family=Pacifico&family=Syne&family=Fraunces&family=Major+Mono+Display&family=Caveat&family=Bungee&display=swap' rel='stylesheet'><style>:root{--bg:#0d0d14;--panel:#16161f;--ink:#e8e8f0;--dim:#9a9ab0;--line:#2a2a38}.back{background:var(--panel);color:var(--ink);padding:16px;display:flex;flex-direction:column;gap:8px;border:1px solid var(--line);overflow:auto;font-family:'Space Grotesk',system-ui,sans-serif}.back h3{margin:0;font-family:'DM Serif Display',serif;font-size:23px}.back .arch{color:var(--dim);font-size:13px;text-transform:uppercase;letter-spacing:1px}.back .handle{color:var(--dim);font-size:12px}.back .emj{font-size:21px}.back .tag{font-style:italic;color:#cfcfe6;font-size:13px;line-height:1.4}.stats{display:flex;flex-direction:column;gap:3px;margin:2px 0}.stat{display:grid;grid-template-columns:66px 1fr 26px;align-items:center;gap:6px;font-size:11px}.stat .sl{color:var(--dim)}.stat .st{background:#26263a;border-radius:6px;height:7px;overflow:hidden}.stat .st i{display:block;height:100%;background:linear-gradient(90deg,#7b7bff,#c86bff);border-radius:6px}.stat .sv{text-align:right;color:var(--dim)}.meta{font-size:11px;color:var(--dim)}.bn{display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line);padding-top:8px}.bnr{font-size:12px}.bnr b{font-weight:600}.bnr a{color:#9db4ff;text-decoration:none;font-weight:600}.bnr a:hover{text-decoration:underline}.bnwhy{font-size:11px;color:var(--dim);line-height:1.35;margin-bottom:4px}.introd summary{cursor:pointer;color:var(--dim);font-size:12px}.introd p{font-size:12px;line-height:1.5;color:#cfcfe6}html,body{margin:0;height:100%;overflow:hidden;background:radial-gradient(1100px 550px at 50% -10%,#1c1c2e,#0d0d14)}#stage{position:fixed;inset:0;display:grid;place-items:center}#wrap{display:flex;gap:28px;align-items:center;transform-origin:center}.vf,.vb{width:300px;height:420px;border-radius:18px;overflow:hidden;box-shadow:0 30px 90px rgba(0,0,0,.6);flex:none}.vf iframe{width:300px;height:420px;border:0;display:block}.vb{overflow:auto}</style></head><body><div id='stage'><div id='wrap'><div class='vf'><iframe srcdoc="<!doctype html><html><head><meta charset='utf-8'><link rel='preconnect' href='https://fonts.googleapis.com'><link rel='preconnect' href='https://fonts.gstatic.com' crossorigin><link href='https://fonts.googleapis.com/css2?family=Space+Grotesk&amp;family=IBM+Plex+Mono&amp;family=Playfair+Display&amp;family=Bebas+Neue&amp;family=VT323&amp;family=Cinzel&amp;family=Rajdhani&amp;family=Press+Start+2P&amp;family=DM+Serif+Display&amp;family=Orbitron&amp;family=Lora&amp;family=Archivo+Black&amp;family=Silkscreen&amp;family=Special+Elite&amp;family=Pacifico&amp;family=Syne&amp;family=Fraunces&amp;family=Major+Mono+Display&amp;family=Caveat&amp;family=Bungee&amp;display=swap' rel='stylesheet'><style>html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden}*{box-sizing:border-box}*{box-sizing:border-box;}
+html,body{margin:0;padding:0;width:300px;height:420px;overflow:hidden;background:#0a0014;}
+
+.card{
+  position:relative;
+  width:300px;height:420px;
+  display:flex;flex-direction:column;
+  background:linear-gradient(160deg,#0a0014 0%,#1a0b2e 45%,#2b0f3d 100%);
+  color:#f5f0ff;
+  font-family:'Rajdhani',sans-serif;
+  border:3px solid #ff2ec4;
+  box-shadow:inset 0 0 30px rgba(255,46,196,0.25), inset 0 0 60px rgba(41,245,255,0.08);
+  overflow:hidden;
+}
+
+.scanlines{
+  position:absolute;inset:0;z-index:6;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,0.04) 0px,rgba(255,255,255,0.04) 1px,transparent 1px,transparent 3px);
+  mix-blend-mode:overlay;
+}
+
+.glitter{position:absolute;width:2px;height:2px;background:transparent;z-index:3;}
+.glitter.tl{top:32px;left:12px;box-shadow:0 0 0 1px #fff, 12px 6px 0 0 #ff9ee9, 22px -4px 0 0 #7be8ff, 4px 18px 0 0 #fff, 28px 14px 0 0 #ff9ee9;}
+.glitter.br{bottom:66px;right:12px;box-shadow:0 0 0 1px #7be8ff, -14px -6px 0 0 #ff9ee9, -24px 5px 0 0 #fff, -4px 15px 0 0 #7be8ff;}
+
+.chrome-bar{
+  height:26px;display:flex;align-items:center;gap:6px;padding:0 10px;
+  background:rgba(0,0,0,0.35);border-bottom:1px solid rgba(255,46,196,0.3);
+  flex-shrink:0;z-index:4;
+}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.dot.red{background:#ff5f56;}
+.dot.yellow{background:#ffbd2e;}
+.dot.green{background:#27c93f;}
+.chrome-title{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#8fe9ff;margin-left:4px;letter-spacing:0.5px;}
+.chrome-loc{margin-left:auto;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#ff8fe0;border:1px solid rgba(255,46,196,0.5);padding:1px 5px;border-radius:3px;}
+
+.emoji-row{
+  text-align:center;font-size:25px;padding:14px 0 4px;letter-spacing:5px;z-index:2;
+  filter:drop-shadow(0 0 6px rgba(255,46,196,0.45));
+}
+
+.name-block{text-align:center;margin-top:4px;z-index:2;position:relative;}
+.name{
+  position:relative;font-family:'Orbitron',sans-serif;font-size:44px;margin:0;
+  letter-spacing:3px;color:#fff;line-height:1.1;
+  text-shadow:0 0 12px rgba(255,46,196,0.8), 0 0 26px rgba(41,245,255,0.45);
+}
+.name::before,.name::after{content:attr(data-text);position:absolute;left:0;right:0;top:0;}
+.name::before{color:#29f5ff;z-index:-1;animation:glitchB 5s infinite linear;clip-path:inset(0 0 55% 0);}
+.name::after{color:#ff2ec4;z-index:-1;animation:glitchA 6s infinite linear;clip-path:inset(45% 0 0 0);}
+
+@keyframes glitchA{0%,90%,100%{transform:translate(0,0);}92%{transform:translate(-2px,1px);}94%{transform:translate(2px,-1px);}96%{transform:translate(-1px,0);}}
+@keyframes glitchB{0%,88%,100%{transform:translate(0,0);}90%{transform:translate(2px,-1px);}93%{transform:translate(-2px,1px);}95%{transform:translate(1px,0);}}
+
+.handle{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#c9a9ff;margin-top:3px;letter-spacing:0.5px;}
+
+.archetype-badge{
+  margin:12px auto 0;width:fit-content;font-family:'Orbitron',sans-serif;font-size:10.5px;
+  letter-spacing:1.5px;color:#0a0014;background:linear-gradient(90deg,#29f5ff,#ff2ec4);
+  padding:5px 14px;border-radius:20px;box-shadow:0 0 14px rgba(255,46,196,0.6);z-index:2;
+}
+
+.tagline{
+  font-family:'Rajdhani',sans-serif;font-size:13px;text-align:center;color:#e9def5;
+  line-height:1.35;margin:14px 20px 0;font-style:italic;z-index:2;
+}
+
+.footer-strip{
+  margin-top:auto;display:flex;align-items:center;justify-content:space-between;
+  padding:9px 12px;background:rgba(0,0,0,0.35);border-top:1px solid rgba(41,245,255,0.3);
+  z-index:4;
+}
+.live-badge{display:flex;align-items:center;gap:4px;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#ff5f56;border:1px solid rgba(255,95,86,0.5);padding:2px 6px;border-radius:3px;}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#ff5f56;animation:pulse 1.6s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.2;}}
+
+.keycaps{display:flex;gap:3px;}
+.keycaps span{width:15px;height:15px;background:#1a0b2e;border:1px solid rgba(255,255,255,0.25);border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:8px;color:#8fe9ff;box-shadow:0 2px 0 rgba(0,0,0,0.5);}
+
+.subs-badge{font-family:'IBM Plex Mono',monospace;font-size:9px;color:#29f5ff;border:1px solid rgba(41,245,255,0.5);padding:2px 6px;border-radius:3px;}</style></head><body><div class=&quot;card&quot;>
+  <div class=&quot;scanlines&quot;></div>
+  <div class=&quot;glitter tl&quot;></div>
+  <div class=&quot;glitter br&quot;></div>
+  <div class=&quot;chrome-bar&quot;>
+    <span class=&quot;dot red&quot;></span><span class=&quot;dot yellow&quot;></span><span class=&quot;dot green&quot;></span>
+    <span class=&quot;chrome-title&quot;>~/threat_wire</span>
+    <span class=&quot;chrome-loc&quot;>NYC</span>
+  </div>
+  <div class=&quot;emoji-row&quot;>💻🔒🎤💅🪩⌨️</div>
+  <div class=&quot;name-block&quot;>
+    <h1 class=&quot;name&quot; data-text=&quot;ALI&quot;>ALI</h1>
+    <div class=&quot;handle&quot;>@endingwithali</div>
+  </div>
+  <div class=&quot;archetype-badge&quot;>THE HACKER HOSTESS</div>
+  <p class=&quot;tagline&quot;>&amp;ldquo;Full-stack by day, Threat Wire by night, forever mid micro-crash-out.&amp;rdquo;</p>
+  <div class=&quot;footer-strip&quot;>
+    <div class=&quot;live-badge&quot;><span class=&quot;live-dot&quot;></span>LIVE</div>
+    <div class=&quot;keycaps&quot;><span>A</span><span>L</span><span>I</span></div>
+    <div class=&quot;subs-badge&quot;>ON AIR</div>
+  </div>
+</div></body></html>"></iframe></div><div class='vb back'><div class="bh"><h3>Ali</h3><div class="arch">The Hacker Hostess</div><div class="handle">@endingwithali</div></div><div class="emj">💻 🔒 🎤 💅 🪩 ⌨️</div><div class="tag">“&quot;Full-stack by day, Threat Wire by night, forever mid micro-crash-out.&quot;”</div><div class="stats"><div class='stat'><span class='sl'>p(doom)</span><span class='st'><i style='width:30%'></i></span><span class='sv'>30</span></div><div class='stat'><span class='sl'>Technical</span><span class='st'><i style='width:75%'></i></span><span class='sv'>75</span></div><div class='stat'><span class='sl'>Creative</span><span class='st'><i style='width:80%'></i></span><span class='sv'>80</span></div><div class='stat'><span class='sl'>Extrovert</span><span class='st'><i style='width:90%'></i></span><span class='sv'>90</span></div><div class='stat'><span class='sl'>Irony</span><span class='st'><i style='width:40%'></i></span><span class='sv'>40</span></div><div class='stat'><span class='sl'>Chaos</span><span class='st'><i style='width:70%'></i></span><span class='sv'>70</span></div></div><div class="meta">🇺🇸 ❓ Agnostic · ➖ No verdict</div><div class="bn"><div class="bnr"><b>🤝 Bestie</b> · <a href="#card-evelyn-parker">Evelyn Parker (Evie)</a></div><div class="bnwhy">Two multi-hyphenate women creators openly chasing follower milestones (Ali&#x27;s 100k goal, Evelyn&#x27;s Forbes-30-under-30 growth playbook).</div><div class="bnr"><b>⚔️ Nemesis</b> · <a href="#card-azmyth">Azmyth</a></div><div class="bnwhy">Ali&#x27;s always-online metrics hustle vs Azmyth&#x27;s analog cloak-craft, beach walks and circling.</div></div></div></div></div><script>function fit(){var w=300*2+28,h=420;var s=Math.min(innerWidth/w,innerHeight/h)*0.92;document.getElementById('wrap').style.transform='scale('+s+')';}addEventListener('resize',fit);fit();</script></body></html>
