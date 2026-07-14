@@ -63,6 +63,19 @@
   footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
   code{background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:4px;font-size:.9em;}
   .stars{color:var(--muted);font-size:.82em;}
+  h3{font-size:15px;margin:28px 0 8px;letter-spacing:-.01em;color:var(--fg);}
+  ol.steps{margin:0;padding-left:20px;counter-reset:none;}
+  ol.steps li{margin:0 0 11px;padding-left:4px;}
+  ol.steps li b{color:var(--fg);}
+  ol.steps li .d{color:var(--muted);font-size:14px;}
+  td.wrapcol{white-space:normal;min-width:230px;line-height:1.4;}
+  .var{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;
+    background:var(--accent-soft);color:var(--accent);padding:1px 6px;border-radius:4px;white-space:nowrap;}
+  .src{font-size:12px;color:var(--muted);white-space:nowrap;}
+  .role{font-size:11px;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);}
+  tr.grouprow td{background:var(--accent-soft);color:var(--accent);font-weight:700;
+    font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:7px 14px;}
+  .star{color:var(--accent);font-weight:700;}
 </style>
 </head>
 <body>
@@ -214,6 +227,83 @@ study count, p-value, GWAS composite, gene-level pleiotropy — as a <b>robustne
 conclusion is invariant to which GWAS signal defines value. The correlation between the DisGeNET and TIGA
 labels is only ≈0.11, yet the behavioral result is the same — that independence is the point. The subsample
 (Variant B) stands as a deliberately conservative check whose only weakness is statistical power.</p>
+
+<h2>Appendix · Data pipeline &amp; variables</h2>
+<p class="lede">Every row in the table above runs through the identical pipeline below — only the value
+<em>metric</em> and the <em>zero-handling</em> rule change between definitions. The crosswalk (step 3),
+which is the expensive part, is built once and reused. Source: <code>src/run_definition_sweep.py</code>.</p>
+
+<h3>Cleaning &amp; build steps</h3>
+<ol class="steps">
+  <li><b>Load the pair universe.</b> <span class="d">429,111 gene–disease pairs from
+    <code>disgenet_v1.dta</code> (14,619 diseases × 17,181 genes), each carrying the DisGeNET
+    <code>score</code>. Gene IDs mapped to HGNC symbols via the associations file so they can be
+    joined to TIGA.</span></li>
+  <li><b>Load &amp; normalize TIGA.</b> <span class="d"><code>tiga_gene-trait_stats.tsv</code> read with
+    <code>"NA"</code> treated as missing; EFO ids normalized (<code>EFO_0004908 → EFO:0004908</code>,
+    upper-cased) so ontology ids match across files.</span></li>
+  <li><b>Build the CUI → GWAS-trait crosswalk (once).</b> <span class="d">Each disease code (CUI) is
+    linked to TIGA traits through <code>disease_mappings.tsv</code>, trying five bridges in order and
+    keeping any that resolve to a trait TIGA actually studied: <b>(i)</b> EFO id, <b>(ii)</b> EFO label
+    name, <b>(iii)</b> DisGeNET disease name, <b>(iv)</b> MONDO id, <b>(v)</b> ORDO id. Result:
+    <b>1,388 / 14,619 diseases (9.5%)</b> map to ≥1 GWAS-covered trait — genuine GWAS sparsity.</span></li>
+  <li><b>Score each pair.</b> <span class="d">For a metric <em>x</em>, a pair's score is the
+    <b>max of <em>x</em></b> over the gene × the disease's mapped traits. Three states result:
+    <b>NaN</b> if the disease is uncovered (unmeasurable), <b>0</b> if covered but this gene has no GWAS
+    hit (a genuine Low), or a positive value. ~8,654 pairs score positive (6,233 for odds ratio).</span></li>
+  <li><b>Cut into L / M / H (zero-inflated).</b> <span class="d">Because most pairs are 0, a naive
+    percentile collapses to L/H with no Medium. Instead the <em>positive</em> pairs are percentile-ranked
+    and split at the <b>60th / 90th</b> percentiles into M / H; zeros are Low. The two variants differ only
+    in uncovered diseases — <b>A</b> codes them Low (full sample); <b>B</b> drops them (covered subsample).
+    Gene-level <code>geneNtrait</code> is ranked directly across all pairs at 60/90.</span></li>
+  <li><b>Assemble the regression sample.</b> <span class="d">From <code>gene_empirics.dta</code>, keep
+    <code>disease_tag==1</code>, <code>marginal_disease!=1</code>, and non-missing
+    <code>share_gene_after</code> → <b>5,515 diseases</b>.</span></li>
+  <li><b>Build disease-level value vars.</b> <span class="d">Labels map to representative values
+    (L=30, M=75, H=95); a disease's category is the max value among pairs discovered by the exploration
+    cutoff (<code>YearInitial ≤ 2000</code>), re-cut at 60/90. <code>any_diamond</code> = has any High pair;
+    <code>year_to_optimal</code> = years from 1980 to its first High discovery.</span></li>
+  <li><b>Run the main spec.</b> <span class="d">For each outcome:
+    <code>y ~ C(category) + count_pmid_after_fill + C(diseaseclass)</code>, OLS with standard errors
+    clustered by <code>diseaseclass</code> — identical to the paper's specification.</span></li>
+</ol>
+
+<h3>Variables included</h3>
+<div class="tblwrap">
+<table>
+  <thead>
+    <tr><th>Variable</th><th>Source</th><th>Short definition</th><th>Role</th></tr>
+  </thead>
+  <tbody>
+    <tr class="grouprow"><td colspan="4">Candidate value metrics — the swept axis</td></tr>
+    <tr><td><span class="var">n_study</span></td><td class="src">TIGA</td><td class="wrapcol"># of GWAS studies backing the gene–trait association</td><td class="role">metric</td></tr>
+    <tr><td><span class="var">pvalue_mlog_median</span></td><td class="src">TIGA</td><td class="wrapcol">Median −log₁₀(p) of the association across studies — robust signal strength</td><td class="role">metric ★</td></tr>
+    <tr><td><span class="var">pvalue_mlog_max</span></td><td class="src">TIGA</td><td class="wrapcol">Strongest single −log₁₀(p) across studies</td><td class="role">metric</td></tr>
+    <tr><td><span class="var">meanRankScore</span></td><td class="src">TIGA</td><td class="wrapcol">TIGA's own composite evidence-ranking score (0–100)</td><td class="role">metric</td></tr>
+    <tr><td><span class="var">or_median</span></td><td class="src">TIGA</td><td class="wrapcol">Median odds ratio (effect size) — sample-size invariant, but missing for 88% of rows</td><td class="role">metric</td></tr>
+    <tr><td><span class="var">geneNtrait</span></td><td class="src">TIGA</td><td class="wrapcol"># of distinct traits a gene is GWAS-associated with (pleiotropy / ex-ante importance)</td><td class="role">metric · gene-level</td></tr>
+
+    <tr class="grouprow"><td colspan="4">Crosswalk keys — joining CUIs to GWAS traits</td></tr>
+    <tr><td><span class="var">diseaseId</span> (CUI)</td><td class="src">disgenet_v1</td><td class="wrapcol">UMLS disease code — the unit of analysis</td><td class="role">key</td></tr>
+    <tr><td><span class="var">geneSymbol</span></td><td class="src">associations</td><td class="wrapcol">HGNC gene symbol — bridges gene ids to TIGA</td><td class="role">key</td></tr>
+    <tr><td><span class="var">efoId</span> · <span class="var">trait</span></td><td class="src">TIGA</td><td class="wrapcol">EFO ontology id and name of the GWAS trait</td><td class="role">join</td></tr>
+    <tr><td><span class="var">vocabulary·code·name</span></td><td class="src">disease_mappings</td><td class="wrapcol">EFO / MONDO / ORDO crosswalk rows linking each CUI to a trait</td><td class="role">bridge</td></tr>
+
+    <tr class="grouprow"><td colspan="4">Regression variables — the main spec</td></tr>
+    <tr><td><span class="var">category_10_perc</span></td><td class="src">derived</td><td class="wrapcol">Value tier L/M/H (=1/2/3) from the label, over the exploration era — the right-hand side of interest</td><td class="role">RHS</td></tr>
+    <tr><td><span class="var">share_gene_after</span></td><td class="src">gene_empirics</td><td class="wrapcol"><span class="star">Column 2.</span> Subsequent exploration of the disease's gene space — value-independent, the real herding test</td><td class="role">outcome ★</td></tr>
+    <tr><td><span class="var">any_diamond</span></td><td class="src">derived</td><td class="wrapcol">Column 1. Whether the disease has ≥1 High-value gene</td><td class="role">outcome</td></tr>
+    <tr><td><span class="var">year_to_optimal</span></td><td class="src">derived</td><td class="wrapcol">Column 3. Years from 1980 to the first High-value discovery (delay)</td><td class="role">outcome</td></tr>
+    <tr><td><span class="var">count_pmid_after_fill</span></td><td class="src">gene_empirics</td><td class="wrapcol">Post-period publication volume — research-effort control</td><td class="role">control</td></tr>
+    <tr><td><span class="var">diseaseclass</span></td><td class="src">gene_empirics</td><td class="wrapcol">Disease category — absorbed as fixed effect and used as the cluster</td><td class="role">FE · cluster</td></tr>
+    <tr><td><span class="var">disease_tag</span> · <span class="var">marginal_disease</span></td><td class="src">gene_empirics</td><td class="wrapcol">Sample filters defining the estimation universe</td><td class="role">filter</td></tr>
+    <tr><td><span class="var">YearInitial</span></td><td class="src">associations</td><td class="wrapcol">First publication year of the gene–disease pair — discovery date, clipped at 1980</td><td class="role">timing</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note">★ = the recommended metric (median p-value) and the outcome that carries the rebuttal
+(<code>share_gene_after</code>). Every metric is drawn from GWAS evidence, not publication counts —
+which is what breaks the circularity the referees flagged.</p>
 
 <footer>
   CF QJE R&amp;R · Task 1 · definition sweep generated from <code>src/run_definition_sweep.py</code>
