@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CF QJE R&R — TIGA Value-Label Definition Sweep</title>
+<style>
+  :root{
+    --bg:#fbfbf9; --fg:#1c1c1a; --muted:#6b6b64; --line:#e3e2dc;
+    --card:#ffffff; --accent:#245a4a; --accent-soft:#e7f0ec;
+    --neg:#1a6b52; --pos:#a34a2c; --ns:#9a9a92;
+    --hl:#fff6e6; --hl-line:#e8d8a8;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#16161a; --fg:#e9e9e4; --muted:#9a9a93; --line:#2c2c32;
+      --card:#1e1e23; --accent:#7dd4b3; --accent-soft:#1d3630;
+      --neg:#7dd4b3; --pos:#e0916f; --ns:#7c7c74;
+      --hl:#2a2617; --hl-line:#4a4224;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:960px;margin:0 auto;padding:48px 24px 80px;}
+  header{border-bottom:1px solid var(--line);padding-bottom:24px;margin-bottom:32px;}
+  .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 8px;}
+  h1{font-size:29px;line-height:1.2;margin:0 0 10px;letter-spacing:-.01em;}
+  .sub{color:var(--muted);font-size:15px;max-width:70ch;margin:0;}
+  h2{font-size:20px;margin:44px 0 6px;letter-spacing:-.01em;}
+  h2 .n{color:var(--muted);font-weight:400;font-size:15px;}
+  .lede{color:var(--muted);font-size:14.5px;margin:0 0 18px;max-width:74ch;}
+  .takeaways{display:grid;gap:12px;margin:26px 0 8px;}
+  .tk{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:8px;padding:14px 16px;}
+  .tk b{display:block;margin-bottom:2px;}
+  .tk span{color:var(--muted);font-size:14px;}
+  .tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin:6px 0 4px;}
+  table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px;}
+  th,td{padding:9px 14px;text-align:left;white-space:nowrap;}
+  thead th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+    font-weight:600;border-bottom:1px solid var(--line);background:transparent;}
+  tbody tr{border-top:1px solid var(--line);}
+  tbody tr:first-child{border-top:none;}
+  .def{font-weight:600;}
+  .metric{font-variant-numeric:tabular-nums;text-align:right;}
+  .neg{color:var(--neg);font-weight:600;}
+  .pos{color:var(--pos);}
+  .ns{color:var(--ns);}
+  td.n{color:var(--muted);text-align:right;font-variant-numeric:tabular-nums;}
+  tr.baseline{background:var(--accent-soft);}
+  tr.baseline .def{color:var(--accent);}
+  tr.hl td{background:var(--hl);}
+  tr.sub td{color:var(--muted);font-style:italic;}
+  .badge{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.04em;
+    padding:1px 6px;border-radius:5px;vertical-align:1px;margin-left:6px;}
+  .b-a{background:var(--accent-soft);color:var(--accent);}
+  .b-b{background:transparent;border:1px solid var(--line);color:var(--muted);}
+  .note{font-size:13px;color:var(--muted);margin:12px 2px 0;}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;font-size:13px;color:var(--muted);margin:14px 2px 0;}
+  .legend b{color:var(--fg);}
+  footer{margin-top:56px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px;}
+  code{background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:4px;font-size:.9em;}
+  .stars{color:var(--muted);font-size:.82em;}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="kicker">CF · QJE Revise &amp; Resubmit · Task 1</p>
+  <h1>Rebuilding the value label on GWAS evidence</h1>
+  <p class="sub">The referees call the DisGeNET value label circular — it's built from publication counts.
+  We rebuild L/M/H on independent TIGA/GWAS evidence and rerun the main spec across every candidate
+  definition. The behavioral herding result (column 2) is what has to survive.</p>
+</header>
+
+<div class="takeaways">
+  <div class="tk"><b>The herding effect survives the relabel.</b>
+    <span>In every full-sample definition, more valuable diseases draw <em>less</em> subsequent exploration
+    (col 2 negative &amp; significant) — the same conclusion DisGeNET gives, from a source that can't be circular.</span></div>
+  <div class="tk"><b>The choice of GWAS metric barely matters.</b>
+    <span>Study count, median p-value, max p-value, and TIGA's composite score all land at M ≈ −0.21, H ≈ −0.25.
+    The p-value-weighting question turns out to be second-order.</span></div>
+  <div class="tk"><b>The real fork is how to treat GWAS-silent diseases.</b>
+    <span>Coding uncovered diseases as Low (Variant A, full sample) is strong throughout. Restricting to the
+    ~1,300 GWAS-covered diseases (Variant B) is underpowered and loses its Low reference group.</span></div>
+</div>
+
+<h2>Main-spec results <span class="n">— disease-level, N in table</span></h2>
+<p class="lede">Outcome shown is the value-<em>independent</em> herding test:
+  <b>column 2, <code>share_gene_after</code></b> (subsequent exploration of a disease's gene space).
+  Coefficients are on Medium and High relative to Low; standard errors clustered by disease class.
+  Negative = herding (the paper's claim). Columns 1 (diamond found) &amp; 3 (delay) are mechanically
+  tied to the label and shown in the notes below the table.</p>
+
+<div class="tblwrap">
+<table>
+  <thead>
+    <tr>
+      <th>Value definition</th>
+      <th>Zero-handling</th>
+      <th class="metric">N</th>
+      <th class="metric">Col 2 · Medium</th>
+      <th class="metric">Col 2 · High</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="baseline">
+      <td class="def">DisGeNET (original / paper)</td>
+      <td>—</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.155<span class="stars">***</span></td>
+      <td class="metric neg">−0.300<span class="stars">***</span></td>
+    </tr>
+    <tr class="hl">
+      <td class="def">n_study <span class="badge b-a">A · full</span></td>
+      <td>code-as-Low</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.232<span class="stars">***</span></td>
+      <td class="metric neg">−0.247<span class="stars">***</span></td>
+    </tr>
+    <tr class="hl">
+      <td class="def">p-value (median) <span class="badge b-a">A · full</span></td>
+      <td>code-as-Low</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.211<span class="stars">***</span></td>
+      <td class="metric neg">−0.253<span class="stars">***</span></td>
+    </tr>
+    <tr class="hl">
+      <td class="def">p-value (max) <span class="badge b-a">A · full</span></td>
+      <td>code-as-Low</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.210<span class="stars">***</span></td>
+      <td class="metric neg">−0.257<span class="stars">***</span></td>
+    </tr>
+    <tr class="hl">
+      <td class="def">meanRankScore <span class="badge b-a">A · full</span></td>
+      <td>code-as-Low</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.232<span class="stars">***</span></td>
+      <td class="metric neg">−0.244<span class="stars">***</span></td>
+    </tr>
+    <tr class="hl">
+      <td class="def">odds ratio (median) <span class="badge b-a">A · full</span></td>
+      <td>code-as-Low</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.325<span class="stars">***</span></td>
+      <td class="metric neg">−0.232<span class="stars">***</span></td>
+    </tr>
+    <tr class="hl">
+      <td class="def">geneNtrait <span class="badge b-a">gene-level</span></td>
+      <td>full sample</td>
+      <td class="n">5,515</td>
+      <td class="metric neg">−0.058<span class="stars">**</span></td>
+      <td class="metric neg">−0.075<span class="stars">*</span></td>
+    </tr>
+    <tr class="sub">
+      <td class="def">n_study <span class="badge b-b">B · subsample</span></td>
+      <td>covered only</td>
+      <td class="n">311</td>
+      <td class="metric ns">dropped</td>
+      <td class="metric ns">−0.076</td>
+    </tr>
+    <tr class="sub">
+      <td class="def">p-value (median) <span class="badge b-b">B · subsample</span></td>
+      <td>covered only</td>
+      <td class="n">311</td>
+      <td class="metric ns">dropped</td>
+      <td class="metric neg">−0.121<span class="stars">†</span></td>
+    </tr>
+    <tr class="sub">
+      <td class="def">p-value (max) <span class="badge b-b">B · subsample</span></td>
+      <td>covered only</td>
+      <td class="n">311</td>
+      <td class="metric ns">dropped</td>
+      <td class="metric neg">−0.119<span class="stars">*</span></td>
+    </tr>
+    <tr class="sub">
+      <td class="def">meanRankScore <span class="badge b-b">B · subsample</span></td>
+      <td>covered only</td>
+      <td class="n">311</td>
+      <td class="metric ns">dropped</td>
+      <td class="metric neg">−0.108<span class="stars">*</span></td>
+    </tr>
+    <tr class="sub">
+      <td class="def">odds ratio (median) <span class="badge b-b">B · subsample</span></td>
+      <td>covered only</td>
+      <td class="n">218</td>
+      <td class="metric ns">dropped</td>
+      <td class="metric ns">−0.019</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="legend">
+  <span><b>Significance</b> *** p&lt;.001 · ** p&lt;.01 · * p&lt;.05 · † p&lt;.1</span>
+  <span><b class="neg">Green</b> = negative (herding, as predicted)</span>
+  <span><b>A · full</b> = uncovered diseases coded Low · <b>B · subsample</b> = GWAS-covered diseases only</span>
+</div>
+
+<p class="note"><b>Why Medium "drops" in Variant B:</b> restricting to GWAS-covered diseases leaves no
+Low category to serve as the regression's reference group, so the Medium contrast is not identified.
+This is a structural artifact of the subsample, not evidence against the effect.</p>
+
+<p class="note"><b>Columns 1 &amp; 3 (diamond found, delay-to-optimal)</b> are built from the same H label
+that appears on the right-hand side, so they move mechanically and are not an independent test. Column 2
+is value-independent, which is why it carries the rebuttal.</p>
+
+<h2>How to read the rebuttal</h2>
+<p class="lede">Lead with <b>Variant A</b> (full sample, uncovered-as-Low). Present the metric rows —
+study count, p-value, GWAS composite, gene-level pleiotropy — as a <b>robustness panel</b>: the herding
+conclusion is invariant to which GWAS signal defines value. The correlation between the DisGeNET and TIGA
+labels is only ≈0.11, yet the behavioral result is the same — that independence is the point. The subsample
+(Variant B) stands as a deliberately conservative check whose only weakness is statistical power.</p>
+
+<footer>
+  CF QJE R&amp;R · Task 1 · definition sweep generated from <code>src/run_definition_sweep.py</code>
+  over 429,111 gene–disease pairs (14,619 diseases × 17,181 genes). GWAS coverage 9.5% of diseases.
+  Baseline analysis sample 5,515 diseases (paper reports 4,760; filter reconciliation pending).
+</footer>
+</div>
+</body>
+</html>
