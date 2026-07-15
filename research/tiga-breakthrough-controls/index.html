@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CF QJE R&R — TIGA Breakthrough Outcomes under Coverage Controls</title>
+<style>
+  :root{
+    --bg:#fbfbf9; --fg:#1c1c1a; --muted:#6b6b64; --line:#e3e2dc;
+    --card:#ffffff; --accent:#245a4a; --accent-soft:#e7f0ec;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#16161a; --fg:#e9e9e4; --muted:#9a9a93; --line:#2c2c32;
+      --card:#1e1e23; --accent:#7dd4b3; --accent-soft:#1d3630;
+    }
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;}
+  .wrap{max-width:900px;margin:0 auto;padding:48px 24px 80px;}
+  header{border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:22px;}
+  .kicker{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700;margin:0 0 8px;}
+  h1{font-size:25px;line-height:1.22;margin:0 0 10px;letter-spacing:-.01em;}
+  .sub{color:var(--muted);font-size:14.5px;max-width:78ch;margin:0;}
+  code{background:var(--accent-soft);color:var(--accent);padding:1px 5px;border-radius:4px;font-size:.9em;}
+  .rtwrap{overflow-x:auto;margin:10px 0 4px;}
+  table.rt{border-collapse:collapse;width:100%;min-width:560px;border:none;
+    font-family:Georgia,"Times New Roman",serif;font-size:13.5px;font-variant-numeric:tabular-nums;}
+  table.rt th,table.rt td{border:none;padding:5px 12px;text-align:center;white-space:nowrap;}
+  table.rt th.lab,table.rt td.lab{text-align:left;font-weight:400;}
+  table.rt .toprule th{border-top:2px solid var(--fg);padding-top:8px;}
+  table.rt .grouphd th{border-bottom:1px solid var(--fg);font-weight:400;font-style:italic;
+    color:var(--fg);font-size:12.5px;}
+  table.rt .colhd th{border-bottom:1px solid var(--fg);font-weight:600;color:var(--fg);font-size:12px;padding-bottom:6px;}
+  table.rt tbody td{color:var(--fg);}
+  table.rt .se{color:var(--muted);font-size:11px;}
+  table.rt sup{font-size:.72em;}
+  table.rt tfoot td{border-top:1px solid var(--fg);font-size:12px;padding-top:7px;}
+  table.rt tfoot tr:last-child td{border-bottom:2px solid var(--fg);}
+  table.rt tfoot td.yes{color:var(--fg);font-weight:600;}
+  .rtcap{font-family:Georgia,"Times New Roman",serif;font-size:14px;color:var(--fg);margin:34px 0 2px;font-weight:600;}
+  .rtnote{font-family:Georgia,"Times New Roman",serif;font-size:12px;color:var(--muted);
+    font-style:italic;margin:9px 2px 0;line-height:1.5;max-width:82ch;}
+  .rtnote b{font-style:normal;color:var(--fg);}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="kicker">CF · QJE Revise &amp; Resubmit · Task 1</p>
+  <h1>TIGA breakthrough outcomes under GWAS-coverage controls</h1>
+  <p class="sub">The two TIGA-rebuilt breakthrough outcomes, estimated on the value tier, with each
+  GWAS-coverage control added to the paper's specification. One table per control set.</p>
+</header>
+
+<p class="rtcap">Table A. Breakthrough outcomes — paper controls <b>+ # TIGA-matched traits</b></p>
+<div class="rtwrap">
+<table class="rt">
+  <thead>
+    <tr class="toprule grouphd">
+      <th class="lab" rowspan="2">Value definition</th>
+      <th colspan="2">Post2000_TIGA_H</th>
+      <th colspan="2">Delay_To_TIGA_H</th>
+      <th rowspan="2">N</th>
+    </tr>
+    <tr class="colhd"><th>Medium</th><th>High</th><th>Medium</th><th>High</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="lab">n_study</td>
+      <td>+0.191<sup>***</sup><br><span class="se">(0.045)</span></td><td>+0.634<sup>***</sup><br><span class="se">(0.040)</span></td>
+      <td>−2.850<sup>***</sup><br><span class="se">(0.647)</span></td><td>−25.692<sup>***</sup><br><span class="se">(0.667)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">p-value (median)</td>
+      <td>+0.227<sup>***</sup><br><span class="se">(0.058)</span></td><td>+0.489<sup>***</sup><br><span class="se">(0.037)</span></td>
+      <td>−2.903<sup>***</sup><br><span class="se">(0.751)</span></td><td>−24.231<sup>***</sup><br><span class="se">(0.635)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">p-value (max)</td>
+      <td>+0.210<sup>***</sup><br><span class="se">(0.068)</span></td><td>+0.519<sup>***</sup><br><span class="se">(0.038)</span></td>
+      <td>−2.700<sup>***</sup><br><span class="se">(0.826)</span></td><td>−24.686<sup>***</sup><br><span class="se">(0.650)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">meanRankScore</td>
+      <td>+0.194<sup>***</sup><br><span class="se">(0.051)</span></td><td>+0.548<sup>***</sup><br><span class="se">(0.039)</span></td>
+      <td>−2.888<sup>***</sup><br><span class="se">(0.671)</span></td><td>−25.100<sup>***</sup><br><span class="se">(0.700)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">odds ratio (median)</td>
+      <td>+0.473<sup>***</sup><br><span class="se">(0.106)</span></td><td>+0.508<sup>***</sup><br><span class="se">(0.041)</span></td>
+      <td>−4.808<sup>***</sup><br><span class="se">(1.200)</span></td><td>−23.638<sup>***</sup><br><span class="se">(0.592)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">geneNtrait <span style="color:var(--muted);font-size:11px">(gene-level)</span></td>
+      <td>+0.250<sup>***</sup><br><span class="se">(0.026)</span></td><td>+0.480<sup>***</sup><br><span class="se">(0.025)</span></td>
+      <td>−3.441<sup>***</sup><br><span class="se">(0.372)</span></td><td>−22.479<sup>***</sup><br><span class="se">(0.356)</span></td>
+      <td>5,515</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr><td class="lab">Disease-class FE · total publications · clustered SE</td><td class="yes" colspan="4">Yes</td><td></td></tr>
+    <tr><td class="lab"># TIGA-matched traits</td><td class="yes" colspan="4">Yes</td><td></td></tr>
+    <tr><td class="lab"># GWAS-hit opportunities</td><td colspan="4">No</td><td></td></tr>
+  </tfoot>
+</table>
+</div>
+
+<p class="rtcap">Table B. Breakthrough outcomes — paper controls <b>+ # GWAS-hit opportunities</b></p>
+<div class="rtwrap">
+<table class="rt">
+  <thead>
+    <tr class="toprule grouphd">
+      <th class="lab" rowspan="2">Value definition</th>
+      <th colspan="2">Post2000_TIGA_H</th>
+      <th colspan="2">Delay_To_TIGA_H</th>
+      <th rowspan="2">N</th>
+    </tr>
+    <tr class="colhd"><th>Medium</th><th>High</th><th>Medium</th><th>High</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="lab">n_study</td>
+      <td>+0.286<sup>***</sup><br><span class="se">(0.043)</span></td><td>+0.649<sup>***</sup><br><span class="se">(0.048)</span></td>
+      <td>−3.748<sup>***</sup><br><span class="se">(0.596)</span></td><td>−25.364<sup>***</sup><br><span class="se">(0.747)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">p-value (median)</td>
+      <td>+0.382<sup>***</sup><br><span class="se">(0.058)</span></td><td>+0.594<sup>***</sup><br><span class="se">(0.038)</span></td>
+      <td>−4.541<sup>***</sup><br><span class="se">(0.732)</span></td><td>−25.143<sup>***</sup><br><span class="se">(0.731)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">p-value (max)</td>
+      <td>+0.338<sup>***</sup><br><span class="se">(0.065)</span></td><td>+0.609<sup>***</sup><br><span class="se">(0.039)</span></td>
+      <td>−3.961<sup>***</sup><br><span class="se">(0.749)</span></td><td>−25.216<sup>***</sup><br><span class="se">(0.765)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">meanRankScore</td>
+      <td>+0.310<sup>***</sup><br><span class="se">(0.052)</span></td><td>+0.594<sup>***</sup><br><span class="se">(0.044)</span></td>
+      <td>−3.986<sup>***</sup><br><span class="se">(0.640)</span></td><td>−25.061<sup>***</sup><br><span class="se">(0.804)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">odds ratio (median)</td>
+      <td>+0.594<sup>***</sup><br><span class="se">(0.096)</span></td><td>+0.614<sup>***</sup><br><span class="se">(0.036)</span></td>
+      <td>−5.743<sup>***</sup><br><span class="se">(1.055)</span></td><td>−24.312<sup>***</sup><br><span class="se">(0.589)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">geneNtrait <span style="color:var(--muted);font-size:11px">(gene-level)</span></td>
+      <td>+0.263<sup>***</sup><br><span class="se">(0.026)</span></td><td>+0.512<sup>***</sup><br><span class="se">(0.023)</span></td>
+      <td>−3.618<sup>***</sup><br><span class="se">(0.371)</span></td><td>−22.861<sup>***</sup><br><span class="se">(0.338)</span></td>
+      <td>5,515</td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr><td class="lab">Disease-class FE · total publications · clustered SE</td><td class="yes" colspan="4">Yes</td><td></td></tr>
+    <tr><td class="lab"># TIGA-matched traits</td><td colspan="4">No</td><td></td></tr>
+    <tr><td class="lab"># GWAS-hit opportunities</td><td class="yes" colspan="4">Yes</td><td></td></tr>
+  </tfoot>
+</table>
+</div>
+
+<p class="rtnote"><b>Notes.</b> OLS; standard errors clustered by disease class in parentheses.
+<sup>***</sup>&#8202;p&lt;0.01, <sup>**</sup>&#8202;p&lt;0.05, <sup>*</sup>&#8202;p&lt;0.1. Coefficients on
+Medium and High diseases relative to Low. <code>Post2000_TIGA_H</code> = disease has ≥1 H_TIGA gene first
+discovered after 2000; <code>Delay_To_TIGA_H</code> = years from 1980 to the first H_TIGA discovery
+(censored at 39). All six full-sample value definitions are shown. Every estimate stays significant under
+both coverage controls.</p>
+
+</div>
+</body>
+</html>
