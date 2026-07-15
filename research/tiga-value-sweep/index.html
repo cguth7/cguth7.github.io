@@ -98,6 +98,9 @@
   <div class="tk"><b>The real fork is how to treat GWAS-silent diseases.</b>
     <span>Coding uncovered diseases as Low (Variant A, full sample) is strong throughout. Restricting to the
     ~1,300 GWAS-covered diseases (Variant B) is underpowered and loses its Low reference group.</span></div>
+  <div class="tk"><b>It's not a GWAS-coverage artifact.</b>
+    <span>Adding a control for how well GWAS covers each disease (# matched traits, # hit opportunities)
+    barely moves column 2 — the herding effect isn't just "better-covered diseases look different."</span></div>
 </div>
 
 <h2>Main-spec results <span class="n">— disease-level, N in table</span></h2>
@@ -221,6 +224,45 @@ This is a structural artifact of the subsample, not evidence against the effect.
 that appears on the right-hand side, so they move mechanically and are not an independent test. Column 2
 is value-independent, which is why it carries the rebuttal.</p>
 
+<h2>Robustness · GWAS-coverage controls</h2>
+<p class="lede">A natural objection: maybe "high-value" diseases are just the ones GWAS happens to cover
+well, and coverage — not value — drives the herding. We net that out with two disease-level controls
+on top of the paper's specification: <b># TIGA-matched traits</b> and <b># GWAS-hit opportunities</b>.
+The column-2 (High) coefficient below barely moves — the effect is not a coverage artifact.</p>
+
+<div class="tblwrap">
+<table>
+  <thead>
+    <tr>
+      <th>Value definition <span class="src">(full sample)</span></th>
+      <th class="metric">base · paper controls</th>
+      <th class="metric">+ # traits</th>
+      <th class="metric">+ # GWAS hits</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="baseline">
+      <td class="def">DisGeNET baseline</td>
+      <td class="metric neg">−0.300<span class="stars">***</span></td>
+      <td class="metric neg">−0.298<span class="stars">***</span></td>
+      <td class="metric neg">−0.296<span class="stars">***</span></td>
+    </tr>
+    <tr><td class="def">n_study</td><td class="metric neg">−0.247<span class="stars">***</span></td><td class="metric neg">−0.282<span class="stars">***</span></td><td class="metric neg">−0.203<span class="stars">***</span></td></tr>
+    <tr><td class="def">p-value (median)</td><td class="metric neg">−0.253<span class="stars">***</span></td><td class="metric neg">−0.286<span class="stars">***</span></td><td class="metric neg">−0.226<span class="stars">***</span></td></tr>
+    <tr><td class="def">p-value (max)</td><td class="metric neg">−0.257<span class="stars">***</span></td><td class="metric neg">−0.293<span class="stars">***</span></td><td class="metric neg">−0.228<span class="stars">***</span></td></tr>
+    <tr><td class="def">meanRankScore</td><td class="metric neg">−0.244<span class="stars">***</span></td><td class="metric neg">−0.279<span class="stars">***</span></td><td class="metric neg">−0.209<span class="stars">***</span></td></tr>
+    <tr><td class="def">odds ratio (median)</td><td class="metric neg">−0.232<span class="stars">***</span></td><td class="metric neg">−0.238<span class="stars">***</span></td><td class="metric neg">−0.200<span class="stars">***</span></td></tr>
+    <tr><td class="def">geneNtrait <span class="badge b-a">gene-level</span></td><td class="metric neg">−0.075<span class="stars">*</span></td><td class="metric neg">−0.068<span class="stars">*</span></td><td class="metric neg">−0.070<span class="stars">*</span></td></tr>
+  </tbody>
+</table>
+</div>
+<p class="note">Column-2 <b>High</b> coefficient on <code>share_gene_after</code>. Medium moves in
+lockstep and stays *** in every row. Controlling for # traits slightly <em>strengthens</em> the effect;
+# GWAS-hit opportunities slightly weakens it (it is partly collinear with the value tier — more hits
+mechanically means more chances of a High gene) but every full-sample estimate stays negative and
+highly significant. The subsample (Variant B) is the only place the extra control matters: its
+already-underpowered estimate loses significance under # GWAS hits, another reason it isn't the headline.</p>
+
 <h2>How to read the rebuttal</h2>
 <p class="lede">Lead with <b>Variant A</b> (full sample, uncovered-as-Low). Present the metric rows —
 study count, p-value, GWAS composite, gene-level pleiotropy — as a <b>robustness panel</b>: the herding
@@ -266,6 +308,10 @@ which is the expensive part, is built once and reused. Source: <code>src/run_def
   <li><b>Run the main spec.</b> <span class="d">For each outcome:
     <code>y ~ C(category) + count_pmid_after_fill + C(diseaseclass)</code>, OLS with standard errors
     clustered by <code>diseaseclass</code> — identical to the paper's specification.</span></li>
+  <li><b>Add GWAS-coverage controls (robustness).</b> <span class="d">Re-run column 2 adding
+    <code>n_traits</code> (# TIGA traits the disease maps to) and, separately, <code>n_gwas_opp</code>
+    (# gene–disease pairs with any GWAS hit), to confirm the effect is not driven by some diseases being
+    better covered by GWAS.</span></li>
 </ol>
 
 <h3>Variables included</h3>
@@ -294,7 +340,9 @@ which is the expensive part, is built once and reused. Source: <code>src/run_def
     <tr><td><span class="var">share_gene_after</span></td><td class="src">gene_empirics</td><td class="wrapcol"><span class="star">Column 2.</span> Subsequent exploration of the disease's gene space — value-independent, the real herding test</td><td class="role">outcome ★</td></tr>
     <tr><td><span class="var">any_diamond</span></td><td class="src">derived</td><td class="wrapcol">Column 1. Whether the disease has ≥1 High-value gene</td><td class="role">outcome</td></tr>
     <tr><td><span class="var">year_to_optimal</span></td><td class="src">derived</td><td class="wrapcol">Column 3. Years from 1980 to the first High-value discovery (delay)</td><td class="role">outcome</td></tr>
-    <tr><td><span class="var">count_pmid_after_fill</span></td><td class="src">gene_empirics</td><td class="wrapcol">Post-period publication volume — research-effort control</td><td class="role">control</td></tr>
+    <tr><td><span class="var">count_pmid_after_fill</span></td><td class="src">gene_empirics</td><td class="wrapcol">Post-period publication volume — research-effort control (paper's control)</td><td class="role">control</td></tr>
+    <tr><td><span class="var">n_traits</span></td><td class="src">derived</td><td class="wrapcol"># distinct TIGA/EFO traits the disease maps to — GWAS-coverage control</td><td class="role">control (added)</td></tr>
+    <tr><td><span class="var">n_gwas_opp</span></td><td class="src">derived</td><td class="wrapcol"># gene–disease pairs for the disease with any GWAS hit — GWAS-opportunity control</td><td class="role">control (added)</td></tr>
     <tr><td><span class="var">diseaseclass</span></td><td class="src">gene_empirics</td><td class="wrapcol">Disease category — absorbed as fixed effect and used as the cluster</td><td class="role">FE · cluster</td></tr>
     <tr><td><span class="var">disease_tag</span> · <span class="var">marginal_disease</span></td><td class="src">gene_empirics</td><td class="wrapcol">Sample filters defining the estimation universe</td><td class="role">filter</td></tr>
     <tr><td><span class="var">YearInitial</span></td><td class="src">associations</td><td class="wrapcol">First publication year of the gene–disease pair — discovery date, clipped at 1980</td><td class="role">timing</td></tr>
