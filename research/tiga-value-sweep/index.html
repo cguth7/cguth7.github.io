@@ -76,6 +76,33 @@
   tr.grouprow td{background:var(--accent-soft);color:var(--accent);font-weight:700;
     font-size:11px;letter-spacing:.07em;text-transform:uppercase;padding:7px 14px;}
   .star{color:var(--accent);font-weight:700;}
+  /* ---- LaTeX / booktabs regression table ---- */
+  .rtwrap{overflow-x:auto;margin:10px 0 4px;}
+  table.rt{border-collapse:collapse;width:100%;min-width:860px;border:none;
+    font-family:Georgia,"Times New Roman",serif;font-size:13.5px;font-variant-numeric:tabular-nums;}
+  table.rt th,table.rt td{border:none;padding:5px 10px;text-align:center;white-space:nowrap;}
+  table.rt th.lab,table.rt td.lab{text-align:left;font-weight:400;}
+  table.rt .toprule th{border-top:2px solid var(--fg);padding-top:8px;}
+  table.rt .grouphd th{border-bottom:1px solid var(--fg);font-weight:400;font-style:italic;
+    text-transform:none;letter-spacing:0;color:var(--fg);font-size:12.5px;}
+  table.rt .colhd th{border-bottom:1px solid var(--fg);font-weight:600;text-transform:none;
+    letter-spacing:0;color:var(--fg);font-size:12px;padding-bottom:6px;}
+  table.rt tbody td{color:var(--fg);}
+  table.rt tr.baseline td{background:var(--accent-soft);}
+  table.rt tr.grp td{text-align:left;font-style:italic;color:var(--accent);font-size:12px;
+    padding:9px 10px 3px;border-top:1px solid var(--line);}
+  table.rt .se{color:var(--muted);font-size:11px;}
+  table.rt sup{font-size:.72em;}
+  table.rt .drop{color:var(--muted);}
+  table.rt tfoot td{border-top:1px solid var(--fg);font-size:12px;padding-top:7px;}
+  table.rt tfoot tr:last-child td{border-bottom:2px solid var(--fg);}
+  table.rt tfoot td.yes{color:var(--fg);font-weight:600;}
+  table.rt tfoot td.no{color:var(--muted);}
+  table.rt td.num{text-align:center;}
+  .rtcap{font-family:Georgia,"Times New Roman",serif;font-size:14px;color:var(--fg);margin:20px 0 2px;font-weight:600;}
+  .rtnote{font-family:Georgia,"Times New Roman",serif;font-size:12px;color:var(--muted);
+    font-style:italic;margin:9px 2px 0;line-height:1.5;max-width:82ch;}
+  .rtnote b{font-style:normal;color:var(--fg);}
 </style>
 </head>
 <body>
@@ -103,165 +130,195 @@
     barely moves column 2 — the herding effect isn't just "better-covered diseases look different."</span></div>
 </div>
 
-<h2>Main-spec results <span class="n">— disease-level, N in table</span></h2>
-<p class="lede">Outcome shown is the value-<em>independent</em> herding test:
-  <b>column 2, <code>share_gene_after</code></b> (subsequent exploration of a disease's gene space).
-  Coefficients are on Medium and High relative to Low; standard errors clustered by disease class.
-  Negative = herding (the paper's claim). Columns 1 (diamond found) &amp; 3 (delay) are mechanically
-  tied to the label and shown in the notes below the table.</p>
+<h2>Main results <span class="n">— disease-level regressions</span></h2>
+<p class="lede">The behavioral herding test is <b>column 2, <code>share_gene_after</code></b> (genes explored per
+publication after 2000) — a measure <em>independent</em> of how value was labelled. Coefficients are on
+Medium and High diseases relative to Low; a negative sign means more valuable diseases are explored
+<em>less</em> broadly (herding). Table 1 reports it under the paper's controls and under each added
+GWAS-coverage control, with a Yes/No panel recording what enters each specification. Table 2 gives the two
+breakthrough outcomes.</p>
 
-<div class="tblwrap">
-<table>
+<p class="rtcap">Table 1. Herding (<code>share_gene_after</code>) on the value tier, by definition and control set</p>
+<div class="rtwrap">
+<table class="rt">
   <thead>
-    <tr>
-      <th>Value definition</th>
-      <th>Zero-handling</th>
-      <th class="metric">N</th>
-      <th class="metric">Col 2 · Medium</th>
-      <th class="metric">Col 2 · High</th>
+    <tr class="toprule grouphd">
+      <th class="lab" rowspan="2">Value definition</th>
+      <th colspan="2">Baseline (paper controls)</th>
+      <th colspan="2">+ # TIGA traits</th>
+      <th colspan="2">+ # GWAS hits</th>
+      <th rowspan="2">N</th>
+    </tr>
+    <tr class="colhd">
+      <th>Medium</th><th>High</th><th>Medium</th><th>High</th><th>Medium</th><th>High</th>
     </tr>
   </thead>
   <tbody>
     <tr class="baseline">
-      <td class="def">DisGeNET (original / paper)</td>
-      <td>—</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.155<span class="stars">***</span></td>
-      <td class="metric neg">−0.300<span class="stars">***</span></td>
+      <td class="lab">DisGeNET (paper)</td>
+      <td>−0.155<sup>***</sup><br><span class="se">(0.023)</span></td><td>−0.300<sup>***</sup><br><span class="se">(0.047)</span></td>
+      <td>−0.155<sup>***</sup><br><span class="se">(0.023)</span></td><td>−0.298<sup>***</sup><br><span class="se">(0.050)</span></td>
+      <td>−0.156<sup>***</sup><br><span class="se">(0.023)</span></td><td>−0.296<sup>***</sup><br><span class="se">(0.049)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="hl">
-      <td class="def">n_study <span class="badge b-a">A · full</span></td>
-      <td>code-as-Low</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.232<span class="stars">***</span></td>
-      <td class="metric neg">−0.247<span class="stars">***</span></td>
+    <tr class="grp"><td colspan="8">TIGA — full sample (uncovered diseases coded Low)</td></tr>
+    <tr>
+      <td class="lab">n_study</td>
+      <td>−0.232<sup>***</sup><br><span class="se">(0.048)</span></td><td>−0.247<sup>***</sup><br><span class="se">(0.034)</span></td>
+      <td>−0.262<sup>***</sup><br><span class="se">(0.055)</span></td><td>−0.282<sup>***</sup><br><span class="se">(0.047)</span></td>
+      <td>−0.227<sup>***</sup><br><span class="se">(0.047)</span></td><td>−0.203<sup>***</sup><br><span class="se">(0.034)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="hl">
-      <td class="def">p-value (median) <span class="badge b-a">A · full</span></td>
-      <td>code-as-Low</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.211<span class="stars">***</span></td>
-      <td class="metric neg">−0.253<span class="stars">***</span></td>
+    <tr>
+      <td class="lab">p-value (median)</td>
+      <td>−0.211<sup>***</sup><br><span class="se">(0.060)</span></td><td>−0.253<sup>***</sup><br><span class="se">(0.034)</span></td>
+      <td>−0.241<sup>***</sup><br><span class="se">(0.066)</span></td><td>−0.286<sup>***</sup><br><span class="se">(0.046)</span></td>
+      <td>−0.206<sup>***</sup><br><span class="se">(0.059)</span></td><td>−0.226<sup>***</sup><br><span class="se">(0.032)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="hl">
-      <td class="def">p-value (max) <span class="badge b-a">A · full</span></td>
-      <td>code-as-Low</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.210<span class="stars">***</span></td>
-      <td class="metric neg">−0.257<span class="stars">***</span></td>
+    <tr>
+      <td class="lab">p-value (max)</td>
+      <td>−0.210<sup>***</sup><br><span class="se">(0.052)</span></td><td>−0.257<sup>***</sup><br><span class="se">(0.036)</span></td>
+      <td>−0.238<sup>***</sup><br><span class="se">(0.058)</span></td><td>−0.293<sup>***</sup><br><span class="se">(0.048)</span></td>
+      <td>−0.205<sup>***</sup><br><span class="se">(0.051)</span></td><td>−0.228<sup>***</sup><br><span class="se">(0.034)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="hl">
-      <td class="def">meanRankScore <span class="badge b-a">A · full</span></td>
-      <td>code-as-Low</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.232<span class="stars">***</span></td>
-      <td class="metric neg">−0.244<span class="stars">***</span></td>
+    <tr>
+      <td class="lab">meanRankScore</td>
+      <td>−0.232<sup>***</sup><br><span class="se">(0.056)</span></td><td>−0.244<sup>***</sup><br><span class="se">(0.034)</span></td>
+      <td>−0.261<sup>***</sup><br><span class="se">(0.063)</span></td><td>−0.279<sup>***</sup><br><span class="se">(0.044)</span></td>
+      <td>−0.228<sup>***</sup><br><span class="se">(0.055)</span></td><td>−0.209<sup>***</sup><br><span class="se">(0.033)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="hl">
-      <td class="def">odds ratio (median) <span class="badge b-a">A · full</span></td>
-      <td>code-as-Low</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.325<span class="stars">***</span></td>
-      <td class="metric neg">−0.232<span class="stars">***</span></td>
+    <tr>
+      <td class="lab">odds ratio (median)</td>
+      <td>−0.325<sup>***</sup><br><span class="se">(0.059)</span></td><td>−0.232<sup>***</sup><br><span class="se">(0.040)</span></td>
+      <td>−0.331<sup>***</sup><br><span class="se">(0.065)</span></td><td>−0.238<sup>***</sup><br><span class="se">(0.045)</span></td>
+      <td>−0.303<sup>***</sup><br><span class="se">(0.054)</span></td><td>−0.200<sup>***</sup><br><span class="se">(0.039)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="hl">
-      <td class="def">geneNtrait <span class="badge b-a">gene-level</span></td>
-      <td>full sample</td>
-      <td class="n">5,515</td>
-      <td class="metric neg">−0.058<span class="stars">**</span></td>
-      <td class="metric neg">−0.075<span class="stars">*</span></td>
+    <tr>
+      <td class="lab">geneNtrait <span class="src">(gene-level)</span></td>
+      <td>−0.058<sup>***</sup><br><span class="se">(0.022)</span></td><td>−0.075<sup>**</sup><br><span class="se">(0.032)</span></td>
+      <td>−0.055<sup>**</sup><br><span class="se">(0.022)</span></td><td>−0.068<sup>**</sup><br><span class="se">(0.031)</span></td>
+      <td>−0.058<sup>***</sup><br><span class="se">(0.022)</span></td><td>−0.070<sup>**</sup><br><span class="se">(0.031)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr class="sub">
-      <td class="def">n_study <span class="badge b-b">B · subsample</span></td>
-      <td>covered only</td>
-      <td class="n">311</td>
-      <td class="metric ns">dropped</td>
-      <td class="metric ns">−0.076</td>
+    <tr class="grp"><td colspan="8">TIGA — GWAS-covered subsample (no Low tier → Medium not identified)</td></tr>
+    <tr>
+      <td class="lab">n_study</td>
+      <td class="drop">—</td><td>−0.076<br><span class="se">(0.047)</span></td>
+      <td class="drop">—</td><td>−0.063<br><span class="se">(0.046)</span></td>
+      <td class="drop">—</td><td>−0.021<br><span class="se">(0.056)</span></td>
+      <td>311</td>
     </tr>
-    <tr class="sub">
-      <td class="def">p-value (median) <span class="badge b-b">B · subsample</span></td>
-      <td>covered only</td>
-      <td class="n">311</td>
-      <td class="metric ns">dropped</td>
-      <td class="metric neg">−0.121<span class="stars">†</span></td>
+    <tr>
+      <td class="lab">p-value (median)</td>
+      <td class="drop">—</td><td>−0.121<sup>*</sup><br><span class="se">(0.063)</span></td>
+      <td class="drop">—</td><td>−0.114<sup>*</sup><br><span class="se">(0.064)</span></td>
+      <td class="drop">—</td><td>−0.087<br><span class="se">(0.069)</span></td>
+      <td>311</td>
     </tr>
-    <tr class="sub">
-      <td class="def">p-value (max) <span class="badge b-b">B · subsample</span></td>
-      <td>covered only</td>
-      <td class="n">311</td>
-      <td class="metric ns">dropped</td>
-      <td class="metric neg">−0.119<span class="stars">*</span></td>
+    <tr>
+      <td class="lab">p-value (max)</td>
+      <td class="drop">—</td><td>−0.119<sup>**</sup><br><span class="se">(0.051)</span></td>
+      <td class="drop">—</td><td>−0.110<sup>**</sup><br><span class="se">(0.051)</span></td>
+      <td class="drop">—</td><td>−0.083<br><span class="se">(0.058)</span></td>
+      <td>311</td>
     </tr>
-    <tr class="sub">
-      <td class="def">meanRankScore <span class="badge b-b">B · subsample</span></td>
-      <td>covered only</td>
-      <td class="n">311</td>
-      <td class="metric ns">dropped</td>
-      <td class="metric neg">−0.108<span class="stars">*</span></td>
+    <tr>
+      <td class="lab">meanRankScore</td>
+      <td class="drop">—</td><td>−0.108<sup>**</sup><br><span class="se">(0.048)</span></td>
+      <td class="drop">—</td><td>−0.098<sup>**</sup><br><span class="se">(0.048)</span></td>
+      <td class="drop">—</td><td>−0.066<br><span class="se">(0.055)</span></td>
+      <td>311</td>
     </tr>
-    <tr class="sub">
-      <td class="def">odds ratio (median) <span class="badge b-b">B · subsample</span></td>
-      <td>covered only</td>
-      <td class="n">218</td>
-      <td class="metric ns">dropped</td>
-      <td class="metric ns">−0.019</td>
+    <tr>
+      <td class="lab">odds ratio (median)</td>
+      <td class="drop">—</td><td>−0.019<br><span class="se">(0.051)</span></td>
+      <td class="drop">—</td><td>−0.027<br><span class="se">(0.046)</span></td>
+      <td class="drop">—</td><td>+0.002<br><span class="se">(0.047)</span></td>
+      <td>218</td>
     </tr>
   </tbody>
+  <tfoot>
+    <tr><td class="lab">Disease-class fixed effects</td><td class="yes" colspan="2">Yes</td><td class="yes" colspan="2">Yes</td><td class="yes" colspan="2">Yes</td><td></td></tr>
+    <tr><td class="lab">Total-publications control</td><td class="yes" colspan="2">Yes</td><td class="yes" colspan="2">Yes</td><td class="yes" colspan="2">Yes</td><td></td></tr>
+    <tr><td class="lab"># TIGA-matched traits</td><td class="no" colspan="2">No</td><td class="yes" colspan="2">Yes</td><td class="no" colspan="2">No</td><td></td></tr>
+    <tr><td class="lab"># GWAS-hit opportunities</td><td class="no" colspan="2">No</td><td class="no" colspan="2">No</td><td class="yes" colspan="2">Yes</td><td></td></tr>
+    <tr><td class="lab">SE clustered by disease class</td><td class="yes" colspan="2">Yes</td><td class="yes" colspan="2">Yes</td><td class="yes" colspan="2">Yes</td><td></td></tr>
+  </tfoot>
 </table>
 </div>
+<p class="rtnote"><b>Notes.</b> OLS estimates; standard errors clustered by disease class in parentheses.
+<sup>***</sup>&#8202;p&lt;0.01, <sup>**</sup>&#8202;p&lt;0.05, <sup>*</sup>&#8202;p&lt;0.1. Dependent variable
+<code>share_gene_after</code> = distinct genes explored per post-2000 publication; a negative coefficient
+is herding. "—" = coefficient not identified: in the GWAS-covered subsample every disease is Medium or
+High, so there is no Low reference group. Controlling for&nbsp;# TIGA traits slightly strengthens the
+estimate; # GWAS-hit opportunities slightly weakens it (it is partly collinear with the value tier), but
+every full-sample estimate stays negative and significant — the herding is not a GWAS-coverage artifact.</p>
 
-<div class="legend">
-  <span><b>Significance</b> *** p&lt;.001 · ** p&lt;.01 · * p&lt;.05 · † p&lt;.1</span>
-  <span><b class="neg">Green</b> = negative (herding, as predicted)</span>
-  <span><b>A · full</b> = uncovered diseases coded Low · <b>B · subsample</b> = GWAS-covered diseases only</span>
-</div>
-
-<p class="note"><b>Why Medium "drops" in Variant B:</b> restricting to GWAS-covered diseases leaves no
-Low category to serve as the regression's reference group, so the Medium contrast is not identified.
-This is a structural artifact of the subsample, not evidence against the effect.</p>
-
-<p class="note"><b>Columns 1 &amp; 3 (diamond found, delay-to-optimal)</b> are built from the same H label
-that appears on the right-hand side, so they move mechanically and are not an independent test. Column 2
-is value-independent, which is why it carries the rebuttal.</p>
-
-<h2>Robustness · GWAS-coverage controls</h2>
-<p class="lede">A natural objection: maybe "high-value" diseases are just the ones GWAS happens to cover
-well, and coverage — not value — drives the herding. We net that out with two disease-level controls
-on top of the paper's specification: <b># TIGA-matched traits</b> and <b># GWAS-hit opportunities</b>.
-The column-2 (High) coefficient below barely moves — the effect is not a coverage artifact.</p>
-
-<div class="tblwrap">
-<table>
+<p class="rtcap">Table 2. Breakthrough outcomes (TIGA-rebuilt), paper controls</p>
+<div class="rtwrap">
+<table class="rt">
   <thead>
-    <tr>
-      <th>Value definition <span class="src">(full sample)</span></th>
-      <th class="metric">base · paper controls</th>
-      <th class="metric">+ # traits</th>
-      <th class="metric">+ # GWAS hits</th>
+    <tr class="toprule grouphd">
+      <th class="lab" rowspan="2">Value definition <span class="src">(full sample)</span></th>
+      <th colspan="2">Post2000_TIGA_H</th>
+      <th colspan="2">Delay_To_TIGA_H</th>
+      <th rowspan="2">N</th>
     </tr>
+    <tr class="colhd"><th>Medium</th><th>High</th><th>Medium</th><th>High</th></tr>
   </thead>
   <tbody>
-    <tr class="baseline">
-      <td class="def">DisGeNET baseline</td>
-      <td class="metric neg">−0.300<span class="stars">***</span></td>
-      <td class="metric neg">−0.298<span class="stars">***</span></td>
-      <td class="metric neg">−0.296<span class="stars">***</span></td>
+    <tr>
+      <td class="lab">n_study</td>
+      <td>+0.299<sup>***</sup><br><span class="se">(0.044)</span></td><td>+0.763<sup>***</sup><br><span class="se">(0.037)</span></td>
+      <td>−3.932<sup>***</sup><br><span class="se">(0.617)</span></td><td>−26.974<sup>***</sup><br><span class="se">(0.630)</span></td>
+      <td>5,515</td>
     </tr>
-    <tr><td class="def">n_study</td><td class="metric neg">−0.247<span class="stars">***</span></td><td class="metric neg">−0.282<span class="stars">***</span></td><td class="metric neg">−0.203<span class="stars">***</span></td></tr>
-    <tr><td class="def">p-value (median)</td><td class="metric neg">−0.253<span class="stars">***</span></td><td class="metric neg">−0.286<span class="stars">***</span></td><td class="metric neg">−0.226<span class="stars">***</span></td></tr>
-    <tr><td class="def">p-value (max)</td><td class="metric neg">−0.257<span class="stars">***</span></td><td class="metric neg">−0.293<span class="stars">***</span></td><td class="metric neg">−0.228<span class="stars">***</span></td></tr>
-    <tr><td class="def">meanRankScore</td><td class="metric neg">−0.244<span class="stars">***</span></td><td class="metric neg">−0.279<span class="stars">***</span></td><td class="metric neg">−0.209<span class="stars">***</span></td></tr>
-    <tr><td class="def">odds ratio (median)</td><td class="metric neg">−0.232<span class="stars">***</span></td><td class="metric neg">−0.238<span class="stars">***</span></td><td class="metric neg">−0.200<span class="stars">***</span></td></tr>
-    <tr><td class="def">geneNtrait <span class="badge b-a">gene-level</span></td><td class="metric neg">−0.075<span class="stars">*</span></td><td class="metric neg">−0.068<span class="stars">*</span></td><td class="metric neg">−0.070<span class="stars">*</span></td></tr>
+    <tr>
+      <td class="lab">p-value (median)</td>
+      <td>+0.397<sup>***</sup><br><span class="se">(0.058)</span></td><td>+0.677<sup>***</sup><br><span class="se">(0.032)</span></td>
+      <td>−4.747<sup>***</sup><br><span class="se">(0.755)</span></td><td>−26.266<sup>***</sup><br><span class="se">(0.593)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">p-value (max)</td>
+      <td>+0.354<sup>***</sup><br><span class="se">(0.065)</span></td><td>+0.698<sup>***</sup><br><span class="se">(0.033)</span></td>
+      <td>−4.197<sup>***</sup><br><span class="se">(0.796)</span></td><td>−26.564<sup>***</sup><br><span class="se">(0.632)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">meanRankScore</td>
+      <td>+0.325<sup>***</sup><br><span class="se">(0.052)</span></td><td>+0.706<sup>***</sup><br><span class="se">(0.039)</span></td>
+      <td>−4.200<sup>***</sup><br><span class="se">(0.660)</span></td><td>−26.701<sup>***</sup><br><span class="se">(0.706)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">odds ratio (median)</td>
+      <td>+0.652<sup>***</sup><br><span class="se">(0.099)</span></td><td>+0.700<sup>***</sup><br><span class="se">(0.034)</span></td>
+      <td>−6.543<sup>***</sup><br><span class="se">(1.117)</span></td><td>−25.494<sup>***</sup><br><span class="se">(0.562)</span></td>
+      <td>5,515</td>
+    </tr>
+    <tr>
+      <td class="lab">geneNtrait <span class="src">(gene-level)</span></td>
+      <td>+0.263<sup>***</sup><br><span class="se">(0.026)</span></td><td>+0.515<sup>***</sup><br><span class="se">(0.023)</span></td>
+      <td>−3.621<sup>***</sup><br><span class="se">(0.369)</span></td><td>−22.980<sup>***</sup><br><span class="se">(0.333)</span></td>
+      <td>5,515</td>
+    </tr>
   </tbody>
+  <tfoot>
+    <tr><td class="lab">Disease-class FE · pubs control · clustered SE</td><td class="yes" colspan="4">Yes</td><td></td></tr>
+  </tfoot>
 </table>
 </div>
-<p class="note">Column-2 <b>High</b> coefficient on <code>share_gene_after</code>. Medium moves in
-lockstep and stays *** in every row. Controlling for # traits slightly <em>strengthens</em> the effect;
-# GWAS-hit opportunities slightly weakens it (it is partly collinear with the value tier — more hits
-mechanically means more chances of a High gene) but every full-sample estimate stays negative and
-highly significant. The subsample (Variant B) is the only place the extra control matters: its
-already-underpowered estimate loses significance under # GWAS hits, another reason it isn't the headline.</p>
+<p class="rtnote"><b>Notes.</b> <code>Post2000_TIGA_H</code> = 1 if the disease has ≥1 High-tier gene <em>first
+discovered after 2000</em>. Because the value tier (RHS) is fixed in the pre-2000 exploration window, this
+is a forward-looking breakthrough, not a mechanical restatement of the label. <code>Delay_To_TIGA_H</code> =
+years from 1980 to the first High-tier discovery (censored at 39). A positive Post2000 and a negative Delay
+both say higher-value diseases reach breakthroughs more, and sooner. Subsample (Variant&nbsp;B) High
+coefficients are similar and significant; Medium is again not identified. Stars as in Table 1.</p>
 
 <h2>How to read the rebuttal</h2>
 <p class="lede">Lead with <b>Variant A</b> (full sample, uncovered-as-Low). Present the metric rows —
@@ -302,9 +359,10 @@ which is the expensive part, is built once and reused. Source: <code>src/run_def
     <code>disease_tag==1</code>, <code>marginal_disease!=1</code>, and non-missing
     <code>share_gene_after</code> → <b>5,515 diseases</b>.</span></li>
   <li><b>Build disease-level value vars.</b> <span class="d">Labels map to representative values
-    (L=30, M=75, H=95); a disease's category is the max value among pairs discovered by the exploration
-    cutoff (<code>YearInitial ≤ 2000</code>), re-cut at 60/90. <code>any_diamond</code> = has any High pair;
-    <code>year_to_optimal</code> = years from 1980 to its first High discovery.</span></li>
+    (L=30, M=75, H=95); a disease's value tier is the max value among pairs discovered by the exploration
+    cutoff (<code>YearInitial ≤ 2000</code>), re-cut at 60/90 — the pre-2000 RHS. Breakthrough outcomes:
+    <code>Post2000_TIGA_H</code> = has ≥1 High gene first discovered <em>after</em> 2000 (forward-looking);
+    <code>Delay_To_TIGA_H</code> = years from 1980 to its first High discovery.</span></li>
   <li><b>Run the main spec.</b> <span class="d">For each outcome:
     <code>y ~ C(category) + count_pmid_after_fill + C(diseaseclass)</code>, OLS with standard errors
     clustered by <code>diseaseclass</code> — identical to the paper's specification.</span></li>
@@ -338,8 +396,8 @@ which is the expensive part, is built once and reused. Source: <code>src/run_def
     <tr class="grouprow"><td colspan="4">Regression variables — the main spec</td></tr>
     <tr><td><span class="var">category_10_perc</span></td><td class="src">derived</td><td class="wrapcol">Value tier L/M/H (=1/2/3) from the label, over the exploration era — the right-hand side of interest</td><td class="role">RHS</td></tr>
     <tr><td><span class="var">share_gene_after</span></td><td class="src">gene_empirics</td><td class="wrapcol"><span class="star">Column 2.</span> Subsequent exploration of the disease's gene space — value-independent, the real herding test</td><td class="role">outcome ★</td></tr>
-    <tr><td><span class="var">any_diamond</span></td><td class="src">derived</td><td class="wrapcol">Column 1. Whether the disease has ≥1 High-value gene</td><td class="role">outcome</td></tr>
-    <tr><td><span class="var">year_to_optimal</span></td><td class="src">derived</td><td class="wrapcol">Column 3. Years from 1980 to the first High-value discovery (delay)</td><td class="role">outcome</td></tr>
+    <tr><td><span class="var">Post2000_TIGA_H</span></td><td class="src">derived</td><td class="wrapcol">Column 1. Disease has ≥1 H_TIGA gene first discovered post-2000 — forward-looking breakthrough (non-mechanical)</td><td class="role">outcome</td></tr>
+    <tr><td><span class="var">Delay_To_TIGA_H</span></td><td class="src">derived</td><td class="wrapcol">Column 3. Years from 1980 to the first H_TIGA discovery (delay), censored at 39</td><td class="role">outcome</td></tr>
     <tr><td><span class="var">count_pmid_after_fill</span></td><td class="src">gene_empirics</td><td class="wrapcol">Post-period publication volume — research-effort control (paper's control)</td><td class="role">control</td></tr>
     <tr><td><span class="var">n_traits</span></td><td class="src">derived</td><td class="wrapcol"># distinct TIGA/EFO traits the disease maps to — GWAS-coverage control</td><td class="role">control (added)</td></tr>
     <tr><td><span class="var">n_gwas_opp</span></td><td class="src">derived</td><td class="wrapcol"># gene–disease pairs for the disease with any GWAS hit — GWAS-opportunity control</td><td class="role">control (added)</td></tr>
