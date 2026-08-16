@@ -4,17 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Sources — The Philly Bulletin</title>
-<meta name="description" content="The public calendars and feeds behind the Philly Bulletin.">
+<meta name="description" content="Every pipeline feeding the Philly Bulletin: venue calendars, platforms, civic feeds.">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:,">
-<link rel="stylesheet" href="style.css?v=20260816.2">
+<link rel="stylesheet" href="style.css?v=20260816.3">
 </head>
 <body class="source-page">
 
 <nav class="rail" aria-label="Primary">
   <div class="rail-in">
     <a class="brand" href="index.html">Philly Bulletin<span>.</span></a>
-    <a href="sources.html" aria-current="page">Sources</a>
     <a href="index.html">Philadelphia</a>
     <a href="map.html">Map</a>
     <a href="about.html">How it works</a>
@@ -24,31 +23,54 @@
 
 <header class="hero wrap source-hero">
   <div class="kicker">Philadelphia · source board</div>
-  <h1>Where the listings come from.</h1>
-  <p class="lede">The Bulletin follows public calendars across the city. This board shows
-    what it knows about now, which sources are already checked, and where coverage still
-    needs work.</p>
-  <div class="herostats" aria-label="Source summary">
-    <div><div class="l">Known sources</div><div class="v" id="source-known">—</div></div>
-    <div><div class="l">Checked now</div><div class="v" id="source-built">—</div></div>
-    <div><div class="l">Still to build</div><div class="v" id="source-todo">—</div></div>
-    <div><div class="l">Venue feed links</div><div class="v" id="source-links">—</div></div>
-  </div>
+  <h1>Every pipeline feeding the city.</h1>
+  <p class="lede">The registry of everywhere Philadelphia posts its events — venue calendars,
+    platforms, civic feeds. A source only counts as <b>built</b> once its pipeline returns real,
+    normalized events from a live probe, and it stays built only while re-checks keep agreeing.</p>
 </header>
 
 <main class="wrap source-main">
-  <div class="seclabel"><span>Public calendars in the ledger</span><span id="source-tally">Loading sources</span></div>
-  <section class="source-shell" aria-label="Bulletin sources">
-    <div class="source-tools">
-      <label class="find-field find-search"><span>Search</span><input id="source-search" type="search" placeholder="Source name or kind" autocomplete="off"></label>
-      <label class="find-field"><span>Status</span><select id="source-status">
-        <option value="all">All statuses</option>
-        <option value="built">Checked now</option>
-        <option value="planned">Planned</option>
-        <option value="none">Known, not planned</option>
-      </select></label>
+  <section aria-label="Registry summary">
+    <div class="seclabel"><span>The registry at a glance</span><span id="board-stamp"></span></div>
+    <div class="tiles">
+      <div class="tile"><div class="v" id="source-built">—</div><div class="l">sources built</div><div class="d up">passed a live probe</div></div>
+      <div class="tile"><div class="v" id="source-todo">—</div><div class="l">still to build</div><div class="d">planned or known, no pipeline yet</div></div>
+      <div class="tile"><div class="v" id="source-known">—</div><div class="l">known sources</div><div class="d">in the public ledger</div></div>
+      <div class="tile"><div class="v" id="source-links">—</div><div class="l">venue feed links</div><div class="d">calendars found on venue sites</div></div>
     </div>
-    <div id="source-board"></div>
+  </section>
+
+  <section id="board" aria-label="Bulletin sources">
+    <div class="seclabel" style="margin-top:34px"><span>The board — filter by status or adapter</span><span id="source-tally">Loading sources</span></div>
+    <h2 style="margin:0 0 6px">Sources feeding Philadelphia.</h2>
+
+    <div class="boardfilters" id="source-filters"></div>
+
+    <div class="cardgrid" id="source-board"></div>
+    <div class="board-empty" id="board-empty">No sources match that combination.</div>
+    <p class="gridnote">showing <b id="grid-count">—</b> sources · planned sources have no yield yet ·
+      every built card opens its source page</p>
+  </section>
+
+  <section aria-label="How a source gets built" style="margin-top:56px">
+    <div class="seclabel"><span>The gate — why “built” means something</span></div>
+    <div class="band">
+      <div class="cols">
+        <div>
+          <h2>How a source gets built</h2>
+          <p class="sub">Built is a claim the pipeline has to earn — and keep earning.
+            Four hands touch every source, in order:</p>
+          <ul class="ticks">
+            <li><b>Lead</b> — the venue or organizer is filed, with where it was discovered attached</li>
+            <li><b>Scout</b> — go/no-go triage: where events actually post, which adapter fits</li>
+            <li><b>Build gate</b> — the adapter must return real normalized events before status flips to built</li>
+            <li><b>Steward</b> — re-probes every built source; failures downgrade in public, never silently</li>
+          </ul>
+        </div>
+        <pre class="code" id="board-code">$ engine export
+<span class="g">loading…</span></pre>
+      </div>
+    </div>
   </section>
 </main>
 
@@ -63,6 +85,6 @@
   </div>
 </footer>
 
-<script src="app.js?v=20260816.2"></script>
+<script src="app.js?v=20260816.3"></script>
 </body>
 </html>

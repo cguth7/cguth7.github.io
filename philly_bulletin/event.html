@@ -3,51 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>The Philly Bulletin</title>
-<meta name="description" content="Every Philadelphia event we can find for the next seven days, scored for community, not hype.">
+<title>Listing — The Philly Bulletin</title>
+<meta name="description" content="One listing from the Philly Bulletin: when and where it is, what it costs, and why it scores the way it does.">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="style.css?v=20260816.3">
 </head>
-<body>
+<body class="source-page">
 
 <nav class="rail" aria-label="Primary">
   <div class="rail-in">
     <a class="brand" href="index.html">Philly Bulletin<span>.</span></a>
-    <a href="index.html" aria-current="page">Philadelphia</a>
+    <a href="index.html">Philadelphia</a>
     <a href="map.html">Map</a>
     <a href="about.html">How it works</a>
-    <span class="rail-end">
-      <span id="nav-count">This week's listings</span>
-      <a class="cta" href="#bulletin">Today →</a>
-    </span>
+    <span class="rail-end"><a class="cta" href="index.html">Today →</a></span>
   </div>
 </nav>
 
-<header class="hero wrap">
-  <h1>Today in Philly.</h1>
-  <p class="hero-updated">Updated <span id="stat-updated">—</span></p>
-</header>
+<div class="wrap">
+  <div class="crumb"><a href="index.html">The bulletin</a> &nbsp;/&nbsp; <b id="crumb-name">…</b></div>
+</div>
 
-<main class="wrap bulletin" id="bulletin-start">
-  <noscript>
-    <p class="note">The Bulletin is put together in your browser, so it needs JavaScript
-    switched on.</p>
-  </noscript>
-  <div class="seclabel"><span id="list-label">Ranked · today</span><span>Open any listing for the reasons</span></div>
-  <section class="event-board" aria-label="Selected day event listings">
-    <div class="filterbar"><div class="filters" id="filters"></div></div>
-    <div id="bulletin"></div>
-  </section>
+<main class="wrap" id="event-detail">
+  <p class="note">Loading this listing…</p>
 </main>
 
 <footer class="foot">
   <div class="foot-in ml">
     <span>Real life, easier than the feed.</span>
+    <a href="index.html">The bulletin</a>
     <a href="sources.html">Sources</a>
     <a href="about.html">How it works</a>
     <a href="map.html">The map</a>
-    <a href="tables.html">The ledger</a>
     <span class="end">Philly Bulletin · Philadelphia</span>
   </div>
 </footer>
