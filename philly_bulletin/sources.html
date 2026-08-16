@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Source board — Philadelphia · Reality</title>
+<link rel="stylesheet" href="reality.css">
+<style>
+  /* page-specific layout glue only */
+  .scard.hide { display: none; }
+  .gridnote { font-size: 11px; color: var(--muted); margin-top: 12px; }
+  .gridnote b { color: var(--ink); font-weight: 600; }
+  .empty {
+    display: none; padding: 26px; text-align: center; font-size: 12px; color: var(--muted);
+    background: var(--card); border: 1px dashed var(--hairline); border-radius: 12px;
+  }
+  .empty.show { display: block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="brand" href="today.html">Reality<span>.</span></a>
+    <a href="today.html">Philadelphia</a>
+    <a class="on" href="sources.html">Sources</a>
+    <a href="about.html">How it works</a>
+    <span class="right">
+      <a href="today.html">42 events today</a>
+      <a class="cta" href="today.html">Tonight →</a>
+    </span>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Philadelphia source board</div>
+    <h1>Every pipeline feeding the city.</h1>
+    <p class="lede">The registry of everywhere Philadelphia posts its events — venue calendars,
+      platforms, civic feeds. A source only counts as <b>built</b> once it passes the build gate:
+      a real fetch returning real, normalized events. It stays built only while the
+      <b>Steward's</b> re-probes agree. Broken stays on the board until it's fixed.</p>
+  </div>
+
+  <section>
+    <div class="seclabel"><span>The registry at a glance · stamped by the last steward sweep</span></div>
+    <div class="tiles">
+      <div class="tile"><div class="v">13</div><div class="l">sources built</div><div class="d">8/13 passing latest check</div></div>
+      <div class="tile"><div class="v">151</div><div class="l">sources planned</div><div class="d">mined from directories &amp; leads</div></div>
+      <div class="tile"><div class="v">5</div><div class="l">need repair</div><div class="d">adapter rot · Max is queued</div></div>
+      <div class="tile"><div class="v">2d ago</div><div class="l">verified</div><div class="d up">full sweep · all 13 built probed</div></div>
+    </div>
+  </section>
+
+  <section id="board">
+    <div class="seclabel"><span>The board — filter by status or adapter</span><span>every card opens its source page</span></div>
+    <h2>Sources feeding Philadelphia.</h2>
+
+    <div class="filters">
+      <div class="frow" data-filter="status"><span class="flabel">Status</span>
+        <button class="pillbtn on" data-val="all">all <span class="n">12</span></button>
+        <button class="pillbtn" data-val="built">built <span class="n">8</span></button>
+        <button class="pillbtn" data-val="planned">planned <span class="n">2</span></button>
+        <button class="pillbtn" data-val="needs-repair">needs repair <span class="n">2</span></button>
+      </div>
+      <div class="frow" data-filter="adapter"><span class="flabel">Adapter</span>
+        <button class="pillbtn on" data-val="all">all <span class="n">12</span></button>
+        <button class="pillbtn" data-val="eventbrite">eventbrite <span class="n">1</span></button>
+        <button class="pillbtn" data-val="rss">rss <span class="n">1</span></button>
+        <button class="pillbtn" data-val="html">html <span class="n">6</span></button>
+        <button class="pillbtn" data-val="ics">ics <span class="n">3</span></button>
+        <button class="pillbtn" data-val="custom_json">custom_json <span class="n">1</span></button>
+      </div>
+    </div>
+
+    <div class="cardgrid" id="grid">
+      <a class="scard" href="source.html" data-status="built" data-adapter="html">
+        <div class="n">The Key (WXPN)</div>
+        <div class="d">thekey.xpn.org · html</div>
+        <div class="st"><span class="st-ok">● healthy</span> · 58 events · 30d</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="eventbrite">
+        <div class="n">Eventbrite Philly</div>
+        <div class="d">eventbrite.com · eventbrite</div>
+        <div class="st"><span class="st-ok">● healthy</span> · 214 events · 30d</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="rss">
+        <div class="n">Free Library</div>
+        <div class="d">freelibrary.org · rss</div>
+        <div class="st"><span class="st-ok">● healthy</span> · 72 events · 30d · 9 feeds</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="html">
+        <div class="n">Fishtown District</div>
+        <div class="d">fishtowndistrict.com · html</div>
+        <div class="st"><span class="st-warn">▲ no events</span> · fetch OK, 0 in window</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="html">
+        <div class="n">Johnny Brenda's</div>
+        <div class="d">johnnybrendas.com · html</div>
+        <div class="st"><span class="st-ok">● healthy</span> · 29 events · 30d</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="html">
+        <div class="n">Union Transfer</div>
+        <div class="d">utphilly.com · html</div>
+        <div class="st"><span class="st-ok">● healthy</span> · 44 events · 30d</div>
+      </a>
+      <a class="scard" href="source.html" data-status="needs-repair" data-adapter="ics">
+        <div class="n">Bok</div>
+        <div class="d">buildingbok.com · ics</div>
+        <div class="st"><span class="st-fix">■ needs repair</span> · HTTP 403 · down 6d</div>
+      </a>
+      <a class="scard" href="source.html" data-status="planned" data-adapter="html">
+        <div class="n">Cherry Street Pier</div>
+        <div class="d">cherrystreetpier.com · html proposed</div>
+        <div class="st"><span class="st-plan">○ planned</span> · scouted, no pipeline yet</div>
+      </a>
+      <a class="scard" href="source.html" data-status="needs-repair" data-adapter="html">
+        <div class="n">Mural Arts</div>
+        <div class="d">muralarts.org · html</div>
+        <div class="st"><span class="st-fix">■ needs repair</span> · selector drift · 3d</div>
+      </a>
+      <a class="scard" href="source.html" data-status="planned" data-adapter="custom_json">
+        <div class="n">Parks &amp; Rec</div>
+        <div class="d">phila.gov · custom_json proposed</div>
+        <div class="st"><span class="st-plan">○ planned</span> · lead from city directory</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="ics">
+        <div class="n">Fringe Festival</div>
+        <div class="d">fringearts.com · ics</div>
+        <div class="st"><span class="st-warn">▲ no events</span> · fetch OK, opens Sep 4</div>
+      </a>
+      <a class="scard" href="source.html" data-status="built" data-adapter="ics">
+        <div class="n">PhilaMOCA</div>
+        <div class="d">philamoca.org · ics</div>
+        <div class="st"><span class="st-ok">● healthy</span> · 21 events · 30d</div>
+      </a>
+    </div>
+    <div class="empty" id="empty">no sources match this status × adapter combination — 164 live in the full registry</div>
+    <p class="gridnote">showing <b id="gridcount">12</b> / 12 cards · 12 of 164 registered sources pictured ·
+      planned sources have no yield yet · source page shows the Do312 (Chicago) build — same page shape</p>
+  </section>
+
+  <section>
+    <div class="seclabel"><span>The gate — why "built" means something</span></div>
+    <div class="band">
+      <div class="cols">
+        <div>
+          <h2>How a source gets built</h2>
+          <p class="sub">Built is a claim the pipeline has to earn — and keep earning.
+            Four hands touch every source, in order:</p>
+          <ul class="ticks">
+            <li><b>Lead</b> — Tej files the venue or organizer, provenance (<code>discovered_via</code>) attached</li>
+            <li><b>Scout</b> — go/no-go triage: where events actually post, which adapter fits</li>
+            <li><b>Build gate</b> — Max's adapter must return real normalized events before status flips to built</li>
+            <li><b>Steward</b> — re-probes every built source; failures downgrade in public, never silently</li>
+          </ul>
+        </div>
+        <pre class="code">$ engine sources --needs-repair
+bok           ics   <span class="s">■ HTTP 403 · 6d</span>
+mural-arts    html  <span class="s">■ selector drift · 3d</span>
+<span class="g">+ 3 more · Max is queued on all 5</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <footer>Prototype · data illustrative, shaped like schema v2 (<code>pipeline_sources</code> ·
+    <code>source_coverage</code>) · counts stamped from the Aug 14 steward sweep ·
+    Reality — make real life easier than the feed.</footer>
+
+</div>
+
+<script>
+(function () {
+  var state = { status: 'all', adapter: 'all' };
+  function apply() {
+    var visible = 0;
+    document.querySelectorAll('#grid .scard').forEach(function (c) {
+      var show = (state.status === 'all' || c.dataset.status === state.status) &&
+                 (state.adapter === 'all' || c.dataset.adapter === state.adapter);
+      c.classList.toggle('hide', !show);
+      if (show) visible++;
+    });
+    document.getElementById('gridcount').textContent = visible;
+    document.getElementById('empty').classList.toggle('show', visible === 0);
+  }
+  document.querySelectorAll('.frow[data-filter]').forEach(function (row) {
+    row.querySelectorAll('.pillbtn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        state[row.dataset.filter] = btn.dataset.val;
+        row.querySelectorAll('.pillbtn').forEach(function (b) { b.classList.toggle('on', b === btn); });
+        apply();
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Do312 — Chicago Source Board · Reality</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&display=swap');
+
+  :root {
+    color-scheme: light;
+    --page:      #f7f6f2;
+    --card:      #ffffff;
+    --tint:      #eef3ea;         /* pale green section wash */
+    --ink:       #171614;
+    --ink-2:     #52514e;
+    --muted:     #898781;
+    --hairline:  #e5e3dc;
+    --rule:      #d8d6cd;
+    --green:     #0c6b2c;         /* accent: links, buttons */
+    --green-ink: #0a5c26;
+    --good:      #0ca30c;         /* status */
+    --warn-ink:  #9a6700;
+    --serious-ink: #b3400f;
+    --code-bg:   #f4f3ee;
+    --serif: "Newsreader", "Iowan Old Style", Palatino, Georgia, serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 13px/1.65 var(--mono);
+  }
+  a { color: var(--green); text-underline-offset: 3px; }
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 28px 90px; }
+
+  /* ── top nav ── */
+  .nav {
+    display: flex; align-items: center; gap: 26px;
+    padding: 14px 0; border-bottom: 1px solid var(--hairline);
+    font-size: 12px;
+  }
+  .nav .brand { font: 600 19px var(--serif); letter-spacing: -.01em; margin-right: 6px; }
+  .nav .brand span { color: var(--green); }
+  .nav a { color: var(--ink-2); text-decoration: none; text-transform: uppercase; letter-spacing: .06em; font-size: 11px; }
+  .nav a.on { color: var(--ink); font-weight: 600; }
+  .nav .right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .nav .cta {
+    background: var(--green); color: #fff; padding: 7px 16px; border-radius: 999px;
+    font-size: 11px; letter-spacing: .05em; text-decoration: none;
+  }
+
+  .crumb { margin: 26px 0 14px; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .crumb a { color: var(--muted); text-decoration: none; }
+  .crumb b { color: var(--ink); font-weight: 600; }
+
+  /* ── hero ── */
+  .hero { display: grid; grid-template-columns: 1fr 330px; gap: 34px; align-items: start; }
+  @media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+
+  .live { display: inline-flex; align-items: center; gap: 6px; font-size: 10.5px; letter-spacing: .1em; color: var(--green-ink); text-transform: uppercase; }
+  .live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--good); }
+
+  .titleline { display: flex; align-items: center; gap: 16px; margin: 12px 0 4px; }
+  .logo {
+    width: 56px; height: 56px; border-radius: 12px; background: var(--ink); color: #fff;
+    display: grid; place-items: center; font: 700 22px var(--serif); flex: none;
+  }
+  h1 { margin: 0; font: 500 44px/1.05 var(--serif); letter-spacing: -.015em; }
+  .domainchip {
+    font-size: 11px; border: 1px solid var(--hairline); background: var(--card);
+    padding: 3px 10px; border-radius: 999px; color: var(--ink-2); white-space: nowrap;
+  }
+  .lede { margin: 14px 0 0; color: var(--ink-2); max-width: 58ch; }
+  .lede code { background: var(--code-bg); border: 1px solid var(--hairline); border-radius: 4px; padding: 1px 5px; font-size: 12px; }
+  .flagline { margin: 14px 0 0; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .tag {
+    font-size: 10.5px; letter-spacing: .05em; text-transform: uppercase;
+    background: var(--tint); color: var(--green-ink); border-radius: 4px; padding: 3px 8px;
+  }
+  .tag.plain { background: var(--code-bg); color: var(--ink-2); }
+
+  .herostats { display: flex; gap: 44px; margin-top: 30px; }
+  .herostats .l { font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  .herostats .v { font-size: 17px; font-weight: 600; margin-top: 2px; }
+
+  /* health card */
+  .healthcard {
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 12px;
+    padding: 16px 18px; box-shadow: 0 1px 2px rgba(23,22,20,.04);
+  }
+  .healthcard .hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+  .healthcard .hd .t { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--green-ink); font-weight: 600; }
+  .healthcard .hd .t::before { content: "● "; color: var(--good); font-size: 9px; }
+  .healthcard .hd .r { font-size: 11px; color: var(--muted); }
+  .healthcard .hd .r b { color: var(--ink); font-weight: 600; }
+  .check { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; font-size: 12px; color: var(--ink-2); }
+  .bars { display: inline-flex; gap: 2px; align-items: flex-end; }
+  .bars i { width: 4px; height: 11px; border-radius: 1px; background: var(--good); }
+  .bars i.miss { background: #e2c044; height: 8px; }
+  .bars::after { content: "●"; color: var(--good); font-size: 8px; margin-left: 6px; }
+  .bars.warn::after { color: #e2c044; }
+  .healthcard .more { font-size: 11px; color: var(--muted); padding-top: 6px; }
+  .healthcard .ft {
+    display: flex; justify-content: space-between; border-top: 1px solid var(--hairline);
+    margin-top: 10px; padding-top: 10px; font-size: 11px; color: var(--ink-2);
+  }
+  .healthcard .ft b { font-weight: 600; color: var(--ink); }
+  .healthcard .ft .sh { color: var(--muted); }
+
+  /* ── layout with side nav ── */
+  .main { display: grid; grid-template-columns: 150px 1fr; gap: 40px; margin-top: 54px; }
+  @media (max-width: 860px) { .main { grid-template-columns: 1fr; } .toc { display: none; } }
+  .toc { position: sticky; top: 24px; align-self: start; font-size: 11.5px; }
+  .toc .t { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .toc a { display: block; color: var(--ink-2); text-decoration: none; padding: 4px 0 4px 12px; border-left: 2px solid transparent; }
+  .toc a.on { border-left-color: var(--green); color: var(--ink); font-weight: 600; }
+
+  .content { min-width: 0; }
+  h2 { font: 500 26px/1.2 var(--serif); letter-spacing: -.01em; margin: 0 0 14px; }
+  section { margin-bottom: 58px; }
+  .prose { color: var(--ink-2); max-width: 62ch; }
+  .prose code { background: var(--code-bg); border: 1px solid var(--hairline); border-radius: 4px; padding: 1px 5px; font-size: 12px; }
+
+  .seclabel { font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: flex; justify-content: space-between; align-items: baseline; }
+
+  /* ── this week (playground analog) ── */
+  .week { background: var(--card); border: 1px solid var(--hairline); border-radius: 12px; overflow: hidden; }
+  .week .bar {
+    display: flex; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--hairline);
+    background: var(--code-bg); font-size: 11px; align-items: center; flex-wrap: wrap;
+  }
+  .daypill {
+    border: 1px solid var(--hairline); background: var(--card); border-radius: 999px;
+    padding: 3px 11px; color: var(--ink-2);
+  }
+  .daypill.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .week .cost { margin-left: auto; color: var(--muted); }
+  .evrow {
+    display: grid; grid-template-columns: 104px 1fr auto auto; gap: 14px; align-items: baseline;
+    padding: 11px 16px; border-bottom: 1px solid var(--hairline); font-size: 12.5px;
+  }
+  .evrow:last-child { border-bottom: 0; }
+  .evrow .when { color: var(--muted); font-size: 11.5px; }
+  .evrow .name { font-weight: 600; }
+  .evrow .name .at { font-weight: 400; color: var(--ink-2); }
+  .evrow .free { font-size: 10px; letter-spacing: .06em; text-transform: uppercase; color: var(--green-ink); background: var(--tint); border-radius: 4px; padding: 2px 6px; }
+  .evrow .q { color: var(--ink-2); font-size: 11.5px; white-space: nowrap; }
+  .evrow .q b { color: var(--ink); font-size: 13px; }
+  .week .ft { padding: 10px 16px; font-size: 11px; color: var(--muted); background: var(--code-bg); border-top: 1px solid var(--hairline); }
+
+  /* ── coverage table (endpoint-list analog) ── */
+  .cov { border: 1px solid var(--hairline); border-radius: 12px; background: var(--card); overflow: hidden; }
+  .covrow { border-bottom: 1px solid var(--hairline); }
+  .covrow:last-child { border-bottom: 0; }
+  .covhead {
+    display: grid; grid-template-columns: auto 1fr auto auto; gap: 14px; align-items: center;
+    padding: 11px 16px; font-size: 12.5px;
+  }
+  .pill {
+    font-size: 10px; font-weight: 700; letter-spacing: .05em; color: var(--green-ink);
+    background: var(--tint); border-radius: 4px; padding: 3px 7px;
+  }
+  .covhead .vname { font-weight: 600; }
+  .covhead .vname .hood { font-weight: 400; color: var(--muted); font-size: 11.5px; }
+  .covhead .yield { color: var(--ink-2); font-size: 11.5px; white-space: nowrap; }
+  .covhead .dot { font-size: 10px; color: var(--good); }
+  .covbody { padding: 4px 16px 16px; background: #fdfdfb; border-top: 1px dashed var(--hairline); }
+  .covbody .kv { display: grid; grid-template-columns: 120px 165px 1fr; gap: 8px 18px; font-size: 12px; padding: 12px 0; }
+  .covbody .kv .k { color: var(--ink); font-weight: 600; }
+  .covbody .kv .ty { color: var(--green-ink); }
+  .covbody .kv .d { color: var(--ink-2); }
+  .covbody .lbl { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 8px 0 2px; }
+  pre.code {
+    background: var(--code-bg); border: 1px solid var(--hairline); border-radius: 8px;
+    padding: 13px 15px; font-size: 11.5px; line-height: 1.6; overflow-x: auto; margin: 6px 0 0; color: var(--ink-2);
+  }
+  pre.code .s { color: var(--ink); }
+  pre.code .g { color: var(--green-ink); }
+  .cov .ask { padding: 11px 16px; font-size: 11.5px; color: var(--muted); background: var(--code-bg); }
+
+  /* ── sdk-tinted band: how it flows ── */
+  .band { background: var(--tint); border: 1px solid #dbe6d4; border-radius: 12px; padding: 26px 28px; }
+  .band h2 { margin-bottom: 6px; }
+  .band .sub { color: var(--ink-2); max-width: 56ch; }
+  .band .cols { display: grid; grid-template-columns: 1fr auto; gap: 26px; align-items: start; }
+  @media (max-width: 760px) { .band .cols { grid-template-columns: 1fr; } }
+  .band ul.ticks { list-style: none; padding: 0; margin: 4px 0 0; font-size: 12px; color: var(--ink-2); }
+  .band ul.ticks li { padding: 3px 0; }
+  .band ul.ticks li::before { content: "✓  "; color: var(--green-ink); font-weight: 700; }
+  .band pre.code { background: #fff; }
+
+  /* ── history ── */
+  .hist { border: 1px solid var(--hairline); border-radius: 12px; background: var(--card); overflow: hidden; }
+  .hrow { display: flex; gap: 14px; padding: 12px 16px; border-bottom: 1px solid var(--hairline); font-size: 12.5px; align-items: baseline; }
+  .hrow:last-child { border-bottom: 0; }
+  .vtag {
+    font-size: 10px; font-weight: 700; border: 1px solid var(--hairline); border-radius: 4px;
+    padding: 2px 7px; color: var(--ink-2); background: var(--code-bg); flex: none;
+  }
+  .vtag.heal { color: var(--warn-ink); border-color: #e8d5a8; background: #faf3e0; }
+  .hrow .what { color: var(--ink-2); }
+  .hrow .what b { color: var(--ink); font-weight: 600; }
+  .hrow .when { margin-left: auto; color: var(--muted); font-size: 11px; white-space: nowrap; }
+
+  /* ── more sources strip ── */
+  .strip { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .scard {
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 12px; padding: 14px 16px;
+    text-decoration: none; color: inherit; display: block;
+  }
+  .scard:hover { border-color: var(--rule); }
+  .scard .n { font: 600 16px var(--serif); }
+  .scard .d { color: var(--muted); font-size: 11px; margin: 1px 0 8px; }
+  .scard .st { font-size: 11px; color: var(--ink-2); }
+  .scard .st .ok { color: var(--green-ink); }
+  .scard .st .fix { color: var(--serious-ink); }
+  .scard .st .plan { color: var(--muted); }
+
+  /* floating pill */
+  .askpill {
+    position: fixed; right: 26px; bottom: 24px; background: var(--ink); color: #fff;
+    border-radius: 999px; padding: 11px 20px; font-size: 12px; text-decoration: none;
+    box-shadow: 0 4px 14px rgba(23,22,20,.22);
+  }
+  .askpill::before { content: "● "; color: var(--good); font-size: 9px; }
+
+  footer { margin-top: 70px; color: var(--muted); font-size: 11px; border-top: 1px solid var(--hairline); padding-top: 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <span class="brand">Reality<span>.</span></span>
+    <a href="today.html">Philadelphia</a>
+    <a class="on" href="sources.html">Sources</a>
+    <a href="about.html">How it works</a>
+    <span class="right">
+      <a href="#">312 events live</a>
+      <a class="cta" href="#">This weekend →</a>
+    </span>
+  </nav>
+
+  <div class="crumb"><a href="sources.html">Source board</a> &nbsp;/&nbsp; <b>Do312</b></div>
+
+  <div class="hero">
+    <div>
+      <span class="live">Live</span>
+      <div class="titleline">
+        <div class="logo">D3</div>
+        <h1>Do312</h1>
+        <span class="domainchip">do312.com ↗</span>
+      </div>
+      <p class="lede">City-wide aggregator and the registry's biggest single yield: one pipeline
+        fans out to <code>112 venues</code> through coverage links, resolving venue and organizer
+        per event. Its venue directory seeded 151 further source leads.</p>
+      <p class="flagline"><a href="#ask">This source takes flags — tell the Steward what's broken or missing.</a></p>
+      <div class="tags">
+        <span class="tag">aggregator</span><span class="tag">music</span><span class="tag">nightlife</span>
+        <span class="tag plain">custom_json</span><span class="tag plain">city-wide</span>
+      </div>
+      <div class="herostats">
+        <div><div class="l">Venues fed</div><div class="v">112</div></div>
+        <div><div class="l">Events · 30d</div><div class="v">184</div></div>
+        <div><div class="l">Built</div><div class="v">2mo ago</div></div>
+        <div><div class="l">Adapter</div><div class="v">custom_json</div></div>
+      </div>
+    </div>
+
+    <aside class="healthcard">
+      <div class="hd"><span class="t">Source health</span><span class="r">verified <b>2d ago</b> ●</span></div>
+      <div class="check"><span>fetch — HTTP 200</span><span class="bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="check"><span>parse — listing JSON</span><span class="bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="check"><span>norm() contract</span><span class="bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="check"><span>future-dated events</span><span class="bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+      <div class="check"><span>venue resolution</span><span class="bars warn"><i></i><i></i><i class="miss"></i><i></i><i></i></span></div>
+      <div class="more">+ geocode coverage, dedupe rate</div>
+      <div class="ft"><span><b>5/5 checks</b> passing latest pass</span><span class="sh">steward-watched</span></div>
+    </aside>
+  </div>
+
+  <div class="main">
+    <nav class="toc">
+      <div class="t">On this page</div>
+      <a class="on" href="#about">About this source</a>
+      <a href="#week">This week</a>
+      <a href="#coverage">Coverage</a>
+      <a href="#flow">How it flows</a>
+      <a href="#history">History</a>
+      <a href="#more">More sources</a>
+    </nav>
+
+    <div class="content">
+
+      <section id="about">
+        <h2>What is this source?</h2>
+        <p class="prose">Do312 is Chicago's largest independent event aggregator. This pipeline pulls
+          its full listing feed nightly, resolves each event to a venue and organizer, and emits the
+          engine's normalized shape — the <code>norm()</code> contract every source shares. Because it's
+          an aggregator, it is <em>one</em> source row that feeds many venues: coverage links are
+          connected as new venues appear in the feed, never duplicated per venue. Events it lands are
+          scored by the Rater on the five universal dimensions; scores are appended, never overwritten.</p>
+      </section>
+
+      <section id="week">
+        <div class="seclabel"><span>Live output — what this source landed</span><span><a href="#">see all 184 →</a></span></div>
+        <h2>This week from Do312</h2>
+        <div class="week">
+          <div class="bar">
+            <span class="daypill on">This week</span><span class="daypill">Weekend</span><span class="daypill">Free only</span><span class="daypill">Neighborhood ▾</span>
+            <span class="cost">quality scored by the Rater — 5 dims, weighted</span>
+          </div>
+          <div class="evrow"><span class="when">Wed · 5:30 pm</span><span class="name">Soup &amp; Bread <span class="at">— Hideout · Bucktown</span></span><span class="free">free</span><span class="q"><b>8.4</b> quality</span></div>
+          <div class="evrow"><span class="when">Thu · 9:00 pm</span><span class="name">Windy City Soul Club <span class="at">— Empty Bottle · Ukrainian Village</span></span><span class="free">free</span><span class="q"><b>7.9</b> quality</span></div>
+          <div class="evrow"><span class="when">Fri · 7:00 pm</span><span class="name">Pilsen Fest opening night <span class="at">— Thalia Hall · Pilsen</span></span><span></span><span class="q"><b>7.6</b> quality</span></div>
+          <div class="evrow"><span class="when">Sat · 10:00 am</span><span class="name">Randolph Street Market <span class="at">— West Loop</span></span><span></span><span class="q"><b>7.2</b> quality</span></div>
+          <div class="evrow"><span class="when">Sun · 3:00 pm</span><span class="name">Jazz in the Courtyard <span class="at">— Promontory · Hyde Park</span></span><span class="free">free</span><span class="q"><b>7.1</b> quality</span></div>
+          <div class="ft">42 events this week from this source · every one carries venue, neighborhood, time, cost, and appended scores</div>
+        </div>
+      </section>
+
+      <section id="coverage">
+        <div class="seclabel"><span>All venues fed · 112 total</span><span>missing one? <a href="#ask">flag it</a> · <a href="#ask">fix something</a></span></div>
+        <h2>Coverage</h2>
+        <div class="cov">
+
+          <div class="covrow">
+            <div class="covhead">
+              <span class="pill">VENUE</span>
+              <span class="vname"><a href="venue.html" style="color:inherit;text-decoration:none">Empty Bottle</a> <span class="hood">· Ukrainian Village</span></span>
+              <span class="yield">31 events · 30d</span>
+              <span class="dot">●</span>
+            </div>
+            <div class="covbody">
+              <div class="kv">
+                <span class="k">monitored</span><span class="ty">true</span><span class="d">also has its own built source (html) — cross-checked against this feed</span>
+                <span class="k">discovered_via</span><span class="ty">do312_directory</span><span class="d">directory mine, 2026-06 · connected by Tej</span>
+                <span class="k">routing_key</span><span class="ty">venue:empty-bottle</span><span class="d">how this aggregator's events map to the venue row</span>
+              </div>
+              <div class="lbl">Sample event — as ingested</div>
+<pre class="code">{
+  "title":   <span class="s">"Windy City Soul Club"</span>,
+  "venue":   <span class="s">"Empty Bottle"</span>,   "hood": <span class="s">"Ukrainian Village"</span>,
+  "date":    <span class="s">"2026-08-20"</span>,     "start": <span class="s">"21:00"</span>,   "is_free": <span class="g">true</span>,
+  "series":  <span class="s">"windy-city-soul-club"</span> <span class="g">// monthly, 3rd thu — detected</span>,
+  "scores":  { "community_building": <span class="g">8</span>, "social_quality": <span class="g">9</span>, "serendipity": <span class="g">8</span>,
+               "solo_friendliness": <span class="g">7</span>, "uniqueness": <span class="g">8</span> }   <span class="g">// quality 7.9</span>
+}</pre>
+            </div>
+          </div>
+
+          <div class="covrow"><div class="covhead"><span class="pill">VENUE</span><span class="vname">Thalia Hall <span class="hood">· Pilsen</span></span><span class="yield">24 events · 30d</span><span class="dot">●</span></div></div>
+          <div class="covrow"><div class="covhead"><span class="pill">VENUE</span><span class="vname">Sleeping Village <span class="hood">· Avondale</span></span><span class="yield">18 events · 30d</span><span class="dot">●</span></div></div>
+          <div class="covrow"><div class="covhead"><span class="pill">VENUE</span><span class="vname">Promontory <span class="hood">· Hyde Park</span></span><span class="yield">14 events · 30d</span><span class="dot">●</span></div></div>
+          <div class="covrow"><div class="covhead"><span class="pill">VENUE</span><span class="vname">Color Club <span class="hood">· Irving Park</span></span><span class="yield">11 events · 30d</span><span class="dot">●</span></div></div>
+          <div class="covrow"><div class="covhead"><span class="pill">VENUE</span><span class="vname">Golden Dagger <span class="hood">· Lincoln Park</span></span><span class="yield">9 events · 30d</span><span class="dot">●</span></div></div>
+          <div class="ask">+ 106 more venues · a venue joins this list automatically the first time the feed lands an event there</div>
+        </div>
+      </section>
+
+      <section id="flow">
+        <div class="band">
+          <div class="cols">
+            <div>
+              <div class="seclabel" style="color:var(--green-ink);">Pipeline · how one feed becomes ranked events</div>
+              <h2>Scraped, resolved, scored</h2>
+              <p class="sub">Every source — aggregator or single venue — flows through the same
+                contract, so the city graph stays coherent no matter where an event came from.</p>
+              <ul class="ticks">
+                <li>One normalized event shape · the <b>norm()</b> contract</li>
+                <li>Venues &amp; organizers resolved, never duplicated</li>
+                <li>Series detected — weekly nights score once, instances inherit</li>
+                <li>Quality appended by the Rater · weights tune without rescoring</li>
+              </ul>
+            </div>
+            <pre class="code">$ engine ingest --source do312
+fetch      <span class="g">200 OK</span> · 3.1s
+parse      <span class="g">247 raw events</span>
+norm       <span class="g">247 valid · 0 rejected</span>
+resolve    <span class="g">112 venues · 41 organizers</span>
+series     <span class="g">18 series matched</span>
+commit     <span class="g">+63 new · 184 in window</span>
+rater      <span class="g">63 unscored · ~$0.41 to score</span></pre>
+          </div>
+        </div>
+      </section>
+
+      <section id="history">
+        <div class="seclabel"><span>Build gate &amp; steward stamps · nothing is marked working unless it produced real events</span></div>
+        <h2>History</h2>
+        <div class="hist">
+          <div class="hrow"><span class="vtag">v4</span><span class="what"><b>steward pass</b> · 184 events in window · 5/5 checks · 0 drift</span><span class="when">2d ago</span></div>
+          <div class="hrow"><span class="vtag">v3</span><span class="what"><b>steward pass</b> · venue resolution dipped (3 unmatched) · auto-flagged, resolved next pass</span><span class="when">1w ago</span></div>
+          <div class="hrow"><span class="vtag heal">v2</span><span class="what"><b>self-repair</b> · listing selector drifted, adapter patched by Max, build gate re-passed same day</span><span class="when">3w ago</span></div>
+          <div class="hrow"><span class="vtag">v1</span><span class="what"><b>build gate passed</b> · 62 valid events on first pull · flipped to built</span><span class="when">2mo ago</span></div>
+        </div>
+      </section>
+
+      <section id="more">
+        <div class="seclabel"><span>From the source board · 13 built / 151 planned</span><span><a href="sources.html">browse all →</a></span></div>
+        <h2>More sources</h2>
+        <div class="strip">
+          <a class="scard" href="sources.html"><span class="n">Eventbrite · Chicago</span><div class="d">eventbrite.com · aggregator</div><div class="st"><span class="ok">● healthy</span> · 93 events · 30d</div></a>
+          <a class="scard" href="sources.html"><span class="n">Hideout</span><div class="d">hideoutchicago.com · tribe_wp</div><div class="st"><span class="ok">● healthy</span> · 22 events · 30d</div></a>
+          <a class="scard" href="sources.html"><span class="n">Sleeping Village</span><div class="d">sleeping-village.com · html</div><div class="st"><span class="fix">■ needs repair</span> · HTTP 403</div></a>
+          <a class="scard" href="sources.html"><span class="n">Chicago Park District</span><div class="d">chicagoparkdistrict.com</div><div class="st"><span class="plan">○ planned</span> · scouted, 600+ parks</div></a>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <a class="askpill" href="#ask" id="ask">Ask the Steward</a>
+
+  <footer>Prototype · data illustrative, shaped as schema v2 (<b>pipeline_sources / source_coverage / events / event_scores</b>).
+    Design language: parse.bot marketplace, tailored to city coverage. · Reality — make real life easier than the feed.</footer>
+
+</div>
+</body>
+</html>
