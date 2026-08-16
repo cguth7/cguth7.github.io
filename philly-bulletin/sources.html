@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources — The Philly Bulletin</title>
+<meta name="description" content="The public calendars and feeds behind the Philly Bulletin.">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="source-page">
+
+<nav class="rail" aria-label="Primary">
+  <div class="rail-in">
+    <a class="brand" href="index.html">Philly Bulletin<span>.</span></a>
+    <a href="sources.html" aria-current="page">Sources</a>
+    <a href="index.html">Philadelphia</a>
+    <a href="map.html">Map</a>
+    <a href="about.html">How it works</a>
+    <span class="rail-end"><a class="cta" href="index.html">Today →</a></span>
+  </div>
+</nav>
+
+<header class="hero wrap source-hero">
+  <div class="kicker">Philadelphia · source board</div>
+  <h1>Where the listings come from.</h1>
+  <p class="lede">The Bulletin follows public calendars across the city. This board shows
+    what it knows about now, which sources are already checked, and where coverage still
+    needs work.</p>
+  <div class="herostats" aria-label="Source summary">
+    <div><div class="l">Known sources</div><div class="v" id="source-known">—</div></div>
+    <div><div class="l">Checked now</div><div class="v" id="source-built">—</div></div>
+    <div><div class="l">Still to build</div><div class="v" id="source-todo">—</div></div>
+    <div><div class="l">Venue feed links</div><div class="v" id="source-links">—</div></div>
+  </div>
+</header>
+
+<main class="wrap source-main">
+  <div class="seclabel"><span>Public calendars in the ledger</span><span id="source-tally">Loading sources</span></div>
+  <section class="source-shell" aria-label="Bulletin sources">
+    <div class="source-tools">
+      <label class="find-field find-search"><span>Search</span><input id="source-search" type="search" placeholder="Source name or kind" autocomplete="off"></label>
+      <label class="find-field"><span>Status</span><select id="source-status">
+        <option value="all">All statuses</option>
+        <option value="built">Checked now</option>
+        <option value="planned">Planned</option>
+        <option value="none">Known, not planned</option>
+      </select></label>
+    </div>
+    <div id="source-board"></div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="foot-in ml">
+    <span>Real life, easier than the feed.</span>
+    <a href="index.html">The bulletin</a>
+    <a href="about.html">How it works</a>
+    <a href="map.html">The map</a>
+    <a href="tables.html">The ledger</a>
+    <span class="end">Philly Bulletin · Philadelphia</span>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
