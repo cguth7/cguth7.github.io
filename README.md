@@ -1,28 +1,12 @@
-# Minimal Mistakes remote theme starter
+# cguth7.github.io
 
-Click [**Use this template**](https://github.com/mmistakes/mm-github-pages-starter/generate) button above for the quickest method of getting started with the [Minimal Mistakes Jekyll theme](https://github.com/mmistakes/minimal-mistakes).
+Charlie Guthmann's personal GitHub Pages site.
 
-Contains basic configuration to get you a site with:
+- `/` — minimal landing page
+- `/library/` — full unlisted catalog of everything on the site
+- `/research/` — research dashboards (GWAS & innovation economics, pathway extraction, Reality events groundwork)
+- `/events_v3/`, `/events_v3_chi/` — city event engine surfaces (Philly, Chicago)
+- `/projects/`, `/demos/` — projects, demos, and pages for people
+- `/archive/` — the old Expected Value Poker Tutorial
 
-- Sample posts.
-- Sample top navigation.
-- Sample author sidebar with social links.
-- Sample footer links.
-- Paginated home page.
-- Archive pages for posts grouped by year, category, and tag.
-- Sample about page.
-- Sample 404 page.
-- Site wide search.
-
-Replace sample content with your own and [configure as necessary](https://mmistakes.github.io/minimal-mistakes/docs/configuration/).
-
----
-
-## Troubleshooting
-
-If you have a question about using Jekyll, start a discussion on the [Jekyll Forum](https://talk.jekyllrb.com/) or [StackOverflow](https://stackoverflow.com/questions/tagged/jekyll). Other resources:
-
-- [Ruby 101](https://jekyllrb.com/docs/ruby-101/)
-- [Setting up a Jekyll site with GitHub Pages](https://jekyllrb.com/docs/github-pages/)
-- [Configuring GitHub Metadata](https://github.com/jekyll/github-metadata/blob/master/docs/configuration.md#configuration) to work properly when developing locally and avoid `No GitHub API authentication could be found. Some fields may be missing or have incorrect data.` warnings.
-
+Static HTML/CSS/JS, no build step; a small Jekyll layer (`_config.yml` + `_pages/`) renders a few markdown pages. See `CLAUDE.md` for full structure and conventions.

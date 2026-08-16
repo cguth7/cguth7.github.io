@@ -8,17 +8,22 @@ Personal GitHub Pages site for hosting research dashboards, demos, and project s
 ## Directory Structure
 ```
 /
-├── index.html          # Main landing page
-├── research/           # Research dashboards and visualizations
-│   ├── index.html      # Research section index
-│   ├── pathway-alignment/   # KEGG/Wiki pathway alignment
-│   ├── hippo-image-jaccard/ # Per-image Hippo Jaccard analysis
-│   ├── gwas/           # GWAS patent analysis
-│   └── serendipity/    # Gene panel analysis
-├── demos/              # Interactive demos
+├── index.html          # Landing page — intentionally minimal (name, links, email).
+│                       # Do NOT add project links here; new pages go in /library/.
+├── library/            # Full unlisted catalog of every page on the site.
+│                       # Not linked from the home page, on purpose. Add new pages here.
+├── research/           # Research dashboards; research/index.html lists all of them
+├── events_v3/          # Philly event engine surface
+├── events_v3_chi/      # Chicago event engine surface (see section below)
+├── demos/              # Demos + one-off pages for people
 ├── projects/           # Project showcases
-├── data/               # Shared data files and documentation
-└── assets/             # CSS, JS, images
+├── beer-garden/, pdku/, tej/, bike-trip/   # Standalone fun pages
+├── archive/            # Old poker tutorial (archive/_posts and _pages are
+│                       # excluded from the Jekyll build — only index.html serves)
+├── _config.yml, _pages/  # The only live Jekyll pieces: _pages/*.md render at
+│                       # their permalinks (/orange-book-plan/, /patent-analysis/, …)
+├── data/               # Research notes/scripts (not fetched by any page)
+└── assets/             # Images (gwas/, patents/, orange_book/ feed _pages)
 ```
 
 ## Data Separation Pattern
@@ -47,11 +52,12 @@ Use the `/github-pages` skill which handles:
 
 Or manually: `git push origin main` (GitHub Pages auto-deploys from main)
 
-## Adding New Research Pages
-1. Create directory under `research/`
+## Adding New Pages
+1. Create directory (under `research/` for research, top-level or `demos/` otherwise)
 2. Add `index.html` (visualization) and `data.json` (data)
-3. Add link to `research/index.html`
-4. Commit and push
+3. Add a link in `/library/index.html`; research pages also go in `research/index.html`
+4. Never add links to the home page — it stays minimal
+5. Commit and push
 
 ## events_v3_chi — the Chicago event engine surface
 Three pages, all reading `events_v3_chi/data.json` (written by
