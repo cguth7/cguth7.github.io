@@ -4,153 +4,277 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="noindex">
-    <title>Library | Charlie Guthmann</title>
+    <title>The Library | Charlie Guthmann</title>
     <style>
+        * { box-sizing: border-box; }
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            max-width: 700px;
-            margin: 60px auto;
-            padding: 0 20px;
-            line-height: 1.6;
-            color: #333;
-            background: #fff;
+            background: #2b2118;
+            margin: 0;
+            padding: 40px 20px 80px;
+            color: #332a1e;
         }
-        h1 {
-            font-size: 2em;
+        .cabinet {
+            max-width: 880px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            color: #d9c9a3;
+            margin-bottom: 8px;
+        }
+        header h1 {
             font-weight: normal;
-            margin: 0 0 0.3em 0;
-            border-bottom: 2px solid #333;
-            padding-bottom: 0.3em;
-        }
-        .intro {
-            margin: 2em 0;
-            color: #666;
-        }
-        h2 {
-            font-weight: normal;
-            margin: 2.5em 0 1em 0;
+            font-size: 1.7em;
+            letter-spacing: 6px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9em;
-            color: #666;
-        }
-        ul {
-            list-style: none;
-            padding: 0;
             margin: 0;
         }
-        li {
-            margin: 0.8em 0;
+        header .sub {
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+            letter-spacing: 2px;
+            color: #a08c63;
+            margin-top: 6px;
         }
-        a {
-            color: #0066cc;
+        header .rule {
+            width: 120px;
+            border-top: 1px solid #6b5a3e;
+            margin: 18px auto;
+        }
+        .searchbox {
+            display: block;
+            margin: 0 auto 36px;
+            width: 320px;
+            max-width: 100%;
+            background: #f6efdd;
+            border: 3px solid #8a6d3b;
+            border-radius: 3px;
+            padding: 9px 14px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            color: #332a1e;
+            box-shadow: 0 2px 0 #1a140d;
+        }
+        .searchbox:focus { outline: 2px solid #c9a95c; }
+        .drawer { margin: 0 0 14px; }
+        .drawer-label {
+            background: linear-gradient(#5c4630, #43321f);
+            border: 1px solid #1f1710;
+            border-radius: 3px;
+            color: #e8d9b0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.78em;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: inset 0 1px 0 #7a6142;
+        }
+        .drawer-label .pull {
+            color: #b39a67;
+            letter-spacing: 0;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            padding: 16px 6px 26px;
+        }
+        @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
+        .card {
+            background:
+                repeating-linear-gradient(#fffdf4 0 27px, #dce7ef 27px 28px);
+            background-color: #fffdf4;
+            border: 1px solid #c9bfa4;
+            border-radius: 2px;
+            padding: 34px 16px 26px;
+            position: relative;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.45);
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; top: 26px;
+            border-top: 1.5px solid #c76b5b;
+        }
+        .card::after {
+            content: '';
+            position: absolute;
+            left: 50%; bottom: 7px;
+            width: 11px; height: 11px;
+            margin-left: -6px;
+            border-radius: 50%;
+            background: #2b2118;
+            box-shadow: inset 0 1px 2px #000;
+        }
+        .call {
+            font-family: 'Courier New', monospace;
+            font-size: 0.75em;
+            color: #8a6d3b;
+            letter-spacing: 1px;
+            position: absolute;
+            top: 6px;
+            left: 16px;
+        }
+        .card a.title {
+            font-size: 1.02em;
+            color: #1f3d5c;
             text-decoration: none;
             border-bottom: 1px solid transparent;
-            transition: border-bottom 0.2s;
         }
-        a:hover {
-            border-bottom: 1px solid #0066cc;
+        .card a.title:hover { border-bottom: 1px solid #1f3d5c; }
+        .card .desc {
+            font-size: 0.85em;
+            color: #55492f;
+            margin-top: 4px;
+            line-height: 1.55;
         }
-        .link-desc {
-            color: #666;
-            font-size: 0.95em;
+        .card .meta {
+            font-family: 'Courier New', monospace;
+            font-size: 0.7em;
+            color: #99855c;
+            margin-top: 8px;
+            letter-spacing: 1px;
         }
-        .footer {
-            margin-top: 3em;
-            padding-top: 2em;
-            border-top: 1px solid #ddd;
-            color: #666;
-            font-size: 0.95em;
+        .empty-note {
+            display: none;
+            text-align: center;
+            color: #a08c63;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            padding: 40px 0;
         }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8em;
+        }
+        footer a { color: #b39a67; text-decoration: none; }
+        footer a:hover { color: #e8d9b0; }
     </style>
 </head>
 <body>
-    <h1>Library</h1>
+    <div class="cabinet">
+        <header>
+            <h1>The Library</h1>
+            <div class="sub">CARD CATALOG · GUTHMANN COLLECTION · UNLISTED</div>
+            <div class="rule"></div>
+        </header>
 
-    <div class="intro">
-        <p>The full catalog — everything on this site, current and old. Unlisted; nothing links here.</p>
+        <input class="searchbox" id="q" type="search" placeholder="search the catalog…" autocomplete="off">
+
+        <div id="catalog"></div>
+        <div class="empty-note" id="empty">— no cards match —</div>
+
+        <footer>
+            <a href="/">← home</a> &nbsp;·&nbsp; <a href="/research/">research index</a>
+        </footer>
     </div>
 
-    <h2>Research — GWAS &amp; innovation economics</h2>
-    <ul>
-        <li><a href="/research/tiga-value-sweep/">TIGA Value-Label Sweep</a> <span class="link-desc">— CF QJE R&amp;R: herding survives rebuilding value on GWAS evidence (11 definitions)</span></li>
-        <li><a href="/research/tiga-breakthrough-controls/">TIGA Breakthrough × Coverage Controls</a> <span class="link-desc">— CF QJE R&amp;R: breakthrough outcomes under each GWAS-coverage control</span></li>
-        <li><a href="/research/gwas/">GWAS Analysis</a> <span class="link-desc">— Genome-wide association studies</span></li>
-        <li><a href="/research/prestige-analysis/">GWAS Researcher Prestige</a> <span class="link-desc">— Matching author affiliations to QS 2005 rankings</span></li>
-        <li><a href="/research/serendipity/">Gene Panel Analysis</a> <span class="link-desc">— Serendipity project statistical results</span></li>
-        <li><a href="/patent-analysis">Patent Data</a> <span class="link-desc">— Disease and gene patent analysis</span></li>
-        <li><a href="/research/orange-book/">Orange Book Patent Analysis</a> <span class="link-desc">— FDA Orange Book drug patents</span></li>
-        <li><a href="/orange-book-plan">Orange Book Extension Plan</a> <span class="link-desc">— Valuing GWAS spillovers with FDA &amp; market data</span></li>
-        <li><a href="/orange-book-progress">Orange Book Progress</a> <span class="link-desc">— Status &amp; learnings (Days 1–4)</span></li>
-        <li><a href="/gwas-results">GWAS Results</a> <span class="link-desc">— Results write-up</span></li>
-        <li><a href="/gwas-visuals">GWAS Visuals</a> <span class="link-desc">— Chart gallery</span></li>
-        <li><a href="/demos/gwas-nlm-slides/">GWAS NLM Summary Slides</a> <span class="link-desc">— Pitch deck iterations (v1–v4)</span></li>
-    </ul>
+    <script>
+    // Add new pages here — one entry per page. Sections render in this order.
+    const SECTIONS = [
+        { key: 'G',   name: 'GWAS & Innovation Economics' },
+        { key: 'P',   name: 'Pathway Extraction Pipeline' },
+        { key: 'R',   name: 'Reality · Events Research' },
+        { key: 'E',   name: 'Event Engine · Live Surfaces' },
+        { key: 'J',   name: 'Projects' },
+        { key: 'F',   name: 'Fun & Writing' },
+        { key: 'PPL', name: 'Pages for People' },
+        { key: 'A',   name: 'Archive' },
+    ];
+    const ENTRIES = [
+        ['G', '/research/tiga-value-sweep/', 'TIGA Value-Label Sweep', 'CF QJE R&R: herding survives rebuilding value on GWAS evidence (11 definitions).', '2026-07'],
+        ['G', '/research/tiga-breakthrough-controls/', 'TIGA Breakthrough × Coverage Controls', 'CF QJE R&R: breakthrough outcomes under each GWAS-coverage control.', '2026-07'],
+        ['G', '/research/gwas/', 'GWAS Patent Analysis', 'Disease and gene distribution analysis.', '2025-12'],
+        ['G', '/research/prestige-analysis/', 'GWAS Researcher Prestige', 'Matching author affiliations to QS 2005 rankings.', '2026-01'],
+        ['G', '/research/serendipity/', 'Gene Panel Analysis', 'Serendipity project statistical results.', '2025-12'],
+        ['G', '/patent-analysis', 'Patent Data', 'Disease and gene patent analysis.', '2025-12'],
+        ['G', '/research/orange-book/', 'Orange Book Patent Analysis', 'FDA Orange Book drug patents.', '2026-01'],
+        ['G', '/orange-book-plan', 'Orange Book Extension Plan', 'Valuing GWAS spillovers with FDA & market data.', '2025-12'],
+        ['G', '/orange-book-progress', 'Orange Book Progress', 'Status & learnings, days 1–4.', '2025-12'],
+        ['G', '/gwas-results', 'GWAS Results', 'Results write-up.', '2025-12'],
+        ['G', '/gwas-visuals', 'GWAS Visuals', 'Chart gallery.', '2025-12'],
+        ['G', '/demos/gwas-nlm-slides/', 'GWAS NLM Summary Slides', 'Pitch deck iterations, v1–v4.', '2026-02'],
+        ['P', '/research/gemini-pathways/', 'Gemini Pathway Analysis', 'Pipeline hub: 49k pathway diagrams → gene interactions.', '2026-02'],
+        ['P', '/research/pathway-analyzer/', 'Pathway Analyzer', '49k diagrams → 1.3M gene interactions via Gemini 3.', '2026-01'],
+        ['P', '/research/pathway-alignment/', 'Pathway Alignment', 'Mapping 8,349 extracted pathway names to KEGG / WikiPathways.', '2026-02'],
+        ['P', '/research/pathway-labeling-showcase/', 'Pathway Labeling Showcase', 'Signal comparison: Gemini vs Jaccard vs PMC caption.', '2026-02'],
+        ['P', '/research/pathway-metadata-pipeline/', 'Metadata Pipeline', 'Pathway metadata extraction.', '2026-02'],
+        ['P', '/research/hippo-image-jaccard/', 'Hippo Image Jaccard', 'Per-image Jaccard analysis for the Hippo pathway.', '2026-02'],
+        ['P', '/research/kegg-assignment-pipeline/', 'KEGG Assignment Pipeline', 'Assigning images to KEGG pathways.', '2026-02'],
+        ['P', '/research/caption-kegg-prompt-eval/', 'Caption → KEGG Prompt Eval', 'Prompt evaluation for caption-based assignment.', '2026-02'],
+        ['P', '/research/caption-validation-pilot/', 'Caption Validation Pilot', '50 images × 3 models (GPT-4o-mini, 4o, 5.2).', '2026-02'],
+        ['P', '/research/pmc-caption-audit/', 'PMC Caption Audit', 'Validating Gemini pathway labels against figure captions.', '2026-02'],
+        ['R', '/research/reality/', 'Events API Source Registry', 'Research for the Reality events engine.', '2026-02'],
+        ['R', '/research/philly-venue-landscape/', 'Philly Venue Landscape', 'Mapping 4,882 event sources across Philadelphia.', '2026-02'],
+        ['R', '/research/philly-city-government-data/', 'Philly City & Government Data', 'Permits, licenses, Free Library RSS.', '2026-02'],
+        ['E', '/events_v3_chi/', 'Chicago · the Map', 'Current consumer surface: Leaflet map, hood focus, filters. See also all events & how it works.', '2026-05'],
+        ['E', '/events_v3/', 'Philadelphia · City Library', 'Philly instance of the event engine.', '2026-05'],
+        ['J', 'https://cguth7.github.io/docg-medical-summaries/', 'DocG Medical Summaries', 'AI clinical summaries for physicians.', '2025'],
+        ['J', '/projects/charity-ranker/', 'Charity Ranker', 'Interactive charity comparison tool.', '2025-12'],
+        ['J', '/projects/roch-riemann/', 'Riemann-Roch Formalization', 'Lean 4 proof formalization write-up.', '2025-12'],
+        ['J', '/demos/train-proximity/', "Chicago × the 'L'", "Census blocks vs nearest 'L' stop — exponential-decay BOTEC.", '2026-06'],
+        ['F', '/beer-garden/', '15th & Lombard', 'A beer garden, a vacant lot, and one loaded block of Philadelphia.', '2026-08'],
+        ['F', '/pdku/', 'PlzDontKillUs · Trading Cards', 'Per-fellow trading cards for the PDKU 2026 cohort, plus quizzes.', '2026-07'],
+        ['F', '/demos/ea-forum-cards/', 'EA Forum Trading Cards', 'Top 30 EA Forum users scored on 41 LLM dimensions.', '2026-05'],
+        ['F', '/tej/', 'Tej Chethik: The Tej Line', 'A Chicago history & transit fan page.', '2026-06'],
+        ['F', '/bike-trip/', 'Chicago → Berkeley', 'Bike + train trip, June 2026.', '2026-06'],
+        ['F', '/demos/nobodys-clothes-are-wet/', "Nobody's Clothes Are Wet", 'Short fiction.', '2026-02'],
+        ['PPL', '/people/cristiansalazar/', 'Cristian Salazar', 'Communications strategist & journalist.', '2025-12'],
+        ['PPL', '/people/joshdesieno/', 'Josh DeSeno', 'Architecture portfolio.', '2025-12'],
+        ['PPL', '/people/leonsimpson/', 'Leon Sommer Simpson', "A New Year's party page.", '2026-01'],
+        ['PPL', '/people/mylesfriedman/', 'Myles Friedman', 'Economics & finance.', '2026-01'],
+        ['PPL', '/people/rickguthmann/', 'Dr. Rick Guthmann', 'Family medicine physician.', '2025-12'],
+        ['PPL', '/people/sarrinchethik/', 'Sarrin Chethik', 'Policy analyst & economist.', '2025-12'],
+        ['PPL', '/people/shreyachoudhary/', 'Shreya Choudhary', 'Engineer & innovator.', '2025-12'],
+        ['A', '/archive/', 'Expected Value Poker Tutorial', 'AI poker game theory essays by Max Chiswick, 2020–21.', '2020'],
+        ['A', '/resume.html', 'Resume', '', '2026-03'],
+    ];
 
-    <h2>Research — pathway extraction pipeline</h2>
-    <ul>
-        <li><a href="/research/gemini-pathways/">Gemini Pathway Analysis</a> <span class="link-desc">— Pipeline hub: 49k pathway diagrams → gene interactions</span></li>
-        <li><a href="/research/pathway-analyzer/">Pathway Analyzer</a> <span class="link-desc">— 49k diagrams → 1.3M gene interactions via Gemini 3</span></li>
-        <li><a href="/research/pathway-alignment/">Pathway Alignment</a> <span class="link-desc">— Mapping 8,349 extracted pathway names to KEGG/WikiPathways</span></li>
-        <li><a href="/research/pathway-labeling-showcase/">Pathway Labeling Showcase</a> <span class="link-desc">— Signal comparison: Gemini vs Jaccard vs PMC caption</span></li>
-        <li><a href="/research/pathway-metadata-pipeline/">Metadata Pipeline</a> <span class="link-desc">— Pathway metadata extraction</span></li>
-        <li><a href="/research/hippo-image-jaccard/">Hippo Image Jaccard</a> <span class="link-desc">— Per-image Jaccard analysis for the Hippo pathway</span></li>
-        <li><a href="/research/kegg-assignment-pipeline/">KEGG Assignment Pipeline</a> <span class="link-desc">— Assigning images to KEGG pathways</span></li>
-        <li><a href="/research/caption-kegg-prompt-eval/">Caption → KEGG Prompt Eval</a> <span class="link-desc">— Prompt evaluation for caption-based assignment</span></li>
-        <li><a href="/research/caption-validation-pilot/">Caption Validation Pilot</a> <span class="link-desc">— 50 images × 3 models (GPT-4o-mini, 4o, 5.2)</span></li>
-        <li><a href="/research/pmc-caption-audit/">PMC Caption Audit</a> <span class="link-desc">— Validating Gemini pathway labels against figure captions</span></li>
-    </ul>
+    const catalog = document.getElementById('catalog');
+    SECTIONS.forEach(sec => {
+        const items = ENTRIES.filter(e => e[0] === sec.key);
+        const drawer = document.createElement('div');
+        drawer.className = 'drawer';
+        drawer.innerHTML = '<div class="drawer-label"><span>' + sec.name +
+            '</span><span class="pull">' + sec.key + ' · ' + items.length + ' cards</span></div>';
+        const grid = document.createElement('div');
+        grid.className = 'cards';
+        items.forEach((e, i) => {
+            const [key, url, title, desc, date] = e;
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.text = (key + ' ' + title + ' ' + desc + ' ' + date).toLowerCase();
+            card.innerHTML =
+                '<span class="call">' + key + '.' + String(i + 1).padStart(2, '0') + '</span>' +
+                '<a class="title" href="' + url + '">' + title + '</a>' +
+                (desc ? '<div class="desc">' + desc + '</div>' : '') +
+                '<div class="meta">acc. ' + date + '</div>';
+            grid.appendChild(card);
+        });
+        drawer.appendChild(grid);
+        catalog.appendChild(drawer);
+    });
 
-    <h2>Research — Reality / events</h2>
-    <ul>
-        <li><a href="/research/reality/">Events API Source Registry</a> <span class="link-desc">— Research for the Reality events engine</span></li>
-        <li><a href="/research/philly-venue-landscape/">Philly Venue Landscape</a> <span class="link-desc">— Mapping 4,882 event sources across Philadelphia</span></li>
-        <li><a href="/research/philly-city-government-data/">Philly City &amp; Government Data</a> <span class="link-desc">— Permits, licenses, Free Library RSS</span></li>
-    </ul>
-
-    <h2>Event engine (live surfaces)</h2>
-    <ul>
-        <li><a href="/events_v3_chi/">Chicago · the map</a> <span class="link-desc">— Current consumer page (also: <a href="/events_v3_chi/events.html">all events</a>, <a href="/events_v3_chi/about.html">how it works</a>)</span></li>
-        <li><a href="/events_v3/">Philadelphia · City Library</a> <span class="link-desc">— Philly instance (also: <a href="/events_v3/events.html">all events</a>, <a href="/events_v3/system.html">how it works</a>)</span></li>
-    </ul>
-
-    <h2>Projects</h2>
-    <ul>
-        <li><a href="https://cguth7.github.io/docg-medical-summaries/">DocG Medical Summaries</a> <span class="link-desc">— AI clinical summaries for physicians</span></li>
-        <li><a href="/projects/charity-ranker/">Charity Ranker</a> <span class="link-desc">— Interactive charity comparison tool</span></li>
-        <li><a href="/projects/roch-riemann/">Riemann-Roch Formalization</a> <span class="link-desc">— Lean 4 proof formalization write-up</span></li>
-        <li><a href="/demos/train-proximity/">Chicago × the 'L'</a> <span class="link-desc">— Census blocks vs nearest 'L' stop, exponential-decay BOTEC</span></li>
-    </ul>
-
-    <h2>Fun &amp; writing</h2>
-    <ul>
-        <li><a href="/beer-garden/">15th &amp; Lombard</a> <span class="link-desc">— A beer garden, a vacant lot, and one loaded block of Philadelphia</span></li>
-        <li><a href="/pdku/">PlzDontKillUs · Trading Cards</a> <span class="link-desc">— Per-fellow trading cards for the PDKU 2026 cohort + quizzes</span></li>
-        <li><a href="/demos/ea-forum-cards/">EA Forum Trading Cards</a> <span class="link-desc">— Top 30 EA Forum users scored on 41 LLM dimensions</span></li>
-        <li><a href="/tej/">Tej Chethik: The Tej Line</a> <span class="link-desc">— A Chicago history &amp; transit fan page</span></li>
-        <li><a href="/bike-trip/">Chicago → Berkeley</a> <span class="link-desc">— Bike + train trip, June 2026</span></li>
-        <li><a href="/demos/nobodys-clothes-are-wet/">Nobody's Clothes Are Wet</a> <span class="link-desc">— Short fiction</span></li>
-    </ul>
-
-    <h2>Pages for people</h2>
-    <ul>
-        <li><a href="/demos/cristiansalazar/">Cristian Salazar</a></li>
-        <li><a href="/demos/joshdesieno/">Josh DeSeno</a></li>
-        <li><a href="/demos/leonsimpson/">Leon Sommer Simpson</a></li>
-        <li><a href="/demos/mylesfriedman/">Myles Friedman</a></li>
-        <li><a href="/demos/rickguthmann/">Rick Guthmann</a></li>
-        <li><a href="/demos/sarrinchethik/">Sarrin Chethik</a></li>
-        <li><a href="/demos/shreyachoudhary/">Shreya Choudhary</a></li>
-    </ul>
-
-    <h2>Archive</h2>
-    <ul>
-        <li><a href="/archive/">Expected Value Poker Tutorial</a> <span class="link-desc">— AI poker game theory essays (2020–21)</span></li>
-        <li><a href="/resume.html">Resume</a></li>
-    </ul>
-
-    <div class="footer">
-        <a href="/">← home</a> · <a href="/research/">research index</a>
-    </div>
+    document.getElementById('q').addEventListener('input', ev => {
+        const q = ev.target.value.trim().toLowerCase();
+        let any = false;
+        document.querySelectorAll('.drawer').forEach(drawer => {
+            let shown = 0;
+            drawer.querySelectorAll('.card').forEach(card => {
+                const hit = !q || card.dataset.text.includes(q);
+                card.style.display = hit ? '' : 'none';
+                if (hit) shown++;
+            });
+            drawer.style.display = shown ? '' : 'none';
+            if (shown) any = true;
+        });
+        document.getElementById('empty').style.display = any ? 'none' : 'block';
+    });
+    </script>
 </body>
 </html>

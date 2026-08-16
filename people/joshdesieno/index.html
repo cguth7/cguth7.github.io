@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Josh DeSeno - Architecture</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        :root {
+            --blueprint-blue: #0d47a1;
+            --blueprint-light: #1976d2;
+            --concrete: #6b7280;
+            --steel: #374151;
+            --paper: #fafaf9;
+            --off-white: #f5f5f4;
+            --charcoal: #1f2937;
+            --accent-terracotta: #d97706;
+            --grid-line: rgba(13, 71, 161, 0.15);
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--charcoal);
+            font-family: 'Helvetica Neue', 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Architectural grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: -1;
+            opacity: 0.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Blueprint-inspired header */
+        .arch-header {
+            border: 3px solid var(--blueprint-blue);
+            padding: 3rem 2rem;
+            margin-bottom: 3rem;
+            background: white;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .arch-header::before,
+        .arch-header::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--blueprint-blue);
+            background: white;
+        }
+
+        .arch-header::before {
+            top: -3px;
+            left: -3px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .arch-header::after {
+            bottom: -3px;
+            right: -3px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Corner marks (like architectural drawings) */
+        .arch-header .corner-top-right,
+        .arch-header .corner-bottom-left {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--blueprint-blue);
+            background: white;
+        }
+
+        .arch-header .corner-top-right {
+            top: -3px;
+            right: -3px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .arch-header .corner-bottom-left {
+            bottom: -3px;
+            left: -3px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .arch-header h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            margin: 0;
+            color: var(--blueprint-blue);
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            line-height: 1.1;
+        }
+
+        .arch-header .title-line {
+            width: 80px;
+            height: 3px;
+            background: var(--accent-terracotta);
+            margin: 1rem 0;
+        }
+
+        .arch-header .subtitle {
+            font-size: 1.125rem;
+            color: var(--steel);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .arch-header .education {
+            font-size: 1rem;
+            color: var(--concrete);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Section styling */
+        section {
+            margin-bottom: 3rem;
+        }
+
+        section h2 {
+            font-size: 1.5rem;
+            color: var(--blueprint-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 500;
+            border-bottom: 2px solid var(--blueprint-blue);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--accent-terracotta);
+        }
+
+        /* About section */
+        .about {
+            background: white;
+            padding: 2rem;
+            border-left: 4px solid var(--blueprint-blue);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .about p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--steel);
+            margin-bottom: 1rem;
+        }
+
+        /* Focus areas - architectural grid */
+        .focus-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .focus-card {
+            background: white;
+            padding: 2rem;
+            border: 2px solid var(--grid-line);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .focus-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--blueprint-blue);
+            transform: translate(-50%, -50%);
+        }
+
+        .focus-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 8px;
+            height: 8px;
+            background: var(--blueprint-blue);
+            transform: translate(50%, 50%);
+        }
+
+        .focus-card:hover {
+            border-color: var(--blueprint-blue);
+            box-shadow: 0 4px 16px rgba(13, 71, 161, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .focus-card h3 {
+            font-size: 1.25rem;
+            color: var(--blueprint-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .focus-card p {
+            color: var(--concrete);
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        /* Education section */
+        .education-card {
+            background: white;
+            padding: 2.5rem;
+            border: 3px solid var(--blueprint-blue);
+            position: relative;
+            margin-top: 2rem;
+        }
+
+        .education-card::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            width: 30px;
+            height: 30px;
+            border-top: 3px solid var(--accent-terracotta);
+            border-left: 3px solid var(--accent-terracotta);
+        }
+
+        .education-card::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            right: -3px;
+            width: 30px;
+            height: 30px;
+            border-bottom: 3px solid var(--accent-terracotta);
+            border-right: 3px solid var(--accent-terracotta);
+        }
+
+        .education-card h3 {
+            font-size: 2rem;
+            color: var(--blueprint-blue);
+            font-weight: 400;
+            margin: 0 0 0.5rem 0;
+        }
+
+        .education-card .degree {
+            font-size: 1.125rem;
+            color: var(--steel);
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+
+        .education-card .status {
+            font-size: 1rem;
+            color: var(--accent-terracotta);
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .education-card p {
+            color: var(--concrete);
+            line-height: 1.7;
+            font-size: 1rem;
+        }
+
+        /* Timeline */
+        .timeline {
+            margin-top: 2rem;
+            border-left: 3px solid var(--blueprint-light);
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--grid-line);
+        }
+
+        .timeline-item:last-child {
+            border-bottom: none;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2.5rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            background: var(--accent-terracotta);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px var(--blueprint-light);
+        }
+
+        .timeline-item .period {
+            font-size: 0.875rem;
+            color: var(--blueprint-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-item h4 {
+            font-size: 1.25rem;
+            color: var(--steel);
+            margin: 0 0 0.5rem 0;
+            font-weight: 500;
+        }
+
+        .timeline-item p {
+            color: var(--concrete);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--blueprint-blue);
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background: var(--accent-terracotta);
+        }
+
+        footer a {
+            color: var(--blueprint-blue);
+            text-decoration: none;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--accent-terracotta);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .arch-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .focus-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .timeline {
+                padding-left: 1.5rem;
+            }
+
+            .timeline-item::before {
+                left: -2rem;
+            }
+        }
+
+        /* Print-friendly */
+        @media print {
+            body::before {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="arch-header">
+            <span class="corner-top-right"></span>
+            <span class="corner-bottom-left"></span>
+            <h1>Josh DeSeno</h1>
+            <div class="title-line"></div>
+            <p class="subtitle">Architecture Student</p>
+            <p class="education">Tufts University Graduate</p>
+        </header>
+
+        <section class="about">
+            <h2>About</h2>
+            <p>
+                Josh DeSeno is an emerging architect combining thoughtful design principles with a strong
+                foundation in liberal arts education. With an undergraduate degree from Tufts University,
+                Josh brings a multidisciplinary perspective to the built environment.
+            </p>
+            <p>
+                Currently pursuing graduate studies in architecture, Josh is dedicated to exploring the
+                intersection of form, function, and human experience in spatial design.
+            </p>
+        </section>
+
+        <section class="focus">
+            <h2>Design Focus</h2>
+            <div class="focus-grid">
+                <div class="focus-card">
+                    <h3>Spatial Design</h3>
+                    <p>
+                        Exploring how architecture shapes human interaction and experience through
+                        thoughtful manipulation of space, light, and materiality.
+                    </p>
+                </div>
+
+                <div class="focus-card">
+                    <h3>Urban Context</h3>
+                    <p>
+                        Understanding buildings as part of larger urban systems, considering their
+                        relationship to community, infrastructure, and public space.
+                    </p>
+                </div>
+
+                <div class="focus-card">
+                    <h3>Design Process</h3>
+                    <p>
+                        Developing architectural solutions through iterative research, sketching,
+                        modeling, and critical analysis of programmatic needs.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="education-section">
+            <h2>Education</h2>
+
+            <div class="education-card">
+                <h3>Architecture Program</h3>
+                <p class="degree">Master of Architecture (M.Arch) Candidate</p>
+                <p class="status">Currently Enrolled</p>
+                <p>
+                    Pursuing advanced study in architectural design, theory, and practice. Developing
+                    expertise in design methodology, building systems, and contemporary architectural discourse.
+                </p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <p class="period">Undergraduate</p>
+                    <h4>Tufts University</h4>
+                    <p>
+                        Completed undergraduate studies with a liberal arts foundation, developing
+                        critical thinking and interdisciplinary perspectives that inform architectural practice.
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <p class="period">Current</p>
+                    <h4>Architecture Graduate Studies</h4>
+                    <p>
+                        Engaged in intensive architectural education, studio work, and theoretical
+                        exploration of contemporary design challenges and methodologies.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Home</a>
+        </footer>
+    </div>
+</body>
+</html>

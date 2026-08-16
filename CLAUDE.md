@@ -10,12 +10,17 @@ Personal GitHub Pages site for hosting research dashboards, demos, and project s
 /
 ├── index.html          # Landing page — intentionally minimal (name, links, email).
 │                       # Do NOT add project links here; new pages go in /library/.
-├── library/            # Full unlisted catalog of every page on the site.
-│                       # Not linked from the home page, on purpose. Add new pages here.
+├── library/            # Full unlisted catalog of every page, styled as a card
+│                       # catalog. Not linked from the home page, on purpose.
+│                       # To add a page: append one line to the ENTRIES array in
+│                       # library/index.html (section key, url, title, desc, date).
 ├── research/           # Research dashboards; research/index.html lists all of them
 ├── events_v3/          # Philly event engine surface
 ├── events_v3_chi/      # Chicago event engine surface (see section below)
-├── demos/              # Demos + one-off pages for people
+├── demos/              # Demos (ea-forum-cards, train-proximity, gwas-nlm-slides,
+│                       # nobodys-clothes-are-wet) + redirect stubs for moved pages
+├── people/             # One-off gift pages for people (moved from demos/;
+│                       # old demos/<name>/ URLs redirect here — keep the stubs)
 ├── projects/           # Project showcases
 ├── beer-garden/, pdku/, tej/, bike-trip/   # Standalone fun pages
 ├── archive/            # Old poker tutorial (archive/_posts and _pages are
