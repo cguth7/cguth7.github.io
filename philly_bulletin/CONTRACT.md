@@ -64,8 +64,10 @@ Exactly these six keys, which are also the six score dimensions:
 `number`. `series` is absent when `series` is absent. Additive; treat every key as
 optional.
 
-`duplicates_suppressed` counts same-venue/day event observations retained in the DB but
-omitted from this export by the conservative cross-source identity layer.
+`duplicates_suppressed` counts same-real-venue/day event observations retained in the DB
+but omitted from this export by the conservative cross-source identity layer. Storage is
+source-scoped; a source observation is evidence even when the public site serves another
+source's version of that event.
 
 ## `events[]`
 

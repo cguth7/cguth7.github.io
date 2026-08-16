@@ -886,7 +886,7 @@
     if (!isMap && !$('bulletin') && !isSources) return;
 
     Promise.all([
-      fetch('data.json').then(function (r) {
+      fetch('data.json', { cache: 'no-store' }).then(function (r) {
         if (!r.ok) throw new Error('data.json ' + r.status);
         return r.json();
       }),

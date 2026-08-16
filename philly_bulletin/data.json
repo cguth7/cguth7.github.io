@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16T03:49:12.135436",
+  "generated": "2026-08-16T04:12:33.036220",
   "city": "Philadelphia",
   "weights": {
     "social_quality": 0.237,
@@ -10,16 +10,16 @@
     "value_for_price": 0.08
   },
   "meta": {
-    "events": 253,
-    "duplicates_suppressed": 5,
-    "scored": 253,
-    "venues": 566,
+    "events": 248,
+    "duplicates_suppressed": 10,
+    "scored": 248,
+    "venues": 564,
     "sources": 40,
     "flyers": 0,
     "scrapers_built": 26,
     "scrapers_todo": 14,
     "venues_no_pipeline": 411,
-    "venues_with_feeds": 161,
+    "venues_with_feeds": 159,
     "feed_links": 236,
     "groups": 16,
     "series": 46
@@ -37,7 +37,7 @@
       "publisher_kind": null,
       "publisher_id": null,
       "is_aggregator": true,
-      "event_count": 93
+      "event_count": 88
     },
     {
       "id": "eventbrite",
@@ -1151,7 +1151,7 @@
       "lng": -75.173053,
       "website": "https://phillyethics.org",
       "hosts_events": "regular",
-      "status": "candidate",
+      "status": "verified",
       "verified_by": "scraper",
       "maybe_fake": false,
       "pipeline": "built",
@@ -1188,9 +1188,31 @@
           "usefulness": "low",
           "primary": false,
           "note": "External arts presenter that uses the hall."
+        },
+        {
+          "source_id": "eventbrite",
+          "name": "Eventbrite",
+          "kind": "eventbrite",
+          "has_api": true,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        },
+        {
+          "source_id": "do215",
+          "name": "Do215",
+          "kind": "do215",
+          "has_api": false,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
         }
       ],
-      "event_count": 7
+      "event_count": 8
     },
     {
       "id": "midnight-the-wicked",
@@ -1400,46 +1422,6 @@
           "source_id": "philly-family",
           "name": "Philly Family",
           "kind": "tribe_wp",
-          "has_api": true,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        },
-        {
-          "source_id": "do215",
-          "name": "Do215",
-          "kind": "do215",
-          "has_api": false,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        }
-      ],
-      "event_count": 5
-    },
-    {
-      "id": "philadelphia-ethical-society",
-      "name": "Philadelphia Ethical Society",
-      "kind": "community_center",
-      "address": "1906 Rittenhouse Square",
-      "neighborhood": "Rittenhouse",
-      "lat": 39.9485955,
-      "lng": -75.1730292,
-      "website": null,
-      "hosts_events": "regular",
-      "status": "verified",
-      "verified_by": "max",
-      "maybe_fake": false,
-      "pipeline": "built",
-      "feeds": [
-        {
-          "source_id": "eventbrite",
-          "name": "Eventbrite",
-          "kind": "eventbrite",
           "has_api": true,
           "scraper_status": "built",
           "url": null,
@@ -1729,6 +1711,57 @@
         }
       ],
       "event_count": 4
+    },
+    {
+      "id": "studio-34-yoga-healing-arts",
+      "name": "Studio 34 Yoga Healing Arts",
+      "kind": "fitness",
+      "address": "4522 Baltimore Ave, Philadelphia, PA 19143, USA",
+      "neighborhood": "Spruce Hill",
+      "lat": 39.948898,
+      "lng": -75.21362,
+      "website": null,
+      "hosts_events": "unknown",
+      "status": "verified",
+      "verified_by": "max",
+      "maybe_fake": false,
+      "pipeline": "built",
+      "feeds": [
+        {
+          "source_id": "songkick",
+          "name": "Songkick",
+          "kind": "html_jsonld",
+          "has_api": true,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        },
+        {
+          "source_id": "eventbrite",
+          "name": "Eventbrite",
+          "kind": "eventbrite",
+          "has_api": true,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        },
+        {
+          "source_id": "do215",
+          "name": "Do215",
+          "kind": "do215",
+          "has_api": false,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        }
+      ],
+      "event_count": 3
     },
     {
       "id": "silk-city",
@@ -2066,46 +2099,6 @@
           "name": "Songkick",
           "kind": "html_jsonld",
           "has_api": true,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        }
-      ],
-      "event_count": 3
-    },
-    {
-      "id": "studio-34",
-      "name": "Studio 34",
-      "kind": "fitness",
-      "address": "4522 Baltimore Ave",
-      "neighborhood": "Spruce Hill",
-      "lat": 39.948898,
-      "lng": -75.21362,
-      "website": null,
-      "hosts_events": "regular",
-      "status": "verified",
-      "verified_by": "max",
-      "maybe_fake": false,
-      "pipeline": "built",
-      "feeds": [
-        {
-          "source_id": "songkick",
-          "name": "Songkick",
-          "kind": "html_jsonld",
-          "has_api": true,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        },
-        {
-          "source_id": "do215",
-          "name": "Do215",
-          "kind": "do215",
-          "has_api": false,
           "scraper_status": "built",
           "url": null,
           "usefulness": "unknown",
@@ -2789,35 +2782,6 @@
           "name": "Do215",
           "kind": "do215",
           "has_api": false,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        }
-      ],
-      "event_count": 1
-    },
-    {
-      "id": "studio-34-yoga-healing-arts",
-      "name": "Studio 34 Yoga Healing Arts",
-      "kind": "fitness",
-      "address": "4522 Baltimore Ave, Philadelphia, PA 19143, USA",
-      "neighborhood": null,
-      "lat": null,
-      "lng": null,
-      "website": null,
-      "hosts_events": "unknown",
-      "status": "verified",
-      "verified_by": "max",
-      "maybe_fake": false,
-      "pipeline": "built",
-      "feeds": [
-        {
-          "source_id": "eventbrite",
-          "name": "Eventbrite",
-          "kind": "eventbrite",
-          "has_api": true,
           "scraper_status": "built",
           "url": null,
           "usefulness": "unknown",
@@ -14084,10 +14048,10 @@
     {
       "id": 157,
       "name": "Lindsay King: Self-Directed Education for Families & Communities",
-      "start": "2026-08-16T15:00:00",
+      "start": "2026-08-16T11:00:00",
       "all_day": false,
       "date": "2026-08-16",
-      "time": "15:00",
+      "time": "11:00",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -14139,10 +14103,10 @@
     {
       "id": 158,
       "name": "Powerhouse Blues Social Dance",
-      "start": "2026-08-17T23:00:00",
+      "start": "2026-08-17T19:00:00",
       "all_day": false,
       "date": "2026-08-17",
-      "time": "23:00",
+      "time": "19:00",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -14194,10 +14158,10 @@
     {
       "id": 159,
       "name": "Rustin's Challenge Reading Group",
-      "start": "2026-08-18T22:00:00",
+      "start": "2026-08-18T18:00:00",
       "all_day": false,
       "date": "2026-08-18",
-      "time": "22:00",
+      "time": "18:00",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -14249,10 +14213,10 @@
     {
       "id": 160,
       "name": "JazzAttack: Lindy Hop & Swing Dance Classes",
-      "start": "2026-08-18T23:00:00",
+      "start": "2026-08-18T19:00:00",
       "all_day": false,
       "date": "2026-08-18",
-      "time": "23:00",
+      "time": "19:00",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -14304,10 +14268,10 @@
     {
       "id": 161,
       "name": "In Pursuit Screening",
-      "start": "2026-08-20T22:00:00",
+      "start": "2026-08-20T18:00:00",
       "all_day": false,
       "date": "2026-08-20",
-      "time": "22:00",
+      "time": "18:00",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -14359,10 +14323,10 @@
     {
       "id": 162,
       "name": "Spanish-Language Film Club -THE RABBIT AT THE LIGHTHOUSE",
-      "start": "2026-08-20T22:30:00",
+      "start": "2026-08-20T18:30:00",
       "all_day": false,
       "date": "2026-08-20",
-      "time": "22:30",
+      "time": "18:30",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -14414,10 +14378,10 @@
     {
       "id": 163,
       "name": "Stonewall Yoga (Saturdays)",
-      "start": "2026-08-22T14:30:00",
+      "start": "2026-08-22T10:30:00",
       "all_day": false,
       "date": "2026-08-22",
-      "time": "14:30",
+      "time": "10:30",
       "venue_id": "ethical-society-of-philadelphia",
       "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
@@ -17718,8 +17682,8 @@
       "all_day": false,
       "date": "2026-08-16",
       "time": "19:00",
-      "venue_id": "studio-34",
-      "venue": "Studio 34",
+      "venue_id": "studio-34-yoga-healing-arts",
+      "venue": "Studio 34 Yoga Healing Arts",
       "venue_kind": "fitness",
       "lat": 39.948898,
       "lng": -75.21362,
@@ -20966,8 +20930,8 @@
       "venue_id": "studio-34-yoga-healing-arts",
       "venue": "Studio 34 Yoga Healing Arts",
       "venue_kind": "fitness",
-      "lat": null,
-      "lng": null,
+      "lat": 39.948898,
+      "lng": -75.21362,
       "group_id": null,
       "group": null,
       "source_id": "eventbrite",
@@ -21947,61 +21911,6 @@
       "description_quality": "rich"
     },
     {
-      "id": 1108,
-      "name": "Lindsay King: Self-Directed Education for Families & Communities",
-      "start": "2026-08-16T11:00:00",
-      "all_day": false,
-      "date": "2026-08-16",
-      "time": "11:00",
-      "venue_id": "philadelphia-ethical-society",
-      "venue": "Philadelphia Ethical Society",
-      "venue_kind": "community_center",
-      "lat": 39.9485955,
-      "lng": -75.1730292,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Charity & Activism",
-      "tags": "park:philadelphia-ethical-society",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "Sun, Aug 16 1906 Rittenhouse Square Come join us for a Sunday Platform by Lindsay King! Aug 16, 2026, 11:00 AM \u2013 12:30 PM 1906 Rittenhouse Square, 1906 Rittenhouse Square, Philadelphia, PA 19103, USA",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/33767351/f95d9954-07c9-4b31-8cd4-bc685e1f3083.jpg",
-      "url": "https://do215.com/events/2026/8/16/lindsay-king-self-directed-education-for-families-communities-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 5,
-          "reason": "Described as a Sunday Platform, the Ethical Society's discussion-and-talk format that includes time to mingle with other attendees."
-        },
-        "serendipity": {
-          "score": 6,
-          "reason": "Held at 1906 Rittenhouse Square, this draws the Society's regular members plus newcomers checking out a Sunday Platform."
-        },
-        "uniqueness": {
-          "score": 4,
-          "reason": "A specific guest speaker's talk within the Society's recurring weekly Sunday Platform series."
-        },
-        "community_building": {
-          "score": 8,
-          "reason": "As a secular Ethical Society gathering (not worship), this builds durable cross-cutting civic ties and is not capped by the worship rule."
-        },
-        "solo_friendliness": {
-          "score": 7,
-          "reason": "Sunday Platforms are built to welcome first-time visitors, making it easy for someone to show up alone."
-        },
-        "value_for_price": {
-          "score": 8,
-          "reason": "No cost is listed; Ethical Society platforms are typically free or by-donation, a good value for a substantive talk."
-        }
-      },
-      "quality": 6.3,
-      "score_category": "talk",
-      "description_quality": "thin"
-    },
-    {
       "id": 1109,
       "name": "Silk Painting with Setasilk Paints",
       "start": "2026-08-16T13:00:00",
@@ -22503,8 +22412,8 @@
       "all_day": false,
       "date": "2026-08-16",
       "time": "19:00",
-      "venue_id": "studio-34",
-      "venue": "Studio 34",
+      "venue_id": "studio-34-yoga-healing-arts",
+      "venue": "Studio 34 Yoga Healing Arts",
       "venue_kind": "fitness",
       "lat": 39.948898,
       "lng": -75.21362,
@@ -23322,61 +23231,6 @@
       "description_quality": "thin"
     },
     {
-      "id": 1133,
-      "name": "Rustin's Challenge Reading Group",
-      "start": "2026-08-18T18:00:00",
-      "all_day": false,
-      "date": "2026-08-18",
-      "time": "18:00",
-      "venue_id": "philadelphia-ethical-society",
-      "venue": "Philadelphia Ethical Society",
-      "venue_kind": "community_center",
-      "lat": 39.9485955,
-      "lng": -75.1730292,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Charity & Activism",
-      "tags": "park:philadelphia-ethical-society",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "Tue, Aug 18 1906 Rittenhouse Square w/ Paul Prescod Register by clicking the RSVP link, Aug 18, 2026, 6:00 PM \u2013 8:00 PM 1906 Rittenhouse Square, 1906 Rittenhouse Square, Philadelphia, PA 19103, USA All of us know Martin Luther King's \"I have a dream speech\" but almost none of us know about the key organizer who made it happen- Bayard Rustin. What was his broad vision for the transformation of the\u2026",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/32512800/8356f450-2fd9-482b-a094-1311c359f30a.jpg",
-      "url": "https://do215.com/events/2026/8/18/rustin-s-challenge-reading-group-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 7,
-          "reason": "Led by Paul Prescod at 1906 Rittenhouse Square, the discussion format on Rustin's 'Freedom Budget' pushes attendees to engage with each other, not just listen."
-        },
-        "serendipity": {
-          "score": 4,
-          "reason": "An RSVP reading group on a specific economic-justice book draws committed readers rather than passersby."
-        },
-        "uniqueness": {
-          "score": 5,
-          "reason": "A one-time discussion of this particular book with this particular facilitator."
-        },
-        "community_building": {
-          "score": 8,
-          "reason": "The Philadelphia Ethical Society is a secular civic community (uncapped per the rubric), and a themed reading series like this builds ongoing ties among politically engaged locals."
-        },
-        "solo_friendliness": {
-          "score": 8,
-          "reason": "A facilitated book discussion gives a solo attendee an easy opening to talk with the group."
-        },
-        "value_for_price": {
-          "score": 7,
-          "reason": "Cost isn't listed but RSVP-only Ethical Society programs are typically free, a good value for a facilitated discussion."
-        }
-      },
-      "quality": 6.6,
-      "score_category": "community",
-      "description_quality": "rich"
-    },
-    {
       "id": 1134,
       "name": "Terrarium Workshop at South Street",
       "start": "2026-08-18T18:00:00",
@@ -23428,61 +23282,6 @@
         }
       },
       "quality": 5.3,
-      "score_category": "class",
-      "description_quality": "rich"
-    },
-    {
-      "id": 1135,
-      "name": "JazzAttack: Lindy Hop & Swing Dance Classes",
-      "start": "2026-08-18T19:00:00",
-      "all_day": false,
-      "date": "2026-08-18",
-      "time": "19:00",
-      "venue_id": "philadelphia-ethical-society",
-      "venue": "Philadelphia Ethical Society",
-      "venue_kind": "community_center",
-      "lat": 39.9485955,
-      "lng": -75.1730292,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Charity & Activism",
-      "tags": "park:philadelphia-ethical-society",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "Tue, Aug 18 1906 Rittenhouse Square, Philadelphia, PA 19103, USA Aug 18, 2026, 7:00 PM \u2013 8:30 PM 1906 Rittenhouse Square, Philadelphia, PA 19103, USA Beginner-friendly Lindy Hop & Swing Dance Classes: Jazz Attack is Philadelphia's home for Lindy Hop & Swing Dance. We offer fun and affordable classes for dancers of all levels, no partner or prior experience required! Whether you're looking to take\u2026",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/33182820/75ee8edb-f614-4d80-b1b5-28bbfd6021e7.jpg",
-      "url": "https://do215.com/events/2026/8/18/jazzattack-lindy-hop-swing-dance-classes-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 8,
-          "reason": "The class explicitly rotates partners with 'no partner or prior experience required,' guaranteeing interaction with strangers."
-        },
-        "serendipity": {
-          "score": 5,
-          "reason": "Billed as 'Philadelphia's home for Lindy Hop & Swing Dance,' this class draws dancers from across the city's scene."
-        },
-        "uniqueness": {
-          "score": 3,
-          "reason": "The description frames this as an ongoing weekly class program, not a singular date."
-        },
-        "community_building": {
-          "score": 8,
-          "reason": "The class's own pitch \u2014 'find your groove and your people' \u2014 is explicitly about building a recurring dance community."
-        },
-        "solo_friendliness": {
-          "score": 9,
-          "reason": "Beginner-friendly with no partner needed, this is built for a stranger to walk in alone and dance with the group."
-        },
-        "value_for_price": {
-          "score": 7,
-          "reason": "No cost is listed, but the class is marketed as affordable, likely fair value for a weekly class."
-        }
-      },
-      "quality": 7.0,
       "score_category": "class",
       "description_quality": "rich"
     },
@@ -24697,61 +24496,6 @@
       "description_quality": "missing"
     },
     {
-      "id": 1159,
-      "name": "In Pursuit Screening",
-      "start": "2026-08-20T18:00:00",
-      "all_day": false,
-      "date": "2026-08-20",
-      "time": "18:00",
-      "venue_id": "philadelphia-ethical-society",
-      "venue": "Philadelphia Ethical Society",
-      "venue_kind": "community_center",
-      "lat": 39.9485955,
-      "lng": -75.1730292,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Charity & Activism",
-      "tags": "park:philadelphia-ethical-society",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "Thu, Aug 20 1906 Rittenhouse Square Film + conversation examining how Philadelphia\u2019s past and present continue to shape the American story. Aug 20, 2026, 6:00 PM \u2013 8:30 PM 1906 Rittenhouse Square, 1906 Rittenhouse Square, Philadelphia, PA 19103, USA Film + conversation examining how Philadelphia\u2019s past and present continue to shape the American story. Episode 6 Overview: Wealth (1872-1917)\u2026",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/33683752/07d9eb8f-64bb-4e97-a2f5-41e6ecdcfc99.jpg",
-      "url": "https://do215.com/events/2026/8/20/in-pursuit-screening-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 6,
-          "reason": "The listing explicitly pairs the film with a conversation, so attendees are expected to talk, not just watch."
-        },
-        "serendipity": {
-          "score": 5,
-          "reason": "A free history screening at the Philadelphia Ethical Society on Rittenhouse Square draws a civically curious, mixed crowd."
-        },
-        "uniqueness": {
-          "score": 6,
-          "reason": "A one-time screening of Episode 6 of a specific Philadelphia history documentary series."
-        },
-        "community_building": {
-          "score": 5,
-          "reason": "Hosted at the (uncapped) Ethical Society with an organized conversation, it builds modest recurring engagement around local history."
-        },
-        "solo_friendliness": {
-          "score": 6,
-          "reason": "The built-in conversation component gives solo attendees a structured way to talk with others."
-        },
-        "value_for_price": {
-          "score": 7,
-          "reason": "No price listed; nonprofit history screenings like this are typically free or cheap."
-        }
-      },
-      "quality": 5.5,
-      "score_category": "film",
-      "description_quality": "rich"
-    },
-    {
       "id": 1160,
       "name": "RUSH: Fifty Something",
       "start": "2026-08-21T19:30:00",
@@ -25742,61 +25486,6 @@
       "description_quality": "rich"
     },
     {
-      "id": 1179,
-      "name": "Sacred Connections: An Afro-Cuban Cultural Experience",
-      "start": "2026-08-21T18:00:00",
-      "all_day": false,
-      "date": "2026-08-21",
-      "time": "18:00",
-      "venue_id": "studio-34",
-      "venue": "Studio 34",
-      "venue_kind": "fitness",
-      "lat": 39.948898,
-      "lng": -75.21362,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Arts & Culture",
-      "tags": "park:studio-34",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": null,
-      "image": null,
-      "url": "https://do215.com/events/2026/8/21/sacred-connections-an-afro-cuban-cultural-experience-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 6,
-          "reason": "The same Afro-Cuban cultural gathering at Studio 34 in Spruce Hill is structured as a shared cultural circle, not a sit-and-watch show."
-        },
-        "serendipity": {
-          "score": 5,
-          "reason": "A niche one-time cultural event at a Spruce Hill yoga studio, self-selected but open crowd."
-        },
-        "uniqueness": {
-          "score": 7,
-          "reason": "A one-time diasporic cultural experience, not a recurring studio offering."
-        },
-        "community_building": {
-          "score": 6,
-          "reason": "Diasporic solidarity gathering builds cross-cutting cultural ties, not congregation-only ones."
-        },
-        "solo_friendliness": {
-          "score": 5,
-          "reason": "A healing-arts studio's cultural circle event is plausible for a stranger to join, though the framing leans intimate."
-        },
-        "value_for_price": {
-          "score": 6,
-          "reason": "No cost listed; studio cultural events like this are usually donation-based."
-        }
-      },
-      "quality": 5.7,
-      "score_category": "community",
-      "description_quality": "missing"
-    },
-    {
       "id": 1180,
       "name": "Recession Pop Old Vs New Dance Party",
       "start": "2026-08-22T22:00:00",
@@ -26518,11 +26207,11 @@
       "all_day": false,
       "date": "2026-08-22",
       "time": "10:30",
-      "venue_id": "philadelphia-ethical-society",
-      "venue": "Philadelphia Ethical Society",
+      "venue_id": "ethical-society-of-philadelphia",
+      "venue": "Ethical Society of Philadelphia",
       "venue_kind": "community_center",
-      "lat": 39.9485955,
-      "lng": -75.1730292,
+      "lat": 39.948576,
+      "lng": -75.173053,
       "group_id": null,
       "group": null,
       "source_id": "do215",
@@ -27192,7 +26881,7 @@
       "cadence": "weekly",
       "n_dates": 13,
       "median_gap_days": 7,
-      "first_date": "2026-08-18T23:00:00",
+      "first_date": "2026-08-18T19:00:00",
       "last_date": "2026-11-11T00:00:00"
     },
     {
@@ -27204,7 +26893,7 @@
       "cadence": "weekly",
       "n_dates": 11,
       "median_gap_days": 7,
-      "first_date": "2026-08-20T22:30:00",
+      "first_date": "2026-08-20T18:30:00",
       "last_date": "2026-10-29T22:30:00"
     },
     {
@@ -27216,7 +26905,7 @@
       "cadence": "weekly",
       "n_dates": 13,
       "median_gap_days": 7,
-      "first_date": "2026-08-22T14:30:00",
+      "first_date": "2026-08-22T10:30:00",
       "last_date": "2026-11-14T15:30:00"
     },
     {
