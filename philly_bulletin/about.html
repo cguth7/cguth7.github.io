@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works — Reality</title>
+<link rel="stylesheet" href="reality.css">
+<style>
+  /* page glue only — no new colors or fonts */
+  .layers { max-width: 860px; }
+  .row .d { color: var(--ink-2); font-weight: 400; }
+  .orggroup, .cityband { max-width: 860px; }
+  .colo-links { max-width: 560px; margin-top: 18px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="brand" href="today.html">Reality<span>.</span></a>
+    <a href="today.html">Philadelphia</a>
+    <a href="sources.html">Sources</a>
+    <a class="on" href="about.html">How it works</a>
+    <span class="right">
+      <a href="styleguide.html">Style guide</a>
+      <a class="cta" href="today.html">Tonight →</a>
+    </span>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">How it works · one city, every source</div>
+    <h1>Make real life easier than the feed.</h1>
+    <p class="lede">Reality is an events engine for one city. It reads every source —
+      the venue calendars, the library feeds, the old HTML pages no aggregator touches —
+      and turns them into one honest, ranked list of what is actually happening tonight.
+      This page is the whole system, explained.</p>
+  </div>
+
+  <section>
+    <div class="seclabel"><span>01 · The idea</span></div>
+    <h2>The feed won. Build the counter-infrastructure.</h2>
+    <p class="prose">Social media promised connection and delivered isolation. The loneliness
+      epidemic is the symptom; the cause is that scrolling got easier than doing. Meanwhile the
+      existing event platforms are lemon markets — Meetup, Eventbrite, and their imitators serve
+      flat lists with no intelligence, while the best events in any city sit on old HTML sites,
+      church bulletins, and local club pages that no aggregator captures. The bet: <b>if you get
+      people together in real life — genuinely, regularly, around things they care about — the
+      downstream effects on loneliness follow.</b></p>
+    <p class="prose">We tried the app first, once. It failed the way consumer social apps fail:
+      distribution, not concept. So this time there is no app store, no network-effects
+      dependency, no growth loop. <b>Intelligence first, product shape later.</b> The engine has
+      to be useful for person #1 on day 1 — one person, planning one week, in one city. Everything
+      else is downstream of that.</p>
+  </section>
+
+  <section>
+    <div class="seclabel"><span>02 · The engine</span><span>five layers, built bottom-up</span></div>
+    <h2>Each layer stands on the one below it.</h2>
+    <p class="prose">Nothing above layer 1 matters if the events are not real. So the stack is
+      built in order, and each layer earns its own plan before a line of it exists.</p>
+    <div class="rows layers">
+      <div class="row"><span><b>1 · Events API</b> <span class="d">— scrape, parse, and structure
+        every event source in the city; the LLM does the reading</span></span>
+        <span class="r">13 sources built</span></div>
+      <div class="row"><span><b>2 · AI ranking engine</b> <span class="d">— an LLM scores each
+        event: will you actually meet people, or just sit in an audience?</span></span>
+        <span class="r">scoring today's 42</span></div>
+      <div class="row"><span><b>3 · Personal context</b> <span class="d">— a social-life file per
+        person: friend CRM, goals, preferences, passions</span></span>
+        <span class="r">planned</span></div>
+      <div class="row"><span><b>4 · Action &amp; coordination</b> <span class="d">— suggest,
+        invite (Luma / Partiful), sync calendars, learn what worked</span></span>
+        <span class="r">planned</span></div>
+      <div class="row"><span><b>5 · Community layer</b> <span class="d">— tools for the person
+        who always organizes things: coordinators, connectors, organizers</span></span>
+        <span class="r">future</span></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="seclabel"><span>03 · The org</span></div>
+    <h2>Five roles, one-line charters.</h2>
+    <p class="prose">The pipeline is run by agents with narrow jobs. The org chart <i>is</i> the
+      pipeline: a lead moves left to right, and no role can skip another's gate.</p>
+    <div class="cov orggroup">
+      <div class="covrow"><div class="covhead">
+        <span class="pill">LEADS</span>
+        <span class="vname">Tej <span class="hood">— finds the venues, groups, and aggregators;
+          knows every block of the city</span></span>
+        <span class="yield">151 on the board</span><span class="dot">●</span>
+      </div></div>
+      <div class="covrow"><div class="covhead">
+        <span class="pill">TRIAGE</span>
+        <span class="vname">Scout <span class="hood">— reads a candidate source and makes the
+          go / no-go call before anything gets built</span></span>
+        <span class="yield">gate before build</span><span class="dot">●</span>
+      </div></div>
+      <div class="covrow"><div class="covhead">
+        <span class="pill">BUILD</span>
+        <span class="vname">Max <span class="hood">— writes the adapter; flips a source to built
+          only when real events land</span></span>
+        <span class="yield">13 built</span><span class="dot">●</span>
+      </div></div>
+      <div class="covrow"><div class="covhead">
+        <span class="pill">KEEP-TRUE</span>
+        <span class="vname">Steward <span class="hood">— re-probes built sources for rot,
+          re-derives drifted flags, reports honest health; never builds</span></span>
+        <span class="yield">verified 2d ago</span><span class="dot">●</span>
+      </div></div>
+      <div class="covrow"><div class="covhead">
+        <span class="pill">SCORE</span>
+        <span class="vname">Rater <span class="hood">— runs the quality rubric, sanity-checks the
+          ordering, tunes the weights</span></span>
+        <span class="yield">42 scored today</span><span class="dot">●</span>
+      </div></div>
+      <div class="ask">Five charters, one direction of travel: lead → triage → build → keep-true → score.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="seclabel"><span>04 · Honesty rules</span></div>
+    <div class="band">
+      <h2>Rules the pipeline can't break.</h2>
+      <p class="sub">The UI is an honesty surface. Every page shows what the system actually did —
+        verified-ago stamps, real counts, provenance — and nothing more.</p>
+      <ul class="ticks">
+        <li><b>Build gate</b> — nothing is marked working unless it produced real events.</li>
+        <li><b>Honest downgrade</b> — when a source rots, its status drops in public (■ needs repair), the day it happens.</li>
+        <li><b>Derived flags</b> — <i>monitored</i>, coverage — are re-checked on schedule, never trusted stale.</li>
+        <li><b>Append-only scores</b> — ratings accumulate; weights tune without rewriting history, and failures stay visible.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="seclabel"><span>05 · The city</span></div>
+    <h2>Why Philadelphia.</h2>
+    <p class="prose">Because we live here, and an engine like this has to be useful for person #1
+      before it deserves a bigger city. The code is city-agnostic; the data is Philadelphia's —
+      OpenDataPhilly's 159 official neighborhoods, the Free Library's feeds, the venue calendars
+      of Fishtown and West Philly. Philadelphia is the workshop: build and prove the engine here,
+      then point it at the next city without rewriting it.</p>
+    <div class="tiles cityband">
+      <div class="tile"><div class="v">42</div><div class="l">events today</div><div class="d">Sunday, August 16 · citywide</div></div>
+      <div class="tile"><div class="v">159</div><div class="l">neighborhoods</div><div class="d">OpenDataPhilly's official list</div></div>
+      <div class="tile"><div class="v">13</div><div class="l">sources built</div><div class="d up">151 more on the lead board</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="seclabel"><span>06 · Colophon</span></div>
+    <h2>The bet, and what came before.</h2>
+    <p class="prose">The core technical bet is that <b>LLMs are a phase change in text parsing</b>:
+      they can read a messy venue page, a church bulletin, or a library RSS feed and return the
+      same normalized event — and they can judge quality (will you meet anyone here?) in ways
+      keyword filters never could. If that bet is wrong, none of this works. So far it is holding.</p>
+    <p class="prose">Prior art: <b>Ledge</b>, an 80-endpoint Flask + iOS geospatial events app for
+      Chicago. Concept right, distribution wrong — the lesson this whole system is built on. Its
+      library scraper was the seed of layer 1.</p>
+    <div class="rows colo-links">
+      <div class="row"><span><a href="today.html">today.html</a> <span class="d">— the ranked list and map</span></span><span class="r">city home</span></div>
+      <div class="row"><span><a href="sources.html">sources.html</a> <span class="d">— the pipeline registry</span></span><span class="r">source board</span></div>
+      <div class="row"><span><a href="styleguide.html">styleguide.html</a> <span class="d">— the design contract</span></span><span class="r">system</span></div>
+    </div>
+  </section>
+
+  <footer>Prototype · prose is the thesis (docs/vision.md); counts illustrative, shaped as schema v2
+    (<b>pipeline_sources / venues / events / event_scores</b>). See <a href="today.html">today</a> ·
+    <a href="sources.html">sources</a> · <a href="styleguide.html">style guide</a>. ·
+    Reality — make real life easier than the feed.</footer>
+
+</div>
+</body>
+</html>

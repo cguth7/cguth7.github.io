@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Style guide — Reality</title>
+<link rel="stylesheet" href="reality.css">
+<style>
+  .sg-swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sg-sw { width: 130px; }
+  .sg-sw .c { height: 44px; border-radius: 8px; border: 1px solid var(--hairline); }
+  .sg-sw .n { font-size: 11px; margin-top: 4px; }
+  .sg-sw .h { font-size: 10px; color: var(--muted); }
+  .sg-rule { color: var(--ink-2); font-size: 12px; max-width: 70ch; margin: 8px 0 0; }
+  .sg-rule b { color: var(--ink); }
+  .sg-demo { margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="nav">
+    <a class="brand" href="index.html">Reality<span>.</span></a>
+    <a href="today.html">Philadelphia</a>
+    <a href="sources.html">Sources</a>
+    <a href="about.html">How it works</a>
+    <span class="right"><a class="on" href="styleguide.html">Style guide</a></span>
+  </nav>
+
+  <div class="hero">
+    <div class="kicker">Design system · source of truth</div>
+    <h1>The Reality style guide.</h1>
+    <p class="lede">Paper surface, serif display, monospace everything else, one deep green.
+      Borrowed from the parse.bot marketplace language and tailored to a city's events.
+      Every component on this page ships from <b>reality.css</b> — pages compose these,
+      they don't invent new ones.</p>
+  </div>
+
+  <section>
+    <h2>Principles</h2>
+    <p class="prose">1. <b>The UI is an honesty surface.</b> Health, freshness, and provenance are
+      always visible ("verified 2d ago", "5/5 checks", self-repair entries in history). Never claim
+      more than the pipeline did.<br>
+      2. <b>Serif speaks, mono works.</b> Newsreader for page titles and section headings only
+      (<code>h1</code>, <code>h2</code>, card names). Everything else — body, labels, data — is mono.<br>
+      3. <b>One green.</b> Accent, links, CTAs, tint fills all derive from <code>--green</code>.
+      Status colors (amber, rust) appear only with an icon + word, never color alone.<br>
+      4. <b>Uppercase micro-labels</b> (<code>.kicker</code>, <code>.seclabel</code>, <code>.flabel</code>,
+      <code>.lbl</code>) do the wayfinding; headings stay sentence-case serif.</p>
+  </section>
+
+  <section>
+    <h2>Color</h2>
+    <div class="sg-swatches">
+      <div class="sg-sw"><div class="c" style="background:var(--page)"></div><div class="n">--page</div><div class="h">#f7f6f2 · page plane</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--card)"></div><div class="n">--card</div><div class="h">#ffffff · surfaces</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--tint)"></div><div class="n">--tint</div><div class="h">#eef3ea · green wash</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--code-bg)"></div><div class="n">--code-bg</div><div class="h">#f4f3ee · insets</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--ink)"></div><div class="n">--ink</div><div class="h">#171614 · primary</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--ink-2)"></div><div class="n">--ink-2</div><div class="h">#52514e · secondary</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--muted)"></div><div class="n">--muted</div><div class="h">#898781 · labels</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--green)"></div><div class="n">--green</div><div class="h">#0c6b2c · accent</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--good)"></div><div class="n">--good</div><div class="h">#0ca30c · live dot</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--warn-ink)"></div><div class="n">--warn-ink</div><div class="h">#9a6700 · dips</div></div>
+      <div class="sg-sw"><div class="c" style="background:var(--serious-ink)"></div><div class="n">--serious-ink</div><div class="h">#b3400f · repair</div></div>
+    </div>
+    <p class="sg-rule"><b>Rule:</b> status meaning never rides on color alone — pair with a glyph and
+      word: <span class="st-ok">● healthy</span> · <span class="st-warn">▲ no events</span> ·
+      <span class="st-fix">■ needs repair</span> · <span class="st-plan">○ planned</span>.</p>
+  </section>
+
+  <section>
+    <h2>Nav &amp; wayfinding</h2>
+    <p class="sg-rule">Every page: <code>.nav</code> at top (brand serif, uppercase links, green
+      <code>.cta</code> pill right), then either a <code>.crumb</code> (detail pages) or a
+      <code>.kicker</code> (index pages), then the serif <code>h1</code>.</p>
+    <div class="sg-demo">
+      <div class="crumb"><a href="#">Philadelphia source board</a> &nbsp;/&nbsp; <b>Do312</b></div>
+      <span class="kicker">Philadelphia · every source, one ranked list</span>
+      <div class="titleline">
+        <div class="logo">D3</div>
+        <h1 style="margin:0">Do312</h1>
+        <a class="domainchip" href="#">do312.com ↗</a>
+      </div>
+      <div class="herostats">
+        <div><div class="l">Venues fed</div><div class="v">112</div></div>
+        <div><div class="l">Events · 30d</div><div class="v">184</div></div>
+        <div><div class="l">Built</div><div class="v">2mo ago</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Chips, tags &amp; badges</h2>
+    <div class="sg-demo frow">
+      <button class="pillbtn on">Today · Sun</button>
+      <button class="pillbtn">Fishtown <span class="n">4</span></button>
+      <button class="pillbtn" disabled>Mon</button>
+      <span class="tag">aggregator</span>
+      <span class="tag plain">custom_json</span>
+      <span class="free">free</span>
+      <span class="pill">VENUE</span>
+      <span class="vtag">v3</span>
+      <span class="vtag heal">v2</span>
+    </div>
+    <p class="sg-rule"><b>.pillbtn</b> = interactive filter (selected: ink-inverted). <b>.tag</b> =
+      classification. <b>.free</b> = cost badge. <b>.pill</b> = row-type label in tables.
+      <b>.vtag</b> = version stamp; <b>.heal</b> variant marks self-repair.</p>
+  </section>
+
+  <section>
+    <h2>Stat tiles</h2>
+    <div class="tiles" style="max-width:640px">
+      <div class="tile"><div class="v">13</div><div class="l">sources built</div><div class="d up">13/13 passing latest check</div></div>
+      <div class="tile"><div class="v">151</div><div class="l">sources planned</div><div class="d">mined from directories</div></div>
+      <div class="tile"><div class="v">42</div><div class="l">events today</div><div class="d">across 20 neighborhoods</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Event list</h2>
+    <p class="sg-rule">The core object everywhere. Ranked lists use the 5-column grid with
+      <code>.rk</code>; unranked (venue/hood pages) add <code>.norank</code>. Titles may link;
+      venue · neighborhood always shown; FREE badge or muted price; quality bold.</p>
+    <div class="list sg-demo" style="max-width:820px">
+      <div class="evrow">
+        <span class="rk">1</span><span class="when">10:00 am</span>
+        <span class="name">Farmers Market &amp; Flea <span class="at">— Clark Park <span class="hd">· Spruce Hill</span></span></span>
+        <span class="free">free</span><span class="q"><b>8.6</b> quality</span>
+      </div>
+      <div class="evrow">
+        <span class="rk">2</span><span class="when">8:00 pm</span>
+        <span class="name">Indie triple bill <span class="at">— Union Transfer <span class="hd">· Callowhill</span></span></span>
+        <span class="price">$18</span><span class="q"><b>7.8</b> quality</span>
+      </div>
+      <div class="ft">top 12 of 42 today · rank = Rater quality</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Expandable rows &amp; key-values</h2>
+    <p class="sg-rule"><code>.cov</code> group = parse.bot's endpoint list: <code>.covhead</code>
+      summary line, optional <code>.covbody</code> with a <code>.kv</code> grid and
+      <code>.lbl</code>-titled code sample.</p>
+    <div class="cov sg-demo" style="max-width:820px">
+      <div class="covrow">
+        <div class="covhead">
+          <span class="pill">VENUE</span>
+          <span class="vname">Johnny Brenda's <span class="hood">· Fishtown</span></span>
+          <span class="yield">31 events · 30d</span><span class="dot">●</span>
+        </div>
+        <div class="covbody">
+          <div class="kv">
+            <span class="k">monitored</span><span class="ty">true</span><span class="d">has its own built source — cross-checked</span>
+            <span class="k">discovered_via</span><span class="ty">directory_mine</span><span class="d">connected by Tej, 2026-06</span>
+          </div>
+        </div>
+      </div>
+      <div class="ask">+ 106 more venues · joins automatically on first event landed</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Health card &amp; history</h2>
+    <p class="sg-rule">The honesty components. Health card: named checks × 5-run bar history.
+      History: newest first, <code>.vtag</code> per entry, amber <code>.heal</code> for self-repairs —
+      failures stay public.</p>
+    <div class="sg-demo" style="display:grid; grid-template-columns: 320px 1fr; gap: 18px; max-width:860px;">
+      <aside class="healthcard">
+        <div class="hd"><span class="t">Source health</span><span class="r">verified <b>2d ago</b> ●</span></div>
+        <div class="check"><span>fetch — HTTP 200</span><span class="bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+        <div class="check"><span>norm() contract</span><span class="bars"><i></i><i></i><i></i><i></i><i></i></span></div>
+        <div class="check"><span>venue resolution</span><span class="bars warn"><i></i><i></i><i class="miss"></i><i></i><i></i></span></div>
+        <div class="ft"><span><b>5/5 checks</b> passing</span><span class="sh">steward-watched</span></div>
+      </aside>
+      <div class="hist">
+        <div class="hrow"><span class="vtag">v3</span><span class="what"><b>steward pass</b> · 184 events · 0 drift</span><span class="when">2d ago</span></div>
+        <div class="hrow"><span class="vtag heal">v2</span><span class="what"><b>self-repair</b> · selector drifted, patched by Max</span><span class="when">3w ago</span></div>
+        <div class="hrow"><span class="vtag">v1</span><span class="what"><b>build gate passed</b> · 62 valid events</span><span class="when">2mo ago</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tinted band, bars &amp; code</h2>
+    <p class="sg-rule"><code>.band</code> = one per page max, for the "how it works" moment.
+      <code>.board</code>/<code>.brow</code> = labeled count bars (leaderboards, quality-dimension
+      breakdowns — value shown as a number, bar is redundant encoding). <code>pre.code</code> for
+      samples; <code>.s</code> = string ink, <code>.g</code> = green.</p>
+    <div class="sg-demo" style="display:grid; grid-template-columns: 1fr 250px; gap:18px; max-width:860px;">
+      <div class="band">
+        <h2 style="font-size:20px">Scraped, resolved, scored</h2>
+        <ul class="ticks">
+          <li>One normalized event shape · the <b>norm()</b> contract</li>
+          <li>Quality appended by the Rater · weights tune without rescoring</li>
+        </ul>
+        <pre class="code">$ engine ingest --source do312
+fetch    <span class="g">200 OK</span> · 3.1s
+commit   <span class="g">+63 new · 184 in window</span></pre>
+      </div>
+      <aside class="board">
+        <div class="t">Quality · 5 dims</div>
+        <div class="brow"><span>community building</span><span class="c">9</span><span class="bar"><i style="width:90%"></i></span></div>
+        <div class="brow"><span>social quality</span><span class="c">8</span><span class="bar"><i style="width:80%"></i></span></div>
+        <div class="brow"><span>serendipity</span><span class="c">8</span><span class="bar"><i style="width:80%"></i></span></div>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <h2>Map</h2>
+    <p class="sg-rule">Neighborhood polygons as inline SVG in a <code>.mapcard</code> — never map
+      tiles. Fill classes <code>.t1/.t2/.t3</code> deepen with event count; <code>.sel</code> on
+      selection; <code>.mk</code> numbered markers match list ranks. Always a <code>.legend</code>.
+      (Live example: <a href="today.html">today.html</a>.)</p>
+  </section>
+
+  <section>
+    <h2>Page skeleton</h2>
+    <pre class="code" style="max-width:820px">&lt;link rel="stylesheet" href="reality.css"&gt;
+&lt;body&gt;&lt;div class="wrap"&gt;
+  &lt;nav class="nav"&gt;…&lt;/nav&gt;
+  &lt;div class="crumb"&gt;…&lt;/div&gt;            <span class="g">// detail pages; index pages: .hero + .kicker</span>
+  &lt;div class="hero"&gt;h1 + .lede [+ .titleline .herostats]&lt;/div&gt;
+  &lt;section&gt;.seclabel + h2 + component&lt;/section&gt;  <span class="g">// repeat</span>
+  &lt;footer&gt;…&lt;/footer&gt;
+&lt;/div&gt;&lt;/body&gt;</pre>
+    <p class="sg-rule"><b>Voice:</b> sentence-case serif headings ("What is this source?", "The map"),
+      mono micro-labels in caps, honest counts everywhere ("top 12 of 42"), and one footer line:
+      what's illustrative, what schema shapes it. Footer signs off:
+      <i>Reality — make real life easier than the feed.</i></p>
+  </section>
+
+  <footer>Style guide v1 · components live in reality.css · pages: today · source · sources · event ·
+    venue · hood · about. · Reality — make real life easier than the feed.</footer>
+
+</div>
+</body>
+</html>
