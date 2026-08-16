@@ -389,17 +389,7 @@
 
   function updateListCopy(evs) {
     var label = F.day ? dayChoiceLabel(F.day) : 'Today';
-    var title = $('week-title');
-    if (title) title.textContent = label + ' in Philadelphia.';
-    var selectedHoods = {};
-    evs.forEach(function (e) { var h = hoodOf(e); if (h) selectedHoods[h] = 1; });
-    var sl = $('stat-listings'); if (sl) sl.textContent = evs.length;
-    var sh = $('stat-hoods'); if (sh) sh.textContent = Object.keys(selectedHoods).length;
     var nav = $('nav-count'); if (nav) nav.textContent = evs.length + (evs.length === 1 ? ' listing · ' : ' listings · ') + label.toLowerCase();
-    var lede = $('hero-lede');
-    if (lede) lede.innerHTML = '<b>' + evs.length + (evs.length === 1 ? ' event' : ' events') +
-      '</b>' + (F.hood !== 'all' ? ' in <b>' + esc(F.hood) + '</b>' : ' across Philadelphia') +
-      ', ranked for community, not hype.';
     var lab = $('list-label');
     if (lab) lab.textContent = 'Ranked · ' + label + (F.hood !== 'all' ? ' · ' + F.hood : '');
   }
@@ -847,22 +837,11 @@
     var count = DB.events.length;
     var nav = $('nav-count');
     if (nav) nav.textContent = count + (count === 1 ? ' listing this week' : ' listings this week');
-    var start = new Date();
-    var title = $('week-title');
-    if (title) title.textContent = 'Week of ' + MONL[start.getMonth()] + ' ' + start.getDate() + '.';
-    var sl = $('stat-listings'); if (sl) sl.textContent = count;
-    var ss = $('stat-sources'); if (ss) ss.textContent = DB.meta && DB.meta.scrapers_built != null ? DB.meta.scrapers_built : '—';
-    var seenHoods = {};
-    DB.events.forEach(function (e) { var h = hoodOf(e); if (h) seenHoods[h] = 1; });
-    var sh = $('stat-hoods'); if (sh) sh.textContent = Object.keys(seenHoods).length;
     var su = $('stat-updated'); if (su) su.textContent = DB.generated ? fmtShort(DB.generated) : '—';
     var sk = $('source-known'); if (sk) sk.textContent = DB.meta && DB.meta.sources != null ? DB.meta.sources : (DB.sources || []).length;
     var sb = $('source-built'); if (sb) sb.textContent = DB.meta && DB.meta.scrapers_built != null ? DB.meta.scrapers_built : '—';
     var sp = $('source-todo'); if (sp) sp.textContent = DB.meta && DB.meta.scrapers_todo != null ? DB.meta.scrapers_todo : '—';
     var sf = $('source-links'); if (sf) sf.textContent = DB.meta && DB.meta.feed_links != null ? DB.meta.feed_links : '—';
-    var lede = $('hero-lede');
-    if (lede) lede.innerHTML = 'Every public event we can find for the next seven days — pulled from real places and scored for community, not hype. <b>' +
-      count + (count === 1 ? ' listing' : ' listings') + '</b> across <b>' + Object.keys(seenHoods).length + ' neighborhoods.</b>';
   }
 
   function boot() {
