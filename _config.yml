@@ -45,7 +45,6 @@ exclude:
   - vendor/ruby/
   - archive/_posts
   - archive/_pages
-  - research/templates
 
 # Plugins (previously gems:)
 plugins:

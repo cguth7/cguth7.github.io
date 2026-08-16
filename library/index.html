@@ -60,8 +60,11 @@
             align-items: flex-end;
             justify-content: center;
             gap: 64px;
-            border-bottom: 9px solid #120d08;
-            box-shadow: 0 3px 0 #3a2c1c;
+            border-bottom: 9px solid #1a1108;
+            background: linear-gradient(180deg, #1d150c, #191108 70%, #130d07);
+            box-shadow: 0 3px 0 #3a2c1c,
+                        0 7px 12px rgba(0,0,0,0.45),
+                        inset 0 16px 26px -14px rgba(0,0,0,0.65);
             padding: 0 8px;
         }
         .cluster { display: flex; flex-direction: column; }
@@ -96,18 +99,28 @@
             text-decoration: none;
             box-shadow: inset -4px 0 6px rgba(0,0,0,0.45),
                         inset 2px 0 3px rgba(255,255,255,0.12),
-                        1px 0 2px rgba(0,0,0,0.5);
+                        2px 0 5px rgba(0,0,0,0.45);
             border-top: 3px double rgba(233,214,166,0.55);
-            transition: transform 0.12s, opacity 0.2s;
+            transition: transform 0.12s, opacity 0.2s, filter 0.12s;
             position: relative;
         }
-        a.book:hover { transform: translateY(-7px); }
+        a.book.gilt { border-top-color: rgba(235,201,122,0.8); }
+        a.book.gilt .spine-title { color: #eacd85; }
+        a.book.pulled { transform: translateY(-5px); }
+        a.book:hover { transform: translateY(-8px); filter: brightness(1.08); }
         a.book:focus-visible {
-            transform: translateY(-7px);
+            transform: translateY(-8px);
             outline: 2px solid #c9a95c;
             outline-offset: 2px;
         }
         a.book.dim { opacity: 0.13; pointer-events: none; }
+        .orn {
+            font-size: 9px;
+            line-height: 1;
+            color: rgba(233,205,146,0.85);
+            text-shadow: 0 1px 1px rgba(0,0,0,0.6);
+            margin-top: 5px;
+        }
         .spine-title {
             writing-mode: vertical-rl;
             font-size: clamp(9px, 1.55vh, 13px); /* scales with vh-based book heights */
@@ -207,69 +220,11 @@
 
     <div id="tip"></div>
 
+    <script src="catalog.js"></script>
     <script>
-    // One line per page. SHELVES groups sections onto the three shelf rows.
-    // hue = spine leather color per section.
-    const SECTIONS = {
-        G:   { name: 'GWAS & Innovation Econ',      hue: '#7a2f23' },
-        P:   { name: 'Pathway Extraction',          hue: '#3c5232' },
-        R:   { name: 'Reality · Events',            hue: '#2e4a63' },
-        E:   { name: 'Event Engine',                hue: '#8a6420' },
-        J:   { name: 'Projects',                    hue: '#5b3a58' },
-        F:   { name: 'Fun & Writing',               hue: '#a05a20' },
-        PPL: { name: 'People',                      hue: '#2f5d59' },
-        A:   { name: 'Archive',                     hue: '#4d4a44' },
-    };
-    const SHELVES = [['G', 'P'], ['R', 'E', 'J'], ['F', 'PPL', 'A']];
-    const ENTRIES = [
-        ['G', '/research/tiga-value-sweep/', 'TIGA Value Labels', 'CF QJE R&R: herding survives rebuilding value on GWAS evidence (11 definitions).', '2026-07'],
-        ['G', '/research/tiga-breakthrough-controls/', 'TIGA Breakthroughs', 'CF QJE R&R: breakthrough outcomes under each GWAS-coverage control.', '2026-07'],
-        ['G', '/research/gwas/', 'GWAS Patents', 'Disease and gene distribution analysis.', '2025-12'],
-        ['G', '/research/prestige-analysis/', 'Researcher Prestige', 'Matching author affiliations to QS 2005 rankings.', '2026-01'],
-        ['G', '/research/serendipity/', 'Gene Panel Analysis', 'Serendipity project statistical results.', '2025-12'],
-        ['G', '/patent-analysis', 'Patent Data', 'Disease and gene patent analysis.', '2025-12'],
-        ['G', '/research/orange-book/', 'Orange Book Patents', 'FDA Orange Book drug patents.', '2026-01'],
-        ['G', '/orange-book-plan', 'Orange Book Plan', 'Valuing GWAS spillovers with FDA & market data.', '2025-12'],
-        ['G', '/orange-book-progress', 'Orange Book Progress', 'Status & learnings, days 1–4.', '2025-12'],
-        ['G', '/gwas-results', 'GWAS Results', 'Results write-up.', '2025-12'],
-        ['G', '/gwas-visuals', 'GWAS Visuals', 'Chart gallery.', '2025-12'],
-        ['G', '/demos/gwas-nlm-slides/', 'NLM Slides', 'Pitch deck iterations, v1–v4.', '2026-02'],
-        ['P', '/research/gemini-pathways/', 'Gemini Pathways', 'Pipeline hub: 49k pathway diagrams → gene interactions.', '2026-02'],
-        ['P', '/research/pathway-analyzer/', 'Pathway Analyzer', '49k diagrams → 1.3M gene interactions via Gemini 3.', '2026-01'],
-        ['P', '/research/pathway-alignment/', 'Pathway Alignment', 'Mapping 8,349 extracted pathway names to KEGG / WikiPathways.', '2026-02'],
-        ['P', '/research/pathway-labeling-showcase/', 'Labeling Showcase', 'Signal comparison: Gemini vs Jaccard vs PMC caption.', '2026-02'],
-        ['P', '/research/pathway-metadata-pipeline/', 'Metadata Pipeline', 'Pathway metadata extraction.', '2026-02'],
-        ['P', '/research/hippo-image-jaccard/', 'Hippo Image Jaccard', 'Per-image Jaccard analysis for the Hippo pathway.', '2026-02'],
-        ['P', '/research/kegg-assignment-pipeline/', 'KEGG Assignment', 'Assigning images to KEGG pathways.', '2026-02'],
-        ['P', '/research/caption-kegg-prompt-eval/', 'Caption→KEGG', 'Prompt evaluation for caption-based assignment.', '2026-02'],
-        ['P', '/research/caption-validation-pilot/', 'Caption Validation', '50 images × 3 models (GPT-4o-mini, 4o, 5.2).', '2026-02'],
-        ['P', '/research/pmc-caption-audit/', 'PMC Caption Audit', 'Validating Gemini pathway labels against figure captions.', '2026-02'],
-        ['R', '/research/reality/', 'Source Registry', 'Research for the Reality events engine.', '2026-02'],
-        ['R', '/research/philly-venue-landscape/', 'Philly Venues', 'Mapping 4,882 event sources across Philadelphia.', '2026-02'],
-        ['R', '/research/philly-city-government-data/', 'City & Gov Data', 'Permits, licenses, Free Library RSS.', '2026-02'],
-        ['E', '/philly_bulletin/', 'Philly Bulletin', 'Reality site prototype: ranked list + hood map, data illustrative.', '2026-08'],
-        ['E', '/events_v3_chi/', 'Chicago · the Map', 'Current consumer surface: Leaflet map, hood focus, filters.', '2026-05'],
-        ['E', '/events_v3/', 'Philly City Library', 'Philly instance of the event engine.', '2026-05'],
-        ['J', 'https://cguth7.github.io/docg-medical-summaries/', 'DocG Summaries', 'AI clinical summaries for physicians.', '2025'],
-        ['J', '/projects/charity-ranker/', 'Charity Ranker', 'Interactive charity comparison tool.', '2025-12'],
-        ['J', '/projects/roch-riemann/', 'Riemann-Roch', 'Lean 4 proof formalization write-up.', '2025-12'],
-        ['J', '/demos/train-proximity/', "Chicago × the 'L'", "Census blocks vs nearest 'L' stop — exponential-decay BOTEC.", '2026-06'],
-        ['F', '/beer-garden/', '15th & Lombard', 'A beer garden, a vacant lot, and one loaded block of Philadelphia.', '2026-08'],
-        ['F', '/pdku/', 'PlzDontKillUs Cards', 'Per-fellow trading cards for the PDKU 2026 cohort, plus quizzes.', '2026-07'],
-        ['F', '/demos/ea-forum-cards/', 'EA Forum Cards', 'Top 30 EA Forum users scored on 41 LLM dimensions.', '2026-05'],
-        ['F', '/tej/', 'The Tej Line', 'A Chicago history & transit fan page.', '2026-06'],
-        ['F', '/bike-trip/', 'Chicago → Berkeley', 'Bike + train trip, June 2026.', '2026-06'],
-        ['F', '/demos/nobodys-clothes-are-wet/', "Nobody's Clothes", "Nobody's Clothes Are Wet — short fiction.", '2026-02'],
-        ['PPL', '/people/cristiansalazar/', 'Cristian Salazar', 'Communications strategist & journalist.', '2025-12'],
-        ['PPL', '/people/joshdesieno/', 'Josh DeSeno', 'Architecture portfolio.', '2025-12'],
-        ['PPL', '/people/leonsimpson/', 'Leon Simpson', "A New Year's party page.", '2026-01'],
-        ['PPL', '/people/mylesfriedman/', 'Myles Friedman', 'Economics & finance.', '2026-01'],
-        ['PPL', '/people/rickguthmann/', 'Dr. Rick Guthmann', 'Family medicine physician.', '2025-12'],
-        ['PPL', '/people/sarrinchethik/', 'Sarrin Chethik', 'Policy analyst & economist.', '2025-12'],
-        ['PPL', '/people/shreyachoudhary/', 'Shreya Choudhary', 'Engineer & innovator.', '2025-12'],
-        ['A', '/archive/', 'EV Poker Tutorial', 'AI poker game theory essays by Max Chiswick, 2020–21.', '2020'],
-        ['A', '/resume.html', 'Resume', 'The formal record.', '2026-03'],
-    ];
+    // Catalog data (sections, shelves, entries) lives in catalog.js —
+    // shared with /assets/site-nav.js, which draws the toolbar on member pages.
+    const { SECTIONS, SHELVES, ENTRIES } = window.LIBRARY;
 
     const tip = document.getElementById('tip');
     const kase = document.getElementById('case');
@@ -302,13 +257,32 @@
                 b.className = 'book';
                 b.href = url;
                 const h = hash(title);
-                // height tracks title length so long titles never truncate
-                b.style.height = Math.min(24, Math.max(16, 10 + title.length * 0.55)) + 'vh';
-                b.style.background = `linear-gradient(90deg, ${shade(sec.hue, 0.75)}, ${sec.hue} 45%, ${shade(sec.hue, 1.25)} 55%, ${shade(sec.hue, 0.8)})`;
-                if (h % 4 === 0) b.style.width = '56px';           // the odd fat volume
+                // height tracks title length so long titles never truncate,
+                // with a little per-book jitter so the row reads hand-shelved
+                const hgt = Math.min(24, Math.max(15.5, 10 + title.length * 0.55 + (h % 5) * 0.5));
+                b.style.height = hgt + 'vh';
+                b.style.width = (h % 4 === 0 ? 58 : [42, 46, 46, 50, 46, 52][h % 6]) + 'px';
+                if (h % 7 === 0) b.style.marginLeft = '8px';       // loosely packed gap
+                if (h % 13 === 0) b.classList.add('pulled');       // left half-pulled off the shelf
+                if (h % 5 === 0) b.classList.add('gilt');          // gilt lettering + headcap
+                // leather: per-book hue jitter + sheen + grain, and for some
+                // volumes gold tooling lines or raised binding cords — all
+                // background layers, so the lettering stays on top.
+                const j = 0.92 + (h % 5) * 0.045;   // per-book lighten/darken jitter
+                const layers = [
+                    'linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0) 16%, rgba(0,0,0,0) 78%, rgba(0,0,0,0.30))',
+                    'repeating-linear-gradient(90deg, rgba(0,0,0,0.06) 0 1px, rgba(0,0,0,0) 1px 3px)',
+                ];
+                if (h % 3 === 0) layers.push(                      // tooling near head & tail
+                    'linear-gradient(180deg, rgba(0,0,0,0) 0 6.5%, rgba(233,205,146,0.32) 6.5% 7.3%, rgba(18,11,6,0.45) 8.1% 8.9%, rgba(0,0,0,0) 9.7% 87%, rgba(233,205,146,0.32) 87% 87.8%, rgba(18,11,6,0.45) 88.6% 89.4%, rgba(0,0,0,0) 90.2%)');
+                else if (h % 6 === 1) layers.push(                 // raised sewing cords
+                    'repeating-linear-gradient(180deg, rgba(0,0,0,0) 0 9%, rgba(18,11,6,0.30) 9% 9.9%, rgba(255,235,190,0.16) 9.9% 10.8%, rgba(0,0,0,0) 10.8% 20%)');
+                layers.push(`linear-gradient(90deg, ${shade(sec.hue, 0.72 * j)}, ${shade(sec.hue, j)} 45%, ${shade(sec.hue, 1.28 * j)} 55%, ${shade(sec.hue, 0.78 * j)})`);
+                b.style.background = layers.join(',');
                 b.dataset.text = (call + ' ' + title + ' ' + desc + ' ' + date + ' ' + sec.name).toLowerCase();
                 b.title = title + ' — ' + desc;                    // touch/no-hover fallback
-                b.innerHTML = '<span class="spine-title">' + title + '</span><span class="tag">' + call + '</span>';
+                const orn = hgt > 18.5 ? '<span class="orn">' + ['❧', '✦', '◆'][h % 3] + '</span>' : '';
+                b.innerHTML = '<span class="spine-title">' + title + '</span>' + orn + '<span class="tag">' + call + '</span>';
                 const showTip = () => {
                     tip.innerHTML = '<span class="call">' + call + ' · ' + sec.name + '</span>' +
                         '<div class="t">' + title + '</div>' +
