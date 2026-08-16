@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shreya Choudhary - Engineer & Innovator</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Georgia Tech Engineering + Modern Tech Startup Aesthetic */
+        :root {
+            --gt-gold: #B3A369;
+            --gt-navy: #003057;
+            --tech-blue: #0066cc;
+            --innovation-teal: #00A9CE;
+            --slate: #2C3E50;
+            --light-gray: #ECF0F1;
+            --accent-orange: #E8760C;
+        }
+
+        .tech-header {
+            background: linear-gradient(135deg, var(--gt-navy) 0%, var(--tech-blue) 100%);
+            color: white;
+            padding: 50px 35px;
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tech-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                repeating-linear-gradient(90deg, rgba(179, 163, 105, 0.1) 0px, rgba(179, 163, 105, 0.1) 1px, transparent 1px, transparent 40px),
+                repeating-linear-gradient(0deg, rgba(179, 163, 105, 0.1) 0px, rgba(179, 163, 105, 0.1) 1px, transparent 1px, transparent 40px);
+            opacity: 0.4;
+        }
+
+        .tech-header .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .university-badge {
+            display: inline-block;
+            background: var(--gt-gold);
+            color: var(--gt-navy);
+            padding: 10px 20px;
+            font-size: 0.7em;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            border: 3px solid rgba(255,255,255,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .company-tag {
+            display: inline-block;
+            background: rgba(255,255,255,0.15);
+            color: white;
+            padding: 6px 14px;
+            font-size: 0.65em;
+            margin-left: 12px;
+            letter-spacing: 2px;
+            border: 2px solid rgba(255,255,255,0.3);
+            font-weight: bold;
+        }
+
+        .title-line {
+            font-size: 1.05em;
+            margin-top: 12px;
+            opacity: 0.95;
+            letter-spacing: 1.5px;
+            font-weight: 300;
+        }
+
+        .engineering-card {
+            background: white;
+            border-left: 8px solid var(--gt-gold);
+            border-top: 1px solid #e0e0e0;
+            padding: 30px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .engineering-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, transparent 50%, var(--light-gray) 50%);
+        }
+
+        .engineering-card:hover {
+            transform: translateX(8px);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+            border-left-color: var(--tech-blue);
+        }
+
+        .project-box {
+            background: white;
+            border: 3px solid var(--innovation-teal);
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .project-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--gt-gold), var(--innovation-teal), var(--tech-blue));
+        }
+
+        .project-box:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 8px 8px 0 var(--slate);
+            border-color: var(--gt-gold);
+        }
+
+        .skill-label {
+            font-size: 0.7em;
+            color: var(--slate);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .skill-label::before {
+            content: '▸';
+            color: var(--gt-gold);
+            font-size: 1.2em;
+        }
+
+        .project-title {
+            font-weight: bold;
+            font-size: 1.25em;
+            margin-bottom: 15px;
+            color: var(--gt-navy);
+        }
+
+        .innovation-banner {
+            background: linear-gradient(to right, var(--gt-gold), var(--accent-orange));
+            color: white;
+            padding: 25px 35px;
+            margin: 35px 0;
+            font-size: 1.05em;
+            line-height: 1.8;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+            position: relative;
+        }
+
+        .innovation-banner::before {
+            content: '⚙';
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 3em;
+            opacity: 0.2;
+        }
+
+        .innovation-banner strong {
+            display: block;
+            font-size: 0.8em;
+            letter-spacing: 2.5px;
+            margin-bottom: 10px;
+            opacity: 0.95;
+        }
+
+        .expertise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .tech-icon {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: linear-gradient(135deg, var(--tech-blue), var(--innovation-teal));
+            margin-right: 12px;
+            vertical-align: middle;
+            position: relative;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .focus-tag {
+            display: inline-block;
+            background: var(--light-gray);
+            border: 2px solid var(--gt-navy);
+            color: var(--gt-navy);
+            padding: 8px 16px;
+            margin: 6px 6px 6px 0;
+            font-size: 0.8em;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+        }
+
+        .focus-tag:hover {
+            background: var(--gt-gold);
+            border-color: var(--gt-gold);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .education-section {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin: 18px 0;
+            padding: 20px;
+            background: var(--light-gray);
+            border-left: 5px solid var(--gt-gold);
+            border-right: 5px solid var(--gt-navy);
+        }
+
+        .education-section .degree {
+            font-weight: bold;
+            color: var(--gt-navy);
+            font-size: 1.05em;
+        }
+
+        .education-section .school {
+            color: var(--slate);
+            font-weight: 500;
+        }
+
+        .link-section a {
+            color: var(--tech-blue);
+            text-decoration: none;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            padding-bottom: 2px;
+        }
+
+        .link-section a:hover {
+            border-bottom: 3px solid var(--gt-gold);
+            color: var(--gt-navy);
+        }
+
+        /* Blueprint-inspired section headers */
+        h2 {
+            position: relative;
+            padding-left: 25px;
+            color: var(--gt-navy);
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--gt-gold), var(--tech-blue));
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 80%, 30% 50%, 0 20%);
+        }
+
+        .metric-highlight {
+            background: linear-gradient(to right, rgba(179, 163, 105, 0.1), rgba(0, 169, 206, 0.1));
+            border-left: 4px solid var(--innovation-teal);
+            padding: 15px 20px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+
+        .company-section {
+            background: var(--gt-navy);
+            color: white;
+            padding: 30px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .company-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--gt-gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tech-header">
+            <div class="content">
+                <div class="university-badge">GEORGIA INSTITUTE OF TECHNOLOGY</div>
+                <h1>SHREYA CHOUDHARY</h1>
+                <p class="title-line">Mechanical Engineer • Product Innovator<span class="company-tag">HATCH</span></p>
+            </div>
+        </div>
+
+        <section class="about">
+            <div class="engineering-card">
+                <p style="font-size: 1.15em; line-height: 1.8; margin-bottom: 15px;">
+                    A mechanical engineer with a passion for innovation and problem-solving, Shreya Choudhary combines
+                    rigorous technical training from Georgia Tech with hands-on experience across diverse engineering
+                    domains. From robotics to data analysis, she brings a systematic approach to tackling complex challenges.
+                </p>
+                <p style="line-height: 1.7;">
+                    Currently at Hatch, Shreya applies her engineering expertise to drive product development and innovation.
+                    Her background spans product design, prototyping, automation, and data-driven decision making—skills honed
+                    through internships at leading organizations and refined through academic excellence at one of the nation's
+                    premier engineering institutions.
+                </p>
+            </div>
+
+            <div class="innovation-banner">
+                <strong>ENGINEERING PHILOSOPHY</strong>
+                Transforming technical challenges into elegant solutions through systematic analysis,
+                creative prototyping, and data-driven iteration.
+            </div>
+        </section>
+
+        <section class="projects">
+            <h2>EXPERTISE & FOCUS AREAS</h2>
+
+            <div class="expertise-grid">
+                <div class="project-box">
+                    <div class="skill-label">⚙️ MECHANICAL DESIGN</div>
+                    <div class="project-title">Product Design & Prototyping</div>
+                    <p>
+                        Experience in product design and rapid prototyping, translating concepts into
+                        functional solutions. Strong foundation in mechanical systems, materials selection,
+                        and manufacturing processes from Georgia Tech's rigorous curriculum.
+                    </p>
+                </div>
+
+                <div class="project-box">
+                    <div class="skill-label">🤖 ROBOTICS & AUTOMATION</div>
+                    <div class="project-title">Robotic Systems</div>
+                    <p>
+                        Passionate about robotics and automation technologies. Applying mechanical engineering
+                        principles to design and optimize robotic systems, from kinematics to control systems
+                        and sensor integration.
+                    </p>
+                </div>
+
+                <div class="project-box">
+                    <div class="skill-label">📊 DATA ANALYSIS</div>
+                    <div class="project-title">Engineering Analytics</div>
+                    <p>
+                        Leveraging data analysis and computational tools to inform engineering decisions.
+                        Teaching Assistant for MATLAB (CS1371 - Computing for Engineers), helping students
+                        master programming fundamentals for engineering applications.
+                    </p>
+                </div>
+
+                <div class="project-box">
+                    <div class="skill-label">🔧 SYSTEMS ENGINEERING</div>
+                    <div class="project-title">Service-Oriented Solutions</div>
+                    <p>
+                        Skilled in service-oriented troubleshooting and systems thinking. Experience identifying
+                        root causes, developing systematic solutions, and optimizing complex engineering systems
+                        for reliability and performance.
+                    </p>
+                </div>
+
+                <div class="project-box">
+                    <div class="skill-label">🚀 PRODUCT INNOVATION</div>
+                    <div class="project-title">End-to-End Development</div>
+                    <p>
+                        Driving innovation at Hatch through comprehensive product development. From ideation
+                        and prototyping to testing and refinement, applying engineering rigor to bring new
+                        products to market.
+                    </p>
+                </div>
+
+                <div class="project-box">
+                    <div class="skill-label">💡 COMPUTATIONAL TOOLS</div>
+                    <div class="project-title">Engineering Software</div>
+                    <p>
+                        Proficient in MATLAB, CAD software, and computational analysis tools. Combining
+                        analytical skills with programming to model, simulate, and optimize engineering
+                        systems and designs.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section style="margin: 50px 0;">
+            <h2>EDUCATION & EXPERIENCE</h2>
+
+            <div class="education-section">
+                <span class="degree">B.S. Mechanical Engineering</span>
+                <span style="color: #999;">•</span>
+                <span class="school">Georgia Institute of Technology</span>
+            </div>
+
+            <div class="metric-highlight">
+                <strong>Georgia Tech Honors Program</strong> — Member of the prestigious honors program,
+                demonstrating academic excellence and commitment to advanced engineering education.
+            </div>
+
+            <div class="education-section">
+                <span class="degree">Teaching Assistant - CS1371</span>
+                <span style="color: #999;">•</span>
+                <span class="school">Computing for Engineers (MATLAB)</span>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <p style="margin-bottom: 15px;"><strong>Previous Experience:</strong></p>
+                <div class="engineering-card" style="margin-bottom: 15px;">
+                    <p><strong>Norfolk Southern</strong> — Engineering Intern<br>
+                    <span style="color: #666; font-size: 0.9em;">Rail transportation systems and infrastructure</span></p>
+                </div>
+                <div class="engineering-card" style="margin-bottom: 15px;">
+                    <p><strong>Milwaukee Tool</strong> — Engineering Intern<br>
+                    <span style="color: #666; font-size: 0.9em;">Product development and design</span></p>
+                </div>
+                <div class="engineering-card">
+                    <p><strong>Amtrak</strong> — Engineering Intern<br>
+                    <span style="color: #666; font-size: 0.9em;">Transportation engineering and operations</span></p>
+                </div>
+            </div>
+
+            <div style="margin-top: 35px;">
+                <p style="margin-bottom: 15px;"><strong>Technical Competencies:</strong></p>
+                <div>
+                    <span class="focus-tag">Mechanical Design</span>
+                    <span class="focus-tag">Product Development</span>
+                    <span class="focus-tag">Robotics</span>
+                    <span class="focus-tag">Data Analysis</span>
+                    <span class="focus-tag">MATLAB Programming</span>
+                    <span class="focus-tag">CAD/CAM</span>
+                    <span class="focus-tag">Prototyping</span>
+                    <span class="focus-tag">Automation</span>
+                    <span class="focus-tag">Systems Engineering</span>
+                    <span class="focus-tag">Troubleshooting</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="company-section">
+            <h2 style="color: white; margin-bottom: 15px;">CURRENT WORK</h2>
+            <p style="line-height: 1.7; font-size: 1.05em;">
+                <strong>Hatch</strong> — Applying mechanical engineering expertise to drive innovation and product
+                development. Leveraging analytical skills, prototyping experience, and systematic problem-solving
+                to create impactful solutions.
+            </p>
+        </div>
+
+        <footer style="margin-top: 60px; padding-top: 30px; border-top: 5px solid var(--gt-gold);">
+            <div class="link-section">
+                <p style="margin-bottom: 20px;">
+                    <strong style="color: var(--slate); letter-spacing: 1.5px;">CONNECT & LINKS</strong>
+                </p>
+                <p>
+                    <a href="https://www.linkedin.com/in/shreyachoudhary48/" target="_blank">LinkedIn</a>
+                </p>
+            </div>
+            <p style="margin-top: 25px; font-size: 0.85em; color: #666;">
+                <span class="tech-icon" style="width: 20px; height: 20px; margin-right: 8px;"></span>
+                Georgia Institute of Technology • Hatch
+            </p>
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myles Friedman - Economics & Finance</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        :root {
+            --market-green: #10b981;
+            --market-red: #ef4444;
+            --navy: #1e3a8a;
+            --deep-blue: #1e40af;
+            --slate: #475569;
+            --light-slate: #94a3b8;
+            --paper: #fafaf9;
+            --off-white: #f8fafc;
+            --gold: #f59e0b;
+            --charcoal: #1f2937;
+        }
+
+        body {
+            background: var(--paper);
+            color: var(--charcoal);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            position: relative;
+        }
+
+        /* Subtle data grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(30, 58, 138, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(30, 58, 138, 0.03) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Header with financial market aesthetic */
+        .header {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 100%);
+            color: white;
+            padding: 4rem 3rem;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.15);
+        }
+
+        /* Subtle chart-like pattern in background */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.03) 30%, rgba(255, 255, 255, 0.03) 70%, transparent 70%);
+            background-size: 4px 4px;
+            opacity: 0.5;
+        }
+
+        .header h1 {
+            font-size: 4rem;
+            font-weight: 300;
+            margin: 0;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .title-accent {
+            width: 100px;
+            height: 4px;
+            background: var(--gold);
+            margin: 1.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .subtitle {
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+            letter-spacing: 0.05em;
+            font-weight: 400;
+            margin: 0;
+            font-family: 'Helvetica Neue', sans-serif;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header .credentials {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.75);
+            margin-top: 0.75rem;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* About section */
+        section {
+            margin-bottom: 4rem;
+        }
+
+        section h2 {
+            font-size: 2rem;
+            color: var(--navy);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            position: relative;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--navy);
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        .about-card {
+            background: white;
+            padding: 2.5rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            border-left: 5px solid var(--deep-blue);
+            margin-bottom: 2rem;
+        }
+
+        .about-card p {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: var(--slate);
+            margin-bottom: 1rem;
+        }
+
+        /* Research highlight */
+        .research-highlight {
+            background: linear-gradient(to right, var(--off-white), white);
+            padding: 2.5rem;
+            border: 2px solid var(--navy);
+            position: relative;
+            margin-top: 2rem;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+        }
+
+        .research-highlight::before {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            font-size: 6rem;
+            color: var(--gold);
+            opacity: 0.3;
+            font-family: Georgia, serif;
+            line-height: 1;
+        }
+
+        .research-highlight h3 {
+            font-size: 1.75rem;
+            color: var(--navy);
+            margin: 0 0 1rem 0;
+            font-weight: 400;
+            font-style: italic;
+        }
+
+        .research-highlight p {
+            color: var(--slate);
+            line-height: 1.7;
+            font-size: 1.125rem;
+            margin: 0;
+        }
+
+        .research-highlight .thesis-label {
+            display: inline-block;
+            background: var(--navy);
+            color: white;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 1.5rem;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        /* Skills grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-top: 4px solid var(--deep-blue);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        .skill-category h3 {
+            font-size: 1.5rem;
+            color: var(--navy);
+            margin: 0 0 1.25rem 0;
+            font-weight: 500;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .skill-category li {
+            padding: 0.5rem 0;
+            color: var(--slate);
+            font-size: 1.125rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .skill-category li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+
+        /* Experience timeline */
+        .experience-timeline {
+            margin-top: 2rem;
+        }
+
+        .experience-item {
+            background: white;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            border-left: 5px solid var(--gold);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            position: relative;
+        }
+
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -13px;
+            top: 2.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--gold);
+            border: 4px solid white;
+            border-radius: 50%;
+            box-shadow: 0 0 0 2px var(--gold);
+        }
+
+        .experience-item .period {
+            font-size: 0.875rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .experience-item h4 {
+            font-size: 1.75rem;
+            color: var(--navy);
+            margin: 0 0 0.5rem 0;
+            font-weight: 500;
+        }
+
+        .experience-item .role {
+            font-size: 1.25rem;
+            color: var(--deep-blue);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .experience-item p {
+            color: var(--slate);
+            line-height: 1.7;
+            font-size: 1.125rem;
+            margin: 0;
+        }
+
+        /* Education card */
+        .education-card {
+            background: linear-gradient(135deg, var(--navy) 0%, var(--deep-blue) 100%);
+            color: white;
+            padding: 3rem;
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(30, 58, 138, 0.2);
+        }
+
+        .education-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+        }
+
+        .education-card h3 {
+            font-size: 2.5rem;
+            font-weight: 400;
+            margin: 0 0 0.5rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .education-card .degree {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .education-card .year {
+            font-size: 1.125rem;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .education-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.7;
+            font-size: 1.125rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stats showcase */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: var(--off-white);
+            border-radius: 4px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .number {
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--navy);
+            margin-bottom: 0.5rem;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        .stat-item .label {
+            font-size: 1rem;
+            color: var(--slate);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 2px solid var(--navy);
+            margin-top: 4rem;
+            position: relative;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: var(--gold);
+        }
+
+        footer a {
+            color: var(--navy);
+            text-decoration: none;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            font-family: 'Helvetica Neue', sans-serif;
+        }
+
+        footer a:hover {
+            color: var(--gold);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5rem;
+            }
+
+            .header .subtitle {
+                font-size: 1.125rem;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .about-card {
+                padding: 1.5rem;
+            }
+
+            .experience-item {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Myles Friedman</h1>
+            <div class="title-accent"></div>
+            <p class="subtitle">Trading Analyst & Economist</p>
+            <p class="credentials">Northwestern University • Economics B.A. '22</p>
+        </header>
+
+        <section class="about">
+            <h2>About</h2>
+            <div class="about-card">
+                <p>
+                    Myles Friedman is a trading analyst at Performance Trust with a strong foundation in
+                    economics and quantitative analysis. His work combines rigorous economic theory with
+                    practical financial market applications.
+                </p>
+                <p>
+                    A 2022 graduate of Northwestern University, Myles distinguished himself through his
+                    honors thesis on tax policy and the sharing economy, demonstrating his ability to
+                    tackle complex economic questions with both analytical precision and real-world relevance.
+                </p>
+            </div>
+
+            <div class="research-highlight">
+                <h3>Taxing Airbnb: A Boston Case Study</h3>
+                <p>
+                    This undergraduate honors thesis examined the economic and policy implications of
+                    taxation in the sharing economy, using Boston's Airbnb market as a lens to understand
+                    broader questions of regulatory frameworks, tax incidence, and market efficiency in
+                    digital platforms.
+                </p>
+                <span class="thesis-label">Economics Honors Thesis</span>
+            </div>
+        </section>
+
+        <section class="experience">
+            <h2>Professional Experience</h2>
+
+            <div class="experience-timeline">
+                <div class="experience-item">
+                    <p class="period">Current</p>
+                    <h4>Performance Trust</h4>
+                    <p class="role">Trading Analyst</p>
+                    <p>
+                        Applying economic analysis and quantitative methods to financial markets,
+                        supporting trading strategies through data-driven insights and market research.
+                    </p>
+                </div>
+
+                <div class="experience-item">
+                    <p class="period">During Studies</p>
+                    <h4>Northwestern University</h4>
+                    <p class="role">Research Assistant, Center for Economic History</p>
+                    <p>
+                        Conducted economic research supporting faculty investigations into historical
+                        economic trends, developing skills in data analysis, archival research, and
+                        quantitative methodology.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills">
+            <h2>Areas of Expertise</h2>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Economics</h3>
+                    <ul>
+                        <li>Microeconomic Theory</li>
+                        <li>Public Policy Analysis</li>
+                        <li>Tax Policy & Incidence</li>
+                        <li>Market Structure</li>
+                        <li>Economic History</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Finance & Markets</h3>
+                    <ul>
+                        <li>Trading Analysis</li>
+                        <li>Market Research</li>
+                        <li>Financial Modeling</li>
+                        <li>Risk Assessment</li>
+                        <li>Portfolio Analytics</li>
+                    </ul>
+                </div>
+
+                <div class="skill-category">
+                    <h3>Technical Skills</h3>
+                    <ul>
+                        <li>Data Analysis</li>
+                        <li>Statistical Methods</li>
+                        <li>Quantitative Research</li>
+                        <li>Economic Modeling</li>
+                        <li>Research Methodology</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="education-section">
+            <h2>Education</h2>
+
+            <div class="education-card">
+                <h3>Northwestern University</h3>
+                <p class="degree">Bachelor of Arts in Economics</p>
+                <p class="year">Class of 2022 • Honors Graduate</p>
+                <p>
+                    Completed undergraduate studies with honors distinction, culminating in an
+                    independent research thesis examining taxation policy in the sharing economy.
+                    Developed expertise in economic theory, quantitative analysis, and policy evaluation
+                    while contributing to research at the Center for Economic History.
+                </p>
+            </div>
+        </section>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="number">2022</div>
+                <div class="label">Northwestern Grad</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">Econ</div>
+                <div class="label">Honors Thesis</div>
+            </div>
+            <div class="stat-item">
+                <div class="number">NU</div>
+                <div class="label">Research Assistant</div>
+            </div>
+        </div>
+
+        <footer>
+            <a href="/">← Back to Home</a>
+        </footer>
+    </div>
+</body>
+</html>

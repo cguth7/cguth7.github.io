@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leon Sommer Simpson - New Year's Party</title>
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        :root {
+            --nye-gold: #FFD700;
+            --nye-silver: #C0C0C0;
+            --nye-champagne: #F7E7CE;
+            --nye-midnight: #191970;
+            --nye-rose-gold: #B76E79;
+            --sequin-pink: #FF69B4;
+            --sequin-blue: #4169E1;
+            --winter-ice: #E0F2F7;
+            --party-purple: #9370DB;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--nye-midnight) 0%, var(--party-purple) 100%);
+            color: white;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Sparkle effect background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(192, 192, 192, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(255, 105, 180, 0.1) 0%, transparent 50%);
+            animation: sparkle 4s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .party-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .party-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--nye-gold) 0%, var(--nye-rose-gold) 50%, var(--sequin-pink) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
+
+        .party-header .subtitle {
+            font-size: 1.5rem;
+            color: var(--nye-champagne);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .party-header .date {
+            font-size: 1.2rem;
+            color: var(--nye-silver);
+            margin-top: 1rem;
+            font-style: italic;
+        }
+
+        /* Interactive Sequin Pillow */
+        .sequin-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .sequin-section h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--nye-gold);
+            margin-bottom: 2rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .sequin-pillow-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 3rem 0;
+        }
+
+        .sequin-pillow {
+            width: 400px;
+            height: 400px;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-template-rows: repeat(20, 1fr);
+            gap: 2px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+        }
+
+        .sequin {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            background: var(--sequin-pink);
+            box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.5);
+        }
+
+        .sequin.flipped {
+            background: var(--sequin-blue);
+            transform: rotateY(180deg);
+        }
+
+        .sequin:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8);
+        }
+
+        .pillow-instructions {
+            text-align: center;
+            color: var(--nye-champagne);
+            font-size: 1.1rem;
+            margin-top: 2rem;
+            font-style: italic;
+        }
+
+        /* Temperature Guide */
+        .temp-guide {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 3rem;
+            border: 2px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .temp-guide h2 {
+            font-size: 2.5rem;
+            text-align: center;
+            color: var(--nye-gold);
+            margin-bottom: 3rem;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .temp-controls {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .temp-slider-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .temp-label {
+            font-size: 1.3rem;
+            color: var(--nye-champagne);
+            margin-bottom: 1rem;
+        }
+
+        .temp-value {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00BFFF 0%, #FF4500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 1rem 0;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 15px;
+            border-radius: 10px;
+            background: linear-gradient(90deg,
+                #00BFFF 0%,
+                #4169E1 25%,
+                #FFD700 50%,
+                #FF8C00 75%,
+                #FF4500 100%);
+            outline: none;
+            -webkit-appearance: none;
+            margin: 1rem 0;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .style-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .style-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0.3;
+            transform: scale(0.95);
+        }
+
+        .style-card.active {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+            border-color: var(--nye-gold);
+        }
+
+        .style-card h3 {
+            font-size: 1.8rem;
+            color: var(--nye-gold);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .style-card .temp-range {
+            font-size: 1.1rem;
+            color: var(--nye-silver);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+        }
+
+        .style-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .style-card li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--nye-champagne);
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+
+        .style-card li:last-child {
+            border-bottom: none;
+        }
+
+        .style-card li::before {
+            content: '✨ ';
+            margin-right: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        footer a {
+            color: var(--nye-gold);
+            text-decoration: none;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            padding: 1rem 2rem;
+            border: 2px solid var(--nye-gold);
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        footer a:hover {
+            background: var(--nye-gold);
+            color: var(--nye-midnight);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .party-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .sequin-pillow {
+                width: 300px;
+                height: 300px;
+                grid-template-columns: repeat(15, 1fr);
+                grid-template-rows: repeat(15, 1fr);
+            }
+
+            .style-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .temp-guide h2,
+            .sequin-section h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="party-header">
+            <h1>Leon Sommer Simpson</h1>
+            <p class="subtitle">New Year's Eve Party</p>
+            <p class="date">Celebrating 2026 in Style</p>
+        </header>
+
+        <!-- Interactive Sequin Pillow -->
+        <section class="sequin-section">
+            <h2>Interactive Sequin Pillow</h2>
+            <p style="text-align: center; color: var(--nye-champagne); font-size: 1.2rem; margin-bottom: 2rem;">
+                Just like Leon's fabulous sequin collection, this pillow changes with every touch!
+            </p>
+
+            <div class="sequin-pillow-container">
+                <div class="sequin-pillow" id="sequinPillow"></div>
+            </div>
+
+            <p class="pillow-instructions">
+                Click, drag, or tap on the pillow to flip the sequins! Each interaction reveals a new sparkle pattern.
+            </p>
+        </section>
+
+        <!-- Temperature-Based Styling Guide -->
+        <section class="temp-guide">
+            <h2>Sequin Styling Guide by Temperature</h2>
+            <p style="text-align: center; color: var(--nye-champagne); font-size: 1.2rem; margin-bottom: 2rem;">
+                Find the perfect sequin outfit for any weather! Slide to see recommendations for different temperatures.
+            </p>
+
+            <div class="temp-controls">
+                <div class="temp-slider-container">
+                    <div class="temp-label">Current Temperature</div>
+                    <div class="temp-value"><span id="tempDisplay">65</span>°F</div>
+                    <input type="range" id="tempSlider" min="0" max="100" value="65" step="1">
+                </div>
+            </div>
+
+            <div class="style-cards">
+                <!-- Freezing (0-32°F) -->
+                <div class="style-card" data-min-temp="0" data-max-temp="32">
+                    <h3>❄️ Freezing Fabulous</h3>
+                    <p class="temp-range">0°F - 32°F</p>
+                    <ul>
+                        <li>Sequin puffer jacket over turtleneck</li>
+                        <li>Metallic sequin beanie or ear warmers</li>
+                        <li>Thermal leggings with sequin overlay skirt</li>
+                        <li>Ankle boots with sequin detailing</li>
+                        <li>Faux fur coat with hidden sequin lining</li>
+                        <li>Layered: sequin top under wool blazer</li>
+                    </ul>
+                </div>
+
+                <!-- Cold (33-50°F) -->
+                <div class="style-card" data-min-temp="33" data-max-temp="50">
+                    <h3>🌙 Cool Sparkle</h3>
+                    <p class="temp-range">33°F - 50°F</p>
+                    <ul>
+                        <li>Sequin bomber jacket with jeans</li>
+                        <li>Long-sleeve sequin midi dress with tights</li>
+                        <li>Sequin cardigan over basic tee</li>
+                        <li>Tailored pants with sequin blazer</li>
+                        <li>Sequin scarf as statement piece</li>
+                        <li>Knee-high boots with sequin mini skirt</li>
+                    </ul>
+                </div>
+
+                <!-- Mild (51-70°F) -->
+                <div class="style-card active" data-min-temp="51" data-max-temp="70">
+                    <h3>✨ Perfect Party Weather</h3>
+                    <p class="temp-range">51°F - 70°F</p>
+                    <ul>
+                        <li>Sequin cocktail dress (knee-length)</li>
+                        <li>Sequin crop top with high-waisted pants</li>
+                        <li>Blazer with sequin camisole underneath</li>
+                        <li>Sequin jumpsuit for effortless glamour</li>
+                        <li>Denim jacket with sequin patches</li>
+                        <li>Ankle-length sequin skirt with silk blouse</li>
+                    </ul>
+                </div>
+
+                <!-- Warm (71-85°F) -->
+                <div class="style-card" data-min-temp="71" data-max-temp="85">
+                    <h3>☀️ Sunny Shimmer</h3>
+                    <p class="temp-range">71°F - 85°F</p>
+                    <ul>
+                        <li>Lightweight sequin tank top</li>
+                        <li>Sequin shorts with breathable blouse</li>
+                        <li>Halter neck sequin mini dress</li>
+                        <li>Sequin cami with linen pants</li>
+                        <li>Open-back sequin top</li>
+                        <li>Sequin sandals or espadrilles</li>
+                    </ul>
+                </div>
+
+                <!-- Hot (86-100°F) -->
+                <div class="style-card" data-min-temp="86" data-max-temp="100">
+                    <h3>🔥 Sizzling Sequins</h3>
+                    <p class="temp-range">86°F - 100°F</p>
+                    <ul>
+                        <li>Sequin bralette with high-waisted shorts</li>
+                        <li>Sheer sequin overlay kaftan</li>
+                        <li>Minimal sequin accessories (clutch, earrings)</li>
+                        <li>Sequin bikini or swimsuit cover-up</li>
+                        <li>Lightweight sequin headband</li>
+                        <li>Strappy sequin sandals (statement shoes only)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <a href="/">← Back to Home</a>
+        </footer>
+    </div>
+
+    <script>
+        // Interactive Sequin Pillow
+        const pillow = document.getElementById('sequinPillow');
+        const sequinCount = 20 * 20; // 400 sequins
+        let isMouseDown = false;
+
+        // Create sequins
+        for (let i = 0; i < sequinCount; i++) {
+            const sequin = document.createElement('div');
+            sequin.className = 'sequin';
+            pillow.appendChild(sequin);
+        }
+
+        // Flip sequin function
+        function flipSequin(sequin) {
+            sequin.classList.toggle('flipped');
+        }
+
+        // Mouse/touch event handlers
+        pillow.addEventListener('mousedown', (e) => {
+            isMouseDown = true;
+            if (e.target.classList.contains('sequin')) {
+                flipSequin(e.target);
+            }
+        });
+
+        pillow.addEventListener('mouseover', (e) => {
+            if (isMouseDown && e.target.classList.contains('sequin')) {
+                flipSequin(e.target);
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isMouseDown = false;
+        });
+
+        // Touch support
+        pillow.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (element && element.classList.contains('sequin')) {
+                flipSequin(element);
+            }
+        });
+
+        pillow.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const element = document.elementFromPoint(touch.clientX, touch.clientY);
+            if (element && element.classList.contains('sequin')) {
+                flipSequin(element);
+            }
+        });
+
+        // Temperature Guide
+        const tempSlider = document.getElementById('tempSlider');
+        const tempDisplay = document.getElementById('tempDisplay');
+        const styleCards = document.querySelectorAll('.style-card');
+
+        function updateStyleGuide(temp) {
+            tempDisplay.textContent = temp;
+
+            styleCards.forEach(card => {
+                const minTemp = parseInt(card.dataset.minTemp);
+                const maxTemp = parseInt(card.dataset.maxTemp);
+
+                if (temp >= minTemp && temp <= maxTemp) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        }
+
+        tempSlider.addEventListener('input', (e) => {
+            updateStyleGuide(parseInt(e.target.value));
+        });
+
+        // Initialize with default temperature
+        updateStyleGuide(65);
+
+        // Add random sparkle animation to some sequins
+        setInterval(() => {
+            const sequins = document.querySelectorAll('.sequin');
+            const randomSequin = sequins[Math.floor(Math.random() * sequins.length)];
+            randomSequin.style.boxShadow = '0 0 15px rgba(255, 215, 0, 1)';
+            setTimeout(() => {
+                randomSequin.style.boxShadow = 'inset 0 0 5px rgba(255, 255, 255, 0.5)';
+            }, 500);
+        }, 2000);
+    </script>
+</body>
+</html>
