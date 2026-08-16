@@ -13,7 +13,7 @@ window.LIBRARY = (() => {
     };
     const SHELVES = [['R'], ['G', 'P'], ['J', 'F', 'PPL', 'A']];
     const ENTRIES = [
-        ['R', '/philly_bulletin/', 'Philly Bulletin', 'Reality site prototype: ranked list + hood map, data illustrative.', '2026-08'],
+        ['R', '/philly_bulletin/', 'Philly Bulletin', 'Reality site prototype: ranked list + hood map over the frozen May 2026 snapshot.', '2026-08'],
         ['R', '/events_v3_chi/', 'Chicago · the Map', 'Current consumer surface: Leaflet map, hood focus, filters.', '2026-05'],
         ['R', '/events_v3_chi/events.html', 'Chicago · All Events', 'Same data as a ranked, filterable table.', '2026-05'],
         ['R', '/events_v3_chi/about.html', 'Chicago · How It Works', 'The engine explained, with live stats from data.json.', '2026-06'],

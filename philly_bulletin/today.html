@@ -132,31 +132,28 @@
     <a href="sources.html">Sources</a>
     <a href="about.html">How it works</a>
     <span class="right">
-      <a href="#">42 events today</a>
+      <a href="#" id="navcount">…</a>
       <a class="cta" href="#list">Tonight →</a>
     </span>
   </nav>
 
   <div class="hero">
-    <div class="kicker">Philadelphia · every source, one ranked list</div>
-    <h1>Sunday, August 16.</h1>
-    <p class="lede">Every public event we can find in the city — pulled from venue calendars,
-      platforms, and civic feeds, resolved to real places, and ranked by the Rater on five
-      dimensions of a good time out. <b>42 events today</b> across 20 neighborhoods.</p>
+    <div class="kicker">Philadelphia · every source, one ranked list · frozen may–june 2026 snapshot</div>
+    <h1 id="h1day">Philadelphia.</h1>
+    <p class="lede">Every public event we could find in the city — pulled from venue calendars,
+      platforms, and civic feeds, resolved to real places, and ranked by the Rater on six
+      dimensions of a good time out. <b id="ledecount">…</b> across <span id="ledehoods">…</span>
+      neighborhoods. Real data from a frozen engine snapshot (generated 2026-05-26) — no live
+      pipeline behind this page yet.</p>
   </div>
 
   <div class="filters">
-    <div class="frow"><span class="flabel">Day</span>
-      <button class="pillbtn on locked" title="prototype: today only">Today · Sun</button>
-      <button class="pillbtn" disabled title="prototype: today only">Mon</button>
-      <button class="pillbtn" disabled title="prototype: today only">Tue</button>
-      <button class="pillbtn" disabled title="prototype: today only">Next weekend</button>
-    </div>
+    <div class="frow"><span class="flabel">Day</span><span id="days"></span></div>
     <div class="frow"><span class="flabel">Neighborhood</span><span id="chips"></span></div>
   </div>
 
   <section id="list">
-    <div class="seclabel"><span>Ranked — the Rater's picks for today</span><span>quality = 5 dims, weighted · <a href="about.html">how scoring works</a></span></div>
+    <div class="seclabel"><span>Ranked — the Rater's picks for the day</span><span>quality = 6 dims, weighted · <a href="about.html">how scoring works</a></span></div>
     <div class="list" id="evlist"></div>
   </section>
 
@@ -330,120 +327,175 @@
           <g id="marks"></g>
         </svg>
         <div class="legend">
-          <span><span class="sw" style="background:#eef3ea"></span>1 event</span>
-          <span><span class="sw" style="background:#dfebd2"></span>2</span>
-          <span><span class="sw" style="background:#cbe0b8"></span>3+</span>
+          <span><span class="sw" style="background:#eef3ea"></span><span id="lg1">1 event</span></span>
+          <span><span class="sw" style="background:#dfebd2"></span><span id="lg2">2</span></span>
+          <span><span class="sw" style="background:#cbe0b8"></span><span id="lg3">3+</span></span>
           <span><span class="dotmk">1</span>ranked pick — numbers match the list</span>
         </div>
       </div>
       <aside class="board">
-        <div class="t">By neighborhood · today</div>
+        <div class="t">By neighborhood · this day</div>
         <div id="lb"></div>
-        <div class="more">+ 10 more neighborhoods with 1 event</div>
+        <div class="more" id="lbmore"></div>
       </aside>
     </div>
   </section>
 
-  <footer>Prototype · events illustrative, shaped as schema v2; neighborhoods are the city's 159
-    (OpenDataPhilly). Design language: parse.bot, tailored to a city's day. · Reality — make real
-    life easier than the feed.</footer>
+  <footer>Prototype · real events from a frozen engine snapshot, generated 2026-05-26 (742 events,
+    40 sources, no live pipeline); neighborhoods are the city's 159 (OpenDataPhilly). Design
+    language: parse.bot, tailored to a city's day. · Reality — make real life easier than the
+    feed.</footer>
 
 </div>
 
 <script>
-// display hood -> geojson MAPNAME
-const D2M = {
-  "Fishtown": "Fishtown - Lower Kensington",
-  "Germantown": "Germantown - Penn Knox",
-};
-const M = h => D2M[h] || h;
-
-// rank, quality, time, title, venue, display hood, price (null=free), marker x/y
-const EVENTS = [
-  [1, 8.6, "10:00 am", "Farmers Market & Flea", "Clark Park", "Spruce Hill", null, 149.3, 533.0],
-  [2, 8.4, "8:00 pm", "Movies at the Pier", "Cherry Street Pier", "Old City", null, 299.6, 520.7],
-  [3, 8.1, "9:00 pm", "45s & Soul Night", "Johnny Brenda's", "Fishtown", null, 314.7, 466.9],
-  [4, 7.9, "6:00 pm", "Summer Concert on the Square", "Rittenhouse Square", "Rittenhouse", null, 234.3, 530.8],
-  [5, 7.8, "8:00 pm", "Indie triple bill", "Union Transfer", "Callowhill", "$18", 263.7, 497.7],
-  [6, 7.6, "5:00 pm", "Sunset rooftop DJs", "Bok Bar", "East Passyunk", null, 252.0, 603.2],
-  [7, 7.4, "2:00 pm", "Beer garden jazz", "Attic Brewing", "Germantown", null, 231.8, 292.6],
-  [8, 7.3, "11:00 am", "Philly Zine Fair pop-up", "The Rotunda", "University City", null, 175.3, 518.1],
-  [9, 7.1, "8:00 pm", "Patio show", "Ortlieb's", "Northern Liberties", "$8", 300.4, 487.2],
-  [10, 6.9, "1:00 pm", "Open studios", "Fleisher Art Memorial", "Bella Vista", null, 268.1, 560.1],
-  [11, 6.8, "4:00 pm", "After-hours tour", "Mütter Museum", "Rittenhouse", "$15", 223.6, 521.0],
-  [12, 6.7, "12:00 pm", "Manayunk Stroll", "Main Street", "Manayunk", null, 120.9, 317.9],
-];
-
-// today's totals per hood (MAPNAME) — drives tint + leaderboard; sums to 42
-const COUNTS = {
-  "Fishtown - Lower Kensington": 4, "Rittenhouse": 4, "Old City": 3, "University City": 3,
-  "Northern Liberties": 3, "Callowhill": 2, "Spruce Hill": 2, "Bella Vista": 2,
-  "East Passyunk": 2, "Manayunk": 2, "Germantown - Penn Knox": 2, "Center City East": 2,
-  "Washington Square West": 2, "Queen Village": 2, "Fairmount": 2,
-  "Point Breeze": 1, "Chestnut Hill": 1, "East Kensington": 1, "Society Hill": 1, "Graduate Hospital": 1,
-};
+// Real data: fetch('data.json') — the frozen 2026-05-26 engine snapshot (copied
+// verbatim from events_v3/). Everything below derives the day's list, tints,
+// chips, and markers from it.
 const PRETTY = { "Fishtown - Lower Kensington": "Fishtown", "Germantown - Penn Knox": "Germantown" };
+const disp = h => PRETTY[h] || h;
+const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
-// tint hoods
-document.querySelectorAll('#hoods .hood').forEach(p => {
-  const c = COUNTS[p.dataset.hood] || 0;
-  if (c >= 3) p.classList.add('t3'); else if (c === 2) p.classList.add('t2'); else if (c === 1) p.classList.add('t1');
-});
+// lat/lng → SVG viewBox coords. Least-squares fit of this map's own hood
+// polygons against the OpenDataPhilly neighborhood centroids (mean error 1.5px).
+const PX = lng => 2174.0486 * lng + 163660.1609;
+const PY = lat => -2812.2046 * lat + 112876.4419;
 
-// ranked list
+const WD = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const MO = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const fmtTime = e => {
+  if (e.all_day || !e.time) return 'all day';
+  const [h, m] = e.time.split(':').map(Number);
+  return `${((h + 11) % 12) + 1}:${String(m).padStart(2, '0')} ${h < 12 ? 'am' : 'pm'}`;
+};
+
 const list = document.getElementById('evlist');
-list.innerHTML = EVENTS.map(e => `
-  <div class="evrow" data-hood="${e[5]}" data-rk="${e[0]}">
-    <span class="rk">${e[0]}</span><span class="when">${e[2]}</span>
-    <span class="name"><a href="event.html">${e[3]}</a> <span class="at">— ${e[4]} <span class="hd">· <a href="hood.html" style="color:inherit">${e[5]}</a></span></span></span>
-    ${e[6] ? `<span class="price">${e[6]}</span>` : `<span class="free">free</span>`}
-    <span class="q"><b>${e[1].toFixed(1)}</b> quality</span>
-  </div>`).join('') +
-  `<div class="ft">top 12 of 42 today · rank = Rater quality, community-building weighted highest</div>`;
-
-// markers
-const marks = document.getElementById('marks');
-marks.innerHTML = EVENTS.map(e => `
-  <g class="mk" data-hood="${e[5]}" data-rk="${e[0]}" transform="translate(${e[7]},${e[8]})">
-    <circle r="8.5"></circle><text>${e[0]}</text><title>#${e[0]} ${e[3]} — ${e[4]}</title>
-  </g>`).join('');
-
-// chips
-const hoods = [...new Set(EVENTS.map(e => e[5]))];
 const chips = document.getElementById('chips');
-chips.innerHTML = `<button class="pillbtn on" data-hood="">All <span class="n">42</span></button>` +
-  hoods.map(h => `<button class="pillbtn" data-hood="${h}">${h} <span class="n">${COUNTS[M(h)] || 1}</span></button>`).join(' ');
-
-function select(hood) {
-  chips.querySelectorAll('.pillbtn').forEach(b => b.classList.toggle('on', b.dataset.hood === hood));
-  document.querySelectorAll('.evrow[data-hood]').forEach(r => r.classList.toggle('hide', hood && r.dataset.hood !== hood));
-  document.querySelectorAll('#hoods .hood').forEach(p => p.classList.toggle('sel', !!hood && p.dataset.hood === M(hood)));
-  document.querySelectorAll('.mk').forEach(m => m.classList.toggle('dim', !!hood && m.dataset.hood !== hood));
-}
-chips.addEventListener('click', e => { const b = e.target.closest('.pillbtn'); if (b) select(b.dataset.hood); });
-
-// map: clicking a hood with events selects it
-const chipHoods = new Set(hoods.map(M));
-document.querySelectorAll('#hoods .hood').forEach(p => {
-  if (chipHoods.has(p.dataset.hood)) {
-    p.classList.add('pick');
-    p.addEventListener('click', () => select(hoods.find(h => M(h) === p.dataset.hood)));
-  }
-});
-
-// list hover -> marker highlight
-list.addEventListener('mouseover', e => {
-  const r = e.target.closest('.evrow'); if (!r) return;
-  document.querySelectorAll('.mk').forEach(m => m.classList.toggle('hot', m.dataset.rk === r.dataset.rk));
-});
-list.addEventListener('mouseleave', () => document.querySelectorAll('.mk').forEach(m => m.classList.remove('hot')));
-
-// leaderboard
+const marks = document.getElementById('marks');
 const lb = document.getElementById('lb');
-const topHoods = Object.entries(COUNTS).sort((a, b) => b[1] - a[1]).slice(0, 10);
-lb.innerHTML = topHoods.map(([h, c]) => `
-  <div class="brow"><span>${PRETTY[h] || h}</span><span class="c">${c}</span>
-    <span class="bar"><i style="width:${c / topHoods[0][1] * 100}%"></i></span></div>`).join('');
+const svgEl = document.querySelector('#map svg');
+const hoodEls = [...document.querySelectorAll('#hoods .hood')];
+
+fetch('data.json').then(r => r.json()).then(init).catch(err => {
+  list.innerHTML = `<div class="ft">could not load data.json — ${esc(err.message)}</div>`;
+});
+
+function init(data) {
+  const W = data.weights;
+
+  // hood assignment: point-in-polygon against the map itself (bbox prefilter)
+  const boxes = hoodEls.map(p => ({ p, b: p.getBBox() }));
+  const pt = svgEl.createSVGPoint();
+  const canFill = typeof SVGGeometryElement !== 'undefined' && SVGGeometryElement.prototype.isPointInFill;
+  function hoodAt(x, y) {
+    if (!canFill) return null;
+    pt.x = x; pt.y = y;
+    for (const { p, b } of boxes) {
+      if (x >= b.x && x <= b.x + b.width && y >= b.y && y <= b.y + b.height && p.isPointInFill(pt))
+        return p.dataset.hood;
+    }
+    return null;
+  }
+
+  const events = data.events.map(e => {
+    const q = Object.keys(W).reduce((s, k) => s + W[k] * (e.scores?.[k]?.score ?? 0), 0);
+    let x = null, y = null, hood = null;
+    if (e.lat && e.lng) { x = PX(e.lng); y = PY(e.lat); hood = hoodAt(x, y); }
+    return { ...e, q, x, y, hood };
+  });
+
+  const byDate = {};
+  events.forEach(e => (byDate[e.date] ||= []).push(e));
+  const dates = Object.keys(byDate).filter(dt => byDate[dt].length >= 5).sort();
+  const busiest = dates.reduce((a, b) => byDate[b].length > byDate[a].length ? b : a);
+
+  const days = document.getElementById('days');
+  days.innerHTML = dates.map(dt => {
+    const d = new Date(dt + 'T12:00:00');
+    return `<button class="pillbtn" data-date="${dt}">${WD[d.getDay()].slice(0, 3)} ${d.getMonth() + 1}/${d.getDate()} <span class="n">${byDate[dt].length}</span></button>`;
+  }).join(' ');
+  days.addEventListener('click', e => { const b = e.target.closest('.pillbtn'); if (b) renderDay(b.dataset.date); });
+
+  let dayTop = [];  // the rendered top picks, for hover/marker lookups
+
+  function selectHood(hood) {
+    chips.querySelectorAll('.pillbtn').forEach(b => b.classList.toggle('on', b.dataset.hood === hood));
+    list.querySelectorAll('.evrow[data-hood]').forEach(r => r.classList.toggle('hide', !!hood && r.dataset.hood !== hood));
+    hoodEls.forEach(p => p.classList.toggle('sel', !!hood && p.dataset.hood === hood));
+    marks.querySelectorAll('.mk').forEach(m => m.classList.toggle('dim', !!hood && m.dataset.hood !== hood));
+  }
+  chips.addEventListener('click', e => { const b = e.target.closest('.pillbtn'); if (b) selectHood(b.dataset.hood); });
+
+  hoodEls.forEach(p => p.addEventListener('click', () => {
+    if (p.classList.contains('pick')) selectHood(p.dataset.hood);
+  }));
+
+  list.addEventListener('mouseover', e => {
+    const r = e.target.closest('.evrow'); if (!r) return;
+    marks.querySelectorAll('.mk').forEach(m => m.classList.toggle('hot', m.dataset.rk === r.dataset.rk));
+  });
+  list.addEventListener('mouseleave', () => marks.querySelectorAll('.mk').forEach(m => m.classList.remove('hot')));
+
+  function renderDay(dt) {
+    const d = new Date(dt + 'T12:00:00');
+    const evs = [...byDate[dt]].sort((a, b) => b.q - a.q || (a.time || '').localeCompare(b.time || ''));
+    dayTop = evs.slice(0, 12);
+
+    const counts = {};
+    evs.forEach(e => { if (e.hood) counts[e.hood] = (counts[e.hood] || 0) + 1; });
+    const ranked = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+
+    document.getElementById('h1day').textContent = `${WD[d.getDay()]}, ${MO[d.getMonth()]} ${d.getDate()}.`;
+    document.title = `${WD[d.getDay()]} in Philadelphia — Reality`;
+    document.getElementById('navcount').textContent = `${evs.length} events · ${WD[d.getDay()].slice(0, 3)} ${d.getMonth() + 1}/${d.getDate()}`;
+    document.getElementById('ledecount').textContent = `${evs.length} events on this day`;
+    document.getElementById('ledehoods').textContent = ranked.length;
+    days.querySelectorAll('.pillbtn').forEach(b => b.classList.toggle('on', b.dataset.date === dt));
+
+    list.innerHTML = dayTop.map((e, i) => `
+      <div class="evrow" data-hood="${esc(e.hood || '')}" data-rk="${i + 1}">
+        <span class="rk">${i + 1}</span><span class="when">${fmtTime(e)}</span>
+        <span class="name">${e.url ? `<a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.name)}</a>` : esc(e.name)}
+          <span class="at">— ${esc(e.venue || 'venue unknown')}${e.hood ? ` <span class="hd">· ${esc(disp(e.hood))}</span>` : ''}</span></span>
+        ${e.cost == null ? `<span class="price" style="color:var(--muted)">$?</span>`
+          : /^free$/i.test(e.cost) ? `<span class="free">free</span>` : `<span class="price">${esc(e.cost)}</span>`}
+        <span class="q"><b>${e.q.toFixed(1)}</b> quality</span>
+      </div>`).join('') +
+      `<div class="ft">top ${dayTop.length} of ${evs.length} on this day · rank = Rater quality — 6 dims, social quality weighted highest · $? = cost unknown at scrape time</div>`;
+
+    marks.innerHTML = dayTop.map((e, i) => e.hood ? `
+      <g class="mk" data-hood="${esc(e.hood)}" data-rk="${i + 1}" transform="translate(${e.x.toFixed(1)},${e.y.toFixed(1)})">
+        <circle r="8.5"></circle><text>${i + 1}</text><title>#${i + 1} ${esc(e.name)} — ${esc(e.venue || '')}</title>
+      </g>` : '').join('');
+
+    const max = ranked.length ? ranked[0][1] : 0;
+    const t3 = Math.max(3, Math.ceil(max * 0.5)), t2 = Math.max(2, Math.ceil(t3 / 2));
+    hoodEls.forEach(p => {
+      const c = counts[p.dataset.hood] || 0;
+      p.classList.remove('t1', 't2', 't3', 'sel', 'pick');
+      if (c >= t3) p.classList.add('t3'); else if (c >= t2) p.classList.add('t2'); else if (c >= 1) p.classList.add('t1');
+      if (c >= 1) p.classList.add('pick');
+    });
+    document.getElementById('lg1').textContent = t2 - 1 > 1 ? `1–${t2 - 1} events` : '1 event';
+    document.getElementById('lg2').textContent = t3 - 1 > t2 ? `${t2}–${t3 - 1}` : `${t2}`;
+    document.getElementById('lg3').textContent = `${t3}+`;
+
+    chips.innerHTML = `<button class="pillbtn on" data-hood="">All <span class="n">${evs.length}</span></button> ` +
+      ranked.slice(0, 12).map(([h, c]) => `<button class="pillbtn" data-hood="${esc(h)}">${esc(disp(h))} <span class="n">${c}</span></button>`).join(' ');
+
+    const top10 = ranked.slice(0, 10);
+    lb.innerHTML = top10.map(([h, c]) => `
+      <div class="brow"><span>${esc(disp(h))}</span><span class="c">${c}</span>
+        <span class="bar"><i style="width:${c / top10[0][1] * 100}%"></i></span></div>`).join('');
+    const rest = ranked.length - top10.length;
+    const unplaced = evs.length - evs.filter(e => e.hood).length;
+    document.getElementById('lbmore').textContent =
+      (rest > 0 ? `+ ${rest} more neighborhoods` : 'every neighborhood shown') +
+      (unplaced > 0 ? ` · ${unplaced} events outside the city or unmapped` : '');
+  }
+
+  renderDay(busiest);
+}
 </script>
 </body>
 </html>
