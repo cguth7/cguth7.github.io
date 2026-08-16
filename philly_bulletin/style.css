@@ -60,6 +60,7 @@ h2{font:500 27px/1.2 var(--serif);letter-spacing:-.01em}
 /* Home hero */
 .hero{padding-top:42px;padding-bottom:32px}
 .hero .lede{max-width:66ch}
+.hero-updated{margin:0;color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.08em}
 .herostats{display:flex;gap:46px;margin-top:28px;flex-wrap:wrap}
 .herostats .l{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
 .herostats .v{font-size:18px;font-weight:700;margin-top:1px;font-variant-numeric:tabular-nums}
