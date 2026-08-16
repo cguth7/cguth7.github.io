@@ -6,274 +6,359 @@
     <meta name="robots" content="noindex">
     <title>The Library | Charlie Guthmann</title>
     <style>
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; }
+        html, body { height: 100%; }
         body {
             font-family: 'Georgia', 'Times New Roman', serif;
-            background: #2b2118;
-            margin: 0;
-            padding: 40px 20px 80px;
-            color: #332a1e;
-        }
-        .cabinet {
-            max-width: 880px;
-            margin: 0 auto;
+            background: #241b12;
+            color: #d9c9a3;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
         header {
-            text-align: center;
-            color: #d9c9a3;
-            margin-bottom: 8px;
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            padding: 14px 26px 10px;
+            border-bottom: 1px solid #4a3826;
         }
         header h1 {
             font-weight: normal;
-            font-size: 1.7em;
-            letter-spacing: 6px;
+            font-size: 1.05em;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            margin: 0;
         }
         header .sub {
             font-family: 'Courier New', monospace;
-            font-size: 0.8em;
+            font-size: 0.62em;
             letter-spacing: 2px;
-            color: #a08c63;
-            margin-top: 6px;
-        }
-        header .rule {
-            width: 120px;
-            border-top: 1px solid #6b5a3e;
-            margin: 18px auto;
+            color: #a08a5c;
         }
         .searchbox {
-            display: block;
-            margin: 0 auto 36px;
-            width: 320px;
-            max-width: 100%;
             background: #f6efdd;
-            border: 3px solid #8a6d3b;
-            border-radius: 3px;
-            padding: 9px 14px;
+            border: 2px solid #8a6d3b;
+            border-radius: 2px;
+            padding: 4px 10px;
             font-family: 'Courier New', monospace;
-            font-size: 0.95em;
+            font-size: 0.72em;
             color: #332a1e;
-            box-shadow: 0 2px 0 #1a140d;
+            width: 200px;
         }
-        .searchbox:focus { outline: 2px solid #c9a95c; }
-        .drawer { margin: 0 0 14px; }
-        .drawer-label {
-            background: linear-gradient(#5c4630, #43321f);
-            border: 1px solid #1f1710;
-            border-radius: 3px;
-            color: #e8d9b0;
-            font-family: 'Courier New', monospace;
-            font-size: 0.78em;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            padding: 8px 16px;
+        .searchbox:focus { outline: 1px solid #c9a95c; }
+
+        .case {
+            flex: 1;
             display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            padding: 6px 26px 0;
+            min-height: 0;
+        }
+        .shelf {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 64px;
+            border-bottom: 9px solid #120d08;
+            box-shadow: 0 3px 0 #3a2c1c;
+            padding: 0 8px;
+        }
+        .cluster { display: flex; flex-direction: column; }
+        .books { display: flex; align-items: flex-end; }
+        .plaque {
+            font-family: 'Courier New', monospace;
+            font-size: 0.56em;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #caa963;
+            background: linear-gradient(#4a3826, #332616);
+            border: 1px solid #16100a;
+            border-radius: 2px;
+            text-align: center;
+            padding: 2px 6px;
+            margin: 0 4px;
+            position: relative;
+            top: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        a.book {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             justify-content: space-between;
-            box-shadow: inset 0 1px 0 #7a6142;
+            width: 46px;
+            border-radius: 3px 3px 0 0;
+            padding: 10px 0 5px;
+            margin-left: 2px;
+            text-decoration: none;
+            box-shadow: inset -4px 0 6px rgba(0,0,0,0.45),
+                        inset 2px 0 3px rgba(255,255,255,0.12),
+                        1px 0 2px rgba(0,0,0,0.5);
+            border-top: 3px double rgba(233,214,166,0.55);
+            transition: transform 0.12s, opacity 0.2s;
+            position: relative;
         }
-        .drawer-label .pull {
-            color: #b39a67;
-            letter-spacing: 0;
+        a.book:hover { transform: translateY(-7px); }
+        a.book:focus-visible {
+            transform: translateY(-7px);
+            outline: 2px solid #c9a95c;
+            outline-offset: 2px;
         }
-        .cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            padding: 16px 6px 26px;
+        a.book.dim { opacity: 0.13; pointer-events: none; }
+        .spine-title {
+            writing-mode: vertical-rl;
+            font-size: clamp(9px, 1.55vh, 13px); /* scales with vh-based book heights */
+            letter-spacing: 0.5px;
+            color: #f0e4c4;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.7);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: 1;
+            max-height: 100%;
         }
-        @media (max-width: 640px) { .cards { grid-template-columns: 1fr; } }
-        .card {
-            background:
-                repeating-linear-gradient(#fffdf4 0 27px, #dce7ef 27px 28px);
+        .tag {
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            color: #2f2618;
+            background: #ece1c3;
+            border-radius: 1px;
+            padding: 0 2px;
+            margin-top: 6px;
+        }
+
+        /* the index card that pops up on hover */
+        #tip {
+            position: fixed;
+            display: none;
+            width: 290px;
+            z-index: 10;
+            background: repeating-linear-gradient(#fffdf4 0 24px, #dce7ef 24px 25px);
             background-color: #fffdf4;
             border: 1px solid #c9bfa4;
             border-radius: 2px;
-            padding: 34px 16px 26px;
-            position: relative;
-            box-shadow: 1px 2px 4px rgba(0,0,0,0.45);
+            padding: 26px 14px 12px;
+            box-shadow: 3px 5px 14px rgba(0,0,0,0.6);
+            color: #332a1e;
+            pointer-events: none;
         }
-        .card::before {
+        #tip::before {
             content: '';
             position: absolute;
-            left: 0; right: 0; top: 26px;
+            left: 0; right: 0; top: 20px;
             border-top: 1.5px solid #c76b5b;
         }
-        .card::after {
-            content: '';
+        #tip .call {
             position: absolute;
-            left: 50%; bottom: 7px;
-            width: 11px; height: 11px;
-            margin-left: -6px;
-            border-radius: 50%;
-            background: #2b2118;
-            box-shadow: inset 0 1px 2px #000;
-        }
-        .call {
+            top: 4px; left: 14px;
             font-family: 'Courier New', monospace;
-            font-size: 0.75em;
+            font-size: 0.68em;
             color: #8a6d3b;
             letter-spacing: 1px;
-            position: absolute;
-            top: 6px;
-            left: 16px;
         }
-        .card a.title {
-            font-size: 1.02em;
-            color: #1f3d5c;
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-        }
-        .card a.title:hover { border-bottom: 1px solid #1f3d5c; }
-        .card .desc {
-            font-size: 0.85em;
-            color: #55492f;
-            margin-top: 4px;
-            line-height: 1.55;
-        }
-        .card .meta {
+        #tip .t { font-size: 0.9em; color: #1f3d5c; }
+        #tip .d { font-size: 0.76em; color: #55492f; line-height: 1.5; margin-top: 2px; }
+        #tip .m {
             font-family: 'Courier New', monospace;
-            font-size: 0.7em;
+            font-size: 0.62em;
             color: #99855c;
-            margin-top: 8px;
+            margin-top: 6px;
             letter-spacing: 1px;
         }
-        .empty-note {
-            display: none;
-            text-align: center;
-            color: #a08c63;
-            font-family: 'Courier New', monospace;
-            font-size: 0.85em;
-            padding: 40px 0;
-        }
+
         footer {
-            text-align: center;
-            margin-top: 30px;
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 26px 10px;
             font-family: 'Courier New', monospace;
-            font-size: 0.8em;
+            font-size: 0.66em;
+            letter-spacing: 1px;
         }
         footer a { color: #b39a67; text-decoration: none; }
         footer a:hover { color: #e8d9b0; }
+        footer .count { color: #a08a5c; }
+
+        /* small screens: let it scroll rather than cram */
+        @media (max-width: 980px) {
+            body { overflow: auto; }
+            .case { padding: 6px 12px 0; }
+            .shelf { flex-wrap: wrap; gap: 12px; border-bottom: none; }
+            .cluster { border-bottom: 9px solid #120d08; padding-top: 12px; }
+        }
     </style>
 </head>
 <body>
-    <div class="cabinet">
-        <header>
-            <h1>The Library</h1>
-            <div class="sub">CARD CATALOG · GUTHMANN COLLECTION · UNLISTED</div>
-            <div class="rule"></div>
-        </header>
+    <header>
+        <h1>The Library</h1>
+        <div class="sub" id="sub">GUTHMANN COLLECTION · UNLISTED</div>
+        <input class="searchbox" id="q" type="search" placeholder="search the stacks…" autocomplete="off" aria-label="search the stacks">
+    </header>
 
-        <input class="searchbox" id="q" type="search" placeholder="search the catalog…" autocomplete="off">
+    <div class="case" id="case"></div>
 
-        <div id="catalog"></div>
-        <div class="empty-note" id="empty">— no cards match —</div>
+    <footer>
+        <span><a href="/">← home</a> &nbsp;·&nbsp; <a href="/research/">research index</a></span>
+        <span class="count" id="count"></span>
+        <span>hover a spine for its card · click to pull it</span>
+    </footer>
 
-        <footer>
-            <a href="/">← home</a> &nbsp;·&nbsp; <a href="/research/">research index</a>
-        </footer>
-    </div>
+    <div id="tip"></div>
 
     <script>
-    // Add new pages here — one entry per page. Sections render in this order.
-    const SECTIONS = [
-        { key: 'G',   name: 'GWAS & Innovation Economics' },
-        { key: 'P',   name: 'Pathway Extraction Pipeline' },
-        { key: 'R',   name: 'Reality · Events Research' },
-        { key: 'E',   name: 'Event Engine · Live Surfaces' },
-        { key: 'J',   name: 'Projects' },
-        { key: 'F',   name: 'Fun & Writing' },
-        { key: 'PPL', name: 'Pages for People' },
-        { key: 'A',   name: 'Archive' },
-    ];
+    // One line per page. SHELVES groups sections onto the three shelf rows.
+    // hue = spine leather color per section.
+    const SECTIONS = {
+        G:   { name: 'GWAS & Innovation Econ',      hue: '#7a2f23' },
+        P:   { name: 'Pathway Extraction',          hue: '#3c5232' },
+        R:   { name: 'Reality · Events',            hue: '#2e4a63' },
+        E:   { name: 'Event Engine',                hue: '#8a6420' },
+        J:   { name: 'Projects',                    hue: '#5b3a58' },
+        F:   { name: 'Fun & Writing',               hue: '#a05a20' },
+        PPL: { name: 'People',                      hue: '#2f5d59' },
+        A:   { name: 'Archive',                     hue: '#4d4a44' },
+    };
+    const SHELVES = [['G', 'P'], ['R', 'E', 'J'], ['F', 'PPL', 'A']];
     const ENTRIES = [
-        ['G', '/research/tiga-value-sweep/', 'TIGA Value-Label Sweep', 'CF QJE R&R: herding survives rebuilding value on GWAS evidence (11 definitions).', '2026-07'],
-        ['G', '/research/tiga-breakthrough-controls/', 'TIGA Breakthrough × Coverage Controls', 'CF QJE R&R: breakthrough outcomes under each GWAS-coverage control.', '2026-07'],
-        ['G', '/research/gwas/', 'GWAS Patent Analysis', 'Disease and gene distribution analysis.', '2025-12'],
-        ['G', '/research/prestige-analysis/', 'GWAS Researcher Prestige', 'Matching author affiliations to QS 2005 rankings.', '2026-01'],
+        ['G', '/research/tiga-value-sweep/', 'TIGA Value Labels', 'CF QJE R&R: herding survives rebuilding value on GWAS evidence (11 definitions).', '2026-07'],
+        ['G', '/research/tiga-breakthrough-controls/', 'TIGA Breakthroughs', 'CF QJE R&R: breakthrough outcomes under each GWAS-coverage control.', '2026-07'],
+        ['G', '/research/gwas/', 'GWAS Patents', 'Disease and gene distribution analysis.', '2025-12'],
+        ['G', '/research/prestige-analysis/', 'Researcher Prestige', 'Matching author affiliations to QS 2005 rankings.', '2026-01'],
         ['G', '/research/serendipity/', 'Gene Panel Analysis', 'Serendipity project statistical results.', '2025-12'],
         ['G', '/patent-analysis', 'Patent Data', 'Disease and gene patent analysis.', '2025-12'],
-        ['G', '/research/orange-book/', 'Orange Book Patent Analysis', 'FDA Orange Book drug patents.', '2026-01'],
-        ['G', '/orange-book-plan', 'Orange Book Extension Plan', 'Valuing GWAS spillovers with FDA & market data.', '2025-12'],
+        ['G', '/research/orange-book/', 'Orange Book Patents', 'FDA Orange Book drug patents.', '2026-01'],
+        ['G', '/orange-book-plan', 'Orange Book Plan', 'Valuing GWAS spillovers with FDA & market data.', '2025-12'],
         ['G', '/orange-book-progress', 'Orange Book Progress', 'Status & learnings, days 1–4.', '2025-12'],
         ['G', '/gwas-results', 'GWAS Results', 'Results write-up.', '2025-12'],
         ['G', '/gwas-visuals', 'GWAS Visuals', 'Chart gallery.', '2025-12'],
-        ['G', '/demos/gwas-nlm-slides/', 'GWAS NLM Summary Slides', 'Pitch deck iterations, v1–v4.', '2026-02'],
-        ['P', '/research/gemini-pathways/', 'Gemini Pathway Analysis', 'Pipeline hub: 49k pathway diagrams → gene interactions.', '2026-02'],
+        ['G', '/demos/gwas-nlm-slides/', 'NLM Slides', 'Pitch deck iterations, v1–v4.', '2026-02'],
+        ['P', '/research/gemini-pathways/', 'Gemini Pathways', 'Pipeline hub: 49k pathway diagrams → gene interactions.', '2026-02'],
         ['P', '/research/pathway-analyzer/', 'Pathway Analyzer', '49k diagrams → 1.3M gene interactions via Gemini 3.', '2026-01'],
         ['P', '/research/pathway-alignment/', 'Pathway Alignment', 'Mapping 8,349 extracted pathway names to KEGG / WikiPathways.', '2026-02'],
-        ['P', '/research/pathway-labeling-showcase/', 'Pathway Labeling Showcase', 'Signal comparison: Gemini vs Jaccard vs PMC caption.', '2026-02'],
+        ['P', '/research/pathway-labeling-showcase/', 'Labeling Showcase', 'Signal comparison: Gemini vs Jaccard vs PMC caption.', '2026-02'],
         ['P', '/research/pathway-metadata-pipeline/', 'Metadata Pipeline', 'Pathway metadata extraction.', '2026-02'],
         ['P', '/research/hippo-image-jaccard/', 'Hippo Image Jaccard', 'Per-image Jaccard analysis for the Hippo pathway.', '2026-02'],
-        ['P', '/research/kegg-assignment-pipeline/', 'KEGG Assignment Pipeline', 'Assigning images to KEGG pathways.', '2026-02'],
-        ['P', '/research/caption-kegg-prompt-eval/', 'Caption → KEGG Prompt Eval', 'Prompt evaluation for caption-based assignment.', '2026-02'],
-        ['P', '/research/caption-validation-pilot/', 'Caption Validation Pilot', '50 images × 3 models (GPT-4o-mini, 4o, 5.2).', '2026-02'],
+        ['P', '/research/kegg-assignment-pipeline/', 'KEGG Assignment', 'Assigning images to KEGG pathways.', '2026-02'],
+        ['P', '/research/caption-kegg-prompt-eval/', 'Caption→KEGG', 'Prompt evaluation for caption-based assignment.', '2026-02'],
+        ['P', '/research/caption-validation-pilot/', 'Caption Validation', '50 images × 3 models (GPT-4o-mini, 4o, 5.2).', '2026-02'],
         ['P', '/research/pmc-caption-audit/', 'PMC Caption Audit', 'Validating Gemini pathway labels against figure captions.', '2026-02'],
-        ['R', '/research/reality/', 'Events API Source Registry', 'Research for the Reality events engine.', '2026-02'],
-        ['R', '/research/philly-venue-landscape/', 'Philly Venue Landscape', 'Mapping 4,882 event sources across Philadelphia.', '2026-02'],
-        ['R', '/research/philly-city-government-data/', 'Philly City & Government Data', 'Permits, licenses, Free Library RSS.', '2026-02'],
-        ['E', '/events_v3_chi/', 'Chicago · the Map', 'Current consumer surface: Leaflet map, hood focus, filters. See also all events & how it works.', '2026-05'],
-        ['E', '/events_v3/', 'Philadelphia · City Library', 'Philly instance of the event engine.', '2026-05'],
-        ['J', 'https://cguth7.github.io/docg-medical-summaries/', 'DocG Medical Summaries', 'AI clinical summaries for physicians.', '2025'],
+        ['R', '/research/reality/', 'Source Registry', 'Research for the Reality events engine.', '2026-02'],
+        ['R', '/research/philly-venue-landscape/', 'Philly Venues', 'Mapping 4,882 event sources across Philadelphia.', '2026-02'],
+        ['R', '/research/philly-city-government-data/', 'City & Gov Data', 'Permits, licenses, Free Library RSS.', '2026-02'],
+        ['E', '/events_v3_chi/', 'Chicago · the Map', 'Current consumer surface: Leaflet map, hood focus, filters.', '2026-05'],
+        ['E', '/events_v3/', 'Philly City Library', 'Philly instance of the event engine.', '2026-05'],
+        ['J', 'https://cguth7.github.io/docg-medical-summaries/', 'DocG Summaries', 'AI clinical summaries for physicians.', '2025'],
         ['J', '/projects/charity-ranker/', 'Charity Ranker', 'Interactive charity comparison tool.', '2025-12'],
-        ['J', '/projects/roch-riemann/', 'Riemann-Roch Formalization', 'Lean 4 proof formalization write-up.', '2025-12'],
+        ['J', '/projects/roch-riemann/', 'Riemann-Roch', 'Lean 4 proof formalization write-up.', '2025-12'],
         ['J', '/demos/train-proximity/', "Chicago × the 'L'", "Census blocks vs nearest 'L' stop — exponential-decay BOTEC.", '2026-06'],
         ['F', '/beer-garden/', '15th & Lombard', 'A beer garden, a vacant lot, and one loaded block of Philadelphia.', '2026-08'],
-        ['F', '/pdku/', 'PlzDontKillUs · Trading Cards', 'Per-fellow trading cards for the PDKU 2026 cohort, plus quizzes.', '2026-07'],
-        ['F', '/demos/ea-forum-cards/', 'EA Forum Trading Cards', 'Top 30 EA Forum users scored on 41 LLM dimensions.', '2026-05'],
-        ['F', '/tej/', 'Tej Chethik: The Tej Line', 'A Chicago history & transit fan page.', '2026-06'],
+        ['F', '/pdku/', 'PlzDontKillUs Cards', 'Per-fellow trading cards for the PDKU 2026 cohort, plus quizzes.', '2026-07'],
+        ['F', '/demos/ea-forum-cards/', 'EA Forum Cards', 'Top 30 EA Forum users scored on 41 LLM dimensions.', '2026-05'],
+        ['F', '/tej/', 'The Tej Line', 'A Chicago history & transit fan page.', '2026-06'],
         ['F', '/bike-trip/', 'Chicago → Berkeley', 'Bike + train trip, June 2026.', '2026-06'],
-        ['F', '/demos/nobodys-clothes-are-wet/', "Nobody's Clothes Are Wet", 'Short fiction.', '2026-02'],
+        ['F', '/demos/nobodys-clothes-are-wet/', "Nobody's Clothes", "Nobody's Clothes Are Wet — short fiction.", '2026-02'],
         ['PPL', '/people/cristiansalazar/', 'Cristian Salazar', 'Communications strategist & journalist.', '2025-12'],
         ['PPL', '/people/joshdesieno/', 'Josh DeSeno', 'Architecture portfolio.', '2025-12'],
-        ['PPL', '/people/leonsimpson/', 'Leon Sommer Simpson', "A New Year's party page.", '2026-01'],
+        ['PPL', '/people/leonsimpson/', 'Leon Simpson', "A New Year's party page.", '2026-01'],
         ['PPL', '/people/mylesfriedman/', 'Myles Friedman', 'Economics & finance.', '2026-01'],
         ['PPL', '/people/rickguthmann/', 'Dr. Rick Guthmann', 'Family medicine physician.', '2025-12'],
         ['PPL', '/people/sarrinchethik/', 'Sarrin Chethik', 'Policy analyst & economist.', '2025-12'],
         ['PPL', '/people/shreyachoudhary/', 'Shreya Choudhary', 'Engineer & innovator.', '2025-12'],
-        ['A', '/archive/', 'Expected Value Poker Tutorial', 'AI poker game theory essays by Max Chiswick, 2020–21.', '2020'],
-        ['A', '/resume.html', 'Resume', '', '2026-03'],
+        ['A', '/archive/', 'EV Poker Tutorial', 'AI poker game theory essays by Max Chiswick, 2020–21.', '2020'],
+        ['A', '/resume.html', 'Resume', 'The formal record.', '2026-03'],
     ];
 
-    const catalog = document.getElementById('catalog');
-    SECTIONS.forEach(sec => {
-        const items = ENTRIES.filter(e => e[0] === sec.key);
-        const drawer = document.createElement('div');
-        drawer.className = 'drawer';
-        drawer.innerHTML = '<div class="drawer-label"><span>' + sec.name +
-            '</span><span class="pull">' + sec.key + ' · ' + items.length + ' cards</span></div>';
-        const grid = document.createElement('div');
-        grid.className = 'cards';
-        items.forEach((e, i) => {
-            const [key, url, title, desc, date] = e;
-            const card = document.createElement('div');
-            card.className = 'card';
-            card.dataset.text = (key + ' ' + title + ' ' + desc + ' ' + date).toLowerCase();
-            card.innerHTML =
-                '<span class="call">' + key + '.' + String(i + 1).padStart(2, '0') + '</span>' +
-                '<a class="title" href="' + url + '">' + title + '</a>' +
-                (desc ? '<div class="desc">' + desc + '</div>' : '') +
-                '<div class="meta">acc. ' + date + '</div>';
-            grid.appendChild(card);
+    const tip = document.getElementById('tip');
+    const kase = document.getElementById('case');
+
+    function shade(hex, f) {  // lighten/darken a hex color by factor f
+        const n = parseInt(hex.slice(1), 16);
+        const c = i => Math.min(255, Math.max(0, Math.round(((n >> i) & 255) * f)));
+        return `rgb(${c(16)},${c(8)},${c(0)})`;
+    }
+    function hash(s) {
+        let h = 0;
+        for (const ch of s) h = (h * 31 + ch.charCodeAt(0)) % 997;
+        return h;
+    }
+
+    SHELVES.forEach(keys => {
+        const shelf = document.createElement('div');
+        shelf.className = 'shelf';
+        keys.forEach(key => {
+            const sec = SECTIONS[key];
+            const items = ENTRIES.filter(e => e[0] === key);
+            const cluster = document.createElement('div');
+            cluster.className = 'cluster';
+            const books = document.createElement('div');
+            books.className = 'books';
+            items.forEach((e, i) => {
+                const [k, url, title, desc, date] = e;
+                const call = k + '.' + String(i + 1).padStart(2, '0');
+                const b = document.createElement('a');
+                b.className = 'book';
+                b.href = url;
+                const h = hash(title);
+                // height tracks title length so long titles never truncate
+                b.style.height = Math.min(24, Math.max(16, 10 + title.length * 0.55)) + 'vh';
+                b.style.background = `linear-gradient(90deg, ${shade(sec.hue, 0.75)}, ${sec.hue} 45%, ${shade(sec.hue, 1.25)} 55%, ${shade(sec.hue, 0.8)})`;
+                if (h % 4 === 0) b.style.width = '56px';           // the odd fat volume
+                b.dataset.text = (call + ' ' + title + ' ' + desc + ' ' + date + ' ' + sec.name).toLowerCase();
+                b.title = title + ' — ' + desc;                    // touch/no-hover fallback
+                b.innerHTML = '<span class="spine-title">' + title + '</span><span class="tag">' + call + '</span>';
+                const showTip = () => {
+                    tip.innerHTML = '<span class="call">' + call + ' · ' + sec.name + '</span>' +
+                        '<div class="t">' + title + '</div>' +
+                        '<div class="d">' + desc + '</div>' +
+                        '<div class="m">acc. ' + date + '</div>';
+                    tip.style.display = 'block';
+                    const r = b.getBoundingClientRect();
+                    const th = tip.offsetHeight;
+                    let top = r.top - th - 12;                      // prefer above the spine
+                    if (top < 54) top = Math.min(r.bottom + 12, innerHeight - th - 8);
+                    tip.style.top = top + 'px';
+                    tip.style.left = Math.max(8, Math.min(r.left - 40, innerWidth - 306)) + 'px';
+                };
+                const hideTip = () => tip.style.display = 'none';
+                b.addEventListener('mouseenter', showTip);
+                b.addEventListener('mouseleave', hideTip);
+                b.addEventListener('focus', showTip);
+                b.addEventListener('blur', hideTip);
+                books.appendChild(b);
+            });
+            const plaque = document.createElement('div');
+            plaque.className = 'plaque';
+            plaque.textContent = sec.name + ' · ' + key;
+            cluster.appendChild(books);
+            cluster.appendChild(plaque);
+            shelf.appendChild(cluster);
         });
-        drawer.appendChild(grid);
-        catalog.appendChild(drawer);
+        kase.appendChild(shelf);
     });
 
-    document.getElementById('q').addEventListener('input', ev => {
-        const q = ev.target.value.trim().toLowerCase();
-        let any = false;
-        document.querySelectorAll('.drawer').forEach(drawer => {
-            let shown = 0;
-            drawer.querySelectorAll('.card').forEach(card => {
-                const hit = !q || card.dataset.text.includes(q);
-                card.style.display = hit ? '' : 'none';
-                if (hit) shown++;
-            });
-            drawer.style.display = shown ? '' : 'none';
-            if (shown) any = true;
+    const counter = document.getElementById('count');
+    counter.textContent = ENTRIES.length + ' / ' + ENTRIES.length;
+    document.getElementById('sub').textContent =
+        'GUTHMANN COLLECTION · ' + ENTRIES.length + ' VOLUMES · UNLISTED';
+    const search = document.getElementById('q');
+    search.addEventListener('input', () => {
+        const q = search.value.trim().toLowerCase();
+        let n = 0;
+        document.querySelectorAll('a.book').forEach(b => {
+            const hit = !q || b.dataset.text.includes(q);
+            b.classList.toggle('dim', !hit);
+            b.tabIndex = hit ? 0 : -1;
+            if (hit) n++;
         });
-        document.getElementById('empty').style.display = any ? 'none' : 'block';
+        counter.textContent = n + ' / ' + ENTRIES.length;
+    });
+    search.addEventListener('keydown', ev => {
+        if (ev.key === 'Escape') {
+            search.value = '';
+            search.dispatchEvent(new Event('input'));
+        }
     });
     </script>
 </body>
