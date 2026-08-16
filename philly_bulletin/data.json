@@ -1,5 +1,5 @@
 {
-  "generated": "2026-08-16T02:45:55.730407",
+  "generated": "2026-08-16T03:49:12.135436",
   "city": "Philadelphia",
   "weights": {
     "social_quality": 0.237,
@@ -10,8 +10,9 @@
     "value_for_price": 0.08
   },
   "meta": {
-    "events": 258,
-    "scored": 258,
+    "events": 253,
+    "duplicates_suppressed": 5,
+    "scored": 253,
     "venues": 566,
     "sources": 40,
     "flyers": 0,
@@ -36,7 +37,7 @@
       "publisher_kind": null,
       "publisher_id": null,
       "is_aggregator": true,
-      "event_count": 96
+      "event_count": 93
     },
     {
       "id": "eventbrite",
@@ -50,7 +51,7 @@
       "publisher_kind": null,
       "publisher_id": null,
       "is_aggregator": true,
-      "event_count": 40
+      "event_count": 38
     },
     {
       "id": "philly-family",
@@ -989,7 +990,7 @@
           "note": "aggregator fan-out: routed by venue-name slug"
         }
       ],
-      "event_count": 18
+      "event_count": 15
     },
     {
       "id": "parkway-central-library",
@@ -1381,46 +1382,6 @@
       "event_count": 6
     },
     {
-      "id": "noto-philadelphia",
-      "name": "NOTO Philadelphia",
-      "kind": "club",
-      "address": "1209 Vine Street, Philadelphia, PA 19107",
-      "neighborhood": null,
-      "lat": 39.9577557,
-      "lng": -75.1590322,
-      "website": null,
-      "hosts_events": "unknown",
-      "status": "verified",
-      "verified_by": "max",
-      "maybe_fake": false,
-      "pipeline": "built",
-      "feeds": [
-        {
-          "source_id": "eventbrite",
-          "name": "Eventbrite",
-          "kind": "eventbrite",
-          "has_api": true,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        },
-        {
-          "source_id": "do215",
-          "name": "Do215",
-          "kind": "do215",
-          "has_api": false,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        }
-      ],
-      "event_count": 5
-    },
-    {
       "id": "cherry-street-pier",
       "name": "Cherry Street Pier",
       "kind": "attraction",
@@ -1550,6 +1511,46 @@
         }
       ],
       "event_count": 5
+    },
+    {
+      "id": "noto-philadelphia",
+      "name": "NOTO Philadelphia",
+      "kind": "club",
+      "address": "1209 Vine Street, Philadelphia, PA 19107",
+      "neighborhood": null,
+      "lat": 39.9577557,
+      "lng": -75.1590322,
+      "website": null,
+      "hosts_events": "unknown",
+      "status": "verified",
+      "verified_by": "max",
+      "maybe_fake": false,
+      "pipeline": "built",
+      "feeds": [
+        {
+          "source_id": "eventbrite",
+          "name": "Eventbrite",
+          "kind": "eventbrite",
+          "has_api": true,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        },
+        {
+          "source_id": "do215",
+          "name": "Do215",
+          "kind": "do215",
+          "has_api": false,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        }
+      ],
+      "event_count": 4
     },
     {
       "id": "vera-cherry-hill",
@@ -2355,46 +2356,6 @@
       "event_count": 2
     },
     {
-      "id": "the-soapbox-community-print-shop-zine-library",
-      "name": "The Soapbox: Community Print Shop & Zine Library",
-      "kind": "makerspace",
-      "address": "4700 Kingsessing Avenue, Philadelphia, PA 19143",
-      "neighborhood": null,
-      "lat": 39.9445467,
-      "lng": -75.21283119999998,
-      "website": null,
-      "hosts_events": "unknown",
-      "status": "verified",
-      "verified_by": "max",
-      "maybe_fake": false,
-      "pipeline": "built",
-      "feeds": [
-        {
-          "source_id": "eventbrite",
-          "name": "Eventbrite",
-          "kind": "eventbrite",
-          "has_api": true,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        },
-        {
-          "source_id": "do215",
-          "name": "Do215",
-          "kind": "do215",
-          "has_api": false,
-          "scraper_status": "built",
-          "url": null,
-          "usefulness": "unknown",
-          "primary": false,
-          "note": "aggregator fan-out: routed by venue-name slug"
-        }
-      ],
-      "event_count": 2
-    },
-    {
       "id": "xfinity-mobile-arena",
       "name": "Xfinity Mobile Arena",
       "kind": "stadium",
@@ -3002,6 +2963,46 @@
           "name": "Eventbrite",
           "kind": "eventbrite",
           "has_api": true,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        }
+      ],
+      "event_count": 1
+    },
+    {
+      "id": "the-soapbox-community-print-shop-zine-library",
+      "name": "The Soapbox: Community Print Shop & Zine Library",
+      "kind": "makerspace",
+      "address": "4700 Kingsessing Avenue, Philadelphia, PA 19143",
+      "neighborhood": null,
+      "lat": 39.9445467,
+      "lng": -75.21283119999998,
+      "website": null,
+      "hosts_events": "unknown",
+      "status": "verified",
+      "verified_by": "max",
+      "maybe_fake": false,
+      "pipeline": "built",
+      "feeds": [
+        {
+          "source_id": "eventbrite",
+          "name": "Eventbrite",
+          "kind": "eventbrite",
+          "has_api": true,
+          "scraper_status": "built",
+          "url": null,
+          "usefulness": "unknown",
+          "primary": false,
+          "note": "aggregator fan-out: routed by venue-name slug"
+        },
+        {
+          "source_id": "do215",
+          "name": "Do215",
+          "kind": "do215",
+          "has_api": false,
           "scraper_status": "built",
           "url": null,
           "usefulness": "unknown",
@@ -21891,61 +21892,6 @@
       "description_quality": "thin"
     },
     {
-      "id": 1106,
-      "name": "Kids\u2019 Learn-to-Ride Biking (Ages 4\u201316)",
-      "start": "2026-08-16T10:00:00",
-      "all_day": false,
-      "date": "2026-08-16",
-      "time": "10:00",
-      "venue_id": "bartram-s-garden",
-      "venue": "Bartram\u2019s Garden",
-      "venue_kind": "garden",
-      "lat": 39.9327414,
-      "lng": -75.21220149999999,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Outdoors",
-      "tags": "park:bartram-s-garden",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "August 16 @ 10:00 am - 12:00 pm Bike Container This FREE two-hour Learn-to-Ride class teaches young participants how to ride a bicycle. This class is perfect for those who have never ridden a bike or who may need a refresher. Staff and volunteers will teach participants how to: You can bring your own bike and helmet or rent a bike and helmet for free at the class. This class is for children ages\u2026",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/33593788/078d9b2d-2419-491e-82df-461cd619a610.jpg",
-      "url": "https://do215.com/events/2026/8/16/kids-learn-to-ride-biking-ages-4-16-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 5,
-          "reason": "Kids learn balance, pedaling, and steering together in a group class, with staff guiding hands-on."
-        },
-        "serendipity": {
-          "score": 6,
-          "reason": "A free public class on Bartram's Garden grounds draws walk-up families from the neighborhood."
-        },
-        "uniqueness": {
-          "score": 3,
-          "reason": "A standard recurring learn-to-ride offering, not a rare event."
-        },
-        "community_building": {
-          "score": 5,
-          "reason": "Families who return for this class build familiarity with the Bartram's Garden bike program over time."
-        },
-        "solo_friendliness": {
-          "score": 5,
-          "reason": "Structured group instruction gives kids and waiting parents a shared activity, though it's framed for families, not solo adults."
-        },
-        "value_for_price": {
-          "score": 9,
-          "reason": "Completely free, including bike and helmet rental, for a two-hour skills class."
-        }
-      },
-      "quality": 5.0,
-      "score_category": "family",
-      "description_quality": "rich"
-    },
-    {
       "id": 1107,
       "name": "Play Without Boundaries",
       "start": "2026-08-16T11:00:00",
@@ -24696,61 +24642,6 @@
       "description_quality": "rich"
     },
     {
-      "id": 1157,
-      "name": "Sankofa Farm Stand at the Welcome Center POSTPONED",
-      "start": "2026-08-20T14:30:00",
-      "all_day": false,
-      "date": "2026-08-20",
-      "time": "14:30",
-      "venue_id": "bartram-s-garden",
-      "venue": "Bartram\u2019s Garden",
-      "venue_kind": "garden",
-      "lat": 39.9327414,
-      "lng": -75.21220149999999,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Outdoors",
-      "tags": "park:bartram-s-garden",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "August 20 @ 2:30 pm - 4:30 pm Bartram\u2019s Garden 5400 Lindbergh Blvd. Philadelphia, 19143 United States Come purchase fresh, chemical-free, local produce straight from Sankofa Community Farm every Thursday at the Bartram\u2019s Garden Welcome Center now through November! EBT, cash, WIC Farmer\u2019s Market vouchers, and Senior vouchers are all accepted methods of payment (standard retail WIC vouchers are not\u2026",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/32732923/4d04cc93-7c48-49c0-8c83-cd6c86f924d4.jpg",
-      "url": "https://do215.com/events/2026/8/20/sankofa-farm-stand-at-the-welcome-center-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 5,
-          "reason": "Same farm-stand format as the weekly series: brief, friendly chat while shopping for produce."
-        },
-        "serendipity": {
-          "score": 7,
-          "reason": "An outdoor Bartram's Garden farm stand accepting EBT/WIC/vouchers draws a broad walk-up crowd."
-        },
-        "uniqueness": {
-          "score": 2,
-          "reason": "This date is a postponed instance of what is otherwise a weekly recurring stand."
-        },
-        "community_building": {
-          "score": 6,
-          "reason": "As part of the ongoing Sankofa farm stand, it's a recurring local food-access touchpoint."
-        },
-        "solo_friendliness": {
-          "score": 6,
-          "reason": "Easy solo walk-up shopping with casual conversation available."
-        },
-        "value_for_price": {
-          "score": 8,
-          "reason": "Same fair pricing as the series: cash, EBT, WIC, and senior vouchers all accepted."
-        }
-      },
-      "quality": 5.6,
-      "score_category": "market",
-      "description_quality": "rich"
-    },
-    {
       "id": 1158,
       "name": "Love City DJs",
       "start": "2026-08-20T17:00:00",
@@ -25739,61 +25630,6 @@
       "quality": 5.4,
       "score_category": "class",
       "description_quality": "thin"
-    },
-    {
-      "id": 1176,
-      "name": "SWWAG: Tending to Our Gardens (Rescheduled from July)",
-      "start": "2026-08-21T17:00:00",
-      "all_day": false,
-      "date": "2026-08-21",
-      "time": "17:00",
-      "venue_id": "bartram-s-garden",
-      "venue": "Bartram\u2019s Garden",
-      "venue_kind": "garden",
-      "lat": 39.9327414,
-      "lng": -75.21220149999999,
-      "group_id": null,
-      "group": null,
-      "source_id": "do215",
-      "category": "Outdoors",
-      "tags": "park:bartram-s-garden",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "August 21 @ 5:00 pm - 6:30 pm One Art Community Center 431-39 N. 52nd, St. Philadelphia, PA 19131 Philadelphia, PA 19131 Please note that this workshop takes place at One Art Oasis Farm (1431-39 N. 52nd Street) Join us as we explore natural ways to prevent and treat common garden pests, learn what to look for throughout the growing season, and discover how companion planting can support healthier\u2026",
-      "image": "https://assets0.dostuffmedia.com/uploads/aws_asset/aws_asset/33735163/689bf10b-e4d0-4589-b839-323f5934982b.jpg",
-      "url": "https://do215.com/events/2026/8/21/swwag-tending-to-our-gardens-rescheduled-from-july-tickets",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 7,
-          "reason": "Same hands-on garden workshop \u2014 apprentices and attendees swapping tips on pests and companion planting."
-        },
-        "serendipity": {
-          "score": 6,
-          "reason": "A free community-center workshop, beginner-friendly and open to the neighborhood."
-        },
-        "uniqueness": {
-          "score": 5,
-          "reason": "A rescheduled one-off workshop within a seasonal series."
-        },
-        "community_building": {
-          "score": 7,
-          "reason": "Same Rooted in Land & Liberation apprenticeship tie that builds real local stewardship connections."
-        },
-        "solo_friendliness": {
-          "score": 8,
-          "reason": "Beginner-friendly with apprentice instructors, an easy entry for someone attending alone."
-        },
-        "value_for_price": {
-          "score": 9,
-          "reason": "Free, with instruction included \u2014 excellent value."
-        }
-      },
-      "quality": 6.8,
-      "score_category": "class",
-      "description_quality": "rich"
     },
     {
       "id": 1177,
@@ -26896,61 +26732,6 @@
       "description_quality": "thin"
     },
     {
-      "id": 1340,
-      "name": "3BALLMTY: Club Conexi\u00f3n Tour @ Noto Philly August 21",
-      "start": "2026-08-21T22:00:00",
-      "all_day": false,
-      "date": "2026-08-21",
-      "time": "22:00",
-      "venue_id": "noto-philadelphia",
-      "venue": "NOTO Philadelphia",
-      "venue_kind": "club",
-      "lat": 39.9577557,
-      "lng": -75.1590322,
-      "group_id": null,
-      "group": null,
-      "source_id": "eventbrite",
-      "category": "Music",
-      "tags": "park:noto-philadelphia",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "VIP Bottle Service Tables and Group Tickets: 215.694.8584",
-      "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1180522819%2F246370779204%2F1%2Foriginal.20260323-235936?crop=focalpoint&fit=crop&w=400&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.52&fp-y=0.845&s=ed153f28858be858690a22c5fda34206",
-      "url": "https://www.eventbrite.com/e/3ballmty-club-conexion-tour-noto-philly-august-21-tickets-1985772238220",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 4,
-          "reason": "Same touring 3BALLMTY show, but the VIP bottle-service angle pushes toward closed-off group tables rather than mixing."
-        },
-        "serendipity": {
-          "score": 3,
-          "reason": "Bottle-service tables at NOTO wall off groups from each other more than general admission would."
-        },
-        "uniqueness": {
-          "score": 6,
-          "reason": "Same one-night tour stop for this act as the other NOTO listing."
-        },
-        "community_building": {
-          "score": 2,
-          "reason": "A VIP table night builds nothing beyond that evening."
-        },
-        "solo_friendliness": {
-          "score": 2,
-          "reason": "Bottle-service group tickets are explicitly built for arriving with a group, not alone."
-        },
-        "value_for_price": {
-          "score": 4,
-          "reason": "VIP bottle-service pricing (call for rates) typically runs well above what a solo attendee gets out of the night."
-        }
-      },
-      "quality": 3.1,
-      "score_category": "music",
-      "description_quality": "thin"
-    },
-    {
       "id": 1341,
       "name": "TATREEZ WORKSHOP WITH JOHARA - Day 3",
       "start": "2026-08-22T13:00:00",
@@ -27002,61 +26783,6 @@
         }
       },
       "quality": 6.4,
-      "score_category": "hobby",
-      "description_quality": "thin"
-    },
-    {
-      "id": 1344,
-      "name": "Print Your Own Poster with Wood Type - Drop In!",
-      "start": "2026-08-22T11:00:00",
-      "all_day": false,
-      "date": "2026-08-22",
-      "time": "11:00",
-      "venue_id": "the-soapbox-community-print-shop-zine-library",
-      "venue": "The Soapbox: Community Print Shop & Zine Library",
-      "venue_kind": "makerspace",
-      "lat": 39.9445467,
-      "lng": -75.21283119999998,
-      "group_id": null,
-      "group": null,
-      "source_id": "eventbrite",
-      "category": "Hobbies & Special Interest",
-      "tags": "park:the-soapbox-community-print-shop-zine-library",
-      "cost": null,
-      "cost_min_cents": null,
-      "is_free": null,
-      "series_id": null,
-      "description": "Drop by The Soapbox to print your own poster using wood type from the studio collection! Participants will compose and print up to 6 words!",
-      "image": "https://img.evbuc.com/https%3A%2F%2Fcdn.evbuc.com%2Fimages%2F1184061946%2F170526608540%2F1%2Foriginal.20260507-205719?crop=focalpoint&fit=crop&w=200&auto=format%2Ccompress&q=75&sharp=10&fp-x=0.5&fp-y=0.5&s=daa637bcb1813cd7b8d3779825a29492",
-      "url": "https://www.eventbrite.com/e/print-your-own-poster-with-wood-type-drop-in-tickets-1995326626653",
-      "discovered_via": "api",
-      "scores": {
-        "social_quality": {
-          "score": 6,
-          "reason": "Working the wood-type press alongside other drop-ins at The Soapbox gives people something to talk about while they compose their six words."
-        },
-        "serendipity": {
-          "score": 6,
-          "reason": "A small community print shop drawing walk-up letterpress fans has more mix than a typical paid class, though it's still a niche, self-selected crowd."
-        },
-        "uniqueness": {
-          "score": 5,
-          "reason": "A single scheduled drop-in session, not a recurring class."
-        },
-        "community_building": {
-          "score": 5,
-          "reason": "One drop-in session at a print shop builds only a light connection, not ongoing membership."
-        },
-        "solo_friendliness": {
-          "score": 7,
-          "reason": "Hands-on letterpress printing is a solo-friendly craft \u2014 you compose and print your own poster regardless of who you came with."
-        },
-        "value_for_price": {
-          "score": 6,
-          "reason": "Cost isn't listed on this duplicate Eventbrite listing, but the identical do215 listing prices the same drop-in session at $20-$28.52."
-        }
-      },
-      "quality": 5.8,
       "score_category": "hobby",
       "description_quality": "thin"
     },

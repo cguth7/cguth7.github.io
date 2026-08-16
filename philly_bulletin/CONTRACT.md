@@ -58,10 +58,14 @@ Exactly these six keys, which are also the six score dimensions:
 
 ### `meta`
 
-`events`, `scored`, `venues`, `sources`, `flyers`, `scrapers_built`, `scrapers_todo`,
+`events`, `scored`, `venues`, `sources`, `flyers`, `duplicates_suppressed`,
+`scrapers_built`, `scrapers_todo`,
 `venues_no_pipeline`, `venues_with_feeds`, `feed_links`, `groups`, `series` — all
 `number`. `series` is absent when `series` is absent. Additive; treat every key as
 optional.
+
+`duplicates_suppressed` counts same-venue/day event observations retained in the DB but
+omitted from this export by the conservative cross-source identity layer.
 
 ## `events[]`
 

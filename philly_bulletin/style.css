@@ -218,11 +218,7 @@ body.mappage{height:100vh;height:100dvh;display:flex;flex-direction:column;overf
 .maphead .lede{text-align:right;max-width:55ch}
 .mapfilters{border-top:1px solid var(--hairline)}
 .mapfilters .filters{max-width:var(--page-width);margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
-.hoodbar{background:var(--page);border-bottom:1px solid var(--hairline);overflow-x:auto;scrollbar-width:none}
-.hoodbar::-webkit-scrollbar{display:none}
-.hoodbar-in{display:flex;gap:6px;width:max-content;min-width:100%;padding:8px var(--gut)}
-.hood{border:1px solid var(--hairline);background:var(--card);border-radius:999px;padding:4px 11px;color:var(--ink-2);font-size:11px;cursor:pointer;white-space:nowrap}
-.hood[aria-pressed='true']{background:var(--ink);border-color:var(--ink);color:#fff}
+.map-finder{grid-template-columns:repeat(2,minmax(220px,1fr));max-width:720px}
 .mapshell{position:relative;flex:1;min-height:0;overflow:hidden;background:var(--page);padding:14px}
 #map{position:absolute;inset:14px;background:var(--code-bg);border:1px solid var(--hairline);border-radius:12px;overflow:hidden}
 .panel{position:absolute;z-index:620;right:26px;top:26px;bottom:26px;width:360px;max-width:calc(100% - 52px);background:var(--card);border:1px solid var(--hairline);border-radius:12px;box-shadow:0 6px 22px rgba(23,22,20,.12);transform:translateX(calc(100% + 50px));transition:transform .22s ease;display:flex;flex-direction:column;overflow:hidden}
@@ -255,7 +251,7 @@ body.mappage{height:100vh;height:100dvh;display:flex;flex-direction:column;overf
 .pop-ev .w{color:var(--muted)}
 
 /* Focus */
-.toggle:focus-visible,.seg-set button:focus-visible,.hood:focus-visible,.entry:focus-visible,.advanced summary:focus-visible,
+.toggle:focus-visible,.seg-set button:focus-visible,.entry:focus-visible,.advanced summary:focus-visible,
 .sheet-close:focus-visible,.panel-x:focus-visible,.rail a:focus-visible,.linkish:focus-visible{
   outline:2px solid var(--green);outline-offset:2px
 }
@@ -286,6 +282,7 @@ body.mappage{height:100vh;height:100dvh;display:flex;flex-direction:column;overf
   .maphead{align-items:start;padding-top:15px;padding-bottom:12px}
   .maphead .lede{display:none}
   .maphead h1{font-size:31px}
+  .map-finder{grid-template-columns:1fr 1fr}
   .foot .end{margin-left:0;width:100%}
 }
 
@@ -299,6 +296,7 @@ body.mappage{height:100vh;height:100dvh;display:flex;flex-direction:column;overf
   .event-board{margin-left:-1px;margin-right:-1px}
   .filters{padding:10px}
   .finder,.source-tools{grid-template-columns:1fr}
+  .map-finder{grid-template-columns:1fr}
   .find-search{grid-column:auto}
   .advanced-in{align-items:flex-start;flex-direction:column}
   .advanced-reset{margin-left:0}

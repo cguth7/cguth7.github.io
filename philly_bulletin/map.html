@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>The Map — The Philly Bulletin</title>
-<meta name="description" content="This week's Philadelphia events by neighborhood. Bigger pin, better-scoring night.">
+<meta name="description" content="Today's Philadelphia events, focused on one neighborhood at a time.">
 <meta name="color-scheme" content="light">
 <link rel="icon" href="data:,">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -25,18 +25,14 @@
 
 <header class="maphead wrap">
   <div>
-    <div class="kicker">Philadelphia · this week by neighborhood</div>
+    <div class="kicker" id="map-context">Today · Rittenhouse</div>
     <h1>The map.</h1>
   </div>
-  <p class="lede">Bigger pin, better-scoring night. Pick a neighborhood to read only that one.</p>
+  <p class="lede">Search for a neighborhood, then explore only what is happening there.</p>
 </header>
 
 <div class="filterbar mapfilters">
   <div class="filters" id="filters"></div>
-</div>
-
-<div class="hoodbar">
-  <div class="hoodbar-in" id="hoodbar-in"></div>
 </div>
 
 <main class="mapshell">

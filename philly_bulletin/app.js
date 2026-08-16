@@ -31,9 +31,9 @@
   var hoodOfVenue = {};       // venue_id -> hood name, derived once at load
 
   var F = { free: false, solo: false, join: false, minq: 0, win: 7,
-    day: '', hood: 'all', query: '' };
+    day: '', hood: 'Rittenhouse', hoodChosen: false, query: '' };
   var WIN = { start: '0000-01-01', end: '9999-12-31', label: '', note: '' };
-  var zone = 'all';           // focused neighborhood on the map
+  var zone = 'Rittenhouse';   // focused neighborhood on the map; "all" means Philly
 
   /* ── small helpers ─────────────────────────────────────────────────── */
 
@@ -237,8 +237,10 @@
     var q = String(F.query || '').trim().toLowerCase();
     return DB.events.filter(function (e) {
       if (!e.date || e.date < WIN.start || e.date > WIN.end) return false;
-      if (isList && F.day && e.date !== F.day) return false;
-      if (isList && F.hood !== 'all' && hoodOf(e) !== F.hood) return false;
+      // Day and place are shared wayfinding, not page-specific filters. This
+      // keeps the map in the same place and moment as the ranked list.
+      if (F.day && e.date !== F.day) return false;
+      if (F.hood !== 'all' && hoodOf(e) !== F.hood) return false;
       if (isList && q) {
         var hay = [e.name, e.venue, hoodOf(e), e.group, e.category,
           Array.isArray(e.tags) ? e.tags.join(' ') : e.tags].join(' ').toLowerCase();
@@ -305,7 +307,7 @@
     var h = '<div class="finder">' +
       '<label class="find-field find-search"><span>Search</span><input id="event-search" type="search" value="' +
       esc(F.query) + '" placeholder="Events or venues" autocomplete="off"></label>' +
-      '<label class="find-field"><span>I’m in</span><select id="hood-select"><option value="all">All Philadelphia</option>';
+      '<label class="find-field"><span>I’m in</span><select id="hood-select"><option value="all">Philly</option>';
     Object.keys(hoods).sort().forEach(function (hood) {
       h += '<option value="' + esc(hood) + '"' + (F.hood === hood ? ' selected' : '') + '>' +
         esc(hood) + '</option>';
@@ -319,10 +321,47 @@
     return h;
   }
 
+  function mapFinderHTML() {
+    var dates = {};
+    DB.events.forEach(function (e) { if (e.date) dates[e.date] = 1; });
+    var h = '<div class="finder map-finder">' +
+      '<label class="find-field"><span>It is</span><select id="day-select">';
+    Object.keys(dates).sort().forEach(function (day) {
+      h += '<option value="' + day + '"' + (F.day === day ? ' selected' : '') + '>' +
+        esc(dayChoiceLabel(day)) + '</option>';
+    });
+    h += '</select></label>' +
+      '<label class="find-field"><span>I’m in</span>' +
+      '<input id="map-hood-search" type="search" list="map-hood-options" value="' +
+      esc(F.hood === 'all' ? 'Philly' : F.hood) +
+      '" placeholder="Search neighborhoods" autocomplete="off" aria-label="Neighborhood">' +
+      '<datalist id="map-hood-options"><option value="Philly"></option>';
+    if (HOODS) {
+      HOODS.features.map(function (f) { return f.properties.name; }).sort().forEach(function (name) {
+        h += '<option value="' + esc(name) + '"></option>';
+      });
+    }
+    h += '</datalist></label></div>' + advancedHTML() +
+      '<div class="filter-tally ml" id="tally"></div>';
+    return h;
+  }
+
   function renderFilters() {
     var host = $('filters');
     if (!host) return;
-    host.innerHTML = $('bulletin') ? listFinderHTML() : advancedHTML() + '<div class="filter-tally ml" id="tally"></div>';
+    host.innerHTML = $('bulletin') ? listFinderHTML() : mapFinderHTML();
+  }
+
+  function matchHood(value) {
+    var wanted = String(value || '').trim().toLowerCase();
+    if (wanted === 'philly' || wanted === 'all philadelphia' || wanted === 'philadelphia') return 'all';
+    if (!HOODS) return null;
+    var names = HOODS.features.map(function (f) { return f.properties.name; });
+    for (var i = 0; i < names.length; i++) {
+      if (names[i].toLowerCase() === wanted) return names[i];
+    }
+    var starts = names.filter(function (name) { return name.toLowerCase().indexOf(wanted) === 0; });
+    return starts.length === 1 ? starts[0] : null;
   }
 
   function saveFilters() {
@@ -347,8 +386,17 @@
       saveFilters(); onChange();
     });
     host.addEventListener('change', function (ev) {
-      if (ev.target.id === 'hood-select') F.hood = ev.target.value;
+      if (ev.target.id === 'hood-select') { F.hood = ev.target.value; F.hoodChosen = true; }
       else if (ev.target.id === 'day-select') F.day = ev.target.value;
+      else if (ev.target.id === 'map-hood-search') {
+        var hood = matchHood(ev.target.value);
+        if (hood == null) {
+          ev.target.value = F.hood === 'all' ? 'Philly' : F.hood;
+          return;
+        }
+        setZone(hood);
+        return;
+      }
       else return;
       saveFilters(); onChange();
     });
@@ -368,7 +416,15 @@
   function setTally(n) {
     var t = $('tally');
     if (t) t.textContent = n + (n === 1 ? ' listing' : ' listings') +
-      ($('bulletin') && F.day ? ' · ' + dayChoiceLabel(F.day) : ' · ' + WIN.label);
+      (F.day ? ' · ' + dayChoiceLabel(F.day) : ' · ' + WIN.label);
+  }
+
+  function updateMapCopy(n) {
+    var context = $('map-context');
+    var place = F.hood === 'all' ? 'Philly' : F.hood;
+    if (context) context.textContent = (F.day ? dayChoiceLabel(F.day) : WIN.label) + ' · ' + place;
+    var nav = $('nav-count');
+    if (nav) nav.textContent = n + (n === 1 ? ' listing · ' : ' listings · ') + place;
   }
 
   /* ── the bulletin ──────────────────────────────────────────────────── */
@@ -534,12 +590,13 @@
   // this simply disappears on Positron.
   function hoodStyle(f) {
     var focused = zone !== 'all' && f.properties.name === zone;
+    var hidden = zone !== 'all' && !focused;
     return {
-      color: focused ? '#0c6b2c' : '#a9aaa4',
+      color: hidden ? 'transparent' : (focused ? '#0c6b2c' : '#a9aaa4'),
       weight: focused ? 2 : 1,
       fill: true, fillColor: focused ? '#0c6b2c' : '#cbe0b8',
-      fillOpacity: focused ? 0.13 : 0.08,
-      dashArray: (zone === 'all' || focused) ? null : '3 4'
+      fillOpacity: hidden ? 0 : (focused ? 0.13 : 0.08),
+      dashArray: null
     };
   }
 
@@ -587,47 +644,23 @@
     if (HOODS) {
       hoodLayer = L.geoJSON(HOODS, {
         style: hoodStyle,
-        onEachFeature: function (f, layer) {
-          layer.on('click', function () { setZone(f.properties.name); });
-          layer.on('mouseover', function () {
-            if (zone === 'all') this.setStyle({ weight: 1.6, color: '#0c6b2c', fillOpacity: 0.13 });
-          });
-          layer.on('mouseout', function () { hoodLayer.resetStyle(this); });
-          layer.bindTooltip(f.properties.name, {
-            sticky: true, direction: 'top', className: 'hoodtip', opacity: 1
-          });
-        }
+        interactive: false
       }).addTo(map);
       hoodLayer.bringToBack();
     }
 
-    renderHoodbar();
     buildPins();
     applyZone(true);
   }
 
-  function renderHoodbar() {
-    var bar = $('hoodbar-in');
-    if (!bar) return;
-    var h = '<button class="hood" type="button" data-hood="all" aria-pressed="' +
-      (zone === 'all' ? 'true' : 'false') + '">All Philadelphia</button>';
-    if (HOODS) {
-      HOODS.features.slice().sort(function (a, b) {
-        return (a.properties.order || 0) - (b.properties.order || 0);
-      }).forEach(function (f) {
-        var n = f.properties.name;
-        h += '<button class="hood" type="button" data-hood="' + esc(n) + '" aria-pressed="' +
-          (zone === n ? 'true' : 'false') + '">' + esc(n) + '</button>';
-      });
-    }
-    bar.innerHTML = h;
-  }
-
   function setZone(name) {
-    if (zone === name) name = 'all';
     zone = name;
-    renderHoodbar();
+    F.hood = name;
+    F.hoodChosen = true;
+    saveFilters();
+    renderFilters();
     if (hoodLayer) hoodLayer.setStyle(hoodStyle);
+    buildPins();
     applyZone(true);
   }
 
@@ -664,6 +697,7 @@
     if (!map) return;
     var evs = filteredEvents();
     setTally(evs.length);
+    updateMapCopy(evs.length);
 
     var byVenue = {};
     evs.forEach(function (e) {
@@ -744,8 +778,8 @@
 
     el.innerHTML = '<div class="panel-head"><h2>' + esc(zone) + '</h2>' +
       '<span class="ml">' + evs.length + (evs.length === 1 ? ' listing' : ' listings') +
-      ' · ' + esc(WIN.label) + '</span>' +
-      '<button class="panel-x" type="button" data-hood="all" title="Back to the whole city">✕</button>' +
+      ' · ' + esc(F.day ? dayChoiceLabel(F.day) : WIN.label) + '</span>' +
+      '<button class="panel-x" type="button" data-hood="all" title="Show all of Philly" aria-label="Show all of Philly">✕</button>' +
       '</div><div class="panel-list">' + rows + '</div>';
     el.classList.add('show');
   }
@@ -880,7 +914,11 @@
       }
       var availableHoods = {};
       DB.events.forEach(function (e) { var h = hoodOf(e); if (h) availableHoods[h] = 1; });
+      // Older saved state used the whole city as an implicit default. Treat it
+      // as Rittenhouse until someone deliberately chooses Philly.
+      if (F.hood === 'all' && !F.hoodChosen && availableHoods.Rittenhouse) F.hood = 'Rittenhouse';
       if (F.hood !== 'all' && !availableHoods[F.hood]) F.hood = 'all';
+      zone = F.hood;
       resolveWindow();
       renderFilters();
       stamp();
@@ -904,7 +942,7 @@
       if (hb) { if (map) { map.closePopup(); } setZone(hb.dataset.hood); return; }
       var clear = ev.target.closest('[data-clear]');
       if (clear) {
-        F.free = F.solo = F.join = false; F.minq = 0; F.query = ''; F.hood = 'all';
+        F.free = F.solo = F.join = false; F.minq = 0; F.query = ''; F.hood = 'all'; F.hoodChosen = true;
         saveFilters(); renderFilters(); renderBulletin(); return;
       }
       var t = ev.target.closest('[data-ev]');
