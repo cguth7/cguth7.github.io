@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta vs. Dual Delta | Charlie Guthmann</title>
+    <meta name="description" content="Why moving the stock price and moving the strike are not the same thing: dice, geometric random walks, and the lognormal distribution.">
+    <style>
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 0 20px;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+        h1 {
+            font-size: 2em;
+            font-weight: normal;
+            line-height: 1.25;
+            margin: 0 0 0.3em 0;
+            border-bottom: 2px solid #333;
+            padding-bottom: 0.3em;
+        }
+        .meta {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 2.5em;
+        }
+        p {
+            margin: 1.2em 0;
+            font-size: 1.05em;
+        }
+        a {
+            color: #0066cc;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-bottom 0.2s;
+        }
+        a:hover {
+            border-bottom: 1px solid #0066cc;
+        }
+        .calc {
+            margin: 1.4em 0 1.4em 1em;
+            padding-left: 1em;
+            border-left: 2px solid #ddd;
+            font-size: 1.05em;
+            font-variant-numeric: tabular-nums;
+        }
+        .calc div {
+            margin: 0.15em 0;
+        }
+        .calc .note {
+            color: #666;
+            font-size: 0.92em;
+        }
+        .calc .total {
+            margin-top: 0.4em;
+            font-weight: bold;
+        }
+        figure {
+            margin: 2.5em 0;
+        }
+        figure img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        figcaption {
+            margin-top: 0.6em;
+            color: #666;
+            font-size: 0.92em;
+            text-align: center;
+        }
+        .footer {
+            margin-top: 3em;
+            padding-top: 2em;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.95em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Delta vs. Dual Delta</h1>
+    <div class="meta"><a href="/">Charlie Guthmann</a> · September 2026</div>
+
+    <p>In this post I aim to give a refresher on some basic probability math and give some intuition for the lognormal distribution, which many struggle to understand.</p>
+
+    <p>An options contract gives you the right, but not obligation, to buy something at a specific future date at a specific price (referred to as the strike). Let’s start with a toy example. You will roll a six-sided die, after which you have the right to pay $3 and receive the number rolled. If you roll a 5, you will pay the $3, receive $5, and come out $2 ahead of where you started. If you roll a 2, you won’t pay the $3, so you will receive $0. This is well modeled by the function f(x) = max(x − 3, 0) where x is the dice roll.</p>
+
+    <p>How much is this contract worth ex ante? It’s worth the probability of each outcome times the payoff for that outcome summed up.</p>
+
+    <div class="calc">
+        <div>3/6 × 0 <span class="note">(since you make 0 if you roll a 1, 2, 3)</span></div>
+        <div>+ 1/6 × 1</div>
+        <div>+ 1/6 × 2</div>
+        <div>+ 1/6 × 3</div>
+        <div class="total">= $1</div>
+    </div>
+
+    <p>So the contract is worth $1.</p>
+
+    <p>Now what would the contract be worth if we dropped the strike to $2?</p>
+
+    <div class="calc">
+        <div>2/6 × 0</div>
+        <div>+ 1/6 × 1 <span class="note">(because now if we roll a 3 we can pay $2 to collect $3)</span></div>
+        <div>+ 1/6 × 2</div>
+        <div>+ 1/6 × 3</div>
+        <div>+ 1/6 × 4</div>
+        <div class="total">= $10/6</div>
+    </div>
+
+    <p>Now what would happen if instead of paying the difference between the dice roll and $2, you start with $1 in the pot and can pay $3 to receive the $1 plus the roll?</p>
+
+    <div class="calc">
+        <div>2/6 × 0 <span class="note">(because 2, 3 give us 0)</span></div>
+        <div>+ 1/6 × 1</div>
+        <div>+ 1/6 × 2</div>
+        <div>+ 1/6 × 3</div>
+        <div>+ 1/6 × 4</div>
+        <div class="total">= $10/6</div>
+    </div>
+
+    <p>So in this case it is equivalent whether we move the strike down by $1 or the outcomes of the dice all up by $1.</p>
+
+    <figure>
+        <img src="dice_product.gif" width="760" height="780"
+             alt="Animation in two rows. Top: the strike slides down from $3 to $2 under a fixed set of dice outcomes. Bottom: the dice outcomes slide up by $1 against a fixed $3 strike. In both rows the blocks of probability times payoff stack up to the same option value, $1.67.">
+        <figcaption>Each block is a 1/6 chance × $1 of payoff. Either move ends with the same ten blocks: $10/6 ≈ $1.67.</figcaption>
+    </figure>
+
+    <p>The change in the value of the option when you start with $1 in the pot and then roll the die is called the delta. And the change in value of the option when you move the strike down is called the strike or “dual delta”. In this case we can see that the changes in value are the same size. There are two things going on here. When we move the strike, we are sliding the payoff function. When we move the starting point, we are sliding the distribution of outcomes the other way. In either case, the functions maintain their shape and size and sit in the exact same place relative to each other.</p>
+
+    <p>But in financial options math, the dual delta and delta aren’t equivalent. How can this be? The answer is that the expected distribution of stocks in the future is best modeled by a lognormal distribution, and you can’t just slide lognormal distributions.</p>
+
+    <p>Lognormal distributions are (often) the result of geometric random walks. In a geometric random walk you start at a position n, and then you move up or down 1% of n with 50/50 odds. I won’t go over why stocks follow geometric random walks right now, but it’s basically because of the efficient market hypothesis and the fluctuations of stock prices being relative to the current price of the stock. When sampling a geometric random walk, the size of the resulting distribution depends on where you start. If you start at 1, you will either end up at 0.99 or 1.01 next step. But if you start at 5, you will end up at 4.95 or 5.05, much farther from the original location.</p>
+
+    <p>Let’s go back to toy examples. Imagine you take a single step in a geometric random walk starting at $2 and you have the option to buy the difference between where you end up and $2.</p>
+
+    <div class="calc">
+        <div>1/2 × 0</div>
+        <div>+ 1/2 × 0.02</div>
+        <div class="total">= $0.01</div>
+    </div>
+
+    <p>Now imagine you start at $2.01 instead but the strike stays at $2.</p>
+
+    <div class="calc">
+        <div>1/2 × 0</div>
+        <div>+ 1/2 × 0.0301 <span class="note">(2.01 × 1.01 = 2.0301)</span></div>
+        <div class="total">= $0.01505</div>
+    </div>
+
+    <p>Now imagine you start at $2 again but the strike moves to $1.99.</p>
+
+    <div class="calc">
+        <div>1/2 × 0 <span class="note">(1.98 is still below 1.99)</span></div>
+        <div>+ 1/2 × 0.03 <span class="note">(2.02 − 1.99)</span></div>
+        <div class="total">= $0.015</div>
+    </div>
+
+    <p>Not the same! So the delta is not the same as the strike (dual) delta. When you move the strike price, you are sliding the functions against each other. But when you move the starting point of the random walk, you are not just sliding but stretching the distribution as well. The extra cent you start with at $2.01 also goes on the random walk and creates 0.01 cents.</p>
+
+    <figure>
+        <img src="lognormal_product.gif" width="760" height="700"
+             alt="Animation in two rows over a lognormal distribution of stock prices at expiry. Top: the strike slides down under a fixed distribution. Bottom: the starting price moves up by the same amount, and the distribution both slides and stretches past a dashed outline showing where it would sit if it had only slid. The option value in the bottom row ends up higher than a pure slide would give.">
+        <figcaption>Moving the strike only slides. Moving the start slides and stretches, so the option gains more than a pure slide would give it.</figcaption>
+    </figure>
+
+    <div class="footer">
+        <a href="/">← Charlie Guthmann</a>
+    </div>
+</body>
+</html>
