@@ -48,6 +48,7 @@ window.LIBRARY = (() => {
         ['P', '/research/caption-validation-pilot/', 'Caption Validation', '50 images × 3 models (GPT-4o-mini, 4o, 5.2).', '2026-02'],
         ['P', '/research/pmc-caption-audit/', 'PMC Caption Audit', 'Validating Gemini pathway labels against figure captions.', '2026-02'],
         ['J', 'https://cguth7.github.io/docg-medical-summaries/', 'DocG Summaries', 'AI clinical summaries for physicians.', '2025'],
+        ['J', '/research/rubric-review/', 'Rubric Review', 'One paper, 84 LLM reviews: flip text version, rubric, and judge to see what moves.', '2026-10'],
         ['J', '/projects/charity-ranker/', 'Charity Ranker', 'Interactive charity comparison tool.', '2025-12'],
         ['J', '/projects/roch-riemann/', 'Riemann-Roch', 'Lean 4 proof formalization write-up.', '2025-12'],
         ['J', '/demos/train-proximity/', "Chicago × the 'L'", "Census blocks vs nearest 'L' stop — exponential-decay BOTEC.", '2026-06'],

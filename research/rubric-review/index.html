@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Play: Why Most Published Research Findings Are False</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <span class="brand">rubric-review</span>
+</header>
+<main>
+<script src="play_figures.js"></script>
+
+<div class="card play-head">
+  <h2>Why Most Published Research Findings Are False</h2>
+  <p class="muted">John P. A. Ioannidis · PLoS Medicine 2005 · <a href="https://doi.org/10.1371/journal.pmed.0020124" target="_blank">doi:10.1371/journal.pmed.0020124</a></p>
+  <p>One paper, 84 independent model reviews: 3 text versions x 7 rubric configs x 4 judges. Flip one dimension at a time and watch what moves. <span class="muted">84 of 84 cells have a run; missing cells say "not run" and nothing is computed when you load this page.</span></p>
+  
+  <p class="small muted" style="margin-bottom:2px">Every judge was handed these 6 figure/table images alongside the text (identical across text versions):</p>
+  <div class="figs"><a href="figures/p2_table_1.png" target="_blank" title="Table 1. Research Findings and True Relationships"><img src="figures/p2_table_1.png" alt="Table 1"><span>Table 1</span></a><a href="figures/p2_table_2.png" target="_blank" title="Table 2. Research Findings and True Relationships in the Presence of Bias"><img src="figures/p2_table_2.png" alt="Table 2"><span>Table 2</span></a><a href="figures/p3_table_3.png" target="_blank" title="Table 3. Research Findings and True Relationships in the Presence of Multiple Studies"><img src="figures/p3_table_3.png" alt="Table 3"><span>Table 3</span></a><a href="figures/p3_figure_1.png" target="_blank" title="Figure 1. PPV (Probability That a Research Finding Is True) as a Function of the Pre-Study Odds for Various Levels of Bias, u Panels correspond to power of 0.20, 0.50, and 0.80."><img src="figures/p3_figure_1.png" alt="Figure 1"><span>Figure 1</span></a><a href="figures/p4_figure_2.png" target="_blank" title="Figure 2. PPV (Probability That a Research Finding Is True) as a Function of the Pre-Study Odds for Various Numbers of Conducted Studies, n Panels correspond to power of 0.20, 0.50, and 0.80."><img src="figures/p4_figure_2.png" alt="Figure 2"><span>Figure 2</span></a><a href="figures/p5_table_4.png" target="_blank" title="Table 4. PPV of Research Findings for Various Combinations of Power (1 − β), Ratio of True to Not-True Relationships (R), and Bias (u)"><img src="figures/p5_table_4.png" alt="Table 4"><span>Table 4</span></a></div>
+  
+</div>
+
+<div class="card" id="process"></div>
+<div class="card" id="zoom"></div>
+<div class="card" id="toggles"></div>
+<div class="card strip" id="strip"></div>
+<div id="panel"></div>
+<div class="card" id="figs"></div>
+<div class="card" id="heat"></div>
+
+<script>
+(function(){
+(async () => {
+const B = await (await fetch('data.json')).json();
+const D = B.dims, CELLS = B.cells;
+const DIMS = ['text','rubric','judge'];
+const byId = {text: Object.fromEntries(D.text.map(x=>[x.id,x])), rubric: Object.fromEntries(D.rubric.map(x=>[x.id,x])), judge: Object.fromEntries(D.judge.map(x=>[x.id,x]))};
+const FAMILY = Object.fromEntries(B.families.map(f=>[f.id,f]));
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const key = (t,r,j) => `${t}|${r}|${j}`;
+const cellOf = s => CELLS[key(s.text,s.rubric,s.judge)] || null;
+
+// ---------- state <-> URL hash ----------
+const defaults = {text: D.text[0].id, rubric: D.rubric[1] ? D.rubric[1].id : D.rubric[0].id, judge: D.judge[0].id, diff: null};
+function readHash(){
+  const s = {...defaults};
+  const h = new URLSearchParams(location.hash.replace(/^#/, ''));
+  for (const d of DIMS) if (h.get(d) && byId[d][h.get(d)]) s[d] = h.get(d);
+  const dd = h.get('diff');
+  if (dd){ const [dim, val] = dd.split(':'); if (DIMS.includes(dim) && byId[dim][val] && val !== s[dim]) s.diff = {dim, val}; }
+  return s;
+}
+let S = readHash();
+function writeHash(){
+  const h = new URLSearchParams();
+  for (const d of DIMS) h.set(d, S[d]);
+  if (S.diff) h.set('diff', `${S.diff.dim}:${S.diff.val}`);
+  history.replaceState(null, '', '#' + h.toString());
+}
+window.addEventListener('hashchange', () => { S = readHash(); render(); });
+
+// ---------- helpers ----------
+function fmtScore(c, r){
+  if (!r) return '<span class="muted">not run</span>';
+  if (c.kind === 'boolean') return `<span class="ans ${esc(r.answer||'unclear')}">${esc(r.answer||'unclear')}</span>`;
+  if (c.kind === 'extract') return '<span class="muted">text</span>';
+  if (c.kind === 'list') return `<b>${(r.items||[]).length}</b> finding${(r.items||[]).length===1?'':'s'}`;
+  if (r.score == null) return '<span class="muted">—</span>';
+  const pct = Math.round((r.normalized||0)*100);
+  return `<span class="bar"><i style="width:${pct}%"></i></span> ${c.kind==='likert' ? `${r.score}/${c.scale_max}` : Math.round(r.score)}`;
+}
+const conf = r => (r && r.confidence != null) ? `<span class="conf" title="judge's self-reported confidence">conf ${Number(r.confidence).toFixed(2)}</span>` : '';
+const FIGRE = /(table|figure|fig\.?)\s*(\d+)/ig;
+function figsFor(loc){
+  const out = [], seen = new Set();
+  for (const m of String(loc||'').matchAll(FIGRE)){
+    const lab = (m[1].toLowerCase().startsWith('t') ? 'Table ' : 'Figure ') + m[2];
+    const f = B.figures.find(x => x.label === lab);
+    if (f && !seen.has(f.id)){ seen.add(f.id); out.push(f); }
+  }
+  return out;
+}
+function itemCard(it, cls){
+  const figs = figsFor(it.location).map(f=>`<a class="thumb" href="${f.url}" target="_blank" title="${esc(f.caption)}"><img src="${f.url}" alt="${esc(f.label)}"><span>${esc(f.label)}</span></a>`).join('');
+  return `<div class="finding ${cls||''}">
+    <div class="fhead"><span class="sev ${esc(it.severity)}">${esc(it.severity)}</span> <span class="dir">${esc(it.direction)}</span> <b>${esc(it.title)}</b> <span class="conf">conf ${Number(it.confidence).toFixed(2)}</span></div>
+    <div class="small muted">${esc(it.location)}</div>
+    <div>${esc(it.description)}</div>
+    ${it.quote ? `<q>${esc(it.quote)}</q>` : ''}
+    ${figs ? `<div class="thumbs">${figs}</div>` : ''}
+  </div>`;
+}
+// fuzzy title match for list findings: token Jaccard + character-bigram Dice, greedy best-first
+const toks = s => new Set(String(s||'').toLowerCase().replace(/[^a-z0-9 ]+/g,' ').split(/\s+/).filter(w=>w.length>2));
+const grams = s => { const t = String(s||'').toLowerCase().replace(/[^a-z0-9]+/g,''); const g=new Set(); for (let i=0;i<t.length-1;i++) g.add(t.slice(i,i+2)); return g; };
+function sim(a,b){
+  const ta=toks(a), tb=toks(b); let inter=0; for (const w of ta) if (tb.has(w)) inter++;
+  const jac = (ta.size+tb.size-inter) ? inter/(ta.size+tb.size-inter) : 0;
+  const ga=grams(a), gb=grams(b); let gi=0; for (const g of ga) if (gb.has(g)) gi++;
+  const dice = (ga.size+gb.size) ? 2*gi/(ga.size+gb.size) : 0;
+  return 0.5*jac + 0.5*dice;
+}
+function matchItems(A, Bi){
+  const pairs=[]; A.forEach((a,i)=>Bi.forEach((b,j)=>pairs.push([sim(a.title,b.title),i,j])));
+  pairs.sort((x,y)=>y[0]-x[0]);
+  const ua=new Set(), ub=new Set(), m=[];
+  for (const [s,i,j] of pairs){ if (s<0.42) break; if (ua.has(i)||ub.has(j)) continue; ua.add(i); ub.add(j); m.push([i,j,s]); }
+  return {matched:m, onlyA:A.map((_,i)=>i).filter(i=>!ua.has(i)), onlyB:Bi.map((_,j)=>j).filter(j=>!ub.has(j))};
+}
+const viaTag = c => !c ? '' : c.via==='mock' ? '<span class="tag mock">MOCK</span>' : (c.via||'').startsWith('offline') ? '<span class="tag via">real model output via Claude Code subagent</span>' : '<span class="tag via api">real model output via API</span>';
+const label = (dim,id) => byId[dim][id] ? (byId[dim][id].label || id) : id;
+function cellHead(s, c){
+  const t=byId.text[s.text], r=byId.rubric[s.rubric], j=byId.judge[s.judge];
+  return `<div class="cellhead"><div><b>${esc(t.label)}</b> · <b>${esc(r.label)}</b> · <b>${esc(j.label)}</b></div>
+    <div class="small muted">${c ? `${viaTag(c)} ${c.overall!=null ? `overall ${Math.round(c.overall*100)}/100 ·` : ''} run ${c.run_id}${c.usage && c.usage.thinking_emulation ? ` · thinking level ${esc(j.thinking)} was prompt-instructed, not an API effort setting` : ''}` : 'not run'}</div>
+    ${c && c.overall_comment ? `<p class="small">${esc(c.overall_comment)}</p>` : ''}</div>`;
+}
+
+// ---------- toggles ----------
+function renderToggles(){
+  const titles = {text:'Text version', rubric:'Rubric config', judge:'Judge'};
+  let html = '';
+  for (const dim of DIMS){
+    html += `<div class="trow"><div class="tlabel">${titles[dim]}</div><div class="topts">`;
+    let lastFam = null;
+    for (const o of D[dim]){
+      if (dim==='rubric' && o.family !== lastFam){ if (lastFam!==null) html += '<span class="sep"></span>'; lastFam = o.family; }
+      const sel = S[dim]===o.id, alt = S.diff && S.diff.dim===dim && S.diff.val===o.id;
+      const dis = dim==='text' && !o.available;
+      html += `<button class="topt ${sel?'sel':''} ${alt?'alt':''}" data-dim="${dim}" data-id="${esc(o.id)}" ${dis?'disabled':''} title="${esc(o.note||o.description||o.model||'')}">${esc(o.label)}${sel?' <small>A</small>':''}${alt?' <small>B</small>':''}</button>`;
+    }
+    html += '</div>';
+    html += `<div class="tdiff"><button class="small ${S.diff&&S.diff.dim===dim?'primary':''}" data-diff="${dim}">${S.diff&&S.diff.dim===dim ? 'diff on' : 'diff this'}</button></div></div>`;
+  }
+  html += `<p class="small muted">Click an option to select it (A). In diff mode, click a second option in the diffed row to pick B. Every state has its own URL.</p>`;
+  document.getElementById('toggles').innerHTML = html;
+  document.querySelectorAll('#toggles .topt').forEach(b => b.onclick = () => {
+    const dim=b.dataset.dim, id=b.dataset.id;
+    if (S.diff && S.diff.dim===dim){
+      if (id === S[dim]) return;
+      S.diff = {dim, val:id};
+    } else {
+      S[dim] = id;
+      if (S.diff && S.diff.dim===dim && S.diff.val===id) S.diff=null;
+    }
+    writeHash(); render();
+  });
+  document.querySelectorAll('#toggles [data-diff]').forEach(b => b.onclick = () => {
+    const dim=b.dataset.diff;
+    if (S.diff && S.diff.dim===dim) S.diff=null;
+    else { const other = D[dim].find(o=>o.id!==S[dim] && (dim!=='text'||o.available)); S.diff = other ? {dim, val:other.id} : null; }
+    writeHash(); render();
+  });
+}
+
+// ---------- strip ----------
+function renderStrip(){
+  const el = document.getElementById('strip');
+  const t=byId.text[S.text], r=byId.rubric[S.rubric], j=byId.judge[S.judge];
+  if (!S.diff){
+    el.innerHTML = `<b>You are looking at</b> one cell: the <b>${esc(t.label)}</b> text, judged with <b>${esc(r.name)}</b> by <b>${esc(j.label)}</b>. ${esc(t.note)} Pick "diff this" on any row to compare against a second option.`;
+    return;
+  }
+  const same = DIMS.filter(d=>d!==S.diff.dim).map(d=>({text:'same text',rubric:'same rubric',judge:'same judge'}[d]));
+  const a = byId[S.diff.dim][S[S.diff.dim]], b = byId[S.diff.dim][S.diff.val];
+  let what;
+  if (S.diff.dim==='judge') what = `<b>${esc(a.label)}</b> (A) vs <b>${esc(b.label)}</b> (B)`;
+  else if (S.diff.dim==='text') what = `<b>${esc(a.label)}</b> (A) vs <b>${esc(b.label)}</b> (B): ${esc(a.note)} vs ${esc(b.note)}`;
+  else what = a.family===b.family ? `two variants of the same rubric, <b>${esc(a.label)}</b> (A) vs <b>${esc(b.label)}</b> (B); criterion ids are identical so results align cell for cell` : `two different rubrics, <b>${esc(a.label)}</b> (A) vs <b>${esc(b.label)}</b> (B); criteria do not align, so the panel shows both in full`;
+  el.innerHTML = `<b>You are looking at</b> ${same.join(', ')}; ${what}. Changes are highlighted: score moved, answer flipped, finding appeared or disappeared.`;
+}
+
+// ---------- panel ----------
+function singlePanel(){
+  const c = cellOf(S), r = byId.rubric[S.rubric];
+  let html = `<div class="card">${cellHead(S, c)}`;
+  if (!c){ html += `<p class="notrun">This cell has not been run yet. Nothing is computed on page load; it will appear once the grid builder imports it.</p></div>`; return html; }
+  html += '<table class="results"><tr><th>criterion</th><th>score</th><th>rationale, evidence, findings</th></tr>';
+  for (const cr of r.criteria){
+    const x = c.results[cr.id];
+    html += `<tr><td class="crit"><b>${esc(cr.name)}</b><br><small class="muted">${esc(cr.definition)}</small>${cr.reverse_scored?'<br><small class="tag">reverse-scored: stored as 100 − judge\'s number</small>':''}</td>
+      <td class="score">${fmtScore(cr,x)}<br>${conf(x)}</td>
+      <td>${!x ? '<span class="muted">no result</span>' : `${cr.kind==='extract' ? `<pre class="extract">${esc(x.answer)}</pre>` : ''}
+        ${(x.items||[]).map(it=>itemCard(it)).join('')}
+        <p>${esc(x.rationale)}</p>${(x.evidence||[]).map(e=>`<q>${esc(e)}</q>`).join('')}`}</td></tr>`;
+  }
+  return html + '</table></div>';
+}
+
+function framingPanel(){
+  // general_quality family with diff on rubric: three framings as three bars per criterion
+  const fam = FAMILY[byId.rubric[S.rubric].family];
+  const variants = fam.rubrics.map(id=>byId.rubric[id]);
+  const cells = Object.fromEntries(fam.rubrics.map(id=>[id, CELLS[key(S.text,id,S.judge)]||null]));
+  let html = `<div class="card"><div class="cellhead"><div><b>${esc(byId.text[S.text].label)}</b> · <b>${esc(fam.label)}</b> · <b>${esc(byId.judge[S.judge].label)}</b></div>
+    <div class="small muted">Same text, same judge, three framings of the same seven questions. Negative framing is reverse-scored so all bars point the same way. A = ${esc(byId.rubric[S.rubric].variant)}, B = ${esc(byId.rubric[S.diff.val].variant)}.</div>
+    <div class="small">${variants.map(v=>`<span class="swatch f-${esc(v.variant.split(' ')[0])}"></span>${esc(v.variant)} ${viaTag(cells[v.id])||'<span class="muted">not run</span>'}`).join(' &nbsp; ')}</div></div>`;
+  html += '<table class="results framing"><tr><th>criterion</th><th>neutral / positive / negative(rev)</th><th>A → B</th><th>rationales</th></tr>';
+  const crits = byId.rubric[S.rubric].criteria;
+  for (const cr of crits){
+    const vals = variants.map(v => cells[v.id] && cells[v.id].results[cr.id] ? cells[v.id].results[cr.id] : null);
+    const a = cells[S.rubric] && cells[S.rubric].results[cr.id], b = cells[S.diff.val] && cells[S.diff.val].results[cr.id];
+    const delta = (a&&b&&a.score!=null&&b.score!=null) ? Math.round(b.score-a.score) : null;
+    html += `<tr><td class="crit"><b>${esc(cr.name)}</b><br><small class="muted">${esc(cr.definition)}</small></td>
+      <td class="bars3">${variants.map((v,i)=>{const x=vals[i]; const pct = x&&x.normalized!=null ? Math.round(x.normalized*100):0; return `<div class="brow"><span class="bar"><i class="f-${esc(v.variant.split(' ')[0])}" style="width:${pct}%"></i></span> <span class="bval">${x&&x.score!=null?Math.round(x.score):'—'}</span> <span class="small muted">${x&&x.confidence!=null?'c'+Number(x.confidence).toFixed(2):''}</span></div>`;}).join('')}</td>
+      <td class="delta ${delta!=null&&Math.abs(delta)>=5?'changed':''}">${delta==null?'—':(delta>0?'+':'')+delta}</td>
+      <td>${variants.map((v,i)=>vals[i]?`<div class="small"><b>${esc(v.variant)}:</b> ${esc(vals[i].rationale)}</div>`:'').join('')}</td></tr>`;
+  }
+  return html + '</table></div>';
+}
+
+function diffPanel(){
+  const SB = {...S, [S.diff.dim]: S.diff.val};
+  const ra = byId.rubric[S.rubric], rb = byId.rubric[SB.rubric];
+  const ca = cellOf(S), cb = cellOf(SB);
+  if (S.diff.dim==='rubric' && ra.family==='general_quality' && rb.family==='general_quality') return framingPanel();
+  if (S.diff.dim==='rubric' && ra.family!==rb.family){
+    const save = S; let h = '<div class="grid2">';
+    h += singlePanel(); S = SB; h += singlePanel(); S = save; return h + '</div>';
+  }
+  let html = `<div class="card"><div class="grid2">${cellHead(S, ca)}${cellHead(SB, cb)}</div>`;
+  if (!ca || !cb){ html += `<p class="notrun">${!ca?'A':'B'} has not been run yet, so there is nothing to diff. The other cell is shown alone below.</p></div>`; const save=S; if(!ca) S=SB; html += singlePanel(); S=save; return html; }
+  html += '<table class="results diff"><tr><th>criterion</th><th>A</th><th>B</th><th>what changed</th></tr>';
+  let nChanged = 0;
+  for (const cr of ra.criteria){
+    const a = ca.results[cr.id], b = cb.results[cr.id];
+    let change = '', cls = '';
+    let bodyA = '', bodyB = '';
+    if (!a || !b){ change = 'missing on one side'; cls='changed'; }
+    else if (cr.kind==='boolean'){ if ((a.answer||'')!==(b.answer||'')){ change=`answer flipped: ${esc(a.answer)} → ${esc(b.answer)}`; cls='changed'; } else change='same answer'; }
+    else if (cr.kind==='scalar'||cr.kind==='likert'){
+      if (a.score!=null && b.score!=null){ const d = b.score-a.score; const thr = cr.kind==='likert'?0.5:5; if (Math.abs(d)>=thr){ change=`score moved ${d>0?'+':''}${Math.round(d*10)/10}`; cls='changed'; } else change = d===0?'same score':`within noise (${d>0?'+':''}${Math.round(d*10)/10})`; }
+      else change='—';
+    }
+    else if (cr.kind==='list'){
+      const m = matchItems(a.items||[], b.items||[]);
+      const sevChanged = m.matched.filter(([i,j])=>a.items[i].severity!==b.items[j].severity || a.items[i].direction!==b.items[j].direction);
+      const parts=[]; if (m.onlyB.length) parts.push(`${m.onlyB.length} appeared`); if (m.onlyA.length) parts.push(`${m.onlyA.length} disappeared`); if (sevChanged.length) parts.push(`${sevChanged.length} changed severity/direction`); parts.push(`${m.matched.length} matched`);
+      change = parts.join(', '); if (m.onlyA.length||m.onlyB.length||sevChanged.length) cls='changed';
+      const bIdx = Object.fromEntries(m.matched.map(([i,j])=>[j,i])), aIdx = Object.fromEntries(m.matched.map(([i,j])=>[i,j]));
+      bodyA = (a.items||[]).map((it,i)=>itemCard(it, aIdx[i]==null?'gone':(sevChanged.some(([x])=>x===i)?'sevchg':'kept'))).join('');
+      bodyB = (b.items||[]).map((it,j)=>itemCard(it, bIdx[j]==null?'new':(sevChanged.some(([,y])=>y===j)?'sevchg':'kept'))).join('');
+    }
+    else { change = (a.answer||'')===(b.answer||'') ? 'identical text' : 'text differs'; if (change==='text differs') cls='changed'; }
+    if (cls) nChanged++;
+    const side = (x,body) => !x ? '<span class="muted">no result</span>' : `${fmtScore(cr,x)} ${conf(x)}${cr.kind==='extract'?`<pre class="extract">${esc(x.answer)}</pre>`:''}${body}<details><summary class="small muted">rationale & quotes</summary><p class="small">${esc(x.rationale)}</p>${(x.evidence||[]).map(e=>`<q>${esc(e)}</q>`).join('')}</details>`;
+    html += `<tr class="${cls}"><td class="crit"><b>${esc(cr.name)}</b><br><small class="muted">${esc(cr.definition)}</small></td><td>${side(a,bodyA)}</td><td>${side(b,bodyB)}</td><td class="delta ${cls}">${change}</td></tr>`;
+  }
+  html += `</table><p class="small muted">${nChanged} of ${ra.criteria.length} criteria changed. Findings are matched across cells by title similarity, not position: <span class="legend new">appeared</span> <span class="legend gone">disappeared</span> <span class="legend sevchg">severity/direction changed</span> <span class="legend kept">matched</span>.</p></div>`;
+  return html;
+}
+
+// ---------- heatmap ----------
+function renderHeat(){
+  const rows = []; for (const t of D.text) for (const j of D.judge) rows.push({t,j});
+  // list criteria: normalise count against the max over the whole grid
+  const maxList = {};
+  for (const r of D.rubric) for (const c of r.criteria) if (c.kind==='list'){ let m=0; for (const k in CELLS){ if (k.split('|')[1]!==r.id) continue; const x=CELLS[k].results[c.id]; if (x) m=Math.max(m,(x.items||[]).length); } maxList[r.id+'|'+c.id]=m||1; }
+  let html = `<h2>All ${B.n_cells} cells at a glance</h2><p class="small muted">Rows: text version x judge. Columns: criteria, one block per rubric config (variants of a family side by side). Colour = normalised score (list criteria: finding count relative to the grid maximum; extract: dot). Click a cell to jump to it.</p><div class="scroll"><table class="heat play">`;
+  html += '<tr><th></th><th></th>'; for (const f of B.families) for (const rid of f.rubrics){ const r=byId.rubric[rid]; html += `<th colspan="${r.criteria.length}" class="blk">${esc(r.label)}</th>`; } html += '</tr>';
+  html += '<tr><th>text</th><th>judge</th>'; for (const f of B.families) for (const rid of f.rubrics){ const r=byId.rubric[rid]; html += r.criteria.map(c=>`<th title="${esc(c.name)}">${esc(c.id.replace(/^db/,''))}</th>`).join(''); } html += '</tr>';
+  for (const {t,j} of rows){
+    html += `<tr><td class="small">${esc(t.label)}</td><td class="small">${esc(j.label)}</td>`;
+    for (const f of B.families) for (const rid of f.rubrics){
+      const r=byId.rubric[rid], c=CELLS[key(t.id,rid,j.id)];
+      const isSel = t.id===S.text && rid===S.rubric && j.id===S.judge;
+      for (const cr of r.criteria){
+        const x = c ? c.results[cr.id] : null;
+        let v = 0, txt = '';
+        if (!c){ txt=''; }
+        else if (!x){ txt='?'; }
+        else if (cr.kind==='list'){ v=(x.items||[]).length/maxList[rid+'|'+cr.id]; txt=(x.items||[]).length; }
+        else if (cr.kind==='extract'){ v=0; txt='•'; }
+        else if (cr.kind==='boolean'){ v=x.normalized||0; txt={yes:'y',no:'n'}[x.answer]||'u'; }
+        else { v=x.normalized||0; txt = x.score!=null ? Math.round(x.score) : ''; }
+        html += `<td class="heatcell ${c?'':'empty'} ${isSel?'cur':''}" style="--v:${v}" data-t="${esc(t.id)}" data-r="${esc(rid)}" data-j="${esc(j.id)}" title="${esc(t.label)} · ${esc(r.label)} · ${esc(j.label)} · ${esc(cr.name)}${x?': '+esc(x.rationale||'').slice(0,200):c?'':' (not run)'}">${txt}</td>`;
+      }
+    }
+    html += '</tr>';
+  }
+  html += '</table></div>';
+  document.getElementById('heat').innerHTML = html;
+  document.querySelectorAll('#heat .heatcell').forEach(td => td.onclick = () => { S.text=td.dataset.t; S.rubric=td.dataset.r; S.judge=td.dataset.j; if (S.diff && S.diff.val===S[S.diff.dim]) S.diff=null; writeHash(); render(); window.scrollTo({top:0, behavior:'smooth'}); });
+}
+
+function render(){
+  renderToggles(); renderStrip();
+  document.getElementById('panel').innerHTML = S.diff ? diffPanel() : singlePanel();
+  if (window.renderPlayFigures) window.renderPlayFigures(B, S, document.getElementById('figs'));
+  renderHeat();
+}
+if (window.renderProcessDiagram) window.renderProcessDiagram(B, document.getElementById('process'));
+if (window.renderZoomScenes) window.renderZoomScenes(B, document.getElementById('zoom'));
+writeHash(); render();
+})();
+})();
+</script>
+</main>
+</body>
+</html>
